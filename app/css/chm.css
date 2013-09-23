@@ -7077,28 +7077,6 @@ a.getstarted:hover {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.sec2 {
-  margin-bottom: 30px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  background-color: #f7fafc;
-  background-image: -webkit-gradient(linear, left center, right center, from(#f7fafc), to(#f2f5f6));
-  background-image: -webkit-linear-gradient(left, #f7fafc, #f2f5f6);
-  background-image: -moz-linear-gradient(left, #f7fafc, #f2f5f6);
-  background-image: -o-linear-gradient(left, #f7fafc, #f2f5f6);
-  background-image: -ms-linear-gradient(left, #f7fafc, #f2f5f6);
-  background-image: linear-gradient(left, #f7fafc, #f2f5f6);
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#f7fafc', EndColorStr='#f2f5f6');
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-left: -30px;
-  padding-left: 30px;
-}
-.home .home-bottom .sec2 {
-  background: transparent;
-  filter: none;
-}
 .sec-content {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

@@ -88,7 +88,7 @@
                             <input type="text" placeholder="Search the CHM" name="q" />
                             <input type="submit" value="" /></form><a href="" class="search-icon"></a>
                         </li> -->
-                        <li><a href="#!/database/releases/news">ITEM</a></li>
+                        <li><a href="#!/database/releases/news">PLACEHOLDER</a></li>
                         <li><a class="icon icon-globe">&nbsp;Language: <strong>EN</strong></a></li>
                         <li><a class="signin" href="#!/members/signin" data-slug="signin">Sign In</a></li>
                     </ul>
@@ -111,12 +111,11 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:20px;padding-bottom:20px;padding-left:10px">
-            <div style="border-radius:4px;padding:10px; background-color:rgba(242,245,236,.95);height:300px">
+            <div style="margin-top:20px;margin-bottom:20px;border-radius:4px;padding:10px; background-color:rgba(242,245,236,.95)">
                 <h4>Sign In</h4>
-                <form action="https://twitter.com/sessions" class="signin" method="post">
-                    <div class="placeholding-input username">
-                      <input type="text" id="signin-email" class="text-input email-input" name="session[username_or_email]" title="Username or email" placeholder="Username or email" autocomplete="on">
-                    </div>
+                <form class="signin">
+                    
+                    <input type="text" class="text-input email-input" name="session[username_or_email]" title="Username or email" placeholder="Username or email" autocomplete="on">
 
                     <table class="flex-table password-signin">
                         <tr>
@@ -132,7 +131,6 @@
                             </td>
                         </tr>
                     </table>
-
                     <div class="remember-forgot">
                         <label class="remember">
                             <input type="checkbox" value="1" name="remember_me" checked="checked">
@@ -147,22 +145,22 @@
     </div>
     <div class="home-bottom" style="position:relative">
         <div class="container main" id="main">
-            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px;padding-left:10px;padding-right:10px">
+            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px">
                 <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-world.jpg');-webkit-filter: saturate(60%);">
                     <h1 style="color:black;margin-bottom:0">National Strategies and<br> Action Plans</h1>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px;padding-left:10px">
+            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px">
                 <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-blue.png')">
                     <h1 style="color:white">Introducing REST API.</h1>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px;padding-left:10px">
+            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px">
                 <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-blue.png')">
                     <h1 style="color:white">Introducing REST API.</h1>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px;padding-left:10px">
+            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:20px;padding-bottom:20px">
                 <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-blue.png')">
                     <h1 style="color:white">Introducing REST API.</h1>
                 </div>
@@ -171,22 +169,18 @@
     </div>
     <div class="home-bottom" style="position:relative">
         <div class="container main" id="secondary">
-            <div class="sec2 clearfix threecol">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4 body-content">
-                        <h3>News</h3>
-                        <div class="news" cms-params="{&quot;theme&quot;:&quot;ABS&quot;,&quot;maxItems&quot;:3,&quot;pageSize&quot;:5,&quot;showPager&quot;:true,&quot;fullListUrl&quot;:&quot;/database/news&quot;,&quot;sortOrder&quot;:&quot;date_dt desc&quot;}">
-                            {{title}}
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 body-content">
-                        <h3>Latest Updates</h3>
-                        <div class="cmscontent  meetings" contentid="45877" cms-params="{&quot;theme&quot;:&quot;ABS&quot;,&quot;maxItems&quot;:50,&quot;pageSize&quot;:2,&quot;showPager&quot;:false,&quot;fullListUrl&quot;:&quot;/database/meetings&quot;,&quot;sortOrder&quot;:&quot;dateStart_dt asc&quot;,&quot;filterQuery&quot;:&quot;dateStart_dt:[NOW TO *]&quot;}">
-                            {{title}}
-                        </div>
-                        <ul></ul>
-                    </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 body-content">
+                <h3>News</h3>
+                <div class="news" cms-params="{&quot;theme&quot;:&quot;ABS&quot;,&quot;maxItems&quot;:3,&quot;pageSize&quot;:5,&quot;showPager&quot;:true,&quot;fullListUrl&quot;:&quot;/database/news&quot;,&quot;sortOrder&quot;:&quot;date_dt desc&quot;}">
+                    {{title}}
                 </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 body-content">
+                <h3>Latest Updates</h3>
+                <div class="cmscontent  meetings" contentid="45877" cms-params="{&quot;theme&quot;:&quot;ABS&quot;,&quot;maxItems&quot;:50,&quot;pageSize&quot;:2,&quot;showPager&quot;:false,&quot;fullListUrl&quot;:&quot;/database/meetings&quot;,&quot;sortOrder&quot;:&quot;dateStart_dt asc&quot;,&quot;filterQuery&quot;:&quot;dateStart_dt:[NOW TO *]&quot;}">
+                    {{title}}
+                </div>
+                <ul></ul>
             </div>
         </div>
     </div>

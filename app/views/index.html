@@ -1,0 +1,91 @@
+<div class="container main" id="main">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <div style="padding-top:25px">
+            <h2 style="font-family: 'Helvetica Neue',Arial,sans-serif;font-weight:bold;color:#fff;text-shadow: #000 0 1px 2px;border:none">Welcome to the Clearing House Mechanism. {{title}}</h2>
+            <lead style="font-family: 'Helvetica Neue',Arial,sans-serif;font-weight:bold;color:#fff;text-shadow: #000 0 1px 2px">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat.
+                <br><br><br>
+            </lead>
+        </div>
+    </div>
+    <div ng-hide="user.isAuthenticated">
+    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs" style="padding-top:30px;padding-bottom:30px;padding-left:10px">
+        <div style="margin-top:20px;margin-bottom:20px;border-radius:4px;padding:24px 20px 10px 20px; background-color:rgba(242,245,236,.95)">
+
+            <form ng-submit="signIn()">
+                
+                <div class="input-group" style="margin-bottom:8px">
+                    <span class="input-group-addon"><i class="icon-envelope" style="margin-right:-3px"></i></span>
+                    <input type="text" class="form-control" id="inputEmail" required ng-model="email" placeholder="registered email address">
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-9 col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-lock" style="font-size:16px"></i></span>
+                            <input type="password" required class="form-control" id="inputPassword" ng-model="password" placeholder="password">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 form-group">
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </div>
+
+                <div class="remember-forgot" style="font-size:12px">
+                    <label class="remember">
+                        <input type="checkbox" value="1" name="remember_me" checked="checked">&nbsp;
+                        <span>Remember me</span>
+                    </label>
+                    <span class="separator">·</span>
+                    <a class="forgot" href="/account/resend_password">Forgot password?</a>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="home-bottom" style="position:relative">
+    <div class="container main" id="main" style="padding-top:6px">
+        <div class="col-lg-3 col-md-4 col-sm-6" style="padding-top:20px;padding-bottom:20px;padding-left:5px;padding-right:15px">
+            <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-blue.png')">
+                <h1 style="color:white">Introducing REST API.</h1>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6 hidden-xs" style="padding-top:20px;padding-bottom:20px;padding-right:20px">
+            <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-world.jpg');-webkit-filter: saturate(60%);">
+                <h1 style="color:black;margin-bottom:0">National Strategies and<br> Action Plans</h1>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 hidden-sm hidden-xs" style="padding-top:20px;padding-bottom:20px;padding-left:15px;padding-right:5px">
+            <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-blue.png')">
+                <h1 style="color:white">Introducing REST API.</h1>
+            </div>
+        </div>
+        <div class="col-lg-3 hidden-md hidden-sm hidden-xs" style="padding-top:20px;padding-bottom:20px;padding-left:20px">
+            <div style="border-radius:8px;padding:10px;height:160px;background:url('/app/img/background-blue.png')">
+                <h1 style="color:white">Introducing REST API.</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="home-bottom" style="position:relative">
+    <div class="container main" id="secondary">
+        <div class="col-lg-4 col-md-4 col-sm-4 body-content">
+            <h3>News</h3>
+            <div class="news" cms-params="{&quot;theme&quot;:&quot;ABS&quot;,&quot;maxItems&quot;:3,&quot;pageSize&quot;:5,&quot;showPager&quot;:true,&quot;fullListUrl&quot;:&quot;/database/news&quot;,&quot;sortOrder&quot;:&quot;date_dt desc&quot;}">
+                {{title}}
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8 body-content">
+            <h3>Latest Updates</h3>
+            <div class="cmscontent  meetings" contentid="45877" cms-params="{&quot;theme&quot;:&quot;ABS&quot;,&quot;maxItems&quot;:50,&quot;pageSize&quot;:2,&quot;showPager&quot;:false,&quot;fullListUrl&quot;:&quot;/database/meetings&quot;,&quot;sortOrder&quot;:&quot;dateStart_dt asc&quot;,&quot;filterQuery&quot;:&quot;dateStart_dt:[NOW TO *]&quot;}">
+                {{title}}
+            </div>
+            <ul></ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿<div>
+	<div class="alert alert-error" ng-show="__error">
+		<strong>Error: </strong>{{__error}}
+	</div>
+
+	<table class="table table-condensed table-striped" ng-hide="__error">
+		<tbody>
+			<tr>
+				<th>ID</th>
+				<th>Description</th>
+				<th>Last edited by/on</th>
+				<th>&#0160;</th>
+			</tr>
+
+			<tr ng-repeat="draft in drafts">
+				<td>
+					<div ng-switch="draft.documentID">
+						<span ng-switch-when="null">new</span>
+						<span ng-switch-default>{{draft.documentID}}</span>
+					</div>
+					</td>
+				<td>
+					<div ng-switch="draft.type">
+						<strong ng-switch-when="measure">National Regulation</strong>
+						<strong ng-switch-when="authority">Competent National Authority</strong>
+						<strong ng-switch-when="database">National Database or Website</strong>
+						<strong ng-switch-when="absCheckpoint">ABS Checkpoint</strong>
+						<strong ng-switch-when="absCheckpointCommunique">ABS Checkpoint Communique</strong>
+						<strong ng-switch-when="absPermit">ABS Permit</strong>
+						<strong ng-switch-when="organization">Biodiversity Related Organization</strong>
+						<strong ng-switch-when="contact">Contact</strong>
+						<strong ng-switch-when="resource">Resource virtual library</strong>
+						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs) </strong>
+						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
+                        <strong ng-switch-default>{{draft.type}}*</strong>
+                    </div>
+					<div>
+						{{draft.title | lstring:'en'}}
+					</div>
+				</td>
+				<td>
+					<em>{{draft.workingDocumentUpdatedBy.email}}</em>
+					<div>{{draft.workingDocumentUpdatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
+				</td>
+				<td style="text-align:end">
+					<div class="btn-group">
+						<button class="btn"  ng-click="edit(draft);"  type="button" title="Edit"><i class="icon-edit"></i></button>
+						<button class="btn"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
+					</div>
+				</td>
+			</tr>
+	</table>
+
+	<div ng-show="!__loading && drafts.length==0">
+		No record found
+	</div>
+
+	<div ng-show="__loading">
+		<span ng-include="'/app/partials/cms/loading.html'"></span>
+	</div>
+</div>

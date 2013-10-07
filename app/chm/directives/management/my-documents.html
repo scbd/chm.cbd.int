@@ -1,0 +1,69 @@
+﻿<div>
+
+	<div class="alert alert-error" ng-show="__error">
+		<strong>Error: </strong>{{__error}}
+	</div>
+
+	<table class="table table-condensed table-striped" ng-hide="__error">
+		<tbody>
+			<tr>
+				<th>ID</th>
+				<th>Description</th>
+				<th>Status</th>
+				<th>Last edited by/on</th>
+				<th>&nbsp;</th>
+			</tr>
+			
+			<tr ng-repeat="document in documents">
+				<td>
+					{{document.documentID}}</td>
+				<td>
+					<div ng-switch="document.type">
+						<strong ng-switch-when="measure">National Regulation</strong>
+						<strong ng-switch-when="authority">Competent National Authority</strong>
+						<strong ng-switch-when="database">National Database or Website</strong>
+						<strong ng-switch-when="absCheckpoint">ABS Checkpoint</strong>
+						<strong ng-switch-when="absPermit">ABS Permit</strong>
+						<strong ng-switch-when="organization">Biodiversity Related Organization</strong>
+						<strong ng-switch-when="contact">Contact</strong>
+						<strong ng-switch-when="resource">Resource virtual library</strong>
+						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs) </strong>
+						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
+						<strong ng-switch-default>{{document.type}}*</strong>
+					</div>
+					<div>{{document.title | lstring:'en'}}</div>
+				</td>
+				<td ng-switch="document.workingDocumentUpdatedOn" style="white-space:nowrap">
+					<div ng-switch-when="null">
+						<i class="icon-ok"></i>
+						<b>Published<b></div>
+					</div>
+					<div ng-switch-default>
+						<div>
+							<i class="icon-edit"></i>
+							<b>Under Editing</b>
+						</div>
+						<div>by <em>{{document.workingDocumentUpdatedBy.email}}<a></div>
+					</div>
+				</td>
+				<td>
+					<em>{{document.updatedBy.email}}</em>
+					<div>{{document.updatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
+				</td>
+				<td style="text-align:end">
+					<div class="btn-group">
+						<button class="btn"  ng-click="edit(document);"  type="button" title="Edit"><i class="icon-edit"></i></button>
+						<button class="btn"  ng-click="erase(document);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
+					</div>
+				</td>
+			</tr>
+	</table>
+
+	<div ng-show="!__loading && documents.length==0">
+		No record found
+	</div>
+
+	<div ng-show="__loading">
+		<span ng-include="'/app/partials/cms/loading.html'"></span>
+	</div>
+</div>

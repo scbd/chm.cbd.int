@@ -1,4 +1,4 @@
-﻿angular.module("centralPortal", ['kmUtilities'])
+﻿angular.module("centralPortal")
 //==================================================
 // ABS Statements
 //==================================================

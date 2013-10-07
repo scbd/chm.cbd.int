@@ -1,39 +1,44 @@
-var express = require('express');
 var fs = require('fs');
+var path = require('path');
 var http = require('http');
 var https = require('https');
+var express = require('express');
 var httpProxy = require('http-proxy');
-
-var httpsOptions = {
-  key: fs.readFileSync('../certificates/cbd_int.pem'),
-  cert: fs.readFileSync('../certificates/cbd_int.pem')
-};
 
 // Create server
         
 var app = express();
-var server1 = http.createServer(app);
-var server2 = https.createServer(httpsOptions, app);
+var server = http.createServer(app);
 
-// Configure local paths
+app.configure(function() {
+    app.set('port', process.env.PORT || 2000);
+    app.use(express.logger('dev'));
+    app.use(express.bodyParser());
+    app.use(express.compress());
+	app.use(express.static(__dirname));
+});
 
-app.use(express.compress());
-app.use(express.static(__dirname));
+// Configure routes
 
-app.get('/app/*', function(req, res) { res.send('404', 404); } );
-
-app.get('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.put('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.post('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.get   ('/app/*', function(req, res) { res.send('404', 404); } );
+app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
 app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
 
-app.get('/*', function(req, res) { fs.readFile(__dirname + '/app/index.html', 'utf8', function(err, text) { res.send(text); }) });
+// Configure index.html
 
-// Configure proxy
+app.get('/*', function(req, res) {
+	fs.readFile(path.join(__dirname, 'app/index.html'), 'utf8', function (error, text) { 
+		res.send(text); 
+	});
+});
+
+// Start proxy
 
 var proxy = new httpProxy.RoutingProxy();
 
 // Start server
-console.log("listening on port 2000/2001")
-server1.listen(2000);
-server2.listen(2001);
+
+console.log('Server listening on port ' + app.get('port'));
+server.listen(app.get('port'));

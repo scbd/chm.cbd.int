@@ -1,0 +1,21 @@
+﻿<div>
+    <table class="table table-striped">
+        <tr ng-repeat="mtg in meetings | startFrom:currentPage*pageSize | limitTo:pageSize">
+            <td>
+                <div>{{mtg.dateStart_dt | date:mediumDate}} - {{mtg.dateEnd_dt  | date:mediumDate}}, {{mtg.locationCity_t}}, {{getCountryName(mtg.locationCountry_s) | lstring:locale}}</div>
+                <div><a ng-href="//www.cbd.int/doc/?meeting={{mtg.meeting_s}}">{{mtg.title_t}}</a></div>
+            </td>
+        </tr>
+        <tr ng-hide="isPagerVisible()">
+            <td>
+                <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}">More meetings...</a></div>
+                <div ng-hide="hasRecords()">Sorry, there are no meetings currently available.</div>
+            </td>
+        </tr>
+    </table>
+    <div class="pager" ng-show="isPagerVisible()">
+        <button style="width: 50px;" class="btn" ng-class="{disabled: disablePrevious()}" ng-disabled="disablePrevious()"  ng-click="currentPage=currentPage-1" type="button">&laquo;</button>
+        <span style="padding: 0px 10px;">{{currentPage+1}}/{{numberOfPages()}}</span>
+        <button style="width: 50px;" class="btn" ng-class="{disabled: disableNext()}" ng-disabled="disableNext()" ng-click="currentPage=currentPage+1" type="button">&raquo;</button>
+    </div>
+</div>

@@ -6,7 +6,7 @@
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/module-notifications.html',
+        templateUrl: '/app/chm/directives/module-notifications.partial.html',
         replace: true,
         transclude: false,
         scope: {

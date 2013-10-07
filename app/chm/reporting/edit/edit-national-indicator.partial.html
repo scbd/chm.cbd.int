@@ -1,0 +1,131 @@
+﻿<div>
+	<div ng-show="isLoading()">
+		<div class="loadProgress" progress="1" timeout="1500"></div>
+	</div>
+
+	<div class="alert alert-error" ng-show="hasError()">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div class="row" ng-show="!isLoading()&&status!='hidden'">
+
+		<div class="col-md-12" style="position: relative">
+
+			<div style="position: absolute; top: 0px; right: 0px">
+				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
+			</div>
+
+			<div>
+				<ul id="editFormPager" class="pagination">
+					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
+					<li ng-class="{ active : tab('edit'  ).active }"><a data-toggle="tab" ng-href="#edit">General</a></li>
+					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
+					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
+				</ul>
+
+				<form name="editForm">
+
+				<div class="tab-content" style="overflow: visible; margin-top: 10px">
+
+					<div class="tab-pane active" id="edit">
+
+						<legend>General Information</legend>
+
+						<div class="row bottom-spacing">
+							<div class="col-md-6">
+								<div class="km-control-group" required name="government" caption="Country">
+									<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-11">
+								<div class="km-control-group" required name="title" caption="National Indicator Name">
+									<div class="help-block">Please use the official title, if available.</div>
+									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-11">
+								<div class="km-control-group" required name="description" caption="Description of the National Indicator">
+									<div km-textbox-ml required name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row bottom-spacing">
+							<div class="col-md-11">
+								<div class="km-control-group" required name="strategicPlanIndicators" caption="Link to Relevant Global Strategic Plan Indicators">
+									<div km-select required name="strategicPlanIndicators" multiple ng-model="document.strategicPlanIndicators" placeholder="Please select the relevant global indicators" watch-items items="options.strategicPlanIndicators"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-11">
+								<div class="km-control-group" name="documents" caption="Main relevant document(s)">
+									<div km-link name="documents" ng-model="document.documents" identifier="document.header.identifier"></div>
+								</div>
+							</div>
+						</div>
+
+						<legend>Other Relevant Information</legend>
+
+						<div class="row">
+							<div class="col-md-11">
+								<div class="km-control-group" name="relevantInformation" caption="Additional Information">
+									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-11">
+								<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+								</div>
+							</div>
+						</div>
+
+						<legend>Notes (private) </legend>
+						<div class="row">
+							<div class="col-md-11">
+								<div class="km-control-group" name="notes" caption="Notes">
+									<div km-notes name="notes" ng-model="document.notes"></div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--end addtional info tab-->
+
+					<div class="tab-pane" id="review">
+
+						<div km-document-validation ng-model="validationReport"></div>
+
+						<div class="btn-group" ng-show="document.header.languages.length>1">
+							<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+						</div>
+
+						<div class="chmViewNationalIndicator" ng-model="document" locale="review.locale"></div>
+
+					</div>
+				</div>
+
+				<ul id="editFormPager" class="pagination">
+					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
+					<li ng-class="{ active : tab('edit'  ).active }"><a data-toggle="tab" ng-href="#edit">General</a></li>
+					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
+					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
+				</ul>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

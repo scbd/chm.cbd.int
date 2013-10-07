@@ -1,0 +1,90 @@
+ @font-face {
+            font-family: 'alternategotno3dotregular';
+            src: url('/app/abs/fonts/alternategotno3dot-webfont.eot');
+            src: url('/app/abs/fonts/alternategotno3dot-webfont.eot?#iefix') format('embedded-opentype'), url('/app/abs/fonts/alternategotno3dot-webfont.woff') format('woff'), url('/app/abs/fonts/alternategotno3dot-webfont.ttf') format('truetype'), url('/app/abs/fonts/alternategotno3dot-webfont.svg#alternategotno3dotregular') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        legend {
+            color: #808080;
+            text-transform: uppercase;
+            padding: 0 0 0 5px!important;
+            margin: 10px 0 30px 0!important;
+            font-size: 120%;
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+
+        label {
+            color: #242424;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+          
+        }
+
+         help {
+            color:#aa9bb1;
+            padding: 0;
+            margin: 0;
+            font-style:italic;
+            display:block;
+        }
+
+
+        .selectbox {
+            margin-bottom: 10px;
+        }
+
+        info {
+            font-style: italic;
+            font-size: 100%;
+            color: #b200ff;
+        }
+
+        .nav-tabs li {
+            text-transform: uppercase;
+            font-family: 'alternategotno3dotregular';
+            font-size: 170%;
+        }
+
+        .nav-tabs {
+            color: #005580;
+            background-color: #eeeeee;
+        }
+
+        .tab-pane {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .nav-tabs {
+            border-color: rgba(0,0,0,.30);
+        }
+
+            .nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+                border-color: rgba(0,0,0,.30);
+                border-bottom-color: white;
+            }
+
+        .nav > li > a:hover, .nav > li > a:focus {
+            background-color: white;
+        }
+
+        .tab-pane {
+            border-left: 1px rgba(0,0,0,.30) solid;
+            border-right: 1px rgba(0,0,0,.30) solid;
+            border-bottom: 1px rgba(0,0,0,.30) solid;
+            position: relative;
+            top: -20px;
+            padding-bottom: 50px;
+            padding-top: 50px;
+        }
+
+
+
+        .bottom-spacing {
+            padding-bottom: 20px;
+        }
+

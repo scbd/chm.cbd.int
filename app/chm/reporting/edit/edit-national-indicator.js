@@ -1,0 +1,281 @@
+var module = angular.module('kmApp').compileProvider; // lazy
+
+module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
+    return {
+        restrict: 'EAC',
+        templateUrl: '/app/chm/reporting/edit/edit-national-indicator.partial.html',
+        replace: true,
+        transclude: false,
+        scope: {},
+        link: function ($scope, $element) {
+            $scope.status = "";
+            $scope.error = null;
+            $scope.document = null;
+            $scope.review = { locale: "en" };
+            $scope.options = {
+                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
+            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError)
+            };
+
+			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
+				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
+					onTabFn()
+				else
+					$scope.$apply(onTabFn);
+			});
+
+            $scope.init();
+        },
+		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", function ($scope, $q, storage, authentication, editFormUtility, guid, $location) {
+
+			//==================================
+			//
+			//==================================
+			$scope.init = function() {
+				if ($scope.document)
+					return;
+
+				$scope.status = "loading";
+
+				var identifier = URI().search(true).uid;
+				var promise = null;
+
+				if(identifier)
+					promise = editFormUtility.load(identifier, "nationalIndicator");
+				else
+					promise = $q.when({
+						header: {
+							identifier: guid(),
+							schema   : "nationalIndicator",
+							languages: ["en"]
+						},
+						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined
+					});
+
+
+				promise.then(
+					function(doc) {
+						$scope.status = "ready";
+						$scope.document = doc;
+					}).then(null, 
+					function(err) {
+						$scope.onError(err.data, err.status)
+						throw err;
+					});
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.cleanUp = function(document) {
+				document = document || $scope.document;
+
+				if (!document)
+					return $q.when(true);
+
+				if (/^\s*$/g.test(document.notes))
+					document.notes = undefined;
+
+				return $q.when(false);
+			};
+
+
+			//======================================================================
+			//======================================================================
+			//======================================================================
+			//======================================================================
+			//======================================================================
+
+			//==================================
+			//
+			//==================================
+			$scope.validate = function(clone) {
+
+				$scope.validationReport = null;
+
+				var oDocument = $scope.document;
+
+				if (clone !== false)
+					oDocument = angular.fromJson(angular.toJson(oDocument));
+
+				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
+					return storage.documents.validate(oDocument).then(
+						function(success) {
+							$scope.validationReport = success.data;
+							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
+						},
+						function(error) {
+							$scope.onError(error.data);
+							return true;
+						}
+					);
+				});
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.isFieldValid = function(field) {
+				if (field && $scope.validationReport && $scope.validationReport.errors)
+					return !_.findWhere($scope.validationReport.errors, { property: field });
+
+				return true;
+			}
+
+			//==================================
+            //
+            //==================================
+            $scope.isLoading = function () {
+                return $scope.status == "loading";
+            }
+
+			//==================================
+			//
+			//==================================
+			$scope.hasError = function(field) {
+				return $scope.error!=null;
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.userGovernment = function() {
+				return authentication.user().government;
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.defaultGovernment = function() {
+
+				var qsGovernment = new URI().search(true).government;
+
+				if (qsGovernment)
+					qsGovernment = qsGovernment.toLowerCase()
+
+				return $scope.userGovernment() || qsGovernment;
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.tab = function(tab, show) {
+
+				var oTabNames    = [];
+				var sActiveTab   = $('.tab-content:first > .tab-pane.active').attr("id");
+				var qActiveTab   = $('#editFormPager:first a[data-toggle="tab"]:not(:first):not(:last)').filter('[href="#'+sActiveTab+'"]');
+
+				if (tab == "-") tab = (qActiveTab.prevAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
+				if (tab == "+") tab = (qActiveTab.nextAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
+
+				if(!tab)
+					return undefined;
+
+				if (show)
+					$('#editFormPager:first a[data-toggle="tab"][href="#review"]:first').tab('show');
+
+				return {
+					'name' : tab,
+					'active': sActiveTab == tab
+				}
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.onTab  = function(tab) {
+				var fn = function() {
+					if (tab == 'review')
+						$scope.validate();
+
+					if (!$('body').is(":animated"))
+						$('body').stop().animate({ scrollTop: 0 }, 600);
+				};
+
+				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
+					fn();
+				else
+					$scope.$apply(fn);
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.onPreSaveDraft = function() {
+				return $scope.cleanUp();
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.onPrePublish = function() {
+				return $scope.validate(false).then(function(hasError) {
+					if (hasError)
+						$scope.tab("review", true)
+					return hasError;
+				});
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.onPostWorkflow = function(data) {
+				window.location = "/managementcentre/my-pending-items";
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.onPostPublish = function(data) {
+				gotoManager();
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.onPostSaveDraft = function(data) {
+				gotoManager();
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.onPostClose = function() {
+				gotoManager();
+			};
+
+			//==================================
+			//
+			//==================================
+			function gotoManager() { 
+				$location.url("/management/national-reporting" + ($scope.document.government ? "?country=" + $scope.document.government.identifier.toUpperCase() : ""));
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.onError = function(error, status)
+			{
+				$scope.status = "error";
+
+				if (status == "notAuthorized") {
+					$scope.status = "hidden";
+					$scope.error  = "You are not authorized to modify this record";
+				}
+				else if (status == 404) {
+					$scope.status = "hidden";
+					$scope.error  = "Record not found.";
+				}
+				else if (status == "badSchema") {
+					$scope.status = "hidden";
+					$scope.error  = "Record type is invalid.";
+				}
+				else if (error.Message)
+					$scope.error = error.Message
+				else
+					$scope.error = error;
+			}
+        }]
+    }
+}])

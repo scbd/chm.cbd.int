@@ -1,0 +1,212 @@
+﻿<div>
+	<div ng-show="isLoading()">
+		<div class="loadProgress" progress="1" timeout="1500"></div>
+	</div>
+
+	<div class="alert alert-error" ng-show="hasError()">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+
+    <h1>National Report, NBSAP or Other reports</h1>
+	<div class="row" ng-show="!isLoading()">
+
+        <div class="col-md-12" style="position: relative">
+
+			<div style="position: absolute; top: 0px; right: 0px">
+				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
+			</div>
+
+            <div>
+				<ul id="editFormPager" class="pagination">
+					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
+					<li ng-class="{ active : tab('general'  ).active }"><a data-toggle="tab" ng-href="#general">General</a></li>
+					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
+					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
+				</ul>
+
+
+                <form name="editForm" style="margin-top:10px">
+					<fieldset>
+
+						<div class="tab-content" style="overflow: visible">
+							<div class="tab-pane active" id="general">
+
+								<legend>General Information</legend>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="government" required caption="Country">
+											<div km-select ng-disabled="!!defaultGovernment()" required name="government" single ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="title" required caption="Title of the document">
+											<div class="help-block">Please use the official title, if available.</div>
+											<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="reportType" required caption="Type of Document">
+											<div km-select required name="reportType" single ng-model="document.reportType" placeholder="Please select report type" watch-items items="options.reportTypes"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="summary" required caption="Summary">
+											<div km-textbox-ml required name="summary" ng-model="document.summary" rows="5" locales="document.header.languages" placeholder=""></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-5">
+										<div class="km-control-group" name="jurisdiction" caption="Level of application">
+											<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Please select one option" watch-items items="options.jurisdictions"></div>
+										</div>
+									</div>
+									<div class="col-md-7">
+										<div class="km-control-group" name="jurisdictionInfo" caption="Additional information">
+											<div km-textbox-ml name="jurisdictionInfo" ng-model="document.jurisdictionInfo" locales="document.header.languages" placeholder="" rows="3"></div>
+										</div>
+									</div>
+								</div>
+							
+								<legend>Time period</legend>
+								<div class="row-fluid bottom-spacing">
+									<div class="col-md-4">
+										<div class="km-control-group" required name="startDate" caption="From">
+											<div km-date name="startDate" required ng-model="document.startDate"></div>
+										</div>
+									</div>
+
+									<div class="col-md-1">
+									</div>
+
+									<div class="col-md-6">
+										<div class="km-control-group" required name="endDate" caption="To">
+											<div km-date name="endDate" required ng-model="document.endDate"></div>
+										</div>
+									</div>
+								</div>
+
+								<legend>Status</legend>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="status" caption="Status of the document">
+											<div km-select name="status" ng-model="document.status" placeholder="Please select one option" watch-items items="options.reportStatus"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12" ng-show="hasAdoptionDate(document)">
+										<div class="km-control-group" name="adoptionDate" caption="Date of completion and adoption">
+											<span class="help-block">Please indicate the year of completion in case year of adoption is unknown</span>
+											<input type="text" name="adoptionDate" ng-model="document.adoptionDate"></input>
+										</div>
+									</div>
+								</div>
+
+								<div class="row-fluid bottom-spacing" ng-show="hasApprovedStatus(document)">
+									<div class="col-md-12">
+										<div class="km-control-group" name="approvedStatus" caption="Status of approved document">
+											<div km-select  name="approvedStatus" ng-model="document.approvedStatus" placeholder="Please select approved status" watch-items items="options.approvedStatus"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row-fluid bottom-spacing" ng-show="hasApprovedStatus(document)">
+									<div class="col-md-12">
+										<div class="km-control-group" name="approvingBody" caption="Approving body">
+											<div km-select  name="approvingBody"  ng-model="document.approvingBody" placeholder="Please select approving body" watch-items items="options.approvingBody"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row-fluid bottom-spacing" ng-show="hasApprovedStatusInfo(document)">
+									<div class="col-md-12">
+										<div class="km-control-group" name="approvingBodyInfo" caption="Approving body information">
+											<div km-textbox-ml name="approvingBodyInfo" rows="6" ng-model="document.approvingBodyInfo" locales="document.header.languages"></div>
+										</div>
+									</div>
+								</div>
+
+								<legend>Main relevant document(s)</legend>
+
+								<div class="row-fluid  bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" name="documentText" caption="Relevant information">
+											<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
+										</div>
+									</div>
+								</div>
+								<div class="row-fluid  bottom-spacing">
+									<div class="col-md-11">
+										<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
+											<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
+										</div>
+									</div>
+								</div>
+
+								<legend>Other relevant information</legend>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="relevantInformation" caption="Additional Information">
+											<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+											<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+											<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="notes" caption="Notes">
+											<div class="help-block">The field “Notes” is for personal reference and can be seen only when the record is being edited.</div>
+											<textarea class="form-control" rows="4" name="notes" ng-model="document.notes"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="tab-pane" id="review">
+
+								<div km-document-validation ng-model="validationReport"></div>
+
+								<div class="btn-group" ng-show="document.header.languages.length>1">
+									<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+								</div>
+
+								<div class="chmViewNationalReport" ng-model="reviewedDocument" locale="review.locale"></div>
+                      
+							</div>
+						</div>
+						
+						<ul id="editFormPager" class="pagination">
+							<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
+							<li ng-class="{ active : tab('general'  ).active }"><a data-toggle="tab" ng-href="#general">General</a></li>
+							<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
+							<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
+						</ul>
+
+					</fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

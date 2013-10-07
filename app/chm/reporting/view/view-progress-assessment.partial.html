@@ -1,0 +1,163 @@
+﻿<div>
+	<style>legend { margin-top: 20px; }</style>
+	<h1 style="font-weight:bold;font-size:26px">{{document.title | lstring:locale}} </h1>
+
+	<div ng-show="document.government">
+		<label>Country</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.government">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+	</div>
+
+	<div ng-show="document.description">
+		<label>Description</label>
+		<div class="km-value km-pre" ng-bind="document.description | lstring:locale"></div>
+	</div>
+
+	<div ng-show="document.aichiTarget || document.nationalTarget">
+
+		<legend>Targets and Indicators</legend>
+		<div ng-show="document.aichiTarget">
+			<label>Aichi Targets</label>
+			<span class="km-value km-terms" ng-model="document.aichiTarget">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+
+		<div ng-show="document.nationalTarget">
+			<label>National Targets</label>
+			<span class="km-value km-terms" ng-model="document.nationalTarget">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+
+	<div ng-show="document.startDate || document.endDate">
+		<label>Assessment period</label>
+		<div ng-show="document.startDate">
+			<div class="span4">
+				<label>From</label>
+				<div class="km-value km-pre">{{document.startDate | lstring:locale}}</div>
+			</div>
+		</div>
+
+		<div class="span1">
+		</div>
+
+		<div ng-show="document.endDate">
+			<div class="span4">
+				<label>To</label>
+				<div class="km-value km-pre">{{document.endDate | lstring:locale}}</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div ng-show="document.jurisdiction || document.jurisdictionInfo ||
+			document.assessmentText || document.progress || 
+			document.confidence || document.confidenceInfo">
+		<legend>Assessment</legend>
+
+		<div ng-show="document.jurisdiction">
+			<label>Level of assessment</label>
+			<span class="km-value km-terms" ng-model="document.jurisdiction">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+
+		<div ng-show="document.jurisdictionInfo">
+			<label>Please provide additional details on the specific level of assessment</label>
+			<div class="km-value km-pre">{{document.jurisdictionInfo | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.assessmentText">
+			<label>Assessment</label>
+			<div class="km-value km-pre">{{document.assessmentText | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.progress">
+			<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
+			<span class="km-value km-terms" ng-model="document.progress">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+
+		<div ng-show="document.confidence">
+			<label>Level of confidence of the above measure</label>
+			<span class="km-value km-terms" ng-model="document.confidence">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+
+		<div ng-show="document.confidenceInfo">
+			<label>Level of confidence of the above measure</label>
+			<div class="km-value km-pre">{{document.confidenceInfo | lstring:locale}}</div>
+		</div>
+
+	</div>
+
+
+	<div ng-show="document.nationalIndicators || document.strategicPlanIndicators ||
+			document. ">
+		<legend>Indicators and Activities</legend>
+
+		<div ng-show="document.nationalIndicators">
+			<label>Link to National indicator(s) used in this assessment</label>
+			<span class="km-value km-terms" ng-model="document.nationalIndicators">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+
+		<div ng-show="document.strategicPlanIndicators">
+			<label>Link to Global Indicator(s) used in this assessment</label>
+			<span class="km-value km-terms" ng-model="document.strategicPlanIndicators">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+
+		<div ng-show="document.implementationActivities">
+			<label>Link to National Activity(ies) related to this assessment</label>
+			<span class="km-value km-terms" ng-model="document.implementationActivities">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+
+
+	<div ng-show="document.documentText||document.documentLinks">
+
+		<legend>Relevant documents and information</legend>
+
+		<div ng-show="document.documentText">
+			<label>Relevant information</label>
+			<div class="km-value km-pre">{{document.documentText|lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.documentLinks">
+			<label>Relevant websites, links, and files</label>
+			<div class="km-value" ng-repeat="item in document.documentLinks">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div ng-show="document.relevantInformation||document.relevantDocuments">
+
+		<legend>Additional Information</legend>
+
+		<div ng-show="document.relevantInformation">
+			<div class="km-value" ng-bind-html-unsafe="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
+		<div ng-show="document.relevantDocuments">
+			<label>Other relevant website address or attached documents</label>
+			<div class="km-value" ng-repeat="item in document.relevantDocuments">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			</div>
+		</div>
+
+	</div>
+</div>

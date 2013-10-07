@@ -1,4 +1,4 @@
-angular.module('kmInputs')
+angular.module('formControls', [])
 
 
 	//============================================================
@@ -8,7 +8,7 @@ angular.module('kmInputs')
 	.directive('kmNotes',  function ($http, $filter) {
 	    return {
 	        restrict: 'EAC',
-	        templateUrl: '/app/partials/edit/km-notes.html',
+	        templateUrl: '/app/shared/directives/forms/km-notes.html',
 	        replace: true,
 	        transclude: false,
 	        require: "?ngModel",
@@ -105,7 +105,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-inputtext-ml.html',
+			templateUrl: '/app/shared/directives/forms/km-inputtext-ml.html',
 			replace: true,
 			require : "?ngModel",
 			scope: {
@@ -200,7 +200,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-inputtext-list.html',
+			templateUrl: '/app/shared/directives/forms/km-inputtext-list.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -306,7 +306,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-//			templateUrl: '/app/partials/edit/km-terms.html',
+//			templateUrl: '/app/shared/directives/forms/km-terms.html',
 			replace: false,
 //			transclude: true,
 			scope: {
@@ -353,7 +353,7 @@ angular.module('kmInputs')
 	.directive('kmTermCheck', function ($http) {
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-terms-check.html',
+			templateUrl: '/app/shared/directives/forms/km-terms-check.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -511,7 +511,7 @@ angular.module('kmInputs')
 	.directive('kmTermRadio', function ($http) {
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-terms-radio.html',
+			templateUrl: '/app/shared/directives/forms/km-terms-radio.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -662,7 +662,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-link.html',
+			templateUrl: '/app/shared/directives/forms/km-link.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -1036,7 +1036,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-reference.html',
+			templateUrl: '/app/shared/directives/forms/km-reference.html',
 			replace: true,
 			transclude: true,
 			require : "?ngModel",
@@ -1279,7 +1279,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-select.html',
+			templateUrl: '/app/shared/directives/forms/km-select.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -1627,7 +1627,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-yes-no.html',
+			templateUrl: '/app/shared/directives/forms/km-yes-no.html',
 			replace: true,
 			transclude: false,
 			scope: {
@@ -1645,7 +1645,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-date.html',
+			templateUrl: '/app/shared/directives/forms/km-date.html',
 			replace: true,
 			transclude: false,
 			scope: {
@@ -1718,7 +1718,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-form-std-buttons.html',
+			templateUrl: '/app/shared/directives/forms/km-form-std-buttons.html',
 			replace: true,
 			transclude: true,
 			scope: {
@@ -1922,7 +1922,7 @@ angular.module('kmInputs')
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-document-validation.html',
+			templateUrl: '/app/shared/directives/forms/km-document-validation.html',
 			replace: true,
 			transclude: true,
 			scope: {

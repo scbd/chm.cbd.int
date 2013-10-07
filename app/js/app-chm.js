@@ -1,10 +1,4 @@
-var app = angular.module("kmApp",           [ "kmAuthentication", "kmUtilities", "centralPortal", 'kmCBD', 'kmInputs', "$strap.directives" ]);
-// angular.module("kmCms",           [ "kmAuthentication"]);
-// angular.module("kmCBD",           [ "kmUtilities", "kmStorage", "kmInputs" ]);
-// angular.module("kmAuthentication",[]);
-// angular.module("kmUtilities",     []);
-// angular.module("kmStorage",       []);
-// angular.module("kmInputs",        []);
+var app = angular.module("kmApp", [ "kmAuthentication", "kmUtilities", "centralPortal", 'kmCBD', 'formControls', "$strap.directives" ]);
 
 //(function() {
 

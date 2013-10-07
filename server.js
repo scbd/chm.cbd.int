@@ -20,6 +20,8 @@ app.configure(function() {
 
 // Configure routes
 
+var proxy = new httpProxy.RoutingProxy();
+
 app.get   ('/app/*', function(req, res) { res.send('404', 404); } );
 app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
 app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
@@ -33,10 +35,6 @@ app.get('/*', function(req, res) {
 		res.send(text); 
 	});
 });
-
-// Start proxy
-
-var proxy = new httpProxy.RoutingProxy();
 
 // Start server
 

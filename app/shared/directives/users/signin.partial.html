@@ -1,0 +1,54 @@
+<div ng-cloak class="col-lg-4 col-md-4 col-sm-4">
+	
+	<form class="form-horizontal" ng-submit="signIn()">
+	
+		<div ng-hide="isAuthenticated()">
+
+			<div class="alert alert-block" ng-show="isForbidden">
+				<h4>Login Failed!</h4>
+				You entered an invalid email address or password.
+			</div>
+
+			<div class="alert alert-error" ng-show="isNoService">
+				<h4>Login Failed!</h4>
+				The service is not available.
+			</div>
+
+			<div class="alert alert-error" ng-show="isError">
+				<h4>Login Failed!</h4>
+				An error has occured: {{error}}
+			</div>
+
+			<div class="form-group">
+				<label for="inputEmail">Email</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-envelope"></i></span>
+					<input type="text" class="form-control" id="inputEmail" required ng-model="email" placeholder="registered email address">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword">Password</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-lock"></i></span>
+					<input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password">
+				</div>
+			</div>
+			<div class="form-group">
+      			<div class="checkbox">
+	        		<label>
+	          			<input type="checkbox" ng-model="rememberMe" ng-change="onRememberMeChange()"> Remember me
+	        		</label>
+    			</div>
+  			</div>
+  			<div class="form-group">
+    			<button type="submit" class="btn btn-primary">Sign in</button>
+  			</div>
+		</div>
+
+	</form>
+
+	<div ng-show="isAuthenticated()">
+		<button type="button" class="btn btn-info" ng-click="signOut()">Sign out</button>
+	</div>
+
+</div>

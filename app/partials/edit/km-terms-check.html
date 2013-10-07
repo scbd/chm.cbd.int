@@ -1,0 +1,23 @@
+<ul>
+
+	<li ng:repeat="term in rootTerms">
+
+        <label>
+			<input type="checkbox" ng-model="identifiers[term.identifier]" ng-click="save()" ng-required="IsRequired()" value="{{term.identifier}}" />
+				- {{term.title||term.name | lstring:locale}}
+            <textarea ng-switch-default class="input-block-level" ng-show="identifiers[term.identifier].checked" ng-required="isRequired()" ng-model="text[locale]" ng-change="onchange()" ng-disabled="ngDisabledFn()" placeholder="{{placeholder}}" rows="{{rows}}" style="display:inline-block"></textarea>
+		</label>
+
+
+	</li>
+
+	<li ng-show="error">
+		<div class="alert">
+			{{error}}
+		</div>
+	</li>
+
+	<li ng-show="__loading">
+		<span ng-include="'/app/partials/cms/loading.html'"></span>
+	</li>
+</ul>

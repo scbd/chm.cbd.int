@@ -1,0 +1,6 @@
+<div>
+	<div ng-repeat="text in getTexts()"  class="input-block-level" ng-class="{ 'input-append' : !$last }">
+		<input type="text" class="input-block-level" ng-model="text.value" ng-change="save()" placeholder="{{placeholder}}" ng-required="isRequired()">
+		<span class="btn" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
+	</div>
+</div>

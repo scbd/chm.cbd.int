@@ -1,0 +1,51 @@
+<div>
+	<div ng-hide="errors">
+
+		<span  id="language_button" km-select style="text-align:start;padding-left:20px" multiple ng-model="binding.header.languages" binding-type="string" placeholder="Available Languages" items="options.locales|orderBy:'name'" minimum="1"></span>
+		<input type="button" class="btn btn-warning"    ng-click="cancelDialogVisible = true" value="Cancel"/>
+		<input type="button" class="btn btn-primary" ng-click="saveDialogVisible   = true" value="Save"/>
+
+	</div>
+
+	<div class="alert alert-error" ng-show="errors">
+		<strong>Error:</strong>
+		{{errors}}
+	</div>
+
+    <!--Save Dialog-->
+	<div id="dialogSave" class="modal hide fade" data-backdrop="static">
+		<div class="modal-header">
+			<h3>Save record</h3>
+		</div>
+		<div class="modal-body">
+
+			<p>If you have finished entering all the information, you can submit the record for publishing.</p>
+
+			<p>If you are unable to complete entry of this record, you can save it as a draft, which will then be available in your list of drafts on the Management Centre. You or your colleagues can then continue editing the record in the current, or a later, session.</p>
+
+		</div>
+		<div class="modal-footer">
+			<input type="button" ng-click="closeDialog()" class="btn"             value="Cancel"/>
+			<input type="button" ng-click="saveDraft()"   class="btn btn-info"    value="Save as draft" />
+			<input type="button" ng-click="publish()"     class="btn btn-primary" value="Save and publish" />
+		</div>
+	</div>
+
+    <!--Cancel Dialog-->
+	<div id="dialogCancel" class="modal hide fade" data-backdrop="static">
+		<div class="modal-header">
+			<h3>Canceling changes</h3>
+		</div>
+		<div class="modal-body">
+
+			<p>If you want to cancel the changes you just made to this draft, you can keep the previous version of the draft, which will then be available in the list of drafts on the Management Centre. You or your colleagues can then continue editing the record in the current, or a later, session.</p>
+
+		</div>
+		<div class="modal-footer">
+			<input type="button" ng-click="closeDialog()" class="btn"             value="Cancel"/>
+			<input type="button" ng-click="revert()"      class="btn btn-info"    value="Revert Changes" />
+			<input type="button" ng-click="close()"       class="btn btn-primary" value="Close without saving" />
+		</div>
+	</div>
+
+</div>

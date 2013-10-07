@@ -37,7 +37,7 @@
 	<select style="margin-top:-40px" class="pull-right" ng-show="!userGovernment()" ng-model="government" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
 	
 	<h4 class="heading">
-		Reports and Action Plans
+		National Reports, Action Plans and Other Reports
         <span class="label label-warning pull-right label-spacing">not published</span>
 		<span class="label label-info pull-right label-spacing">published</span>
 	</h4>
@@ -187,7 +187,7 @@
 
 
 	<h4 class="heading">
-		Progress towards implementation of the targets
+		Progress towards implementation of national and Aichi targets
         <span class="label label-warning pull-right label-spacing">not published</span>
 		<span class="label label-info pull-right label-spacing">published</span>
 		<span class="label label-success pull-right label-spacing">assessed</span>
@@ -214,7 +214,7 @@
 						<tr>
 							<th style="white-space:nowrap">Aichi Target</th>
 							<th>Related National Target(s)</th>
-							<th style="text-align:center">Assessment(s)</th>
+							<th style="text-align:center">Assessment(s) of Aichi Target(s)</th>
 							<th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
 						</tr>
 						<tr ng-repeat="aichiTarget in aichiTargets|orderBy:'number'">
@@ -278,7 +278,7 @@
 							<th class="aichi-icons" >Aichi Targets</th>
 							<th>National Targets</th>
 							<th>&nbsp;</th>
-							<th style="text-align:center">Assessment(s)</th>
+							<th style="text-align:center">Assessment(s) of National target(s)</th>
 							<th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
 						</tr>
 						<tbody ng-repeat="target in nationalTargets">

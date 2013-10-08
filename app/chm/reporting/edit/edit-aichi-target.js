@@ -1,4 +1,4 @@
-angular.module('kmCBD')
+angular.module('kmApp')
 //============================================================
 //
 // Edit Organization

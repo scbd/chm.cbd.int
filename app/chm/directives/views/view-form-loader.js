@@ -1,4 +1,4 @@
-﻿angular.module('kmCBD')
+﻿angular.module('kmApp')
 //============================================================
 //
 // Load a record from IStorage database for diplay

@@ -1,9 +1,6 @@
-//============================================================
-//
-// Edit Organization
-//
-//============================================================
-$compile.directive('cbdEditResource', ['authHttp', "URI", "Enumerable", "$filter", "$q", "guid", function ($http, URI, Enumerable, $filter, $q, guid) {
+var module = angular.module('kmApp').compileProvider; // lazy
+
+module.directive('cbdEditResource', ['authHttp', "URI", "Enumerable", "$filter", "$q", "guid", function ($http, URI, Enumerable, $filter, $q, guid) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource.partial.html',

@@ -1,4 +1,4 @@
-﻿angular.module('kmCBD', ["kmAuthentication", "kmUtilities"])
+﻿angular.module('kmApp')
 
 .factory('editFormUtility', ["IStorage", "IWorkflows", "$q", function(storage, workflows, $q) {
 	var _self = {

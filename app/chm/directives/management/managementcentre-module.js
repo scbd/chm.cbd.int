@@ -1,11 +1,13 @@
-﻿angular.module('kmManagementCentre')
+﻿var module = angular.module('kmApp').compileProvider; // lazy
+
+
 
 	//==================================================
 	//
 	// My Drafts
 	//
 	//==================================================
-	.directive('myDrafts', [function () {
+module.directive('myDrafts', [function () {
 		return {
 			priority: 0,
 			restrict: 'EAC',
@@ -78,14 +80,14 @@
 				};
 			}]
 		}
-	}])
+	}]);
 
 	//==================================================
 	//
 	// My Documents 
 	//
 	//==================================================
-	.directive("myDocuments", [function () {
+module.directive("myDocuments", [function () {
 		return {
 			priority: 0,
 			restrict: 'EAC',
@@ -164,14 +166,14 @@
 				};
 			}]
 		}
-	}])
+	}]);
 
 	//==================================================
 	//
 	// My Tasks
 	//
 	//==================================================
-	.directive("myTasks", ['authHttp', function ($http) {
+module.directive("myTasks", ['authHttp', function ($http) {
 		return {
 			priority: 0,
 			restrict: 'EAC',

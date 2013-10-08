@@ -1,9 +1,6 @@
-//============================================================
-//
-// Edit Contact
-//
-//============================================================
-$compile.directive('cbdEditContact', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
+var module = angular.module('kmApp').compileProvider; // lazy
+
+module.directive('cbdEditContact', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/abs/directives/forms/form-contact.partial.html',

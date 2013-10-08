@@ -51,7 +51,7 @@
 		//================
 		 -->
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection(undefined)" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					National Biodiversity Strategies and Action Plans (NBSAPS)
 					<i class="icon-chevron-right icon-white"></i>
@@ -61,7 +61,7 @@
 				</h4>
 			</div>
 
-			<div id="collapseOne" class="panel-collapse collapse in">
+			<div id="collapseOne" class="panel-collapse collapse">
 				<div class="panel-body row">
 
 					<div ng-hide="nationalStrategicPlans"> <!-- no records -->
@@ -95,7 +95,7 @@
 		//================
 		 -->
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection('collapseTwo')" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					National Reports 
 					<i class="icon-chevron-right icon-white"></i>
@@ -140,7 +140,7 @@
 		//================
 		 -->
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection('collapseThree')" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					Other Reports 
 					<i class="icon-chevron-right icon-white"></i>
@@ -202,7 +202,7 @@
 		 -->
 
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection('collapseFour')" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					Aichi Biodiversity Targets <i class="icon-chevron-right icon-white"></i>
 					<span class="label label-success pull-right label-spacing" ng-cloak>{{(aichiTargets|filter:isAssessed).length}} / {{aichiTargets.length}}</span>
@@ -262,7 +262,7 @@
 		 -->
 
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection('collapseFive')" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					National Targets <i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalTarget', { government:government })">add +</button>
@@ -324,7 +324,7 @@
 		 -->
 
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection('collapseSix')" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					National Indicators <i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalIndicator', {government:government})">add +</button>
@@ -373,7 +373,7 @@
 		 -->
 
 		<div class="panel panel-default">
-			<div class="panel-heading" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven" style="cursor:pointer">
+			<div class="panel-heading collapsed" ng-click="setLastSection('collapseSeven')" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
 					Implementation Activities <i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('implementationActivity', {government:government})">add +</button>

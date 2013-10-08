@@ -11,9 +11,20 @@ module.directive('chmReportManager', [function () {
 		replace: true,
 		transclude: false,
 		scope: {},
-		init: function() {
+		link: function($scope, $elm) {
+
+			if($scope.$root.NRLastSection) {
+				var qElement = $elm.find("#"+$scope.$root.NRLastSection);
+
+				qElement.collapse("show");
+				
+				$('body').stop().animate({ scrollTop : qElement.offset().top-100 }, 600);
+			}
+			else {
+				$elm.find(".panel-collapse:first").collapse('show');
+			}
 		},
-		controller: ['$scope', '$q', 'authHttp', "underscore", "$location", "$window", "URI", "authentication", function ($scope, $q, $http, _, $location, $window, URI, authentication) {
+		controller: ['$rootScope', '$scope', '$q', 'authHttp', "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $q, $http, _, $location, URI, authentication) {
 
 			$scope.government = 'AF';
 			$scope.currentYear = new Date().getUTCFullYear();
@@ -53,6 +64,10 @@ module.directive('chmReportManager', [function () {
 				if(authentication.user().government)
 					return authentication.user().government.toUpperCase();
 			};
+
+			$scope.setLastSection = function(name) {
+				$rootScope.NRLastSection = name;
+			}
 
 			//===============
 			//
@@ -100,7 +115,7 @@ module.directive('chmReportManager', [function () {
 				if (option)
 					url = url.search(option);
 
-				$window.location = url.toString();
+				$location.url(url.toString());
 			}
 
 			//===============

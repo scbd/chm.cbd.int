@@ -266,7 +266,6 @@ module.directive("chmEditNationalReport", ['authHttp', "$q", "$filter", "URI", "
 			//
 			//==================================
 			$scope.defaultGovernment = function() {
-
 				var qsGovernment = new URI().search(true).government;
 
 				if (qsGovernment)

@@ -1,4 +1,4 @@
-var app = angular.module("kmApp", [ "kmAuthentication", "kmUtilities", 'formControls', "$strap.directives" ]);
+var app = angular.module("kmApp", [ "kmAuthentication", "kmUtilities", 'formControls', "kmStorage", "$strap.directives" ]);
 
 //(function() {
 

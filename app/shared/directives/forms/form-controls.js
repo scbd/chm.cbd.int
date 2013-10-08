@@ -1996,7 +1996,7 @@ angular.module('formControls', [])
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/partials/edit/km-control-group.html',
+			templateUrl: '/app/shared/directives/forms/km-control-group.html',
 			replace: true,
 			transclude: true,
 			scope: {

@@ -6,7 +6,7 @@
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/partials/cbd/pressreleases.html',
+        templateUrl: '/app/chm/directives/module-press-releases.partial.html',
         replace: true,
         transclude: false,
         scope: {

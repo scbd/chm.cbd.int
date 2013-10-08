@@ -276,7 +276,7 @@
       			<div class="panel-body">
 					<table class="table table-striped">
 						<tr>
-							<th class="aichi-icons" >Aichi Targets</th>
+							<th class="aichi-icons" >Main Aichi Targets</th>
 							<th>National Targets</th>
 							<th>&nbsp;</th>
 							<th style="text-align:center">Assessment(s) of National target(s)</th>
@@ -312,7 +312,7 @@
 							</tr>
 							<tr>
 								<td colspan="14">
-									<em ng-show="activity.nationalIndicators">Indicator(s): 
+									<em ng-show="target.nationalIndicators">Indicator(s): 
 										<span ng-repeat="indicator in target.nationalIndicators"><a ng-href="{{indicator.url}}">{{indicator.title}}</a><span ng-show="!$last">;</span> </span>
 									</em>
 								</td>

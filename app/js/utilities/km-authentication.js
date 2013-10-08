@@ -124,7 +124,7 @@
 			loadCurrentUser : function() {
 				var _self = this;
 
-				authHttp.get(_self.serviceUrls.user()).then(
+				return authHttp.get(_self.serviceUrls.user()).then(
 					function(success) {
 						_self.user(success.data);
 						return success.data;

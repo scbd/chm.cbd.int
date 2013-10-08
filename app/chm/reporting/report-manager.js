@@ -4,7 +4,7 @@
 //
 // Edit Implementation Activity
 //============================================================
-module.directive('chmReportManager', [function () {
+module.directive('chmReportManager', ["$timeout", function ($timeout) {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/reporting/report-manager.partial.html',
@@ -13,16 +13,25 @@ module.directive('chmReportManager', [function () {
 		scope: {},
 		link: function($scope, $elm) {
 
-			if($scope.$root.NRLastSection) {
-				var qElement = $elm.find("#"+$scope.$root.NRLastSection);
 
-				qElement.collapse("show");
+			$timeout(function(){ 
+				if($scope.$root.NRLastSection){
 
-				$('body').stop().animate({ scrollTop : qElement.offset().top-100 }, 600);
-			}
-			else {
-				$elm.find(".panel-collapse:first").collapse('show');
-			}
+					var qElement = $elm.find("#"+$scope.$root.NRLastSection);
+
+					qElement.collapse("show");
+					qElement.prev().removeClass("collapsed");//fixe boostrap bug
+
+					$('body').stop().animate({ scrollTop : qElement.offset().top-100 }, 600);
+				}
+				else {
+					var qElement = $elm.find(".panel-collapse:first");
+					
+					qElement.collapse("show");
+					qElement.prev().removeClass("collapsed");//fixe boostrap bug
+				}
+			}, 250)
+				
 		},
 		controller: ['$rootScope', '$scope', '$q', 'authHttp', "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $q, $http, _, $location, URI, authentication) {
 

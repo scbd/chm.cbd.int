@@ -32,6 +32,18 @@
 			padding:0 10px 10px 10px;
 			border-radius:4px;
 		}
+
+		.container.reporting  .panel-heading {
+			border-color: #bce8f1;
+			background-color: #d9edf7;
+		}
+
+		.container.reporting  .panel-heading.collapsed {
+			background-color: #f5f5f5;
+			border-color: #dddddd;
+		}
+
+
 	</style>
 
 	<select style="margin-top:-40px" class="pull-right" ng-show="!userGovernment()" ng-model="government" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
@@ -69,7 +81,7 @@
 							No National Biodiversity Strategies and Action Plans exists.<br/>
 							<em>Please submit a record.</em>
 						</p>
-						<button type="button" class="btn btn-info btn-xs" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], government : government})">add +</button>
+						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], government : government})">add +</button>
 					</div>
 
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
@@ -117,7 +129,7 @@
 							
 							<div ng-hide="filteredReports.length"> <!-- no report -->
 								<p><em>Please submit a record.</em></p>
-								<button type="button" class="btn btn-info btn-xs" ng-click="edit('nationalReport', {reportType:nrType, government : government})">add +</button>
+								<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {reportType:nrType, government : government})">add +</button>
 							</div>
 
 							<div ng-repeat="nationalReport in filteredReports = (nationalReports | filter:{ reportType : nrType })"> <!-- NR -->
@@ -157,7 +169,7 @@
 							No other report exists.<br/>
 							<em>Please submit a record.</em>
 						</p>
-						<button type="button" class="btn btn-info btn-xs" ng-click="edit('nationalReport', {government : government})">add +</button>
+						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {government : government})">add +</button>
 					</div>
 
 					<div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="otherReport in otherNationalReports | orderBy:'year':true"> <!-- other reports -->

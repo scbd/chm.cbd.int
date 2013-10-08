@@ -1,14 +1,11 @@
 ﻿<div>
-	<div ng-show="isLoading()">
-		<div class="loadProgress" progress="1" timeout="1500"></div>
-	</div>
 
 	<div class="alert alert-error" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div class="row" ng-show="!isLoading()&&status!='hidden'">
+	<div class="row" ng-show="status!='hidden'">
 
 		<div class="col-md-11" style="position: relative">
 

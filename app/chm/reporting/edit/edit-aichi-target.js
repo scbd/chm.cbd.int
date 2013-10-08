@@ -1,10 +1,6 @@
-angular.module('kmApp')
-//============================================================
-//
-// Edit Organization
-//
-//============================================================
-.directive('chmEditAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
+var module = angular.module('kmApp').compileProvider; // lazy
+
+module.directive('chmEditAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/reporting/edit/aichiTarget.html', // edit-aichi-target.partial.html',

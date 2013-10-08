@@ -1,16 +1,11 @@
 ﻿<div>
-	<h1>National Target</h1>
-
-	<div ng-show="isLoading()">
-		<div class="loadProgress" progress="1" timeout="1500"></div>
-	</div>
 
 	<div class="alert alert-error" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div class="row" ng-show="!isLoading()&&status!='hidden'">
+	<div class="row" ng-show="status!='hidden'">
 
 		<div class="col-md-11" style="position: relative">
 
@@ -44,7 +39,7 @@
 
 						<div class="row">
 							<div class="col-md-11">
-								<div class="km-control-group" required name="title" caption="Name of the National Target">
+								<div class="km-control-group" required name="title" caption="Title">
 									<div class="help-block">Please use the official title, if available.</div>
 									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
 								</div>

@@ -60,16 +60,19 @@
 
 	<span>
 		<div class="btn-group" >
-			<a class="btn dropdown-toggle" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown" href="">{{getTitle(displayCount)}}
+			<button tyle="button" class="btn btn-default dropdown-toggle" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown" href="">{{getTitle(displayCount)}}
 				<span class="caret"></span>
-			</a>
+			</button>
 			<ul class="dropdown-menu" style="max-height:400px;overflow-y:auto">
-				<li ng-hide="rootItems">
+				<li ng-hide="!!rootItems">
 					<span ng-include="'/app/partials/cms/loading.html'"></span> Loading...
 				</li>
-				<li ng-show="rootItems && (getMinimum()==0 || allowOther == 'true')" style="padding:2px 20px">
-					<button class="btn btn-mini btn-inverse" ng-show="getMinimum()==0"      type ="button" ng-click="clearSelection()" ng-disabled="!hasSelectedItems()">Clear selection</button>
-					<button class="btn btn-mini btn-inverse" ng-show="allowOther == 'true'" type="button" ng-click="chooseOther()"    ng-show="allowOther">Specify another value</button>
+				<li ng-show="rootItems.length==0" style="padding:2px 20px">
+					Nothing to select...
+				</li>
+				<li ng-show="!!rootItems && (getMinimum()==0 || allowOther == 'true')" style="padding:2px 20px">
+					<button class="btn btn-xs btn-inverse" ng-show="getMinimum()==0 && (hasSelectedItems() || rootItems.length!=0)"      type ="button" ng-click="clearSelection()" ng-disabled="!hasSelectedItems()">Clear selection</button>
+					<button class="btn btn-xs btn-inverse" ng-show="allowOther == 'true'" type="button" ng-click="chooseOther()"    ng-show="allowOther">Specify another value</button>
 				</li>
 				<li ng:repeat="item in rootItems" ng-class="{disabled:!itemEnabled(item)}" ng-include="'select-tree-renderer.html'" style="position:relative">
 				</li>

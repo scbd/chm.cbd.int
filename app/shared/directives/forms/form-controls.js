@@ -1,6 +1,5 @@
-angular.module('formControls', [])
-
-
+angular.module('formControls',[])
+	
 	//============================================================
 	//
 	//
@@ -1037,7 +1036,7 @@ angular.module('formControls', [])
 		return {
 			restrict: 'EAC',
 			templateUrl: '/app/shared/directives/forms/km-reference.html',
-			replace: true,
+			replace: false,
 			transclude: true,
 			require : "?ngModel",
 			scope: {
@@ -1300,16 +1299,23 @@ angular.module('formControls', [])
 				$scope.rootItems  = null;
 				$scope.attr       = $attrs;
 				$scope.multiple   = $attrs.multiple   !== undefined && $attrs.multiple   !== null;
-
+				$scope.watchItems = $attrs.watchItems !== undefined && $attrs.watchItems !== null;
 			    $scope.displayCount = 3;
 
-				$scope.$watch('identifier',   $scope.save);
-				$scope.$watch('items',        $scope.load);
+				$scope.$watch('identifier', $scope.save);
+				$scope.$watch('items',      $scope.load);
+
 				$scope.$watch('binding', function(newBinding) {
 					ngModelController.$setViewValue($scope.binding);
 					if (newBinding)
 						$scope.autoInit().then($scope.load);
 				});
+
+				if ($scope.watchItems)
+					$scope.$watch($scope.itemsFn, function(items) {
+						if (items)
+							$scope.autoInit(true).then($scope.load);
+					});
 
 				$element.find('.dropdown-menu').click(function(event) {
 					if ($scope.multiple && $scope.getSelectedItems().length!=0)
@@ -1373,7 +1379,12 @@ angular.module('formControls', [])
 				//==============================
 				//
 				//==============================
-				$scope.autoInit = function() {
+				$scope.autoInit = function(forceReinit) {
+
+					if (forceReinit){
+						$scope.isInit = false;
+						$scope.__loading = false;
+					}
 
 					var deferred = $q.defer();
 
@@ -1672,7 +1683,7 @@ angular.module('formControls', [])
 				$scope.save = function(date) {
 					var oBinding = undefined;
 
-					if (typeof (date) == "object") {
+					if (!!date && typeof (date) == "object") {
 						var qParts = [date.getUTCFullYear().toString(), (date.getUTCMonth() + 1).toString(), date.getUTCDate().toString()];
 
 						if (qParts[1].length == 1) qParts[1] = "0" + qParts[1];
@@ -1681,7 +1692,8 @@ angular.module('formControls', [])
 						oBinding = qParts.join("-");
 					}
 
-					$scope.binding = oBinding;
+					if ($scope.binding != oBinding)
+						$scope.binding = oBinding;
 				}
 
 				//==============================
@@ -1714,7 +1726,7 @@ angular.module('formControls', [])
 	//
 	//
 	//============================================================
-	.directive('kmFormStdButtons', [function ()
+	.directive('kmFormStdButtons', ["$q", function ($q)
 	{
 		return {
 			restrict: 'EAC',
@@ -1736,8 +1748,6 @@ angular.module('formControls', [])
 			},
 			link: function ($scope, $element) 
 			{
-				$scope.saveDialogVisible   = false;
-				$scope.cancelDialogVisible = false;
 				$scope.localesDisplayStyle = "none";
 				$scope.errors              = null;
 				$scope.options = {
@@ -1755,25 +1765,116 @@ angular.module('formControls', [])
 				$scope.$watch("$scope.binding.header.schema",    $scope.checkErrors);
 				$scope.$watch("$scope.binding.header.languages", $scope.checkErrors);
 				$scope.$watch("binding",   $scope.watchBinding);
-				$scope.$watch("saveDialogVisible", function(_new, _old) 
-				{ 
-					if(_new!=_old &&  _new) $element.find("#dialogSave").modal("show");
-					if(_new!=_old && !_new) $element.find("#dialogSave").modal("hide");
+
+				//BOOTSTRAP Dialog handling
+
+				var qSaveDialog   = $element.find("#dialogSave");
+				var qCancelDialog = $element.find("#dialogCancel");
+
+				$scope.saveDialogDefered = [];
+				$scope.cancelDialogDefered = [];
+
+				$scope.showSaveDialog = function(visible) {
+
+					var isVisible = qSaveDialog.css("display")!='none';
+
+					if(visible == isVisible)
+						return $q.when(isVisible);
+
+					var defered = $q.defer();
+
+					$scope.saveDialogDefered.push(defered)
+
+					qSaveDialog.modal(visible ? "show" : "hide");
+
+					return defered.promise;
+				}
+
+				$scope.showCancelDialog = function(visible) {
+
+					var isVisible = qCancelDialog.css("display")!='none';
+
+					if(visible == isVisible)
+						return $q.when(isVisible);
+
+					var defered = $q.defer();
+
+					$scope.cancelDialogDefered.push(defered)
+
+					qCancelDialog.modal(visible ? "show" : "hide");
+
+					return defered.promise;
+				}
+
+				qSaveDialog.on('shown.bs.modal' ,function() {
+
+					$scope.safeApply(function(){
+
+						var promise = null;
+						while((promise=$scope.saveDialogDefered.pop()))
+							promise.resolve(true);
+					});
 				});
-				$scope.$watch("cancelDialogVisible", function(_new, _old) 
-				{ 
-					if(_new!=_old &&  _new) $element.find("#dialogCancel").modal("show");
-					if(_new!=_old && !_new) $element.find("#dialogCancel").modal("hide");
+
+				qSaveDialog.on('hidden.bs.modal' ,function() {
+					
+					$scope.safeApply(function(){
+
+						var promise = null;
+						while((promise=$scope.saveDialogDefered.pop()))
+							promise.resolve(false);
+					});
+				});
+
+				qCancelDialog.on('shown.bs.modal' ,function() {
+					
+					$scope.safeApply(function(){
+
+						var promise = null;
+						while((promise=$scope.cancelDialogDefered.pop()))
+							promise.resolve(true);
+					});
+				});
+
+				qCancelDialog.on('hidden.bs.modal' ,function() {
+
+					$scope.safeApply(function(){
+
+						var promise = null;
+						while((promise=$scope.cancelDialogDefered.pop()))
+							promise.resolve(false);
+					});
 				});
 			},
-			controller: ["$scope", "IStorage", "$q", "editFormUtility", function ($scope, storage, $q, editFormUtility) 
+			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) 
 			{
+				//====================
+				//
+				//====================
+				$scope.safeApply = function(fn)
+				{
+					var phase = this.$root.$$phase;
+
+					if (phase == '$apply' || phase == '$digest') {
+						if (fn && (typeof (fn) === 'function')) {
+							fn();
+						}
+					} else {
+						this.$apply(fn);
+					}
+				};
+
 				//====================
 				//
 				//====================
 				$scope.publish = function()
 				{
-					$q.when($scope.onPrePublishFn()).then(function(canceled) {
+					$q.when($scope.onPrePublishFn()).then(function(result) {
+					
+						return $scope.closeDialog().then(function() { 
+							return result;
+						});
+					}).then(function(canceled) {
 
 						if(canceled)
 							return;
@@ -1789,8 +1890,6 @@ angular.module('formControls', [])
 
 							return success;
 						});
-					}).then(function() {
-						$scope.closeDialog();
 					}).then(null, function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
 						$scope.closeDialog();
@@ -1802,23 +1901,22 @@ angular.module('formControls', [])
 				//====================
 				$scope.saveDraft = function()
 				{
-					$q.when($scope.onPreSaveDraftFn()).then(
-						function(cancel) {
-							if(cancel)
-								return;
-
-							return editFormUtility.saveDraft($scope.binding).then(
-								function(success) {
-									$scope.onPostSaveDraftFn({ data: success.data });
-								});
-						}).then(
-						function() {
-							$scope.closeDialog();
-						},
-						function(error){
-							$scope.onErrorFn({ action: "saveDraft", error: error });
-							$scope.closeDialog();
+					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
+					
+						return $scope.closeDialog().then(function() { 
+							return result;
 						});
+					}).then(function(cancel) {
+						if(cancel)
+							return;
+
+						return editFormUtility.saveDraft($scope.binding).then(function(success) {
+							$scope.onPostSaveDraftFn({ data: success.data });
+						});
+					}).then(null, function(error){
+						$scope.onErrorFn({ action: "saveDraft", error: error });
+						$scope.closeDialog();
+					});
 				};
 
 				//====================
@@ -1826,22 +1924,25 @@ angular.module('formControls', [])
 				//====================
 				$scope.revert = function()
 				{
-					$q.when($scope.onPreRevertFn()).then(
-						function(result) {
-							$scope.closeDialog();
+					$q.when($scope.onPreRevertFn()).then(function(result) {
+					
+						return $scope.closeDialog().then(function() { 
+							return result;
+						});
+					}).then(function(result) {
+						$scope.closeDialog();
 
-							if(result)
-								return;
+						if(result)
+							return;
 
-							$scope.binding = $scope.clone($scope.binding_bak);
+						$scope.binding = $scope.clone($scope.binding_bak);
 
-							$scope.onPostRevertFn();
-						},
-						function(error){
+						$scope.onPostRevertFn();
+					}).then(null, function(error){
+
 							$scope.onErrorFn({ action: "revert", error: error });
 							$scope.closeDialog();
-						}
-					);
+					});
 				};
 
 				//====================
@@ -1849,22 +1950,21 @@ angular.module('formControls', [])
 				//====================
 				$scope.close = function()
 				{
-					$q.when($scope.onPreCloseFn()).then(
-						function(result) {
-							$scope.closeDialog();
-
+					$q.when($scope.onPreCloseFn()).then(function(result) {
+					
+						return $scope.closeDialog().then(function() { 
+							return result;
+						});
+					}).then(function(result) {
 							if(result)
 								return;
 
-							$scope.binding = $scope.clone($scope.binding_bak);
+							$scope.onPostCloseFn();
 
-							$scope.onPreCloseFn();
-						},
-						function(error){
-							$scope.onErrorFn({ action: "saveDraft", error: error });
-							$scope.closeDialog();
-						}
-					);
+					}).then(null, function(error){
+						$scope.onErrorFn({ action: "close", error: error });
+						$scope.closeDialog();
+					});
 				};
 
 				//====================
@@ -1872,7 +1972,7 @@ angular.module('formControls', [])
 				//====================
 				$scope.watchBinding = function(_new,_old) 
 				{
-					if(_new!=_old)
+					if(_new!=_old || (_new && !$scope.binding_bak))
 						$scope.binding_bak = $scope.clone(_new);
 				};
 
@@ -1898,8 +1998,7 @@ angular.module('formControls', [])
 				//====================
 				$scope.closeDialog = function() 
 				{
-					$scope.saveDialogVisible   = false;
-					$scope.cancelDialogVisible = false;
+					return $q.all([$scope.showSaveDialog(false), $scope.showCancelDialog(false)]);
 				};
 
 				//====================

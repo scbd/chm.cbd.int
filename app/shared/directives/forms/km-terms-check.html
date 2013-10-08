@@ -1,15 +1,16 @@
 <ul>
-
-	<li ng:repeat="term in rootTerms">
-
-        <label>
+	<script type="text/ng-template"  id="term-check-tree-renderer.html">
+		<label>
 			<input type="checkbox" ng-model="identifiers[term.identifier]" ng-click="save()" ng-required="IsRequired()" value="{{term.identifier}}" />
 				- {{term.title||term.name | lstring:locale}}
-            <textarea ng-switch-default class="input-block-level" ng-show="identifiers[term.identifier].checked" ng-required="isRequired()" ng-model="text[locale]" ng-change="onchange()" ng-disabled="ngDisabledFn()" placeholder="{{placeholder}}" rows="{{rows}}" style="display:inline-block"></textarea>
 		</label>
 
+		<ul style="list-style:none">
+			<li ng:repeat="term in term.narrowerTerms" ng-include="'term-check-tree-renderer.html'">
+		</ul>
+	</script>
 
-	</li>
+	<li ng:repeat="term in rootTerms" ng-include="'term-check-tree-renderer.html'"></li>
 
 	<li ng-show="error">
 		<div class="alert">

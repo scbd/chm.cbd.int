@@ -1,9 +1,11 @@
 <div>
 	<div class="reference-select">
-		<table class="table table-hover" ng-show="references">
+		<table class="table table-hover">
 			<tr ng-repeat="reference in references">
 				<td>
-					<div ng-show="!reference.__loading && !reference.__errorCode" ng-transclude></div>
+					<div ng-show="!reference.__loading && !reference.__errorCode">
+						<div ng-transclude></div>
+					</div>
 
 					<div ng-show="reference.__loading">
 						<span ng-include="'/app/partials/cms/loading.html'"></span>
@@ -25,49 +27,54 @@
 					</div>
 				</td>
 				<td style="text-align:end">
-					<a title="Remove" class="btn" ng-click="remove(reference)"><i class="icon-trash"></i></a>
+					<button type="button" title="Remove" class="btn" ng-click="remove(reference)"><i class="icon-trash"></i></button>
 				</td>
 			</tr>
 		</table>
+		</div>
 
-		<a class="btn" ng-show="multiple" ng-click="addReference()">Add a reference</a>
-		<a class="btn" ng-hide="multiple" ng-click="addReference()">Select a reference...</a>
+		<button type="button" class="btn btn-info" ng-show="multiple" ng-click="addReference()">Add a reference</button>
+		<button type="button" class="btn btn-info" ng-hide="multiple" ng-click="addReference()">Select a reference...</button>
 	</div>
 
     <!--Reference Editor-->
-	<div id="editReference" class="modal hide fade" data-backdrop="static">
-		<div class="modal-header">
-			<h3>Select a reference</h3>
-		</div>
-		<div class="modal-body">
+	<div id="editReference" class="modal fade" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3>Select a reference</h3>
+				</div>
+				<div class="modal-body">
 
-			<table class="table table-hover">
-				<tr ng-repeat="reference in editor.references | filter:editor.search | filter:editor.filterExcludeSelected | orderBy:editor.sortReference">
-					<td>
-						<input type="checkbox" ng-model="reference.__checked"/>
-					</td>
-					<td>
-						<div ng-transclude></div>
-					</td>
-				</tr>
+					<table class="table table-hover">
+						<tr ng-repeat="reference in editor.references | filter:editor.search | filter:editor.filterExcludeSelected | orderBy:editor.sortReference">
+							<td>
+								<input type="checkbox" ng-model="reference.__checked"/>
+							</td>
+							<td>
+								<div ng-transclude></div>
+							</td>
+						</tr>
 
-				<tr ng-show="editor.references.length==0">
-					<td colspan="2">No record.</td>
-				</tr>
+						<tr ng-show="editor.references.length==0">
+							<td colspan="2">No record.</td>
+						</tr>
 
-				<tr ng-show="isLoading">
-					<td colspan="2">
-						<span  ng-include="'/app/partials/cms/loading.html'"></span> Loading...
-					</td>
-				</tr>
-			</table>
+						<tr ng-show="isLoading">
+							<td colspan="2">
+								<span ng-include="'/app/partials/cms/loading.html'"></span> Loading...
+							</td>
+						</tr>
+					</table>
 
-		</div>
-		<div class="modal-footer">
-			
-			<input class="pull-left" type="text" ng-model="editor.search" placeholder="search" />
-			<a class="btn"             ng-click="editor.close()">Cancel</a>
-			<a class="btn btn-primary" ng-click="editor.save()" >Save</a>
+				</div>
+				<div class="modal-footer">
+					
+					<input class="pull-left" type="text" ng-model="editor.search" placeholder="search" />
+					<button type="button"  class="btn"             ng-click="editor.close()">Cancel</button>
+					<button type="button"  class="btn btn-primary" ng-click="editor.save()" >Save</button>
+				</div>
+			</div>
 		</div>
 	</div>
 

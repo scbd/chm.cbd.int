@@ -17,7 +17,7 @@ module.directive('chmReportManager', [function () {
 				var qElement = $elm.find("#"+$scope.$root.NRLastSection);
 
 				qElement.collapse("show");
-				
+
 				$('body').stop().animate({ scrollTop : qElement.offset().top-100 }, 600);
 			}
 			else {
@@ -97,13 +97,6 @@ module.directive('chmReportManager', [function () {
 			//===============
 			$scope.isDraft = function(value) {
 				return false; //TODO
-			}
-
-			//===============
-			//
-			//===============
-			$scope.isUpToDate = function(years) {
-				return years && _.contains(years, $scope.currentYear);
 			}
 
 			//===============
@@ -248,7 +241,9 @@ module.directive('chmReportManager', [function () {
 							return _.extend(record, {
 								nationalTargets     : map_nationalTargets(qqNationalTargets),
 								progressAssessments : map_progressAssessments(qqAssessments),
-								assessmentYears     : _.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is"))))
+								assessmentYears     : _.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is")))),
+								nextAssessmentYear  : nextAssessmentYear(_.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is"))))),
+								isUpToDate          : isUpToDate(_.flatten(_.pluck(qqAssessments, "year_is")))
 							});
 						}));
 					})
@@ -266,7 +261,9 @@ module.directive('chmReportManager', [function () {
 								nationalIndicators  : map_nationalIndicators (qqIndicators),
 								aichiTargets        : map_aichiTargets       (qqAichiTargets),
 								progressAssessments : map_progressAssessments(qqAssessments),
-								assessmentYears     : _.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is"))))
+								assessmentYears     : _.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is")))),
+								nextAssessmentYear  : nextAssessmentYear(_.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is"))))),
+								isUpToDate          : isUpToDate(_.flatten(_.pluck(qqAssessments, "year_is")))
 							});
 						}));
 					});
@@ -390,10 +387,24 @@ module.directive('chmReportManager', [function () {
 						};
 					});
 				}
-
-
 			}
 
+			//===============
+			//
+			//===============
+			function nextAssessmentYear(years) {
+				if(years && years.length)
+					return _.chain(_.range(2010, $scope.currentYear+1)).difference(years).last().value()
+
+				return $scope.currentYear;
+			}
+
+			//===============
+			//
+			//===============
+			function isUpToDate(years) {
+				return years && _.contains(years, $scope.currentYear);
+			}
 
 			//==================================
 			//

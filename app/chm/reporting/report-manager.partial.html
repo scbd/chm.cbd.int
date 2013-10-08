@@ -234,9 +234,13 @@
 
 							<!-- Assessment status -->
 							<td style="text-align:center">
-								<span class="label label-success"   ng-show="isUpToDate(aichiTarget.assessmentYears)">up-to-date</span>
-								<span class="label label-warning"   ng-show="aichiTarget.assessmentYears.length && !isUpToDate(aichiTarget.assessmentYears)">not up-to-date</span>
-								<span class="label label-important" ng-hide="aichiTarget.assessmentYears">missing</span>
+								<span class="label label-success"   ng-show="aichiTarget.isUpToDate">up-to-date</span>
+								<span class="label label-warning"   ng-show="aichiTarget.assessmentYears.length && !aichiTarget.isUpToDate">not up-to-date</span>
+								<span class="label label-default"   ng-hide="aichiTarget.assessmentYears">missing</span>
+
+								<div ng-show="aichiTarget.nextAssessmentYear" style="margin-top:3px">
+									<button type="button" class="btn btn-default btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : aichiTarget.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>								
+								</div>
 							</td>
 
 							<!-- Years -->
@@ -244,9 +248,6 @@
 								<span class="badge badge-success" ng-show="aichiTarget.assessmentYears.indexOf(year)>=0">
 									<a style="cursor:pointer" ng-href="{{getAssessment(aichiTarget, year).url}}"><i class="icon-ok icon-white"></i></a>
 								</span>
-								<span ng-show="aichiTarget.assessmentYears.indexOf(year)<0 && currentYear>=year">
-									<button type="button" class="btn btn-default btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : year, government : government })">add +</button>
-								<span>
 							</td>
 						</tr>
 					</table>
@@ -293,15 +294,20 @@
 									<button type="button" class="btn btn-default btn-xs pull-right" ng-href="/managementcentre/edit/nationalTarget.shtml?uid={{target.identifier}}">edit &raquo;</button>
 								</td>
 								<td style="text-align:center">
-									<span class="label label-success"   ng-show="isUpToDate(target.assessmentYears)">up-to-date</span>
-									<span class="label label-warning"   ng-show="target.assessmentYears.length && !isUpToDate(target.assessmentYears)">not up-to-date</span>
-									<span class="label label-important" ng-hide="target.assessmentYears">missing</span>
+									<span class="label label-success"   ng-show="target.isUpToDate">up-to-date</span>
+									<span class="label label-warning"   ng-show="target.assessmentYears.length && !target.isUpToDate">not up-to-date</span>
+									<span class="label label-default"   ng-hide="target.assessmentYears">missing</span>
+									
+									<div ng-show="target.nextAssessmentYear" style="margin-top:3px">
+										<button type="button" class="btn btn-default btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : target.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>								
+									</div>
+								</div>
+
 								</td>
 								<td ng-repeat="year in globalYears" style="text-align:center">
 									<span class="badge badge-success" ng-show="target.assessmentYears.indexOf(year)>=0">
 										<a style="cursor:pointer" ng-href="{{getAssessment(target, year).url}}"><i class="icon-ok icon-white"></i></a>
 									</span>
-									<button type="button" class="btn btn-default btn-xs" ng-show="target.assessmentYears.indexOf(year)<0 && currentYear>=year" ng-click="edit('progressAssessment', {nationalTarget : target.identifier, year : year, government : government })">add +</button>
 								</td>
 							</tr>
 							<tr>

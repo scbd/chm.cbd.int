@@ -13,7 +13,6 @@ var server = http.createServer(app);
 app.configure(function() {
     app.set('port', process.env.PORT || 2000);
     app.use(express.logger('dev'));
-    app.use(express.bodyParser());
     app.use(express.compress());
 	app.use(express.static(__dirname));
 });

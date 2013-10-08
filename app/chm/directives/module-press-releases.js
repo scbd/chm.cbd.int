@@ -1,8 +1,9 @@
-﻿angular.module("centralPortal", ['kmUtilities'])
+﻿var module = angular.module('kmApp').compileProvider; // lazy
+
 //==================================================
 // ABS Press Releases
 //==================================================
-.directive('pressreleases', ['authHttp', function ($http) {
+module.directive('pressreleases', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

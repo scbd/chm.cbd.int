@@ -1,8 +1,9 @@
-﻿angular.module("centralPortal", ['kmUtilities'])
+﻿var module = angular.module('kmApp').compileProvider; // lazy
+
 //==================================================
 // ABS Meetings
 //==================================================
-.directive('meetings', ['authHttp', function ($http) {
+module.directive('meetings', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

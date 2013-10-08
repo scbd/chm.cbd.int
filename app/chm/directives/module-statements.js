@@ -1,8 +1,9 @@
-﻿angular.module("centralPortal")
+﻿var module = angular.module('kmApp').compileProvider; // lazy
+
 //==================================================
 // ABS Statements
 //==================================================
-.directive('statements', ['authHttp', function ($http) {
+module.directive('statements', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

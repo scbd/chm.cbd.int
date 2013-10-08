@@ -2124,7 +2124,7 @@ angular.module('formControls',[])
 				}
 
 				$scope.isRequired = function() {
-					return $scope.required !== undefined;
+					return $scope.required !== undefined && $scope.required!="false";
 				}
 			}]
 		};

@@ -124,6 +124,15 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 			//==================================
 			//
 			//==================================
+			$scope.isBasedOnComprehensiveIndicators = function(document) {
+
+				document = document || $scope.document;
+
+				return !!document && !!document.confidence && document.confidence.identifier == "DB41B07F-04ED-4446-82D4-6D1449D9527B";
+			}
+			//==================================
+			//
+			//==================================
 			$scope.cleanUp = function(document) {
 
 				document = document || $scope.document;

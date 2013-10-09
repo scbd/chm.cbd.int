@@ -20,7 +20,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 
 	$routeProvider.
  		when('/', { controller:HomePageController, templateUrl:'/app/views/index.html', resolve: { initialized : init } }).
- 		when('/database/', { controller:InnerPageController, templateUrl:'/app/views/database.html', resolve: { initialized : init } }).
+ 		when('/database/', { controller:InnerPageController, templateUrl:'/app/views/database/index.html', resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/', { controller:InnerPageController, templateUrl:'/app/views/empty.html', resolve: { initialized : init } }).
  		when('/network/', { controller:InnerPageController, templateUrl:'/app/views/network.html', resolve: { initialized : init } }).
  		when('/resources/', { controller:InnerPageController, templateUrl:'/app/views/resources.html', resolve: { initialized : init } }).

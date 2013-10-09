@@ -1,4 +1,3 @@
-console.log('hit!')
 var module = angular.module('kmApp').compileProvider; // lazy
 
 module.directive('search', function ($http) {
@@ -78,14 +77,9 @@ module.directive('search', function ($http) {
                 return facets;
             };              
 
-            function search() {
-                $scope.currentPage = 0;
-                self.query();
-            }
-
             self.query = function () {
 
-                console.log("QUERY");
+                console.log("QUERY at " + new Date().toISOString());
 
                 var q = 'realm_ss:chm AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
 
@@ -94,7 +88,8 @@ module.directive('search', function ($http) {
                     'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s',
                     'wt': 'json',
                     'start': $scope.currentPage * $scope.itemsPerPage,
-                    'rows': 25
+                    'rows': 25,
+                    'cb': new Date().getTime()
                 };
 
                 if (self.canceler != null) {
@@ -104,8 +99,8 @@ module.directive('search', function ($http) {
 
                 self.canceler = $q.defer();
 
-                self.xhr = $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
-
+                $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
+                
                     self.canceler = null;
 
                     $scope.count = data.response.numFound;
@@ -134,9 +129,9 @@ module.directive('search', function ($http) {
                             $scope.governments = readFacets(data.facet_counts.facet_fields.government_CEN_s);
                             $scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicAreas_ss);
 
-                        }).error(function (data) { console.log('ABORTED'); } );
+                        }).error(function (error) { console.log('onerror'); console.log(error); } );
                     }
-                }).error(function (data) { console.log('ABORTED'); });
+                }).error(function (error) { console.log('onerror'); console.log(error); });
             };
 
             $scope.range = function (start, end) {
@@ -165,424 +160,25 @@ module.directive('search', function ($http) {
                 return ret;
             };
 
-            $scope.$watch('currentPage', function (newValue, oldValue) { if (newValue != oldValue) self.query(); });
-            $scope.$watch('querySchema', function (newValue, oldValue) { if (newValue != oldValue) search(); });
-            $scope.$watch('queryGovernment', function (newValue, oldValue) { if (newValue != oldValue) search(); });
-            $scope.$watch('queryTheme', function (newValue, oldValue) { if (newValue != oldValue) search(); });
-            $scope.$watch('queryDate', function (newValue, oldValue) { if (newValue != oldValue) search(); });
-            $scope.$watch('queryKeywords', function (newValue, oldValue) { if (newValue != oldValue) search(); });
+            $scope.queryScheduled = null;
+            function search() {
+                if($scope.queryScheduled)
+                    $timeout.cancel($scope.queryScheduled);
 
-            $timeout(function () { self.query(); } , 1); // init
+                $scope.queryScheduled = $timeout(function () { self.query(); }, 200);
+            }
+
+            $scope.$watch('currentPage',     search);
+            $scope.$watch('querySchema',     function() { $scope.currentPage=0; search(); });
+            $scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); });
+            $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); });
+            $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); });
+            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; search(); });
+
+            search(); // init
         }]
     }
 })
-
-//============================================================
-//
-//
-//============================================================
-module.directive('search2Facet', function ($http) {
-    return {
-        restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search2-facet.partial.html?v892e14e22',
-        replace: true,
-        // require : "?ngModel",
-        scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
-              title: '@title',
-              items: '=ngModel',
-              field: '@field',
-              query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
-        },
-        link: function ($scope, element, attrs, ngModelController)
-        {
-        },
-        controller : ['$scope', '$element', '$window', function ($scope, $element, $window)
-        {
-            $scope.expanded = false;
-            $scope.selectedItems = [];
-            $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
-
-            var parameters = $window.URI().search(true);
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
-
-            $scope.isSelected = function(item) {
-                return $.inArray(item.symbol, $scope.selectedItems) >= 0;
-            };
-
-            $scope.closeDialog = function() {
-                $element.find("#dialogSelect").modal("hide");
-            };
-
-            $scope.actionSelect = function(item) {
-
-                if($scope.isSelected(item)) {
-                    $scope.selectedItems.splice($.inArray(item.symbol, $scope.selectedItems), 1);
-                } else {
-                    $scope.selectedItems.push(item.symbol);
-                }
-
-                buildQuery();
-                // $scope.updateQuery();
-            };
-
-            $scope.actionExpand = function() {
-
-                var count1 = Math.ceil($scope.items.length/3);
-                var count2 = Math.ceil(($scope.items.length-count1)/2);
-                var count3 = Math.ceil(($scope.items.length-count2-count1));
-
-                $scope.items1 = $scope.items.slice(0, count1);
-                $scope.items2 = $scope.items.slice(count1, count2+count2);
-                $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
-
-                console.log($scope.items1);
-                console.log($scope.items2);
-                console.log($scope.items3);
-
-
-                $element.find("#dialogSelect").modal("show");
-            };
-
-            $scope.ccc = function(item) {
-                return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
-            };
-
-            $scope.onclick = function (scope, evt) {
-                scope.item.selected = !scope.item.selected;
-                buildQuery();
-            }
-
-            function buildQuery () {
-                var conditions = [];
-                buildConditions(conditions, $scope.terms);
-
-                if(conditions.length==0) $scope.query = '*:*';
-                else {
-                    var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; });
-                    query += ' )';
-                    $scope.query = query;
-                }
-            }
-
-            function buildConditions (conditions, items) {
-                items.forEach(function (item) { 
-                    if(item.selected)
-                        conditions.push($scope.field+':'+item.identifier);
-                });
-            }
-
-            function dictionarize(items) {
-                var dictionary = [];
-                items.forEach(function (item) { 
-                    item.selected = false;
-                    dictionary[item.identifier] = item;
-                });
-                return dictionary;
-            }
-
-            $scope.terms = [];
-            $scope.termsx = [];
-            $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
-                $scope.terms = data;
-                $scope.termsx = dictionarize($scope.terms);
-                onWatch_items($scope.items);
-            });
-
-            function onWatch_items(values) { if(!values) return;
-                console.dir(values);
-                values.forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
-                });
-            }
-
-            $scope.$watch('items', onWatch_items);
-
-            $scope.refresh = buildQuery;
-        }]
-    }
-})
-
-//============================================================
-//
-//
-//============================================================
-module.directive('search2Theme', function ($http) {
-    return {
-        restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search2-theme.partial.html?'+(new Date().getTime()),
-        replace: true,
-        // require : "?ngModel",
-        scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
-              title: '@title',
-              items: '=ngModel',
-              field: '@field',
-              query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
-        },
-        link: function ($scope, element, attrs, ngModelController)
-        {
-        },
-        controller : ['$scope', '$element', '$window', 'Thesaurus', function ($scope, $element, $window, thesaurus)
-        {
-            $scope.expanded = false;
-            $scope.selectedItems = [];
-            $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
-
-            var parameters = $window.URI().search(true);
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
-
-            $scope.isSelected = function(item) {
-                return $.inArray(item.symbol, $scope.selectedItems) >= 0;
-            };
-
-            $scope.closeDialog = function() {
-                $element.find("#dialogSelect").modal("hide");
-            };
-
-            $scope.actionSelect = function(item) {
-
-                if($scope.isSelected(item)) {
-                    $scope.selectedItems.splice($.inArray(item.symbol, $scope.selectedItems), 1);
-                } else {
-                    $scope.selectedItems.push(item.symbol);
-                }
-
-                $scope.updateQuery();
-            };
-
-            $scope.actionExpand = function() {
-
-                var count1 = Math.ceil($scope.items.length/3);
-                var count2 = Math.ceil(($scope.items.length-count1)/2);
-                var count3 = Math.ceil(($scope.items.length-count2-count1));
-
-                $scope.items1 = $scope.items.slice(0, count1);
-                $scope.items2 = $scope.items.slice(count1, count2+count2);
-                $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
-
-                console.log($scope.items1);
-                console.log($scope.items2);
-                console.log($scope.items3);
-
-
-                $element.find("#dialogSelect").modal("show");
-
-                
-
-
-
-
-                
-
-
-
-
-
-                //if(!$scope.expanded)
-                    //$scope.$parent.$broadcast('onExpand', $scope);
-
-                //$scope.expanded = !$scope.expanded;
-            };
-
-            $scope.$on('onExpand', function(scope) {
-                if(scope!=$scope && $scope.expanded)
-                    $scope.expanded = false;
-            });
-
-            $scope.filterx = function(item) {
-                console.log(item);
-                //return item.selected;
-            };
-
-            $scope.ccc = function(item) {
-                return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
-            };
-
-            $scope.updateQuery = function() {
-
-                console.log($scope.query);
-                
-                $scope.query = '';
-
-                $scope.selectedItems.forEach(function(item) {
-                    $scope.query += ($scope.query=='' ? '' : ' OR ') + $scope.field+':' + item;
-                });
-
-                if($scope.query!='')
-                    $scope.query = '(' + $scope.query + ')';
-                else
-                    $scope.query = '*:*';
-
-                console.log($scope.query);
-            };
-
-            function select(item) {
-                if(!item.selected) item.indeterminate = true;
-                if(item.narrowerTerms) item.narrowerTerms.forEach(select);
-            }
-
-            var unselect = $scope.unselect = function (item) {
-                if(!item.selected) item.indeterminate = false;
-                if(item.narrowerTerms) item.narrowerTerms.forEach(unselect);
-            }
-
-            function setBroaders(broaderTerms, selected) {
-
-                if(!broaderTerms) return;
-
-                broaderTerms.forEach(function (term) {
-
-                    term.indeterminateCounterA = term.indeterminateCounterA + (selected ? 1 : -1);
-                    console.log(term.indeterminateCounterA);
-                    term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
-
-                    setBroaders(term.broaderTerms, selected); 
-                });
-
-
-                // if(term.indeterminate) {
-                //     term.state = term.selected;
-                //     term.selected = false;
-                // }
-
-                // if(!term.indeterminate) {
-                //     term.selected = term.state;
-                //     term.state = null;
-                // }
-
-                // term.indeterminate = selected;
-
-                
-            }
-
-            function setNarrowers(narrowerTerms, selected) {
-
-                if(!narrowerTerms) return;
-
-                narrowerTerms.forEach(function (term) { 
-
-                    term.indeterminateCounterB = term.indeterminateCounterB + (selected ? 1 : -1);
-                    console.log(term.indeterminateCounterB);
-                    term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
-
-                    setNarrowers(term.narrowerTerms, selected); 
-                });
-
-
-                // 
-
-                // 
-
-                // term.indeterminate = selected;
-
-                
-            }
-
-            $scope.onclick = function (scope, evt) {
-                scope.item.selected = !scope.item.selected;
-                $scope.ts(scope, evt);
-            }
-
-            $scope.ts = function (scope, evt) {
-
-                var term = scope.item;
-
-                term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
-
-                setBroaders(term.broaderTerms, term.selected);
-                setNarrowers(term.narrowerTerms, term.selected);
-                
-                //if(scope.item.indeterminate)
-                  //  scope.item.indeterminate = scope.item.indeterminate = false;
-
-                //if(scope.item.selected==true) unselect(scope.item);
-                //else          
-         //       if(scope.item.selected) { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(select); }
-           //     else                    { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(unselect); }
-
-                //var cb = evt.target;
-                                
-                //if (cb.readOnly) cb.checked=cb.readOnly=false;
-                //else if (!cb.checked) cb.readOnly=cb.indeterminate=true;
-
-                //$scope.actionSelect(scope.item);
-
-
-
-                buildQuery();
-            }
-
-            function buildQuery () {
-                var conditions = [];
-                buildConditions(conditions, $scope.terms);
-
-                if(conditions.length==0) $scope.query = '*:*';
-                else {
-                    var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; });
-                    query += ' )';
-                    $scope.query = query;
-                }
-
-                console.log($scope.query);
-            }
-
-            function buildConditions (conditions, items) {
-                items.forEach(function (item) { 
-                    if(item.selected)
-                        conditions.push('thematicArea_REL_ss:'+item.identifier);
-                    else if(item.narrowerTerms) {
-                        buildConditions(conditions, item.narrowerTerms);
-                    }
-                });
-            }
-
-            function flatten(items, collection) {
-                items.forEach(function (item) { 
-                    item.selected = false;
-                    item.indeterminateCounterA = 0;
-                    item.indeterminateCounterB = 0;
-                    collection[item.identifier] = item;
-                    if(item.narrowerTerms) 
-                        flatten(item.narrowerTerms, collection);
-                });
-                return collection;
-            }
-
-            $scope.termsx = [];
-            $http.get('/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms').success(function (data) {
-                $scope.terms = thesaurus.buildTree(data);
-                $scope.termsx = flatten($scope.terms, {});
-                $scope.termsxx = _.values($scope.termsx);
-            });
-
-            $scope.$watch('items', function (values) { if(!values) return;
-
-                values.forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
-                });
-            });
-        }]
-    }
-});
 
 //============================================================
 //
@@ -603,10 +199,10 @@ module.directive('bindIndeterminate', [function () {
 //
 //
 //============================================================
-module.directive('search2Date', function ($http) {
+module.directive('searchFilterDates', function ($http) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search2-date.partial.html?'+(new Date().getTime()),
+        templateUrl: '/app/chm/directives/search/search-filter-dates.partial.html?'+(new Date().getTime()),
         replace: true,
         scope: {
               title: '@title',
@@ -666,10 +262,10 @@ module.directive('search2Date', function ($http) {
 //
 //
 //============================================================
-module.directive('search2Keywords', function ($http) {
+module.directive('searchFilterKeywords', function ($http) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search2-keywords.partial.html?'+(new Date().getTime()),
+        templateUrl: '/app/chm/directives/search/search-filter-keywords.partial.html?'+(new Date().getTime()),
         // replace: true,
         // require : "?ngModel",
         scope: {
@@ -688,14 +284,11 @@ module.directive('search2Keywords', function ($http) {
             $scope.value = '';
 
             $scope.updateQuery = function () {
-
                 $scope.query.q = '';
             };
 
             $scope.$watch('value', function () {
                 $scope.query = $scope.value == '' ? '*:*' : '(title_t:' + $scope.value + '* OR description_t:' + $scope.value + '* OR text_EN_txt:' + $scope.value + '*)';
-
-                console.log($scope.query);
             });
         }]
     }

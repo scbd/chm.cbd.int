@@ -252,11 +252,9 @@ module.directive('searchFilterThemes', function ($http) {
 
             $scope.termsx = [];
             $http.get('/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms').success(function (data) {
-                console.log(data);
                 $scope.terms = thesaurus.buildTree(data);
                 $scope.termsx = flatten($scope.terms, {});
                 $scope.termsxx = _.values($scope.termsx);
-                console.log($scope.items);
                 $scope.items.forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;
@@ -264,9 +262,7 @@ module.directive('searchFilterThemes', function ($http) {
             });
 
             $scope.$watch('items', function (values) { if(!values) return;
-                console.log(222);
                 values.forEach(function (item) {
-                    console.log(item.symbol);
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;
                 });

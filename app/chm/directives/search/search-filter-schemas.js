@@ -182,7 +182,6 @@ module.directive('searchFilterSchemas', function ($http) {
             $scope.termsx = dictionarize($scope.terms);
 
             function onWatch_items(values) { if(!values) return;
-                console.dir(values);
                 values.forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;

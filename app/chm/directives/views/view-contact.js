@@ -1,10 +1,5 @@
-angular.module('kmApp')
-//============================================================
-//
-// View Contact
-//
-//============================================================
-.directive('cbdViewContact', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewContact', [function () {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/views/view-contact.partial.html',
@@ -18,8 +13,11 @@ angular.module('kmApp')
 		controller: ['$scope', function ($scope) {
 		}]
 	}
-}])
-.directive('cbdViewContactReference', [function () {
+}]);
+
+
+angular.module('kmApp').compileProvider // lazy
+.directive('viewContactReference', [function () {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/views/view-contact-reference.partial.html',

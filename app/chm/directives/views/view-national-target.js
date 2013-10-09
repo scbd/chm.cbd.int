@@ -1,13 +1,8 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-//============================================================
-//
-//
-//============================================================
-module.directive('chmViewProgressAssessment', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewNationalTarget', [function () {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/reporting/view/view-progress-assessment.partial.html',
+		templateUrl: '/app/chm/directives/views/view-national-target.partial.html',
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -28,15 +23,15 @@ module.directive('chmViewProgressAssessment', [function () {
 			//===============
 			//
 			//===============
-			$scope.$watch("document.nationalIndicators", function(refs) {
-				$scope.nationalIndicators = loadReferences(refs, { info : true });
+			$scope.$watch("document.otherAichiTargets", function(refs) {
+				$scope.otherAichiTargets = loadReferences(refs, { info : true });
 			});
 
 			//===============
 			//
 			//===============
-			$scope.$watch("document.nationalTargets", function(refs) {
-				$scope.nationalTargets = loadReferences(refs, { info : true });
+			$scope.$watch("document.nationalIndicators", function(refs) {
+				$scope.nationalIndicators = loadReferences(refs, { info : true });
 			});
 
 			//===============

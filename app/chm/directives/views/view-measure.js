@@ -1,10 +1,5 @@
-angular.module('kmApp')
-//============================================================
-//
-// View Contact
-//
-//============================================================
-.directive('cbdViewMeasure', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewMeasure', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/views/view-measure.partial.html',

@@ -1,0 +1,242 @@
+﻿<div>
+	<legend>{{document.title | lstring:review.locale}}</legend>
+	
+	<legend>General Information</legend>
+	<div ng-show="document.summary">
+		<label>Summary</label>
+		<div class="km-value km-pre">{{document.summary | lstring:local}}</div>
+	</div>
+	<div ng-show="document.areaIntroducion">
+		<label>Introduction of the area</label>
+		<div class="km-value km-pre">{{document.areaIntroducion | lstring:local}}</div>
+	</div>
+
+	<legend>Location</legend>
+	<label>Location</label>
+	<div class="km-value km-pre">{{document.location | lstring:local}}</div>
+	<label class="control-label" required for="gisFiles">Geo-Location</label>
+	<div class="km-value">
+		<li ng-repeat="item in document.gisFiles">
+			<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+		</li>
+	</div>
+
+	<div class="leaflet" center="gisMapCenter" layers="gisMapLayers"></div>
+
+	<legend>Area Details</legend>
+	<label>Feature description of the area</label>
+	<div class="km-value km-pre">{{document.areaDescription | lstring:local}}</div>
+
+	<label>Feature conditions and future outlook of the proposed area</label>
+	<div class="km-value km-pre">{{document.areaConditions | lstring:local}}</div>
+
+	<label>Feature description of the area</label>
+	<div class="km-value km-pre">{{document.areaFeatures | lstring:local}}</div>
+
+	<label>Related countries</label>
+	<div class="km-value" km-terms ng-model="document.countries">
+		<div ng-repeat="term in terms">{{term.name}}</div>
+	</div>
+
+	<label>Is this marine areas beyond national jurisdiction?</label>
+	<div class="km-value km-pre">{{document.beyondNationalJurisdiction | lstring:local}}</div>
+
+	<legend>References</legend>
+	<label>Is this marine areas beyond national jurisdiction?</label>
+	<div class="km-value km-pre">{{document.referenceText | lstring:local}}</div>
+
+	<legend>CBD Recources</legend>
+	<div ng-model="document.resources" loader="loadContacts(identifier, success, error)" order-by="sortContacts(reference)">
+		TODO: {{document.resources}}
+	</div>
+
+	<label class="control-label" required for="relation">Other relevant website address or attached documents</label>
+	<div class="km-value km-pre">
+		<li ng-repeat="item in document.relation">
+			<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			<i ng-show="item.name">({{item.url}})</i>
+		</li>
+	</div>
+
+	<legend>Status of submission</legend>
+	<!--label>Is this marine areas beyond national jurisdiction?</!--label-->
+	<div class="km-value km-pre">{{document.status | lstring:local}}</div>
+	<div class="km-value" ng-show="showApproved()">
+		<input type="radio" name="status" ng-model="document.status" 
+			value="approved" ng-disabled="true"/>
+		<b>Areas meeting EBSA criteria approved for inclusion in the EBSA Repository</b>
+		<div>
+			<label>COP Decision</label>
+			<span km-terms ng-model="document.approvedByCopDecision">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+		<div>
+			<label>Approved by a Party or other Government through national process (national jurisdiction only)</label>
+			<span km-terms ng-model="document.approvedByGovernment">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+		<div>
+			<label>Date</label>
+			<div>{{document.approvedByGovernmentOn | lstring:local}}</div>
+		</div>
+	</div>
+
+	<div class="km-value" ng-show="showRecommendedToCop()">
+		<input type="radio" name="status" ng-model="document.status" 
+			value="recommendedToCop" ng-disabled="true" select ="document.status=='recommendedToCop'"
+			/>
+		<b>Areas meeting EBSA criteria for consideration by COP or by a Party /other Government through national process</b>
+		<div>
+			<label>Ongoing official national process (within national jurisdiction only)</label>
+			<span km-terms ng-model="document.recommendedToCopByGovernment">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+		<div>
+			<label>Date</label>
+			<div>{{document.recommendedToCopByGovernmentOn | lstring:local}}</div>
+		</div>
+	</div>
+
+	<div class="km-value" ng-show="showRecommendedToSbstta()">
+		<input type="radio" name="status" ng-model="document.status" 
+			value="recommendedToSbstta" ng-disabled="true" select ="document.status=='recommendedToSbstta'"
+			/>
+		<b>c) Areas meeting EBSA criteria for consideration by SBSTTA</b>
+		<div>
+			<label class="control-label" for="preparedBySCBD">
+				<input type="radio" selected = "document.recommendedToSbsttaBy!='SCBD'" id="preparedBySCBD" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="true" />
+				Prepared by CBD regional workshops</label>
+			<label class="control-label" for="preparedByORG">
+				<input type="radio" selected = "document.recommendedToSbsttaBy!='ORG'" id="preparedByORG" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="true" />
+				Prepared by Competent Organizations through regional processes 
+			</label>
+		</div>
+		<div>
+			<label>CBD Workshop</label>
+			<span km-terms ng-model="document.recommendedToSbsttaByWorkshop">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+		<div>
+			<label>Date</label>
+			<div>{{document.recommendedToCopByGovernmentOn | lstring:local}}</div>
+		</div>
+	</div>
+
+	<div class="km-value" ng-show="showRecommendedToWorkshop()">
+		<input type="radio" name="status" ng-model="document.status" 
+			value="recommendedToWorkshop" ng-disabled="true" select ="document.status=='recommendedToWorkshop'"
+			/>
+		<b>d) Areas meeting EBSA criteria for consideration by CBD regional Workshop</b>
+		<div>
+			<label class="control-label" for="recommendedToWorkshopByGov">
+				<input type="radio" selected="document.recommendedToWorkshopByGov='GOV'" id="recommendedToWorkshopByGov" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="true" />
+				Government(s)</label>
+			<label class="control-label" for="recommendedToWorkshopByOrg">
+				<input type="radio" selected="document.recommendedToWorkshopByGov='ORG'" id="recommendedToWorkshopByOrg" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="true" />
+				Competent Organization(s)
+			</label>
+			<label class="control-label" for="recommendedToWorkshopByOthers">
+				<input type="radio" selected="document.recommendedToWorkshopByGov='OTHER'" id="recommendedToWorkshopByOthers" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="true" />
+				Other(s)
+			</label>
+		</div>
+		<div>
+			<label>CBD Workshop</label>
+			<span km-terms ng-model="document.recommendedToWorkshopByGovernments">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+		<div>
+			<label>Please select the organization(s)</label>
+			<div class="km-value" ng-model="document.recommendedToWorkshopByOrganizations" loader="loadOrganizations(identifier)">
+				TODO: {{document.recommendedToWorkshopByOrganizations}}
+			</div>
+		</div>
+		<div class="row-fluid" ng-show="document.recommendedToWorkshopBy=='OTHER'">
+
+			<label>Please provide details</label>
+			<div class="km-value km-pre">{{document.recommendedToWorkshopByOthers | lstring:local}}</div>
+		</div>
+	</div>
+
+	<div class="km-value" ng-show="showRecommendedToAny()">
+		<input type="radio" name="status" ng-model="document.status" 
+			value="recommendedToAny" ng-disabled="true" select ="document.status=='recommendedToAny'"
+			/>
+		<b>e) Other relevant Areas meeting EBSA criteria</b>
+		<div class="control-group" ng-class="{warning:isInvalid('recommendedToAnyBy')}">
+			<label class="control-label" for="recommendedToAnyByGov">
+				<input type="radio" selected="document.recommendedToAnyBy = 'GOV'" id="recommendedToAnyByGov" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="true" />
+				Government(s)</label>
+			<label class="control-label" for="recommendedToAnyByOrg">
+				<input type="radio" selected="document.recommendedToAnyBy = 'ORG'" id="recommendedToAnyByOrg" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="true" />
+				Competent Organization(s)
+			</label>
+			<label class="control-label" for="recommendedToAnyByOthers">
+				<input type="radio" selected="document.recommendedToAnyBy = 'OTHER'" id="recommendedToAnyByOthers" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="true" />
+				Other(s)
+			</label>
+		</div>
+
+		<div class="row-fluid" ng-show="document.recommendedToAnyBy=='GOV'">
+			<label>Please select the country(ies)</label>
+			<span km-terms ng-model="document.recommendedToAnyByGovernments">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+
+		<div class="row-fluid" ng-show="document.recommendedToAnyBy=='ORG'">
+			<label>Please select the organization(s)</label>
+			<span km-terms ng-model="document.recommendedToAnyByOrganizations">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+
+		<div class="row-fluid" ng-show="document.recommendedToAnyBy=='OTHER'">
+			<label>Please provide details</label>
+			<span km-terms ng-model="document.recommendedToAnyByOthers">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+	</div>
+
+	<legend>Assessment of the area against CBD EBSA criteria</legend>
+	<script type="text/ng-template" id="chm-marine-ebsa-assessment.html">
+		<ol style="list-style-type: none">
+			<li ng-repeat="assessment in assessments">
+				<input type="checkbox" ng-model="assessment.selected" style="margin-left: -18px; margin-top: -4px" ng-disabled="true">
+				<b>{{assessment.title}}</b>
+				<br/>
+				<br/>
+					<div class="btn-group" ng-model="assessment.level" bs-buttons-radio>
+						<button type="button" class="btn" ng-disabled="true" ng-class="{ 'btn-info':assessment.level=='high'}"          value="high">High</button>
+						<button type="button" class="btn" ng-disabled="true" ng-class="{ 'btn-info':assessment.level=='medium'}"        value="medium">Medium</button>
+						<button type="button" class="btn" ng-disabled="true" ng-class="{ 'btn-info':assessment.level=='low'}"           value="low">Low</button>
+						<button type="button" class="btn" ng-disabled="true" ng-class="{ 'btn-info':assessment.level=='noInformation'}" value="noInformation">No information</button>
+					</div>
+				<br/>
+				<br/>
+
+				<div class="km-textbox-ml" ng-disabled="true" ng-model="assessment.justification" rows="3" locales="locales"></div>
+			</li>
+		</ol>
+	</script>
+	<div class="chm-marine-ebsa-assessment" ng-model="document.assessments" locales="document.locales"/>
+
+	<legend>Additional Information</legend>
+	<div>
+		<label>Additional Information</label>
+		<div class="km-value" ng-bind-html-unsafe="document.relevantInformation | lstring:locale | markdown"></div>
+	</div>
+	<label class="control-label" required for="relevantDocuments">Other relevant website address or attached documents</label>
+	<div class="km-value km-pre">
+		<li ng-repeat="item in document.relevantDocuments">
+			<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			<i ng-show="item.name">({{item.url}})</i>
+		</li>
+	</div>
+</div>

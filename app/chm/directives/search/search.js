@@ -180,6 +180,13 @@ module.directive('search', function ($http) {
                 query();
             });
 
+            $scope.makeRelativeUrl = function (url) {
+                if(url.indexOf("http://chm.cbd.int/" )==0) return url.substr("http://chm.cbd.int".length);
+                if(url.indexOf("https://chm.cbd.int/")==0) return url.substr("https://chm.cbd.int".length);
+
+                return url;
+            }
+
             $scope.$watch('currentPage', function (newValue, oldValue) { if (newValue != oldValue) query(); });
             $scope.$watch('querySchema', function (newValue, oldValue) { if (newValue != oldValue) search(); });
             $scope.$watch('queryGovernment', function (newValue, oldValue) { if (newValue != oldValue) search(); });

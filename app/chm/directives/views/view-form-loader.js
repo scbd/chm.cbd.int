@@ -1,9 +1,4 @@
-﻿angular.module('kmApp')
-//============================================================
-//
-// Load a record from IStorage database for diplay
-//
-//============================================================
+﻿angular.module('kmApp').compileProvider // lazy
 .directive('cbdViewFormLoader', [function () {
 	return {
 		restrict: 'EAC',
@@ -24,7 +19,7 @@
 
 			$scope.init();
 		},
-		controller: ['$scope', "URI", 'IStorage', "authentication", "localization", "$q", "$window", function ($scope, URI, storage, authentication, localization, $q, $window) {
+		controller: ['$scope', "URI", 'IStorage', "authentication", "localization", "$q", "$location", function ($scope, URI, storage, authentication, localization, $q, $location) {
 			//==================================
 			//
 			//==================================
@@ -83,7 +78,7 @@
 				var schema     = $scope.internalDocumentInfo.type;
 				var identifier = $scope.internalDocumentInfo.identifier;
 
-				$window.location = new URI("/managementcentre/edit/" + schema + ".shtml").search({ uid: identifier }).toString();
+				$location.url(new URI("/management/edit/" + schema).search({ uid: identifier, returnUrl: $location.url() }).toString());
 			}
 
 			//==================================

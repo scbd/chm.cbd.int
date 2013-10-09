@@ -1,10 +1,5 @@
-angular.module('kmApp')
-//============================================================
-//
-// View Contact
-//
-//============================================================
-.directive('cbdViewLibraryResource', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewLibraryResource', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/views/view-library-resource.partial.html',

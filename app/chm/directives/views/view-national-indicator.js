@@ -1,14 +1,8 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-//============================================================
-//
-// View Organization
-//
-//============================================================
-module.directive('chmViewNationalIndicator', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewNationalIndicator', [function () {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/reporting/view/view-national-indicator.partial.html',
+		templateUrl: '/app/chm/directives/views/view-national-indicator.partial.html',
 		replace    : true,
 		transclude : false,
 		scope: {

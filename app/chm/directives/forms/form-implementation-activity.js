@@ -1,9 +1,9 @@
 var module = angular.module('kmApp').compileProvider; // lazy
 
-module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI", "IStorage", "underscore", function ($http, $q, $filter, URI, storage, _) {
+module.directive("editImplementationActivity", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/reporting/edit/edit-progress-assessment.partial.html',
+        templateUrl: '/app/chm/directives/forms/form-implementation-activity.partial.html',
         replace: true,
         transclude: false,
         scope: {},
@@ -13,14 +13,11 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
             $scope.document = null;
             $scope.review = { locale: "en" };
             $scope.options = {
-                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
-            	jurisdictions:           $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
-            	progresses:              $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", { cache: true }).then(function (o) { return o.data; }),
-            	confidences:             $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms", { cache: true }).then(function (o) { return o.data; }),
-            	aichiTargets:            $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError),
-            	implementationActivities: [],																																																																									  
-            	nationalIndicators: [],
+            	countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
+            	jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
+            	statuses:           $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms", { cache: true }).then(function (o) { return o.data; }),
+            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+                nationalIndicators: [],
                 nationalTargets:    []
             };
 
@@ -28,7 +25,6 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 
             	$scope.options.nationalIndicators = [];
             	$scope.options.nationalTargets = [];
-            	$scope.options.implementationActivities = [];
 
             	if (term) {
 
@@ -50,9 +46,8 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
             			});
             		};
 
-            		$scope.options.nationalIndicators       = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
-            		$scope.options.nationalTargets          = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
-            		$scope.options.implementationActivities = $http.get("/api/v2013/index", { params: buidQueryFn("implementationActivity") }).then(mapResultFn).then(null, $scope.onError);
+            		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
+            		$scope.options.nationalTargets    = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
             	}
             });
 
@@ -76,27 +71,20 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 					return;
 
 				$scope.status = "loading";
-				var qs = URI().search(true);
-				var identifier  = qs.uid;
-				var year        = qs.year;
-				var aichiTarget = qs.aichiTarget;
-				var nationalTarget = qs.nationalTarget;
+
+				var identifier = URI().search(true).uid;
 				var promise = null;
 
 				if(identifier)
-					promise = editFormUtility.load(identifier, "progressAssessment");
+					promise = editFormUtility.load(identifier, "implementationActivity");
 				else
 					promise = $q.when({
 						header: {
 							identifier: guid(),
-							schema   : "progressAssessment",
+							schema   : "implementationActivity",
 							languages: ["en"]
 						},
 						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
-						startDate : year ? year + "-01-01" : undefined,
-						endDate   : year ? year + "-12-31" : undefined,
-						aichiTarget    : aichiTarget    ? { identifier: aichiTarget } : undefined,
-						nationalTarget : nationalTarget ? { identifier: nationalTarget } : undefined
 					});
 
 
@@ -121,15 +109,6 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
 			}
 
-			//==================================
-			//
-			//==================================
-			$scope.isBasedOnComprehensiveIndicators = function(document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.confidence && document.confidence.identifier == "DB41B07F-04ED-4446-82D4-6D1449D9527B";
-			}
 			//==================================
 			//
 			//==================================
@@ -188,6 +167,8 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 						});
 				}
 			}
+
+			
 			//======================================================================
 			//======================================================================
 			//======================================================================
@@ -224,8 +205,9 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 			//
 			//==================================
 			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors)
+				if (field && $scope.validationReport && $scope.validationReport.errors) {
 					return !_.findWhere($scope.validationReport.errors, { property: field });
+				}
 
 				return true;
 			}
@@ -328,7 +310,7 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				$location.url("/managementcentre/my-pending-items");
+				window.location = "/managementcentre/my-pending-items";
 			};
 
 			//==================================
@@ -385,4 +367,4 @@ module.directive("chmEditProgressAssessment", ['authHttp', "$q", "$filter", "URI
 			}
         }]
     }
-}])
+}]);

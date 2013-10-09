@@ -1,10 +1,5 @@
-angular.module('kmApp')
-//============================================================
-//
-// View Contact
-//
-//============================================================
-.directive('cbdViewAuthority', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewAuthority', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/views/view-authority.partial.html',
@@ -67,9 +62,10 @@ angular.module('kmApp')
 			}
 		}]
 	}
-}])
+}]);
 
-.directive('cbdViewAuthorityReference', [function() {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewAuthorityReference', [function() {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/views/view-authority-reference.partial.html',

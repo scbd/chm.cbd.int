@@ -1,9 +1,9 @@
 var module = angular.module('kmApp').compileProvider; // lazy
 
-module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
+module.directive("editNationalIndicator", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/reporting/edit/edit-implementation-activity.partial.html',
+        templateUrl: '/app/chm/directives/forms/form-national-indicator.partial.html',
         replace: true,
         transclude: false,
         scope: {},
@@ -13,43 +13,9 @@ module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", 
             $scope.document = null;
             $scope.review = { locale: "en" };
             $scope.options = {
-            	countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
-            	jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
-            	statuses:           $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms", { cache: true }).then(function (o) { return o.data; }),
-            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-                nationalIndicators: [],
-                nationalTargets:    []
+                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
+            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError)
             };
-
-            $scope.$watch("document.government", function(term) {
-
-            	$scope.options.nationalIndicators = [];
-            	$scope.options.nationalTargets = [];
-
-            	if (term) {
-
-            		var buidQueryFn = function(schema) {
-            			return {
-            				q: "schema_s:" + schema + " AND government_s:" + term.identifier,
-            				fl: "identifier_s,title_t",
-            				sort: "title_s ASC",
-							rows:99999999
-            			}
-            		}
-
-            		var mapResultFn = function(res) {
-            			return _.map(res.data.response.docs, function(o) {
-            				return {
-            					identifier: o.identifier_s,
-            					title: o.title_t
-            				}
-            			});
-            		};
-
-            		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
-            		$scope.options.nationalTargets    = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
-            	}
-            });
 
 			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
@@ -76,15 +42,15 @@ module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", 
 				var promise = null;
 
 				if(identifier)
-					promise = editFormUtility.load(identifier, "implementationActivity");
+					promise = editFormUtility.load(identifier, "nationalIndicator");
 				else
 					promise = $q.when({
 						header: {
 							identifier: guid(),
-							schema   : "implementationActivity",
+							schema   : "nationalIndicator",
 							languages: ["en"]
 						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined
 					});
 
 
@@ -102,25 +68,11 @@ module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", 
 			//==================================
 			//
 			//==================================
-			$scope.isJurisdictionSubNational = function(document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
-			}
-
-			//==================================
-			//
-			//==================================
 			$scope.cleanUp = function(document) {
-
 				document = document || $scope.document;
 
 				if (!document)
 					return $q.when(true);
-
-				if (!$scope.isJurisdictionSubNational(document))
-					document.jurisdictionInfo = undefined;
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
@@ -128,47 +80,7 @@ module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", 
 				return $q.when(false);
 			};
 
-			//==================================
-			//
-			//==================================
-			$scope.loadRecords = function(identifier, schema) {
 
-				if (identifier) { //lookup single record
-
-					return storage.documents.get(identifier, { info: "" })
-						.then(function(r) {
-							return r.data
-						})
-						//otherwise
-						.then(null, function(e) {
-							if (e.status != 404)
-								throw e;
-
-							return storage.drafts.get(identifier, { info: "" })
-								.then(function(r) {
-									deferred.resolve(r.data)
-								});
-						});
-				}
-				else { //Load all record of specified schema;
-
-					var sQuery = "type eq '" + encodeURI(schema) + "'";
-
-					return $q.all([storage.documents.query(sQuery, null, { cache: true }),
-								   storage.drafts.query(sQuery, null, { cache: true })])
-						.then(function(results) {
-							var qDocs = results[0].data.Items;
-							var qDrafts = results[1].data.Items;
-							var qUids = _.pluck(qDocs, "identifier");
-
-							return _.union(qDocs, _.filter(qDrafts, function(draft) {
-								return qUids.indexOf(draft.identifier);
-							}));
-						});
-				}
-			}
-
-			
 			//======================================================================
 			//======================================================================
 			//======================================================================
@@ -205,9 +117,8 @@ module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", 
 			//
 			//==================================
 			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors) {
+				if (field && $scope.validationReport && $scope.validationReport.errors)
 					return !_.findWhere($scope.validationReport.errors, { property: field });
-				}
 
 				return true;
 			}
@@ -367,4 +278,4 @@ module.directive("chmEditImplementationActivity", ['authHttp', "$q", "$filter", 
 			}
         }]
     }
-}]);
+}])

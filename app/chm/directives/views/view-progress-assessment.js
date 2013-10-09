@@ -1,14 +1,8 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-//============================================================
-//
-// View Organization
-//
-//============================================================
-module.directive('chmViewImplementationActivity', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('viewProgressAssessment', [function () {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/reporting/view/view-implementation-activity.partial.html',
+		templateUrl: '/app/chm/directives/views/view-progress-assessment.partial.html',
 		replace    : true,
 		transclude : false,
 		scope: {

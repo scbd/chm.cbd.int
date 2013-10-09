@@ -1,9 +1,9 @@
 var module = angular.module('kmApp').compileProvider; // lazy
 
-module.directive('chmEditAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
+module.directive('editAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/reporting/edit/aichiTarget.html', // edit-aichi-target.partial.html',
+		templateUrl: '/app/abs/directives/forms/aichiTarget.html', // edit-aichi-target.partial.html',
 		replace    : true,
 		transclude : false,
 		scope      : {},

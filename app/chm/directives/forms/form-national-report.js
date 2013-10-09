@@ -1,9 +1,9 @@
 var module = angular.module('kmApp').compileProvider; // lazy
 
-module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
+module.directive("editNationalReport", ['authHttp', "$q", "$filter", "URI", "IStorage", "Thesaurus", function ($http, $q, $filter, URI, storage, thesaurus) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/reporting/edit/edit-national-indicator.partial.html',
+        templateUrl: '/app/chm/directives/forms/form-national-report.partial.html',
         replace: true,
         transclude: false,
         scope: {},
@@ -13,17 +13,28 @@ module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI"
             $scope.document = null;
             $scope.review = { locale: "en" };
             $scope.options = {
-                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
-            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError)
+                countries:		$http.get("/api/v2013/thesaurus/domains/countries/terms",								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
+                jurisdictions:	$http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms",	{ cache: true }).then(function (o) { return o.data; }),
+                approvedStatus:	$http.get("/api/v2013/thesaurus/domains/E27760AB-4F87-4FBB-A8EA-927BDE375B48/terms",	{ cache: true }).then(function (o) { return o.data; }),
+                approvingBody:	$http.get("/api/v2013/thesaurus/domains/F1A5BFF1-F555-40D1-A24C-BBE1BE8E82BF/terms",	{ cache: true }).then(function (o) { return o.data; }),
+                reportStatus:	$http.get("/api/v2013/thesaurus/domains/7F0D898A-6BF1-4CE6-AA77-7FEAED3429C6/terms",	{ cache: true }).then(function (o) { return o.data; }),
+                reportTypes:	$http.get("/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms",	{ cache: true }).then(function (o) { return thesaurus.buildTree(o.data); })
             };
 
-			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
-			});
+            $scope.$watch($scope.isLoading, function () {
+            	if (!!$scope.uieffects) {
+            		$scope.uieffects.loadProgress($element);
+            	}
+            });
+            //$scope.$watch("document.status", function () { $scope.checkStatus() });
+
+            $element.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            	var onTabFn = function () { $scope.onTab($(e.target).attr('href').replace("#", "")); };
+            	if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
+            		onTabFn()
+            	else
+            		$scope.$apply(onTabFn);
+            });
 
             $scope.init();
         },
@@ -38,19 +49,23 @@ module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI"
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
+				var qs = URI().search(true);
+				var identifier  = qs.uid;
+				var year        = qs.year;
+				var reportType  = qs.reportType;
 				var promise = null;
 
 				if(identifier)
-					promise = editFormUtility.load(identifier, "nationalIndicator");
+					promise = editFormUtility.load(identifier, "nationalReport");
 				else
 					promise = $q.when({
 						header: {
 							identifier: guid(),
-							schema   : "nationalIndicator",
-							languages: ["en"]
+							schema   : "nationalReport",
+							languages: ["en"],
 						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined
+						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+						reportType: reportType ? { identifier: reportType } : undefined
 					});
 
 
@@ -68,17 +83,118 @@ module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI"
 			//==================================
 			//
 			//==================================
+			$scope.hasAdoptionDate = function (document) {
+
+				document = document || $scope.document;
+
+				return !!document && !!document.status && (
+					document.status.identifier == "1C37E358-5295-46EB-816C-0A7EF2437EC9" ||
+					document.status.identifier == "851B10ED-AE62-4F28-B178-6D40389CC8DB");
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.hasApprovedStatus = function (document) {
+
+				document = document || $scope.document;
+
+				return !!document && !!document.status && document.status.identifier == "851B10ED-AE62-4F28-B178-6D40389CC8DB";
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.hasApprovedStatusInfo = function (document) {
+
+				document = document || $scope.document;
+
+				return !!document && !!document.approvingBody && (
+					document.approvingBody.identifier == "D3A4624E-21D9-4E49-953F-529734538E56" ||
+					document.approvingBody.identifier == "E7398F2B-FA36-4F42-85C2-5D0044440476" ||
+					document.approvingBody.identifier == "905C1F7F-C2F4-4DCE-A94E-BE6D6CE6E78F");
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.isJurisdictionSubNational = function(document) {
+
+				document = document || $scope.document;
+
+				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
+			}
+
+			//==================================
+			//
+			//==================================
 			$scope.cleanUp = function(document) {
+
 				document = document || $scope.document;
 
 				if (!document)
 					return $q.when(true);
 
+				if (!$scope.isJurisdictionSubNational(document))
+					document.jurisdictionInfo  = undefined;
+
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
+				if (!$scope.hasAdoptionDate(document)) {
+					document.adoptionDate      = undefined;
+				}
+				if (!$scope.hasApprovedStatus(document)) {
+					document.approvedStatus    = undefined;
+					document.approvingBody     = undefined;
+					document.approvingBodyInfo = undefined;
+				}
+
+				if (!$scope.hasApprovedStatusInfo(document)) {
+					document.approvingBodyInfo = undefined;
+				}
 
 				return $q.when(false);
 			};
+
+			//==================================
+			//
+			//==================================
+			$scope.loadRecords = function(identifier, schema) {
+
+				if (identifier) { //lookup single record
+
+					return storage.documents.get(identifier, { info: "" })
+						.then(function(r) {
+							return r.data
+						})
+						//otherwise
+						.then(null, function(e) {
+							if (e.status != 404)
+								throw e;
+
+							return storage.drafts.get(identifier, { info: "" })
+								.then(function(r) {
+									deferred.resolve(r.data)
+								});
+						});
+				}
+				else { //Load all record of specified schema;
+
+					var sQuery = "type eq '" + encodeURI(schema) + "'";
+
+					return $q.all([storage.documents.query(sQuery, null, { cache: true }),
+								   storage.drafts.query(sQuery, null, { cache: true })])
+						.then(function(results) {
+							var qDocs = results[0].data.Items;
+							var qDrafts = results[1].data.Items;
+							var qUids = _.pluck(qDocs, "identifier");
+
+							return _.union(qDocs, _.filter(qDrafts, function(draft) {
+								return qUids.indexOf(draft.identifier);
+							}));
+						});
+				}
+			}
 
 
 			//======================================================================
@@ -96,10 +212,12 @@ module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI"
 
 				var oDocument = $scope.document;
 
+
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
+				$scope.reviewedDocument = oDocument;
 
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
+				return $scope.cleanUp(oDocument).then(function (cleanUpError) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {
 							$scope.validationReport = success.data;
@@ -148,7 +266,6 @@ module.directive("chmEditNationalIndicator", ['authHttp', "$q", "$filter", "URI"
 			//
 			//==================================
 			$scope.defaultGovernment = function() {
-
 				var qsGovernment = new URI().search(true).government;
 
 				if (qsGovernment)

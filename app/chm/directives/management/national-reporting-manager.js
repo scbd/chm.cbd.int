@@ -4,10 +4,10 @@
 //
 // Edit Implementation Activity
 //============================================================
-module.directive('chmReportManager', ["$timeout", function ($timeout) {
+module.directive('nationalReportingManager', ["$timeout", function ($timeout) {
 	return {
 		restrict: 'EAC',
-		templateUrl: '/app/chm/reporting/report-manager.partial.html',
+		templateUrl: '/app/chm/directives/management/national-reporting-manager.partial.html',
 		replace: true,
 		transclude: false,
 		scope: {},

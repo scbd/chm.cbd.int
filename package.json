@@ -1,12 +1,14 @@
 {
-    "name": "chm.cbd.int",
-    "description": "Clearing-House Mechanism Website",
-    "dependencies": {
-        "express": "3.3.x",
-        "http-proxy": "0.10.x"
-    },
-	"devDependencies": {
-    	"awsbox": "0.6.x"
-  	},
-    "engine": "node >= 0.10.18"
+  "name": "chm.cbd.int",
+  "description": "Clearing-House Mechanism Website",
+  "dependencies": {
+    "express": "3.3.x",
+    "http-proxy": "0.10.x"
+  },
+  "devDependencies": {
+    "awsbox": "0.6.x",
+    "karma": "~0.10.x",
+    "karma-ng-html2js-preprocessor": "~0.1.x"
+  },
+  "engine": "node >= 0.10.18"
 }

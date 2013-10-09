@@ -1,13 +1,13 @@
 ﻿<div>
+    <h1>National Report, NBSAP or Other reports</h1>
 
-	<div class="alert alert-error" ng-show="hasError()">
+	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
 
-    <h1>National Report, NBSAP or Other reports</h1>
-	<div class="row" ng-show="!isLoading()">
+	<div class="row" ng-hide="status=='hidden'||status=='loading'">
 
         <div class="col-md-12" style="position: relative">
 

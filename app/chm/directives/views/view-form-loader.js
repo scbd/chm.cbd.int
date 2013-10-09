@@ -19,7 +19,7 @@
 
 			$scope.init();
 		},
-		controller: ['$scope', "URI", 'IStorage', "authentication", "localization", "$q", "$location", function ($scope, URI, storage, authentication, localization, $q, $location) {
+		controller: ['$scope', "URI", 'IStorage', "authentication", "localization", "$q", "$location", "$window", function ($scope, URI, storage, authentication, localization, $q, $location, $window) {
 			//==================================
 			//
 			//==================================
@@ -52,13 +52,16 @@
 
 				$scope.error = undefined;
 
-				storage.documents.get(identifier)
-					.success(function (doc, status, headersFn) {
-						$scope.internalDocument = doc;
-					})
-					.error(function(error, errorCode) {
-						$scope.error = error.Message || error || "Http Error: " + errorCode;
-					});
+				var qDocument     = storage.documents.get(identifier)                .then(function(result) { return result.data || result });
+				var qDocumentInfo = storage.documents.get(identifier, { info: true }).then(function(result) { return result.data || result });
+
+				$q.all([qDocument, qDocumentInfo]).then(function(results) {
+
+					$scope.internalDocument = results[0];
+					$scope.internalDocumentInfo = results[1];
+				}).then(null, function(error) {
+					$scope.error = error.Message || error || "Http Error: " + errorCode;
+				})
 			};
 
 			//==================================
@@ -78,8 +81,49 @@
 				var schema     = $scope.internalDocumentInfo.type;
 				var identifier = $scope.internalDocumentInfo.identifier;
 
-				$location.url(new URI("/management/edit/" + schema).search({ uid: identifier, returnUrl: $location.url() }).toString());
+				$location.url(new URI("/management/edit/" + schema).search({ uid: identifier, returnUrl : $location.url() }).toString());
 			}
+
+			//==================================
+			//
+			//==================================
+			$scope.delete = function() {
+
+				if (!$scope.canDelete())
+					throw "Cannot delete";
+
+				var identifier    = $scope.internalDocumentInfo.identifier;
+				var schema        = $scope.internalDocumentInfo.type;
+				var qDocumentInfo = storage.documents.get(identifier, { info: true }).then(function(result) { return result.data || result });
+				var qCanDelete    = storage.documents.security.canDelete(identifier, schema);
+
+				return $q.all([qDocumentInfo, qCanDelete]).then(function(results) {
+
+					var documentInfo = results[0];
+					var canDelete    = results[1];
+
+					if (documentInfo.workingDocumentCreatedOn) {
+						alert("There is a pending drafts. Cannot delete.")
+						return;
+					}
+
+					if (!canDelete) {
+						alert("You don't have sufficient privilege to delete this record.");
+						return;
+					}
+
+					if (confirm("Delete the document?")) {
+						return storage.documents.delete(identifier).then(function(success) {
+							
+							$location.url("/database");
+						});
+					}
+				}).then(null, function(error){
+					alert("ERROR:"+error);
+					throw error;
+				});
+			};
+
 
 			//==================================
 			//
@@ -88,34 +132,72 @@
 				if (!$scope.user().isAuthenticated)
 					return false;
 
-				if ($scope.internalCanEdit === undefined && !$scope.internalDocumentInfo && $scope.internalDocument) {
+				if (!$scope.internalDocumentInfo)
+					return false;
 
-					var onErrorFn = function(error) {
+				if ($scope.internalCanEdit === undefined) {
+
+					$scope.internalCanEdit = null; // avoid recall => null !== undefined
+
+					var hasDraft   = !!$scope.internalDocumentInfo.workingDocumentCreatedOn;
+					var identifier =   $scope.internalDocumentInfo.identifier;
+					var schema     =   $scope.internalDocumentInfo.type;
+
+					var qCanEdit = hasDraft
+							     ? storage.drafts.security.canUpdate(identifier, schema)  // has draft
+								 : storage.drafts.security.canCreate(identifier, schema); // has no draft
+
+					qCanEdit.then(function(isAllowed) {
+						
+						$scope.internalCanEdit = isAllowed || false;
+
+					}).then(null, function(error) {
+
 						$scope.internalCanEdit = false;
-					};
-
-					$scope.internalDocumentInfo = storage.documents.get($scope.internalDocument.header.identifier, { info: true }).then(
-						function(result) {
-							$scope.internalDocumentInfo = result.data;
-
-							var hasDraft       = !!$scope.internalDocumentInfo.workingDocumentCreatedOn;
-							var identifier     = $scope.internalDocumentInfo.identifier;
-							var schema         = $scope.internalDocumentInfo.type;
-
-							var qCanEditPromise = hasDraft
-												? storage.drafts.security.canUpdate(identifier, schema)  //yes
-												: storage.drafts.security.canCreate(identifier, schema); //no
-
-							qCanEditPromise.then(
-								function(isAllowed) {
-									$scope.internalCanEdit = isAllowed;
-								},
-								onErrorFn);
-						},
-						onErrorFn);
+					});
 				}
 
-				return $scope.internalCanEdit==true;
+				return $scope.internalCanEdit===true;
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.canDelete = function() {
+				
+				$scope.deleteTooltip = undefined;
+
+				if (!$scope.user().isAuthenticated)
+					return false;
+
+				if (!$scope.internalDocumentInfo)
+					return false;
+
+				if($scope.internalDocumentInfo.workingDocumentCreatedOn) {
+					$scope.deleteTooltip = "Cannot delete record with pending drafts";
+					return false;
+				}
+
+				if ($scope.internalCanDelete === undefined) {
+
+					$scope.internalCanDelete = null; // avoid recall => null !== undefined
+
+					var identifier =   $scope.internalDocumentInfo.identifier;
+					var schema     =   $scope.internalDocumentInfo.type;
+
+					var qCanDelete = storage.documents.security.canDelete(identifier, schema);
+
+					qCanDelete.then(function(isAllowed) {
+						
+						$scope.internalCanDelete = isAllowed || false;
+
+					}).then(null, function(error) {
+
+						$scope.internalCanDelete = false;
+					});
+				}
+
+				return $scope.internalCanDelete===true;
 			};
 		}]
 	}

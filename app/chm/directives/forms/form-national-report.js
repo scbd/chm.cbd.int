@@ -11,21 +11,6 @@ angular.module('kmApp').compileProvider // lazy
             $scope.error = null;
             $scope.document = null;
             $scope.review = { locale: "en" };
-            $scope.options = {
-                countries:		$http.get("/api/v2013/thesaurus/domains/countries/terms",								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
-                jurisdictions:	$http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms",	{ cache: true }).then(function (o) { return o.data; }),
-                approvedStatus:	$http.get("/api/v2013/thesaurus/domains/E27760AB-4F87-4FBB-A8EA-927BDE375B48/terms",	{ cache: true }).then(function (o) { return o.data; }),
-                approvingBody:	$http.get("/api/v2013/thesaurus/domains/F1A5BFF1-F555-40D1-A24C-BBE1BE8E82BF/terms",	{ cache: true }).then(function (o) { return o.data; }),
-                reportStatus:	$http.get("/api/v2013/thesaurus/domains/7F0D898A-6BF1-4CE6-AA77-7FEAED3429C6/terms",	{ cache: true }).then(function (o) { return o.data; }),
-                reportTypes:	$http.get("/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms",	{ cache: true }).then(function (o) { return thesaurus.buildTree(o.data); })
-            };
-
-            $scope.$watch($scope.isLoading, function () {
-            	if (!!$scope.uieffects) {
-            		$scope.uieffects.loadProgress($element);
-            	}
-            });
-            //$scope.$watch("document.status", function () { $scope.checkStatus() });
 
             $element.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             	var onTabFn = function () { $scope.onTab($(e.target).attr('href').replace("#", "")); };
@@ -72,6 +57,19 @@ angular.module('kmApp').compileProvider // lazy
 					function(doc) {
 						$scope.status = "ready";
 						$scope.document = doc;
+					}).then(function(){
+
+						if(!$scope.options) {
+							
+				            $scope.options = {
+				                countries:		$http.get("/api/v2013/thesaurus/domains/countries/terms",								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
+				                jurisdictions:	$http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms",	{ cache: true }).then(function (o) { return o.data; }),
+				                approvedStatus:	$http.get("/api/v2013/thesaurus/domains/E27760AB-4F87-4FBB-A8EA-927BDE375B48/terms",	{ cache: true }).then(function (o) { return o.data; }),
+				                approvingBody:	$http.get("/api/v2013/thesaurus/domains/F1A5BFF1-F555-40D1-A24C-BBE1BE8E82BF/terms",	{ cache: true }).then(function (o) { return o.data; }),
+				                reportStatus:	$http.get("/api/v2013/thesaurus/domains/7F0D898A-6BF1-4CE6-AA77-7FEAED3429C6/terms",	{ cache: true }).then(function (o) { return o.data; }),
+				                reportTypes:	$http.get("/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms",	{ cache: true }).then(function (o) { return thesaurus.buildTree(o.data); })
+				            }
+				        };
 					}).then(null, 
 					function(err) {
 						$scope.onError(err.data, err.status)

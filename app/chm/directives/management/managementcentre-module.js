@@ -55,7 +55,7 @@
 					storage.drafts.security.canDelete(draft.identifier, draft.type).then(
 						function(isAllowed) {
 							if (!isAllowed)
-								if (alert("You are not authorised to delete this draft?"))
+								if (alert("You are not authorised to delete this draft"))
 									return;
 
 							if (!confirm("Delete the draft?"))

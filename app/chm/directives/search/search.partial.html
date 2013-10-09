@@ -4,12 +4,12 @@
 			<!--<div class="panel-heading">Search Criteria</div>-->
 			<span class="blue-icon"><i class="icon-info-sign"></i>&nbsp;&nbsp;Choose fields to narrow search results.</span>
 			<ul class="list-group">
-                <search2-keywords title='Keywords' ng-model='keywords' query='queryKeywords' class='not-expandable'></search2-keywords>
+                <search-filter-keywords title='Keywords' ng-model='keywords' query='queryKeywords' class='not-expandable'></search-filter-keywords>
                 <search-filter-schemas title='Document Types' ng-model='schemas' field='schema_s' query='querySchema'></search-filter-schemas>
                 <search-filter-countries title='Countries' ng-model='governments' field='government_s' query='queryGovernment'></search-filter-countries>
                 <search-filter-countries title='Regions' ng-model='regions' field='government_s' query='queryGovernment'></search-filter-countries>
 				<search-filter-themes title='Thematic Areas' ng-model='thematicAreas' field='thematicArea_ss' query='queryTheme'></search-filter-themes>
-				<search2-date title='Date of record' query='queryDate' class='not-expandable'></search2-date>
+				<search-filter-dates title='Date of record' query='queryDate' class='not-expandable'></search-filter-dates>
 			</ul>
 		</div>
 	</div>

@@ -1,0 +1,52 @@
+<li class="list-group-item" style="cursor:pointer;">
+	<div ng-click="actionExpand()" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
+	<div class="list-group-item-expand">
+		<div ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}" ng-class="ccc(item)" ng-click="onclick(this, $event)">
+			<div style="position:relative;text-overflow:ellipsis;white-space:nowrap;width:100%">
+				<div style="float:right;margin-top:3px; margin-left:5px;" class="icon-remove-sign"></div>
+				{{item.title}} ({{item.count}})
+			</div>
+		</div>
+	<div>
+	<!--Save Dialog-->
+	<div id="dialogSelect" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog"><!--  ;margin-left:-380px"  -->
+			<div class="modal-content" style="width:640px">
+				<div class="modal-body" style="padding-left:20px">
+					<table class="options">
+						<tr>
+							<td style="width:360px" valign="top">
+								<h4>News &amp; Announcements</h4>
+								<div class="checkbox" ng-repeat="item in outreachRecords">
+									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+								</div>
+								<h4 style="margin-top:20px">Reference Records</h4>
+								<div class="checkbox" ng-repeat="item in referenceRecords">
+									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+								</div>
+							</td>
+							<td style="width:360px" valign="top">
+								<h4>Meetings &amp; Meeting Outcomes</h4>
+								<div class="checkbox" ng-repeat="item in meetingRecords">
+									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+								</div>
+								<h4 style="margin-top:20px">National Reporting</h4>
+								<div class="checkbox" ng-repeat="item in nationalRecords">
+									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<style>
+	    .options .checkbox {
+	    	min-height: 0;
+	    }
+    </style>
+</li>

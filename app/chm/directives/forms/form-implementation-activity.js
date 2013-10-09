@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive("editImplementationActivity", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
+angular.module('kmApp').compileProvider // lazy
+.directive("editImplementationActivity", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-implementation-activity.partial.html',

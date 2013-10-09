@@ -1,6 +1,5 @@
 ﻿describe("Unit: Singin directive", function() {
 
-    var module = angular.mock.module;
     var elm, scope, linkFn, input;
 
     beforeEach(module('kmApp','partialTemplateCache')); // partialTemplates (from ng-html2js preprocessor) 

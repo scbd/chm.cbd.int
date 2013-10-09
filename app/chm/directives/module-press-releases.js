@@ -1,9 +1,5 @@
-﻿var module = angular.module('kmApp').compileProvider; // lazy
-
-//==================================================
-// ABS Press Releases
-//==================================================
-module.directive('pressreleases', ['authHttp', function ($http) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('pressreleases', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

@@ -1,10 +1,5 @@
-﻿var module = angular.module('kmApp').compileProvider; // lazy
-
-//============================================================
-//
-// Edit Implementation Activity
-//============================================================
-module.directive('nationalReportingManager', ["$timeout", function ($timeout) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('nationalReportingManager', ["$timeout", function ($timeout) {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/management/national-reporting-manager.partial.html',

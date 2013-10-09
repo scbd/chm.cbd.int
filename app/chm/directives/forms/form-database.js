@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('cbdEditDatabase', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
+angular.module('kmApp').compileProvider // lazy
+.directive('cbdEditDatabase', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-database.partial.html',

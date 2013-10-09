@@ -1,6 +1,5 @@
-﻿var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", "authentication", "URI", "$window", function ($rootScope, $http, authHttp, $browser, authentication, URI, $window) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", "authentication", "URI", "$window", function ($rootScope, $http, authHttp, $browser, authentication, URI, $window) {
     return {
         priority: 0,
         restrict: 'EAC',

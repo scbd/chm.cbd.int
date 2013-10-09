@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive("editNationalIndicator", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
+angular.module('kmApp').compileProvider // lazy
+.directive("editNationalIndicator", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-national-indicator.partial.html',

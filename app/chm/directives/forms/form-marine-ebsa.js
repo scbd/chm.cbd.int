@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('chmViewMarineEbsa', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('chmViewMarineEbsa', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-marine-ebsa.partial.html',

@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('search', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('search', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search.partial.html',
@@ -210,7 +209,8 @@ module.directive('search', function ($http) {
 //
 //
 //============================================================
-module.directive('searchFacet', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchFacet', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-facet.partial.html',
@@ -303,7 +303,8 @@ module.directive('searchFacet', function ($http) {
 //
 //
 //============================================================
-module.directive('searchDate', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchDate', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-date.partial.html',
@@ -353,7 +354,8 @@ module.directive('searchDate', function ($http) {
 //
 //
 //============================================================
-module.directive('searchKeywords', function ($http, $window) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchKeywords', function ($http, $window) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-keywords.partial.html',

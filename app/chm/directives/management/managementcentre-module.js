@@ -1,13 +1,5 @@
-﻿var module = angular.module('kmApp').compileProvider; // lazy
-
-
-
-	//==================================================
-	//
-	// My Drafts
-	//
-	//==================================================
-module.directive('myDrafts', [function () {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('myDrafts', [function () {
 		return {
 			priority: 0,
 			restrict: 'EAC',
@@ -87,7 +79,8 @@ module.directive('myDrafts', [function () {
 	// My Documents 
 	//
 	//==================================================
-module.directive("myDocuments", [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive("myDocuments", [function () {
 		return {
 			priority: 0,
 			restrict: 'EAC',
@@ -173,7 +166,8 @@ module.directive("myDocuments", [function () {
 	// My Tasks
 	//
 	//==================================================
-module.directive("myTasks", ['authHttp', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive("myTasks", ['authHttp', function ($http) {
 		return {
 			priority: 0,
 			restrict: 'EAC',

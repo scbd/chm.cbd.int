@@ -1,9 +1,5 @@
-﻿var module = angular.module('kmApp').compileProvider; // lazy
-
-//==================================================
-// ABS Notifications
-//==================================================
-module.directive('notifications', ['authHttp', function ($http) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('notifications', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

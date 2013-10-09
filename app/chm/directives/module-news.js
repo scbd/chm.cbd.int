@@ -1,9 +1,5 @@
-﻿var module = angular.module('kmApp').compileProvider; // lazy
-
-//==================================================
-// ABS News
-//==================================================
-module.directive('news', ['authHttp', function ($http) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('news', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

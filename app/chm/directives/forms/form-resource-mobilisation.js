@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('chmViewResourceMobilisation', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('chmViewResourceMobilisation', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource-mobilisation.partial.html',

@@ -1,50 +1,4 @@
 <div class="container reporting">
-	<style type="text/css">
-		.reporting a { color: #5e7600; }
-		.label-spacing {
-			margin-right: 5px;
-		}
-
-		.aichi-icon {
-			width: 46px;
-		}
-
-		.aichi-icons {
-			width: 48px;
-		}
-
-		.aichi-icon-xs {
-			width: 21px;
-		}
-
-		.badge-success {
-			background-color:#5cb85c;
-		}
-		.badge-success > a,
-		.badge-success > a:hover,
-		.badge-success {
-			color: white;
-			text-decoration: none;
-		}
-
-		.boxed {
-			border:1px solid #ddd;
-			padding:0 10px 10px 10px;
-			border-radius:4px;
-		}
-
-		.container.reporting  .panel-heading {
-			border-color: #bce8f1;
-			background-color: #d9edf7;
-		}
-
-		.container.reporting  .panel-heading.collapsed {
-			background-color: #f5f5f5;
-			border-color: #dddddd;
-		}
-
-
-	</style>
 
 	<select style="margin-top:-40px" class="pull-right" ng-show="!userGovernment()" ng-model="government" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
 	
@@ -238,10 +192,10 @@
 
 							<!-- Related National Target -->
 							<td>
-								<ul style="padding-left:0px">
+								<ul style="padding-left:15px">
 									<li ng-repeat="target in aichiTarget.nationalTargets"><a ng-href="{{target.url}}">{{target.title}}</a></li>
 								</ul>
-								<button type="button" class="btn btn-default btn-xs">add +</button>
+								<button type="button" class="btn btn-default btn-xs" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ aichiTarget:aichiTarget, excludeTargets: aichiTarget.nationalTargets })" title="Link this Aichi Target to a National Target">link +</button>
 							</td>
 
 							<!-- Assessment status -->
@@ -294,16 +248,16 @@
 							<th style="text-align:center">Assessment(s) of National target(s)</th>
 							<th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
 						</tr>
-						<tbody ng-repeat="target in nationalTargets">
+						<tbody ng-repeat="target in nationalTargets | orderBy:'title'">
 							<tr>
 								<td class="aichi-icons"  rowspan="2" >
-									<a target="_blank" ng-href="{{aichiTarget.url}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
+									<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
 								</td>
 								<td >
 									<a ng-href="{{target.url}}">{{target.title|lstring}}</a>
 								</td>
 								<td >
-									<button type="button" class="btn btn-default btn-xs pull-right" ng-href="/managementcentre/edit/nationalTarget.shtml?uid={{target.identifier}}">edit &raquo;</button>
+									<button type="button" class="btn btn-default btn-xs pull-right" ng-click="edit('nationalTarget', { uid:target.identifier })">edit &raquo;</button>
 								</td>
 								<td style="text-align:center">
 									<span class="label label-success"   ng-show="target.isUpToDate">up-to-date</span>
@@ -356,7 +310,7 @@
 						<tr>
 							<th style="text-align:left;white-space:nowrap">Indicator(s)</th>
 							<th></th>
-							<th style="white-space:nowrap;" colspan="2">Related National Targets</th>
+							<th style="white-space:nowrap;">Related National Targets</th>
 							<th>Related Aichi Targets</th>
 						</tr>
 						<tr ng-repeat="indicator in nationalIndicators|orderBy:'title|lstring'">
@@ -367,15 +321,13 @@
 								<button type="button" class="btn btn-default btn-xs pull-right" ng-click="edit('nationalIndicator', { uid:indicator.identifier})">edit &raquo;</button>
 							</td>
 							<td>
-								<ul>
+								<ul style="padding-left:15px">
 									<li ng-repeat="target in indicator.nationalTargets"><a ng-href="{{target.url}}">{{target.title}}</a></li>
 								</ul>
-							</td>
-							<td style="width:25px">
-								<button type="button" class="btn btn-default btn-xs">add +</button>
+								<button type="button" class="btn btn-default btn-xs" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ nationalIndicator:indicator, excludeTargets: indicator.nationalTargets })" title="Link this National Indicator to a National Target">link +</button>
 							</td>
 							<td>
-								<a target="_blank" ng-href="{{aichiTarget.url}}" ng-repeat="aichiTarget in indicator.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" /></a>
+								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in indicator.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" /></a>
 							</td>
 						</tr>
 					</table>
@@ -443,4 +395,93 @@
 			</div>
 		</div>
 	</div>
+
+	<div>
+		<div id="linkNationalTargetDialog" class="modal fade">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Select a target to be linked to:</h4>
+		        <div ng-show="linkTargetData.aichiTarget">
+		        	<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{linkTargetData.aichiTarget.title|lstring}}"><img class="aichi-icon" ng-src="/app/images/targets/{{linkTargetData.aichiTarget.number}}.png"/></a>
+		        	{{linkTargetData.aichiTarget.title}}</div>
+		        <div ng-show="linkTargetData.nationalIndicator">Indicator: {{linkTargetData.nationalIndicator.title}}</div>
+		      </div>
+		      <div class="modal-body">
+
+		      	<table class="table">
+		      		<tr>
+			      		<th>National Target</th>
+			      		<th>Related Aichi Target</th>
+			      		<th></th>
+		      		</tr>
+		        	<tr ng-repeat="target in linkTargetData.targets | orderBy:'title'">
+		        		<td>
+		        			{{target.title}}
+		        		</td>
+						<td>
+							<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
+						</td>
+		        		<td style="text-align:right">
+		        			<button class="btn btn-primary" ng-click="edit('nationalTarget', { uid:target.identifier, aichiTarget : linkTargetData.aichiTarget.identifier, nationalIndicator : linkTargetData.nationalIndicator.identifier })">select &raquo;</button>
+		        		</td>
+		        	</tr>
+				</table>
+
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-info" ng-click="edit('nationalTarget', { government:government, aichiTarget : linkTargetData.aichiTarget.identifier, nationalIndicator : linkTargetData.nationalIndicator.identifier })">Create a new target +</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->		
+	</div>
+
+	<style type="text/css">
+		.reporting a { color: #5e7600; }
+		.label-spacing {
+			margin-right: 5px;
+		}
+
+		.aichi-icon {
+			width: 46px;
+		}
+
+		.aichi-icons {
+			width: 48px;
+		}
+
+		.aichi-icon-xs {
+			width: 21px;
+		}
+
+		.badge-success {
+			background-color:#5cb85c;
+		}
+		.badge-success > a,
+		.badge-success > a:hover,
+		.badge-success {
+			color: white;
+			text-decoration: none;
+		}
+
+		.boxed {
+			border:1px solid #ddd;
+			padding:0 10px 10px 10px;
+			border-radius:4px;
+		}
+
+		.container.reporting  .panel-heading {
+			border-color: #bce8f1;
+			background-color: #d9edf7;
+		}
+
+		.container.reporting  .panel-heading.collapsed {
+			background-color: #f5f5f5;
+			border-color: #dddddd;
+		}
+	</style>
+
 </div>

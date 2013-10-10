@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp').compileProvider // lazy
-.directive('nationalReportingManager', ["$timeout", function ($timeout) {
+.directive('nationalReportingManager', ["$timeout", "$q", function ($timeout, $q) {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/management/national-reporting-manager.partial.html',
@@ -26,7 +26,43 @@
 					qElement.prev().removeClass("collapsed");//fixe boostrap bug
 				}
 			}, 250)
-				
+
+
+			function showModal(modal, display) {
+debugger;
+				if(modal.is(":visible") == display) {
+					return $q.when(display);
+				}
+				else {
+
+					var oldDefered = modal.data("showDefered");
+					var newDefered = $q.defer();
+
+					if(oldDefered)
+						oldDefered.reject();
+
+					modal.data("showDefered", newDefered);
+					modal.modal(display ? 'show' : 'hide');
+
+					return newDefered.promise;
+				}
+			}
+
+			function resolveShowModal(modal, value) {
+
+				var defered = modal.data("showDefered");
+
+				modal.data("showDefered", null);
+
+				if(defered)
+					$timeout(function() { defered.resolve(value); });
+			}
+
+			var qLinkTargetDialog = $elm.find("#linkNationalTargetDialog");
+
+			qLinkTargetDialog.on('shown.bs.modal',  function(){ return resolveShowModal(qLinkTargetDialog, true); });
+			qLinkTargetDialog.on('hidden.bs.modal', function(){ return resolveShowModal(qLinkTargetDialog, false); });
+			$scope.showLinkTargetDialog = function(display)   { return showModal(qLinkTargetDialog, display); };
 		},
 		controller: ['$rootScope', '$scope', '$q', 'authHttp', "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $q, $http, _, $location, URI, authentication) {
 
@@ -41,6 +77,20 @@
 										 "DA7E04F1-D2EA-491E-9503-F7923B1FD7D4", // NR3
 										 "A49393CA-2950-4EFD-8BCC-33266D69232F", // NR2
 										 "F27DBC9B-FF25-471B-B624-C0F73E76C8B"]; // NR1
+
+			//==================================
+			//
+			//==================================
+			$scope.linkTargets = function(params) {
+
+				var ids = _.map(params.excludeTargets, function(t) { return t.identifier; });
+
+				$scope.linkTargetData = {
+					aichiTarget : params.aichiTarget,
+					nationalIndicator : params.nationalIndicator,
+					targets : _.chain($scope.nationalTargets).filter(function(o) { return !_.contains(ids, o.identifier); }).value()
+				};
+			};
 
 			//==================================
 			//
@@ -107,12 +157,18 @@
 			//
 			//===============
 			$scope.edit = function(schema, option) {
-				var url = URI("/management/edit/" + schema);
 
-				if (option)
-					url = url.search(option);
+				var d1 = $scope.showLinkTargetDialog(false)
 
-				$location.url(url.toString());
+				$q.all([d1]).then(function(res) {
+
+					var url = URI("/management/edit/" + schema);
+
+					if (option)
+						url = url.search(option);
+
+					$location.url(url.toString());
+				});
 			}
 
 			//===============

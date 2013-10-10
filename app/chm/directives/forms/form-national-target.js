@@ -67,7 +67,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
+				var identifier = $location.search().uid;
 				var promise = null;
 
 				if(identifier)
@@ -85,8 +85,25 @@ angular.module('kmApp').compileProvider // lazy
 
 				promise.then(
 					function(doc) {
+
+						var aichiTarget       = $location.search().aichiTarget;
+						var nationalIndicator = $location.search().nationalIndicator;
+
+						if(aichiTarget) {
+							
+							doc.aichiTargets = doc.aichiTargets || [];
+							doc.aichiTargets.push({ identifier : aichiTarget });
+						}   
+						
+						if(nationalIndicator) { 
+
+							doc.nationalIndicators = doc.nationalIndicators||[];
+							doc.nationalIndicators.push({ identifier : nationalIndicator });
+						}
+
 						$scope.status = "ready";
 						$scope.document = doc;
+
 					}).then(null, 
 					function(err) {
 						$scope.onError(err.data, err.status)

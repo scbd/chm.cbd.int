@@ -1,5 +1,5 @@
 <li class="list-group-item" style="cursor:pointer;">
-	<div ng-click="actionExpand()" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
+	<div data-toggle="modal" href="#dialogSelectSchemas" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
 		<div ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}" ng-class="ccc(item)" ng-click="onclick(this, $event)">
 			<div style="position:relative;text-overflow:ellipsis;white-space:nowrap;width:100%">
@@ -9,7 +9,7 @@
 		</div>
 	<div>
 	<!--Save Dialog-->
-	<div id="dialogSelect" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	<div id="dialogSelectSchemas" class="modal fade">
 		<div class="modal-dialog"><!--  ;margin-left:-380px"  -->
 			<div class="modal-content" style="width:640px">
 				<div class="modal-body" style="padding-left:20px">

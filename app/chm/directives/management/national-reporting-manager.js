@@ -29,7 +29,7 @@
 
 
 			function showModal(modal, display) {
-debugger;
+
 				if(modal.is(":visible") == display) {
 					return $q.when(display);
 				}

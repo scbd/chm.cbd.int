@@ -21,7 +21,7 @@
 				<h4 class="accordion-toggle panel-title">
 					National Biodiversity Strategies and Action Plans (NBSAPS)
 					<i class="icon-chevron-right icon-white"></i>
-					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], government:government })">add +</button>
+					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(nationalStrategicPlans|filter:isDraft).length}}</span>
 					<span class="label label-info pull-right label-spacing">{{(nationalStrategicPlans|filter:isPublic).length}}</span>
 				</h4>
@@ -35,7 +35,7 @@
 							No National Biodiversity Strategies and Action Plans exists.<br/>
 							<em>Please submit a record.</em>
 						</p>
-						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], government : government})">add +</button>
+						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government : government})">add +</button>
 					</div>
 
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
@@ -110,7 +110,7 @@
 				<h4 class="accordion-toggle panel-title">
 					Other Reports 
 					<i class="icon-chevron-right icon-white"></i>
-					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {government:government })">add +</button>
+					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {type:'other', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(otherNationalReports|filter:isDraft).length}}</span>
 					<span class="label label-info pull-right label-spacing">{{(otherNationalReports|filter:isPublic).length}}</span>
 				</h4>
@@ -123,7 +123,7 @@
 							No other report exists.<br/>
 							<em>Please submit a record.</em>
 						</p>
-						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {government : government})">add +</button>
+						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {type:'other', government : government})">add +</button>
 					</div>
 
 					<div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="otherReport in otherNationalReports | orderBy:'year':true"> <!-- other reports -->

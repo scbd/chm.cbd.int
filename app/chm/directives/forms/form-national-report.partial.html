@@ -1,5 +1,18 @@
 ﻿<div>
-    <h1>National Report, NBSAP or Other reports</h1>
+
+    <h1 ng-show="document.reportType">
+    	<span km-terms ng-model="document.reportType">
+    		<span ng-repeat="term in terms">{{term.title | lstring}} </span>
+    	</span>
+    </h1>
+    <h1 ng-hide="document.reportType">
+    	<span ng-switch="qs.type">
+    		<span ng-switch-when="nr">National Report</span>
+    		<span ng-switch-when="nbsap">National Biodiversity Strategies and Action Plan (NBSAP)</span>
+    		<span ng-switch-when="other">Other report</span>
+    		<span ng-switch-default="other">National Report, NBSAP or Other reports</span>
+    	</span>
+    </h1>
 
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>

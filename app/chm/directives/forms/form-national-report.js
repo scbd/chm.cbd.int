@@ -24,6 +24,8 @@ angular.module('kmApp').compileProvider // lazy
         },
 		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", function ($scope, $q, storage, authentication, editFormUtility, guid, $location) {
 
+			$scope.qs = $location.search();
+
 			//==================================
 			//
 			//==================================
@@ -33,7 +35,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var qs = URI().search(true);
+				var qs = $scope.qs;
 				var identifier  = qs.uid;
 				var year        = qs.year;
 				var reportType  = qs.reportType;

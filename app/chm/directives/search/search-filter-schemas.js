@@ -151,14 +151,17 @@ angular.module('kmApp').compileProvider // lazy
             ];
 
             $scope.referenceRecords = [
-                { identifier: 'treaty'                , title: 'Treaties'                   , count: 0 },
-                { identifier: 'article'               , title: 'Treaty Articles'            },
-                { identifier: 'aichiTarget'           , title: 'Aichi Biodiversity Targets' },
-                { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators'  },
-                { identifier: 'marineEbsa'            , title: 'Marine EBSAs'               , count: 0 },
+                // { identifier: 'treaty'                , title: 'Treaties'                   , count: 0 },
+                // { identifier: 'article'               , title: 'Treaty Articles'            },
                 { identifier: 'event'                 , title: 'Related Events'             , count: 0 },
                 { identifier: 'organization'          , title: 'Related Organizations'      },
                 { identifier: 'resource'              , title: 'Virtual Library Resources'  }
+            ];
+
+             $scope.copRecords = [
+                { identifier: 'aichiTarget'           , title: 'Aichi Biodiversity Targets' },
+                { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators'  },
+                { identifier: 'marineEbsa'            , title: 'Marine EBSAs'               , count: 0 }
             ];
 
             $scope.meetingRecords = [
@@ -177,7 +180,7 @@ angular.module('kmApp').compileProvider // lazy
                 { identifier: 'nationalSupportTool'   , title: 'Guidance and Support Tools' , count: 0 }
             ];
 
-            $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.meetingRecords, $scope.nationalRecords );
+            $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords );
             $scope.termsx = dictionarize($scope.terms);
 
             function onWatch_items(values) { if(!values) return;

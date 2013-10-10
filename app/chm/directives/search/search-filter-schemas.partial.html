@@ -20,17 +20,21 @@
 								<div class="checkbox" ng-repeat="item in outreachRecords">
 									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
 								</div>
+								<h4 style="margin-top:20px">COP Records</h4>
+								<div class="checkbox" ng-repeat="item in copRecords">
+									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+								</div>
 								<h4 style="margin-top:20px">Reference Records</h4>
 								<div class="checkbox" ng-repeat="item in referenceRecords">
 									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
 								</div>
 							</td>
 							<td style="width:360px" valign="top">
-								<h4>Meetings &amp; Meeting Outcomes</h4>
+								<h4>CBD Meetings &amp; Outcomes</h4>
 								<div class="checkbox" ng-repeat="item in meetingRecords">
 									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
 								</div>
-								<h4 style="margin-top:20px">National Reporting</h4>
+								<h4 style="margin-top:20px">National Records</h4>
 								<div class="checkbox" ng-repeat="item in nationalRecords">
 									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
 								</div>

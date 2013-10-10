@@ -1,20 +1,22 @@
 var fs = require('fs');
-var path = require('path');
 var http = require('http');
 var https = require('https');
 var express = require('express');
 var httpProxy = require('http-proxy');
 
 // Create server
-        
+
 var app = express();
 var server = http.createServer(app);
+
+var oneDay = 86400000;
 
 app.configure(function() {
     app.set('port', process.env.PORT || 2000);
     app.use(express.logger('dev'));
     app.use(express.compress());
-	app.use(express.static(__dirname));
+    app.use('/app', express.static(__dirname + '/app', { maxAge: oneDay }));
+    app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge: oneDay }));
 });
 
 // Configure routes
@@ -30,7 +32,7 @@ app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeO
 // Configure index.html
 
 app.get('/*', function(req, res) {
-	fs.readFile(path.join(__dirname, 'app/index.html'), 'utf8', function (error, text) { 
+	fs.readFile(__dirname + '/app/index.html', 'utf8', function (error, text) { 
 		res.send(text); 
 	});
 });

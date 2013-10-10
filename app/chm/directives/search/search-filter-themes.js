@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('searchFilterThemes', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchFilterThemes', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-themes.partial.html?'+(new Date().getTime()),
@@ -275,7 +274,7 @@ module.directive('searchFilterThemes', function ($http) {
 //
 //
 //============================================================
-module.directive('bindIndeterminate', [function () {
+angular.module('kmApp').compileProvider.directive('bindIndeterminate', [function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {

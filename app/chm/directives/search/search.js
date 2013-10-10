@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('search', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('search', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search.partial.html?'+(new Date().getTime()),
@@ -184,7 +183,8 @@ module.directive('search', function ($http) {
 //
 //
 //============================================================
-module.directive('bindIndeterminate', [function () {
+angular.module('kmApp').compileProvider // lazy
+.directive('bindIndeterminate', [function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -199,7 +199,8 @@ module.directive('bindIndeterminate', [function () {
 //
 //
 //============================================================
-module.directive('searchFilterDates', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchFilterDates', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-dates.partial.html?'+(new Date().getTime()),
@@ -262,7 +263,8 @@ module.directive('searchFilterDates', function ($http) {
 //
 //
 //============================================================
-module.directive('searchFilterKeywords', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchFilterKeywords', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-keywords.partial.html?'+(new Date().getTime()),

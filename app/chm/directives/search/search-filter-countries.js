@@ -1,6 +1,5 @@
-var module = angular.module('kmApp').compileProvider; // lazy
-
-module.directive('searchFilterCountries', function ($http) {
+angular.module('kmApp').compileProvider // lazy
+.directive('searchFilterCountries', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-countries.partial.html?v892e14e22',

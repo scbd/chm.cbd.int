@@ -2,29 +2,6 @@
 /* THIS FILE IS TEMPORARY */
 /* THIS FILE CONTAINS COPYRIGHTED MATERIAL */
 
-@font-face {
-font-family: 'Helvetica Neue';
-src: url('/app/font/helveticaneue-webfont.eot');
-src: url('/app/font/helveticaneue-webfont.eot?#iefix') format('embedded-opentype'),
-     url('/app/font/helveticaneue-webfont.woff') format('woff'),
-     url('/app/font/helveticaneue-webfont.ttf') format('truetype'),
-     url('/app/font/helveticaneue-webfont.svg#Helvetica Neue') format('svg');
-font-weight: normal;
-font-style: normal;
-  }
-
-@font-face {
-font-family: 'Helvetica Neue';
-src: url('/app/font/test.woff');
-font-weight: bold;
-font-style: normal;
-  }
-
-@font-face {
-font-family: 'Helvetica Neue Light';
-src: url('/app/font/testlight.woff') format('woff');
-  }
-
 /*!
  * Bootstrap v3.0.0
  *
@@ -5360,7 +5337,7 @@ footer .logo {
   height: 248px;
 }
 h1 {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW01-45Ligh", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 34px;
   font-weight: 300;
   padding-bottom: 15px;
@@ -5386,7 +5363,7 @@ h1 {
   padding-top: 15px;
 }
 .home-cta h1 {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW01-45Ligh", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 25px;
   line-height: 28px;
   font-weight: 300;
@@ -5394,7 +5371,7 @@ h1 {
   padding-bottom: 0;
 }
 .home-cta p {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW01-45Ligh", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 15px;
   line-height: 24px;
 }
@@ -5439,7 +5416,7 @@ h1 {
 .row.features .col-lg-3 p {
   font-size: 21px;
   font-weight: 300;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW01-45Ligh", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   line-height: 24px;
 }
 .row.features .col-lg-3 a p {

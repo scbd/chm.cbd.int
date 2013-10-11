@@ -19,7 +19,13 @@
 
 			$scope.init();
 		},
-		controller: ['$scope', "URI", 'IStorage', "authentication", "localization", "$q", "$location", "$window", function ($scope, URI, storage, authentication, localization, $q, $location, $window) {
+		controller: ['$scope', "$rootScope", "URI", 'IStorage', "authentication", "localization", "$q", "$location", "$window", function ($scope, $rootScope, URI, storage, authentication, localization, $q, $location, $window) {
+
+			if($rootScope.showAcknowledgement)
+			    $scope.showAcknowledgement = true;
+
+			$rootScope.showAcknowledgement = undefined;
+
 			//==================================
 			//
 			//==================================

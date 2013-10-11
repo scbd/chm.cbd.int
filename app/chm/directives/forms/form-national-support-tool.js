@@ -362,7 +362,8 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				gotoManager();
+				$scope.$root.showAcknowledgement = true;
+				$location.url("/database/record?documentID=" + data.documentID);
 			};
 
 			//==================================

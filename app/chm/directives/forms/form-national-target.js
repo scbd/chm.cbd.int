@@ -11,40 +11,6 @@ angular.module('kmApp').compileProvider // lazy
             $scope.error = null;
             $scope.document = null;
             $scope.review = { locale: "en" };
-            $scope.options = {
-                countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms",    { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
-                jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data }),
-            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-                nationalIndicators: []
-            };
-
-            $scope.$watch("document.government", function(term) {
-
-            	$scope.options.nationalIndicators = [];
-
-            	if (term) {
-
-            		var buidQueryFn = function(schema) {
-            			return {
-            				q: "schema_s:" + schema + " AND government_s:" + term.identifier,
-            				fl: "identifier_s,title_t",
-            				sort: "title_s ASC",
-							rows:99999999
-            			}
-            		}
-
-            		var mapResultFn = function(res) {
-            			return _.map(res.data.response.docs, function(o) {
-            				return {
-            					identifier: o.identifier_s,
-            					title: o.title_t
-            				}
-            			});
-            		};
-
-            		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
-            	}
-            });
 
 			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
@@ -56,7 +22,7 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.init();
         },
-		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", function ($scope, $q, storage, authentication, editFormUtility, guid, $location) {
+		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', function ($scope, $q, storage, authentication, editFormUtility, guid, $location, ngProgress) {
 
 			//==================================
 			//
@@ -64,6 +30,8 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.init = function() {
 				if ($scope.document)
 					return;
+
+				ngProgress.start();
 
 				$scope.status = "loading";
 
@@ -83,33 +51,91 @@ angular.module('kmApp').compileProvider // lazy
 					});
 
 
-				promise.then(
-					function(doc) {
+				promise.then(function(doc) {
 
-						var aichiTarget       = $location.search().aichiTarget;
-						var nationalIndicator = $location.search().nationalIndicator;
+					var aichiTarget       = $location.search().aichiTarget;
+					var nationalIndicator = $location.search().nationalIndicator;
 
-						if(aichiTarget) {
-							
-							doc.aichiTargets = doc.aichiTargets || [];
-							doc.aichiTargets.push({ identifier : aichiTarget });
-						}   
+					if(aichiTarget) {
 						
-						if(nationalIndicator) { 
+						doc.aichiTargets = doc.aichiTargets || [];
+						doc.aichiTargets.push({ identifier : aichiTarget });
+					}   
+					
+					if(nationalIndicator) { 
 
-							doc.nationalIndicators = doc.nationalIndicators||[];
-							doc.nationalIndicators.push({ identifier : nationalIndicator });
-						}
+						doc.nationalIndicators = doc.nationalIndicators||[];
+						doc.nationalIndicators.push({ identifier : nationalIndicator });
+					}
 
-						$scope.status = "ready";
-						$scope.document = doc;
+					return doc;
 
-					}).then(null, 
-					function(err) {
-						$scope.onError(err.data, err.status)
-						throw err;
-					});
+				}).then(function(doc) {
+
+					if(!$scope.options) {
+
+			            $scope.options = {
+			                countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms",    { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
+			                jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data }),
+			            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+			                nationalIndicators: []
+			            };
+
+       				    return $q.all(_.values($scope.options)).then(function() {
+       				    	return doc;
+       				    });
+			        }
+
+			        return doc;
+
+				}).then(function(doc) {
+					
+					$scope.document = doc;
+					$scope.status  = "ready";
+
+				}).catch(function(err) {
+					
+					$scope.onError(err.data, err.status)
+					throw err;
+
+				}).finally(function() {
+					
+					console.log('complete')
+					ngProgress.complete();
+
+				});
 			}
+
+			//==================================
+			//
+			//==================================
+            $scope.$watch("document.government", function(term) {
+
+            	if(!$scope.options) return;
+            	if(!term) return;
+
+            	$scope.options.nationalIndicators = [];
+
+        		var buidQueryFn = function(schema) {
+        			return {
+        				q: "schema_s:" + schema + " AND government_s:" + term.identifier,
+        				fl: "identifier_s,title_t",
+        				sort: "title_s ASC",
+						rows:99999999
+        			}
+        		}
+
+        		var mapResultFn = function(res) {
+        			return _.map(res.data.response.docs, function(o) {
+        				return {
+        					identifier: o.identifier_s,
+        					title: o.title_t
+        				}
+        			});
+        		};
+
+        		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
+            });
 
 			//==================================
 			//

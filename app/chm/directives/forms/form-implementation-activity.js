@@ -11,15 +11,86 @@ angular.module('kmApp').compileProvider // lazy
             $scope.error = null;
             $scope.document = null;
             $scope.review = { locale: "en" };
-            $scope.options = {
-            	countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
-            	jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
-            	statuses:           $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms", { cache: true }).then(function (o) { return o.data; }),
-            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-                nationalIndicators: [],
-                nationalTargets:    []
-            };
 
+			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
+				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
+					onTabFn()
+				else
+					$scope.$apply(onTabFn);
+			});
+
+            $scope.init();
+        },
+		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', function ($scope, $q, storage, authentication, editFormUtility, guid, $location, ngProgress) {
+
+			//==================================
+			//
+			//==================================
+			$scope.init = function() {
+				if ($scope.document)
+					return;
+
+				ngProgress.start();
+
+				$scope.status = "loading";
+
+				var identifier = URI().search(true).uid;
+				var promise = null;
+
+				if(identifier)
+					promise = editFormUtility.load(identifier, "implementationActivity");
+				else
+					promise = $q.when({
+						header: {
+							identifier: guid(),
+							schema   : "implementationActivity",
+							languages: ["en"]
+						},
+						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+					});
+
+
+				promise.then(function(doc) {
+
+					if(!$scope.options) {
+
+			            $scope.options = {
+			            	countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
+			            	jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
+			            	statuses:           $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms", { cache: true }).then(function (o) { return o.data; }),
+			            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+			                nationalIndicators: [],
+			                nationalTargets:    []
+			            };
+
+						return $q.all(_.values($scope.options)).then(function() {
+			            	return doc;
+			            });
+			        }
+
+			        return doc;
+
+				}).then(function(doc) {
+
+					$scope.status = "ready";
+					$scope.document = doc;
+
+				}).catch(function(err) {
+
+					$scope.onError(err.data, err.status)
+					throw err;
+
+				}).finally(function() {
+
+					ngProgress.complete();
+
+				});
+			}
+			
+			//==================================
+			//
+			//==================================
             $scope.$watch("document.government", function(term) {
 
             	$scope.options.nationalIndicators = [];
@@ -48,55 +119,7 @@ angular.module('kmApp').compileProvider // lazy
             		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
             		$scope.options.nationalTargets    = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
             	}
-            });
-
-			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
-			});
-
-            $scope.init();
-        },
-		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", function ($scope, $q, storage, authentication, editFormUtility, guid, $location) {
-
-			//==================================
-			//
-			//==================================
-			$scope.init = function() {
-				if ($scope.document)
-					return;
-
-				$scope.status = "loading";
-
-				var identifier = URI().search(true).uid;
-				var promise = null;
-
-				if(identifier)
-					promise = editFormUtility.load(identifier, "implementationActivity");
-				else
-					promise = $q.when({
-						header: {
-							identifier: guid(),
-							schema   : "implementationActivity",
-							languages: ["en"]
-						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
-					});
-
-
-				promise.then(
-					function(doc) {
-						$scope.status = "ready";
-						$scope.document = doc;
-					}).then(null, 
-					function(err) {
-						$scope.onError(err.data, err.status)
-						throw err;
-					});
-			}
+            });			
 
 			//==================================
 			//

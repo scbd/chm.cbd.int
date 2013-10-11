@@ -1,11 +1,15 @@
 ﻿<div>
 
+	<h1>Implementation Activity</h1>
+
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div class="row" ng-show="status!='hidden'">
+	<div class="row" ng-show="status=='loading'">Loading...</div>
+	
+	<div class="row" ng-hide="status=='hidden'||status=='loading'">
 
 		<div class="col-md-11" style="position: relative">
 

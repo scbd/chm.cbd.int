@@ -11,10 +11,6 @@ angular.module('kmApp').compileProvider // lazy
             $scope.error = null;
             $scope.document = null;
             $scope.review = { locale: "en" };
-            $scope.options = {
-                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
-            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError)
-            };
 
 			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
@@ -26,7 +22,7 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.init();
         },
-		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", function ($scope, $q, storage, authentication, editFormUtility, guid, $location) {
+		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', function ($scope, $q, storage, authentication, editFormUtility, guid, $location, ngProgress) {
 
 			//==================================
 			//
@@ -34,6 +30,8 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.init = function() {
 				if ($scope.document)
 					return;
+
+				ngProgress.start();
 
 				$scope.status = "loading";
 
@@ -53,15 +51,37 @@ angular.module('kmApp').compileProvider // lazy
 					});
 
 
-				promise.then(
-					function(doc) {
-						$scope.status = "ready";
-						$scope.document = doc;
-					}).then(null, 
-					function(err) {
-						$scope.onError(err.data, err.status)
-						throw err;
-					});
+				promise.then(function(doc) {
+
+					if(!$scope.options) {
+			         
+			            $scope.options = {
+			                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
+			            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError)
+			            };
+
+						return $q.all(_.values($scope.options)).then(function() {
+			            	return doc;
+			            });
+			        }
+
+			        return doc;
+
+				}).then(function(doc) {
+
+					$scope.status = "ready";
+					$scope.document = doc;
+
+				}).catch(function(err) {
+
+					$scope.onError(err.data, err.status)
+					throw err;
+
+				}).finally(function() {
+
+					ngProgress.complete();
+
+				});
 			}
 
 			//==================================

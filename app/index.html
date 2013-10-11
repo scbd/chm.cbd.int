@@ -76,8 +76,15 @@
     </style>
 </head>
 <body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
+        
+    <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom:0px;text-align:center">
+        <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
+    </div>
+
     <img src="/app/img/landscape.jpg" style="position:absolute" ng-show="homePage">
     <div class="main-nav">
+
         <div class="header-banner" style="position:absolute;width:100%;height:140px"></div>
         <div class="container" id="main-nav">
             <div class="row">

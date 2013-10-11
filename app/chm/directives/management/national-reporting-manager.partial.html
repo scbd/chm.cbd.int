@@ -1,20 +1,20 @@
 <div class="container reporting">
-
+    
 	<select style="margin-top:-40px" class="pull-right" ng-show="!userGovernment()" ng-model="government" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
 	
-	<h4 class="heading">
-		National Reports, Action Plans and Other Reports
-        <span class="label label-warning pull-right label-spacing">not published</span>
-		<span class="label label-info pull-right label-spacing">published</span>
-	</h4>
-
+	<h3 class="heading">
+		<span class="text-muted">National Reports, Action Plans and Other Reports</span>
+        <span style="font-size:14px;"><span class="label label-warning pull-right label-spacingl">not published</span>
+            <span class="label label-info pull-right label-spacing">published</span></span>
+	</h3>
+    
 	<div class="panel-group" id="accordion1">
-
-
+        
+        
 		<!-- 
-		//================
-		// National Biodiversity Strategies and Action Plans (NBSAPS)
-		//================
+         //================
+         // National Biodiversity Strategies and Action Plans (NBSAPS)
+         //================
 		 -->
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection(undefined)" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" style="cursor:pointer">
@@ -26,18 +26,18 @@
 					<span class="label label-info pull-right label-spacing">{{(nationalStrategicPlans|filter:isPublic).length}}</span>
 				</h4>
 			</div>
-
+            
 			<div id="collapseOne" class="panel-collapse collapse">
 				<div class="panel-body row">
-
+                    
 					<div ng-hide="nationalStrategicPlans"> <!-- no records -->
 						<p>
-							No National Biodiversity Strategies and Action Plans exists.<br/>
-							<em>Please submit a record.</em>
+                        No National Biodiversity Strategies and Action Plans exists.<br/>
+                        <em>Please submit a record.</em>
 						</p>
 						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government : government})">add +</button>
 					</div>
-
+                    
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
 						<div class="boxed">
 							<h4>
@@ -45,7 +45,7 @@
 								{{strategicPlan.title}} ({{strategicPlan.year}})
 							</h4>
 							<p>
-								{{strategicPlan.summary|lstring|truncate:160:'...'}} <a ng-href="{{strategicPlan.url}}">more &raquo;</a>
+                            {{strategicPlan.summary|lstring|truncate:160:'...'}} <a ng-href="{{strategicPlan.url}}">more &raquo;</a>
 							</p>
 							<button type="button" class="btn btn-default btn-mini btn-xs" ng-click="edit('nationalReport', {uid:strategicPlan.identifier})">edit &raquo;</button>
 						</div>	
@@ -53,12 +53,12 @@
 				</div>
 			</div>
 		</div>
-
-
+        
+        
 		<!-- 
-		//================
-		// National Reports
-		//================
+         //================
+         // National Reports
+         //================
 		 -->
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseTwo')" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" style="cursor:pointer">
@@ -72,7 +72,7 @@
 			</div>
 			<div id="collapseTwo" class="panel-collapse collapse">
       			<div class="panel-body row">
-
+                    
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="nrType in cbdNationalReports" style="padding-bottom:10px">
 						<div class="boxed">
 							<h4>
@@ -85,25 +85,25 @@
 								<p><em>Please submit a record.</em></p>
 								<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {reportType:nrType, government : government})">add +</button>
 							</div>
-
+                            
 							<div ng-repeat="nationalReport in filteredReports = (nationalReports | filter:{ reportType : nrType })"> <!-- NR -->
 								<h5>{{nationalReport.title|lstring}}</h5>
 								<p>
-									{{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{nationalReport.url}}">more &raquo;</a>
+                                {{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{nationalReport.url}}">more &raquo;</a>
 								</p>
 								<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {uid:nationalReport.identifier})">edit &raquo;</button>
 							</div>
 						</div>
 					</div>
-
+                    
 				</div>
 			</div>
 		</div>
-
+        
 		<!-- 
-		//================
-		// Other Reports
-		//================
+         //================
+         // Other Reports
+         //================
 		 -->
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseThree')" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree" style="cursor:pointer">
@@ -117,15 +117,15 @@
 			</div>
 			<div id="collapseThree" class="panel-collapse collapse">
 				<div class="panel-body row">
-
+                    
 					<div ng-hide="otherNationalReports"> <!-- no records -->
 						<p>
-							No other report exists.<br/>
-							<em>Please submit a record.</em>
+                        No other report exists.<br/>
+                        <em>Please submit a record.</em>
 						</p>
 						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {type:'other', government : government})">add +</button>
 					</div>
-
+                    
 					<div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="otherReport in otherNationalReports | orderBy:'year':true"> <!-- other reports -->
 						<div class="boxed">
 							<h4>
@@ -134,7 +134,7 @@
 							</h4>
 							<h5>{{otherReport.title}}</h5>
 							<p>
-								{{otherReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{otherReport.url}}">more &raquo;</a>
+                            {{otherReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{otherReport.url}}">more &raquo;</a>
 							</p>
 							<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {uid:otherReport.identifier})">edit &raquo;</button>
 						</div>
@@ -143,34 +143,35 @@
 			</div>
 		</div>
 	</div>
-
-
+    
+    
 	<!-- 
-	//================================================
-	// Progress towards implementation of the targets
-	//================================================
+     //================================================
+     // Progress towards implementation of the targets
+     //================================================
 	 -->
-
-
-	<h4 class="heading">
-		Progress towards implementation of national and Aichi targets
-        <span class="label label-warning pull-right label-spacing">not published</span>
-		<span class="label label-info pull-right label-spacing">published</span>
-		<span class="label label-success pull-right label-spacing">assessed</span>
-	</h4>
-
+    
+    
+	<h3 class="heading" style="padding-top:60px;">
+		<span class="text-muted"><strong> Progress towards implementation of national and Aichi targets</strong></span>
+        <span style="font-size:14px;"><span class="label label-warning pull-right label-spacing">not published</span>
+            <span class="label label-info pull-right label-spacing">published</span>
+            <span class="label label-success pull-right label-spacing">assessed</span>
+         </span>
+	</h3>
+    
 	<div class="panel-group" id="accordion2">
-
+        
 		<!-- 
-		//================
-		// Aichi Biodiversity Targets
-		//================
+         //================
+         // Aichi Biodiversity Targets
+         //================
 		 -->
-
+        
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseFour')" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					Aichi Biodiversity Targets <i class="icon-chevron-right icon-white"></i>
+					<i class="glyphicon glyphicon-plus-sign"></i>   Aichi Biodiversity Targets <i class="icon-chevron-right icon-white"></i>
 					<span class="label label-success pull-right label-spacing" ng-cloak>{{(aichiTargets|filter:isAssessed).length}} / {{aichiTargets.length}}</span>
 				</h4>
 			</div>
@@ -179,36 +180,38 @@
 					<table class="table table-striped">
 						<tr>
 							<th style="white-space:nowrap">Aichi Target</th>
-							<th>Related National Target(s)</th>
-							<th style="text-align:center">Assessment(s) of Aichi Target(s)</th>
+							<th>Related National Targets</th>
+							<th style="text-align:center">Assessment of Aichi Target</th>
 							<th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
 						</tr>
 						<tr ng-repeat="aichiTarget in aichiTargets|orderBy:'number'">
-
+                            
 							<!-- aichi target icon -->
 							<td style="width:42px;text-align:center">
 								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}"><img class="aichi-icon" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
 							</td>
-
+                            
 							<!-- Related National Target -->
 							<td>
-								<ul style="padding-left:15px">
-									<li ng-repeat="target in aichiTarget.nationalTargets"><a ng-href="{{target.url}}">{{target.title}}</a></li>
+								<ul style="padding-left:15px;padding-left:0;list-style-type: none;">
+									<li style="padding-bottom:5px;" ng-repeat="target in aichiTarget.nationalTargets"><i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title}}</a></li>
 								</ul>
 								<button type="button" class="btn btn-default btn-xs" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ aichiTarget:aichiTarget, excludeTargets: aichiTarget.nationalTargets })" title="Link this Aichi Target to a National Target">link +</button>
+                                
+                                    
 							</td>
-
+                            
 							<!-- Assessment status -->
 							<td style="text-align:center">
 								<span class="label label-success"   ng-show="aichiTarget.isUpToDate">up-to-date</span>
 								<span class="label label-warning"   ng-show="aichiTarget.assessmentYears.length && !aichiTarget.isUpToDate">not up-to-date</span>
 								<span class="label label-default"   ng-hide="aichiTarget.assessmentYears">missing</span>
-
+                                
 								<div ng-show="aichiTarget.nextAssessmentYear" style="margin-top:3px">
 									<button type="button" class="btn btn-default btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : aichiTarget.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>								
 								</div>
 							</td>
-
+                            
 							<!-- Years -->
 							<td ng-repeat="year in globalYears" style="text-align:center">
 								<span class="badge badge-success" ng-show="aichiTarget.assessmentYears.indexOf(year)>=0">
@@ -220,18 +223,18 @@
 				</div>
 			</div>
 		</div>
-
-
+        
+        
 		<!-- 
-		//================
-		// National Targets
-		//================
+         //================
+         // National Targets
+         //================
 		 -->
-
+        
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseFive')" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					National Targets <i class="icon-chevron-right icon-white"></i>
+					<i class="glyphicon glyphicon-record"></i>  National Targets <i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalTarget', { government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(nationalTargets|filter:isDraft).length}}</span>
 					<span class="label label-info pull-right label-spacing">{{(nationalTargets|filter:isPublic).length}}</span>
@@ -242,32 +245,38 @@
       			<div class="panel-body">
 					<table class="table table-striped">
 						<tr>
-							<th class="aichi-icons" >Main Aichi Targets</th>
-							<th>National Targets</th>
 							<th>&nbsp;</th>
-							<th style="text-align:center">Assessment(s) of National target(s)</th>
+                            <th>National Targets</th>
+                            <th>&nbsp;</th>
+                            <th style="text-align:center"></th>
 							<th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
 						</tr>
 						<tbody ng-repeat="target in nationalTargets | orderBy:'title'">
 							<tr>
-								<td class="aichi-icons"  rowspan="2" >
-									<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
-								</td>
-								<td >
-									<a ng-href="{{target.url}}">{{target.title|lstring}}</a>
-								</td>
-								<td >
+                                <td rowspan="2">
 									<button type="button" class="btn btn-default btn-xs pull-right" ng-click="edit('nationalTarget', { uid:target.identifier })">edit &raquo;</button>
 								</td>
+								<td  rowspan="2">
+									<i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+								
+                                <span class="aichi-icons"  >
+									<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
+								</span>
+                                    </td>
+                                    
+								<td><span>Assessment(s):</span></td>
+								
 								<td style="text-align:center">
-									<span class="label label-success"   ng-show="target.isUpToDate">up-to-date</span>
+                                    
+									<div style="display:inline;"><span class="label label-success"   ng-show="target.isUpToDate">up-to-date</span>
 									<span class="label label-warning"   ng-show="target.assessmentYears.length && !target.isUpToDate">not up-to-date</span>
 									<span class="label label-default"   ng-hide="target.assessmentYears">missing</span>
 									
 									<div ng-show="target.nextAssessmentYear" style="margin-top:3px">
 										<button type="button" class="btn btn-default btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : target.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>								
 									</div>
-								</div>
+
+									</div>
 
 								</td>
 								<td ng-repeat="year in globalYears" style="text-align:center">
@@ -397,92 +406,104 @@
 		</div>
 	</div>
 
-	<div>
-		<div id="linkNationalTargetDialog" class="modal fade">
-		  <div class="modal-dialog">
+
+<div>
+    <div id="linkNationalTargetDialog" class="modal fade">
+        <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title">Select a target to be linked to:</h4>
-		        <div ng-show="linkTargetData.aichiTarget">
-		        	<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{linkTargetData.aichiTarget.title|lstring}}"><img class="aichi-icon" ng-src="/app/images/targets/{{linkTargetData.aichiTarget.number}}.png"/></a>
-		        	{{linkTargetData.aichiTarget.title}}</div>
-		        <div ng-show="linkTargetData.nationalIndicator">Indicator: {{linkTargetData.nationalIndicator.title}}</div>
-		      </div>
-		      <div class="modal-body">
-
-		      	<table class="table">
-		      		<tr>
-			      		<th>National Target</th>
-			      		<th>Related Aichi Target</th>
-			      		<th></th>
-		      		</tr>
-		        	<tr ng-repeat="target in linkTargetData.targets | orderBy:'title'">
-		        		<td>
-		        			{{target.title}}
-		        		</td>
-						<td>
-							<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
-						</td>
-		        		<td style="text-align:right">
-		        			<button class="btn btn-primary" ng-click="edit('nationalTarget', { uid:target.identifier, aichiTarget : linkTargetData.aichiTarget.identifier, nationalIndicator : linkTargetData.nationalIndicator.identifier })">select &raquo;</button>
-		        		</td>
-		        	</tr>
-				</table>
-
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-info" ng-click="edit('nationalTarget', { government:government, aichiTarget : linkTargetData.aichiTarget.identifier, nationalIndicator : linkTargetData.nationalIndicator.identifier })">Create a new target +</button>
-		      </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Select a target to be linked to:</h4>
+                    <div ng-show="linkTargetData.aichiTarget">
+                        <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{linkTargetData.aichiTarget.title|lstring}}"><img class="aichi-icon" ng-src="/app/images/targets/{{linkTargetData.aichiTarget.number}}.png"/></a>
+                        {{linkTargetData.aichiTarget.title}}</div>
+                    <div ng-show="linkTargetData.nationalIndicator">Indicator: {{linkTargetData.nationalIndicator.title}}</div>
+                </div>
+                <div class="modal-body">
+                    
+                    <table class="table">
+                        <tr>
+                            <th>National Target</th>
+                            <th>Related Aichi Target</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="target in linkTargetData.targets | orderBy:'title'">
+                            <td>
+                                {{target.title}}
+                            </td>
+                            <td>
+                                <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
+                            </td>
+                            <td style="text-align:right">
+                                <button class="btn btn-primary" ng-click="edit('nationalTarget', { uid:target.identifier, aichiTarget : linkTargetData.aichiTarget.identifier, nationalIndicator : linkTargetData.nationalIndicator.identifier })">select &raquo;</button>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" ng-click="edit('nationalTarget', { government:government, aichiTarget : linkTargetData.aichiTarget.identifier, nationalIndicator : linkTargetData.nationalIndicator.identifier })">Create a new target +</button>
+                </div>
 		    </div><!-- /.modal-content -->
-		  </div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->		
-	</div>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->		
+</div>
 
-	<style type="text/css">
-		.reporting a { color: #5e7600; }
-		.label-spacing {
-			margin-right: 5px;
-		}
-
-		.aichi-icon {
-			width: 46px;
-		}
-
-		.aichi-icons {
-			width: 48px;
-		}
-
-		.aichi-icon-xs {
-			width: 21px;
-		}
-
-		.badge-success {
-			background-color:#5cb85c;
-		}
-		.badge-success > a,
-		.badge-success > a:hover,
-		.badge-success {
-			color: white;
-			text-decoration: none;
-		}
-
-		.boxed {
-			border:1px solid #ddd;
-			padding:0 10px 10px 10px;
-			border-radius:4px;
-		}
-
-		.container.reporting  .panel-heading {
-			border-color: #bce8f1;
-			background-color: #d9edf7;
-		}
-
-		.container.reporting  .panel-heading.collapsed {
-			background-color: #f5f5f5;
-			border-color: #dddddd;
-		}
+<style type="text/css">
+    .reporting a { color: #5e7600; }
+    .label-spacing {
+        margin-right: 5px;
+    }
+    
+    .aichi-icon {
+        width: 46px;
+    }
+    
+    .aichi-icons {
+        width: 48px;
+    }
+    
+    .aichi-icon-xs {
+        width: 21px;
+    }
+    
+    .badge-success {
+        background-color:#5cb85c;
+    }
+    .badge-success > a,
+    .badge-success > a:hover,
+    .badge-success {
+        color: white;
+        text-decoration: none;
+    }
+    
+    .boxed {
+        border:1px solid #ddd;
+        padding:0 10px 10px 10px;
+        border-radius:4px;
+    }
+    
+    .container.reporting  .panel-heading {
+        border-color: #bce8f1;
+        background-color: #2A5E8C;
+    }
+    .container.reporting  .panel-heading h4 {
+        color:white;
+    }
+    
+    .container.reporting  .panel-heading.collapsed {
+        background-color: #f5f5f5;
+        border-color: #dddddd;
+    }
+    .container.reporting  .panel-heading.collapsed h4{
+        color:black;
+    }
+    
+    .label {
+        padding-top: 0.3em!important;
+    }
+    
 	</style>
 
 </div>

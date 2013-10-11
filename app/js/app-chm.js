@@ -45,7 +45,8 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/nationalIndicator', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalIndicator.html', resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/progressAssessment', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/progressAssessment.html', resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/implementationActivity', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/implementationActivity.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		otherwise({redirectTo:'/help/404'});
+ 		when('/management/edit/nationalSupportTool', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalSupportTool.html', resolve: { initialized : init }, reloadOnSearch: false }).
+		otherwise({redirectTo:'/help/404'});
 
  		function HomePageController($scope, $rootScope, $route, $browser, $location, $window, authentication) {
 

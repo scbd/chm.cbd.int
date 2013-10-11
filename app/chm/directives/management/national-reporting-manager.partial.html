@@ -356,8 +356,9 @@
 					<table class="table table-striped">
 						<tr>
 							<th>Status</th>
-							<th>Implementation Activity</th>
-							<th colspan="2" width="33%">Related Targets</th>
+							<th width="60%">Implementation Activity</th>
+							<th>Aichi Targets</th>
+							<th>National Targets</th>
 						</tr>
 						<tr ng-repeat="activity in implementationActivities">
 							<td>
@@ -374,10 +375,12 @@
 								<button type="button" class="btn btn-default btn-xs" ng-click="edit('implementationActivity', { uid:activity.identifier})">edit &raquo;</button>
 							</td>
 							<td>
-								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
+								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'">
+									<img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/>
+								</a>
 							</td>
 							<td>
-								<ul style="padding-left:0px">
+								<ul style="padding-left:15px">
 									<li ng-repeat="target in activity.nationalTargets|orderBy:'identifier'">
 										<a ng-href="{{target.url}}">{{target.title|lstring}}</a>
 									</li>

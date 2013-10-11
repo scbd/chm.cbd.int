@@ -223,7 +223,9 @@
 				$scope.aichiTargets = [];
 				$scope.nationalIndicators = [];
 				$scope.nationalTargets = [];
+
 				$scope.implementationActivities = [];
+				$scope.nationalSupportTools = [];
 
 				if ($scope.government) {
 
@@ -244,6 +246,7 @@
 						$scope.nationalIndicators       = res[1].nationalIndicators;
 						$scope.nationalTargets          = res[1].nationalTargets;
 						$scope.implementationActivities = res[1].implementationActivities;
+						$scope.nationalSupportTools     = res[1].nationalSupportTools;
 					});
 				}
 			}
@@ -306,7 +309,7 @@
 				}
 
 				var nationalQuery = {
-					q: "schema_s:(nationalIndicator nationalTarget progressAssessment implementationActivity) AND government_s:" + government,
+					q: "schema_s:(nationalIndicator nationalTarget progressAssessment implementationActivity nationalSupportTool) AND government_s:" + government,
 					fl: "schema_s, url_ss, identifier_s, title_t, description_t, nationalIndicator_ss, aichiTarget_ss, aichiTarget_s, nationalTarget_s, nationalTarget_ss, year_is, government_s, completion_CEN_s",
 					sort: "title_s ASC",
 					rows: 99999999
@@ -322,6 +325,7 @@
 					var qNationalTargets          = _.where(response[1].data.response.docs, { schema_s: 'nationalTarget' });
 					var qProgressAssessments      = _.where(response[1].data.response.docs, { schema_s: 'progressAssessment' });
 					var qImplementationActivities = _.where(response[1].data.response.docs, { schema_s: 'implementationActivity' });
+					var qNationalSupportTools     = _.where(response[1].data.response.docs, { schema_s: 'nationalSupportTool' });
 
 					// Aichi Targets
 					var aichiTargets = _.map(qAichiTargets, function(record) {
@@ -394,11 +398,31 @@
 							});
 						}));
 					});
+
+					// National Support Tools
+					var nationalSupportTools = _.map(qNationalSupportTools, function(record) {
+
+						var qqIndicatorCodes  = _.uniq(_.flatten(_.compact(_.map(qqNationalTargets, function(t) { return t.nationalIndicator_ss }))));
+						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(qqIndicatorCodes,            o.identifier_s) }));
+						var qqAichiTargets    = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss,       o.identifier_s) }));
+						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s) }));
+												
+						return _.first(_.map(map_nationalSupportTools([record]), function(record) {
+
+							return _.extend(record, {
+								nationalIndicators  : map_nationalIndicators (qqIndicators),
+								aichiTargets        : map_aichiTargets       (qqAichiTargets),
+								nationalTargets     : map_progressAssessments(qqNationalTargets)
+							});
+						}));
+					});
+
 					return {
 						nationalIndicators : nationalIndicators,
 						nationalTargets : nationalTargets,
 						aichiTargets : aichiTargets,
-						implementationActivities : implementationActivities
+						implementationActivities : implementationActivities,
+						nationalSupportTools : nationalSupportTools
 					}
 				});
 
@@ -461,6 +485,22 @@
 							title: record.title_t,
 							description: record.description_t,
 							completion : tryParseJson(record.completion_CEN_s),
+							url : makeRelative(_.first(record.url_ss||[]))
+						};
+					});
+				}
+
+				//==================================
+				//
+				//==================================
+				function map_nationalSupportTools(rawRecords) {
+
+					return _.map(rawRecords, function(record) {
+						return {
+							identifier: record.identifier_s,
+							government: record.government_s,
+							title: record.title_t,
+							description: record.description_t,
 							url : makeRelative(_.first(record.url_ss||[]))
 						};
 					});

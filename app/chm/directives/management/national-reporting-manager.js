@@ -402,10 +402,10 @@
 					// National Support Tools
 					var nationalSupportTools = _.map(qNationalSupportTools, function(record) {
 
-						var qqIndicatorCodes  = _.uniq(_.flatten(_.compact(_.map(qqNationalTargets, function(t) { return t.nationalIndicator_ss }))));
-						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(qqIndicatorCodes,            o.identifier_s) }));
 						var qqAichiTargets    = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss,       o.identifier_s) }));
 						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s) }));
+						var qqIndicatorCodes  = _.uniq(_.flatten(_.compact(_.map(qqNationalTargets, function(t) { return t.nationalIndicator_ss }))));
+						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(qqIndicatorCodes,            o.identifier_s) }));
 												
 						return _.first(_.map(map_nationalSupportTools([record]), function(record) {
 

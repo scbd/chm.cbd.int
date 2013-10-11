@@ -379,10 +379,10 @@ angular.module('formControls',[])
 				$scope.init();
 
 				if(!$attr["class"])
-					$element.addClass("unstyled");
+					$element.addClass("list-unstyled");
 
 			},
-			controller: ["$scope", "$q", "Thesaurus", "Enumerable", function ($scope, $q, thesaurus, Enumerable) 
+			controller: ["$scope", "$q", "Thesaurus", "Enumerable", '$timeout', function ($scope, $q, thesaurus, Enumerable, $timeout) 
 			{
 				//==============================
 				//
@@ -391,7 +391,12 @@ angular.module('formControls',[])
 					$scope.setError(null);
 					$scope.__loading = true;
 
-					$q.when($scope.termsFn(), 
+					var qData = $scope.termsFn();
+
+					if(qData==undefined)
+						$timeout($scope.init, 250); // MEGA UGLY PATCH
+
+					$q.when(qData, 
 						function(data) { // on success
 							$scope.__loading = false;
 							$scope.terms     = data;
@@ -538,7 +543,7 @@ angular.module('formControls',[])
 				$scope.init();
 
 				if(!$attr["class"])
-					$element.addClass("unstyled");
+					$element.addClass("list-unstyled");
 			},
 			controller: ["$scope", "$q", "Thesaurus", "Enumerable", function ($scope, $q, thesaurus, Enumerable) 
 			{

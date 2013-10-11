@@ -1,0 +1,106 @@
+﻿<div>
+	<style>legend { margin-top: 20px; }</style>
+	<h1 style="font-weight:bold;font-size:26px">{{document.title | lstring:locale}}</h1>
+
+	<legend>Country</legend>
+
+	<div ng-show="document.government">
+
+		<div class="km-value">
+			<span km-terms ng-model="document.government">
+				<span ng-repeat="term in terms">{{term.name}} </span>
+			</span>
+		</div>
+	</div>
+
+	<div ng-show="document.description">
+		<label>Description of the support tool</label>
+		<div class="km-value km-pre" ng-bind="document.description | lstring:locale"></div>
+	</div>
+
+
+	<div ng-show="document.status">
+		<label>Status</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.status">
+				<span ng-repeat="term in terms">{{term.title | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+
+	<div ng-show="document.jurisdiction">
+		<label>Level of implementation</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.jurisdiction">
+				<span ng-repeat="term in terms">{{term.title | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+
+	<div ng-show="document.jurisdictionInfo">
+		<label>Please provide additional details on the specific level of implementation</label>
+		<div class="km-value km-pre" ng-bind="document.jurisdictionInfo | lstring:locale"></div>
+	</div>
+
+		<div ng-show="document.nationalTargets">
+			<label>Link to Relevant National Targets</label>
+			<div class="km-value" ng-repeat="item in nationalTargets">{{item.title|lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.aichiTargets">
+			<label>Link to most relevant Aichi Targets</label>
+			<div class="km-value" ng-repeat="item in aichiTargets">{{item.title|lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.otherAichiTargets">
+			<label>Link to other relevant Aichi Targets</label>
+			<div class="km-value" ng-repeat="item in otherAichiTargets">{{item.title|lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.thematicAreas">
+			<label>Link to CBD thematic areas</label>
+			<div km-terms ng-model="document.thematicAreas">
+				<div class="km-value" ng-repeat="term in terms">{{term.title | lstring:locale}} </div>
+			</div>
+		</div>
+
+		<div ng-show="document.supportTools">
+			<label>Link to CBD support tools</label>
+			<div km-terms ng-model="document.supportTools">
+				<div class="km-value" ng-repeat="term in terms">{{term.title | lstring:locale}} </div>
+			</div>
+		</div>
+
+
+
+
+		<div ng-show="document.documentText">
+			<label>Main relevant document(s)</label>
+			<div class="km-value km-pre">{{document.documentText|lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.documentLinks">
+			<label>Main relevant website address or attached documents</label>
+			<div class="km-value" ng-repeat="item in document.documentLinks">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			</div>
+		</div>
+
+
+	<div ng-show="document.relevantInformation||document.relevantDocuments">
+
+		<legend>Additional Information</legend>
+
+		<div ng-show="document.relevantInformation">
+			<div class="km-value" ng-bind-html-unsafe="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
+		<div ng-show="document.relevantDocuments">
+			<label>Other relevant website address or attached documents</label>
+			<div class="km-value" ng-repeat="item in document.relevantDocuments">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			</div>
+		</div>
+
+	</div>
+</div>

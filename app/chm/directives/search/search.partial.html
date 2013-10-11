@@ -35,15 +35,10 @@
 		<h4 ng-pluralize count="count" when="{'0': 'No record found', '1': '1 record found', 'other': '{{start+1}} to {{stop+1}} of {} records found'}"></h4>
 
 		<div class="document-item" style="margin-top:10px" ng-repeat="document in documents">
-			<div class="document-id">
-				<a ng-show="document.url_ss" ng-href="{{document.url_ss[0]}}">ID # <span class="doc-id">{{document.id}}</span></a><span ng-hide="document.url_ss">{{document.id}}</span>&nbsp; | &nbsp;<i class="icon-calendar"></i>&nbsp;<span ng-show="document.date_dt">{{document.date_dt|truncate:10}}</span>
-			</div>
-			<i ng-class="{focalPoint:'icon-user', regulation:'icon-file', libraryResource:'icon-book', authority:'icon-flag-alt', database:'icon-hdd', measure:'icon-document', organization:'icon-building'}[document.schema_s]"></i>&nbsp;&nbsp;{{document.schema_EN_t}} | <span>{{document.government_EN_t}}</span>
-			<div class="{{document | json}} document-title">
-				<h3><a ng-show="document.url_ss" ng-href="{{document.url_ss[0]}}">{{document.title_t}}</h3></a>
-			</div>
-			<div class="document-description" ng-bind-html-unsafe="fixHtml(document.description_t)"></div>
-			
+            <strong>{{document.schema_EN_t}}</strong> <span ng-show="document.government_EN_t">|</span> <span>{{document.government_EN_t}}</span>
+            <div><a style="font-size:16px;font-weight:bold;color:#89cf31" ng-href="{{document.url_ss[0]}}">{{document.title_t}}</a></div>
+            <div class="document-description">{{document.description_t}}</div>
+            <div style="color:navy" class="document-description">{{document.url_ss[0]}}</div>
 		</div>
 
 		<div class="clearfix"></div>

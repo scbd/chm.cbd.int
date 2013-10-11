@@ -13,8 +13,6 @@ angular.module('kmApp').compileProvider // lazy
 		},
 		controller: ['$scope', 'authHttp', '$q', function ($scope, $http, $q)
 		{
-console.log("ddd");
-			
 		}]
 	}
 }]);

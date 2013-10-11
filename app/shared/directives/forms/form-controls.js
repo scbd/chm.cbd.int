@@ -1344,7 +1344,7 @@ angular.module('formControls',[])
 						}
 					});
 			},
-			controller: ["$scope", "$q","$filter", "$timeout", function ($scope, $q, $filter, $timeout) 
+			controller: ["$scope", "$q","$filter", "$timeout", "underscore", function ($scope, $q, $filter, $timeout, _) 
 			{
 				//==============================
 				//
@@ -1426,7 +1426,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.getTitle = function(maxCount) 
+				$scope.getTitle = function(maxCount, truncate) 
 				{
 					if ($scope.__loading)
 						return "Loading...";
@@ -1435,6 +1435,12 @@ angular.module('formControls',[])
 						maxCount = -1;
 
 					var oNames = $scope.getTitles();
+
+					if(truncate) {
+						oNames = _.map(oNames, function(name) {
+							return $filter('truncate')(name, 60, '...');
+						});
+					}
 
 					if (oNames.length == 0)
 						return $scope.placeholder || "Nothing selected...";

@@ -139,6 +139,30 @@
 					return _.first(_.filter(value.progressAssessments, function(o) { return _.contains(o.years, year) }));
 			}
 
+		    //===============
+		    //
+		    //===============
+			$scope.getActivities = function (activities, targetID) {
+
+			    if (!activities)
+			        return null;
+
+			    if (!targetID)
+			        return null;
+
+			    var result = [];
+
+			    for (var i = 0; i < activities.length; i++) {
+			        for (var j = 0; j < activities[i].nationalTargets.length; j++) {
+			            if (activities[i].nationalTargets[j].identifier == targetID) {
+			                result.push(activities[i]);
+			            }
+			        }
+			    }
+			    return result;
+			}
+
+
 			//===============
 			//
 			//===============

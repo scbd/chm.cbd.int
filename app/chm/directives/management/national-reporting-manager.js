@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp').compileProvider // lazy
-.directive('nationalReportingManager', ["$timeout", "$q", function ($timeout, $q) {
+.directive('nationalReportingManager', ["$timeout", "$q", "$location", "authentication", function ($timeout, $q, $location, authentication) {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/management/national-reporting-manager.partial.html',
@@ -9,7 +9,7 @@
 		link: function($scope, $elm) {
 
 
-			$timeout(function(){ 
+			var qTimeout = $timeout(function(){ 
 				if($scope.$root.NRLastSection){
 
 					var qElement = $elm.find("#"+$scope.$root.NRLastSection);
@@ -63,6 +63,15 @@
 			qLinkTargetDialog.on('shown.bs.modal',  function(){ return resolveShowModal(qLinkTargetDialog, true); });
 			qLinkTargetDialog.on('hidden.bs.modal', function(){ return resolveShowModal(qLinkTargetDialog, false); });
 			$scope.showLinkTargetDialog = function(display)   { return showModal(qLinkTargetDialog, display); };
+
+
+			if(!authentication.user().isAuthenticated) {
+				$timeout.cancel(qTimeout);
+				$location.search({returnUrl : $location.url() });
+				$location.path('/management/signin');
+				return;
+			}
+
 		},
 		controller: ['$rootScope', '$scope', '$q', 'authHttp', "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $q, $http, _, $location, URI, authentication) {
 

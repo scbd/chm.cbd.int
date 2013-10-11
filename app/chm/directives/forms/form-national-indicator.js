@@ -24,10 +24,18 @@ angular.module('kmApp').compileProvider // lazy
         },
 		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', function ($scope, $q, storage, authentication, editFormUtility, guid, $location, ngProgress) {
 
+
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
+
+				if(!authentication.user().isAuthenticated) {
+					$location.search({returnUrl : $location.url() });
+					$location.path('/management/signin');
+					return;
+				}
+
 				if ($scope.document)
 					return;
 

@@ -1846,7 +1846,7 @@ angular.module('formControls',[])
 					});
 				});
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) 
+			controller: ["$scope", "IStorage", "editFormUtility", 'ngProgress', function ($scope, storage, editFormUtility, ngProgress) 
 			{
 				//====================
 				//
@@ -1869,11 +1869,14 @@ angular.module('formControls',[])
 				//====================
 				$scope.publish = function()
 				{
+					ngProgress.start();
+
 					$q.when($scope.onPrePublishFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
 							return result;
 						});
+
 					}).then(function(canceled) {
 
 						if(canceled)
@@ -1890,9 +1893,16 @@ angular.module('formControls',[])
 
 							return success;
 						});
-					}).then(null, function(error){
+
+					}).catch(function(error){
+						
 						$scope.onErrorFn({ action: "saveDraft", error: error });
 						$scope.closeDialog();
+
+					}).finally(function(){
+
+						ngProgress.complete();
+						
 					});
 				};
 
@@ -1901,6 +1911,8 @@ angular.module('formControls',[])
 				//====================
 				$scope.saveDraft = function()
 				{
+					ngProgress.start();
+
 					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
@@ -1913,9 +1925,11 @@ angular.module('formControls',[])
 						return editFormUtility.saveDraft($scope.binding).then(function(success) {
 							$scope.onPostSaveDraftFn({ data: success.data });
 						});
-					}).then(null, function(error){
+					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
 						$scope.closeDialog();
+					}).finally(function(){
+						ngProgress.complete();
 					});
 				};
 

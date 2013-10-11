@@ -375,9 +375,7 @@
 								<button type="button" class="btn btn-default btn-xs" ng-click="edit('implementationActivity', { uid:activity.identifier})">edit &raquo;</button>
 							</td>
 							<td>
-								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'">
-									<img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/>
-								</a>
+								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
 							</td>
 							<td>
 								<ul style="padding-left:15px">

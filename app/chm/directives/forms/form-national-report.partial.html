@@ -94,7 +94,7 @@
 								</div>
 							
 								<legend>Time period</legend>
-								<div class="row-fluid bottom-spacing">
+								<div class="row bottom-spacing">
 									<div class="col-md-4">
 										<div class="km-control-group" required name="startDate" caption="From">
 											<div km-date name="startDate" required ng-model="document.startDate"></div>
@@ -130,7 +130,7 @@
 									</div>
 								</div>
 
-								<div class="row-fluid bottom-spacing" ng-show="hasApprovedStatus(document)">
+								<div class="row bottom-spacing" ng-show="hasApprovedStatus(document)">
 									<div class="col-md-12">
 										<div class="km-control-group" name="approvedStatus" caption="Status of approved document">
 											<div km-select  name="approvedStatus" ng-model="document.approvedStatus" placeholder="Please select approved status" watch-items items="options.approvedStatus"></div>
@@ -138,14 +138,14 @@
 									</div>
 								</div>
 
-								<div class="row-fluid bottom-spacing" ng-show="hasApprovedStatus(document)">
+								<div class="row bottom-spacing" ng-show="hasApprovedStatus(document)">
 									<div class="col-md-12">
 										<div class="km-control-group" name="approvingBody" caption="Approving body">
 											<div km-select  name="approvingBody"  ng-model="document.approvingBody" placeholder="Please select approving body" watch-items items="options.approvingBody"></div>
 										</div>
 									</div>
 								</div>
-								<div class="row-fluid bottom-spacing" ng-show="hasApprovedStatusInfo(document)">
+								<div class="row bottom-spacing" ng-show="hasApprovedStatusInfo(document)">
 									<div class="col-md-12">
 										<div class="km-control-group" name="approvingBodyInfo" caption="Approving body information">
 											<div km-textbox-ml name="approvingBodyInfo" rows="6" ng-model="document.approvingBodyInfo" locales="document.header.languages"></div>
@@ -155,14 +155,14 @@
 
 								<legend>Main relevant document(s)</legend>
 
-								<div class="row-fluid  bottom-spacing">
+								<div class="row  bottom-spacing">
 									<div class="col-md-12">
 										<div class="km-control-group" name="documentText" caption="Relevant information">
 											<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
 										</div>
 									</div>
 								</div>
-								<div class="row-fluid  bottom-spacing">
+								<div class="row  bottom-spacing">
 									<div class="col-md-11">
 										<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
 											<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>

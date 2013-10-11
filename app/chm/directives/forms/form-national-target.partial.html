@@ -33,7 +33,7 @@
 
 						<legend>General Information</legend>
 
-						<div class="row-fluid bottom-spacing">
+						<div class="row bottom-spacing">
 							<div class="col-md-11">
 								<div class="km-control-group" required name="government" caption="Country">
 									<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
@@ -58,7 +58,7 @@
 							</div>
 						</div>
 
-						<div class="row-fluid bottom-spacing">
+						<div class="row bottom-spacing">
 							<div class="col-md-11 ">
 								<div class="km-control-group" required name="jurisdiction" caption="Level of application">
 								<span class="help-block">Please specify if the target refers to the national or subnational level</span>
@@ -75,7 +75,7 @@
 
 						<legend>Targets and indicators</legend>
 
-						<div class="row-fluid bottom-spacing">
+						<div class="row bottom-spacing">
 							<div class="col-md-11">
 								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Targets">
 									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
@@ -97,7 +97,7 @@
 							</div>
 						</div>
 
-						<div class="row-fluid bottom-spacing">
+						<div class="row bottom-spacing">
 							<div class="col-md-11">
 								<div class="km-control-group" name="nationalIndicators" caption="Link to National Indicators">
 									<div km-select name="nationalIndicators" multiple ng-model="document.nationalIndicators" placeholder="" watch-items items="options.nationalIndicators"></div>
@@ -107,7 +107,7 @@
 
 						<legend>Partners</legend>
 
-						<div class="row-fluid  bottom-spacing">
+						<div class="row  bottom-spacing">
 							<div class="col-md-11">
 								<div class="km-control-group" name="partners" caption="Link to Relevant Partners">
 									<div km-reference name="partners" multiple ng-model="document.partners" loader="loadRecords(identifier, 'organization')" order-by="sortContacts(reference)">
@@ -123,14 +123,14 @@
 
 						<legend>Main relevant document(s) and information</legend>
 
-						<div class="row-fluid  bottom-spacing">
+						<div class="row  bottom-spacing">
 							<div class="col-md-11">
 								<div class="km-control-group" name="documentText" caption="Relevant information">
 									<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
 								</div>
 							</div>
 						</div>
-						<div class="row-fluid  bottom-spacing">
+						<div class="row  bottom-spacing">
 							<div class="col-md-11">
 								<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
 									<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>

@@ -47,6 +47,16 @@ angular.module('kmApp').compileProvider // lazy
             	return qHtml.html();
             };
 
+            $scope.fixUrl = function (url) {
+                if(url) {
+                         if(url.indexOf( "http://chm.cbd.int/")==0) url = url.substr("http://chm.cbd.int".length);
+                    else if(url.indexOf("https://chm.cbd.int/")==0) url = url.substr("https://chm.cbd.int".length);
+                }
+
+                return url;
+            }
+
+
             function readFacets(solrArray) {
 
                 var facets = [];

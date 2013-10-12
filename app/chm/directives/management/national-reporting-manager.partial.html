@@ -19,7 +19,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection(undefined)" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					National Biodiversity Strategies and Action Plans (NBSAPS)
+					<i class="glyphicon glyphicon-file"></i> National Biodiversity Strategies and Action Plans (NBSAPS)
 					<i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(nationalStrategicPlans|filter:isDraft).length}}</span>
@@ -41,7 +41,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
 						<div class="boxed">
 							<h4>
-								<i class=" icon-file"></i> 
+								<i class="glyphicon glyphicon-file"></i> 
 								{{strategicPlan.title}} ({{strategicPlan.year}})
 							</h4>
 							<p>
@@ -63,7 +63,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseTwo')" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					National Reports 
+					<i class="glyphicon glyphicon-file"></i> National Reports 
 					<i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {type:'nr', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(nationalReports|filter:isDraft).length}}</span>
@@ -76,7 +76,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="nrType in cbdNationalReports" style="padding-bottom:10px">
 						<div class="boxed">
 							<h4>
-								<i class=" icon-file"></i>
+								<i class="glyphicon glyphicon-file"></i>
 								{{(nationalReportTypes | filter:{ identifier : nrType })[0].title | lstring}}
 								<span ng-hide="filteredReports.length" class="label label-important">missing</span>
 							</h4>
@@ -108,7 +108,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseThree')" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					Other Reports 
+					<i class="glyphicon glyphicon-file"></i> Other Reports 
 					<i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalReport', {type:'other', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(otherNationalReports|filter:isDraft).length}}</span>
@@ -129,7 +129,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="otherReport in otherNationalReports | orderBy:'year':true"> <!-- other reports -->
 						<div class="boxed">
 							<h4>
-								<i class=" icon-file"></i>
+								<i class="glyphicon glyphicon-file"></i>
 								{{otherReport.reportTypeEx.en}}
 							</h4>
 							<h5>{{otherReport.title}}</h5>
@@ -194,7 +194,7 @@
                             
 							<!-- Related National Target -->
 							<td>
-								<ul style="padding-left:15px;padding-left:0;list-style-type: none;">
+								<ul class="list-unstyled">
 									<li style="padding-bottom:5px;" ng-repeat="target in aichiTarget.nationalTargets"><i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title}}</a></li>
 								</ul>
 								<button type="button" class="btn btn-default btn-xs" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ aichiTarget:aichiTarget, excludeTargets: aichiTarget.nationalTargets })" title="Link this Aichi Target to a National Target">link +</button>
@@ -330,7 +330,7 @@
 							</td>
 							
 							<td>
-								<ul style="padding-left:15px">
+								<ul class="list-unstyled">
 									<li ng-repeat="target in indicator.nationalTargets"><i class="glyphicon glyphicon-record"></i>  <a ng-href="{{target.url}}">{{target.title}}</a></li>
 								</ul>
 								<button type="button" class="btn btn-default btn-xs" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ nationalIndicator:indicator, excludeTargets: indicator.nationalTargets })" title="Link this National Indicator to a National Target">link +</button>
@@ -422,7 +422,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection(collapseEight)" data-toggle="collapse" data-parent="#accordion3" href="#collapseEight" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					Guidance and Support Tools
+					<i class="glyphicon glyphicon-screenshot"></i> Guidance and Support Tools
 					<i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right" ng-click="edit('nationalSupportTool', { government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(nationalSupportTools|filter:isDraft).length}}</span>
@@ -435,7 +435,7 @@
                     
 					<div ng-hide="nationalSupportTools"> <!-- no records -->
 						<p>
-                        No National Biodiversity Strategies and Action Plans exists.<br/>
+                        No Guidance or Support Tool exists.<br/>
                         <em>Please submit a record.</em>
 						</p>
 						<button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalSupportTool', { government : government})">add +</button>
@@ -444,7 +444,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="tool in nationalSupportTools"> <!-- NBSAPs -->
 						<div class="boxed">
 							<h4>
-								<i class=" icon-file"></i> 
+								<i class="glyphicon glyphicon-screenshot"></i>
 								{{tool.title}}
 							</h4>
 							<p>

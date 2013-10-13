@@ -87,6 +87,47 @@
 										 "A49393CA-2950-4EFD-8BCC-33266D69232F", // NR2
 										 "F27DBC9B-FF25-471B-B624-C0F73E76C8B"]; // NR1
 
+
+
+			$scope.orderList = true;
+			$scope.sortTerm = 'title';
+
+		    //==================================
+		    //
+		    //==================================
+			$scope.sortTable = function (term) {
+
+			    if ($scope.sortTerm == term) {
+			        $scope.orderList = !$scope.orderList;
+			    }
+			    else {
+			        $scope.sortTerm = term;
+			        $scope.orderList = true;
+			    }
+			}
+
+		    //==================================
+		    //
+		    //==================================
+			$scope.UpToDate = function (items) {
+			    if (!items)
+			        return null;
+
+			    var result = [];
+
+			    for (var i = 0; i < items.length; i++) {
+
+			        if (items[i].isUpToDate) {
+			            result.push(items[i]);
+			        }
+
+			    }
+			    return result;
+			}
+
+
+
+
 			//==================================
 			//
 			//==================================

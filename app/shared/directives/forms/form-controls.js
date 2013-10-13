@@ -316,7 +316,7 @@ angular.module('formControls',[])
 				$scope.terms = [];
 				$scope.$watch('binding', $scope.load);
 			},
-			controller: ["$scope", "underscore", function ($scope, _) 
+			controller: ["$scope", "$q", "underscore", function ($scope, $q, _) 
 			{
 				//==============================
 				//
@@ -330,15 +330,20 @@ angular.module('formControls',[])
 					else if($scope.binding && angular.isObject($scope.binding)) oBinding = [$scope.binding];
 
 					if(oBinding) {
-						angular.forEach(oBinding, function(value, key)
-						{
+						var qTerms = [];
+
+						angular.forEach(oBinding, function(value, key) {
 							if(value.name)
-								$scope.terms.push(value);
+								qTerms.push(value);
 							else
-								$http.get("/api/v2013/thesaurus/terms/"+encodeURI(value.identifier),  {cache:true})
-									.success(function(data)             { $scope.terms.push( _.extend(_.clone(data),  _.omit(value, "identifier", "title")     )); } )
-									.error  (function(error, errorCode) { $scope.terms.push( _.extend(_.clone(value), { isError:true, notFound:errorCode==404 })); } )
-						})
+								qTerms.push($http.get("/api/v2013/thesaurus/terms/"+encodeURI(value.identifier),  {cache:true}).then(function(o) {
+									return _.extend(_.clone(o.data),  _.omit(value, "identifier", "title"));
+								}));
+						});
+
+						$q.all(qTerms).then(function(terms) {
+							$scope.terms = terms;
+						});
 					}
 				}
 			}]

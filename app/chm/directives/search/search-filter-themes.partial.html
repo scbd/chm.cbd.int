@@ -28,7 +28,7 @@
 
 	<div id="dialogSelectThemes" class="modal fade">
 		<div class="modal-dialog"><!--  style="width:760px;margin-left:-380px"  -->
-			<div class="modal-content">
+			<div class="modal-content" style="width:760px">
 				<div class="modal-body">
 					<div ng-repeat="item in terms" class="checkbox">
 						<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="ts(this, $event)">{{item.name}} ({{item.count}})</label>

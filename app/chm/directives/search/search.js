@@ -306,7 +306,7 @@ angular.module('kmApp').compileProvider // lazy
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-keywords.partial.html?'+(new Date().getTime()),
-        // replace: true,
+        replace: true,
         // require : "?ngModel",
         scope: {
             // placeholder: '@',

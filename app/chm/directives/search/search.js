@@ -137,9 +137,6 @@ angular.module('kmApp').compileProvider // lazy
 
                 self.canceler = $q.defer();
 
-                ngProgress.reset();
-                ngProgress.start();
-
                 $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
                 
                     self.canceler = null;
@@ -205,6 +202,9 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.queryScheduled = null;
             function search() {
+                ngProgress.reset();
+                ngProgress.start();
+
                 if($scope.queryScheduled)
                     $timeout.cancel($scope.queryScheduled);
 

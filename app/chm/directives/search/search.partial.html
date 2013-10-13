@@ -35,10 +35,11 @@
 		<h4 ng-pluralize count="count" when="{'0': 'No record found', '1': '1 record found', 'other': '{{start+1}} to {{stop+1}} of {} records found'}"></h4>
 
 		<div class="document-item" style="margin-top:10px" ng-repeat="document in documents">
-            <strong>{{document.schema_EN_t}}</strong> <span ng-show="document.government_EN_t">|</span> <span>{{document.government_EN_t}}</span>
+            <i style="color:#666;font-size:18px" ng-class="icon(document.schema_s)"></i>&nbsp;
+            <strong style="color:#555">{{document.schema_EN_t}}</strong> <span ng-show="document.government_EN_t">|</span> <span>{{document.government_EN_t}}</span>
             <div><a style="font-size:16px;font-weight:bold;color:#89cf31" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
             <div class="document-description">{{document.description_t}}</div>
-            <div style="color:navy" class="document-description">{{document.url_ss[0]}}</div>
+            <div><a style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
 		</div>
 
 		<div class="clearfix"></div>

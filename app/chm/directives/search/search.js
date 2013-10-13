@@ -21,6 +21,34 @@ angular.module('kmApp').compileProvider // lazy
 
             this.xhr = null;
 
+            var iconMap = {
+                'focalPoint'            : 'icon-user',
+                'notification'          : 'icon-envelope',
+                'pressRelease'          : 'icon-bullhorn',
+                'statement'             : 'icon-microphone',
+                'announcement'          : 'icon-rss',
+                'event'                 : 'icon-calendar',
+                'organization'          : 'icon-building',
+                'resource'              : 'icon-book',
+                'aichiTarget'           : 'icon-flag',
+                'strategicPlanIndicator': 'icon-signal',
+                'marineEbsa'            : 'icon-map-marker',
+                'meeting'               : 'icon-calendar',
+                'meetingDocument'       : 'icon-file',
+                'decision'              : 'icon-legal',
+                'recommendation'        : 'icon-legal',
+                'nationalReport'        : 'icon-quote-left',
+                'nationalTarget'        : 'icon-flag',
+                'nationalIndicator'     : 'icon-signal',
+                'progressAssessment'    : 'icon-eye-open',
+                'implementationActivity': 'icon-retweet',
+                'nationalSupportTool'   : 'icon-wrench'
+            };
+
+            $scope.icon = function (schema) {
+                return iconMap[schema];
+            }
+
             $scope.actionSetPage = function (pageNumber) {
                 $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
             };

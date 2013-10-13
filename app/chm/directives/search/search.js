@@ -14,8 +14,9 @@ angular.module('kmApp').compileProvider // lazy
         },
         link: function ($scope, element, attrs, ngModelController)
         {
+            ngProgress.start();
         },
-        controller: ['$scope', '$q', '$timeout', function ($scope, $q, $timeout)
+        controller: ['$scope', '$q', '$timeout', 'ngProgress', function ($scope, $q, $timeout, ngProgress)
         {
             var self = this;
 
@@ -136,6 +137,9 @@ angular.module('kmApp').compileProvider // lazy
 
                 self.canceler = $q.defer();
 
+                ngProgress.reset();
+                ngProgress.start();
+
                 $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
                 
                     self.canceler = null;
@@ -148,6 +152,8 @@ angular.module('kmApp').compileProvider // lazy
                     $scope.documents = data.response.docs;
 
                     $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
+
+                    ngProgress.complete();
 
                     if(!$scope.schemas) {
                         var queryFacetsParameters = {

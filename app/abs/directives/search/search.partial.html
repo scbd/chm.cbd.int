@@ -50,7 +50,7 @@
 			<div class="{{document | json}} document-title">
 				<h3><a ng-show="document.url_ss" ng-href="{{document.url_ss[0]}}">{{document.title_t}}</h3></a>
 			</div>
-			<div class="document-description" ng-bind-html-unsafe="fixHtml(document.description_t)"></div>
+			<div class="document-description" ng-bind-html="fixHtml(document.description_t)"></div>
 			
 		</div>
 

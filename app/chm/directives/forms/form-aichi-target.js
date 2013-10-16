@@ -1,8 +1,8 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
+.directive('editAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", "$timeout", function ($http, URI, $filter, $q, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/abs/directives/forms/aichiTarget.html', // edit-aichi-target.partial.html',
+		templateUrl: '/app/chm/directives/forms/form-aichi-target.partial.html',
 		replace    : true,
 		transclude : false,
 		scope      : {},
@@ -11,6 +11,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
+			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
 				strategicGoal:				function () { return $http.get("/api/v2013/thesaurus/domains/aichiTargetGoals/terms",			{ cache: true }).then(function (o) { return o.data; }); },
@@ -24,12 +25,25 @@ angular.module('kmApp').compileProvider // lazy
 				linkResourcesCategories:	function () { return $http.get("/api/v2013/thesaurus/domains/aichiTartgetResourceTypes/terms",	{ cache: true }).then(function (o) { return o.data; }); },
 			};
 
-			$element.find('a[data-toggle="tab"]').on('shown', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+
+				if(!tab)
+					return;
+
+				if (tab == 'review')
+					$scope.validate();
+
+				var qBody = $element.parents("body:last");
+
+				if(qBody.scrollTop() > $element.offset().top) {
+					$timeout(function()	{
+						if (!qBody.is(":animated"))
+							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
+					}, 100);
+				}
 			});
 
 			$scope.init();
@@ -91,23 +105,32 @@ angular.module('kmApp').compileProvider // lazy
 				if (!document)
 					return $q.when(true);
 
-				for (var i = 0; i < document.champions.length; i++) {
-					var champion = document.champions[i];
-					if (jQuery.isEmptyObject(champion)) {
-						$scope.removeChampion(document.champions, champion);
+				if (document.champions) {
+
+					for (var i = 0; i < document.champions.length; i++) {
+						var champion = document.champions[i];
+						if (jQuery.isEmptyObject(champion)) {
+							$scope.removeChampion(document.champions, champion);
+						}
+					}
+
+					if (document.champions.length == 0) {
+						document.champions = undefined;
 					}
 				}
-				if (document.champions.length == 0) {
-					document.champions = undefined;
-				}
-				for (var i = 0; i < document.resources.length; i++) {
-					var resource = document.resources[i];
-					if (jQuery.isEmptyObject(resource)) {
-						$scope.removeResource(document.resources, resource);
+
+				if (document.resources) {
+
+					for (var i = 0; i < document.resources.length; i++) {
+						var resource = document.resources[i];
+						if (jQuery.isEmptyObject(resource)) {
+							$scope.removeResource(document.resources, resource);
+						}
 					}
-				}
-				if (document.resources.length == 0) {
-					document.resources = undefined;
+
+					if (document.resources.length == 0) {
+						document.resources = undefined;
+					}
 				}
 
 				if (/^\s*$/g.test(document.notes))
@@ -127,6 +150,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
+				$scope.reviewDocument = oDocument;
 
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
@@ -155,48 +179,6 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.tab = function(tab, show) {
-
-				var oTabNames    = [];
-				var sActiveTab   = $('.tab-content:first > .tab-pane.active').attr("id");
-				var qActiveTab   = $('#editFormPager a[data-toggle="tab"]:not(:first):not(:last)').filter('[href="#'+sActiveTab+'"]');
-
-				if (tab == "-") tab = (qActiveTab.prevAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-				if (tab == "+") tab = (qActiveTab.nextAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-
-				if(!tab)
-					return undefined;
-
-				if (show)
-					$('#editFormPager a[data-toggle="tab"][href="#review"]:first').tab('show');
-
-				return {
-					'name' : tab,
-					'active': sActiveTab == tab
-				}
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.onTab  = function(tab) {
-				var fn = function() {
-					if (tab == 'review')
-						$scope.validate();
-
-					if (!$('body').is(":animated"))
-						$('body').stop().animate({ scrollTop: 0 }, 600);
-				};
-
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					fn();
-				else
-					$scope.$apply(fn);
-			}
-
-			//==================================
-			//
-			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
 			}
@@ -207,7 +189,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.onPrePublish = function() {
 				return $scope.validate(false).then(function(hasError) {
 					if (hasError)
-						$scope.tab("review", true)
+						$scope.tab = "review";
 					return hasError;
 				});
 			}

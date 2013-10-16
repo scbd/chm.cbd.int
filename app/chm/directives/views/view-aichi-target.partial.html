@@ -1,17 +1,12 @@
 ﻿<div>
-	<legend>{{document.number}} - {{document.shortTitle | lstring:review.locale}}</legend>
+	<h1 style="font-weight:bold;font-size:26px"><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" /> {{document.shortTitle | lstring:review.locale}}</h1>
 
 	<label class="control-label" required for="shortTitle">Full title</label>
 	<div class="km-value km-pre">{{document.title | lstring:locale}}</div>
 
-	<div ng-show ="canShowTargetIcon()">
-		<label class="control-label" required for="icon">Target Icon</label>
-		<div class="km-value">
-			<a ng-repeat="link in document.icons" ng-href="{{link.url}}" target="_blank">
-				<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />
-			</a>
-		</div>
-	</div>
+	<label class="control-label" required for="shortTitle">Target Number </label>
+	<div class="km-value">{{document.number}}</div>
+
 	<div ng-show="canShowStrategicGoal()">
 		<label class="control-label" required for="strategicGoal">Strategic Goal</label>
 		<div class="km-value">
@@ -133,7 +128,7 @@
 		<legend>Additional Information</legend>
 
 		<div ng-show="document.relevantInformation">
-			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+			<div class="km-value" ng-bind-html-unsafe="document.relevantInformation | lstring:locale | markdown"></div>
 		</div>
 
 		<div ng-show="document.relevantDocuments">

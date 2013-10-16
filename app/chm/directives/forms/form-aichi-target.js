@@ -48,7 +48,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", 'IStorage', "authentication", "Enumerable", "editFormUtility", function ($scope, $q, storage, authentication, Enumerable, editFormUtility) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "authentication", "Enumerable",  "editFormUtility", function ($scope, $q, $location, storage, authentication, Enumerable, editFormUtility) 
 		{
 			//==================================
 			//
@@ -198,28 +198,28 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				window.location = "/managementcentre/my-pending-items";
+				$location.url("/management");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				window.location = "/managementcentre/edit/";
+				$location.url("/database/record?documentID=" + data.documentID);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				window.location = "/managementcentre/edit-draft/";
+				$location.url("/management");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				window.location = "/managementcentre/";
+				$location.url("/management");
 			};
 
 			//==================================

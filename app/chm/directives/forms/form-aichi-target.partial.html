@@ -1,16 +1,14 @@
 ﻿<div>
 	<h1>Aichi Target - {{document.number}}</h1>
 
-	<div ng-show="isLoading()">
-		<div class="loadProgress" progress="1" timeout="1500"></div>
-	</div>
-
 	<div class="alert alert-error" ng-cloak ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div ng-show="!isLoading()&&!isNew">
+	<div ng-show="status=='loading'">Loading...</div>
+	
+	<div ng-hide="status=='hidden'||status=='loading'">
 
 		<div style="position:relative">
 			

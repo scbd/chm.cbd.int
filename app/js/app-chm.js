@@ -138,6 +138,13 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 		$locationProvider.hashPrefix('!');
 }]);
 
+app.value("schemaTypes", [ "aichiTarget", "authority", "contact", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "strategicPlanIndicator"])
+app.value("managementUrls", {
+	root : "/management",
+	drafts : "/management/my-drafts",
+	records : "/management/my-records",
+	workflows : "/management"
+})
 function PageController($scope, $window, $location, authentication) {
 
 	//if($location.protocol()=="http" && !$location.host().match(/(.*\.local)|(^localhost)$/)

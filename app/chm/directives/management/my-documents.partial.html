@@ -16,7 +16,8 @@
 			
 			<tr ng-repeat="document in documents">
 				<td>
-					{{document.documentID}}</td>
+					<a ng-href="/database/record?documentID={{document.documentID}}">{{document.documentID}}</a>
+				</td>
 				<td>
 					<div ng-switch="document.type">
 						<strong ng-switch-when="measure">National Regulation</strong>
@@ -51,19 +52,18 @@
 					<div>{{document.updatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
 				</td>
 				<td style="text-align:end">
-					<div class="btn-group">
-						<button class="btn"  ng-click="edit(document);"  type="button" title="Edit"><i class="icon-edit"></i></button>
-						<button class="btn"  ng-click="erase(document);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
+					<div class="btn-group" style="white-space:nowrap;">
+						<button class="btn btn-default"  ng-click="edit(document);"  type="button" title="Edit"><i class="icon-edit"></i></button>
+						<button class="btn btn-default"  ng-click="erase(document);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
 					</div>
 				</td>
 			</tr>
 	</table>
 
-	<div ng-show="!__loading && documents.length==0">
+	<div ng-show="documents.length==0">
 		No record found
 	</div>
-
 	<div ng-show="__loading">
-		<span ng-include="'/app/partials/cms/loading.html'"></span>
+		Loading...
 	</div>
 </div>

@@ -16,7 +16,7 @@
 				<td>
 					<div ng-switch="draft.documentID">
 						<span ng-switch-when="null">new</span>
-						<span ng-switch-default>{{draft.documentID}}</span>
+						<a    ng-switch-default ng-href="/database/record?documentID={{draft.documentID}}">{{draft.documentID}}</a>
 					</div>
 					</td>
 				<td>
@@ -43,9 +43,9 @@
 					<div>{{draft.workingDocumentUpdatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
 				</td>
 				<td style="text-align:end">
-					<div class="btn-group">
-						<button class="btn"  ng-click="edit(draft);"  type="button" title="Edit"><i class="icon-edit"></i></button>
-						<button class="btn"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
+					<div class="btn-group" style="white-space:nowrap;">
+						<button class="btn btn-default"  ng-click="edit(draft);"  type="button" title="Edit"><i class="icon-edit"></i></button>
+						<button class="btn btn-default"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
 					</div>
 				</td>
 			</tr>
@@ -54,8 +54,7 @@
 	<div ng-show="!__loading && drafts.length==0">
 		No record found
 	</div>
-
 	<div ng-show="__loading">
-		<span ng-include="'/app/partials/cms/loading.html'"></span>
+		Loading...
 	</div>
 </div>

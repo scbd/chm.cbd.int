@@ -86,7 +86,7 @@
 	<div>
 		<legend>Status of submission</legend>
 
-		<div ng-show="document.status=='approved' || document.approvedByCopDecision || document.approvedByCopDecision || document.approvedByGovernmentOn">
+		<div ng-show="document.status=='approved' || document.approvedByCopDecision || document.approvedByCopDecision || fixDate(document.approvedByGovernmentOn)">
 
 			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='approved' }">
 			  <div class="panel-heading">Areas meeting EBSA criteria approved for inclusion in the EBSA Repository</div>
@@ -108,9 +108,9 @@
 							</ul>
 						</div>
 
-						<div class="col-md-4" ng-show="document.approvedByGovernmentOn">
+						<div class="col-md-4" ng-show="fixDate(document.approvedByGovernmentOn)">
 							<label>Date</label>
-							<div class="km-value">{{document.approvedByGovernmentOn}}</div>
+							<div class="km-value">{{fixDate(document.approvedByGovernmentOn)}}</div>
 						</div>
 						
 					</div>
@@ -120,7 +120,7 @@
 			</div>
 		</div>
 
-		<div ng-show="document.status=='recommendedToCop' || document.recommendedToCopByGovernment || document.recommendedToCopByGovernment || document.recommendedToCopByGovernmentOn">
+		<div ng-show="document.status=='recommendedToCop' || document.recommendedToCopByGovernment || document.recommendedToCopByGovernment || fixDate(document.recommendedToCopByGovernmentOn)">
 
 			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='recommendedToCop' }">
 			  <div class="panel-heading">Areas meeting EBSA criteria for consideration by COP or by a Party /other Government through national process</div>
@@ -135,9 +135,9 @@
 							</ul>
 						</div>
 
-						<div class="col-md-4" ng-show="document.recommendedToCopByGovernmentOn">
+						<div class="col-md-4" ng-show="fixDate(document.recommendedToCopByGovernmentOn)">
 							<label>Date</label>
-							<div class="km-value">{{document.recommendedToCopByGovernmentOn}}</div>
+							<div class="km-value">{{fixDate(document.recommendedToCopByGovernmentOn)}}</div>
 						</div>
 						
 					</div>

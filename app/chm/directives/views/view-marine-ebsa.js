@@ -12,7 +12,15 @@ angular.module('kmApp').compileProvider // lazy
 		},
 		controller: ['$scope', 'authHttp', '$q', "IStorage", function ($scope, $http, $q, storage)
 		{
-			$scope.gisMapLayers  = null;
+   			$scope.fixDate = function(date) {
+
+   				if(date && date.indexOf('0001')==0)
+   					date = undefined;
+
+   				return date;
+   			}
+
+			$scope.gisMapLayers = null;
 			$scope.gisMapCenter = null;
 
 			$scope.$watch("document.gisMapCenter", function(gisMapCenter) {

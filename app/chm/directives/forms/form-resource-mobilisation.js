@@ -265,12 +265,25 @@ angular.module('kmApp').compileProvider // lazy
 				]
 			};
 
-			$element.find('a[data-toggle="tab"]').on('shown', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+
+				if(!tab)
+					return;
+
+				if (tab == 'review')
+					$scope.validate();
+
+				var qBody = $element.parents("body:last");
+
+				if(qBody.scrollTop() > $element.offset().top) {
+					$timeout(function()	{
+						if (!qBody.is(":animated"))
+							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
+					}, 100);
+				}
 			});
 
 			$scope.init();

@@ -198,7 +198,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				$location.url("/management");
+				$location.url("/management/status");
 			};
 
 			//==================================
@@ -212,14 +212,17 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				$location.url("/management");
+				$location.url("/management/drafts");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$location.url("/management");
+				if($location.search().returnUrl)
+					$location.url($location.search().returnUrl);	
+				else
+					$location.url("/management");
 			};
 
 			//==================================

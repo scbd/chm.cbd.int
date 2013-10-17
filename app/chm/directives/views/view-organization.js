@@ -78,7 +78,7 @@ angular.module('kmApp').compileProvider // lazy
 }]);
 
 angular.module('kmApp').compileProvider // lazy
-.directive('cbdViewOrganizationReference', [function () {
+.directive('viewOrganizationReference', [function () {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/views/view-organization-reference.partial.html',

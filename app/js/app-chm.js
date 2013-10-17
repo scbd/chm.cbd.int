@@ -39,15 +39,17 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/my-records'        , { controller:ManagementPageController, templateUrl:'/app/views/management/my-records.html'        , resolve: { initialized : init } }).
  		when('/management/my-drafts'         , { controller:ManagementPageController, templateUrl:'/app/views/management/my-drafts.html'         , resolve: { initialized : init } }).
  		
- 		when('/management/edit/resource', { controller:ManagementPageController, templateUrl:'/app/views/cbdEditResource.html', resolve: { initialized : init } }).
- 		when('/management/edit/nationalReport', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalReport.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/nationalTarget', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalTarget.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/nationalIndicator', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalIndicator.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/progressAssessment', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/progressAssessment.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/implementationActivity', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/implementationActivity.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/nationalSupportTool', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalSupportTool.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/aichiTarget', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/aichi-target.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/marineEbsa', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/marine-ebsa.html', resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/resource', 				{ controller:ManagementPageController, templateUrl:'/app/views/cbdEditResource.html'							, resolve: { initialized : init } }).
+ 		when('/management/edit/nationalReport', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalReport.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalTarget', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalTarget.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalIndicator', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalIndicator.html'			, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/progressAssessment', 	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/progressAssessment.html'			, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/implementationActivity', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/implementationActivity.html'		, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalSupportTool', 	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalSupportTool.html'		, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/aichiTarget', 			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/aichi-target.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/marineEbsa',             { controller:ManagementPageController, templateUrl:'/app/views/management/edit/marine-ebsa.html'                , resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/caseStudies', 			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/case-studies.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/resourceMobilisation',	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/resource-mobilisation.html'		, resolve: { initialized : init }, reloadOnSearch: false }).
 		otherwise({redirectTo:'/help/404'});
 
  		function HomePageController($scope, $rootScope, $route, $browser, $location, $window, authentication) {

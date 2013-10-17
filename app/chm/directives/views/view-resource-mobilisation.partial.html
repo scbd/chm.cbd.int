@@ -1,0 +1,389 @@
+﻿<div>
+	SHOULD NOT BE VISIBLE FOR TESTING ONLY
+{{document}}
+
+	<div ng-show="document.government || document.ownerBehalf ||
+		document.respondentName || document.respondentDesignation ||
+		document.respondentOrganization || document.respondentDepartment ||
+		document.respondentPhones || document.respondentEmails" >
+		<legend>Identification of respondent</legend>
+		<div ng-show="document.government">
+			<label>Country</label>
+			<div class="km-value">
+				<span km-terms ng-model="document.government">
+					<span ng-repeat="term in terms">{{term.name}} </span>
+				</span>
+			</div>
+		</div>
+
+		<div ng-show="document.ownerBehalf">
+			<label>Please indicate on whose behalf this information is being completed"</label>
+				<span km-terms ng-model="document.ownerBehalf">
+					<span ng-repeat="term in terms">{{term.name}} </span>
+				</span>
+		</div>
+
+		<div ng-show="document.respondentName || document.respondentDesignation ||
+			document.respondentOrganization || document.respondentDepartment ||
+			document.respondentPhones || document.respondentEmails" >
+			<legend>Contact details of the respondent</legend>
+			<div class="row-fluid">
+				<div class="span7">
+					<label>Name</label>
+					<div class="km-value km-pre">{{document.respondentName}}</div>
+				</div>
+				<div class="span4">
+					<label>Title</label>
+					<div class="km-value km-pre">{{document.respondentDesignation | lstring:locale}}</div>
+				</div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="span5">
+					<label>Organization</label>
+					<div class="km-value km-pre">{{document.respondentOrganization | lstring:locale}}</div>
+				</div>
+				<div class="span5">
+					<label>Department</label>
+					<div class="km-value km-pre">{{document.respondentDepartment | lstring:locale}}</div>
+				</div>
+			</div>
+
+			<label>Phone numbers</label>
+			<ul class="km-value">
+				<li ng-repeat="item in document.respondentPhones">{{item}}</li>
+			</ul>
+			<label>Emails</label>
+			<ul class="km-value">
+				<li ng-repeat="item in document.respondentEmails"><a ng-href="mailto:{{item}}">{{item}}</a></li>
+			</ul>
+		</div>
+
+		<div ng-show="document.completedDate">
+			<label>Date of completion and submission of completed framework</label>
+			<div class="km-value">{{document.completedDate}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.financialCurrency || document.financialResources  ||
+		document.financialDescription">
+		<legend>1. Information on international flows of financial resources</legend>
+		<div ng-show="document.financialCurrency">
+			<label>Currency</label>
+			<div class="km-value">{{document.financialCurrency | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.financialResources">
+			<label>Information on international flows of financial resources</label>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Year</th>
+							<th>Type of financial flows</th>
+							<th>Category</th>
+							<th>Amount</th>
+							<th>Confidence</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="resource in document.financialResources">
+							<td>
+								<div km-terms ng-model="resource.year">
+									<div ng-repeat="term in terms">{{term.identifier}}</div>
+								</div>
+								{{resource.year}}
+							</td>
+							<td>
+								<div km-terms ng-model="resource.type">
+									<div ng-repeat="term in terms">{{term.name}}</div>
+								</div>
+							</td>
+							<td>
+								<div km-terms ng-model="resource.category">
+									<div ng-repeat="term in terms">{{term.name}}</div>
+								</div>
+							</td>
+							<td>
+								{{resource.amount}}
+							</td>
+							<td>
+								<div km-terms ng-model="resource.confidence">
+									<div ng-repeat="term in terms">{{term.name}}</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Total  Directly related:</label>{{getTotalDirected(document.financialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Total  Indirectly related:</label>{{getTotalIndirected(document.financialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Total  (Directly + Indirectly related):</label>{{getTotalDirectedAndIndirectly(document.financialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Overall total:</label>{{getOverallTotal(document.financialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Overall average confidence:</label>{{confidenceAverage(document.financialResources)}}
+			</div>
+		</div>
+
+		<div ng-show="document.financialDescription">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.financialDescription | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.countryFinancialCurrency || document.countryFinancialResources  ||
+		document.countryFinancialDescription">
+		<legend>2. Information on the availability of financial resources in each country</legend>
+		<div ng-show="document.countryFinancialCurrency">
+			<label>Currency</label>
+			<div class="km-value">{{document.countryFinancialCurrency | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.countryFinancialResources">
+			<label>Information on the availability of financial resources in each country</label>
+			<div>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Year</th>
+							<th>Type of financial flows</th>
+							<th>Category</th>
+							<th>Amount</th>
+							<th>Confidence</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="resource in document.countryFinancialResources">
+							<td>
+								{{resource.year}}
+							</td>
+							<td>
+								<div km-terms ng-model="resource.type">
+									<div ng-repeat="term in terms">{{term.name}}</div>
+								</div>
+							</td>
+							<td>
+								<div km-terms ng-model="resource.category">
+									<div ng-repeat="term in terms">{{term.name}}</div>
+								</div>
+							</td>
+							<td>
+								{{resource.amount}}
+							</td>
+							<td>
+								<div km-terms ng-model="resource.confidence">
+									<div ng-repeat="term in terms">{{term.name}}</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Total  Directly related:</label>{{getTotalDirected(document.countryFinancialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Total  Indirectly related:</label>{{getTotalIndirected(document.countryFinancialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Total  (Directly + Indirectly related):</label>{{getTotalDirectedAndIndirectly(document.countryFinancialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Overall total:</label>{{getOverallTotal(document.countryFinancialResources) | number:2}}
+			</div>
+			<div class="row-fluid">
+				<label class="span6">Overall average confidence:</label>{{confidenceAverage(document.countryFinancialResources)}}
+			</div>
+		</div>
+
+		<div ng-show="document.countryFinancialDescription">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.countryFinancialDescription | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.biodiversityAssessment || document.fundingNeeds ||
+			document.developementFunding || document.integratedConsideration ||
+			document.countryIntegratedConsideration || document.initiativeDescription">
+		<legend>3. Information on the steps being taken to implement the strategy for resource mobilization</legend>
+		<legend>Steps and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
+		<div ng-show="document.biodiversityAssessment">
+			<label>Assessment of values of biodiversity</label>
+			<div class="km-value km-pre">{{document.biodiversityAssessment | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.fundingNeeds">
+			<label>Identification and reporting funding needs, funding gaps and funding priorities</label>
+			<div class="km-value km-pre">{{document.fundingNeeds | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.developementFunding">
+			<label>Development of national financial plans for biodiversity</label>
+			<div class="km-value km-pre">{{document.developementFunding | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.integratedConsideration">
+			<label>Integrated consideration of biodiversity and ecosystem services in development plans and strategies</label>
+			<div class="km-value km-pre">{{document.integratedConsideration | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.countryIntegratedConsideration">
+			<label>Country integrated consideration of biodiversity and ecosystem services in national budgets</label>
+			<div class="km-value km-pre">{{document.countryIntegratedConsideration | lstring:locale}}</div>
+		</div>
+
+		<div ng-show"document.initiativeDescription" >
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.initiativeDescription | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.northSouthProvidedDeveloped || document.southSouthTriangularDeveloped ||
+			document.descriptionDeveloped">
+		<legend>4. Information on specific issues related to resource availability</legend>
+		<legend>4.1: Technical cooperation, capacity‑building and South-South cooperation</legend>
+		<legend>Type and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
+		<div ng-show="document.northSouthProvidedDeveloped">
+			<label>4.1.1 North-South technical cooperation and capacity building provided</label>
+			<div class="km-value km-pre">{{document.northSouthProvidedDeveloped | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.southSouthTriangularDeveloped">
+			<label>4.1.2 Support to South-South technical cooperation & capacity building  through triangular cooperation</label>
+			<div class="km-value km-pre">{{document.southSouthTriangularDeveloped | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.descriptionDeveloped">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.descriptionDeveloped | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.northSouthReceivedDeveloping || document.southSouthReceivedDeveloping ||
+		document.southSouthProvidedDeveloping || document.descriptionDeveloping">
+		<legend>Type and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
+		<div ng-show="document.northSouthReceivedDeveloping">
+			<label>4.1.3 North-South technical cooperation and capacity building received</label>
+			<div class="km-value km-pre">{{document.northSouthReceivedDeveloping | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.southSouthReceivedDeveloping">
+			<label>4.1.4 South-South technical cooperation & capacity building  received from other developing countries</label>
+			<div class="km-value km-pre">{{document.southSouthReceivedDeveloping | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.southSouthProvidedDeveloping">
+			<label>4.1.5 South-South technical cooperation and capacity building - Provided</label>
+			<div class="km-value km-pre">{{document.southSouthProvidedDeveloping | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.descriptionDeveloping">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.descriptionDeveloping | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.incentivesRemoved || document.incentivesIntroduced ||
+		document.incentivesDescription">
+		<legend>4.2: Resources raised through reform of incentives and subsidies</legend>
+		<legend>Incentives and description of the initiative (including how the intrinsic and all other values of biodiversity have been reflected)</legend>
+		<div ng-show="document.incentivesRemoved">
+			<label>4.2.1 Removed, reformed or phased-out</label>
+			<div class="km-value km-pre">{{document.incentivesRemoved | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.incentivesIntroduced">
+			<label>4.2.2 Positive incentives introduced</label>
+			<div class="km-value km-pre">{{document.incentivesIntroduced | lstring:locale}}</div>
+		</div>
+		<div ng-show="document.incentivesDescription">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.incentivesDescription | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.financialMechanismDescription || document.financialMechanism">
+		<legend>4.3 New and innovative financial mechanism</legend>
+		<div ng-show="document.financialMechanism">
+			<label>New and innovative financial mechanism</label>
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th>Type of Initiative</th>
+							<th>Resources generated (If known)</th>
+							<th>Description (including how the intrinsic and all other values of biodiversity have been reflected)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="resource in document.financialMechanism">
+							<td>
+								{{resource.type | lstring:locale}}
+							</td>
+							<td>
+								{{resource.resourceGenerated | lstring:locale}}
+							</td>
+							<td>
+								{{resource.description | lstring:locale}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br />
+		<div ng-show="document.financialMechanismDescription">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.financialMechanismDescription | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.resourceIntiatives || document.resourceIntiativesDescription">
+		<legend>4.4 Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</legend>
+		<div ng-show="document.resourceIntiatives">
+			<label>Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</label>
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th>Initiative</th>
+							<th>Description (including how resource mobilization is enhanced)</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="resource in document.resourceIntiatives">
+							<td>
+								{{resource.initiative | lstring:locale}}
+							</td>
+							<td>
+								{{resource.description | lstring:locale}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br />
+		<div ng-show="document.resourceIntiativesDescription">
+			<label>Description</label>
+			<div class="km-value km-pre">{{document.resourceIntiativesDescription | lstring:locale}}</div>
+		</div>
+	</div>
+	<div ng-show="document.activityClassificationDirectly || document.activityClassificationInDirectly">
+		<legend>5. Activity classification</legend>
+		<div ng-show="document.activityClassificationDirectly">
+			<div class="span12">
+				<div class="km-control-group" name="activityClassificationDirectly" caption="Activity classification-Directly related to biodiversity">
+					<div class="km-value km-pre">{{document.activityClassificationDirectly | lstring:locale}}</div>
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="document.activityClassificationInDirectly">
+			<div class="span12">
+				<div class="km-control-group" name="activityClassificationInDirectly" caption="Activity classification-Indirectly related to biodiversity">
+					<div class="km-value km-pre">{{document.activityClassificationInDirectly | lstring:locale}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,305 @@
+﻿<div class="view-form">
+
+	<h1>{{document.title | lstring:review.locale}}</h1>
+
+	<div ng-show="document.summary || document.areaIntroducion">
+		<legend>General Information</legend>
+		<div ng-show="document.summary">
+			<label>Summary</label>
+			<div class="km-value km-pre">{{document.summary | lstring:local}}</div>
+		</div>
+		<div ng-show="document.areaIntroducion">
+			<label>Introduction of the area</label>
+			<div class="km-value km-pre">{{document.areaIntroducion | lstring:local}}</div>
+		</div>
+	</div>	
+
+	<div ng-show="document.gisFiles">
+		<legend>Location</legend>
+
+		<div ng-show="document.location">
+			<label>Description of location</label>
+			<div class="km-value km-pre">{{document.location|lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.gisFiles">
+			<label>Geo-Location</label>
+			<ul class="km-value">
+				<li ng-repeat="item in document.gisFiles">
+					<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				</li>
+			</ul>
+			<div class="leaflet" center="gisMapCenter" layers="gisMapLayers"></div>
+		</div>
+	</div>
+
+	<div ng-show="document.areaDescription || document.areaConditions ||
+		document.areaFeatures || document.countries ||
+		document.beyondNationalJurisdiction">
+		<legend>Area Details</legend>
+		<div ng-show="document.areaDescription">
+			<label>Feature description of the area</label>
+			<div class="km-value km-pre">{{document.areaDescription | lstring:local}}</div>
+		</div>
+		<div ng-show="document.areaConditions">
+		<label>Feature conditions and future outlook of the proposed area</label>
+		<div class="km-value km-pre">{{document.areaConditions | lstring:local}}</div>
+		</div>
+		<div ng-show="document.areaFeatures">
+			<label>Feature description of the area</label>
+			<div class="km-value km-pre">{{document.areaFeatures | lstring:local}}</div>
+		</div>
+		<div ng-show="document.countries">
+			<label>Related countries</label>
+			<ul class="km-value" km-terms km-terms ng-model="document.countries">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+		<div ng-show="document.beyondNationalJurisdiction">
+			<label>Is this marine areas beyond national jurisdiction?</label>
+			<div class="km-value km-pre">{{document.beyondNationalJurisdiction}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.referenceText">
+		<legend>References</legend>
+		<label>References</label>
+		<div class="km-value km-pre">{{document.referenceText | lstring:local}}</div>
+	</div>
+
+	<div ng-show="document.resources">
+		<label>CBD Recources</label>
+		<div class="km-value" ng-repeat="item in resources">{{item.title|lstring:locale}}</div>
+	</div>
+
+	<div ng-show="document.relation">
+		<label>Other relevant website address or attached documents</label>
+		<ul class="km-value" >
+			<li ng-repeat="item in document.relation">
+				<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<i ng-show="item.name">({{item.url}})</i>
+			</li>
+		</ul>
+	</div>
+
+
+	<div>
+		<legend>Status of submission</legend>
+
+		<div ng-show="document.status=='approved' || document.approvedByCopDecision || document.approvedByCopDecision || document.approvedByGovernmentOn">
+
+			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='approved' }">
+			  <div class="panel-heading">Areas meeting EBSA criteria approved for inclusion in the EBSA Repository</div>
+				<div class="panel-body">
+
+					<div ng-show="document.approvedByCopDecision">
+						<label>COP Decision</label>
+						<ul class="km-value">
+							<li>{{approvedByCopDecision.title | lstring:locale}}</li>
+						</ul>
+					</div>
+
+					<div class="row">
+
+						<div class="col-md-8" ng-show="document.approvedByGovernment">
+							<label>Approved by a Party or other Government through national process (national jurisdiction only)</label>
+							<ul class="km-value" km-terms ng-model="document.approvedByGovernment">
+								<li  ng-repeat="term in terms">{{term.name}} </li>
+							</ul>
+						</div>
+
+						<div class="col-md-4" ng-show="document.approvedByGovernmentOn">
+							<label>Date</label>
+							<div class="km-value">{{document.approvedByGovernmentOn}}</div>
+						</div>
+						
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="document.status=='recommendedToCop' || document.recommendedToCopByGovernment || document.recommendedToCopByGovernment || document.recommendedToCopByGovernmentOn">
+
+			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='recommendedToCop' }">
+			  <div class="panel-heading">Areas meeting EBSA criteria for consideration by COP or by a Party /other Government through national process</div>
+				<div class="panel-body">
+
+					<div class="row">
+
+						<div class="col-md-8" ng-show="document.recommendedToCopByGovernment">
+							<label>Ongoing official national process (within national jurisdiction only)</label>
+							<ul class="km-value" km-terms ng-model="document.recommendedToCopByGovernment">
+								<li class="km-value" ng-repeat="term in terms">{{term.name}} </li>
+							</ul>
+						</div>
+
+						<div class="col-md-4" ng-show="document.recommendedToCopByGovernmentOn">
+							<label>Date</label>
+							<div class="km-value">{{document.recommendedToCopByGovernmentOn}}</div>
+						</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="document.status=='recommendedToSbstta' || document.recommendedToSbsttaBy || document.recommendedToSbsttaByWorkshop">
+
+			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='recommendedToSbstta' }">
+			  <div class="panel-heading">Areas meeting EBSA criteria for consideration by SBSTTA</div>
+				<div class="panel-body">
+
+					<div ng-show="document.recommendedToSbsttaBy">
+						<label>Preparation</label>
+						<div class="km-value" ng-switch="document.recommendedToSbsttaBy" >
+							<span ng-switch-when="SCBD">Prepared by CBD regional workshops</span>
+							<span ng-switch-when="ORG">Prepared by Competent Organizations through regional processes</span>
+						</div>
+					</div>
+
+					<div ng-show="document.recommendedToSbsttaByWorkshop">
+						<label>CBD Workshop</label>
+						<ul class="km-value" km-terms ng-model="document.recommendedToSbsttaByWorkshop">
+							<li class="km-value" ng-repeat="term in terms">{{term.name}} </li>
+						</ul>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="document.status=='recommendedToWorkshop' || document.recommendedToWorkshopBy || document.recommendedToWorkshopByGovernments || document.recommendedToWorkshopByOthers">
+
+			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='recommendedToWorkshop' }">
+			  <div class="panel-heading">Areas meeting EBSA criteria for consideration by CBD regional Workshop</div>
+				<div class="panel-body">
+
+					<div ng-show="document.recommendedToWorkshopBy">
+						<label>Recommended to workshop by</label>
+						<ul class="km-value" ng-switch="document.recommendedToSbsttaBy" >
+							<li ng-switch-when="GOV">Government(s)</li>
+							<li ng-switch-when="ORG">Competent Organization(s)</li>
+							<li ng-switch-when="OTHER">Other(s)</li>
+							<li ng-switch-default>{{document.recommendedToAnyBy}}}</li>
+						</ul>
+					</div>
+
+					<div ng-show="document.recommendedToWorkshopByGovernments">
+						<label>Government(s)</label>
+						<ul class="km-value" km-terms ng-model="document.recommendedToWorkshopByGovernments">
+							<li class="km-value" ng-repeat="term in terms">{{term.name}} </span>
+						</ul>
+					</div>
+					<div ng-show="document.recommendedToWorkshopByOrganizations">
+						<label>Organization(s)</label>
+						<ul class="km-value">
+							<li ng-repeat="organization in recommendedToWorkshopByOrganizations">
+								<div view-organization-reference ng-model="organization" locale="locale"></div>	
+							</li>
+						</ul>
+					</div>
+					<div ng-show="document.recommendedToWorkshopByOthers">
+						<label>Details</label>
+						<div class="km-value">{{document.recommendedToWorkshopByOthers | lstring:local}}</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="document.status=='recommendedToAny' || document.recommendedToAnyBy || document.recommendedToAnyByGovernments || document.recommendedToAnyByOrganizations || document.recommendedToAnyByOthers">
+
+			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='recommendedToAny' }">
+			  <div class="panel-heading">Other relevant Areas meeting EBSA criteria</div>
+				<div class="panel-body">
+
+					<div ng-show="document.recommendedToAnyBy">
+						<label ng-show="document.recommendedToAnyBy">Recommended by</label>
+						<ul class="km-value" ng-switch="document.recommendedToAnyBy">
+							<li ng-switch-when="GOV">Government(s)</li>
+							<li ng-switch-when="ORG">Competent Organization(s)</li>
+							<li ng-switch-when="OTHER">Other(s)</li>
+							<li ng-switch-default>{{document.recommendedToAnyBy}}}</li>
+						</ul>
+					</div>
+
+					<div ng-show="document.recommendedToAnyByGovernments">
+						<label>Government(s)</label>
+						<ul class="km-value" km-terms ng-model="document.recommendedToAnyByGovernments">
+							<li ng-repeat="term in terms">{{term.name}} </li>
+						</li>
+					</div>
+
+					<div ng-show="document.recommendedToAnyByOrganizations">
+						<label>Organization(s)</label>
+						<ul class="km-value">
+							<li ng-repeat="organization in recommendedToAnyByOrganizations">
+								<div view-organization-reference ng-model="organization" locale="locale"></div>	
+							</li>
+						</ul>
+					</div>
+
+					<div ng-show="document.recommendedToAnyByOthers">
+						<label>Details</label>
+						<div class="km-value">{{document.recommendedToAnyByOthers | lstring:local}}</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="document.assessments">
+		<legend>Assessment of the area against CBD EBSA criteria</legend>
+
+		<div class="panel panel-default" ng-repeat="assessment in document.assessments">
+			<div class="panel-heading">
+
+				<span ng-switch="assessment.identifier">
+					<span ng-switch-when="criteria1">C1: Uniqueness or rarity</span>
+					<span ng-switch-when="criteria2">C2: Special importance for life-history stages of species</span>
+					<span ng-switch-when="criteria3">C3: Importance for threatened, endangered or declining species and/or habitats</span>
+					<span ng-switch-when="criteria4">C4: Vulnerability, fragility, sensitivity, or slow recovery</span>
+					<span ng-switch-when="criteria5">C5: Biological productivity</span>
+					<span ng-switch-when="criteria6">C6: Biological diversity</span>
+					<span ng-switch-when="criteria7">C7: Naturalness</span>
+				</span>
+
+				<span class="label label-danger"  ng-show="assessment.level == 'high'"          >High</span>
+				<span class="label label-warning" ng-show="assessment.level == 'medium'"        >Medium</span>
+				<span class="label label-info"    ng-show="assessment.level == 'low'"           >Low</span>
+				<span class="label label-default" ng-show="assessment.level == 'noInformation'" >No information</span>
+
+			</div>
+			<div class="panel-body" ng-show="assessment.justification">
+				<label>Justification</label>
+				<div class="km-value km-pre">{{assessment.justification|lstring:locale}}</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div ng-show="document.relevantInformation||document.relevantDocuments">
+		<legend>Additional Information</legend>
+		
+		<div ng-show="document.relevantInformation">
+			<label>Additional Information</label>
+			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
+
+		<div ng-show="document.relevantDocuments">
+			<label>Other relevant website address or attached documents</label>
+			<ul class="km-value">
+				<li ng-repeat="item in document.relevantDocuments">
+					<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+					<i ng-show="item.name">({{item.url}})</i>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -273,6 +273,14 @@ angular.module('kmApp').compileProvider // lazy
 				if(!tab)
 					return;
 
+				if(tab == "general"   ) { $scope.prevTab = "general";    $scope.nextTab = "section1" }
+				if(tab == "section1"  ) { $scope.prevTab = "general";    $scope.nextTab = "section2" }
+				if(tab == "section2"  ) { $scope.prevTab = "section1";    $scope.nextTab = "section3" }
+				if(tab == "section3"  ) { $scope.prevTab = "section2";    $scope.nextTab = "section4" }
+				if(tab == "section4"  ) { $scope.prevTab = "section3";    $scope.nextTab = "section5" }
+				if(tab == "section5"  ) { $scope.prevTab = "section4";    $scope.nextTab = "review" }
+				if(tab == "review"    ) { $scope.prevTab = "section5"; $scope.nextTab = "review" }
+
 				if (tab == 'review')
 					$scope.validate();
 

@@ -1,8 +1,8 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editCaseStudies', ['authHttp', "URI", "$filter", "$q", "Thesaurus", "guid", function ($http, URI, $filter, $q, Thesaurus, guid) {
+.directive('editCaseStudy', ['authHttp', "URI", "$filter", "$q", "Thesaurus", "guid", function ($http, URI, $filter, $q, Thesaurus, guid) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-case-studies.partial.html',
+		templateUrl: '/app/chm/directives/forms/form-case-study.partial.html',
 		replace    : true,
 		transclude : false,
 		scope      : {},
@@ -47,7 +47,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", 'IStorage', "authentication", "Enumerable", "editFormUtility", function ($scope, $q, storage, authentication, Enumerable, editFormUtility) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "editFormUtility", "authentication", "ngProgress", "managementUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, managementUrls) 
 		{
 			//==================================
 			//
@@ -67,35 +67,70 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.init = function() {
+
+				if(!authentication.user().isAuthenticated) {
+					$location.search({returnUrl : $location.url() });
+					$location.path('/management/signin');
+					return;
+				}
+
 				if ($scope.document)
 					return;
 
+				ngProgress.start();
+
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
 				var promise = null;
+				var schema  = "caseStudy";
+				var qs = $location.search();
 
-				if(identifier)
-					promise = editFormUtility.load(identifier, "caseStudies");
-				else
-					promise = $q.when({
-						header: {
-							identifier: guid(),
-							schema: "caseStudies",
-							languages: ["en"]
-						}
+
+				if(qs.uid) { // Load
+					promise = editFormUtility.load(qs.uid, schema);
+				}
+				else { // Create
+
+					promise = $q.when(guid()).then(function(identifier) {
+						return storage.drafts.security.canCreate(identifier, schema).then(function(isAllowed) {
+
+							if (!isAllowed)
+								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
+
+							return identifier;
+						});
+					}).then(function(identifier) {
+
+						return {
+							header: {
+								identifier: identifier,
+								schema   : schema,
+								languages: ["en"]
+							}
+						};
 					});
+				}
 
+				promise.then(function(doc) {
+						
+					$scope.cleanUp(doc);
+			        return doc;
 
-				promise.then(
-					function(doc) {
-						$scope.status = "ready";
-						$scope.document = doc;
-					}).then(null, 
-					function(err) {
-						$scope.onError(err.data, err.status)
-						throw err;
-					});
+				}).then(function(doc) {
+
+					$scope.status = "ready";
+					$scope.document = doc;
+
+				}).catch(function(err) {
+
+					$scope.onError(err.data, err.status)
+					throw err;
+
+				}).finally(function() {
+
+					ngProgress.complete();
+
+				});
 			}
 
 
@@ -166,7 +201,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.onPrePublish = function() {
 				return $scope.validate(false).then(function(hasError) {
 					if (hasError)
-						$scope.tab("review", true)
+						$scope.tab = "review";
 					return hasError;
 				});
 			}

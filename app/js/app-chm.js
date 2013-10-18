@@ -48,7 +48,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/nationalSupportTool', 	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalSupportTool.html'		, resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/aichiTarget', 			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/aichi-target.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/marineEbsa',             { controller:ManagementPageController, templateUrl:'/app/views/management/edit/marine-ebsa.html'                , resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/management/edit/caseStudies', 			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/case-studies.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/caseStudy', 				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/case-study.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/resourceMobilisation',	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/resource-mobilisation.html'		, resolve: { initialized : init }, reloadOnSearch: false }).
 		otherwise({redirectTo:'/help/404'});
 
@@ -138,7 +138,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 		$locationProvider.hashPrefix('!');
 }]);
 
-app.value("schemaTypes", [ "aichiTarget", "authority", "contact", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "strategicPlanIndicator"])
+app.value("schemaTypes", [ "aichiTarget", "authority", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "strategicPlanIndicator"])
 app.value("managementUrls", {
 	root : "/management",
 	drafts : "/management/my-drafts",

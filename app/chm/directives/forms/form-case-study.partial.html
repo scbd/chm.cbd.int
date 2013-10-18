@@ -1,5 +1,5 @@
 ﻿<div>
-	<h1>Case Studies</h1>
+	<h1>Case Study</h1>
 
 	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
 		<strong>Error as occured...</strong>
@@ -201,7 +201,7 @@
 					  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
 					</div>
 
-					<div class="view-case-studies" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
+					<div class="view-case-study" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
 
 				</div>
 

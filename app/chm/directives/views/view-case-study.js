@@ -1,8 +1,8 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('viewCaseStudies', [function () {
+.directive('viewCaseStudy', [function () {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-case-studies.partial.html',
+		templateUrl: '/app/chm/directives/views/view-case-study.partial.html',
 		replace    : true,
 		transclude : false,
 		scope: {

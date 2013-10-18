@@ -31,7 +31,6 @@
 				  <li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'"  >Review   </a></li>
 				  <li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab"  >&raquo;  </a></li>
 				</ul>				
-{{tab}}
 
 				<div class="tab-content" style="overflow:visible;margin-top:10px">
 					<form name="editForm">
@@ -685,10 +684,15 @@
 				</div>
 
 				<ul class="pagination">
-				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				  <li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab" >&laquo;  </a></li>
+				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >General  </a></li>
+				  <li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
+				  <li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
+				  <li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>
+				  <li ng-class="{ active  : tab=='section4' }"><a href="" ng-click="tab='section4'">Section 4</a></li>
+				  <li ng-class="{ active  : tab=='section5' }"><a href="" ng-click="tab='section5'">Section 5</a></li>
+				  <li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'"  >Review   </a></li>
+				  <li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab"  >&raquo;  </a></li>
 				</ul>				
 
 			</div>

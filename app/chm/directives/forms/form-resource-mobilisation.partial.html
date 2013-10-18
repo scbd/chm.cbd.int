@@ -21,16 +21,20 @@
 			<div>
 
 				<ul class="pagination">
-				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				  <li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab" >&laquo;  </a></li>
+				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >General  </a></li>
+				  <li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
+				  <li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
+				  <li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>
+				  <li ng-class="{ active  : tab=='section4' }"><a href="" ng-click="tab='section4'">Section 4</a></li>
+				  <li ng-class="{ active  : tab=='section5' }"><a href="" ng-click="tab='section5'">Section 5</a></li>
+				  <li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'"  >Review   </a></li>
+				  <li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab"  >&raquo;  </a></li>
 				</ul>				
 
-
 				<div class="tab-content" style="overflow:visible;margin-top:10px">
-					<div ng-show="tab=='general'">
-						<form name="editForm">
+					<form name="editForm">
+						<div ng-show="tab=='general'">
 							<legend>I. INTRODUCTION</legend>
 								<span class="km-help-block"> The Preliminary Reporting Framework is intended for use by Parties for providing data on resource mobilization according to the indicators adopted in decision X/3. Data provided for the 2006-2010 will be used for the calculation of a baseline while data provided after 2010 will be used to monitor progress. The relationship between each of the indicators agreed in decision X/3 and the data fields contained in the Framework is provided in Appendix 1.</span>
 								<br/><br/>
@@ -115,11 +119,13 @@
 
 							<div class="row">
 								<div class="col-md-3">
-										<div class="km-control-group" name="completedDate" caption="Date of completion and submission of completed framework">
-											<div km-date style="width:200px" name="completedDate" ng-model="document.completedDate"></div>
-										</div>
+									<div class="km-control-group" name="completedDate" caption="Date of completion and submission of completed framework">
+										<div km-date style="width:200px" name="completedDate" ng-model="document.completedDate"></div>
+									</div>
 								</div>
 							</div>
+						</div>
+						<div ng-show="tab=='section1'">
 							<legend>1. Information on international flows of financial resources</legend>
 							<span class="help-block">This section of the Framework relates to the flows of financial resources from all sources to developing countries.<br/><br/>
 							For <b><i>developed countries</b></i> (members of OECD-DAC): Please indicate the amount of resources provided in support of biodiversity in developing countries through ODA, other public funds, private/market mechanisms and through not-for profit organizations. <br/><br/>
@@ -186,7 +192,6 @@
 								</div>
 							</div>
 							<hr>
-							<div class="col-md-11">
 							<dl class="dl-horizontal">
 	  							<dt>Total  Directly related:</dt>
 								<dd>{{getTotalDirected(document.financialResources) | number:2}}<dd>
@@ -199,9 +204,6 @@
 								<dt>Overall average confidence:</dt>
 								<dd>{{confidenceAverage(document.financialResources)}}</dd>
 							</dl>
-						</div>
-								
-
 							<div class="row">
 								<div class="col-md-11">
 									<div class="km-control-group" name="financialDescription" caption="Comment">
@@ -221,6 +223,8 @@
 								</span>
 								</div>
 							</div>
+						</div>
+						<div ng-show="tab=='section2'">
 							<legend>2. Information on the availability of financial resources in each country</legend>
 							<span class="help-block">This section of the Framework relates to the financial resources available to implement the Convention and its Strategic Plan in your country. It relates specifically to the end use of financial resources regardless of whether the source of the funds is domestic	or external.<br />
 							Please indicate the financial support to domestic activities intended to achieve the objectives of this Convention from all sources. For each of the expenditure sources listed please indicate the total amount of financial resources spent as well as an assessment of your confidence in the estimated amount (high, medium low; alternatively provide a range of estimates). You may indicate expenditures according to the two categories (directly or indirectly related), or provide an estimate of the total in the case where the details are not available. A list of indicative activities for each of the categories is provided in section 5.  Please provide data for multiple years if possible (duplicate the 	table as necessary).<br />
@@ -312,7 +316,8 @@
 									</div>
 								</div>
 							</div>
-
+						</div>
+						<div ng-show="tab=='section3'">
 							<legend>3. Information on the steps being taken to implement the strategy for resource mobilization</legend>
 							<span class="help-block">This section of the Framework addresses initiatives which are important in enabling access to financial
 								resources for biodiversity activities. The information sought in this section does not require response in monetary units.<br />
@@ -384,7 +389,8 @@
 									</div>
 								</div>
 							</div>
-
+						</div>
+						<div ng-show="tab=='section4'">
 							<legend>4. Information on specific issues related to resource availability</legend>
 							<span class="help-block">This section of the Framework contains questions related to several specific issues including: technical
 								cooperation; South-South cooperation; innovative financial mechanisms; and access and benefit‑sharing.
@@ -615,7 +621,8 @@
 									</div>
 								</div>
 							</div>
-
+						</div>
+						<div ng-show="tab=='section5'">
 							<legend>5. Activity classification</legend>
 							<span class="km-help-block">For the resource classification mentioned in sections 1 and 2 above a brief description of each of the categories as well as an indicative list of the actions that could be considered under each category is provided below. Please list any additional activities considered under each category.
 							<br/><br/>
@@ -659,8 +666,8 @@
 									</div>
 								</div>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 
 					<div ng-show="tab=='review'">
 
@@ -677,10 +684,15 @@
 				</div>
 
 				<ul class="pagination">
-				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				  <li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab" >&laquo;  </a></li>
+				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >General  </a></li>
+				  <li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
+				  <li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
+				  <li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>
+				  <li ng-class="{ active  : tab=='section4' }"><a href="" ng-click="tab='section4'">Section 4</a></li>
+				  <li ng-class="{ active  : tab=='section5' }"><a href="" ng-click="tab='section5'">Section 5</a></li>
+				  <li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'"  >Review   </a></li>
+				  <li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab"  >&raquo;  </a></li>
 				</ul>				
 
 			</div>

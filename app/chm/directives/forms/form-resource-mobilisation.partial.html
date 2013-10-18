@@ -76,12 +76,12 @@
 
 							<legend>Contact details of the respondent</legend>
 							<div class="row">
-								<div class="col-md-7">
+								<div class="col-md-5">
 									<div class="km-control-group" name="respondentName" caption="Name">
-										<input type="text" class="input-block-level" name="respondentName" ng-model="document.respondentName" required/>
+										<input type="text" class="form-control" style="width:100%" name="respondentName" ng-model="document.respondentName" required/>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-5">
 										<div class="km-control-group" name="respondentDesignation" caption="Title">
 											<div km-textbox-ml name="respondentDesignation" ng-model="document.respondentDesignation" locales="document.header.languages"></div>
 										</div>
@@ -114,10 +114,10 @@
 							</div>
 
 							<div class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="completedDate" caption="Date of completion and submission of completed framework">
-										<div km-date name="completedDate" ng-model="document.completedDate"></div>
-									</div>
+								<div class="col-md-3">
+										<div class="km-control-group" name="completedDate" caption="Date of completion and submission of completed framework">
+											<div km-date style="width:200px" name="completedDate" ng-model="document.completedDate"></div>
+										</div>
 								</div>
 							</div>
 							<legend>1. Information on international flows of financial resources</legend>
@@ -135,46 +135,47 @@
 								</div>
 							</div>
 							<script type="text/ng-template"  id="/app/chm/directives/forms/form-resource-mobilisation-transaction-list">
-								<div>
+								<div class="table-responsive">
 									<style type="text/css">
-										td {padding:0px 3px}
+										table#transactionTable td {padding:5px 5px;}
+										table#transactionTable th {text-align:center}
+										table#transactionTable td {text-align:left}
+										table#transactionTable    {width:100%}
 									</style>
-									<div class="table-responsive">
-										<table class="table-stripped ">
-											<thead>
-												<tr>
-													<th>Year</th>
-													<th>Type of financial flows [2]</th>
-													<th>Category [3]</th>
-													<th>Amount</th>
-													<th>Confidence</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr ng-repeat="resource in getResources()">
-													<td align="center">
-														<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" placeholder="Nothing"/>
-													</td>
-													<td align="center">
-														<div km-select name="type" ng-model="resource.type" items="options.type()" ng-required="isRequired()" placeholder="Nothing"/>
-													</td>
-													<td align="center">
-														<div km-select name="category" ng-model="resource.category" items="options.category()" ng-required="isRequired()" placeholder="Nothing"/>
-													</td>
-													<td align="center">
-														<input type="text" class="input-block-level" ng-model="resource.amount" ng-change="save()" ng-required="isRequired()" style="margin-bottom: 0px;">
-													</td>
-													<td align="center">
-														<div km-select name="confidence" ng-model="resource.confidence" items="options.confidence()" ng-required="isRequired()" placeholder="Nothing"/>
-													</td>
-													<td align="center">
-														<span class="btn" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
+									<table id="transactionTable" class="table table-hover">
+										<thead>
+											<tr>
+												<th>Year</th>
+												<th>Type of financial flows [2]</th>
+												<th>Category [3]</th>
+												<th>Amount</th>
+												<th>Confidence</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="resource in getResources()">
+												<td align="center">
+													<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" placeholder="Nothing"/>
+												</td>
+												<td align="center">
+													<div km-select name="type" ng-model="resource.type" items="options.type()" ng-required="isRequired()" placeholder="Nothing"/>
+												</td>
+												<td align="center">
+													<div km-select name="category" ng-model="resource.category" items="options.category()" ng-required="isRequired()" placeholder="Nothing"/>
+												</td>
+												<td align="center">
+													<input type="text" class="form-control" style="width:100%" ng-model="resource.amount" ng-change="save()" ng-required="isRequired()" style="margin-bottom: 0px;">
+												</td>
+												<td align="center">
+													<div km-select name="confidence" ng-model="resource.confidence" items="options.confidence()" ng-required="isRequired()" placeholder="Nothing"/>
+												</td>
+												<td align="center">
+													<span class="btn btn-default" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</script>
 							<div class="row">
@@ -185,21 +186,21 @@
 								</div>
 							</div>
 							<hr>
-							<div class="row">
-								<label class="col-md-6">Total  Directly related:</label>{{getTotalDirected(document.financialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Total  Indirectly related:</label>{{getTotalIndirected(document.financialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Total  (Directly + Indirectly related):</label>{{getTotalDirectedAndIndirectly(document.financialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Overall total:</label>{{getOverallTotal(document.financialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Overall average confidence:</label>{{confidenceAverage(document.financialResources)}}
-							</div>
+							<div class="col-md-11">
+							<dl class="dl-horizontal">
+	  							<dt>Total  Directly related:</dt>
+								<dd>{{getTotalDirected(document.financialResources) | number:2}}<dd>
+								<dt>Total  Indirectly related:</dt>
+								<dd>{{getTotalIndirected(document.financialResources) | number:2}}</dd>
+								<dt>Total  (Directly + Indirectly related):</dt>
+								<dd>{{getTotalDirectedAndIndirectly(document.financialResources) | number:2}}</dd>
+								<dt>Overall total:</dt>
+								<dd>{{getOverallTotal(document.financialResources) | number:2}}</dd>
+								<dt>Overall average confidence:</dt>
+								<dd>{{confidenceAverage(document.financialResources)}}</dd>
+							</dl>
+						</div>
+								
 
 							<div class="row">
 								<div class="col-md-11">
@@ -233,11 +234,14 @@
 								</div>
 							</div>
 							<script type="text/ng-template"  id="/app/chm/directives/forms/form-resource-mobilisation-country-transaction-list">
-								<div>
+								<div class="table-responsive">
 									<style type="text/css">
-										td {padding:0px 3px}
+										table#transactionCountryTable td {padding:5px 5px;}
+										table#transactionCountryTable th {text-align:center}
+										table#transactionCountryTable td {text-align:left}
+										table#transactionCountryTable    {width:100%}
 									</style>
-									<table>
+									<table id="transactionCountryTable" class="table table-hover">
 										<thead>
 											<tr>
 												<th>Year</th>
@@ -250,23 +254,23 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="resource in getResources()" >
-												<td align="center" style="padding:0px 3px">
+												<td>
 													<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
+												<td>
 													<div km-select name="source" ng-model="resource.source" items="options.source()" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
+												<td>
 													<div km-select name="category" ng-model="resource.category" items="options.category()" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
-													<input type="text" class="input-block-level" ng-model="resource.amount" ng-change="save()" ng-required="isRequired()" style="margin-bottom: 0px;">
+												<td>
+													<input type="text" class="form-control" style="width:100%" ng-model="resource.amount" ng-change="save()" ng-required="isRequired()" style="margin-bottom: 0px;">
 												</td>
-												<td align="center">
+												<td>
 													<div km-select name="confidence" ng-model="resource.confidence" items="options.confidence()" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
-													<span class="btn" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
+												<td>
+													<span class="btn btn-default" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
 												</td>
 											</tr>
 										</tbody>
@@ -281,21 +285,18 @@
 								</div>
 							</div>
 							<hr>
-							<div class="row">
-								<label class="col-md-6">Total  Directly related:</label>{{getTotalDirected(document.countryFinancialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Total  Indirectly related:</label>{{getTotalIndirected(document.countryFinancialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Total  (Directly + Indirectly related):</label>{{getTotalDirectedAndIndirectly(document.countryFinancialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Overall total:</label>{{getOverallTotal(document.countryFinancialResources) | number:2}}
-							</div>
-							<div class="row">
-								<label class="col-md-6">Overall average confidence:</label>{{confidenceAverage(document.countryFinancialResources)}}
-							</div>
+							<dl class="dl-horizontal">
+								<dt>Total Directly related:</dt>
+								<dd>{{getTotalDirected(document.countryFinancialResources) | number:2}}</dd>
+								<dt>Total Indirectly related:</dt>
+								<dd>{{getTotalIndirected(document.countryFinancialResources) | number:2}}</dd>
+								<dt>Total (Directly + Indirectly related):</dt>
+								<dd>{{getTotalDirectedAndIndirectly(document.countryFinancialResources) | number:2}}</dd>
+								<dt>Overall total:</dt>
+								<dd>{{getOverallTotal(document.countryFinancialResources) | number:2}}</dd>
+								<dt>Overall average confidence:</dt>
+								<dd>{{confidenceAverage(document.countryFinancialResources)}}</dd>
+							</dl>
 							<span class="km-help-block"> <i>Notes:</i>
 								<br/><br/>
 								[4] Sources:<br/>
@@ -511,8 +512,14 @@
 							</span>
 							<br/><br/>
 							<script type="text/ng-template"  id="/app/chm/directives/forms/resource-mobilisation-financial-mechanism-list">
-								<div>
-									<table>
+								<div class="table-responsive">
+									<style type="text/css">
+										table#financialMechanismTable td {padding:5px 5px;}
+										table#financialMechanismTable th {text-align:center}
+										table#financialMechanismTable td {text-align:left}
+										table#financialMechanismTable    {width:100%}
+									</style>
+									<table id="financialMechanismTable" class="table table-hover">
 										<thead>
 											<tr>
 												<th>Type of Initiative [7]</th>
@@ -523,17 +530,17 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="resource in getResources()">
-												<td width="33%">
+												<td width="20%">
 													<div km-textbox-ml rows=1 name="type" ng-model="resource.type"  ng-change="save()" ng-required="isRequired()" placeholder="<Type of Initiative>" locales="locale"></div>
 												</td>
-												<td width="33%">
+												<td width="20%">
 													<div km-textbox-ml rows=1 name="resourceGenerated" ng-model="resource.resourceGenerated"  ng-change="save()" ng-required="isRequired()" placeholder="<Resources generated>" locales="locale"></div>
 												</td>
-												<td width="33%">
+												<td width="60%">
 													<div km-textbox-ml rows=1 name="description" ng-model="resource.description"  ng-change="save()" ng-required="isRequired()" placeholder="<Description>" locales="locale"></div>
 												</td>
 												<td>
-													<span class="btn" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
+													<span class="btn btn-default" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
 												</td>
 											</tr>
 										</tbody>
@@ -563,8 +570,14 @@
 							<span class="help-block">Please indicate the number of access and benefit-sharing of genetic resources initiatives and mechanisms your country has undertaken that enhance resource mobilization:
 							</span>
 							<script type="text/ng-template"  id="/app/chm/directives/forms/resource-mobilisation-resource-intiatives-list">
-								<div>
-									<table>
+								<div class="table-responsive">
+									<style type="text/css">
+										table#resourceIntiativesTable td {padding:5px 5px;}
+										table#resourceIntiativesTable th {text-align:center}
+										table#resourceIntiativesTable td {text-align:left}
+										table#resourceIntiativesTable    {width:100%}
+									</style>
+									<table id="resourceIntiativesTable" class="table table-hover">
 										<thead>
 											<tr>
 												<th>Initiative</th>
@@ -574,14 +587,14 @@
 										</thead>
 										<tbody>
 											<tr ng-repeat="resource in getResources()">
-												<td width="50%">
+												<td width="30%">
 													<div km-textbox-ml rows=1 name="initiative" ng-model="resource.initiative"  ng-change="save()" ng-required="isRequired()" placeholder="<Initiative>" locales="locale"></div>
 												</td>
-												<td width="50%">
+												<td width="70%">
 													<div km-textbox-ml rows=1 name="description" ng-model="resource.description"  ng-change="save()" ng-required="isRequired()" placeholder="<Description>" locales="locale"></div>
 												</td>
 												<td>
-													<span class="btn" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
+													<span class="btn btn-default" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
 												</td>
 											</tr>
 										</tbody>

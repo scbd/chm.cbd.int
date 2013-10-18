@@ -33,8 +33,8 @@
 		</table>
 		</div>
 
-		<button type="button" class="btn btn-info" ng-show="multiple" ng-click="addReference()">Add a reference</button>
-		<button type="button" class="btn btn-info" ng-hide="multiple" ng-click="addReference()">Select a reference...</button>
+		<button type="button" class="btn btn-default" ng-show="multiple" ng-click="addReference()">Add a reference</button>
+		<button type="button" class="btn btn-default" ng-hide="multiple" ng-click="addReference()">Select a reference...</button>
 	</div>
 
     <!--Reference Editor-->
@@ -71,7 +71,7 @@
 				<div class="modal-footer">
 					
 					<input class="pull-left" type="text" ng-model="editor.search" placeholder="search" />
-					<button type="button"  class="btn"             ng-click="editor.close()">Cancel</button>
+					<button type="button"  class="btn btn-default"             ng-click="editor.close()">Cancel</button>
 					<button type="button"  class="btn btn-primary" ng-click="editor.save()" >Save</button>
 				</div>
 			</div>

@@ -53,21 +53,20 @@
 		<div class="km-value km-pre">{{document.source | lstring:locale}}</div>
 	</div>
 
-
-
 	<div ng-show="organizations">
 		<label class="control-label" for="organizations">Organization(s) involved</label>
 		<div class="km-value" ng-repeat="organization in organizations">
-			<b>{{organization.document.name|lstring:locale}} ({{organization.document.acronym|lstring:locale}})</b>
+			<div view-organization-reference ng-model="organization.document" locale="locale"></div>	
 		</div>
 	</div>
 
 	<div ng-show="contact">
 		<label class="control-label" for="">Contact person</label>
 		<div class="km-value">
-			<b>{{contact.document.firstName|lstring:locale}} {{contact.document.middleName|lstring:locale}} {{contact.document.lastName|lstring:locale}}
+			<div view-contact-reference ng-model="contact.document" locale="locale"></div>	
 		</div>
 	</div>
+	
 	<div ng-show="document.summary || document.description ||
 		document.scale || document.status || resources ||
 		document.images">

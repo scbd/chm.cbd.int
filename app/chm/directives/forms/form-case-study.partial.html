@@ -10,7 +10,7 @@
 	
 	<div ng-hide="status=='hidden'||status=='loading'">
 
-		<div class="col-md-12" style="position:relative">
+		<div style="position:relative">
 			
 			<div style="position:absolute;top:0px;right:0px">
 				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
@@ -31,35 +31,35 @@
 
 						<legend>General information</legend>
 						<div  class="row">
-							<div class="col-md-11"> 
+							<div class="col-md-12"> 
 								<div class="km-control-group" required name="title" caption="Title">
 									<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
-								<div class="km-control-group" required name="cbdSubjects" caption="Related CBD Subject area(s)">
-									<div km-select required multiple name="cbdSubjects" ng-model="document.cbdSubjects" items="options.cbdSubjects()" binding-type="term[]"></div>
+							<div class="col-md-12">
+								<div class="km-control-group" required name="subjects" caption="Related CBD Subject area(s)">
+									<div km-select required multiple name="subjects" ng-model="document.subjects" items="options.subjects()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Targets">
 									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11"> 
+							<div class="col-md-12"> 
 								<div class="km-control-group" required name="regions" caption="Related Country(ies) / Region(s) / Economic group(s)">
 									<div km-select name="regions" multiple ng-model="document.regions" placeholder="" items="options.regions()"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="languages" caption="Language(s)">
 									<div km-select name="languages" multiple ng-model="document.languages" placeholder="" items="options.docLanguages()"></div>
 								</div>
@@ -78,14 +78,14 @@
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11"> 
+							<div class="col-md-12"> 
 								<div class="km-control-group" required name="source" caption="Source">
 									<div km-textbox-ml rows=6 name="source" ng-model="document.source" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="organizations" caption="Organization(s) involved">
 									<div km-reference multiple name="organizations" ng-model="document.organizations" loader="loadRecords(identifier, 'organization')">
 										<div>
@@ -97,7 +97,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-10">
+							<div class="col-md-12">
 								<div class="km-control-group" name="contact" required caption="Contact person"></div>
 								<div km-reference name="contact" ng-model="document.contact" loader="loadRecords(identifier, 'contact')">
 									<div>
@@ -110,14 +110,14 @@
 
 						<legend>Case Study Details</legend>
 						<div  class="row">
-							<div class="col-md-11"> 
+							<div class="col-md-12"> 
 								<div class="km-control-group" required name="summary" caption="Summary, abstract or table of contents">
 									<div km-textbox-ml rows=6 name="summary" ng-model="document.summary" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11"> 
+							<div class="col-md-12"> 
 								<div class="km-control-group" name="description" caption="Case Study Description">
 								<span class="help-block">E.g. Background/Problem; Methodology/ Implementation; Results/Impact; Lessons learned.</span>
 									<div km-textbox-ml rows=6 name="description" ng-model="document.description" locales="document.header.languages"></div>
@@ -127,13 +127,13 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="scale" caption="Scale"></div>
-								<div km-select multiple name="scale" ng-model="document.scale" items="options.scale()"></div>
+								<div km-select name="scale" ng-model="document.scale" items="options.scales()"></div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="status" caption="Status"></div>
-								<div km-select multple name="status" ng-model="document.status" items="options.status()"></div>
+								<div km-select multple name="status" ng-model="document.status" items="options.statuses()"></div>
 							</div>
 						</div>
 						<div class="row">
@@ -148,16 +148,16 @@
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
-								<div class="km-control-group" name="showCaseImages" caption="Images for showcase">
-									<div km-link name="showCaseImages" ng-model="document.showCaseImages" allow-file="true" allow-link="false" mimeTypes="image/jpeg;image/png" identifier="document.header.identifier"></div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="images" caption="Images for showcase">
+									<div km-link name="images" ng-model="document.images" allow-file="true" allow-link="false" mimeTypes="image/jpeg;image/png" identifier="document.header.identifier"></div>
 								</div>
 							</div>
 						</div>
 
 						<legend>Additional Information</legend>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantInformation" caption="Additional Information">
 									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
 									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
@@ -166,7 +166,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
 									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
 								</div>
@@ -175,9 +175,9 @@
 
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="notes" caption="Notes">
-									<div km-notes name="notes" ng-model="document.notes"></div>
+									<textarea style="width:100%" rows="4" name="notes" ng-model="document.notes" ></textarea>
 								</div>
 							</div>
 						</div>

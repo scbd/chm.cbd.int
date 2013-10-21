@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('cbdEditResource', ['authHttp', "URI", "Enumerable", "$filter", "$q", "guid", function ($http, URI, Enumerable, $filter, $q, guid) {
+.directive('editResource', ['authHttp', "URI", "Enumerable", "$filter", "$q", "guid", "Thesaurus", function ($http, URI, Enumerable, $filter, $q, guid, thesaurus) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource.partial.html',
@@ -13,11 +13,12 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
+			$scope.tab      = 'general';
 			$scope.review   = { locale: "en" };
 			$scope.options  = {
 				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();})},
 				languages     : function() { return $http.get("/api/v2013/thesaurus/domains/52AFC0EE-7A02-4EFA-9277-8B6C327CE21F/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				resourceTypes : function() { return $http.get("/api/v2013/thesaurus/domains/83BA4728-A843-442B-9664-705F55A8EC52/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
+				resourceTypes : function() { return $http.get("/api/v2013/thesaurus/domains/83BA4728-A843-442B-9664-705F55A8EC52/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data) }); },
 				cbdSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",                         { cache: true }).then(function(o){ return o.data; }); },
 				aichiTargets  : function() { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",                        { cache: true }).then(function(o){ return o.data; }); },
 				absSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/ABS-SUBJECTS/terms",                         { cache: true }).then(function(o){ return o.data; }); },
@@ -33,18 +34,95 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.$watch("document.libraries", $scope.refreshTabs);
 
-			$element.find('a[data-toggle="tab"]').on('shown', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
+
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+
+				if(!tab)
+					return;
+
+
+				if (tab == 'review')
+					$scope.validate();
+
+				var qBody = $element.parents("body:last");
+
+				if(qBody.scrollTop() > $element.offset().top) {
+					$timeout(function()	{
+						if (!qBody.is(":animated"))
+							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
+					}, 100);
+				}
 			});
 
 			$scope.init();
 		},
 		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", function ($scope, $q, storage, authentication, editFormUtility) 
 		{
+			//==================================
+			//
+			//==================================
+			$scope.nextTab = function() {
+				if($scope.tab=='general') {
+					if($scope.isInLibrary('chm'))					{ $scope.tab = 'chm'; 		}
+					else if($scope.isInLibrary('absch'))			{ $scope.tab = 'absch'; 	}
+					else if($scope.isInLibrary('bch-disabled'))		{ $scope.tab = 'bch'; 		}
+					else if($scope.isInLibrary('ebsa-disabled'))	{ $scope.tab = 'ebsa'; 		}
+					else											{ $scope.tab = 'review';	}
+				}
+				else if($scope.tab=='chm') {
+					if($scope.isInLibrary('absch'))					{ $scope.tab = 'absch'; 	}
+					else if($scope.isInLibrary('bch-disabled'))		{ $scope.tab = 'bch'; 		}
+					else if($scope.isInLibrary('ebsa-disabled'))	{ $scope.tab = 'ebsa'; 		}
+					else											{ $scope.tab = 'review';	}
+				}
+				else if($scope.tab=='absch') {
+					if($scope.isInLibrary('bch-disabled'))			{ $scope.tab = 'bch'; 		}
+					else if($scope.isInLibrary('ebsa-disabled'))	{ $scope.tab = 'ebsa'; 		}
+					else											{ $scope.tab = 'review';	}
+				}
+				else if($scope.tab=='bch-disabled') {
+					if($scope.isInLibrary('ebsa-disabled'))			{ $scope.tab = 'ebsa'; 		}
+					else											{ $scope.tab = 'review';	}
+				}
+				else if($scope.tab=='ebsa-disabled') {
+					$scope.tab = 'review';
+				}
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.prevTab = function() {
+				if($scope.tab=='review') {
+					if($scope.isInLibrary('ebsa-disabled'))			{ $scope.tab = 'ebsa'; 		}
+					else if($scope.isInLibrary('bch-disabled'))		{ $scope.tab = 'bch'; 		}
+					else if($scope.isInLibrary('absch'))			{ $scope.tab = 'absch'; 	}
+					else if($scope.isInLibrary('chm'))				{ $scope.tab = 'chm'; 		}
+					else											{ $scope.tab = 'general';	}
+				}
+				else if($scope.tab=='ebsa-disabled') {
+					if($scope.isInLibrary('bch-disabled'))			{ $scope.tab = 'bch'; 		}
+					else if($scope.isInLibrary('absch'))			{ $scope.tab = 'absch'; 	}
+					else if($scope.isInLibrary('chm'))				{ $scope.tab = 'chm'; 		}
+					else											{ $scope.tab = 'general';	}
+				}
+				else if($scope.tab=='bch-disabled') {
+					if($scope.isInLibrary('absch'))					{ $scope.tab = 'absch'; 	}
+					else if($scope.isInLibrary('chm'))				{ $scope.tab = 'chm'; 		}
+					else											{ $scope.tab = 'general';	}
+				}
+				else if($scope.tab=='absch') {
+					if($scope.isInLibrary('chm'))				{ $scope.tab = 'chm'; 		}
+					else											{ $scope.tab = 'general';	}
+				}
+				else if($scope.tab=='chm') {
+					$scope.tab = 'general';
+				}
+			}
+
 			//==================================
 			//
 			//==================================
@@ -144,48 +222,6 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.tab = function(tab, show) {
-
-				var oTabNames    = [];
-				var sActiveTab   = $('.tab-content:first > .tab-pane.active').attr("id");
-				var qActiveTab   = $('#editFormPager a[data-toggle="tab"]:not(:first):not(:last)').filter('[href="#'+sActiveTab+'"]');
-
-				if (tab == "-") tab = (qActiveTab.prevAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-				if (tab == "+") tab = (qActiveTab.nextAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-
-				if(!tab)
-					return undefined;
-
-				if (show)
-					$('#editFormPager a[data-toggle="tab"][href="#review"]:first').tab('show');
-
-				return {
-					'name' : tab,
-					'active': sActiveTab == tab
-				}
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.onTab  = function(tab) {
-				var fn = function() {
-					if (tab == 'review')
-						$scope.validate();
-
-					if (!$('body').is(":animated"))
-						$('body').stop().animate({ scrollTop: 0 }, 600);
-				};
-
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					fn();
-				else
-					$scope.$apply(fn);
-			}
-
-			//==================================
-			//
-			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
 			}
@@ -205,28 +241,31 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				window.location = "/managementcentre/my-pending-items";
+				$location.url(managementUrls.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				window.location = "/managementcentre/edit/";
+				$location.url("/database/record?documentID=" + data.documentID);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				window.location = "/managementcentre/edit-draft/";
+				$location.url(managementUrls.drafts);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				window.location = "/managementcentre/";
+				if($location.search().returnUrl)
+					$location.url($location.search().returnUrl);	
+				else
+					$location.url(managementUrls.root);
 			};
 
 			//==================================

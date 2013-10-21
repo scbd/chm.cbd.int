@@ -39,7 +39,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/my-records'        , { controller:ManagementPageController, templateUrl:'/app/views/management/my-records.html'        , resolve: { initialized : init } }).
  		when('/management/my-drafts'         , { controller:ManagementPageController, templateUrl:'/app/views/management/my-drafts.html'         , resolve: { initialized : init } }).
  		
- 		when('/management/edit/resource', 				{ controller:ManagementPageController, templateUrl:'/app/views/cbdEditResource.html'							, resolve: { initialized : init } }).
+ 		when('/management/edit/resource', 				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/resource.html'							, resolve: { initialized : init } }).
  		when('/management/edit/nationalReport', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalReport.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/nationalTarget', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalTarget.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/nationalIndicator', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalIndicator.html'			, resolve: { initialized : init }, reloadOnSearch: false }).

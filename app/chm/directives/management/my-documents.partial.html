@@ -20,16 +20,27 @@
 				</td>
 				<td>
 					<div ng-switch="document.type">
-						<strong ng-switch-when="measure">National Regulation</strong>
+						<strong ng-switch-when="focalPoint">National Focal Point</strong>
 						<strong ng-switch-when="authority">Competent National Authority</strong>
-						<strong ng-switch-when="database">National Database or Website</strong>
-						<strong ng-switch-when="absCheckpoint">ABS Checkpoint</strong>
-						<strong ng-switch-when="absPermit">ABS Permit</strong>
-						<strong ng-switch-when="organization">Biodiversity Related Organization</strong>
+						<strong ng-switch-when="caseStudy">Case Study</strong>
 						<strong ng-switch-when="contact">Contact</strong>
-						<strong ng-switch-when="resource">Resource virtual library</strong>
-						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs) </strong>
+						<strong ng-switch-when="database">National Database</strong>
+						<strong ng-switch-when="resource">Virtual Library Resource</strong>
+						<strong ng-switch-when="organization">Organization</strong>
+						<strong ng-switch-when="measure">National Regulation</strong>
+						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs)</strong>
 						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
+						<strong ng-switch-when="strategicPlanIndicator">Global Strategic Plan Indicator</strong>
+						<strong ng-switch-when="nationalIndicator">National Indicator</strong>
+						<strong ng-switch-when="nationalTarget">National Target</strong>
+						<strong ng-switch-when="progressAssessment">Progress Assessment</strong>
+						<strong ng-switch-when="nationalReport">National Report</strong>
+						<strong ng-switch-when="implementationActivity">Implementation Activity</strong>
+						<strong ng-switch-when="nationalSupportTool">Guidance and Support Tools</strong>
+						<strong ng-switch-when="resourceMobilisation">Resource Mobilisation</strong>
+						<strong ng-switch-when="absCheckpoint">Checkpoint</strong>
+						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
+						<strong ng-switch-when="absPermit">Permit</strong>
 						<strong ng-switch-default>{{document.type}}*</strong>
 					</div>
 					<div>{{document.title | lstring:'en'}}</div>

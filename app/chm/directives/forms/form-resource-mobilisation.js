@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editResourceMobilisation', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
+.directive('editResourceMobilisation', ['authHttp', "URI", "$filter", "$q", "guid", "$timeout", function ($http, URI, $filter, $q, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource-mobilisation.partial.html',
@@ -273,8 +273,9 @@ angular.module('kmApp').compileProvider // lazy
 				if(!tab)
 					return;
 
-				if(tab == "general"   ) { $scope.prevTab = "general";    $scope.nextTab = "section1" }
-				if(tab == "section1"  ) { $scope.prevTab = "general";    $scope.nextTab = "section2" }
+				if(tab == "general"   )     { $scope.prevTab = "general";         $scope.nextTab = "identification" }
+				if(tab == "identification") { $scope.prevTab = "general";         $scope.nextTab = "section1" }
+				if(tab == "section1"  )     { $scope.prevTab = "identification"; $scope.nextTab = "section2" }
 				if(tab == "section2"  ) { $scope.prevTab = "section1";    $scope.nextTab = "section3" }
 				if(tab == "section3"  ) { $scope.prevTab = "section2";    $scope.nextTab = "section4" }
 				if(tab == "section4"  ) { $scope.prevTab = "section3";    $scope.nextTab = "section5" }

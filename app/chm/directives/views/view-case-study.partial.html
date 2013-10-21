@@ -1,0 +1,131 @@
+﻿<div>
+	<h1 style="font-weight:bold;font-size:26px"><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" />{{document.title | lstring:locale}}</i></h1>
+
+	<div ng-show="document.cbdSubjects || document.aichiTargets ||
+		document.relatedCountries || document.languages">
+		<legend>General information</legend>
+		<div ng-show="document.cbdSubjects">
+			<label class="control-label" for="cbdSubjects">Related CBD Subject area(s)</label>
+			<ul class="km-value" km-terms ng-model="document.cbdSubjects">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+		<div ng-show="document.aichiTargets">
+			<label class="control-label" for="aichiTargets">Main related Aichi Targets</label>
+			<ul class="km-value" km-terms ng-model="document.aichiTargets">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+
+		<div ng-show="document.relatedCountries">
+			<label class="control-label" for="relatedCountries">Related Country(ies), and/or Regional / Economic group(s)</label>
+			<div class="km-value km-pre">{{document.relatedCountries | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.languages">
+			<label class="control-label" for="languages">Language(s)</label>
+			<ul class="km-value" km-terms ng-model="document.languages">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="row-fluid" ng-show="document.timePeriodFrom || document.timePeriodTo">
+		<div class="span5">
+			<div ng-show="document.timePeriodFrom">
+				<label>Time period from</label>
+				<div class="km-value km-pre">{{document.timePeriodFrom}}</div>
+			</div>
+		</div>
+		<div class="span5">
+			<div ng-show="document.timePeriodTo">
+				<label>Time period to</label>
+				<div class="km-value km-pre">{{document.timePeriodTo}}</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="document.source">
+		<label class="control-label" for="">Source</label>
+		<div class="km-value km-pre">{{document.source | lstring:locale}}</div>
+	</div>
+
+
+
+	<div ng-show="organizations">
+		<label class="control-label" for="organizations">Organization(s) involved</label>
+		<div class="km-value" ng-repeat="organization in organizations">
+			<div class="cbdViewOrganizationReference" ng-model="organization.document" locale="locale"></div>
+		</div>
+	</div>
+
+	<div ng-show="contact">
+		<label class="control-label" for="">Contact person</label>
+		<div class="km-value">
+			<div class="cbdViewContactReference" ng-model="contact.document" locale="locale"></div>
+		</div>
+	</div>
+	<div ng-show="document.summary || document.description ||
+		document.scale || document.status || resources ||
+		document.showCaseImages">
+		<legend>Additional information</legend>
+		<div ng-show="document.summary">
+			<label class="control-label" for="summary">Summary, abstract or table of contents</label>
+			<div class="km-value km-pre">{{document.summary | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.description">
+			<label class="control-label" for="description">Case Study Description</label>
+			<div class="km-value km-pre">{{document.description | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.scale">
+			<label class="control-label" for="scale">Scale</label>
+			<ul class="km-value" km-terms ng-model="document.scale">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+
+		<div ng-show="document.status">
+			<label class="control-label" for="status">Status</label>
+			<ul class="km-value" km-terms ng-model="document.status">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+		<div ng-show="resources">
+			<label class="control-label" for="organizations">Resources</label>
+			<ul class="km-value" ng-repeat="resource in resources">
+				<li>
+					<b>{{resource.document.title | lstring:locale}}</b><br />
+					{{resource.document.summary | lstring:locale}}
+				</li>
+			</ul>
+		</div>
+		<div ng-show ="document.showCaseImages">
+			<label class="control-label" required for="icon">Images for showcase</label>
+			<div class="km-value">
+				<a ng-repeat="link in document.showCaseImages" ng-href="{{link.url}}" target="_blank">
+					<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="document.relevantInformation||document.relevantDocuments">
+		<legend>Additional Information</legend>
+
+		<div ng-show="document.relevantInformation">
+			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
+		<div ng-show="document.relevantDocuments">
+			<label>Other relevant website address or attached documents</label>
+			<div class="km-value" ng-repeat="item in document.relevantDocuments">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+			</div>
+		</div>
+	</div>
+
+</div>

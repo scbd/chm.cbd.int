@@ -21,7 +21,8 @@
 
 				<ul class="pagination">
 				  <li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab" >&laquo;  </a></li>
-				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >General  </a></li>
+				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >Introduction</a></li>
+				  <li ng-class="{ active  : tab=='identification' }"><a href="" ng-click="tab='identification'">Identification</a></li>
 				  <li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
 				  <li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
 				  <li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>
@@ -57,7 +58,11 @@
 								<li>Please provide the best estimate of the data and also indicate the confidence level of your estimate (“high”: data mostly derived from published sources; “medium”: data represents expert judgment based on good information; or “low”: data is a best but risky estimate with very incomplete data). As an alternative to indicating the confidence level, you may provide a range of estimates.</li></ol> 
 								In completing the reporting framework Parties are encouraged to interact with their respective statistical offices or other relevant departments when gathering information. Some of the information needed for this process is likely already available and it should be used where possible in order to reduce the reporting burden and the duplication of efforts. At the end of each question a comments field is provided where respondents can provide additional information to further substantiate responses, highlight any assumptions or qualifications linked to the data, or to raise any other related issues.<br/>
 								When completing the preliminary reporting framework respondents are encouraged to provide information for as many of the data fields as possible. However, recognizing that it may be difficult for Parties to provide some of the information, there is no need to complete all of the data fields before submitting information to the Secretariat. Further, where precise information is not available, respondents are encouraged to use their best estimates.	</span>
-								<br/><br/>
+
+						</div>
+
+						<div ng-show="tab=='identification'">
+
 							<legend>Identification of respondent</legend>
 
 							<div class="row">
@@ -177,32 +182,37 @@
 									<table id="transactionTable" class="table table-hover">
 										<thead>
 											<tr>
-												<th>Year</th>
-												<th>Type of financial flows [2]</th>
-												<th>Category [3]</th>
-												<th>Amount</th>
-												<th>Confidence</th>
-												<th></th>
+												<th style="text-align:left">Year</th>
+												<th style="text-align:left">Type of financial flows [2]</th>
+												<th style="text-align:left">Category [3]</th>
+												<th style="text-align:left">Amount</th>
+												<th style="text-align:left">Confidence</th>
+												<th style="text-align:left"></th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr ng-repeat="resource in getResources()">
+<<<<<<< HEAD
 												<td align="center">
 													<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" ng-change="save()" placeholder="Nothing"/>
+=======
+												<td>
+													<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" placeholder="Nothing"/>
+>>>>>>> ad73dc7b2b4fa613b9c1de4b60c73269347e5eac
 												</td>
-												<td align="center">
+												<td>
 													<div km-select name="type" ng-model="resource.type" items="options.type()" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
+												<td>
 													<div km-select name="category" ng-model="resource.category" items="options.category()" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
+												<td>
 													<input type="text" class="form-control" style="width:100%" ng-model="resource.amount" ng-change="save()" ng-required="isRequired()" style="margin-bottom: 0px;">
 												</td>
-												<td align="center">
+												<td>
 													<div km-select name="confidence" ng-model="resource.confidence" items="options.confidence()" ng-required="isRequired()" placeholder="Nothing"/>
 												</td>
-												<td align="center">
+												<td>
 													<span class="btn btn-default" ng-click="remove($index)" ng-show="!$last"><i class="icon-trash icon"></i></span>
 												</td>
 											</tr>
@@ -274,12 +284,12 @@
 									<table id="transactionCountryTable" class="table table-hover">
 										<thead>
 											<tr>
-												<th>Year</th>
-												<th>Source [4]</th>
-												<th>Category [5]</th>
-												<th>Amount</th>
-												<th>Confidence</th>
-												<th></th>
+												<th style="text-align:left">Year</th>
+												<th style="text-align:left">Source [4]</th>
+												<th style="text-align:left">Category [5]</th>
+												<th style="text-align:left">Amount</th>
+												<th style="text-align:left">Confidence</th>
+												<th style="text-align:left"></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -554,10 +564,10 @@
 									<table id="financialMechanismTable" class="table table-hover">
 										<thead>
 											<tr>
-												<th>Type of Initiative [7]</th>
-												<th>Resources generated (If known)</th>
-												<th>Description (including how the intrinsic and all other values of biodiversity have been reflected)</th>
-												<th></th>
+												<th style="text-align:left">Type of Initiative [7]</th>
+												<th style="text-align:left">Resources generated (If known)</th>
+												<th style="text-align:left">Description (including how the intrinsic and all other values of biodiversity have been reflected)</th>
+												<th style="text-align:left"></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -612,9 +622,9 @@
 									<table id="resourceIntiativesTable" class="table table-hover">
 										<thead>
 											<tr>
-												<th>Initiative</th>
-												<th>Description (including how resource mobilization is enhanced)</th>
-												<th></th>
+												<th style="text-align:left">Initiative</th>
+												<th style="text-align:left">Description (including how resource mobilization is enhanced)</th>
+												<th style="text-align:left"></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -711,7 +721,8 @@
 
 				<ul class="pagination">
 				  <li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab" >&laquo;  </a></li>
-				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >General  </a></li>
+				  <li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'" >Introduction</a></li>
+				  <li ng-class="{ active  : tab=='identification' }"><a href="" ng-click="tab='identification'">Identification</a></li>
 				  <li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
 				  <li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
 				  <li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>

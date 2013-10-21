@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editCaseStudy', ['authHttp', "URI", "$filter", "$q", "underscore" "Thesaurus", "guid", function ($http, URI, $filter, $q, _, Thesaurus, guid) {
+.directive('editCaseStudy', ['authHttp', "URI", "$filter", "$q", "underscore", "Thesaurus", "guid", function ($http, URI, $filter, $q, _, Thesaurus, guid) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-case-study.partial.html',
@@ -26,6 +26,7 @@ angular.module('kmApp').compileProvider // lazy
 					return $q.all(qCountries, qRegions).then(function(res){
 						return _.concat(res[0], res[1]);
 					});
+				}
 			};
 
 

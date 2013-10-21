@@ -44,7 +44,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row-fluid bottom-spacing">
+						<div class="row">
 							<div class="col-md-11">
 								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Targets">
 									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
@@ -65,22 +65,22 @@
 								</div>
 							</div>
 						</div>
-						<div class="row-fluid bottom-spacing">
+						<div class="row">
 							<div class="col-md-11">
 								<div class="km-control-group" required name="languages" caption="Language(s)">
 									<div km-select name="languages" multiple ng-model="document.languages" placeholder="" items="options.docLanguages()"></div>
 								</div>
 							</div>
 						</div>
-						<div class="row-fluid bottom-spacing">
+						<div class="row">
 							<div class="col-md-5">
 								<div class="km-control-group" required name="timePeriodFrom" caption="Time period from">
-									<div km-date required name="timePeriodFrom" ng-model="document.timePeriodFrom"></div>
+									<div km-date style="width:200px" required name="timePeriodFrom" ng-model="document.timePeriodFrom"></div>
 								</div>
 							</div>
 							<div class="col-md-5">
 								<div class="km-control-group" required name="timePeriodTo" caption="Time period to">
-									<div km-date required name="timePeriodTo" ng-model="document.timePeriodTo"></div>
+									<div km-date style="width:200px" required name="timePeriodTo" ng-model="document.timePeriodTo"></div>
 								</div>
 							</div>
 						</div>
@@ -184,8 +184,7 @@
 						<div class="row">
 							<div class="col-md-11">
 								<div class="km-control-group" name="notes" caption="Notes">
-									<div class="help-block">The field “Notes” is for personal reference and can be seen only when the record is being edited.</div>
-									<textarea class="input-block-level" rows="4" name="notes" ng-model="document.notes"></textarea>
+									<div km-notes name="notes" ng-model="document.notes"></div>
 								</div>
 							</div>
 						</div>

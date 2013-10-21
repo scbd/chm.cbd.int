@@ -2,7 +2,7 @@
 	<h1 style="font-weight:bold;font-size:26px"><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" />{{document.title | lstring:locale}}</i></h1>
 
 	<div ng-show="document.cbdSubjects || document.aichiTargets ||
-		document.relatedCountries || document.languages">
+		document.relatedCountries || document.relatedGroupes || document.languages">
 		<legend>General information</legend>
 		<div ng-show="document.cbdSubjects">
 			<label class="control-label" for="cbdSubjects">Related CBD Subject area(s)</label>
@@ -18,8 +18,17 @@
 		</div>
 
 		<div ng-show="document.relatedCountries">
-			<label class="control-label" for="relatedCountries">Related Country(ies), and/or Regional / Economic group(s)</label>
-			<div class="km-value km-pre">{{document.relatedCountries | lstring:locale}}</div>
+			<label class="control-label" for="relatedCountries">Related Country(ies)</label>
+			<ul class="km-value" km-terms ng-model="document.relatedCountries">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>
+
+		<div ng-show="document.relatedGroupes">
+			<label class="control-label" for="relatedGroupes">Regional / Economic group(s)</label>
+			<ul class="km-value" km-terms ng-model="document.relatedGroupes">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
 		</div>
 
 		<div ng-show="document.languages">
@@ -56,14 +65,14 @@
 	<div ng-show="organizations">
 		<label class="control-label" for="organizations">Organization(s) involved</label>
 		<div class="km-value" ng-repeat="organization in organizations">
-			<div class="cbdViewOrganizationReference" ng-model="organization.document" locale="locale"></div>
+			<b>{{organization.document.name|lstring:locale}} ({{organization.document.acronym|lstring:locale}})</b>
 		</div>
 	</div>
 
 	<div ng-show="contact">
 		<label class="control-label" for="">Contact person</label>
 		<div class="km-value">
-			<div class="cbdViewContactReference" ng-model="contact.document" locale="locale"></div>
+			<b>{{contact.document.firstName|lstring:locale}} {{contact.document.middleName|lstring:locale}} {{contact.document.lastName|lstring:locale}}
 		</div>
 	</div>
 	<div ng-show="document.summary || document.description ||
@@ -95,12 +104,12 @@
 		</div>
 		<div ng-show="resources">
 			<label class="control-label" for="organizations">Resources</label>
-			<ul class="km-value" ng-repeat="resource in resources">
-				<li>
+			<div class="km-value" ng-repeat="resource in resources">
+				<div>
 					<b>{{resource.document.title | lstring:locale}}</b><br />
 					{{resource.document.summary | lstring:locale}}
-				</li>
-			</ul>
+				</div>
+			</div>
 		</div>
 		<div ng-show ="document.showCaseImages">
 			<label class="control-label" required for="icon">Images for showcase</label>

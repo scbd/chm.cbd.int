@@ -12,6 +12,7 @@ angular.module('kmApp').compileProvider // lazy
 		},
 		controller : ['$scope', "IStorage", function ($scope, storage) 
 		{
+
 			//====================
 			//
 			//====================

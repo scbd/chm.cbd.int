@@ -2,7 +2,6 @@
 
 	<h1 style="margin-bottom:5px">Implementation of the Strategy for Resource Mobilization</h1>
 	<h2 style="margin-top:5px;border-bottom:none">Preliminary Reporting Framework</h2>
-
 	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -124,6 +123,33 @@
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="relevantInformation" caption="Additional Information">
+										<span class="help-block">
+											Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.
+										</span>
+										<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation"  locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+										<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="notes" caption="Notes">
+										<div km-notes name="notes" ng-model="document.notes"></div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div ng-show="tab=='section1'">
 							<legend>1. Information on international flows of financial resources</legend>
@@ -162,7 +188,7 @@
 										<tbody>
 											<tr ng-repeat="resource in getResources()">
 												<td align="center">
-													<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" placeholder="Nothing"/>
+													<div km-select name="year" ng-model="resource.year" items="options.year" binding-type="string" ng-required="isRequired()" ng-change="save()" placeholder="Nothing"/>
 												</td>
 												<td align="center">
 													<div km-select name="type" ng-model="resource.type" items="options.type()" ng-required="isRequired()" placeholder="Nothing"/>
@@ -692,7 +718,7 @@
 				  <li ng-class="{ active  : tab=='section4' }"><a href="" ng-click="tab='section4'">Section 4</a></li>
 				  <li ng-class="{ active  : tab=='section5' }"><a href="" ng-click="tab='section5'">Section 5</a></li>
 				  <li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'"  >Review   </a></li>
-				  <li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab"  >&raquo;  </a></li>
+				  <li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab"   >&raquo;  </a></li>
 				</ul>				
 
 			</div>

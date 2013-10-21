@@ -113,7 +113,8 @@ angular.module('formControls',[])
 				binding    : '=ngModel',
 				locales    : '=',
 				rows       : '=',
-				required   : "@"
+				required   : "@",
+				ngChange   : "&"
 			},
 			link: function ($scope, element, attrs, ngModelController) 
 			{
@@ -169,6 +170,7 @@ angular.module('formControls',[])
 					});
 
 					$scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
+					$scope.ngChange();
 				}
 
 				//==============================
@@ -1298,10 +1300,10 @@ angular.module('formControls',[])
 				ngDisabledFn : "&ngDisabled",
 				required     : "@",
 				placeholder  : "@",
-				bindingType: "@",
-				allowOther: "@",
-				minimumFn : "&minimum",
-				maximumFn: "&maximum",
+				bindingType  : "@",
+				allowOther   : "@",
+				minimumFn    : "&minimum",
+				maximumFn    : "&maximum",
 			},
 			link: function ($scope, $element, $attrs, ngModelController) 
 			{

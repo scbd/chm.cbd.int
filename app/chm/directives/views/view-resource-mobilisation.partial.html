@@ -14,10 +14,12 @@
 		</div>
 
 		<div ng-show="document.ownerBehalf">
-			<label>Please indicate on whose behalf this information is being completed"</label>
+			<label>Please indicate on whose behalf this information is being completed</label>
+			<div>
 				<span km-terms ng-model="document.ownerBehalf">
 					<span ng-repeat="term in terms">{{term.name}} </span>
 				</span>
+			</div>
 		</div>
 
 		<div ng-show="document.respondentName || document.respondentDesignation ||
@@ -72,7 +74,7 @@
 
 		<div ng-show="document.financialResources">
 			<label>Information on international flows of financial resources</label>
-			<div>
+			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -102,7 +104,7 @@
 								</div>
 							</td>
 							<td>
-								{{resource.amount}}
+								{{resource.amount | number:2}}
 							</td>
 							<td>
 								<div km-terms ng-model="resource.confidence">
@@ -113,21 +115,18 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="row-fluid">
-				<label class="span6">Total  Directly related:</label>{{getTotalDirected(document.financialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Total  Indirectly related:</label>{{getTotalIndirected(document.financialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Total  (Directly + Indirectly related):</label>{{getTotalDirectedAndIndirectly(document.financialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Overall total:</label>{{getOverallTotal(document.financialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Overall average confidence:</label>{{confidenceAverage(document.financialResources)}}
-			</div>
+			<dl class="dl-horizontal">
+				<dt>Total  Directly related:</dt>
+				<dd>{{getTotalDirected(document.financialResources) | number:2}}<dd>
+				<dt>Total  Indirectly related:</dt>
+				<dd>{{getTotalIndirected(document.financialResources) | number:2}}</dd>
+				<dt>Total  (Directly + Indirectly related):</dt>
+				<dd>{{getTotalDirectedAndIndirectly(document.financialResources) | number:2}}</dd>
+				<dt>Overall total:</dt>
+				<dd>{{getOverallTotal(document.financialResources) | number:2}}</dd>
+				<dt>Overall average confidence:</dt>
+				<dd>{{confidenceAverage(document.financialResources)}}</dd>
+			</dl>
 		</div>
 
 		<div ng-show="document.financialDescription">
@@ -145,7 +144,7 @@
 		</div>
 		<div ng-show="document.countryFinancialResources">
 			<label>Information on the availability of financial resources in each country</label>
-			<div>
+			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -162,7 +161,7 @@
 								{{resource.year}}
 							</td>
 							<td>
-								<div km-terms ng-model="resource.type">
+								<div km-terms ng-model="resource.source">
 									<div ng-repeat="term in terms">{{term.name}}</div>
 								</div>
 							</td>
@@ -183,21 +182,18 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="row-fluid">
-				<label class="span6">Total  Directly related:</label>{{getTotalDirected(document.countryFinancialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Total  Indirectly related:</label>{{getTotalIndirected(document.countryFinancialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Total  (Directly + Indirectly related):</label>{{getTotalDirectedAndIndirectly(document.countryFinancialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Overall total:</label>{{getOverallTotal(document.countryFinancialResources) | number:2}}
-			</div>
-			<div class="row-fluid">
-				<label class="span6">Overall average confidence:</label>{{confidenceAverage(document.countryFinancialResources)}}
-			</div>
+			<dl class="dl-horizontal">
+				<dt>Total Directly related:</dt>
+				<dd>{{getTotalDirected(document.countryFinancialResources) | number:2}}</dd>
+				<dt>Total Indirectly related:</dt>
+				<dd>{{getTotalIndirected(document.countryFinancialResources) | number:2}}</dd>
+				<dt>Total (Directly + Indirectly related):</dt>
+				<dd>{{getTotalDirectedAndIndirectly(document.countryFinancialResources) | number:2}}</dd>
+				<dt>Overall total:</dt>
+				<dd>{{getOverallTotal(document.countryFinancialResources) | number:2}}</dd>
+				<dt>Overall average confidence:</dt>
+				<dd>{{confidenceAverage(document.countryFinancialResources)}}</dd>
+			</dl>
 		</div>
 
 		<div ng-show="document.countryFinancialDescription">
@@ -301,8 +297,8 @@
 		<legend>4.3 New and innovative financial mechanism</legend>
 		<div ng-show="document.financialMechanism">
 			<label>New and innovative financial mechanism</label>
-			<div>
-				<table>
+			<div class="table-responsive">
+				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Type of Initiative</th>
@@ -337,8 +333,8 @@
 		<legend>4.4 Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</legend>
 		<div ng-show="document.resourceIntiatives">
 			<label>Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</label>
-			<div>
-				<table>
+			<div class="table-responsive">
+				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Initiative</th>
@@ -383,4 +379,18 @@
 		</div>
 	</div>
 
+	<div ng-show="document.relevantInformation||document.relevantDocuments">
+		<legend>Additional Information</legend>
+
+		<div ng-show="document.relevantInformation">
+			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
+		<div ng-show="document.relevantDocuments">
+			<label>Other relevant website address or attached documents</label>
+			<ul class="km-value">
+				<li ng-repeat="item in document.relevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+			</ul>
+		</div>
+	</div>
 </div>

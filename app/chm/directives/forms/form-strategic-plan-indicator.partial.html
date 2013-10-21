@@ -1,0 +1,201 @@
+﻿<div>
+	<div ng-show="isLoading()">
+		<div class="loadProgress" progress="1" timeout="1500"></div>
+	</div>
+
+	<div class="alert alert-error" ng-cloak ng-show="hasError()">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div class="row" ng-show="!isLoading()&&!isNew">
+
+		<h1>Strategic Plan Indicators</h1>
+		<div class="col-md-12" style="position:relative">
+			
+			<div style="position:absolute;top:0px;right:0px">
+				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
+			</div>
+
+			<div>
+				<ul class="pagination">
+				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				</ul>				
+
+					<div ng-show="tab=='general'">
+						<form name="editForm">
+
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="title" caption="Indicator Operational Text">
+										<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="headline" caption="Indicator Headline Text">
+										<div km-textbox-ml name="headline" ng-model="document.headline" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="icon" caption="Indicator Icon">
+										<div km-link name="icon" ng-model="document.icon" allow-file="true" allow-link="false" mimeTypes="image/jpeg;image/png" identifier="document.header.identifier"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="subTopic" caption="Sub-topic Text">
+										<div km-textbox-ml rows=6 name="subTopic" ng-model="document.subTopic" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="communicationQuestion" caption="Communication Question">
+										<div km-textbox-ml rows=6 name="communicationQuestion" ng-model="document.communicationQuestion" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="operationalClassification" caption="Operational Classification">
+										<div km-textbox-ml rows=6 name="operationalClassification" ng-model="document.operationalClassification" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="developmentStatus" caption="Status of development">
+										<div km-textbox-ml rows=6 name="developmentStatus" ng-model="document.developmentStatus" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="sensitivity" caption="Sensitivity (can it be used to make assessment by 2015?)">
+										<div km-select required name="sensitivity" ng-model="document.sensitivity" items="options.sensitivity()" binding-type="term[]"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="scales" caption="Scale">
+										<div km-select multiple required name="scales" ng-model="document.scales" items="options.scales()" binding-type="term[]"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="scientificValidity" caption="Scientific Validity">
+										<div km-select required name="scientificValidity" ng-model="document.scientificValidity" items="options.scientificValidity()" binding-type="term[]"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="communicationLevel" caption="How easy can it be communicated?">
+										<div km-select required name="communicationLevel" ng-model="document.communicationLevel" items="options.easyCommunicated()" binding-type="term[]"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="dataSources" caption="Data Sources">
+										<div km-textbox-ml rows=6 name="dataSources" ng-model="document.dataSources" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="dataRequirements" caption="Data Requirements">
+										<div km-textbox-ml rows=6 name="dataRequirements" ng-model="document.dataRequirements" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="organizations" caption="Who's responsible for measuring">
+										<div km-reference name="organizations" ng-model="document.organizations" loader="loadRecords(identifier, 'organization')">
+											<div>
+												<div><strong>{{reference.title | lstring}}</strong></div>
+												<div>{{reference.summary | lstring}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="progressStatus" caption="Status of progress">
+										<div km-textbox-ml rows=6 name="progressStatus" ng-model="document.progressStatus" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+
+							<div  class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="linkToResources" caption="Link to resources">
+										<div km-link name="linkToResources" ng-model="document.linkToResources" allow-file="true" allow-link="true" identifier="document.header.identifier"></div>
+									</div>
+								</div>
+							</div>
+
+							<legend>Additional Information</legend>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="relevantInformation" caption="Additional Information">
+										<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+										<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+										<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="notes" caption="Notes">
+										<div km-notes name="notes" ng-model="document.notes"></div>
+									</div>
+								</div>
+							</div>
+
+						</form>
+					</div>
+
+					<div ng-show="tab=='review'">
+
+						<div km-document-validation ng-model="validationReport"></div>
+
+						<div class="btn-group" ng-show="document.header.languages.length>1">
+						  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
+						</div>
+
+						<div class="view-strategic-plan-indicator" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
+
+
+				</div>
+
+				<ul class="pagination">
+				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				</ul>				
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,117 @@
+﻿<div>
+
+	<div ng-show="document.title">
+		<label for="title">Indicator Operational Text</label>
+		<div class="km-value km-pre">{{document.title | lstring:locale}}</div>
+	</div>
+	<div ng-show="document.headline">
+		<label for="headline">Indicator Headline Text</label>
+		<div class="km-value km-pre">{{document.headline | lstring:locale}}</div>
+	</div>
+	<div ng-show ="document.icon">
+		<label for="icon">Indicator Icon</label>
+		<div class="km-value">
+			<a ng-repeat="link in document.icon" ng-href="{{link.url}}" target="_blank">
+				<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />
+			</a>
+		</div>
+	</div>
+	<div ng-show="document.subTopic">
+		<label for="subTopic">Sub-topic Text</label>
+		<div class="km-value km-pre">{{document.subTopic | lstring:locale}}</div>
+	</div>
+	<div ng-show="document.communicationQuestion">
+		<label for="communicationQuestion">Communication Question</label>
+		<div class="km-value km-pre">{{document.communicationQuestion | lstring:locale}}</div>
+	</div>
+	<div ng-show="document.operationalClassification">
+		<label for="operationalClassification">Operational Classification</label>
+		<div class="km-value km-pre">{{document.operationalClassification | lstring:locale}}</div>
+	</div>
+	<div ng-show="document.developmentStatus">
+		<label for="developmentStatus">Status of development</label>
+		<div class="km-value km-pre">{{document.developmentStatus | lstring:locale}}</div>
+	</div>
+
+	<div ng-show="document.sensitivity">
+		<label for="sensitivity">Sensitivity (can it be used to make assessment by 2015?)</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.sensitivity">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+	<div ng-show="document.scales">
+		<label for="scales">Scale</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.scales">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+	<div ng-show="document.scientificValidity">
+		<label for="scientificValidity">Scientific Validity</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.scientificValidity">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+	<div ng-show="document.communicationLevel">
+		<label for="communicationLevel">How easy can it be communicated?</label>
+		<div class="km-value">
+			<span km-terms ng-model="document.communicationLevel">
+				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
+			</span>
+		</div>
+	</div>
+
+	<div ng-show="document.dataSources">
+		<label class="control-label" required for="dataSources">Data Sources</label>
+		<div class="km-value km-pre">{{document.dataSources | lstring:locale}}</div>
+	</div>
+
+	<div ng-show="document.dataRequirements">
+		<label class="control-label" required for="dataRequirements">Data Requirements</label>
+		<div class="km-value km-pre">{{document.dataRequirements | lstring:locale}}</div>
+	</div>
+
+	<div ng-show="organizations">
+		<label class="control-label" for="organizations">Who's responsible for measuring</label>
+		<div class="km-value">
+			<b>{{organizations.document.name|lstring:locale}}-({{organizations.document.acronym|lstring:locale}})</b><br />
+		</div>
+	</div>
+
+	<div ng-show="document.progressStatus">
+		<label class="control-label" required for="progressStatus">Status of progress</label>
+		<div class="km-value km-pre">{{document.progressStatus | lstring:locale}}</div>
+	</div>
+
+	<div ng-show="document.linkToResources">
+		<label class="control-label" required for="linkToResources">Link to resources</label>
+		<div class="km-value">
+			<li ng-repeat="item in document.linkToResources">
+				<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<i ng-show="item.name">({{item.url}})</i>
+			</li>
+		</div>
+	</div>
+
+	<div ng-show="document.relevantInformation||document.relevantDocuments">
+		<legend>Additional Information</legend>
+
+		<div ng-show="document.relevantInformation">
+			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
+		<div ng-show="document.relevantDocuments">
+			<label>Other relevant website address or attached documents</label>
+			<div class="km-value" ng-repeat="item in document.relevantDocuments">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+			</div>
+		</div>
+	</div>
+
+</div>

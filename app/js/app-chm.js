@@ -50,6 +50,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/marineEbsa',             { controller:ManagementPageController, templateUrl:'/app/views/management/edit/marine-ebsa.html'                , resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/caseStudy', 				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/case-study.html'				, resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/edit/resourceMobilisation',	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/resource-mobilisation.html'		, resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/management/edit/strategicPlanIndicator',	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/strategic-plan-indicator.html'	, resolve: { initialized : init }, reloadOnSearch: false }).
 		otherwise({redirectTo:'/help/404'});
 
  		function HomePageController($scope, $rootScope, $route, $browser, $location, $window, authentication) {

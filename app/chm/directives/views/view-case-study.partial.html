@@ -1,12 +1,12 @@
 ﻿<div>
 	<h1 style="font-weight:bold;font-size:26px"><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" />{{document.title | lstring:locale}}</i></h1>
 
-	<div ng-show="document.cbdSubjects || document.aichiTargets ||
-		document.relatedCountries || document.relatedGroupes || document.languages">
+	<div ng-show="document.subjects || document.aichiTargets ||
+		document.regions || document.languages">
 		<legend>General information</legend>
-		<div ng-show="document.cbdSubjects">
-			<label class="control-label" for="cbdSubjects">Related CBD Subject area(s)</label>
-			<ul class="km-value" km-terms ng-model="document.cbdSubjects">
+		<div ng-show="document.subjects">
+			<label class="control-label" for="subjects">Related CBD Subject area(s)</label>
+			<ul class="km-value" km-terms ng-model="document.subjects">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
@@ -17,16 +17,9 @@
 			</ul>
 		</div>
 
-		<div ng-show="document.relatedCountries">
-			<label class="control-label" for="relatedCountries">Related Country(ies)</label>
-			<ul class="km-value" km-terms ng-model="document.relatedCountries">
-				<li ng-repeat="term in terms">{{term.name}}</li>
-			</ul>
-		</div>
-
-		<div ng-show="document.relatedGroupes">
-			<label class="control-label" for="relatedGroupes">Regional / Economic group(s)</label>
-			<ul class="km-value" km-terms ng-model="document.relatedGroupes">
+		<div ng-show="document.regions">
+			<label class="control-label" for="regions">Related Country(ies / Region(s) / Economic group(s)</label>
+			<ul class="km-value" km-terms ng-model="document.regions">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
@@ -40,17 +33,17 @@
 	</div>
 
 
-	<div class="row-fluid" ng-show="document.timePeriodFrom || document.timePeriodTo">
+	<div class="row-fluid" ng-show="document.startDate || document.endDate">
 		<div class="span5">
-			<div ng-show="document.timePeriodFrom">
+			<div ng-show="document.startDate">
 				<label>Time period from</label>
-				<div class="km-value km-pre">{{document.timePeriodFrom}}</div>
+				<div class="km-value km-pre">{{document.startDate}}</div>
 			</div>
 		</div>
 		<div class="span5">
-			<div ng-show="document.timePeriodTo">
+			<div ng-show="document.endDate">
 				<label>Time period to</label>
-				<div class="km-value km-pre">{{document.timePeriodTo}}</div>
+				<div class="km-value km-pre">{{document.endDate}}</div>
 			</div>
 		</div>
 	</div>
@@ -77,7 +70,7 @@
 	</div>
 	<div ng-show="document.summary || document.description ||
 		document.scale || document.status || resources ||
-		document.showCaseImages">
+		document.images">
 		<legend>Additional information</legend>
 		<div ng-show="document.summary">
 			<label class="control-label" for="summary">Summary, abstract or table of contents</label>
@@ -111,10 +104,10 @@
 				</div>
 			</div>
 		</div>
-		<div ng-show ="document.showCaseImages">
+		<div ng-show ="document.images">
 			<label class="control-label" required for="icon">Images for showcase</label>
 			<div class="km-value">
-				<a ng-repeat="link in document.showCaseImages" ng-href="{{link.url}}" target="_blank">
+				<a ng-repeat="link in document.images" ng-href="{{link.url}}" target="_blank">
 					<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />
 				</a>
 			</div>

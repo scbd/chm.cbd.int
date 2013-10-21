@@ -53,15 +53,8 @@
 						</div>
 						<div  class="row">
 							<div class="col-md-11"> 
-								<div class="km-control-group" required name="relatedCountries" caption="Related Country(ies)">
-									<div km-select name="relatedCountries" multiple ng-model="document.relatedCountries" placeholder="" items="options.relatedContries()"></div>
-								</div>
-							</div>
-						</div>
-						<div  class="row">
-							<div class="col-md-11"> 
-								<div class="km-control-group" required name="relatedGroupes" caption="Regional / Economic group(s)">
-									<div km-select name="relatedGroupes" multiple ng-model="document.relatedGroupes" placeholder="" items="options.relatedGroupes()"></div>
+								<div class="km-control-group" required name="regions" caption="Related Country(ies) / Region(s) / Economic group(s)">
+									<div km-select name="regions" multiple ng-model="document.regions" placeholder="" items="options.regions()"></div>
 								</div>
 							</div>
 						</div>
@@ -74,13 +67,13 @@
 						</div>
 						<div class="row">
 							<div class="col-md-5">
-								<div class="km-control-group" required name="timePeriodFrom" caption="Time period from">
-									<div km-date style="width:200px" required name="timePeriodFrom" ng-model="document.timePeriodFrom"></div>
+								<div class="km-control-group" required name="startDate" caption="Time period from">
+									<div km-date style="width:200px" required name="startDate" ng-model="document.startDate"></div>
 								</div>
 							</div>
 							<div class="col-md-5">
-								<div class="km-control-group" required name="timePeriodTo" caption="Time period to">
-									<div km-date style="width:200px" required name="timePeriodTo" ng-model="document.timePeriodTo"></div>
+								<div class="km-control-group" required name="endDate" caption="Time period to">
+									<div km-date style="width:200px" required name="endDate" ng-model="document.endDate"></div>
 								</div>
 							</div>
 						</div>

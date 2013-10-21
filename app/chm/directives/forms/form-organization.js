@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('cbdEditOrganization', ['authHttp', "URI", "guid", "$filter", "Thesaurus", "guid", function ($http, URI, guid, $filter, Thesaurus, guid) {
+.directive('editOrganization', ['authHttp', "URI", "guid", "$filter", "Thesaurus", "guid", function ($http, URI, guid, $filter, Thesaurus, guid) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-organization.partial.html',
@@ -13,6 +13,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
+			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
 				countries					: function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
@@ -24,14 +25,27 @@ angular.module('kmApp').compileProvider // lazy
 				originOfGeneticResources	: function () { return $http.get("/api/v2013/thesaurus/domains/545CD54C-CFF3-41E8-A003-FDD278426A3A/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 				userOfGeneticResources      : function () { return $http.get("/api/v2013/thesaurus/domains/034C8D3F-EF8B-4144-8CA4-3839C466F96E/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 					
-		};
+			};
 
-			$element.find('a[data-toggle="tab"]').on('shown', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+
+				if(!tab)
+					return;
+
+				if (tab == 'review')
+					$scope.validate();
+
+				var qBody = $element.parents("body:last");
+
+				if(qBody.scrollTop() > $element.offset().top) {
+					$timeout(function()	{
+						if (!qBody.is(":animated"))
+							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
+					}, 100);
+				}
 			});
 
 			$scope.init();
@@ -164,48 +178,6 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.tab = function(tab, show) {
-
-				var oTabNames    = [];
-				var sActiveTab   = $('.tab-content:first > .tab-pane.active').attr("id");
-				var qActiveTab   = $('#editFormPager a[data-toggle="tab"]:not(:first):not(:last)').filter('[href="#'+sActiveTab+'"]');
-
-				if (tab == "-") tab = (qActiveTab.prevAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-				if (tab == "+") tab = (qActiveTab.nextAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-
-				if(!tab)
-					return undefined;
-
-				if (show)
-					$('#editFormPager a[data-toggle="tab"][href="#review"]:first').tab('show');
-
-				return {
-					'name' : tab,
-					'active': sActiveTab == tab
-				}
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.onTab  = function(tab) {
-				var fn = function() {
-					if (tab == 'review')
-						$scope.validate();
-
-					if (!$('body').is(":animated"))
-						$('body').stop().animate({ scrollTop: 0 }, 600);
-				};
-
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					fn();
-				else
-					$scope.$apply(fn);
-			}
-
-			//==================================
-			//
-			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
 			}
@@ -224,28 +196,31 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				window.location = "/managementcentre/my-pending-items";
+				$location.url(managementUrls.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				window.location = "/managementcentre/edit/";
+				$location.url("/database/record?documentID=" + data.documentID);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				window.location = "/managementcentre/edit-draft/";
+				$location.url(managementUrls.drafts);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				window.location = "/managementcentre/";
+				if($location.search().returnUrl)
+					$location.url($location.search().returnUrl);	
+				else
+					$location.url(managementUrls.root);
 			};
 
 			//==================================

@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editOrganization', ['authHttp', "URI", "guid", "$filter", "Thesaurus", "guid", function ($http, URI, guid, $filter, Thesaurus, guid) {
+.directive('editOrganization', ['authHttp', "URI", "guid", "$filter", "Thesaurus", "guid", "$timeout", function ($http, URI, guid, $filter, Thesaurus, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-organization.partial.html',

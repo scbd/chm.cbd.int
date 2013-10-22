@@ -2049,7 +2049,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmDocumentValidation', [function ()
+	.directive('kmDocumentValidation', ["$timeout", function ($timeout)
 	{
 		return {
 			restrict: 'EAC',
@@ -2058,6 +2058,41 @@ angular.module('formControls',[])
 			transclude: true,
 			scope: {
 				report : '=ngModel',
+			},
+			link: function ($scope, $element, $attr) {
+
+				//====================
+				//
+				//====================
+				$scope.jumpTo = function(field) {
+
+					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
+					var sTab   = qLabel.parents("[km-tab]:first").attr("km-tab");
+
+					if (sTab) {
+						var qBody = $element.parents("body:last");
+
+						$scope.$parent.tab = sTab;
+
+						$timeout(function jumpTo(){
+							qBody.stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
+						});
+					}
+				}
+
+				//====================
+				//
+				//====================
+				$scope.getLabel = function(field) {
+
+					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
+
+					if (qLabel.size() != 0)
+						return qLabel.text();
+
+					return field;
+				}
+
 			},
 			controller: ["$scope", function ($scope) 
 			{
@@ -2088,36 +2123,47 @@ angular.module('formControls',[])
 					if (code == "Error.InvalidType"       ) return "The fields type is invalid";
 					return code;
 				}
-
-				//====================
-				//
-				//====================
-				$scope.getLabel = function(field) {
-
-					var qLabel = $("form[name='editForm'] label[for='" + field + "']:first");
-
-					if (qLabel.size() != 0)
-						return qLabel.text();
-
-					return field;
-				}
-
-				//====================
-				//
-				//====================
-				$scope.jumpTo = function(field) {
-					var qLabel = $("form[name='editForm'] label[for='" + field + "']:first");
-					var sTab = qLabel.parents(".tab-pane:first").attr("id");
-
-					if (sTab) {
-						$('#editFormPager a[data-toggle="tab"][href="#' + sTab + '"]:first').tab('show');
-						$('body').stop().animate({ scrollTop : qLabel.offset().top-50 }, 600);
-					}
-				}
 			}]
 		};
 	}])
 
+
+	//============================================================
+	//
+	//
+	//============================================================
+	.directive('kmTab', ["$timeout", function ($timeout)
+	{
+		return {
+			restrict: 'A',
+			link: function ($scope, $element, $attr) 
+			{
+				//==============================
+				//
+				//==============================
+				$scope.$watch("tab", function tab(tab){
+
+					var isCurrentTab = $attr.kmTab==tab;
+
+					if(isCurrentTab) $element.show();
+					else             $element.hide();
+
+					if(isCurrentTab) {
+
+						var qBody   = $element.parents("body:last");
+						var qTarget = $element.parents("div:first").find("form[name='editForm']:first");
+
+						if(qBody.scrollTop() > qTarget.offset().top) {
+							$timeout(function()	{
+								if (!qBody.is(":animated"))
+									qBody.stop().animate({ scrollTop:  qTarget.offset().top-100 }, 300);
+							});
+						}
+					}
+				})
+			}
+		}
+	}])
 
 	//============================================================
 	//

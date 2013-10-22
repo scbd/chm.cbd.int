@@ -2139,20 +2139,38 @@ angular.module('formControls',[])
 			link: function ($scope, $element, $attr) 
 			{
 				if ($attr.isValid) {
-					$scope.isValid = function() {
-						return !!$scope.isValidFn({ "name": $scope.name });
+					$scope.hasError = function() { return false; }
+					$scope.hasWarning = function() {
+						return !$scope.isValidFn({ "name": $scope.name });
 					}
 				}
 				else if ($scope.$parent.isFieldValid) {
-					$scope.isValid = function() {
-						return !!$scope.$parent.isFieldValid($scope.name);
+					$scope.hasError = function() { return false; }
+					$scope.hasWarning = function() {
+						return !$scope.$parent.isFieldValid($scope.name);
 					}
 				}
 			},
-			controller: ["$scope", function ($scope) 
+			controller: ["$scope", "underscore", function ($scope, _) 
 			{
-				$scope.isValid = function() {
-					return true; //default behavior
+				$scope.hasWarning = function() {  //default behavior
+
+					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.warnings) {
+						
+						return !!_.findWhere($scope.validationReport.errors, { property : $scope.name })
+					}
+
+					return false; //default behavior
+				}
+
+				$scope.hasError = function() {  //default behavior
+					
+					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.errors) {
+
+						return !!_.findWhere($scope.validationReport.errors, { property : $scope.name })
+					}
+
+					return false;
 				}
 
 				$scope.isRequired = function() {

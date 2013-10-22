@@ -330,6 +330,8 @@ angular.module('formControls',[])
 
 					     if($scope.binding && angular.isArray ($scope.binding)) oBinding =  $scope.binding;
 					else if($scope.binding && angular.isObject($scope.binding)) oBinding = [$scope.binding];
+					else if($scope.binding && angular.isString($scope.binding)) oBinding = [$scope.binding];
+
 
 					if(oBinding) {
 						var qTerms = [];
@@ -337,10 +339,19 @@ angular.module('formControls',[])
 						angular.forEach(oBinding, function(value, key) {
 							if(value.name)
 								qTerms.push(value);
-							else
-								qTerms.push($http.get("/api/v2013/thesaurus/terms/"+encodeURI(value.identifier),  {cache:true}).then(function(o) {
+							else {
+
+								var identifier = null;
+
+								if(angular.isString(value))
+									identifier = value;
+								else
+									identifier = value.identifier;
+
+								qTerms.push($http.get("/api/v2013/thesaurus/terms/"+encodeURI(identifier),  {cache:true}).then(function(o) {
 									return _.extend(_.clone(o.data),  _.omit(value, "identifier", "title"));
 								}));
+							}
 						});
 
 						$q.all(qTerms).then(function(terms) {

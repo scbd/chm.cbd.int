@@ -17,47 +17,97 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//===============
 			$scope.$watch("document.aichiTargets", function(refs) {
-				$scope.aichiTargets = loadReferences(refs, { info : true });
+				if ($scope.document) {
+					$scope.aichiTargets = angular.fromJson(angular.toJson($scope.document.aichiTargets))
+
+					if ($scope.aichiTargets)
+					{
+						$scope.loadReferences($scope.aichiTargets);
+					}
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.nationalIndicators", function(refs) {
-				$scope.nationalIndicators = loadReferences(refs, { info : true });
+				if ($scope.document) {
+					$scope.nationalIndicators = angular.fromJson(angular.toJson($scope.document.nationalIndicators))
+
+					if ($scope.nationalIndicators)
+					{
+						$scope.loadReferences($scope.nationalIndicators);
+					}
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.nationalTargets", function(refs) {
-				$scope.nationalTargets = loadReferences(refs, { info : true });
+				if ($scope.document) {
+					$scope.nationalTargets = angular.fromJson(angular.toJson($scope.document.nationalTargets))
+
+					if ($scope.nationalTargets)
+					{
+						$scope.loadReferences($scope.nationalTargets);
+					}
+				}
 			});
 
-			//===============
+			//====================
 			//
-			//===============
-			$scope.$watch("document.partners", function(refs) {
-				$scope.partners = loadReferences(refs);
+			//====================
+			$scope.$watch("document.partners", function (_new) {
+				if ($scope.document) {
+					$scope.partners = angular.fromJson(angular.toJson($scope.document.partners))
+
+					if ($scope.partners)
+					{
+						$scope.loadReferences($scope.partners);
+					}
+				}
 			});
 
-			//===============
+			//====================
 			//
-			//===============
-			function loadReferences(refs, options) {
+			//====================
+			$scope.loadReferences = function (targets, infoOnly) {
 
-				if (!refs)
-					return;
+				angular.forEach(targets, function (ref) {
 
-				options = _.extend(options || {}, { cache: true });
+					var oOptions = { cache: true };
 
-				return $q.all(_.map(refs, function(ref) {
-					return storage.documents.get(ref.identifier, options)
-						.then(function(res) {
-							return res.data;
+					if (infoOnly)
+						oOptions.info = true;
+
+					storage.documents.get(ref.identifier, oOptions)
+						.success(function (data) {
+							ref.document = data;
+						})
+						.error(function (error, code) {
+							if (code == 404 && $scope.allowDrafts == "true") {
+
+								storage.drafts.get(ref.identifier, oOptions)
+									.success(function (data) {
+										ref.document = data;
+									})
+									.error(function (draftError, draftCode) {
+										ref.document = undefined;
+										ref.error = error;
+										ref.errorCode = code;
+									});
+							}
+
+							ref.document = undefined;
+							ref.error = error;
+							ref.errorCode = code;
+
 						});
-				}));
+				});
 			}
+
+
 		}]
 	}
 }])

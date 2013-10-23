@@ -17,18 +17,18 @@
 			</div>
 
 			<div>
-				<ul id="editFormPager" class="pagination">
-					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
-					<li ng-class="{ active : tab('edit'  ).active }"><a data-toggle="tab" ng-href="#edit">General</a></li>
-					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
-					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
-				</ul>
+				<ul class="pagination">
+				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				</ul>				
 
-				<form name="editForm">
 
 				<div class="tab-content" style="overflow: visible; margin-top: 10px">
 
-					<div class="tab-pane active" id="edit">
+				<form name="editForm">
+					<div km-tab="general">
 
 						<legend>General Information</legend>
 
@@ -100,11 +100,11 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 					<!--end addtional info tab-->
 
-					<div class="tab-pane" id="review">
+				</div>
+					<div km-tab="review">
 
 						<div km-document-validation ng-model="validationReport"></div>
 
@@ -113,16 +113,14 @@
 						</div>
 
 						<div class="viewNationalIndicator" ng-model="document" locale="review.locale"></div>
-
 					</div>
-				</div>
 
-				<ul id="editFormPager" class="pagination">
-					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
-					<li ng-class="{ active : tab('edit'  ).active }"><a data-toggle="tab" ng-href="#edit">General</a></li>
-					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
-					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
-				</ul>
+				<ul class="pagination">
+				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				</ul>				
 
 				</form>
 			</div>

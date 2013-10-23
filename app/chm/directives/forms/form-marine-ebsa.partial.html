@@ -27,9 +27,7 @@
 				</ul>				
 
 				<form name="editForm" style="margin-top:10px">
-				<fieldset>
-
-					<div ng-show="tab=='general'">
+					<div km-tab="general">
 
 						<legend>General Information</legend>
 
@@ -171,14 +169,13 @@
 						</div>
 					</div>
 
-					<div ng-show="tab=='status'">
+					<div km-tab="status">
 
 						<a name="#StatusOfSubmission"></a>
 						<legend>Status of submission</legend>
 
-
-
 						<ol style="list-style-type: none">
+							<label style="display:none" class="control-label" for="status" required>Status</label>
 							<li style="margin-bottom:15px">
 								<input type="radio" name="status" ng-model="document.status" value="approved" style="margin-left: -18px; margin-top: -4px" />
 								<!-- APPROVED -->
@@ -388,7 +385,7 @@
 						</ol>
 					</div>
 
-					<div ng-show="tab=='assessment'">
+					<div km-tab="assessment">
 
 						<a name="#assessment"></a>
 						<legend>Assessment of the area against CBD EBSA criteria</legend>
@@ -412,6 +409,8 @@
 								</li>
 							</ol>
 						</script>
+
+						<label style="display:none" class="control-label" for="assessments" required>Assessments</label>
 
 						<div class="marine-ebsa-assessment" ng-model="document.assessments" locales="document.header.languages">
 						</div>
@@ -449,20 +448,19 @@
 							</div>
 						</div>
 					</div>
+				</form>
 
-					<div ng-show="tab=='review'">
+				<div km-tab="review">
 
-						<div km-document-validation ng-model="validationReport"></div>
+					<div km-document-validation ng-model="validationReport"></div>
 
-						<div class="btn-group" ng-show="document.header.languages.length>1">
-							<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
-						</div>
-
-						<div class="view-marine-ebsa" ng-model="reviewDocument" locale="review.locale"></div>
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
 
-				</fieldset>
-				</form>
+					<div class="view-marine-ebsa" ng-model="reviewDocument" locale="review.locale"></div>
+				</div>
+
 
 				<ul class="pagination">
 				  <li ng-class="{ disabled: tab=='general'    }"><a href="" ng-click="tab=prevTab">&laquo;</a></li>

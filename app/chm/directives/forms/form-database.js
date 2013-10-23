@@ -166,7 +166,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.onPrePublish = function() {
 				return $scope.validate(false).then(function(hasError) {
 					if (hasError)
-						$scope.tab("review", true)
+						$scope.tab = "review";
 					return hasError;
 				});
 			}

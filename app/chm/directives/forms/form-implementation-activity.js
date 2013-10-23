@@ -290,7 +290,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.onPrePublish = function() {
 				return $scope.validate(false).then(function(hasError) {
 					if (hasError)
-						$scope.tab("review", true)
+						$scope.tab = "review";
 					return hasError;
 				});
 			}
@@ -313,18 +313,22 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				$location.url(managementUrls.drafts);
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
-				else
-					$location.url(managementUrls.root);
+				gotoManager();
 			};
+
+ 			//==================================
+ 			//
+ 			//==================================
+			function gotoManager() { 
+				$location.url("/management/national-reporting" + ($scope.document.government ? "?country=" + $scope.document.government.identifier.toUpperCase() : ""));
+			}
 
 			//==================================
 			//

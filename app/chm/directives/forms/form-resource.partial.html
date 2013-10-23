@@ -32,7 +32,7 @@
 
 				<form name="editForm" style="margin-top:10px">
 
-					<div ng-show="tab=='general'">
+					<div km-tab="general">
 
 						<legend>Clearing-Houses</legend>
 
@@ -104,7 +104,7 @@
 							<div class="col-md-10">
 								<div class="km-control-group" name="cover" caption="Cover image(s)">
 									<div class="help-block">Only JPEG and PNG formats are supported.</div>
-									<div km-link name="cover" ng-model="document.covers" allow-link="false" allow-file="true" mimeTypes="image/jpeg;image/png" identifier="document.header.identifier"></div>
+									<div km-link name="cover" ng-model="document.covers" allow-link="false" allow-file="true" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
 								</div>
 							</div>
 						</div>
@@ -234,7 +234,7 @@
 						</div>
 					</div>
 
-					<div ng-show="tab=='chm'">
+					<div km-tab="chm">
 
 
 						<legend>Clearing-House Mechanism (CHM)</legend>
@@ -256,7 +256,7 @@
 						</div>
 					</div>
 
-					<div ng-show="tab=='absch'">
+					<div km-tab="absch">
 
 						<legend>Subjects</legend>
 
@@ -269,7 +269,7 @@
 						</div>
 					</div>
 
-					<div ng-show="tab=='bch'">
+					<div km-tab="bch">
 
 						<legend>Subjects</legend>
 
@@ -364,15 +364,15 @@
 						</div>
 					</div>
 
-					<div ng-show="tab=='review'">
-						<div km-document-validation ng-model="validationReport"></div>
-
-						<div class="btn-group" ng-show="document.header.languages.length>1">
-							<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
-						</div>
-						<div class="view-resource" ng-model="document" locale="review.locale" link-target="_blank"></div>
-					</div>
 				</form>
+				<div km-tab="review">
+					<div km-document-validation ng-model="validationReport"></div>
+
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+					</div>
+					<div class="view-resource" ng-model="document" locale="review.locale" link-target="_blank"></div>
+				</div>
 
 				<ul class="pagination">
 				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'"										>&laquo;</a></li>

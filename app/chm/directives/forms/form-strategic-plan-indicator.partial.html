@@ -25,8 +25,8 @@
 				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>				
 
-					<div ng-show="tab=='general'">
-						<form name="editForm">
+					<form name="editForm">
+					<div km-tab="general">
 
 							<div  class="row">
 								<div class="col-md-11">
@@ -45,7 +45,7 @@
 							<div  class="row">
 								<div class="col-md-11">
 									<div class="km-control-group" name="icon" caption="Indicator Icon">
-										<div km-link name="icon" ng-model="document.icon" allow-file="true" allow-link="false" mimeTypes="image/jpeg;image/png" identifier="document.header.identifier"></div>
+										<div km-link name="icon" ng-model="document.icon" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
 									</div>
 								</div>
 							</div>
@@ -172,10 +172,10 @@
 								</div>
 							</div>
 
-						</form>
 					</div>
+					</form>
 
-					<div ng-show="tab=='review'">
+					<div km-tab="review">
 
 						<div km-document-validation ng-model="validationReport"></div>
 

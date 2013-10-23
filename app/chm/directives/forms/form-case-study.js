@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editCaseStudy', ['authHttp', "URI", "$filter", "$q", "Thesaurus", "guid", function ($http, URI, $filter, $q, Thesaurus, guid) {
+.directive('editCaseStudy', ['authHttp', "URI", "$filter", "$q", "underscore", "Thesaurus", "guid", function ($http, URI, $filter, $q, _, Thesaurus, guid) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-case-study.partial.html',
@@ -15,34 +15,26 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
             	aichiTargets				: $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-				cbdSubjects					: function () { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",									{ cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
+				subjects					: function () { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",									{ cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
 				docLanguages				: function () { return $http.get("/api/v2013/thesaurus/domains/ISO639-2/terms",										{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				scale						: function () { return $http.get("/api/v2013/thesaurus/domains/96FCD864-D388-4148-94DB-28B484047BA5/terms",         { cache: true }).then(function(o){ return o.data; }); },
-				status						: function () { return $http.get("/api/v2013/thesaurus/domains/321DACE5-79C4-4AEB-9465-0738E47C9E11/terms",         { cache: true }).then(function(o){ return o.data; }); },
-				relatedContries				: function () { return $http.get("/api/v2013/thesaurus/domains/countries/terms",									{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				relatedGroupes				: function () { return $http.get("/api/v2013/thesaurus/domains/regions/terms",										{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-			};
+				scales						: function () { return $http.get("/api/v2013/thesaurus/domains/96FCD864-D388-4148-94DB-28B484047BA5/terms",         { cache: true }).then(function(o){ return o.data; }); },
+				statuses					: function () { return $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms",       { cache: true }).then(function(o){ return o.data; }); },
+				regions				        : function () { 
+					var qCountries = $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); });
+					var qRegions   = $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); });
 
+					return $q.all([qCountries, qRegions]).then(function(res){
+						return _.union(res[0], res[1]);
+					});
+				}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.$watch('tab', function(tab) {
-
-				if(!tab)
-					return;
-
 				if (tab == 'review')
 					$scope.validate();
-
-				var qBody = $element.parents("body:last");
-
-				if(qBody.scrollTop() > $element.offset().top) {
-					$timeout(function()	{
-						if (!qBody.is(":animated"))
-							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
-					}, 100);
-				}
 			});
 
 			$scope.init();

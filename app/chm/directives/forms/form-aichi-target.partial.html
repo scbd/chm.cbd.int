@@ -25,8 +25,8 @@
 				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>				
 
-				<div ng-show="tab=='general'">
-					<form name="editForm">
+				<form name="editForm">
+				<div km-tab="general">
 
 						<div  class="row">
 							<div class="col-md-11">
@@ -45,7 +45,7 @@
 						<div  class="row">
 							<div class="col-md-11">
 								<div class="km-control-group" name="icons" caption="Target Icon">
-									<div km-link name="icons" ng-model="document.icons" allow-file="true" allow-link="false" mimeTypes="image/jpeg;image/png" identifier="document.header.identifier"></div>
+									<div km-link name="icons" ng-model="document.icons" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
 								</div>
 							</div>
 						</div>
@@ -141,11 +141,11 @@
 									</div>
 								</td>
 								<td style="text-align:end">
-									<a title="Remove" class="btn" ng-click="removeChampion(document.champions, champion)"><i class="icon-trash"></i></a>
+									<a title="Remove" class="btn btn-default" ng-click="removeChampion(document.champions, champion)"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						</table>
-						<a class="btn" ng-click="addNewChampion()"><i class="icon-file"></i> Add Champion</a>
+						<a class="btn btn-default" ng-click="addNewChampion()"><i class="icon-file"></i> Add Champion</a>
 						<br /><br />
 
 
@@ -188,11 +188,11 @@
 									</div>
 								</td>
 								<td style="text-align:end">
-									<a title="Remove" class="btn" ng-click="removeResource(document.resources, resource)"><i class="icon-trash"></i></a>
+									<a title="Remove" class="btn btn-default" ng-click="removeResource(document.resources, resource)"><i class="icon-trash"></i></a>
 								</td>
 							</tr>
 						</table>
-						<a class="btn" ng-click="addNewResource()"><i class="icon-file"></i> Add Resource</a>
+						<a class="btn btn-default" ng-click="addNewResource()"><i class="icon-file"></i> Add Resource</a>
 						<br /><br />
 
 
@@ -222,15 +222,15 @@
 									<span class="help-block">
 										The field “Notes” is for personal reference and can be seen only when the record is being edited.
 									</span>
-									<textarea style="width:100%" rows="4" name="notes" ng-model="document.notes" ></textarea>
+									<textarea class="form-control" rows="4" name="notes" ng-model="document.notes" ></textarea>
 								</div>
 							</div>
 						</div>
 
-					</form>
 				</div>
+					</form>
 
-				<div ng-show="tab=='review'">
+				<div km-tab="review">
 
 					<div km-document-validation ng-model="validationReport"></div>
 

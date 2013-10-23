@@ -285,14 +285,6 @@ angular.module('kmApp').compileProvider // lazy
 				if (tab == 'review')
 					$scope.validate();
 
-				var qBody = $element.parents("body:last");
-
-				if(qBody.scrollTop() > $element.offset().top) {
-					$timeout(function()	{
-						if (!qBody.is(":animated"))
-							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
-					}, 100);
-				}
 			});
 
 			$scope.init();

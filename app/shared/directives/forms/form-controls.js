@@ -330,6 +330,8 @@ angular.module('formControls',[])
 
 					     if($scope.binding && angular.isArray ($scope.binding)) oBinding =  $scope.binding;
 					else if($scope.binding && angular.isObject($scope.binding)) oBinding = [$scope.binding];
+					else if($scope.binding && angular.isString($scope.binding)) oBinding = [$scope.binding];
+
 
 					if(oBinding) {
 						var qTerms = [];
@@ -337,10 +339,19 @@ angular.module('formControls',[])
 						angular.forEach(oBinding, function(value, key) {
 							if(value.name)
 								qTerms.push(value);
-							else
-								qTerms.push($http.get("/api/v2013/thesaurus/terms/"+encodeURI(value.identifier),  {cache:true}).then(function(o) {
+							else {
+
+								var identifier = null;
+
+								if(angular.isString(value))
+									identifier = value;
+								else
+									identifier = value.identifier;
+
+								qTerms.push($http.get("/api/v2013/thesaurus/terms/"+encodeURI(identifier),  {cache:true}).then(function(o) {
 									return _.extend(_.clone(o.data),  _.omit(value, "identifier", "title"));
 								}));
+							}
 						});
 
 						$q.all(qTerms).then(function(terms) {
@@ -2049,7 +2060,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmDocumentValidation', [function ()
+	.directive('kmDocumentValidation', ["$timeout", function ($timeout)
 	{
 		return {
 			restrict: 'EAC',
@@ -2058,6 +2069,41 @@ angular.module('formControls',[])
 			transclude: true,
 			scope: {
 				report : '=ngModel',
+			},
+			link: function ($scope, $element, $attr) {
+
+				//====================
+				//
+				//====================
+				$scope.jumpTo = function(field) {
+
+					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
+					var sTab   = qLabel.parents("[km-tab]:first").attr("km-tab");
+
+					if (sTab) {
+						var qBody = $element.parents("body:last");
+
+						$scope.$parent.tab = sTab;
+
+						$timeout(function jumpTo(){
+							qBody.stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
+						});
+					}
+				}
+
+				//====================
+				//
+				//====================
+				$scope.getLabel = function(field) {
+
+					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
+
+					if (qLabel.size() != 0)
+						return qLabel.text();
+
+					return field;
+				}
+
 			},
 			controller: ["$scope", function ($scope) 
 			{
@@ -2088,36 +2134,47 @@ angular.module('formControls',[])
 					if (code == "Error.InvalidType"       ) return "The fields type is invalid";
 					return code;
 				}
-
-				//====================
-				//
-				//====================
-				$scope.getLabel = function(field) {
-
-					var qLabel = $("form[name='editForm'] label[for='" + field + "']:first");
-
-					if (qLabel.size() != 0)
-						return qLabel.text();
-
-					return field;
-				}
-
-				//====================
-				//
-				//====================
-				$scope.jumpTo = function(field) {
-					var qLabel = $("form[name='editForm'] label[for='" + field + "']:first");
-					var sTab = qLabel.parents(".tab-pane:first").attr("id");
-
-					if (sTab) {
-						$('#editFormPager a[data-toggle="tab"][href="#' + sTab + '"]:first').tab('show');
-						$('body').stop().animate({ scrollTop : qLabel.offset().top-50 }, 600);
-					}
-				}
 			}]
 		};
 	}])
 
+
+	//============================================================
+	//
+	//
+	//============================================================
+	.directive('kmTab', ["$timeout", function ($timeout)
+	{
+		return {
+			restrict: 'A',
+			link: function ($scope, $element, $attr) 
+			{
+				//==============================
+				//
+				//==============================
+				$scope.$watch("tab", function tab(tab){
+
+					var isCurrentTab = $attr.kmTab==tab;
+
+					if(isCurrentTab) $element.show();
+					else             $element.hide();
+
+					if(isCurrentTab) {
+
+						var qBody   = $element.parents("body:last");
+						var qTarget = $element.parents("div:first").find("form[name='editForm']:first");
+
+						if(qBody.scrollTop() > qTarget.offset().top) {
+							$timeout(function()	{
+								if (!qBody.is(":animated"))
+									qBody.stop().animate({ scrollTop:  qTarget.offset().top-100 }, 300);
+							});
+						}
+					}
+				})
+			}
+		}
+	}])
 
 	//============================================================
 	//
@@ -2139,20 +2196,38 @@ angular.module('formControls',[])
 			link: function ($scope, $element, $attr) 
 			{
 				if ($attr.isValid) {
-					$scope.isValid = function() {
-						return !!$scope.isValidFn({ "name": $scope.name });
+					$scope.hasError = function() { return false; }
+					$scope.hasWarning = function() {
+						return !$scope.isValidFn({ "name": $scope.name });
 					}
 				}
 				else if ($scope.$parent.isFieldValid) {
-					$scope.isValid = function() {
-						return !!$scope.$parent.isFieldValid($scope.name);
+					$scope.hasError = function() { return false; }
+					$scope.hasWarning = function() {
+						return !$scope.$parent.isFieldValid($scope.name);
 					}
 				}
 			},
-			controller: ["$scope", function ($scope) 
+			controller: ["$scope", "underscore", function ($scope, _) 
 			{
-				$scope.isValid = function() {
-					return true; //default behavior
+				$scope.hasWarning = function() {  //default behavior
+
+					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.warnings) {
+						
+						return !!_.findWhere($scope.validationReport.errors, { property : $scope.name })
+					}
+
+					return false; //default behavior
+				}
+
+				$scope.hasError = function() {  //default behavior
+					
+					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.errors) {
+
+						return !!_.findWhere($scope.validationReport.errors, { property : $scope.name })
+					}
+
+					return false;
 				}
 
 				$scope.isRequired = function() {

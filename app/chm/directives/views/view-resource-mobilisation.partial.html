@@ -26,36 +26,40 @@
 			document.respondentOrganization || document.respondentDepartment ||
 			document.respondentPhones || document.respondentEmails" >
 			<legend>Contact details of the respondent</legend>
-			<div class="row-fluid">
-				<div class="span7">
+			<div class="row">
+				<div class="col-md-7" ng-show="document.respondentName">
 					<label>Name</label>
 					<div class="km-value km-pre">{{document.respondentName}}</div>
 				</div>
-				<div class="span4">
+				<div class="col-md-4" ng-show="document.respondentDesignation">
 					<label>Title</label>
 					<div class="km-value km-pre">{{document.respondentDesignation | lstring:locale}}</div>
 				</div>
 			</div>
 
-			<div class="row-fluid">
-				<div class="span5">
+			<div class="row">
+				<div class="col-md-5" ng-show="document.respondentOrganization">
 					<label>Organization</label>
 					<div class="km-value km-pre">{{document.respondentOrganization | lstring:locale}}</div>
 				</div>
-				<div class="span5">
+				<div class="col-md-5" ng-show="document.respondentDepartment">
 					<label>Department</label>
 					<div class="km-value km-pre">{{document.respondentDepartment | lstring:locale}}</div>
 				</div>
 			</div>
 
-			<label>Phone numbers</label>
-			<ul class="km-value">
-				<li ng-repeat="item in document.respondentPhones">{{item}}</li>
-			</ul>
-			<label>Emails</label>
-			<ul class="km-value">
-				<li ng-repeat="item in document.respondentEmails"><a ng-href="mailto:{{item}}">{{item}}</a></li>
-			</ul>
+			<div ng-show="document.respondentPhones">
+				<label>Phone numbers</label>
+				<ul class="km-value">
+					<li ng-repeat="item in document.respondentPhones">{{item}}</li>
+				</ul>
+			</div>
+			<div ng-show="document.respondentEmails">
+				<label>Emails</label>
+				<ul class="km-value">
+					<li ng-repeat="item in document.respondentEmails"><a ng-href="mailto:{{item}}">{{item}}</a></li>
+				</ul>
+			</div>
 		</div>
 
 		<div ng-show="document.completedDate">
@@ -363,7 +367,7 @@
 	<div ng-show="document.activityClassificationDirectly || document.activityClassificationInDirectly">
 		<legend>5. Activity classification</legend>
 		<div ng-show="document.activityClassificationDirectly">
-			<div class="span12">
+			<div class="col-md-12">
 				<div class="km-control-group" name="activityClassificationDirectly" caption="Activity classification-Directly related to biodiversity">
 					<div class="km-value km-pre">{{document.activityClassificationDirectly | lstring:locale}}</div>
 				</div>
@@ -371,7 +375,7 @@
 		</div>
 
 		<div ng-show="document.activityClassificationInDirectly">
-			<div class="span12">
+			<div class="col-md-12">
 				<div class="km-control-group" name="activityClassificationInDirectly" caption="Activity classification-Indirectly related to biodiversity">
 					<div class="km-value km-pre">{{document.activityClassificationInDirectly | lstring:locale}}</div>
 				</div>

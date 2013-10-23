@@ -1,47 +1,4 @@
 <span>
-	<style>
-		.dropdown-inline-submenu
-		{
-			margin-left:20px;
-			list-style-type:none;
-		}
-		
-		.dropdown-inline-submenu > li > a
-		{
-			display:block;
-			padding:3px 20px;
-			clear:both;
-			font-weight:normal;
-			line-height:20px;
-			color:#333333;
-			white-space:nowrap;
-		}
-
-		.dropdown-inline-submenu > li > a:hover,
-		.dropdown-inline-submenu > li > a:focus
-		{
-			text-decoration:none;
-			color:#ffffff;background-color:#0081c2;
-			background-image:-moz-linear-gradient(top, #0088cc, #0077b3);
-			background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
-			background-image:-webkit-linear-gradient(top, #0088cc, #0077b3);
-			background-image:-o-linear-gradient(top, #0088cc, #0077b3);
-			background-image:linear-gradient(to bottom, #0088cc, #0077b3);
-			background-repeat:repeat-x;
-			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
-
-		}
-
-		.dropdown-inline-submenu > .disabled > a,
-		.dropdown-inline-submenu > .disabled > a:hover,
-		.dropdown-inline-submenu > .disabled > a:focus,
-		.dropdown-inline-submenu > .disabled > i,
-		.dropdown-menu > .disabled > i
-		{
-			color: #999999;
-		}
-
-	</style>
 
 	<script type="text/ng-template"  id="select-tree-renderer.html">
 		<a ng-click="clicked(item)" href="">{{item.title||item.name | lstring:locale | truncate:120:'...'}}</a>
@@ -60,19 +17,19 @@
 
 	<span>
 		<div class="btn-group" >
-			<button tyle="button" class="btn btn-default dropdown-toggle" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown" href="">{{getTitle(displayCount, true)}}
+			<button tyle="button" class="btn btn-default dropdown-toggle form-control" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown" href="">{{getTitle(displayCount, true)}}
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" style="max-height:400px;overflow-y:auto">
 				<li ng-hide="!!rootItems">
-					Loading...
+					<a href><em>Loading...</em></a>
 				</li>
-				<li ng-show="rootItems.length==0" style="padding:2px 20px">
-					Nothing to select...
+				<li ng-show="rootItems.length==0">
+					<a href><em>Nothing to select...</em></a>
 				</li>
 				<li ng-show="!!rootItems && (getMinimum()==0 || allowOther == 'true')" style="padding:2px 20px">
-					<button class="btn btn-xs btn-inverse" ng-show="getMinimum()==0 && (hasSelectedItems() || rootItems.length!=0)"      type ="button" ng-click="clearSelection()" ng-disabled="!hasSelectedItems()">Clear selection</button>
-					<button class="btn btn-xs btn-inverse" ng-show="allowOther == 'true'" type="button" ng-click="chooseOther()"    ng-show="allowOther">Specify another value</button>
+					<button class="btn btn-xs btn-default" ng-show="getMinimum()==0 && (hasSelectedItems() || rootItems.length!=0)"      type ="button" ng-click="clearSelection()" ng-disabled="!hasSelectedItems()">Clear selection</button>
+					<button class="btn btn-xs btn-default" ng-show="allowOther == 'true'" type="button" ng-click="chooseOther()"    ng-show="allowOther">Specify another value</button>
 				</li>
 				<li ng:repeat="item in rootItems" ng-class="{disabled:!itemEnabled(item)}" ng-include="'select-tree-renderer.html'" style="position:relative">
 				</li>

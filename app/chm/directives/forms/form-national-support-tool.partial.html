@@ -19,17 +19,16 @@
 
 			<div>
 
-				<ul id="editFormPager" class="pagination">
-					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
-					<li ng-class="{ active : tab('edit'  ).active }"><a data-toggle="tab" ng-href="#edit">General</a></li>
-					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
-					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
+				<ul class="pagination">
+				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>
 
 				<form name="editForm">
 
-				<div class="tab-content" style="overflow: visible; margin-top: 10px">
-					<div class="tab-pane active" id="edit">
+					<div km-tab="general">
 
 						<legend>General Information</legend>
 
@@ -164,31 +163,27 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 					<!--end addtional info tab-->
+				</form>
 
-					<div class="tab-pane" id="review">
+				<div km-tab="review">
 
-						<div km-document-validation ng-model="validationReport"></div>
+					<div km-document-validation ng-model="validationReport"></div>
 
-						<div class="btn-group" ng-show="document.header.languages.length>1">
-							<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
-						</div>
-
-						<div class="view-national-support-tool" ng-model="document" locale="review.locale"></div>
-
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
+
+					<div class="view-national-support-tool" ng-model="document" locale="review.locale"></div>
 				</div>
 
-				<ul id="editFormPager" class="pagination">
-					<li ng-class="{ disabled : !tab('-')}"><a data-toggle="tab" ng-href="#{{tab('-').name}}">&laquo;</a></li>
-					<li ng-class="{ active : tab('edit'  ).active }"><a data-toggle="tab" ng-href="#edit">General</a></li>
-					<li ng-class="{ active : tab('review').active }"><a data-toggle="tab" ng-href="#review">Review</a></li>
-					<li ng-class="{ disabled : !tab('+')}"><a data-toggle="tab" ng-href="#{{tab('+').name}}">&raquo;</a></li>
+				<ul class="pagination">
+				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>
-
-				</form>
 
 			</div>
 		</div>

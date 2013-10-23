@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editStrategicPlanIndicator', ['authHttp', "URI", "$filter", "$q", "guid", function ($http, URI, $filter, $q, guid) {
+.directive('editStrategicPlanIndicator', ['authHttp', "URI", "$filter", "$q", "guid", "$timeout", function ($http, URI, $filter, $q, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-strategic-plan-indicator.partial.html',
@@ -30,15 +30,6 @@ angular.module('kmApp').compileProvider // lazy
 
 				if (tab == 'review')
 					$scope.validate();
-
-				var qBody = $element.parents("body:last");
-
-				if(qBody.scrollTop() > $element.offset().top) {
-					$timeout(function()	{
-						if (!qBody.is(":animated"))
-							qBody.stop().animate({ scrollTop:  $element.offset().top-100 }, 300);
-					}, 100);
-				}
 			});
 
 			$scope.init();
@@ -163,7 +154,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.onPrePublish = function() {
 				return $scope.validate(false).then(function(hasError) {
 					if (hasError)
-						$scope.tab("review", true)
+						$scope.tab = "review";
 					return hasError;
 				});
 			}

@@ -171,3 +171,18 @@ function PageController($scope, $window, $location, authentication) {
 
 	$scope.goHome = function() { $location.path('/'); };
 }
+
+//============================================================
+//
+//============================================================
+app.filter('integer', function() {
+	return function(number, base, length) {
+
+		var text = Number(number).toString(base||10);
+
+		if (text.length < (length||0))
+			text = '00000000000000000000000000000000'.substr(0, length - text.length) + text;
+
+		return text;
+	};
+});

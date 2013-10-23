@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('cbdEditDatabase', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
+.directive('editDatabase', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-database.partial.html',
@@ -11,6 +11,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
+			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
 				countries         : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },

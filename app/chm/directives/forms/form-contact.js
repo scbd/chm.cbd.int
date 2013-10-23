@@ -1,8 +1,8 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('cbdEditContact', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
+.directive('editContact', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/abs/directives/forms/form-contact.partial.html',
+		templateUrl: '/app/chm/directives/forms/form-contact.partial.html',
 		replace    : true,
 		transclude : false,
 		scope      : {},
@@ -11,18 +11,19 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
+			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
 				countries         : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
 				organizationTypes : function() { return $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return o.data; }); }
 			};
 
-			$element.find('a[data-toggle="tab"]').on('shown', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
 			});
 
 			$scope.init();
@@ -131,47 +132,6 @@ angular.module('kmApp').compileProvider // lazy
 				return true;
 			}
 
-			//==================================
-			//
-			//==================================
-			$scope.tab = function(tab, show) {
-
-				var oTabNames    = [];
-				var sActiveTab   = $('.tab-content:first > .tab-pane.active').attr("id");
-				var qActiveTab   = $('#editFormPager a[data-toggle="tab"]:not(:first):not(:last)').filter('[href="#'+sActiveTab+'"]');
-
-				if (tab == "-") tab = (qActiveTab.prevAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-				if (tab == "+") tab = (qActiveTab.nextAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-
-				if(!tab)
-					return undefined;
-
-				if (show)
-					$('#editFormPager a[data-toggle="tab"][href="#review"]:first').tab('show');
-
-				return {
-					'name' : tab,
-					'active': sActiveTab == tab
-				}
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.onTab  = function(tab) {
-				var fn = function() {
-					if (tab == 'review')
-						$scope.validate();
-
-					if (!$('body').is(":animated"))
-						$('body').stop().animate({ scrollTop: 0 }, 600);
-				};
-
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					fn();
-				else
-					$scope.$apply(fn);
-			}
 
 			//==================================
 			//
@@ -195,21 +155,21 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				window.location = "/managementcentre/my-pending-items";
+				$location.url(managementUrls.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				window.location = "/managementcentre/edit/";
+				$location.url("/database/record?documentID=" + data.documentID);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				window.location = "/managementcentre/edit-draft/";
+				$location.url(managementUrls.drafts);
 			};
 
 
@@ -217,7 +177,10 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				window.location = "/managementcentre/";
+				if($location.search().returnUrl)
+					$location.url($location.search().returnUrl);	
+				else
+					$location.url(managementUrls.root);
 			};
 
 			//==================================

@@ -9,16 +9,18 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, $element) {
             $scope.status = "";
             $scope.error = null;
+            $scope.tab = 'general';
             $scope.document = null;
             $scope.review = { locale: "en" };
 
-			$element.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-				var onTabFn = function() { $scope.onTab($(e.target).attr('href').replace("#", "")); };
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					onTabFn()
-				else
-					$scope.$apply(onTabFn);
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
 			});
+
 
             $scope.init();
         },
@@ -187,48 +189,6 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.tab = function(tab, show) {
-
-				var oTabNames    = [];
-				var sActiveTab   = $('.tab-content:first > .tab-pane.active').attr("id");
-				var qActiveTab   = $('#editFormPager:first a[data-toggle="tab"]:not(:first):not(:last)').filter('[href="#'+sActiveTab+'"]');
-
-				if (tab == "-") tab = (qActiveTab.prevAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-				if (tab == "+") tab = (qActiveTab.nextAll(":not(:hidden):not(:last)").attr("href")||"").replace("#", "");
-
-				if(!tab)
-					return undefined;
-
-				if (show)
-					$('#editFormPager:first a[data-toggle="tab"][href="#review"]:first').tab('show');
-
-				return {
-					'name' : tab,
-					'active': sActiveTab == tab
-				}
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.onTab  = function(tab) {
-				var fn = function() {
-					if (tab == 'review')
-						$scope.validate();
-
-					if (!$('body').is(":animated"))
-						$('body').stop().animate({ scrollTop: 0 }, 600);
-				};
-
-				if ($scope.$root.$$phase == '$apply' || $scope.$root.$$phase == '$digest')
-					fn();
-				else
-					$scope.$apply(fn);
-			}
-
-			//==================================
-			//
-			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
 			}
@@ -239,7 +199,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.onPrePublish = function() {
 				return $scope.validate(false).then(function(hasError) {
 					if (hasError)
-						$scope.tab("review", true)
+						$scope.tab = "review";
 					return hasError;
 				});
 			}

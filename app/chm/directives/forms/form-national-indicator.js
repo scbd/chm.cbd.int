@@ -208,7 +208,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				window.location = "/managementcentre/my-pending-items";
+				$location.url(managementUrls.workflows);
 			};
 
 			//==================================

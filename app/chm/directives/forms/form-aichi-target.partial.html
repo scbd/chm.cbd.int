@@ -29,42 +29,42 @@
 				<div km-tab="general">
 
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="title" caption="Full Title">
 									<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="shortTitle" caption="Short title">
 									<div km-textbox-ml name="shortTitle" ng-model="document.shortTitle" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="icons" caption="Target Icon">
 									<div km-link name="icons" ng-model="document.icons" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="strategicGoal" caption="Strategic Goal">
 									<div km-select required name="strategicGoal" ng-model="document.strategicGoal" items="options.strategicGoal()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="guide" caption="Quick Guide">
 									<div km-textbox-ml name="guide" ng-model="document.guide" locales="document.header.languages" rows="8"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantIndicators" caption="Most Relevant Global Indicator(s)">
 									<div km-reference multiple name="relevantIndicators" ng-model="document.relevantIndicators" loader="loadRecords(identifier, 'resource')">
 										<div>
@@ -76,7 +76,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="otherIndicators" caption="Other Relevant Global Indicator(s)">
 									<div km-reference multiple name="otherIndicators" ng-model="document.otherIndicators" loader="loadRecords(identifier, 'resource')">
 										<div>
@@ -88,14 +88,14 @@
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="progress" caption="Status of progress">
 									<div km-textbox-ml name="progress" ng-model="document.progress" locales="document.header.languages" rows="4"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="progressLinks" caption="Status of progress (attachement)">
 									<div km-link name="progressLinks" ng-model="document.progressLinks" allow-file="true" allow-link="false" identifier="document.header.identifier"></div>
 								</div>
@@ -107,21 +107,21 @@
 							<tr ng-repeat="champion in document.champions">
 								<td>
 									<div class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="targetChampionsDescription" caption="Description">
 												<div km-textbox-ml name="targetChampionsDescription" ng-model="champion.description" locales="document.header.languages" rows="4"></div>
 											</div>
 										</div>
 									</div>
 									<div  class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="targetChampionsRegions" caption="Target Champions (regions)">
 												<div km-select multiple required name="targetChampionsRegions" ng-model="champion.countries" items="options.targetChampionsRegions()" placeholder="Please select a country..."></div>
 											</div>
 										</div>
 									</div>
 									<div  class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="targetChampionsOrganizations" caption="Linked organizations">
 												<div km-reference multiple name="targetChampionsOrganizations" ng-model="champion.organizations" loader="loadRecords(identifier, 'organization')">
 													<div>
@@ -133,7 +133,7 @@
 										</div>
 									</div>
 									<div  class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="targetChampionsLink" caption="Target Champions (link)">
 												<div km-link name="targetChampionsLink" ng-model="champion.links" allow-file="false" allow-link="true"></div>
 											</div>
@@ -154,14 +154,14 @@
 							<tr ng-repeat="resource in document.resources">
 								<td>
 									<div class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="targetResourceDescription" caption="Description">
 												<div km-textbox-ml name="targetResourceDescription" ng-model="resource.description" locales="document.header.languages" rows="4"></div>
 											</div>
 										</div>
 									</div>
 									<div  class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="linkResourceReferences" caption="Linked references">
 												<div km-reference multiple name="linkResourceReferences" ng-model="resource.references" loader="loadRecords(identifier, 'resource')">
 													<div>
@@ -173,7 +173,7 @@
 										</div>
 									</div>
 									<div  class="row">
-										<div class="col-md-11">
+										<div class="col-md-12">
 											<div class="km-control-group" name="linkResourceLinks" caption="Link to resources (link)">
 												<div km-link name="linkResourceLinks" ng-model="resource.links" allow-file="false" allow-link="true"></div>
 											</div>
@@ -197,7 +197,7 @@
 
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantInformation" caption="Additional Information">
 									<span class="help-block">
 										Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.
@@ -208,7 +208,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
 									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
 								</div>
@@ -217,7 +217,7 @@
 
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="notes" caption="Notes">
 									<span class="help-block">
 										The field “Notes” is for personal reference and can be seen only when the record is being edited.

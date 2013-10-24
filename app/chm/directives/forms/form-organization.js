@@ -38,7 +38,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", 'IStorage', "Enumerable", "editFormUtility", function ($scope, $q, storage, Enumerable, editFormUtility) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "managementUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, managementUrls) 
 		{
 			//==================================
 			//

@@ -5,12 +5,12 @@
 		<div class="loadProgress" progress="1" timeout="1500"></div>
 	</div>
 
-	<div class="alert alert-error" ng-show="hasError()">
+	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div class="row" ng-show="!isLoading()&&status!='hidden'">
+	<div ng-show="!isLoading()&&status!='hidden'">
 
 		<div style="position: relative">
 
@@ -47,7 +47,7 @@
 						<div km-tab="general">
 							<legend>Website or Database details </legend>
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="km-control-group" name="government" required caption="Country">
 										<div class="alert alert-info" ng-show="userGovernment()"><i class="icon-hand-right"></i>You cannot change this value.</div>
 										<div km-select required name="government" ng-disabled="userGovernment()" ng-model="document.government" items="options.countries()" placeholder="Please select a country..."></div>
@@ -55,7 +55,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="km-control-group" name="title" required caption="Website or database name">
 										<div class="help-block">Please enter the name of the website or database as you would like it to appear in the title of the record.</div>
 										<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" placeholder="example: The title"></div>
@@ -63,7 +63,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="km-control-group" name="description" required caption="Description">
 										<div class="help-block">Please enter a short description of the national website or database, such as its function or information it makes available.</div>
 										<div km-textbox-ml required name="description" ng-model="document.description" rows="4" locales="document.header.languages" placeholder="example: The description"></div>
@@ -71,7 +71,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="km-control-group" name="website" required caption="Website address">
 										<div class="help-block">Please provide the full URL of the website (e.g. http://www.cbd.int).</div>
 										<input type="url" ng-model="document.website.url" required class="form-control" placeholder="example: http://www.cbd.int" />
@@ -82,7 +82,7 @@
 							<legend>Additional information</legend>
 
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="km-control-group" name="address" caption="Any other relevant information">
 										<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
 										<div km-textbox-ml ng-model="document.relevantInformation" rows="4" placeholder="" locales="document.header.languages"></div>
@@ -91,7 +91,7 @@
 							</div>
 
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="km-control-group" name="relevantDocuments" caption="Any other relevant documents">
 										<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
 									</div>

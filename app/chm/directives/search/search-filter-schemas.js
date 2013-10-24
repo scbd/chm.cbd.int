@@ -161,7 +161,8 @@ angular.module('kmApp').compileProvider // lazy
              $scope.copRecords = [
                 { identifier: 'aichiTarget'           , title: 'Aichi Biodiversity Targets' },
                 { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators'  },
-                { identifier: 'marineEbsa'            , title: 'Marine EBSAs'               , count: 0 }
+                { identifier: 'marineEbsa'            , title: 'Marine EBSAs'               },
+                { identifier: 'caseStudy'             , title: 'Case Studies'               , count: 0 }
             ];
 
             $scope.meetingRecords = [
@@ -172,12 +173,14 @@ angular.module('kmApp').compileProvider // lazy
             ];
 
             $scope.nationalRecords = [
-                { identifier: 'nationalReport'        , title: 'National Reports'           },
-                { identifier: 'nationalTarget'        , title: 'National Targets'           },
-                { identifier: 'nationalIndicator'     , title: 'National Indicators'        },
-                { identifier: 'progressAssessment'    , title: 'Progress Assessments'       },
-                { identifier: 'implementationActivity', title: 'Implementation Activities'  },
-                { identifier: 'nationalSupportTool'   , title: 'Guidance and Support Tools' , count: 0 }
+                { identifier: 'nationalReport'          , title: 'National Reports'           },
+                { identifier: 'nationalTarget'          , title: 'National Targets'           },
+                { identifier: 'nationalIndicator'       , title: 'National Indicators'        },
+                { identifier: 'progressAssessment'      , title: 'Progress Assessments'       },
+                { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
+                { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' , count: 0 }, 
+                {},
+                { identifier: 'resourceMobilizationTool', title: 'Resource Mobilization Tools' , count: 0 }
             ];
 
             $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords );

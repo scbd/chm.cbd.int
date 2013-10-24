@@ -142,7 +142,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 		$locationProvider.hashPrefix('!');
 }]);
 
-app.value("schemaTypes", [ "aichiTarget", "authority", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"])
+app.value("schemaTypes", [ "aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"])
 app.value("managementUrls", {
 	root : "/management",
 	drafts : "/management/my-drafts",

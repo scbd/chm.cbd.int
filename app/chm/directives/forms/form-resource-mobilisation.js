@@ -99,8 +99,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				promise.then(function(doc) {
 
-					$scope.cleanUp(doc);
-			        return doc;
+					return $scope.getCleanDocument(doc);
 
 				}).then(function(doc) {
 
@@ -138,7 +137,7 @@ angular.module('kmApp').compileProvider // lazy
 					if(!_.last(list) || !_.isEmpty(_.last(list)))
 						list.push({});
 
-					// CleanUp
+					// Clean
 
 					for(var i=0; i<list.length; i++) {
 
@@ -163,8 +162,10 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.cleanUp = function(document) {
-				document = document || $scope.document;
+			$scope.getCleanDocument = function(document) {
+
+				document = document || $scope.document
+				document = angular.fromJson(angular.toJson(document));
 
 				if (!document)
 					return $q.when(true);
@@ -192,34 +193,29 @@ angular.module('kmApp').compileProvider // lazy
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return $q.when(false);
+				return document
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.validate = function(clone) {
+			$scope.validate = function() {
 
 				$scope.validationReport = null;
 
-				var oDocument = $scope.document;
+				var oDocument = $scope.getCleanDocument();
 
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
+				$scope.reviewDocument = angular.fromJson(angular.toJson(oDocument));;
 
-				$scope.reviewDocument = oDocument;
+				return storage.documents.validate(oDocument).then(function(success) {
 
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
+					
+				}).catch(function(error) {
+
+					$scope.onError(error.data);
+					return true;
 				});
 			}
 
@@ -260,7 +256,6 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================

@@ -14,18 +14,33 @@
 
 		<div style="position: relative">
 
-			<div style="position: absolute; top: 0px; right: 0px">
-				<span km-form-languages ng-model="document.header.languages"></span>
-				<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+			<div class="row">
+
+				<div class="col-xs-12 visible-xs">
+					<div class="">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+				<div class="col-sm-8 col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+					</ul>
+				</div>
+
+				<div class="col-sm-4 hidden-xs" style="text-align:right">
+					<div class="pagination">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
 			</div>
 
 			<div>
-				<ul class="pagination">
-				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-				</ul>
 
 				<div class="tab-content" style="overflow:visible;margin-top:10px">
 					<form name="editForm">
@@ -109,11 +124,31 @@
 					</div>
 				</div>
 
+				<div class="row">
+
+					<div class="col-sm-9 col-xs-12">
+						<ul class="pagination">
+							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+						</ul>	
+					</div>
+
+					<div class="col-sm-3 hidden-xs" style="text-align:right">
+						<div class="pagination">
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						</div>
+					</div>
+
+					<div class="col-xs-12 visible-xs">
+						<div class="">
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						</div>
+					</div>
+				</div>
+
 				<ul class="pagination">
-				  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-				  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-				  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-				  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>
 
 			</div>

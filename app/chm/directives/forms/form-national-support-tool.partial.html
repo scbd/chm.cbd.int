@@ -11,10 +11,11 @@
 	
 	<div class="row" ng-hide="status=='hidden'||status=='loading'">
 
-		<div class="col-md-11" style="position: relative">
+		<div class="col-md-12" style="position: relative">
 
 			<div style="position: absolute; top: 0px; right: 0px">
-				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
+				<span km-form-languages ng-model="document.header.languages"></span>
+				<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 			</div>
 
 			<div>
@@ -33,7 +34,7 @@
 						<legend>General Information</legend>
 
 						<div class="row bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="government" caption="Country">
 									<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
 								</div>
@@ -41,7 +42,7 @@
 						</div>
 
 						<div class="row bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="title" caption="Name">
 									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" placeholder=""></div>
 								</div>
@@ -49,7 +50,7 @@
 						</div>
 
 						<div class="row bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="description" caption="Description">
 									<div km-textbox-ml required name="description" ng-model="document.description" rows="10" locales="document.header.languages"></div>
 								</div>
@@ -57,7 +58,7 @@
 						</div>
 
 						<div class="row bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="status" caption="Status">
 									<div km-select required name="status" ng-model="document.status" placeholder="Select a status" watch-items items="options.status"></div>
 								</div>
@@ -65,7 +66,7 @@
 						</div>
 
 						<div class="row bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="jurisdiction" caption="Level of implementation">
 									<div km-select required name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of implementation" watch-items items="options.jurisdictions"></div>
 								</div>
@@ -73,7 +74,7 @@
 						</div>
 
 						<div class="row bottom-spacing" ng-show="isJurisdictionSubNational()">
-							<div class="col-md-11" >
+							<div class="col-md-12" >
 								<div class="km-control-group" required name="jurisdictionInfo" caption="Please provide additional details on the specific level of implementation">
 									<div km-textbox-ml required name="jurisdictionInfo" ng-model="document.jurisdictionInfo" rows="3" locales="document.header.languages" placeholder=""></div>
 								</div>
@@ -81,7 +82,7 @@
 						</div>
 
 						<div class="row  bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="nationalTargets" caption="Link to Relevant National Targets">
 									<div km-select multiple required displaycount="1" name="nationalTargets" ng-model="document.nationalTargets" placeholder="Please select one target..." watch-items items="options.nationalTargets"></div>
 								</div>
@@ -89,7 +90,7 @@
 						</div>
 
 						<div class="row  bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="aichiTargets" caption="Link to most relevant Aichi Targets">
 									<div km-select multiple required displaycount="1" name="aichiTargets" ng-model="document.aichiTargets" placeholder="Please select one target..." watch-items items="options.aichiTargets"></div>
 								</div>
@@ -97,7 +98,7 @@
 						</div>
 
 						<div class="row  bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="otherAichiTargets" caption="Link to other relevant Aichi Targets">
 									<div km-select multiple displaycount="1" name="otherAichiTargets" ng-model="document.otherAichiTargets" placeholder="Please select one target..." watch-items items="options.aichiTargets"></div>
 								</div>
@@ -105,7 +106,7 @@
 						</div>
 
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="thematicAreas" caption="Link to CBD thematic areas">
 									<div km-select multiple name="thematicAreas" ng-model="document.thematicAreas" watch-items items="options.thematicAreas" binding-type="term[]"></div>
 								</div>
@@ -113,7 +114,7 @@
 						</div>
 
 						<div  class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="supportTools" caption="Link to CBD support tools">
 									<div km-term-check name="supportTools" required ng-model="document.supportTools" terms="options.supportTools()" binding-type="term[]"></div>
 								</div>
@@ -121,7 +122,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="documentText" caption="Main relevant document(s)">
 									<div km-textbox-ml name="documentText" rows="6" ng-model="document.documentText" locales="document.header.languages"></div>
 								</div>
@@ -129,7 +130,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="documentLinks" caption="Main relevant website address or attached documents">
 									<div km-link name="documentLinks" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
 								</div>
@@ -139,7 +140,7 @@
 						<legend>Other Relevant Information</legend>
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantInformation" caption="Additional Information">
 									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
 									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
@@ -148,7 +149,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
 									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
 								</div>
@@ -157,7 +158,7 @@
 
 						<legend>Notes (private) </legend>
 						<div class="row">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="notes" caption="Notes">
 									<div km-notes name="notes" ng-model="document.notes"></div>
 								</div>

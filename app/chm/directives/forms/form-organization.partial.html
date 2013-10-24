@@ -11,7 +11,8 @@
 		<div class="col-md-12" style="position: relative">
 
 			<div style="position: absolute; top: 0px; right: 0px">
-				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
+				<span km-form-languages ng-model="document.header.languages"></span>
+				<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 			</div>
 			<div>
 				<ul class="pagination">
@@ -198,7 +199,7 @@
 							</div>
 
 							<div class="row">
-								<div class="col-md-11">
+								<div class="col-md-12">
 									<div class="km-control-group" name="notes" caption="Notes">
 										<div km-notes name="notes" ng-model="document.notes"></div>
 									</div>

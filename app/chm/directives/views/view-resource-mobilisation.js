@@ -9,129 +9,57 @@ angular.module('kmApp').compileProvider // lazy
 			document: "=ngModel",
 			locale  : "="
 		},
-		controller: ['$scope', 'IStorage', function ($scope, storage) {
-			//==================================
-			//
-			//==================================
-			$scope.isValueDirectlyRelated = function (resource) {
+		controller: ['$scope', 'IStorage', "underscore", function ($scope, storage, _) {
 
-				if (!resource || !resource.category)
-					return false;
-
-				var qStatus = Enumerable.From([resource.category]);
-
-				return qStatus.Any(function (o) { return o.identifier == "4BE226BA-E72F-4A8A-939E-6FCF0FA76CE4" });
-			}
+			$scope.directlyRelated             = "4BE226BA-E72F-4A8A-939E-6FCF0FA76CE4";
+			$scope.indirectlyRelated           = "4B931A40-8032-41BD-BBD7-B16905E41DF2";
+			$scope.direclyAndIndirectlyRelated = "2BBC9278-A50C-4B3C-AF2C-BBC103405DE4";
 
 			//==================================
 			//
 			//==================================
-			$scope.isValueIndirectlyRelated = function (resource) {
-				if (!resource || !resource.category)
-					return false;
+			$scope.getSum = function (resources, target) {
 
-				var qStatus = Enumerable.From([resource.category]);
-
-				return qStatus.Any(function (o) { return o.identifier == "4B931A40-8032-41BD-BBD7-B16905E41DF2" });
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.isValueDireclyAndIndirectlyRelated = function (resource) {
-				if (!resource || !resource.category)
-					return false;
-
-				var qStatus = Enumerable.From([resource.category]);
-
-				return qStatus.Any(function (o) { return o.identifier == "2BBC9278-A50C-4B3C-AF2C-BBC103405DE4" });
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.getTotalDirected = function (financiaResources) {
-				var value = 0;
-				angular.forEach(financiaResources, function (resource, i) {
-					if ($scope.isValueDirectlyRelated(resource) &&
-						$.isNumeric(resource.amount)) {
-						value += parseInt(resource.amount);
-					}
-				});
-
-				return value
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.getTotalIndirected = function (financiaResources) {
-				var value = 0;
-				angular.forEach(financiaResources, function (resource, i) {
-					if ($scope.isValueIndirectlyRelated(resource) &&
-						$.isNumeric(resource.amount)) {
-						value += parseInt(resource.amount);
-					}
-				});
-
-				return value
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.getTotalDirectedAndIndirectly = function (financiaResources) {
-				var value = 0;
-				angular.forEach(financiaResources, function (resource, i) {
-					if ($scope.isValueDireclyAndIndirectlyRelated(resource) &&
-						$.isNumeric(resource.amount)) {
-						value += parseInt(resource.amount);
-					}
-				});
-				return value
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.getOverallTotal = function (financiaResources) {
-				var value = 0;
-				angular.forEach(financiaResources, function (resource, i) {
-					if ($.isNumeric(resource.amount)) {
-						value += parseInt(resource.amount);
-					}
-				});
-				return value
-			}
-			//==================================
-			//
-			//==================================
-			$scope.getValueForConfidence = function (confidence) {
-				if (confidence) {
-					if (confidence.identifier == "D8BC6348-D1F9-4DA4-A8C0-7AE149939ABE") { return 3; } //high
-					else if (confidence.identifier == "42526EE6-68F3-4E8A-BC2B-3BE60DA2EB32") { return 2; } //medium
-					else if (confidence.identifier == "6FBEDE59-88DB-45FB-AACB-13C68406BD67") { return 1; } //low
+				if(target) {
+					resources = _.filter(resources, function(o) {
+						return o && o.category && o.category.identifier==target;
+					});
 				}
-				else { return 0; }
+
+				var values = _.map(resources, function(o) {
+					return o.amount||0;
+				});
+
+				return values.length 
+					 ? _.reduce(values, function(res, val) { return res+val })
+					 : 0;
 			}
 
 			//==================================
 			//
 			//==================================
-			$scope.confidenceAverage = function (financialResources) {
+			$scope.confidenceAverage = function (resources) {
+
+				var values = _.compact(_.map(resources, function (resource) {
+
+					if (resource && resource.confidence && resource.confidence.identifier == "D8BC6348-D1F9-4DA4-A8C0-7AE149939ABE") return 3; //high
+					if (resource && resource.confidence && resource.confidence.identifier == "42526EE6-68F3-4E8A-BC2B-3BE60DA2EB32") return 2; //medium
+					if (resource && resource.confidence && resource.confidence.identifier == "6FBEDE59-88DB-45FB-AACB-13C68406BD67") return 1; //low
+
+					return 0
+				}));
+
 				var value = 0;
-				var nbItems = 0;
-				angular.forEach(financialResources, function (resource, i) {
-					if (resource.amount) {
-						value += $scope.getValueForConfidence(resource.confidence)
-						nbItems++;
-					}
-				});
-				if (value == 0) { return "No value selected"; }
-				value = value / nbItems;
-				if (value > 2) { return "High"; }
-				else if (value > 1) { return "Medium"; }
-				else { return "Low"; }
+
+				if(values.length) {
+					value = Math.round(_.reduce(values, function(memo, value) { return memo + value; }) / values.length);
+				}
+
+				if ( value == 3) return "High";
+				if ( value == 2) return "Medium";
+				if ( value == 1) return "Low";
+				
+				return "No value selected";
 			}
 		}]
 	}

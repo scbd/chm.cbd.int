@@ -69,6 +69,8 @@
 			<div class="view-abs-checkpoint"				ng-switch-when="absCheckpoint"				ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></div>
 			<div class="view-abs-checkpoint-communique"	ng-switch-when="absCheckpointCommunique"		ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></div>
 			<div class="view-abs-permit"					ng-switch-when="absPermit"					ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></div>
+			<div class="view-strategic-plan-indicator"	ng-switch-when="strategicPlanIndicator"	ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></div>
+
 			<div ng-switch-default>Unsupported internalSchema: '{{internalDocument.header.schema}}'</div>
 		</div>
 	</div>

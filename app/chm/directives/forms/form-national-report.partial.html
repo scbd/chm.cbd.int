@@ -27,7 +27,8 @@
         <div style="position: relative">
 
 			<div style="position: absolute; top: 0px; right: 0px">
-				<div km-form-std-buttons ng-model="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></div>
+				<span km-form-languages ng-model="document.header.languages"></span>
+				<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 			</div>
 
             <div>
@@ -160,7 +161,7 @@
 							</div>
 						</div>
 						<div class="row  bottom-spacing">
-							<div class="col-md-11">
+							<div class="col-md-12">
 								<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
 									<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
 								</div>

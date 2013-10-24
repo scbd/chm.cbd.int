@@ -1,17 +1,11 @@
-<div>
+<span style="text-align:left">
 
-	<div ng-hide="errors">
+	<span ng-hide="errors">
 
-		<span id="language_button" km-select style="text-align:start;padding-left:20px;margin-right:20px" multiple ng-model="binding.header.languages" binding-type="string" placeholder="Available Languages" items="options.locales|orderBy:'name'" minimum="1"></span>
 		<input type="button" class="btn btn-warning" ng-click="showCancelDialog(true)" value="Cancel"/>
 		<input type="button" class="btn btn-primary" ng-click="showSaveDialog(true)" value="Save"/>
 
-	</div>
-
-	<div class="alert alert-danger" ng-show="false&&errors"> <!-- disabled -->
-		<strong>Error:</strong>
-		{{errors}}
-	</div>
+	</span>
 
     <!--Save Dialog-->
 	<div id="dialogSave" class="modal fade" data-backdrop="static">
@@ -52,11 +46,10 @@
 				</div>
 				<div class="modal-footer" style="margin-top:0">
 					<button type="button" ng-click="closeDialog()" class="btn btn-default" >Cancel</button>
-					<button type="button" ng-click="revert()"      class="btn btn-info"    >Revert Changes</button>
 					<button type="button" ng-click="close()"       class="btn btn-primary" >Close without saving</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-</div>
+</span>

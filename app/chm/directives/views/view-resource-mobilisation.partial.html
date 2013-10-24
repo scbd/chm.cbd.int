@@ -1,4 +1,6 @@
 ﻿<div>
+	<h1 style="font-weight:bold;font-size:26px">{{document.title | lstring:locale}} </h1>
+
 	<div ng-show="document.government || document.ownerBehalf ||
 		document.respondentName || document.respondentDesignation ||
 		document.respondentOrganization || document.respondentDepartment ||
@@ -26,26 +28,25 @@
 			document.respondentOrganization || document.respondentDepartment ||
 			document.respondentPhones || document.respondentEmails" >
 			<legend>Contact details of the respondent</legend>
-			<div class="row">
-				<div class="col-md-7" ng-show="document.respondentName">
-					<label>Name</label>
-					<div class="km-value km-pre">{{document.respondentName}}</div>
-				</div>
-				<div class="col-md-4" ng-show="document.respondentDesignation">
-					<label>Title</label>
-					<div class="km-value km-pre">{{document.respondentDesignation | lstring:locale}}</div>
-				</div>
+			
+			<div ng-show="document.respondentName">
+				<label>Name</label>
+				<div class="km-value">{{document.respondentName}}</div>
 			</div>
 
-			<div class="row">
-				<div class="col-md-5" ng-show="document.respondentOrganization">
-					<label>Organization</label>
-					<div class="km-value km-pre">{{document.respondentOrganization | lstring:locale}}</div>
-				</div>
-				<div class="col-md-5" ng-show="document.respondentDepartment">
-					<label>Department</label>
-					<div class="km-value km-pre">{{document.respondentDepartment | lstring:locale}}</div>
-				</div>
+			<div ng-show="document.respondentDesignation">
+				<label>Title</label>
+				<div class="km-value">{{document.respondentDesignation | lstring:locale}}</div>
+			</div>
+	
+			<div ng-show="document.respondentOrganization">
+				<label>Organization</label>
+				<div class="km-value">{{document.respondentOrganization | lstring:locale}}</div>
+			</div>
+
+			<div ng-show="document.respondentDepartment">
+				<label>Department</label>
+				<div class="km-value km-pre">{{document.respondentDepartment | lstring:locale}}</div>
 			</div>
 
 			<div ng-show="document.respondentPhones">
@@ -68,24 +69,19 @@
 		</div>
 	</div>
 
-	<div ng-show="document.financialCurrency || document.financialResources  ||
-		document.financialDescription">
+	<div ng-show="document.financialResources  || document.financialDescription">
 		<legend>1. Information on international flows of financial resources</legend>
-		<div ng-show="document.financialCurrency">
-			<label>Currency</label>
-			<div class="km-value">{{document.financialCurrency | lstring:locale}}</div>
-		</div>
 
 		<div ng-show="document.financialResources">
 			<label>Information on international flows of financial resources</label>
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Year</th>
 							<th>Type of financial flows</th>
 							<th>Category</th>
-							<th>Amount</th>
+							<th style="text-align: center">Amount</th>
 							<th>Confidence</th>
 						</tr>
 					</thead>
@@ -107,8 +103,8 @@
 									<div ng-repeat="term in terms">{{term.name}}</div>
 								</div>
 							</td>
-							<td>
-								{{resource.amount | number:2}}
+							<td style="text-align: right">
+								{{resource.amount | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span>
 							</td>
 							<td>
 								<div km-terms ng-model="resource.confidence">
@@ -119,18 +115,29 @@
 					</tbody>
 				</table>
 			</div>
-			<dl class="dl-horizontal">
-				<dt>Total  Directly related:</dt>
-				<dd>{{getTotalDirected(document.financialResources) | number:2}}<dd>
-				<dt>Total  Indirectly related:</dt>
-				<dd>{{getTotalIndirected(document.financialResources) | number:2}}</dd>
-				<dt>Total  (Directly + Indirectly related):</dt>
-				<dd>{{getTotalDirectedAndIndirectly(document.financialResources) | number:2}}</dd>
-				<dt>Overall total:</dt>
-				<dd>{{getOverallTotal(document.financialResources) | number:2}}</dd>
-				<dt>Overall average confidence:</dt>
-				<dd>{{confidenceAverage(document.financialResources)}}</dd>
-			</dl>
+
+			<table class="table table-striped table-responsive table-bordered" style="width: auto">
+				<tr>
+					<th style="text-align: left">Total  Directly related:</th>
+					<td style="text-align: right">{{getSum(document.financialResources, directlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Total  Indirectly related:</th>
+					<td style="text-align: right">{{getSum(document.financialResources, indirectlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Total  (Directly + Indirectly related):</th>
+					<td style="text-align: right">{{getSum(document.financialResources, direclyAndIndirectlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Overall total:</th>
+					<td style="text-align: right"><b>{{getSum(document.financialResources) | number:2}}</b> <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Overall average confidence:</th>
+					<td style="text-align: right">{{confidenceAverage(document.financialResources)}}</td>
+				</tr>
+			</table>
 		</div>
 
 		<div ng-show="document.financialDescription">
@@ -139,23 +146,20 @@
 		</div>
 	</div>
 
-	<div ng-show="document.countryFinancialCurrency || document.countryFinancialResources  ||
-		document.countryFinancialDescription">
+	<div ng-show="document.countryFinancialResources || document.countryFinancialDescription">
+
 		<legend>2. Information on the availability of financial resources in each country</legend>
-		<div ng-show="document.countryFinancialCurrency">
-			<label>Currency</label>
-			<div class="km-value">{{document.countryFinancialCurrency | lstring:locale}}</div>
-		</div>
+
 		<div ng-show="document.countryFinancialResources">
 			<label>Information on the availability of financial resources in each country</label>
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Year</th>
 							<th>Type of financial flows</th>
 							<th>Category</th>
-							<th>Amount</th>
+							<th style="text-align: center">Amount</th>
 							<th>Confidence</th>
 						</tr>
 					</thead>
@@ -174,8 +178,8 @@
 									<div ng-repeat="term in terms">{{term.name}}</div>
 								</div>
 							</td>
-							<td>
-								{{resource.amount}}
+							<td style="text-align: right">
+								{{resource.amount | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span>
 							</td>
 							<td>
 								<div km-terms ng-model="resource.confidence">
@@ -186,18 +190,29 @@
 					</tbody>
 				</table>
 			</div>
-			<dl class="dl-horizontal">
-				<dt>Total Directly related:</dt>
-				<dd>{{getTotalDirected(document.countryFinancialResources) | number:2}}</dd>
-				<dt>Total Indirectly related:</dt>
-				<dd>{{getTotalIndirected(document.countryFinancialResources) | number:2}}</dd>
-				<dt>Total (Directly + Indirectly related):</dt>
-				<dd>{{getTotalDirectedAndIndirectly(document.countryFinancialResources) | number:2}}</dd>
-				<dt>Overall total:</dt>
-				<dd>{{getOverallTotal(document.countryFinancialResources) | number:2}}</dd>
-				<dt>Overall average confidence:</dt>
-				<dd>{{confidenceAverage(document.countryFinancialResources)}}</dd>
-			</dl>
+
+			<table class="table table-striped table-responsive table-bordered" style="width: auto">
+				<tr>
+					<th style="text-align: left">Total Directly related:</th>
+					<td style="text-align: right">{{getSum(document.countryFinancialResources, directlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Total Indirectly related:</th>
+					<td style="text-align: right">{{getSum(document.countryFinancialResources, indirectlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Total (Directly + Indirectly related):</th>
+					<td style="text-align: right">{{getSum(document.countryFinancialResources, direclyAndIndirectlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Overall total:</th>
+					<td style="text-align: right"><b>{{getSum(document.countryFinancialResources) | number:2}}</b> <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				</tr>
+				<tr>
+					<th style="text-align: left">Overall average confidence:</th>
+					<td style="text-align: right">{{confidenceAverage(document.countryFinancialResources)}}</td>
+				</tr>
+				<table />
 		</div>
 
 		<div ng-show="document.countryFinancialDescription">
@@ -297,12 +312,12 @@
 		</div>
 	</div>
 
-	<div ng-show="document.financialMechanismDescription || document.financialMechanism">
+	<div ng-show="document.financialMechanismsDescription || document.financialMechanisms">
 		<legend>4.3 New and innovative financial mechanism</legend>
-		<div ng-show="document.financialMechanism">
+		<div ng-show="document.financialMechanisms">
 			<label>New and innovative financial mechanism</label>
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Type of Initiative</th>
@@ -311,7 +326,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="resource in document.financialMechanism">
+						<tr ng-repeat="resource in document.financialMechanisms">
 							<td>
 								{{resource.type | lstring:locale}}
 							</td>
@@ -327,9 +342,9 @@
 			</div>
 		</div>
 		<br />
-		<div ng-show="document.financialMechanismDescription">
+		<div ng-show="document.financialMechanismsDescription">
 			<label>Description</label>
-			<div class="km-value km-pre">{{document.financialMechanismDescription | lstring:locale}}</div>
+			<div class="km-value km-pre">{{document.financialMechanismsDescription | lstring:locale}}</div>
 		</div>
 	</div>
 
@@ -338,7 +353,7 @@
 		<div ng-show="document.resourceIntiatives">
 			<label>Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</label>
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Initiative</th>

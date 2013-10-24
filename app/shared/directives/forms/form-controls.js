@@ -1763,7 +1763,7 @@ angular.module('formControls',[])
 			replace: true,
 			transclude: true,
 			scope: {
-				binding           : '=ngModel',
+				getDocumentFn     : '&document',
 				onPreCloseFn      : "&onPreClose",
 				onPostCloseFn     : "&onPostClose",
 				onPreRevertFn     : "&onPreRevert",
@@ -1777,23 +1777,7 @@ angular.module('formControls',[])
 			},
 			link: function ($scope, $element) 
 			{
-				$scope.localesDisplayStyle = "none";
 				$scope.errors              = null;
-				$scope.options = {
-					locales : [
-						{identifier:"ar", name:"Arabic"  }, 
-						{identifier:"en", name:"English" }, 
-						{identifier:"es", name:"Spanish" }, 
-						{identifier:"fr", name:"French"  }, 
-						{identifier:"ru", name:"Russian" }, 
-						{identifier:"zh", name:"Chinese" }
-					]
-				};
-
-				$scope.$watch("binding",   $scope.checkErrors);
-				$scope.$watch("$scope.binding.header.schema",    $scope.checkErrors);
-				$scope.$watch("$scope.binding.header.languages", $scope.checkErrors);
-				$scope.$watch("binding",   $scope.watchBinding);
 
 				//BOOTSTRAP Dialog handling
 
@@ -1911,7 +1895,12 @@ angular.module('formControls',[])
 						if(canceled)
 							return;
 
-						return editFormUtility.publish($scope.binding).then(function(success) {
+						var document = $scope.getDocumentFn();
+
+						if(!document)
+							throw "Invalid document";
+
+						return editFormUtility.publish(document).then(function(success) {
 
 							if (success.action == "publish")
 								$scope.onPostPublishFn({ data: success.data });
@@ -1951,7 +1940,12 @@ angular.module('formControls',[])
 						if(cancel)
 							return;
 
-						return editFormUtility.saveDraft($scope.binding).then(function(success) {
+						var document = $scope.getDocumentFn();
+
+						if(!document)
+							throw "Invalid document";
+
+						return editFormUtility.saveDraft(document).then(function(success) {
 							$scope.onPostSaveDraftFn({ data: success.data });
 						});
 					}).catch(function(error){
@@ -1959,32 +1953,6 @@ angular.module('formControls',[])
 						$scope.closeDialog();
 					}).finally(function(){
 						ngProgress.complete();
-					});
-				};
-
-				//====================
-				//
-				//====================
-				$scope.revert = function()
-				{
-					$q.when($scope.onPreRevertFn()).then(function(result) {
-					
-						return $scope.closeDialog().then(function() { 
-							return result;
-						});
-					}).then(function(result) {
-						$scope.closeDialog();
-
-						if(result)
-							return;
-
-						$scope.binding = $scope.clone($scope.binding_bak);
-
-						$scope.onPostRevertFn();
-					}).then(null, function(error){
-
-							$scope.onErrorFn({ action: "revert", error: error });
-							$scope.closeDialog();
 					});
 				};
 
@@ -2013,24 +1981,9 @@ angular.module('formControls',[])
 				//====================
 				//
 				//====================
-				$scope.watchBinding = function(_new,_old) 
-				{
-					if(_new!=_old || (_new && !$scope.binding_bak))
-						$scope.binding_bak = $scope.clone(_new);
-				};
-
-				//====================
-				//
-				//====================
 				$scope.checkErrors = function() 
 				{
-					$scope.localesDisplayStyle = $scope.binding && $scope.binding.header && $scope.binding.header.languages ? "inline" : "none";
-					$scope.errors              = "";
-
-					if(!$scope.binding)
-						$scope.errors += "\r\nDocument binding 'ng-model' not set."
-					else if(!$scope.binding.header || !$scope.binding.header.schema)
-						$scope.errors += "\r\Schema binding 'schema' not set."
+					$scope.errors = "";
 
 					if($scope.errors.trim()=="")
 						$scope.errors = null;
@@ -2052,6 +2005,38 @@ angular.module('formControls',[])
 					if(data)
 						return angular.fromJson(angular.toJson(data));
 				};
+			}]
+		};
+	}])
+
+	//============================================================
+	//
+	//
+	//============================================================
+	.directive('kmFormLanguages', ["$q", function ($q)
+	{
+		return {
+			restrict: 'EAC',
+			template: '<span ng-show="isVisible()"><span km-select multiple ng-model="binding" binding-type="string" placeholder="Available Languages" items="locales|orderBy:\'name\'" minimum="1"></span></span>',
+			replace: true,
+			transclude: true,
+			scope: {
+				binding : '=ngModel',
+			},
+			controller: ["$scope", "IStorage", "editFormUtility", 'ngProgress', function ($scope, storage, editFormUtility, ngProgress) {
+
+				$scope.locales = [
+					{identifier:"ar", name:"Arabic"  }, 
+					{identifier:"en", name:"English" }, 
+					{identifier:"es", name:"Spanish" }, 
+					{identifier:"fr", name:"French"  }, 
+					{identifier:"ru", name:"Russian" }, 
+					{identifier:"zh", name:"Chinese" }
+				];
+
+				$scope.isVisible = function() {
+					return $scope.binding!==undefined && $scope.binding!==null;
+				}
 			}]
 		};
 	}])

@@ -28,7 +28,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", 'IStorage', "authentication", "Enumerable", "underscore", "editFormUtility", function ($scope, $q, storage, authentication, Enumerable, _, editFormUtility) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "managementUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, managementUrls) 
 		{
 			//==================================
 			//
@@ -175,28 +175,32 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				window.location = "/managementcentre/my-pending-items";
+				$location.url(managementUrls.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				window.location = "/managementcentre/edit/";
+				$location.url("/database/record?documentID=" + data.documentID);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				window.location = "/managementcentre/edit-draft/";
+				$location.url(managementUrls.drafts);
 			};
+
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				window.location = "/managementcentre/";
+				if($location.search().returnUrl)
+					$location.url($location.search().returnUrl);	
+				else
+					$location.url(managementUrls.root);
 			};
 
 			//==================================

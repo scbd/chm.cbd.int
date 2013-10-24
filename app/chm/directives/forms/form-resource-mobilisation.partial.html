@@ -35,7 +35,7 @@
 					</ul>
 				</div>
 
-				<div class="col-lg-4 col-md-5 col-sm-6 hidden-xs">
+				<div class="col-lg-4 col-md-5 col-sm-6 hidden-xs" style="text-align:right">
 					<div class="pagination">
 						<span km-form-languages ng-model="document.header.languages"></span>
 						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
@@ -818,8 +818,14 @@
 					</ul>
 				</div>
 
-				<div class="col-md-3 col-sm-4 col-xs-12">
+				<div class="col-md-3 col-sm-4 hidden-xs" style="text-align:right">
 					<div class="pagination">
+						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+				<div class="col-xs-12 visible-xs">
+					<div class="">
 						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
 				</div>

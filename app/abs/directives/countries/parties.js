@@ -1,4 +1,5 @@
-﻿$compile.directive('parties', ['$http', function ($http) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('parties', ['$http', function ($http) {
     return {
         priority: 0,
         restrict: 'EC',

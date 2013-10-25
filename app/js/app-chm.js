@@ -151,6 +151,10 @@ app.value("managementUrls", {
 })
 function PageController($scope, $window, $location, authentication) {
 
+	$(function () {
+		$.scrollUp({ scrollText: 'scroll to top' });
+	});
+
 	//if($location.protocol()=="http" && !$location.host().match(/(.*\.local)|(^localhost)$/)
 	if($location.protocol()=="http" && $location.host()=="chm.cbd.int")
 		$window.location = "https://chm.cbd.int/";

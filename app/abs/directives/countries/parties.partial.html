@@ -9,7 +9,7 @@
 	</tr>
 	<tr ng-repeat="country in countries | orderBy:'!treaties.XXVII8b.deposit + name'">
 		<td><span ng-show="!!country.treaties.XXVII8b.deposit">{{$index + 1}}</span></td>
-		<td><a ng-href="countries/#/{{country.code}}">{{country.name}}</a></td>
+		<td><a ng-href="countries/{{country.code}}">{{country.name}}</a></td>
 		<td>{{country.treaties.XXVII8b.signature}}</td>
 		<td>{{country.treaties.XXVII8b.instrument}}</td>
 		<td>{{country.treaties.XXVII8b.deposit}}</td>

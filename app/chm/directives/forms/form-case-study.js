@@ -216,7 +216,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				$location.url("/management");
+				$location.url(managementUrls.drafts);
 			};
 
 			//==================================

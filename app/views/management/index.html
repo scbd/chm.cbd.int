@@ -1,7 +1,8 @@
 <div class="home-bottom" style="position:relative">
    	<div class="container main" id="main" style="padding-top:6px">
       	<div class="row top">
-        	<h1>Welcome! You have logged-in as {{user.name}}.</h1>
+          <h1 ng-if="!user.authenticated">Welcome!</h1>
+          <h1 ng-if="user.authenticated">Welcome! You have logged-in as {{user.name}}.</h1>
         	<p></p>
         	<p>
 				This section allows you to register, edit or delete information according to the rights assigned for you specific role. In order to the view the status of a record you have submitted for publication, please see the Record status page.

@@ -1,9 +1,9 @@
 ﻿angular.module('kmApp').compileProvider // lazy
-.directive('parties', ['$http', function ($http) {
+.directive('countries', ['$http', function ($http) {
     return {
         priority: 0,
         restrict: 'EC',
-        templateUrl: '/app/abs/directives/countries/parties.partial.html',
+        templateUrl: '/app/abs/directives/countries/countries.partial.html',
         controller: ['$scope', function ($scope) {
 
             $scope.countries = $http.get('/api/v2013/countries/').then(function (response) {

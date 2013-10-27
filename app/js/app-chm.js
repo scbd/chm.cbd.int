@@ -22,7 +22,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/', 							{ controller:HomePageController, templateUrl:'/app/views/index.html', 				resolve: { initialized : init } }).
  		when('/database/', 					{ controller:InnerPageController, templateUrl:'/app/views/database/index.html', 	resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/database/countries/:CODE', 	{ controller:InnerPageController, templateUrl:'/app/views/database/countries.html', resolve: { initialized : init }, reloadOnSearch: false }).
- 		when('/database/parties', 			{ controller:InnerPageController, templateUrl:'/app/views/database/parties.html', 	resolve: { initialized : init }, reloadOnSearch: false }).
+ 		when('/database/countries', 			{ controller:InnerPageController, templateUrl:'/app/views/database/parties.html', 	resolve: { initialized : init }, reloadOnSearch: false }).
  		when('/management/', 				{ controller:InnerPageController, templateUrl:'/app/views/empty.html', 				resolve: { initialized : init } }).
  		when('/network/', 					{ controller:InnerPageController, templateUrl:'/app/views/network.html', 			resolve: { initialized : init } }).
  		when('/resources/', 				{ controller:InnerPageController, templateUrl:'/app/views/resources.html',			resolve: { initialized : init } }).
@@ -122,8 +122,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.portal = 'database';
 			$rootScope.navigation = [
 				{ url: '/database', title: 'Search', active: true },
-				{ url: '/database/parties', title: 'List of Parties' },
-				{ url: '/database/countries', title: 'Country Profiles' }
+				{ url: '/database/countries', title: 'Parties Country Profiles' }
 			];
 		}
 

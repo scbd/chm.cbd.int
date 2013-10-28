@@ -13,7 +13,7 @@
 
 					<div ng-show="reference.__errorCode">
 						<div ng-switch="reference.__errorCode">
-							<div ng-switch-when="404" class="alert alert-block">
+							<div ng-switch-when="404" class="alert alert-warning">
 								<strong>Record not found</strong>
 								{{reference.identifier}}
 							</div>

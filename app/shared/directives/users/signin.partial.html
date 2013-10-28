@@ -4,18 +4,18 @@
 	
 		<div ng-hide="isAuthenticated()">
 
-			<div class="alert alert-block" ng-show="isForbidden">
-				<h4>Login Failed!</h4>
+			<div class="alert alert-warning" ng-show="isForbidden">
+				<strong>Login Failed!</strong>
 				You entered an invalid email address or password.
 			</div>
 
 			<div class="alert alert-danger" ng-show="isNoService">
-				<h4>Login Failed!</h4>
+				<strong>Login Failed!</strong>
 				The service is not available.
 			</div>
 
 			<div class="alert alert-danger" ng-show="isError">
-				<h4>Login Failed!</h4>
+				<strong>Login Failed!</strong>
 				An error has occured: {{error}}
 			</div>
 

@@ -1,0 +1,15 @@
+<div>
+	<div style="font-size:10px;color:#777">PRESS RELEASE | SCBD</div>
+	<div class="truncate">
+		<a style="font-size:14px;font-weight:bold;color:#79B82B;text-decoration:underline" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a>
+	</div>
+	<div style="font-size:13px;margin-top:2px">{{document.description_t}}</div>
+	<div>
+		<i style="color:#ccc" class="icon-rss"></i> <span style="font-size:12px;color:#444">Released on {{formatDate(document.date_dt)}}</span>
+	</div>
+	<div ng-if="document.meeting_ss">
+		<i class="icon-tag"></i>
+		<span ng-repeat="meeting in document.meeting_ss" class="label label-info" style="margin-right:4px">{{meeting}}</span>
+	</div>
+	<div class="clearfix"></div>
+</div>

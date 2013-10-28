@@ -9,11 +9,9 @@
 
 	<div ng-show="document.strategicGoal">
 		<label>Strategic Goal</label>
-		<div class="km-value">
-			<ul km-terms ng-model="document.strategicGoal">
-				<li ng-repeat="term in terms">{{term.name}} </li>
-			</ul>
-		</div>
+		<ul  class="km-value" km-terms ng-model="document.strategicGoal">
+			<li ng-repeat="term in terms">{{term.name}} </li>
+		</ul>
 	</div>
 
 	<div ng-show="document.guide">
@@ -24,13 +22,13 @@
 	<div ng-show="document.strategicPlanIndicators">
 		<label>Most Relevant Global Indicator(s)</label>
 		<ul class="km-value">
-			<li ng-repeat="term in strategicPlanIndicators">{{term.document.title | lstring:locale}} </li>
+			<li ng-repeat="doc in strategicPlanIndicators">{{doc.document.title | lstring:locale}} </li>
 		</ul>
 	</div>
 	<div ng-show="document.otherStrategicPlanIndicators">
 		<label>Other Relevant Global Indicator(s)</label>
 		<ul class="km-value">
-			<li ng-repeat="term in otherStrategicPlanIndicators">{{term.document.title | lstring:locale}} </li>
+			<li ng-repeat="doc in otherStrategicPlanIndicators">{{doc.document.title | lstring:locale}} </li>
 		</ul>
 	</div>
 	<div ng-show="document.progress">
@@ -55,21 +53,17 @@
 					<div class="km-value km-pre">{{champion.description | lstring:locale}}</div>
 
 					<label>Target Champions (regions)</label>
-					<div class="km-value">
-						<ul km-terms ng-model="champion.countries">
+					<ul class="km-value" km-terms ng-model="champion.countries">
 							<li ng-repeat="term in terms">{{term.name}} </li>
-						</ul>
-					</div>
+					</ul>
 
 				
 					<label>Linked organizations</label>
-					<div class="km-value">
-						<ul ng-repeat="organization in champion.organizations">
-							<li>
-								<b>{{organization.document.name|lstring:locale}} ({{organization.document.acronym|lstring:locale}})</b>
-							</li>
-						</ul>
-					</div>
+					<ul class="km-value" >
+						<li ng-repeat="organization in champion.organizations">
+							<b>{{organization.document.name|lstring:locale}} ({{organization.document.acronym|lstring:locale}})</b>
+						</li>
+					</ul>
 
 					<label>Target Champions (link)</label>
 					<ul class="km-value">
@@ -107,13 +101,11 @@
 						</li>
 					</ul>
 					<label>Link to resources (categories)</label>
-					<div class="km-value">
-						<ul km-terms ng-model="resource.categories">
-							<li ng-repeat="item in terms">
-								{{item.name|lstring:locale}}
-							</li>
-						</ul>
-					</div>
+					<ul class="km-value" km-terms ng-model="resource.categories">
+						<li ng-repeat="item in terms">
+							{{item.name|lstring:locale}}
+						</li>
+					</ul>
 				</td>
 			</tr>
 		</table>

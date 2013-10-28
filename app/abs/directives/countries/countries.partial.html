@@ -1,98 +1,94 @@
 ﻿<table class="table table-striped">
 	<tr>
-		<th>#</th>
 		<th>Country</th>
-		<th>XXVII8</th>
-		<th>XXVII8a</th>
-		<th>XXVII8b</th>
-		<th>XXVII8c</th>
-		<!--
-		<th>Instrument</th>
-		<th>Deposit</th>
-		<th>Entry into force</th>
-		-->
+		<th><abbr title="Convention on Biodiversity">CBD</abbr></th>
+		<th><abbr title="Cartagena Protocol on Biosafety">CPB</abbr></th>
+		<th><abbr title="Nagoya Protocol on ABS">NPABS</abbr></th>
+		<th><abbr title="Nagoya – Kuala Lumpur Supplementary Protocol on Biosafety">NKLSPB</abbr></th>
 	</tr>
-	<tr ng-repeat="country in countries | orderBy:'!treaties.XXVII8b.deposit + name'">
-		<td>
-			<span ng-show="!!country.treaties.XXVII8b.deposit">
-				{{$index + 1}}
-			</span>
-		</td>
+	<tr ng-repeat="country in countries | orderBy:'name'">
 		<td>
 			<a ng-href="country/{{country.code}}">{{country.name}}</a>
 		</td>
 		<td>
-			<div title="{{country.treaties.XXVII8.instrument}}" ng-show="country.treaties.XXVII8.signature">
+			<div title="{{country.treaties.XXVII8.instrument}}"
+				ng-show="country.treaties.XXVII8.deposit && !country.treaties.XXVII8.signature">
 				<label class="label label-success" >
-					{{country.treaties.XXVII8.signature}}
-				</label>
-			</div>
-			<div title="{{country.treaties.XXVII8.deposit}}" ng-show="country.treaties.XXVII8.signature=='Signed'">
-				<label class="label label-default" >
 					{{country.treaties.XXVII8.deposit}}
 				</label>
 			</div>
-			<div ng-show="country.treaties.XXVII8.signature==null">
+			<div title="{{country.treaties.XXVII8.signature}}"
+				ng-show="!country.treaties.XXVII8.deposit && country.treaties.XXVII8.signature">
+				<label class="label label-default" >
+					Signed
+				</label>
+			</div>
+			<div ng-show="country.treaties.XXVII8.signature &&
+			country.treaties.XXVII8.deposit">
 				<label class="label label-danger" >
 					NO
 				</label>
 			</div>
 		</td>
 		<td>
-			<div title="{{country.treaties.XXVII8a.instrument}}" ng-show="country.treaties.XXVII8a.signature">
+			<div title="{{country.treaties.XXVII8a.instrument}}"
+				ng-show="country.treaties.XXVII8a.deposit && !country.treaties.XXVII8a.signature">
 				<label class="label label-success" >
-					{{country.treaties.XXVII8a.signature}}
-				</label>
-			</div>
-			<div title="{{country.treaties.XXVII8a.deposit}}" ng-show="country.treaties.XXVII8a.signature=='Signed'">
-				<label class="label label-default" >
 					{{country.treaties.XXVII8a.deposit}}
 				</label>
 			</div>
-			<div ng-show="country.treaties.XXVII8a.signature==null">
+			<div title="{{country.treaties.XXVII8a.signature}}"
+				ng-show="!country.treaties.XXVII8a.deposit && country.treaties.XXVII8a.signature">
+				<label class="label label-default" >
+					Signed
+				</label>
+			</div>
+			<div ng-show="country.treaties.XXVII8a.signature &&
+			country.treaties.XXVII8a.deposit">
 				<label class="label label-danger" >
 					NO
 				</label>
 			</div>
 		</td>
 		<td>
-			<div title="{{country.treaties.XXVII8b.instrument}}" ng-show="country.treaties.XXVII8b.signature">
+			<div title="{{country.treaties.XXVII8b.instrument}}"
+				ng-show="country.treaties.XXVII8b.deposit && !country.treaties.XXVII8b.signature">
 				<label class="label label-success" >
-					{{country.treaties.XXVII8b.signature}}
-				</label>
-			</div>
-			<div title="{{country.treaties.XXVII8b.deposit}}" ng-show="country.treaties.XXVII8b.signature=='Signed'">
-				<label class="label label-default" >
 					{{country.treaties.XXVII8b.deposit}}
 				</label>
 			</div>
-			<div ng-show="country.treaties.XXVII8b.signature==null">
+			<div title="{{country.treaties.XXVII8b.signature}}"
+				ng-show="!country.treaties.XXVII8b.deposit && country.treaties.XXVII8b.signature">
+				<label class="label label-default" >
+					Signed
+				</label>
+			</div>
+			<div ng-show="country.treaties.XXVII8b.signature &&
+			country.treaties.XXVII8b.deposit">
 				<label class="label label-danger" >
 					NO
 				</label>
 			</div>
 		</td>
 		<td>
-			<div title="{{country.treaties.XXVII8c.instrument}}" ng-show="country.treaties.XXVII8c.signature">
+			<div title="{{country.treaties.XXVII8c.instrument}}"
+				ng-show="country.treaties.XXVII8c.deposit && !country.treaties.XXVII8c.signature">
 				<label class="label label-success" >
-					{{country.treaties.XXVII8c.signature}}
-				</label>
-			</div>
-			<div title="{{country.treaties.XXVII8c.deposit}}" ng-show="country.treaties.XXVII8c.signature=='Signed'">
-				<label class="label label-default" >
 					{{country.treaties.XXVII8c.deposit}}
 				</label>
 			</div>
-			<div ng-show="country.treaties.XXVII8c.signature==null">
+			<div title="{{country.treaties.XXVII8c.signature}}"
+				ng-show="!country.treaties.XXVII8c.deposit && country.treaties.XXVII8c.signature">
+				<label class="label label-default" >
+					Signed
+				</label>
+			</div>
+			<div ng-show="country.treaties.XXVII8c.signature &&
+			country.treaties.XXVII8c.deposit">
 				<label class="label label-danger" >
 					NO
 				</label>
 			</div>
 		</td>
-		<!--
-		<td>{{country.treaties.XXVII8b.instrument}}</td>
-		<td>{{country.treaties.XXVII8b.deposit}}</td>
-		<td>{{country.treaties.XXVII8b.party}}</td>
-	-->
 	</tr>
 </table>

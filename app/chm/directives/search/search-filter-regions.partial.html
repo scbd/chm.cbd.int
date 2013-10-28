@@ -1,0 +1,47 @@
+<li class="list-group-item" style="cursor:pointer;">
+	<div data-toggle="modal" href="#dialogSelectRegions" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
+	<div class="list-group-item-expand">
+		<div ng-animate="'animate'" ng-repeat="item in allTerms | orderBy:'title' | filter:{selected:true}" ng-click="onclick(this, $event)">
+			<div class="label label-selected-facet">
+				<div style="position:absolute;right:6px;top:6px" class="icon-remove-sign"></div>
+				<div class="truncate">
+					{{item.name}} ({{item.count}})
+				</div>
+			</div>
+		</div>
+	<div>
+	<div id="dialogSelectRegions" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content" style="width:760px">
+				<div class="modal-body" style="padding-left:20px">
+					<div class="panel-group" id="accordion">
+						<div class="panel panel-default" ng-repeat="class in terms">
+							<div class="panel-heading">
+								<h4 class="panel-title" style="margin:0">
+									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}">{{class.name}}</a>
+								</h4>
+							</div>
+							<div id="{{class.identifier}}" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="region in class.narrowerTerms">
+											<div class="checkbox" style="margin-top:0;margin-bottom:0">
+												<label><input type="checkbox" ng-model="region.selected" ng-click="refresh()"> {{region.name}} ({{region.count}})</label>
+											</div>
+											<div class="checkbox" style="margin-top:0;margin-bottom:0;margin-left:20px" ng-repeat="region2 in region.narrowerTerms">
+												<label><input type="checkbox" ng-model="region2.selected" ng-click="refresh()">{{region2.name}} ({{region2.count}})</label>
+											</div>
+										</div>
+									</div>
+								</div>
+					    	</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>

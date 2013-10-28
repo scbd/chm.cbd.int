@@ -39,23 +39,22 @@ angular.module('kmApp').compileProvider // lazy
 			//====================
 			//
 			//====================
-			$scope.$watch("document.relevantIndicators",
-				function (_new) {
-					$scope.relevantIndicators = angular.fromJson(angular.toJson($scope.document.relevantIndicators))
+			$scope.$watch("document.strategicPlanIndicators", function (indicators) {
+					$scope.strategicPlanIndicators = indicators ? angular.fromJson(angular.toJson(indicators)) : undefined;
 
-					if ($scope.document.relevantIndicators) {
-						$scope.loadReferences($scope.document.relevantIndicators);
+					if ($scope.strategicPlanIndicators) {
+						$scope.loadReferences($scope.strategicPlanIndicators, true);
 					}
 				});
 
 			//====================
 			//
 			//====================
-			$scope.$watch("document.otherIndicators", function (_new) {
-				$scope.otherIndicators = angular.fromJson(angular.toJson($scope.document.otherIndicators))
+			$scope.$watch("document.otherStrategicPlanIndicators", function (indicators) {
+				$scope.otherStrategicPlanIndicators = indicators ? angular.fromJson(angular.toJson(indicators)) : undefined;
 
-				if ($scope.document.otherIndicators) {
-					$scope.loadReferences($scope.document.otherIndicators);
+				if ($scope.otherStrategicPlanIndicators) {
+					$scope.loadReferences($scope.otherStrategicPlanIndicators, true);
 				}
 			});
 
@@ -96,41 +95,6 @@ angular.module('kmApp').compileProvider // lazy
 						});
 				});
 			}
-
-			//====================
-			//
-			//====================
-			$scope.canShowTargetIcon = function () {
-				return !jQuery.isEmptyObject($scope.document.icons);
-			};
-
-			//====================
-			//
-			//====================
-			$scope.canShowStrategicGoal = function () {
-				return !jQuery.isEmptyObject($scope.document.strategicGoal);
-			};
-
-			//====================
-			//
-			//====================
-			$scope.canShowRelevantIndicators = function () {
-				return !jQuery.isEmptyObject($scope.document.relevantIndicators);
-			};
-
-			//====================
-			//
-			//====================
-			$scope.canShowOtherIndicators = function () {
-				return !jQuery.isEmptyObject($scope.document.otherIndicators);
-			};
-
-			//====================
-			//
-			//====================
-			$scope.canShowProgressLinks = function () {
-				return !jQuery.isEmptyObject($scope.document.progressLinks);
-			};
 		}]
 	}
 }]);

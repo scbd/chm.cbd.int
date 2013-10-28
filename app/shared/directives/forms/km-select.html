@@ -10,14 +10,15 @@
 
 
 	<div ng-show="error">
-		<div class="alert">
+		<div class="alert alert-warning">
 			{{error}}
 		</div>
 	</div>
 
 	<span>
 		<div class="btn-group" >
-			<button tyle="button" class="btn btn-default dropdown-toggle form-control" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown" href="">{{getTitle(displayCount, true)}}
+			<button tyle="button" class="btn btn-default dropdown-toggle" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown">
+				{{getTitle(displayCount, true)}}
 				<span class="caret"></span>
 			</button>
 			<ul class="dropdown-menu" style="max-height:400px;overflow-y:auto;text-align:left">

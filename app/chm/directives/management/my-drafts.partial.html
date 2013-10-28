@@ -9,7 +9,7 @@
 				<th>ID</th>
 				<th>Description</th>
 				<th>Last edited by/on</th>
-				<th>&#0160;</th>
+				<th style="width:100px">&nbsp;</th>
 			</tr>
 
 			<tr ng-repeat="draft in drafts">
@@ -52,7 +52,7 @@
 					<em>{{draft.workingDocumentUpdatedBy.email}}</em>
 					<div>{{draft.workingDocumentUpdatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
 				</td>
-				<td style="text-align:end">
+				<td style="text-align:end;width:100px">
 					<div class="btn-group" style="white-space:nowrap;">
 						<button class="btn btn-default"  ng-click="edit(draft);"  type="button" title="Edit"><i class="icon-edit"></i></button>
 						<button class="btn btn-default"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>

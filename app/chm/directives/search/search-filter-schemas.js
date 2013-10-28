@@ -173,6 +173,7 @@ angular.module('kmApp').compileProvider // lazy
             ];
 
             $scope.nationalRecords = [
+                { identifier: 'focalPoint'              , title: 'National Focal Points'      },
                 { identifier: 'nationalReport'          , title: 'National Reports'           },
                 { identifier: 'nationalTarget'          , title: 'National Targets'           },
                 { identifier: 'nationalIndicator'       , title: 'National Indicators'        },

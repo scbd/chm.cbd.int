@@ -2,7 +2,7 @@ angular.module('kmApp').compileProvider // lazy
 .directive('searchFilterCountries', function ($http) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-countries.partial.html?v892e14e22',
+        templateUrl: '/app/chm/directives/search/search-filter-countries.partial.html?'+(new Date().getTime()),
         replace: true,
         // require : "?ngModel",
         scope: {
@@ -21,6 +21,8 @@ angular.module('kmApp').compileProvider // lazy
         },
         controller : ['$scope', '$element', '$window', function ($scope, $element, $window)
         {
+            $scope.alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+
             $scope.expanded = false;
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet

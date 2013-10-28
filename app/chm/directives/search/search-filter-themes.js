@@ -249,22 +249,25 @@ angular.module('kmApp').compileProvider // lazy
                 return collection;
             }
 
-            $scope.termsx = [];
             $http.get('/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms').success(function (data) {
                 $scope.terms = thesaurus.buildTree(data);
-                $scope.termsx = flatten($scope.terms, {});
-                $scope.termsxx = _.values($scope.termsx);
-                $scope.items.forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
-                });
+
+                $scope.termsMap   = flatten($scope.terms, {});
+                $scope.termsArray = _.values($scope.termsMap);
+                
+                if($scope.items)
+                    $scope.items.forEach(function (item) {
+                        if(_.has($scope.termsMap, item.symbol))
+                            $scope.termsMap[item.symbol].count = item.count;
+                    });
             });
 
             $scope.$watch('items', function (values) { if(!values) return;
-                values.forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
-                });
+                if($scope.termsMap)
+                    values.forEach(function (item) {
+                        if(_.has($scope.termsMap, item.symbol))
+                            $scope.termsMap[item.symbol].count = item.count;
+                    });
             });
         }]
     }

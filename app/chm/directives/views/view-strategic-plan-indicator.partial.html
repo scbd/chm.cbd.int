@@ -1,9 +1,7 @@
-﻿<div>
+﻿<div class="viewForm">
 
-	<div ng-show="document.title">
-		<label for="title">Indicator Operational Text</label>
-		<div class="km-value km-pre">{{document.title | lstring:locale}}</div>
-	</div>
+	<h1>{{document.title | lstring:locale}}</h1>
+
 	<div ng-show="document.headline">
 		<label for="headline">Indicator Headline Text</label>
 		<div class="km-value km-pre">{{document.headline | lstring:locale}}</div>

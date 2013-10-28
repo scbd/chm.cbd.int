@@ -1,9 +1,13 @@
-﻿<div>
-	<h2>{{document.prefix | lstring:locale}} {{document.firstName}} {{document.middleName}} {{document.lastName}}</h2>
-	<div class="km-value" ng-show="document.organization || document.organizationAcronym || document.designation || document.department">
-		<div><strong>{{document.organization | lstring:locale}}</strong> <i ng-show="document.organizationAcronym">({{document.organizationAcronym | lstring:locale}})</i></div>
-		<div>{{document.designation | lstring:locale}}</div>
-		<div>{{document.department | lstring:locale}}</div>
+﻿<div class="viewForm">
+	
+	<h1>{{document.prefix | lstring:locale}} {{document.firstName}} {{document.middleName}} {{document.lastName}}</h1>
+	
+	<div ng-show="document.organization || document.organizationAcronym || document.designation || document.department">
+		<div class="km-value">
+			<div><strong>{{document.organization | lstring:locale}}</strong> <i ng-show="document.organizationAcronym">({{document.organizationAcronym | lstring:locale}})</i></div>
+			<div>{{document.designation | lstring:locale}}</div>
+			<div>{{document.department | lstring:locale}}</div>
+		</div>
 	</div>
 
 	<div ng-show="document.address || document.city || document.state || document.postalCode || document.country || document.phones || document.faxes || document.emails || document.websites">

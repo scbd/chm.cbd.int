@@ -7,11 +7,22 @@ form label[required]:after
 	font-size: 18px;
 }
 
+div.viewForm > h1 {
+	font-weight:bold;
+	font-size:26px;
+}
+
+div.viewForm > legend {
+	margin-top: 20px;
+	font-size:22px;
+}
+
 div.km-pre
 { 
 	word-break: break-all; word-wrap: break-word; white-space: pre-wrap; 
 }
 
+address.km-value, 
 div.km-value, 
 ul.km-value > li,
 ol.km-value > li

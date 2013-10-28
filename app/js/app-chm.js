@@ -122,7 +122,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.portal = 'database';
 			$rootScope.navigation = [
 				{ url: '/database', title: 'Search', active: true },
-				{ url: '/database/countries', title: 'Parties Country Profiles' }
+				{ url: '/database/countries', title: 'Parties and Country Profiles' }
 			];
 		}
 

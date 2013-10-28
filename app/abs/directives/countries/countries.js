@@ -3,7 +3,7 @@
     return {
         priority: 0,
         restrict: 'EC',
-        templateUrl: '/app/abs/directives/countries/countries.partial.html',
+        templateUrl: '/app/abs/directives/countries/countries.partial.html?v' + (new Date()).getTime(),
         controller: ['$scope', function ($scope) {
 
             $scope.countries = $http.get('/api/v2013/countries/').then(function (response) {

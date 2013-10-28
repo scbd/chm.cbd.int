@@ -1,17 +1,27 @@
-﻿<table class="table table-striped">
+﻿<div style="padding-bottom:8px;text-align:right">
+	<div class="label label-danger">non-party</div>
+	<div class="label label-default">signatory</div>
+	<div class="label label-success">party</div>
+</div>
+
+<table class="table table-striped" ng-show="countries">
 	<tr>
 		<th>Country</th>
 		<th style="text-align:center">
-			<abbr title="Convention on Biodiversity">CBD</abbr>
+			<div class="hidden-xs">Convention on Biological Diversity</div>
+			<abbr class="visible-xs" title="Convention on Biological Diversity">CBD</abbr>
 		</th>
 		<th style="text-align:center">
-			<abbr title="Cartagena Protocol on Biosafety">CPB</abbr>
+			<div class="hidden-xs">Cartagena Protocol on Biosafety</div>
+			<abbr class="visible-xs" title="Cartagena Protocol on Biosafety">CPB</abbr>
 		</th>
 		<th style="text-align:center">
-			<abbr title="Nagoya Protocol on ABS">NPABS</abbr>
+			<div class="hidden-xs">Kuala Lumpur Supplementary Protocol on Biosafety</div>
+			<abbr class="visible-xs" title="Nagoya – Kuala Lumpur Supplementary Protocol on Biosafety">NKLSPB</abbr>
 		</th>
 		<th style="text-align:center">
-			<abbr title="Nagoya – Kuala Lumpur Supplementary Protocol on Biosafety">NKLSPB</abbr>
+			<div class="hidden-xs">Nagoya Protocol on Access and Benefit-Sharing</div>
+			<abbr class="visible-xs" title="Nagoya Protocol on Access and Benefit-Sharing">NPABS</abbr>
 		</th>
 	</tr>
 	<tr ng-repeat="country in countries | orderBy:'name'">
@@ -33,8 +43,8 @@
 			</div>
 			<div ng-show="!country.treaties.XXVII8.signature &&
 			!country.treaties.XXVII8.deposit">
-				<label class="label label-danger" >
-					NO
+				<label class="label label-danger" style="opacity:0.6">
+					non-party
 				</label>
 			</div>
 		</td>
@@ -53,28 +63,8 @@
 			</div>
 			<div ng-show="!country.treaties.XXVII8a.signature &&
 			!country.treaties.XXVII8a.deposit">
-				<label class="label label-danger" >
-					NO
-				</label>
-			</div>
-		</td>
-		<td style="text-align:center">
-			<div title="{{country.treaties.XXVII8b.instrument}}"
-				ng-show="country.treaties.XXVII8b.deposit">
-				<label class="label label-success" >
-					{{country.treaties.XXVII8b.deposit}}
-				</label>
-			</div>
-			<div title="{{country.treaties.XXVII8b.signature}}"
-				ng-show="!country.treaties.XXVII8b.deposit && country.treaties.XXVII8b.signature">
-				<label class="label label-default" style="opacity:0.6">
-					Signed
-				</label>
-			</div>
-			<div ng-show="!country.treaties.XXVII8b.signature &&
-			!country.treaties.XXVII8b.deposit">
-				<label class="label label-danger" >
-					NO
+				<label class="label label-danger" style="opacity:0.6">
+					non-party
 				</label>
 			</div>
 		</td>
@@ -93,8 +83,28 @@
 			</div>
 			<div ng-show="!country.treaties.XXVII8c.signature &&
 			!country.treaties.XXVII8c.deposit">
-				<label class="label label-danger" >
-					NO
+				<label class="label label-danger" style="opacity:0.6">
+					non-party
+				</label>
+			</div>
+		</td>
+		<td style="text-align:center">
+			<div title="{{country.treaties.XXVII8b.instrument}}"
+				ng-show="country.treaties.XXVII8b.deposit">
+				<label class="label label-success" >
+					{{country.treaties.XXVII8b.deposit}}
+				</label>
+			</div>
+			<div title="{{country.treaties.XXVII8b.signature}}"
+				ng-show="!country.treaties.XXVII8b.deposit && country.treaties.XXVII8b.signature">
+				<label class="label label-default" style="opacity:0.6">
+					Signed
+				</label>
+			</div>
+			<div ng-show="!country.treaties.XXVII8b.signature &&
+			!country.treaties.XXVII8b.deposit">
+				<label class="label label-danger" style="opacity:0.6">
+					non-party
 				</label>
 			</div>
 		</td>

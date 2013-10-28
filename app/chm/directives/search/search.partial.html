@@ -1,4 +1,54 @@
 ﻿<div class="row css-search">
+	<style>
+	.truncate {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.label-selected-facet { 
+		position: relative;
+		display: block;
+		background-color: #12496B;
+		margin: 4px 0;
+		padding-right: 20px;
+		text-align: left;
+		height: 23px;
+		padding-top: 6px;
+		border-radius: 3px;
+	}
+	.animate-enter, 
+	.animate-leave { 
+	    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+	    position: relative;
+	    display: block;
+	} 
+	 
+	.animate-leave.animate-leave-active,
+	.animate-enter {
+	    -webkit-transform: scaleY(0);
+	    -moz-transform: scaleY(0);
+	    -ms-transform: scaleY(0);
+	    -o-transform: scaleY(0);
+	    transform: scaleY(0);
+	    height: 0px;
+	    opacity: 0;
+	}
+	 
+	.animate-enter.animate-enter-active,
+	.animate-leave {
+	    -webkit-transform: scaleY(1);
+	    -moz-transform: scaleY(1);
+	    -ms-transform: scaleY(1);
+	    -o-transform: scaleY(1);
+	    transform: scaleY(1);
+	    height: 30px;
+	    opacity: 1;
+	}
+	</style>
 	<div class="col-sm-3 col-lg-3" style="padding-right:15px">
 		<ul class="list-group">
             <li class="list-group-item">
@@ -7,8 +57,9 @@
             <search-filter-keywords title='Keywords' ng-model='keywords' query='queryKeywords'></search-filter-keywords>
             <search-filter-schemas title='Document Types' ng-model='schemas' field='schema_s' query='querySchema'></search-filter-schemas>
             <search-filter-countries title='Countries' ng-model='governments' field='government_s' query='queryGovernment'></search-filter-countries>
-            <search-filter-countries title='Regions' ng-model='regions' field='government_s' query='queryGovernment'></search-filter-countries>
-            <search-filter-themes title='Thematic Areas' ng-model='thematicAreas' field='thematicArea_ss' query='queryTheme'></search-filter-themes>
+            <search-filter-regions title='Regions' ng-model='regions' field='government_REL_ss' query='queryGovernment'></search-filter-regions>
+            <search-filter-facets title='Aichi Targets' ng-model='aichiTargets' field='aichiTarget_REL_ss' query='queryTarget'></search-filter-facets>
+            <search-filter-themes title='Thematic Areas' ng-model='thematicAreas' field='thematicArea_REL_ss' query='queryTheme'></search-filter-themes>
             <search-filter-dates title='Date of record' query='queryDate'></search-filter-dates>
    		</ul>
 	</div>
@@ -33,12 +84,30 @@
 
 		<h4 ng-pluralize count="count" when="{'0': 'No record found', '1': '1 record found', 'other': '{{start+1}} to {{stop+1}} of {} records found'}"></h4>
 
-		<div class="document-item" style="margin-top:10px" ng-repeat="document in documents">
-            <i style="color:#666;font-size:18px" ng-class="icon(document.schema_s)"></i>&nbsp;
-            <strong style="color:#555">{{document.schema_EN_t}}</strong> <span ng-show="document.government_EN_t">|</span> <span>{{document.government_EN_t}}</span>
-            <div><a style="font-size:16px;font-weight:bold;color:#89cf31" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
-            <div class="document-description">{{document.description_t}}</div>
-            <div><a style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
+		<div class="document-item" style="margin-top:12px" ng-repeat="document in documents">
+			<div ng-switch on="document.schema_s">
+				<div class="row-notification" ng-switch-when="notification"></div>
+				<div class="row-statement" ng-switch-when="statement"></div>
+				<div class="row-press-release" ng-switch-when="pressRelease"></div>
+				<div class="row-announcement" ng-switch-when="announcement"></div>
+				<div class="row-aichi-target" ng-switch-when="aichiTarget"></div>
+				<div class="row-national-target" ng-switch-when="nationalTarget"></div>
+				<div class="row-notification" ng-switch-when="notification"></div>
+				<!--CBD Meetings and Outcomes-->
+				<div class="row-meeting" ng-switch-when="meeting"></div>
+				<div class="search-result" ng-switch-when="meetingDocument"></div>
+				<div class="search-result" ng-switch-when="decision"></div>
+				<div class="search-result" ng-switch-when="recommendation"></div>
+				
+				<!-- <div class="row-progress-assessment" ng-switch-when="progressAssessment"></div> -->
+				<div ng-switch-default>
+					<i style="color:#666;font-size:18px" ng-class="icon(document.schema_s)"></i>&nbsp;
+		            <strong style="color:#555">{{document.schema_EN_t}}</strong> <span ng-show="document.government_EN_t">|</span> <span>{{document.government_EN_t}}</span>
+		            <div><a style="font-size:16px;font-weight:bold;color:#89cf31" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
+		            <div class="document-description">{{document.description_t}}</div>
+		            <div><a style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
+				</div>
+			</div>
 		</div>
 
 		<div class="clearfix"></div>

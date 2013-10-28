@@ -1,0 +1,37 @@
+<div>
+	<div style="font-size:10px;color:#777">{{schema}} | 
+		<strong ng-if="!sourceTooltip" style="color:#222">{{source}}</strong>
+		<a ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca"><strong>{{source}}</strong></a>
+	</div>
+	<div class="truncatex">
+		<a style="font-size:14px;font-weight:bold;color:#79B82B;text-decoration:underline" ng-href="{{fixUrl(document.url_ss[0])}}">{{title}}</a>
+	</div>
+	<div style="font-size:13px;margin:2px 0">{{description}}</div>
+	<div ng-if="false">
+		<i style="color:#ccc" class="icon-map-marker"></i> <span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span>
+		&nbsp; &nbsp; 
+		<i style="color:#ccc" class="icon-microphone"></i> <span style="font-size:12px;color:#444">Mr. Braulio Ferreira de Souza Dias, CBD Executive Secretary</span>
+	</div>
+	<div ng-if="false">
+		<i style="color:#ccc" class="icon-file"></i> <span style="font-size:12px;color:#444">
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
+		<a style="color:#428bca;padding:0 3px">ZH</a>
+		&nbsp; &nbsp;
+		<i style="color:#ccc" class="icon-file"></i> <span style="font-size:12px;color:#444">
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
+		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
+		<a style="color:#428bca;padding:0 3px">ZH</a>
+	</div>
+	<div ng-if="{'meetingDocument':true}[schema_s]">
+		<i class="icon-tag"></i>
+		<span ng-repeat="meeting in document.meeting_ss" class="label label-info" style="margin-right:4px">{{meeting}}</span>
+	</div>
+	<div class="clearfix"></div>
+</div>

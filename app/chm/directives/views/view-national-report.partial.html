@@ -76,14 +76,16 @@
 	<div ng-show="document.startDate || document.endDate">
 		<legend>Time period</legend>
 
-		<div ng-show="document.startDate">
-			<label class="control-label" for="startDate">From</label>
-			<div class="km-value km-pre">{{document.startDate}}</div>
-		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-4" ng-show="document.startDate">
+				<label class="control-label" for="startDate">From</label>
+				<div class="km-value">{{document.startDate}}</div>
+			</div>
 
-		<div ng-show="document.endDate">
-			<label class="control-label" for="endDate">To</label>
-			<div class="km-value km-pre">{{document.endDate}}</div>
+			<div class="col-md-3 col-sm-4" ng-show="document.endDate">
+				<label class="control-label" for="endDate">To</label>
+				<div class="km-value">{{document.endDate}}</div>
+			</div>
 		</div>
 	</div>
    

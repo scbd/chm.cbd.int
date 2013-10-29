@@ -95,11 +95,19 @@
         <div class="header-banner" style="position:absolute;width:100%;height:140px"></div>
         <div class="container" id="main-nav">
             <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
                     <span class="logo" href="http://www.cbd.int/" style="position:relative;z-index:999;cursor:pointer" ng-click="goHome()">
                         <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width:60px">
                         <div style="margin-top:-10px;margin-left:18px;font-size:24px;color:#f8f8f8">
                             <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="position:absolute;margin-top:4px;margin-left:-26px;width:20px"> CHM
+                        </div>
+                    </span>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 visible-xs">
+                    <span class="logo" href="http://www.cbd.int/" style="position:relative;z-index:999;cursor:pointer" ng-click="goHome()">
+                        <div style="font-size:24px;color:#f8f8f8">
+                            <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width:60px"/>
+                            <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-right:5px;width:20px"/>CHM
                         </div>
                     </span>
                 </div>
@@ -115,13 +123,13 @@
                                 <li ng-hide="currentPath()=='/database/'">
                                     <form action="/search" style="display: none;" class="site-search">
                                         <input type="text" placeholder="Search the CHM" name="q" />
-                                        <input type="submit" value="" />
+                                        <input type="submit" value="" style="width:200px" />
                                     </form>
                                     <a href="" class="search-icon"></a>
                                 </li>
-                                <li><a href="/database/news">News</a></li>
-                                <li><a class="icon icon-globe">&nbsp;Language: EN</a></li>
-                                <li><a class="signin" href="/database" data-slug="signin">Search</a></li>
+                                <li><a href="/database/news" style="color:black">News</a></li>
+                                <li><a class="icon icon-globe" style="color:black">&nbsp;Language: EN</a></li>
+                                <li><a class="signin" href="/database" data-slug="signin" style="color:black">Search</a></li>
                             </ul>
                         </div>
                     </div>

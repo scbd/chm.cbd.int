@@ -1,5 +1,5 @@
 <div>
-	<div style="font-size:10px;color:#777">{{schema}} | 
+	<div style="font-size:10px;color:#777">{{schema}} <span ng-show="source">|</span> 
 		<strong ng-if="!sourceTooltip" style="color:#222">{{source}}</strong>
 		<a ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca"><strong>{{source}}</strong></a>
 	</div>

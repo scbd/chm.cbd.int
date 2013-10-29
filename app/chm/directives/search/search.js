@@ -128,7 +128,7 @@ angular.module('kmApp').compileProvider // lazy
                 var queryParameters = {
                     'q': q,
                     'sort': 'createdDate_dt desc, title_t asc',
-                    'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t',
+                    'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
                     'wt': 'json',
                     'start': $scope.currentPage * $scope.itemsPerPage,
                     'rows': 25,
@@ -431,6 +431,10 @@ angular.module('kmApp').compileProvider.directive('searchResult', function () {
         templateUrl: '/app/chm/directives/search/search-result.partial.html?'+(new Date().getTime()),
         controller: ["$scope", function ($scope) {
 
+            var formatDate = function formatDate (date) {
+                return moment(date).format('MMMM Do YYYY');
+            };
+
             $scope.schema      = $scope.document.schema_EN_t.toUpperCase();
             $scope.title       = $scope.document.title_t;
             $scope.description = $scope.document.description_t;
@@ -468,11 +472,10 @@ angular.module('kmApp').compileProvider.directive('searchResult', function () {
             
             if($scope.document.schema_s=='marineEbsa') $scope.schema = 'ECOLOGICALLY OR BIOLOGICALLY SIGNIFICANT AREA';
 
-            ////
-
-            $scope.formatDate = function formatDate (date) {
-                return moment(date).format('MMMM Do YYYY');
-            };
+            if($scope.document.schema_s=='event') {
+                $scope.dates = formatDate(document.startDate_s) + ' to ' + formatDate(document.endDate_s);
+                $scope.venue = document.eventCity_EN_t + ', ' + document.eventCountry_EN_t;
+            }
         }]
     };
 });

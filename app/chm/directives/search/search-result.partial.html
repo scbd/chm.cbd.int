@@ -3,6 +3,7 @@
 		<strong ng-if="!sourceTooltip" style="color:#222">{{source}}</strong>
 		<a ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca"><strong>{{source}}</strong></a>
 	</div>
+	<div style="font-size:13px;font-weight:bold" ng-show="type">{{type}}</div>
 	<div class="truncatex">
 		<a style="font-size:14px;font-weight:bold;color:#79B82B;text-decoration:underline" ng-href="{{fixUrl(document.url_ss[0])}}">{{title}}</a>
 	</div>

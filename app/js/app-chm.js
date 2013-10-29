@@ -24,8 +24,8 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 	$routeProvider.
  		when('/', 							{ controller:HomePageController, templateUrl:'/app/views/index.html', 				resolve: { user : getUser } }).
  		when('/database/', 					{ controller:InnerPageController, templateUrl:'/app/views/database/index.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/database/countries/:code', 	{ controller:InnerPageController, templateUrl:'/app/views/database/country.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/database/countries/', 		{ controller:InnerPageController, templateUrl:'/app/views/database/countries.html', resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/database/countries/:code', 	{ controller:InnerPageController, templateUrl:'/app/views/database/country.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/database/record',            { controller:InnerPageController, templateUrl:'/app/views/database/record.html',    resolve: { user : getUser } }).
 
  		when('/management/'                  , { controller:InnerPageController,      templateUrl:'/app/views/empty.html'                        , resolve: { user : getUser } }).

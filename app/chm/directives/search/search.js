@@ -66,6 +66,8 @@ angular.module('kmApp').compileProvider // lazy
 
             if($location.search().q) {
                 $scope.keywords = $location.search().q;
+                $location.replace();
+                $location.search({});
             }
 
             $scope.fixHtml = function (htmlText) {

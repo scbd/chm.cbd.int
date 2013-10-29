@@ -134,7 +134,7 @@
                             <li><a ng-class="{active: portal=='about'}" href="/about">About</a></li>
                         </ul>
                         <ul class="nav subnav" ng-hide="homePage">
-                            <li ng-repeat="item in navigation"><a ng-class="{active: item.active}" ng-href="{{item.url}}">{{item.title}}</a></li>
+                            <li ng-repeat="item in navigation"><a ng-class="{active: item.url==currentPath()}" ng-href="{{item.url}}">{{item.title}}</a></li>
                         </ul>
                         <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
                     </div>

@@ -35,9 +35,9 @@
 					<div style="height:360px;overflow-y:auto">
 						<div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="item in terms">
 							<div class="checkbox" style="margin-top:2px;margin-bottom:2px">
-								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="ts(this, $event)">{{item.name}} ({{item.count}})</label>
+								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="ts(this, $event)">{{item.name}}<!--  ({{item.count}}) --></label>
 								<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px">
-								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="ts(this, $event)">{{item.name}} ({{item.count}})</label>
+								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="ts(this, $event)">{{item.name}}<!--  ({{item.count}}) --></label>
 							</div>
 						</div>
 					</div>

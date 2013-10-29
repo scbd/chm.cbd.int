@@ -124,8 +124,8 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.userGovernment = user.government;
 			$rootScope.portal = 'database';
 			$rootScope.navigation = [
-				{ url: '/database', title: 'Search', active: true },
-				{ url: '/database/countries', title: 'Parties and Country Profiles' }
+				{ url: '/database/'          , title: 'Search' },
+				{ url: '/database/countries/', title: 'Parties and Country Profiles' }
 			];
 		}
 
@@ -142,10 +142,10 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.userGovernment = user.government;
 			$rootScope.portal = 'management';
 			$rootScope.navigation = [
-				{ url: '/management'           , title: 'My Dashboard'           , active: $route.current.loadedTemplateUrl=='/app/views/management/index.html' },
-				{ url: '/management/register'  , title: 'Register a new record'  , active: $route.current.loadedTemplateUrl=='/app/views/management/register.html' },
-				{ url: '/management/my-records', title: 'Edit a published record', active: $route.current.loadedTemplateUrl=='/app/views/management/my-records.html' },
-				{ url: '/management/my-drafts' , title: 'Edit a draft record'    , active: $route.current.loadedTemplateUrl=='/app/views/management/my-drafts.html' },
+				{ url: '/management/'           , title: 'My Dashboard'           , active: $route.current.loadedTemplateUrl=='/app/views/management/index.html' },
+				{ url: '/management/register/'  , title: 'Register a new record'  , active: $route.current.loadedTemplateUrl=='/app/views/management/register.html' },
+				{ url: '/management/my-records/', title: 'Edit a published record', active: $route.current.loadedTemplateUrl=='/app/views/management/my-records.html' },
+				{ url: '/management/my-drafts/' , title: 'Edit a draft record'    , active: $route.current.loadedTemplateUrl=='/app/views/management/my-drafts.html' },
 			];
 		}
 }]);

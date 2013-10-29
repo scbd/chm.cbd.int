@@ -37,7 +37,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 
  		when('/database/record'             , { controller:InnerPageController, 	 templateUrl:'/app/views/database/record.html'    , resolve: { user : getUser } }).
  		
- 		when('/management'                   , { controller:ManagementPageController, templateUrl:'/app/views/management/index.html'             , resolve: { user : getUser } }).
+ 		when('/management/'                  , { controller:ManagementPageController, templateUrl:'/app/views/management/index.html'             , resolve: { user : getUser } }).
  		when('/management/register'          , { controller:ManagementPageController, templateUrl:'/app/views/management/register.html'          , resolve: { user : getUser } }).
  		when('/management/national-reporting', { controller:ManagementPageController, templateUrl:'/app/views/management/national-reporting.html', resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/my-records'        , { controller:ManagementPageController, templateUrl:'/app/views/management/my-records.html'        , resolve: { user : getUser } }).
@@ -142,10 +142,10 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.userGovernment = user.government;
 			$rootScope.portal = 'management';
 			$rootScope.navigation = [
-				{ url: '/management/'           , title: 'My Dashboard'           , active: $route.current.loadedTemplateUrl=='/app/views/management/index.html' },
-				{ url: '/management/register/'  , title: 'Register a new record'  , active: $route.current.loadedTemplateUrl=='/app/views/management/register.html' },
-				{ url: '/management/my-records/', title: 'Edit a published record', active: $route.current.loadedTemplateUrl=='/app/views/management/my-records.html' },
-				{ url: '/management/my-drafts/' , title: 'Edit a draft record'    , active: $route.current.loadedTemplateUrl=='/app/views/management/my-drafts.html' },
+				{ url: '/management/'          , title: 'My Dashboard'           , active: $route.current.loadedTemplateUrl=='/app/views/management/index.html' },
+				{ url: '/management/register'  , title: 'Register a new record'  , active: $route.current.loadedTemplateUrl=='/app/views/management/register.html' },
+				{ url: '/management/my-records', title: 'Edit a published record', active: $route.current.loadedTemplateUrl=='/app/views/management/my-records.html' },
+				{ url: '/management/my-drafts' , title: 'Edit a draft record'    , active: $route.current.loadedTemplateUrl=='/app/views/management/my-drafts.html' },
 			];
 		}
 }]);

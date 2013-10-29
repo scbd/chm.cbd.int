@@ -26,7 +26,7 @@
 	</tr>
 	<tr ng-repeat="country in countries | orderBy:'name'">
 		<td>
-			<a ng-href="countries/{{country.code}}">{{country.name}}</a>
+			<a ng-href="/database/countries/{{country.code}}">{{country.name}}</a>
 		</td>
 		<td style="text-align:center">
 			<div title="{{country.treaties.XXVII8.instrument}}"

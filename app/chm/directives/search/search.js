@@ -54,15 +54,16 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
             };
 
-            $scope.loaded = false;
-            $scope.itemsPerPage = 25;
-            $scope.pageCount = 0;
-            $scope.currentPage = 0;
-            $scope.querySchema = '*:*';
+            $scope.loaded          = false;
+            $scope.itemsPerPage    = 25;
+            $scope.pageCount       = 0;
+            $scope.currentPage     = 0;
+            $scope.querySchema     = '*:*';
             $scope.queryGovernment = '*:*';
-            $scope.queryTheme    = '*:*';
-            $scope.queryDate     = '*:*';
-            $scope.queryKeywords = '*:*';
+            $scope.queryTargets    = '*:*';
+            $scope.queryTheme      = '*:*';
+            $scope.queryDate       = '*:*';
+            $scope.queryKeywords   = '*:*';
 
             if($location.search().q) {
                 $scope.keywords = $location.search().q;
@@ -125,7 +126,7 @@ angular.module('kmApp').compileProvider // lazy
 
                 console.log("QUERY at " + new Date().toISOString());
 
-                var q = 'realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
+                var q = 'realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
 
                 var queryParameters = {
                     'q': q,
@@ -175,9 +176,9 @@ angular.module('kmApp').compileProvider // lazy
                             $scope.schemas = readFacets2(data.facet_counts.facet_fields.schema_REL_ss);
                             $scope.governments = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
                             $scope.regions = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
-                            $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
+                            $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
                             $scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
-
+console.log($scope.aichiTargets);
                         }).error(function (error) { console.log('onerror'); console.log(error); } );
                     }
                 }).error(function (error) { console.log('onerror'); console.log(error); });
@@ -223,6 +224,7 @@ angular.module('kmApp').compileProvider // lazy
             $scope.$watch('currentPage',     search);
             $scope.$watch('querySchema',     function() { $scope.currentPage=0; search(); });
             $scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); });
+            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; search(); });
             $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); });
             $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); });
             $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; search(); });

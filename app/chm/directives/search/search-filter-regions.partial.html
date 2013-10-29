@@ -21,7 +21,7 @@
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}">{{class.name}}</a>
 								</h4>
 							</div>
-							<div id="{{class.identifier}}" class="panel-collapse collapse">
+							<div id="{{class.identifier}}" class="panel-collapse" ng-class="{ true:'in', false:'collapse' }[$index==0]">
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="region in class.narrowerTerms">

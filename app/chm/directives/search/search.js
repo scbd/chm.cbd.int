@@ -16,7 +16,7 @@ angular.module('kmApp').compileProvider // lazy
         {
             //ngProgress.start();
         },
-        controller: ['$scope', '$q', '$timeout', 'ngProgress', function ($scope, $q, $timeout, ngProgress)
+        controller: ['$scope', '$q', '$timeout', '$location', 'ngProgress', function ($scope, $q, $timeout, $location, ngProgress)
         {
             var self = this;
 
@@ -63,6 +63,9 @@ angular.module('kmApp').compileProvider // lazy
             $scope.queryTheme    = '*:*';
             $scope.queryDate     = '*:*';
             $scope.queryKeywords = '*:*';
+
+            if($location.search().q)
+                $scope.keywords = $location.search().q;
 
             $scope.fixHtml = function (htmlText) {
                 htmlText = (htmlText || "").replace(/\r\n/g, '<br>')
@@ -321,7 +324,7 @@ angular.module('kmApp').compileProvider // lazy
             // placeholder: '@',
             // ngDisabledFn : '&ngDisabled',
             title: '@title',
-            items: '=ngModel',
+            value: '=ngModel',
             query: '=query',
             // locales    : '=',
             // rows       : '=',
@@ -330,7 +333,6 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, element, attrs, ngModelController) {
         },
         controller: ["$scope", function ($scope) {
-            $scope.value = '';
 
             $scope.updateQuery = function () {
                 $scope.query.q = '';

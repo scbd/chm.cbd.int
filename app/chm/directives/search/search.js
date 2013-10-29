@@ -128,7 +128,7 @@ angular.module('kmApp').compileProvider // lazy
                 var queryParameters = {
                     'q': q,
                     'sort': 'createdDate_dt desc, title_t asc',
-                    'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s',
+                    'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t',
                     'wt': 'json',
                     'start': $scope.currentPage * $scope.itemsPerPage,
                     'rows': 25,
@@ -450,6 +450,14 @@ angular.module('kmApp').compileProvider.directive('searchResult', function () {
             $scope.schema      = $scope.document.schema_EN_t.toUpperCase();
             $scope.title       = $scope.document.title_t;
             $scope.description = $scope.document.description_t;
+            $scope.source      = $scope.document.government_EN_t;
+
+            if($scope.document.schema_s=='focalPoint') {
+                $scope.description  = $scope.document.function_t||'';
+                $scope.description += ($scope.document.function_t && $scope.document.department_t) ? ', ' : '';
+                $scope.description += $scope.document.department_t||'';
+                $scope.description2 = $scope.document.organization_t||'';
+            }
 
             if($scope.document.schema_s=='decision' && $scope.document.body_s=='XXVII8-COP' ) $scope.source = 'COP TO THE CONVENTION';
             if($scope.document.schema_s=='decision' && $scope.document.body_s=='XXVII8b-MOP') $scope.source = 'COP-MOP TO THE CARTAGENA PROTOCOL ON BIOSAFETY';

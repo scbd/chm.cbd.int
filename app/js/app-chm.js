@@ -26,17 +26,9 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/database/', 					{ controller:InnerPageController, templateUrl:'/app/views/database/index.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/database/countries/:code', 	{ controller:InnerPageController, templateUrl:'/app/views/database/country.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/database/countries/', 		{ controller:InnerPageController, templateUrl:'/app/views/database/countries.html', resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/', 				{ controller:InnerPageController, templateUrl:'/app/views/empty.html', 				resolve: { user : getUser } }).
- 		when('/network/', 					{ controller:InnerPageController, templateUrl:'/app/views/network.html', 			resolve: { user : getUser } }).
- 		when('/resources/', 				{ controller:InnerPageController, templateUrl:'/app/views/resources.html',			resolve: { user : getUser } }).
- 		when('/about/',						{ controller:InnerPageController, templateUrl:'/app/views/about.html', 				resolve: { user : getUser } }).
- 		when('/help/404',					{ controller:InnerPageController, templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
- 		when('/help/403',					{ controller:InnerPageController, templateUrl:'/app/views/403.html', 				resolve: { user : getUser } }).
- 		//when('/edit/:projectId', { controller:InnerPageController, templateUrl:'detail.html', resolve: { user : getUser } }).
- 		//when('/new', { controller:InnerPageController, templateUrl:'detail.html', resolve: { user : getUser } }).
+ 		when('/database/record',            { controller:InnerPageController, templateUrl:'/app/views/database/record.html',    resolve: { user : getUser } }).
 
- 		when('/database/record'             , { controller:InnerPageController, 	 templateUrl:'/app/views/database/record.html'    , resolve: { user : getUser } }).
- 		
+ 		when('/management/'                  , { controller:InnerPageController,      templateUrl:'/app/views/empty.html'                        , resolve: { user : getUser } }).
  		when('/management/'                  , { controller:ManagementPageController, templateUrl:'/app/views/management/index.html'             , resolve: { user : getUser } }).
  		when('/management/register'          , { controller:ManagementPageController, templateUrl:'/app/views/management/register.html'          , resolve: { user : getUser } }).
  		when('/management/national-reporting', { controller:ManagementPageController, templateUrl:'/app/views/management/national-reporting.html', resolve: { user : getUser }, reloadOnSearch: false }).
@@ -59,6 +51,13 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/organization',			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/organization.html'				, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/edit/contact',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/contact.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/edit/database',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/database.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
+
+		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/network.html', 			resolve: { user : getUser } }).
+ 		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/resources.html',		resolve: { user : getUser } }).
+ 		when('/about/',						{ controller:AboutPortalPageController    , templateUrl:'/app/views/about.html', 			resolve: { user : getUser } }).
+ 		when('/help/404',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
+ 		when('/help/403',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/403.html', 				resolve: { user : getUser } }).
+
 		otherwise({redirectTo:'/help/404'});
 
  		function HomePageController($scope, $rootScope, $route, $browser, $location, $window, user, authentication) {
@@ -127,6 +126,30 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 				{ url: '/database/'          , title: 'Search' },
 				{ url: '/database/countries/', title: 'Parties and Country Profiles' }
 			];
+		}
+
+		function NetworkPortalPageController($rootScope, $scope, $route, user) {
+
+			$rootScope.homePage = false;
+			$rootScope.userGovernment = user.government;
+			$rootScope.portal = 'network';
+			$rootScope.navigation = [];
+		}
+
+		function ResourcesPortalPageController($rootScope, $scope, $route, user) {
+
+			$rootScope.homePage = false;
+			$rootScope.userGovernment = user.government;
+			$rootScope.portal = 'resources';
+			$rootScope.navigation = [];
+		}
+
+		function AboutPortalPageController($rootScope, $scope, $route, user) {
+
+			$rootScope.homePage = false;
+			$rootScope.userGovernment = user.government;
+			$rootScope.portal = 'about';
+			$rootScope.navigation = [];
 		}
 
 		function ManagementPageController($rootScope, $scope, $route, $location, underscore, managementUrls, user) {

@@ -195,9 +195,9 @@ function PageController($scope, $window, $location, authentication) {
     //========================================
 	//
 	//========================================
-    $scope.doSearch = function (searchQuery) {
-    	console.log('aaa');
-    	$location.url('/database/?q='+searchQuery);
+    $scope.doSearch = function () {
+    	$location.url('/database/').search('q', $scope.searchQuery);
+    	$scope.searchQuery = '';
     }
 
     //========================================

@@ -112,7 +112,7 @@
                                 <span class="icon-bar"></span>
                             </a>
                             <ul class="header-actions">
-                                <li>
+                                <li ng-hide="currentPath()=='/database/'">
                                     <form action="/search" style="display: none;" class="site-search">
                                         <input type="text" placeholder="Search the CHM" name="q" />
                                         <input type="submit" value="" />
@@ -168,7 +168,7 @@
                         <div class="col-lg-4" style="text-align:right;padding:8px 10px 0 0;color:#fff" ng-show="homePage">
                             Get Started:
                         </div>
-                        <div class="col-lg-8 pull-right">
+                        <div class="col-lg-8 pull-right" ng-hide="currentPath()=='/database/'">
                             <form ng-submit="doSearch(searchQuery)">
                                 <input type="text" class="form-control" ng-model="searchQuery" placeholder="search" style=";border-radius:16px">
                             </form>

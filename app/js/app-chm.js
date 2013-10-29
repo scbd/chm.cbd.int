@@ -186,6 +186,8 @@ function PageController($scope, $window, $location, authentication) {
 	};
 
 	$scope.goHome = function() { $location.path('/'); };
+	
+	$scope.currentPath = function () { return $location.path(); };
 }
 
 //============================================================

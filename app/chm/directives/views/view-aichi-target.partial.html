@@ -1,87 +1,77 @@
-﻿<div>
-	<h1 style="font-weight:bold;font-size:26px"><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" /> {{document.shortTitle | lstring:review.locale}}</h1>
+﻿<div class="viewForm">
+	<h1><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" /> {{document.shortTitle | lstring:review.locale}}</h1>
 
-	<label class="control-label" required for="shortTitle">Full title</label>
+	<label>Full title</label>
 	<div class="km-value km-pre">{{document.title | lstring:locale}}</div>
 
-	<label class="control-label" required for="shortTitle">Target Number </label>
+	<label>Target Number </label>
 	<div class="km-value">{{document.number}}</div>
 
-	<div ng-show="canShowStrategicGoal()">
-		<label class="control-label" required for="strategicGoal">Strategic Goal</label>
-		<div class="km-value">
-			<span km-terms ng-model="document.strategicGoal">
-				<span ng-repeat="term in terms">{{term.name}} </span>
-			</span>
-		</div>
+	<div ng-show="document.strategicGoal">
+		<label>Strategic Goal</label>
+		<ul  class="km-value" km-terms ng-model="document.strategicGoal">
+			<li ng-repeat="term in terms">{{term.name}} </li>
+		</ul>
 	</div>
 
 	<div ng-show="document.guide">
-		<label class="control-label" required for="guide">Quick Guide</label>
+		<label>Quick Guide</label>
 		<div class="km-value km-pre">{{document.guide| lstring:locale}}</div>
 	</div>
 
-	<div ng-show="canShowRelevantIndicators()">
-		<label class="control-label" required for="relevantIndicators">Most Relevant Global Indicator(s)</label>
-		<div class="km-value">
-			<span km-terms ng-model="document.relevantIndicators">
-				<span ng-repeat="term in terms">{{term.document.title | lstring:locale}} </span>
-			</span>
-		</div>
+	<div ng-show="document.strategicPlanIndicators">
+		<label>Most Relevant Global Indicator(s)</label>
+		<ul class="km-value">
+			<li ng-repeat="doc in strategicPlanIndicators">{{doc.document.title | lstring:locale}} </li>
+		</ul>
 	</div>
-	<div ng-show="canShowOtherIndicators()">
-		<label class="control-label" required for="otherIndicators">Other Relevant Global Indicator(s)</label>
-		<div class="km-value">
-			<span km-terms ng-model="document.otherIndicators">
-				<span ng-repeat="term in terms">{{term.document.title | lstring:locale}} </span>
-			</span>
-		</div>
+	<div ng-show="document.otherStrategicPlanIndicators">
+		<label>Other Relevant Global Indicator(s)</label>
+		<ul class="km-value">
+			<li ng-repeat="doc in otherStrategicPlanIndicators">{{doc.document.title | lstring:locale}} </li>
+		</ul>
 	</div>
 	<div ng-show="document.progress">
-		<label class="control-label" required for="progress">Status of progress</label>
+		<label>Status of progress</label>
 		<div class="km-value km-pre">{{document.progress | lstring:locale}}</div>
 	</div>
-	<div ng-show="canShowProgressLinks()">
-		<label class="control-label" required for="progressLinks">Status of progress (attachement)</label>
-		<div class="km-value">
+	<div ng-show="document.progressLinks">
+		<label>Status of progress (attachement)</label>
+		<ul class="km-value">
 			<li ng-repeat="item in document.progressLinks">
 				<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 				<i ng-show="item.name">({{item.url}})</i>
 			</li>
-		</div>
+		</ul>
 	</div>
 	<div ng-show ="document.champions">
 		<legend>Champions</legend>
 		<table class="table table-striped">
 			<tr ng-repeat="champion in document.champions">
 				<td>
-					<label class="control-label" required for="targetChampionsDescription">Target Champions (description)</label>
+					<label>Target Champions (description)</label>
 					<div class="km-value km-pre">{{champion.description | lstring:locale}}</div>
 
-					<label class="control-label" required for="">Target Champions (regions)</label>
-					<div class="km-value">
-						<span km-terms ng-model="champion.countries">
-							<span ng-repeat="term in terms">{{term.name}} </span>
-						</span>
-					</div>
+					<label>Target Champions (regions)</label>
+					<ul class="km-value" km-terms ng-model="champion.countries">
+							<li ng-repeat="term in terms">{{term.name}} </li>
+					</ul>
 
 				
-					<label class="control-label" required for="targetChampionsOrganizations">Linked organizations</label>
-					<div class="km-value">
-						<div ng-repeat="organization in champion.organizations">
-							<li>
-								<b>{{organization.document.name|lstring:locale}} ({{organization.document.acronym|lstring:locale}})</b>
-							</li>
-						</div>
-					</div>
+					<label>Linked organizations</label>
+					<ul class="km-value" >
+						<li ng-repeat="organization in champion.organizations">
+							<b>{{organization.document.name|lstring:locale}} ({{organization.document.acronym|lstring:locale}})</b>
+						</li>
+					</ul>
 
-					<label class="control-label" required for="targetChampionsLink">Target Champions (link)</label>
-					<div class="km-value">
+					<label>Target Champions (link)</label>
+					<ul class="km-value">
 						<li ng-repeat="item in champion.links">
 							<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 							<i ng-show="item.name">({{item.url}})</i>
 						</li>
-					</div>
+					</ul>
 
 				</td>
 			</tr>
@@ -93,31 +83,29 @@
 		<table class="table table-striped">
 			<tr ng-repeat="resource in document.resources">
 				<td>
-					<label class="control-label" for="targetResourceDescription">Link to resources (description)</label>
+					<label>Link to resources (description)</label>
 					<div class="km-value km-pre">{{resource.description | lstring:locale}}</div>
 
-					<label class="control-label" for="linkResourceReferences">Linked references</label>
+					<label>Linked references</label>
 					<div class="km-value">
 						<div ng-repeat="reference in resource.references">
 						<b>{{reference.document.title|lstring:locale}}</b>
 						<div class="km-pre">{{reference.document.summary|lstring:locale}}</div>
 					</div>
 					</div>
-					<label class="control-label" for="linkResourceLinks">Link to resources (link)</label>
-					<div class="km-value">
+					<label>Link to resources (link)</label>
+					<ul class="km-value">
 						<li ng-repeat="item in resource.links">
 							<a target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 							<i ng-show="item.name">({{item.url}})</i>
 						</li>
-					</div>
-					<label class="control-label" for="linkResourceCategory">Link to resources (categories)</label>
-					<div class="km-value">
-						<span km-terms ng-model="resource.categories">
-							<li ng-repeat="item in terms">
-								{{item.name|lstring:locale}}
-							</li>
-						</span>
-					</div>
+					</ul>
+					<label>Link to resources (categories)</label>
+					<ul class="km-value" km-terms ng-model="resource.categories">
+						<li ng-repeat="item in terms">
+							{{item.name|lstring:locale}}
+						</li>
+					</ul>
 				</td>
 			</tr>
 		</table>

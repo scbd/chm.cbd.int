@@ -2,9 +2,11 @@
 	<div data-toggle="modal" href="#dialogSelectSchemas" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
 		<div ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}" ng-class="ccc(item)" ng-click="onclick(this, $event)">
-			<div style="position:relative;text-overflow:ellipsis;white-space:nowrap;width:100%">
-				<div style="float:right;margin-top:3px; margin-left:5px;" class="icon-remove-sign"></div>
-				{{item.title}} ({{item.count}})
+			<div class="label label-selected-facet">
+				<div style="position:absolute;right:6px;top:6px" class="icon-remove-sign"></div>
+				<div class="truncate">
+					{{item.title}} ({{item.count}})
+				</div>
 			</div>
 		</div>
 	<div>

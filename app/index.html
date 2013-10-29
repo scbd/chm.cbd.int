@@ -120,7 +120,7 @@
                                 <span class="icon-bar"></span>
                             </a>
                             <ul class="header-actions">
-                                <li>
+                                <li ng-hide="currentPath()=='/database/'">
                                     <form action="/search" style="display: none;" class="site-search">
                                         <input type="text" placeholder="Search the CHM" name="q" />
                                         <input type="submit" value="" style="width:200px" />
@@ -142,7 +142,7 @@
                             <li><a ng-class="{active: portal=='about'}" href="/about">About</a></li>
                         </ul>
                         <ul class="nav subnav" ng-hide="homePage">
-                            <li ng-repeat="item in navigation"><a ng-class="{active: item.active}" ng-href="{{item.url}}">{{item.title}}</a></li>
+                            <li ng-repeat="item in navigation"><a ng-class="{active: item.url==currentPath()}" ng-href="{{item.url}}">{{item.title}}</a></li>
                         </ul>
                         <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
                     </div>
@@ -176,8 +176,8 @@
                         <div class="col-lg-4" style="text-align:right;padding:8px 10px 0 0;color:#fff" ng-show="homePage">
                             Get Started:
                         </div>
-                        <div class="col-lg-8 pull-right">
-                            <form ng-submit="doSearch(searchQuery)">
+                        <div class="col-lg-8 pull-right" ng-hide="currentPath()=='/database/'">
+                            <form ng-submit="doSearch()">
                                 <input type="text" class="form-control" ng-model="searchQuery" placeholder="search" style=";border-radius:16px">
                             </form>
                         </div>

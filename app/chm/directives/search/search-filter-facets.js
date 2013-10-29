@@ -1,8 +1,8 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('searchFilterThemes', function ($http) {
+.directive('searchFilterFacets', function ($http) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-themes.partial.html?'+(new Date().getTime()),
+        templateUrl: '/app/chm/directives/search/search-filter-facets.partial.html?'+(new Date().getTime()),
         replace: true,
         // require : "?ngModel",
         scope: {
@@ -249,25 +249,22 @@ angular.module('kmApp').compileProvider // lazy
                 return collection;
             }
 
-            $http.get('/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms').success(function (data) {
+            $scope.termsx = [];
+            $http.get('/api/v2013/thesaurus/domains/0BB90152-BE5D-4A51-B090-D29906F65247/terms').success(function (data) {
                 $scope.terms = thesaurus.buildTree(data);
-
-                $scope.termsMap   = flatten($scope.terms, {});
-                $scope.termsArray = _.values($scope.termsMap);
-                
-                if($scope.items)
-                    $scope.items.forEach(function (item) {
-                        if(_.has($scope.termsMap, item.symbol))
-                            $scope.termsMap[item.symbol].count = item.count;
-                    });
+                $scope.termsx = flatten($scope.terms, {});
+                $scope.termsxx = _.values($scope.termsx);
+                $scope.items.forEach(function (item) {
+                    if(_.has($scope.termsx, item.symbol))
+                        $scope.termsx[item.symbol].count = item.count;
+                });
             });
 
             $scope.$watch('items', function (values) { if(!values) return;
-                if($scope.termsMap)
-                    values.forEach(function (item) {
-                        if(_.has($scope.termsMap, item.symbol))
-                            $scope.termsMap[item.symbol].count = item.count;
-                    });
+                values.forEach(function (item) {
+                    if(_.has($scope.termsx, item.symbol))
+                        $scope.termsx[item.symbol].count = item.count;
+                });
             });
         }]
     }

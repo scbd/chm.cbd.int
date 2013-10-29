@@ -11,7 +11,7 @@
 				<th>Description</th>
 				<th>Status</th>
 				<th>Last edited by/on</th>
-				<th>&nbsp;</th>
+				<th style="width:100px">&nbsp;</th>
 			</tr>
 			
 			<tr ng-repeat="document in documents">
@@ -62,8 +62,8 @@
 					<em>{{document.updatedBy.email}}</em>
 					<div>{{document.updatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
 				</td>
-				<td style="text-align:end">
-					<div class="btn-group" style="white-space:nowrap;">
+				<td style="text-align:end;width:100px">
+					<div class="btn-group">
 						<button class="btn btn-default"  ng-click="edit(document);"  type="button" title="Edit"><i class="icon-edit"></i></button>
 						<button class="btn btn-default"  ng-click="erase(document);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
 					</div>

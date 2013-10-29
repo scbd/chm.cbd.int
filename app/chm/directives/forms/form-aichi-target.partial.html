@@ -80,11 +80,11 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="relevantIndicators" caption="Most Relevant Global Indicator(s)">
-									<div km-reference multiple name="relevantIndicators" ng-model="document.relevantIndicators" loader="loadRecords(identifier, 'resource')">
+								<div class="km-control-group" name="strategicPlanIndicators" caption="Most Relevant Global Indicator(s)">
+									<div km-reference multiple name="strategicPlanIndicators" ng-model="document.strategicPlanIndicators" loader="loadRecords(identifier, 'strategicPlanIndicator')">
 										<div>
 											<div><strong>{{reference.title | lstring}}</strong></div>
-											<div>{{reference.summary | lstring}}</div>
+											<div>{{reference.summary | lstring | truncate:120:'...'}}</div>
 										</div>
 									</div>
 								</div>
@@ -92,11 +92,11 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="otherIndicators" caption="Other Relevant Global Indicator(s)">
-									<div km-reference multiple name="otherIndicators" ng-model="document.otherIndicators" loader="loadRecords(identifier, 'resource')">
+								<div class="km-control-group" name="otherStrategicPlanIndicators" caption="Other Relevant Global Indicator(s)">
+									<div km-reference multiple name="otherStrategicPlanIndicators" ng-model="document.otherStrategicPlanIndicators" loader="loadRecords(identifier, 'strategicPlanIndicator')">
 										<div>
 											<div><strong>{{reference.title | lstring}}</strong></div>
-											<div>{{reference.summary | lstring}}</div>
+											<div>{{reference.summary | lstring | truncate:120:'...'}}</div>
 										</div>
 									</div>
 								</div>
@@ -141,7 +141,7 @@
 												<div km-reference multiple name="targetChampionsOrganizations" ng-model="champion.organizations" loader="loadRecords(identifier, 'organization')">
 													<div>
 														<div><strong>{{reference.title | lstring}}</strong></div>
-														<div>{{reference.summary | lstring}}</div>
+														<div>{{reference.summary | lstring | truncate:210:'...'}}</div>
 													</div>
 												</div>
 											</div>
@@ -181,7 +181,7 @@
 												<div km-reference multiple name="linkResourceReferences" ng-model="resource.references" loader="loadRecords(identifier, 'resource')">
 													<div>
 														<div><strong>{{reference.title | lstring}}</strong></div>
-														<div>{{reference.summary | lstring}}</div>
+														<div>{{reference.summary | lstring | truncate:210:'...'}}</div>
 													</div>
 												</div>
 											</div>

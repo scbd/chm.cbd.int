@@ -165,7 +165,7 @@ angular.module('kmApp').compileProvider // lazy
                             'rows': 0,
                             'facet': true,
                             'facet.field': ['schema_REL_ss', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
-                            'facet.limit': 256
+                            'facet.limit': 512
                         };
 
                         $http.get('/api/v2013/index/select', { params: queryFacetsParameters }).success(function (data) {

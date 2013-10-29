@@ -223,8 +223,6 @@ angular.module('kmApp').compileProvider // lazy
             $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); });
             $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); });
             $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; search(); });
-
-            search(); // init
         }]
     }
 })
@@ -333,6 +331,8 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, element, attrs, ngModelController) {
         },
         controller: ["$scope", function ($scope) {
+
+            $scope.value = $scope.value||'';
 
             $scope.updateQuery = function () {
                 $scope.query.q = '';

@@ -2,7 +2,7 @@
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/abs/directives/countries/countryProfile.partial.html',
+        templateUrl: '/app/chm/directives/countries/countryProfile.partial.html',
         replace: true,
         transclude: true,
         controller: ['$scope', function ($scope) {

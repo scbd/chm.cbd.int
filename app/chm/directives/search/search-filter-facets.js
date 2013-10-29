@@ -250,7 +250,7 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             $scope.termsx = [];
-            $http.get('/api/v2013/thesaurus/domains/AICHI-TARGETS/terms').success(function (data) {
+            $http.get('/api/v2013/thesaurus/domains/0BB90152-BE5D-4A51-B090-D29906F65247/terms').success(function (data) {
                 $scope.terms = thesaurus.buildTree(data);
                 $scope.termsx = flatten($scope.terms, {});
                 $scope.termsxx = _.values($scope.termsx);

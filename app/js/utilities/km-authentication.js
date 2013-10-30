@@ -26,7 +26,7 @@
 		return authHttp;
 	}])
 
-	.factory('authentication', ["$browser", "$location", "$rootScope", "$http", "authHttp", function($browser, $location, $rootScope, $http, authHttp) {
+	.factory('authentication', ["$q", "$browser", "$location", "$rootScope", "$http", "authHttp", function($q, $browser, $location, $rootScope, $http, authHttp) {
 
 		return {
 			//==============================
@@ -126,8 +126,11 @@
 			//==============================
 			//
 			//==============================
-			loadCurrentUser : function() {
+			loadCurrentUser : function(useCache) {
 				var _self = this;
+
+				if(useCache && _self.user())
+					return $q.when(_self.user());
 
 				return authHttp.get(_self.serviceUrls.user()).then(
 					function(success) {

@@ -152,14 +152,10 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.navigation = [];
 		}
 
-		function ManagementPageController($rootScope, $scope, $route, $location, siteMapUrls, user) {
+		function ManagementPageController($rootScope, $scope, $route, $location, siteMapUrls, navigation, user) {
 
-			if(!user.isAuthenticated && $route.current.originalPath!=siteMapUrls.user.signIn) {
-				var sUrl = $location.url();
-				
-				$location.path(siteMapUrls.user.signIn);
-				$location.search({ returnUrl : sUrl});
-			}
+			if($route.current.originalPath!=siteMapUrls.user.signIn)
+				navigation.securize();
 
 			$rootScope.homePage = false;
 			$rootScope.userGovernment = user.government;
@@ -194,6 +190,36 @@ app.value("siteMapUrls", {
 		account : "/user/my-account"
 	}
 });
+
+app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authentication", "siteMapUrls", function($q, $location, $timeout, _, authentication, siteMapUrls){
+
+	return {
+		securize : function(roles)
+		{
+			return authentication.loadCurrentUser(true).then(function(user) {
+	
+				if(!user.isAuthenticated) {
+					
+					console.log("securize: force sign in");
+
+					$location.search({returnUrl : $location.url() });
+					$location.path(siteMapUrls.user.signIn);
+
+				}
+				else if(roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
+
+					console.log("securize: not authorized");
+
+					$location.search({path : $location.url() });
+					$location.path(siteMapUrls.errors.notAuthorized);
+				}
+
+				return user;
+			});
+		}
+	};
+
+}])
 
 function PageController($scope, $window, $location, authentication) {
 

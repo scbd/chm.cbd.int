@@ -1,31 +1,31 @@
 ﻿<div class="viewForm">
-	<h1><img ng-show="document.icons" class="img-polaroid" ng-src="{{document.icons[0].url}}" style="height: 45px; width: 45px" />{{document.title | lstring:locale}}</i></h1>
+	<h1>{{document.title | lstring:locale}}</i></h1>
 
 	<div ng-show="document.subjects || document.aichiTargets ||
 		document.regions || document.languages">
 		<legend>General information</legend>
 		<div ng-show="document.subjects">
-			<label class="control-label" for="subjects">Related CBD Subject area(s)</label>
+			<label>Related CBD Subject area(s)</label>
 			<ul class="km-value" km-terms ng-model="document.subjects">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
 		<div ng-show="document.aichiTargets">
-			<label class="control-label" for="aichiTargets">Main related Aichi Targets</label>
+			<label>Main related Aichi Targets</label>
 			<ul class="km-value" km-terms ng-model="document.aichiTargets">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.regions">
-			<label class="control-label" for="regions">Related Country(ies / Region(s) / Economic group(s)</label>
+			<label>Related Country(ies / Region(s) / Economic group(s)</label>
 			<ul class="km-value" km-terms ng-model="document.regions">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.languages">
-			<label class="control-label" for="languages">Language(s)</label>
+			<label>Language(s)</label>
 			<ul class="km-value" km-terms ng-model="document.languages">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
@@ -48,21 +48,21 @@
 	</div>
 
 	<div ng-show="document.source">
-		<label class="control-label" for="">Source</label>
+		<label>Source</label>
 		<div class="km-value km-pre">{{document.source | lstring:locale}}</div>
 	</div>
 
 	<div ng-show="organizations">
-		<label class="control-label" for="organizations">Organization(s) involved</label>
+		<label>Organization(s) involved</label>
 		<div class="km-value" ng-repeat="organization in organizations">
-			<div view-organization-reference ng-model="organization.document" locale="locale"></div>	
+			<div view-organization-reference ng-model="organization" locale="locale"></div>	
 		</div>
 	</div>
 
 	<div ng-show="contact">
-		<label class="control-label" for="">Contact person</label>
+		<label>Contact person</label>
 		<div class="km-value">
-			<div view-contact-reference ng-model="contact.document" locale="locale"></div>	
+			<div view-contact-reference ng-model="contact" locale="locale"></div>	
 		</div>
 	</div>
 	
@@ -71,39 +71,39 @@
 		document.images">
 		<legend>Additional information</legend>
 		<div ng-show="document.summary">
-			<label class="control-label" for="summary">Summary, abstract or table of contents</label>
+			<label>Summary, abstract or table of contents</label>
 			<div class="km-value km-pre">{{document.summary | lstring:locale}}</div>
 		</div>
 
 		<div ng-show="document.description">
-			<label class="control-label" for="description">Case Study Description</label>
+			<label>Case Study Description</label>
 			<div class="km-value km-pre">{{document.description | lstring:locale}}</div>
 		</div>
 
 		<div ng-show="document.scale">
-			<label class="control-label" for="scale">Scale</label>
+			<label>Scale</label>
 			<ul class="km-value" km-terms ng-model="document.scale">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.status">
-			<label class="control-label" for="status">Status</label>
+			<label>Status</label>
 			<ul class="km-value" km-terms ng-model="document.status">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
 		<div ng-show="resources">
-			<label class="control-label" for="organizations">Resources</label>
+			<label>Resources</label>
 			<div class="km-value" ng-repeat="resource in resources">
 				<div>
-					<b>{{resource.document.title | lstring:locale}}</b><br />
-					{{resource.document.summary | lstring:locale}}
+					<b>{{resource.title | lstring:locale}}</b><br />
+					{{resource.summary | lstring:locale}}
 				</div>
 			</div>
 		</div>
 		<div ng-show ="document.images">
-			<label class="control-label" required for="icon">Images for showcase</label>
+			<label>Images for showcase</label>
 			<div class="km-value">
 				<a ng-repeat="link in document.images" ng-href="{{link.url}}" target="_blank">
 					<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />

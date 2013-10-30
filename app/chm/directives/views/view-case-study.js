@@ -7,121 +7,84 @@ angular.module('kmApp').compileProvider // lazy
 		transclude : false,
 		scope: {
 			document: "=ngModel",
-			locale  : "="
+			locale  : "=",
+			allowDrafts : "@",
+			linkTarget : "@"
 		},
-		controller: ['$scope', 'IStorage', function ($scope, storage) {
-
-
+		controller: ['$scope', 'IStorage', "underscore", function ($scope, storage, _) {
 
 			//====================
 			//
 			//====================
-			$scope.$watch("document.contact", function (_new) {
-				if ($scope.document) {
-					$scope.contact = angular.fromJson(angular.toJson($scope.document.contact))
+			$scope.$watch("document.contact", function (ref) {
 
-					if ($scope.contact)
-						$scope.loadReference($scope.contact);
-				}
+				$scope.contact = !ref ? undefined : loadReference(ref.identifier)
+
 			});
 
 			//====================
 			//
 			//====================
-			$scope.loadReference = function (ref) {
+			$scope.$watch("document.organizations", function (refs) {
 
-				storage.documents.get(ref.identifier, { cache: true })
-					.success(function (data) {
-						ref.document = data;
-					})
-					.error(function (error, code) {
-						if (code == 404 && $scope.allowDrafts == "true") {
+				$scope.organizations = !refs ? undefined : _.map(refs, function(o) {
+					return loadReference(o.identifier);
+				});
 
-							storage.drafts.get(ref.identifier, { cache: true })
-								.success(function (data) {
-									ref.document = data;
-								})
-								.error(function (draftError, draftCode) {
-									ref.document = undefined;
-									ref.error = error;
-									ref.errorCode = code;
-								});
-						}
+			});
 
-						ref.document = undefined;
-						ref.error = error;
-						ref.errorCode = code;
+			//====================
+			//
+			//====================
+			$scope.$watch("document.resources", function (refs) {
+				
+				$scope.resources = !refs ? undefined : _.map(refs, function(o) {
+					return loadReference(o.identifier, true);
+				});
+
+			});
+
+			//====================
+			//
+			//====================
+			function loadReference(identifier, infoOnly) {
+
+				var qPromise = null;
+				var options  = { cache: true }
+
+				if(infoOnly)
+					options.info = "";
+
+				if($scope.allowDrafts) {
+
+					qPromise = storage.drafts.get(identifier, options).then(function(success) {
+
+						return success.data;
+
+					}).catch(function(error) {
+						
+						return storage.documents.get(identifier, options).then(function(success) {
+							return success.data;
+						});
 
 					});
-			}
-
-			//====================
-			//
-			//====================
-			$scope.$watch("document.organizations", function (_new) {
-				if ($scope.document) {
-					$scope.organizations = angular.fromJson(angular.toJson($scope.document.organizations))
-
-					if ($scope.organizations)
-						$scope.loadReferences($scope.organizations);
 				}
-			});
-			//====================
-			//
-			//====================
-			$scope.$watch("document.resources", function (_new) {
-				if ($scope.document) {
-					$scope.resources = angular.fromJson(angular.toJson($scope.document.resources))
+				else {
 
-					if ($scope.resources)
-						$scope.loadReferences($scope.resources);
+					qPromise = storage.documents.get(identifier, options).then(function(success) {
+						return success.data;
+					});
+
 				}
-			});
 
-			//====================
-			//
-			//====================
-			$scope.loadReferences = function (targets, infoOnly) {
-
-				angular.forEach(targets, function (ref) {
-
-					var oOptions = { cache: true };
-
-					if (infoOnly)
-						oOptions.info = true;
-
-					storage.documents.get(ref.identifier, oOptions)
-						.success(function (data) {
-							ref.document = data;
-						})
-						.error(function (error, code) {
-							if (code == 404 && $scope.allowDrafts == "true") {
-
-								storage.drafts.get(ref.identifier, oOptions)
-									.success(function (data) {
-										ref.document = data;
-									})
-									.error(function (draftError, draftCode) {
-										ref.document = undefined;
-										ref.error = error;
-										ref.errorCode = code;
-									});
-							}
-
-							ref.document = undefined;
-							ref.error = error;
-							ref.errorCode = code;
-
-						});
+				return qPromise.catch(function(error) {
+					return {
+						identifier : identifier,
+						error : error,
+						errorCode : error.status
+					};
 				});
 			}
-
-			//====================
-			//
-			//====================
-			$scope.canShowIcon = function () {
-				return $scope.document!=undefined && !jQuery.isEmptyObject($scope.document.icons);
-			};
 
 		}]
 	}

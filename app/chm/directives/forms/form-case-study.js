@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editCaseStudy', ['authHttp', "URI", "$filter", "$q", "underscore", "Thesaurus", "guid", function ($http, URI, $filter, $q, _, Thesaurus, guid) {
+.directive('editCaseStudy', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-case-study.partial.html',
@@ -8,63 +8,23 @@ angular.module('kmApp').compileProvider // lazy
 		scope      : {},
 		link : function($scope, $element)
 		{
+			$scope.init();
+		},
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, siteMapUrls, Thesaurus, guid) 
+		{
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
 			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
-			$scope.options  = {
-            	aichiTargets				: $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-				subjects					: function () { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",									{ cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
-				docLanguages				: function () { return $http.get("/api/v2013/thesaurus/domains/ISO639-2/terms",										{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				scales						: function () { return $http.get("/api/v2013/thesaurus/domains/96FCD864-D388-4148-94DB-28B484047BA5/terms",         { cache: true }).then(function(o){ return o.data; }); },
-				statuses					: function () { return $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms",       { cache: true }).then(function(o){ return o.data; }); },
-				regions				        : function () { 
-					var qCountries = $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); });
-					var qRegions   = $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); });
 
-					return $q.all([qCountries, qRegions]).then(function(res){
-						return _.union(res[0], res[1]);
-					});
-				}
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.$watch('tab', function(tab) {
-				if (tab == 'review')
-					$scope.validate();
-			});
-
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "editFormUtility", "authentication", "ngProgress", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls) 
-		{
-			//==================================
-			//
-			//==================================
-			$scope.isLoading = function() {
-				return $scope.status=="loading";
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			// Ensure user as signed in
+			navigation.securize();
 
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
-
-				if(!authentication.user().isAuthenticated) {
-					$location.search({returnUrl : $location.url() });
-					$location.path('/management/signin');
-					return;
-				}
 
 				if ($scope.document)
 					return;
@@ -104,9 +64,23 @@ angular.module('kmApp').compileProvider // lazy
 				}
 
 				promise.then(function(doc) {
-						
-					$scope.cleanUp(doc);
-			        return doc;
+
+					if(!$scope.options) {
+
+						$scope.options  = {
+			            	aichiTargets	: $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+							subjects		: $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",								{ cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }),
+							docLanguages	: $http.get("/api/v2013/thesaurus/domains/ISO639-2/terms",									{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							scales			: $http.get("/api/v2013/thesaurus/domains/96FCD864-D388-4148-94DB-28B484047BA5/terms",      { cache: true }).then(function(o){ return o.data; }),
+							statuses		: $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms",    { cache: true }).then(function(o){ return o.data; }),
+							regions			: $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+													  $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); })]).then(function(res) {
+								return _.union(res[0], res[1]);
+							})
+						};
+					}
+					
+					return doc;
 
 				}).then(function(doc) {
 
@@ -129,69 +103,59 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.cleanUp = function(document) {
+			$scope.getCleanDocument = function(document) {
 				document = document || $scope.document;
 
 				if (!document)
-					return $q.when(true);
-
+					return undefined
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return $q.when(false);
+				return document;
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.validate = function(clone) {
+			$scope.validate = function() {
 
 				$scope.validationReport = null;
 
-				var oDocument = $scope.document;
+				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
+				return storage.documents.validate($scope.getCleanDocument()).then(function(success) {
+				
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
 
-				$scope.reviewDocument = oDocument
+				}).catch(function(error) {
+					
+					$scope.onError(error.data);
+					return true;
 
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
 				});
 			}
 
 			//==================================
 			//
 			//==================================
-			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
-
-				return true;
-			}
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
+			});
 
 			//==================================
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================
 			//
 			//==================================
 			$scope.onPrePublish = function() {
-				return $scope.validate(false).then(function(hasError) {
+				return $scope.validate().then(function(hasError) {
 					if (hasError)
 						$scope.tab = "review";
 					return hasError;
@@ -257,38 +221,38 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.loadRecords = function(identifier, schema) {
 
 				if (identifier) { //lookup single record
-					var deferred = $q.defer();
 
-					storage.documents.get(identifier, { info: "" })
-						.then(function(r) {
-							deferred.resolve(r.data);
-						}, function(e) {
-							if (e.status == 404) {
-								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
-							}
-							else {
-								deferred.reject (e)
-							}
+					return storage.drafts.get(identifier, { info : "", cache:true }).then(function(r) { 
+						return r.data;
+					}).catch(function(e) {
+
+						if (!e || !e.status || e.status != 404)
+							throw e;
+
+						return storage.documents.get(identifier, { info : "", cache:true }).then(function(r) { 
+							return r.data;
 						});
-					return deferred.promise;
+					});
 				}
 
 				//Load all record of specified schema;
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
-							   storage.drafts   .query(sQuery, null, { cache: true })])
-					.then(function(results) {
-						var qResult = Enumerable.From (results[0].data.Items)
-												.Union(results[1].data.Items, "$.identifier");
-						return qResult.ToArray();
-					});
+				var qDocs   = storage.documents.query(sQuery, null, { cache: true });
+				var qDrafts = storage.drafts   .query(sQuery, null, { cache: true });
+
+				return $q.all([qDocs, qDrafts]).then(function(results) {
+
+					var oDocs      = results[0].data.Items;
+					var oDrafts    = results[1].data.Items;
+					var oDraftUIDs = _.pluck(oDrafts, "identifier");
+
+					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier)});
+
+					return _.union(oDocs, oDrafts);
+				});
 			}
-
-
 		}]
 	}
 }]);

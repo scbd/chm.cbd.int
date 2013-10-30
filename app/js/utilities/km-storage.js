@@ -153,9 +153,13 @@
 				params            = clone(params||{});
 				params.identifier = identifier;
 
+				var useCache = !!params.cache;
+
+				params.cache = undefined;
+
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
-				return $http.get(oTrans.url, {  params : oTrans.params });
+				return $http.get(oTrans.url, {  params : oTrans.params, cache:useCache });
 			},
 
 			//===========================

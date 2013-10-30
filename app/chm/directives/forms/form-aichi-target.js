@@ -8,11 +8,6 @@ angular.module('kmApp').compileProvider // lazy
 		scope      : {},
 		link : function($scope, $element)
 		{
-			$scope.$watch('tab', function(tab) {
-				if (tab == 'review')
-					$scope.validate();
-			});
-
 			$scope.init();
 		},
 		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, siteMapUrls) 
@@ -85,27 +80,13 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.isLoading = function() {
-				return $scope.status=="loading";
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
-
-
-
-			//==================================
-			//
-			//==================================
-			$scope.cleanUp = function(document) {
+			$scope.getCleanDocument = function(document) {
 				document = document || $scope.document;
 
 				if (!document)
-					return $q.when(true);
+					return undefined
+
+				document = angular.fromJson(angular.toJson(document));
 
 				if (document.champions) {
 
@@ -138,7 +119,7 @@ angular.module('kmApp').compileProvider // lazy
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return $q.when(false);
+				return document;
 			};
 
 			//==================================
@@ -148,41 +129,33 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.validationReport = null;
 
-				var oDocument = $scope.document;
+				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-				$scope.reviewDocument = oDocument;
+				return storage.documents.validate($scope.getCleanDocument()).then(function(success) {
+				
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
 
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
+				}).catch(function(error) {
+					
+					$scope.onError(error.data);
+					return true;
+
 				});
 			}
 
 			//==================================
 			//
 			//==================================
-			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
-
-				return true;
-			}
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
+			});
 
 			//==================================
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================

@@ -2199,7 +2199,7 @@ angular.module('formControls',[])
 
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.warnings) {
 						
-						return !!_.findWhere($scope.validationReport.errors, { property : $scope.name })
+						return !!_.findWhere($scope.$parent.validationReport.warnings, { property : $scope.name })
 					}
 
 					return false; //default behavior
@@ -2209,7 +2209,7 @@ angular.module('formControls',[])
 					
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.errors) {
 
-						return !!_.findWhere($scope.validationReport.errors, { property : $scope.name })
+						return !!_.findWhere($scope.$parent.validationReport.errors, { property : $scope.name })
 					}
 
 					return false;

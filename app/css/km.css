@@ -12,9 +12,13 @@ div.viewForm > h1 {
 	font-size:26px;
 }
 
-div.viewForm > legend {
+div.viewForm  legend {
 	margin-top: 20px;
-	font-size:22px;
+	font-size:20px;
+}
+
+div.viewForm a {
+	color:#428bca
 }
 
 div.km-pre

@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editAichiTarget', ['authHttp', "URI", "$filter", "$q", "guid", "$timeout", function ($http, URI, $filter, $q, guid, $timeout) {
+.directive('editAichiTarget', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-aichi-target.partial.html',
@@ -8,26 +8,6 @@ angular.module('kmApp').compileProvider // lazy
 		scope      : {},
 		link : function($scope, $element)
 		{
-			$scope.status   = "";
-			$scope.error    = null;
-			$scope.document = null;
-			$scope.tab      = 'general';
-			$scope.review   = { locale : "en" };
-			$scope.options  = {
-				strategicGoal:				function () { return $http.get("/api/v2013/thesaurus/domains/aichiTargetGoals/terms",			{ cache: true }).then(function (o) { return o.data; }); },
-				relevantIndicators:			function () { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",				{ cache: true }).then(function (o) { return o.data; }); },
-				otherIndicators:			function () { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",				{ cache: true }).then(function (o) { return o.data; }); },
-				targetChampionsRegions:		function () { return $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms",			{ cache: true }), 
-															$http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true })]).then(function(o) {
-																return Enumerable.From($filter('orderBy')(o[0].data, 'name')).Union(
-																	   Enumerable.From($filter('orderBy')(o[1].data, 'name'))).ToArray();
-															}) },
-				linkResourcesCategories:	function () { return $http.get("/api/v2013/thesaurus/domains/aichiTartgetResourceTypes/terms",	{ cache: true }).then(function (o) { return o.data; }); },
-			};
-
-			//==================================
-			//
-			//==================================
 			$scope.$watch('tab', function(tab) {
 				if (tab == 'review')
 					$scope.validate();
@@ -35,32 +15,21 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "ngProgress", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, siteMapUrls) 
 		{
-			//==================================
-			//
-			//==================================
-			$scope.isLoading = function() {
-				return $scope.status=="loading";
-			}
+			$scope.status   = "";
+			$scope.error    = null;
+			$scope.document = null;
+			$scope.tab      = 'general';
+			$scope.review   = { locale : "en" };
 
-			//==================================
-			//
-			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			// Ensure user as signed in
+			navigation.securize();
 
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
-
-				if(!authentication.user().isAuthenticated) {
-					$location.search({returnUrl : $location.url() });
-					$location.path('/management/signin');
-					return;
-				}
 
 				if ($scope.document)
 					return;
@@ -69,7 +38,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
+				var identifier = $location.search().uid;
 				var promise = null;
 
 				if(identifier)
@@ -79,8 +48,24 @@ angular.module('kmApp').compileProvider // lazy
 						throw { error: { data: "Forbidden"}, status : "notAuthorized"};
 					});
 
-
 				promise.then(function(doc) {
+
+					if(!$scope.options)
+					{
+						$scope.options  = {
+			            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s, title_t",  sort:"title_t ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title:o.title_t }; } ); } ),
+							strategicGoals:			 $http.get("/api/v2013/thesaurus/domains/aichiTargetGoals/terms",			{ cache: true }).then(function (o) { return o.data; }),
+							linkResourcesCategories: $http.get("/api/v2013/thesaurus/domains/aichiTartgetResourceTypes/terms",	{ cache: true }).then(function (o) { return o.data; }),
+							targetChampionsRegions:	 $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms",			{ cache: true }), 
+															 $http.get("/api/v2013/thesaurus/domains/regions/terms",            { cache: true })]).then(function(o) {
+								return _.union(_.sortBy(o[0].data, function(o){ return o.name }),
+											   _.sortBy(o[1].data, function(o){ return o.name }));
+							})
+						};
+					}
+
+					return doc;
+				}).then(function(doc) {
 
 					$scope.status = "ready";
 					$scope.document = doc;
@@ -96,6 +81,21 @@ angular.module('kmApp').compileProvider // lazy
 
 				});
 			}
+
+			//==================================
+			//
+			//==================================
+			$scope.isLoading = function() {
+				return $scope.status=="loading";
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.hasError = function(field) {
+				return $scope.error!=null;
+			}
+
 
 
 			//==================================
@@ -258,52 +258,60 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.loadRecords = function(identifier, schema) {
 
 				if (identifier) { //lookup single record
-					var deferred = $q.defer();
 
-					storage.documents.get(identifier, { info: "" })
-						.then(function(r) {
-							deferred.resolve(r.data);
-						}, function(e) {
-							if (e.status == 404) {
-								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
-							}
-							else {
-								deferred.reject (e)
-							}
+					return storage.drafts.get(identifier, { info : "", cache:true }).then(function(r) { 
+						return r.data;
+					}).catch(function(e) {
+
+						if (!e || !e.status || e.status != 404)
+							throw e;
+
+						return storage.documents.get(identifier, { info : "", cache:true }).then(function(r) { 
+							return r.data;
 						});
-					return deferred.promise;
+					});
 				}
 
 				//Load all record of specified schema;
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
-							   storage.drafts   .query(sQuery, null, { cache: true })])
-					.then(function(results) {
-						var qResult = Enumerable.From (results[0].data.Items)
-												.Union(results[1].data.Items, "$.identifier");
-						return qResult.ToArray();
-					});
+				var qDocs   = storage.documents.query(sQuery, null, { cache: true });
+				var qDrafts = storage.drafts   .query(sQuery, null, { cache: true });
+
+				return $q.all([qDocs, qDrafts]).then(function(results) {
+
+					var oDocs      = results[0].data.Items;
+					var oDrafts    = results[1].data.Items;
+					var oDraftUIDs = _.pluck(oDrafts, "identifier");
+
+					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier)});
+
+					return _.union(oDocs, oDrafts);
+				});
 			}
 
 			//==================================
 			//
 			//==================================
-			$scope.addNewChampion = function()
-			{
-				if (!$scope.document.champions) {
+			$scope.addNewChampion = function() {
+				if(!$scope.document)
+					return;
+
+				if (!$scope.document.champions)
 					$scope.document.champions = [];
-				}
-				$scope.document.champions.push(new Object());
+
+				$scope.document.champions.push({});
 			}
 
 			//====================
 			//
 			//====================
 			$scope.removeChampion = function (champions, champion) {
+
+				if(!champions)
+					return;
+
 				var index = champions.indexOf(champion);
 
 				if (index >= 0)
@@ -315,9 +323,13 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.addNewResource = function () {
-				if (!$scope.document.resources) {
+
+				if(!$scope.document)
+					return;
+
+				if (!$scope.document.resources)
 					$scope.document.resources = [];
-				}
+
 				$scope.document.resources.push(new Object());
 			}
 
@@ -325,13 +337,16 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//====================
 			$scope.removeResource = function (resources, resource) {
+
+				if(!resource)
+					return;
+
 				var index = resources.indexOf(resource);
 
 				if (index >= 0)
 					resources.splice(index, 1);
 
 			};
-
 		}]
 	}
 }]);

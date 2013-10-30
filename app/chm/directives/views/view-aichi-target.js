@@ -7,18 +7,19 @@ angular.module('kmApp').compileProvider // lazy
 		transclude : false,
 		scope: {
 			document: "=ngModel",
-			locale  : "="
+			locale  : "=",
+			allowDrafts : "@"
 		},
-		controller: ['$scope', 'IStorage', function ($scope, storage) {
+		controller: ['$scope', "authHttp", "underscore", 'IStorage', function ($scope, $http, _, storage) {
 			//====================
 			//
 			//====================
-			$scope.$watch(function () { return angular.toJson($scope.document.resources); }, function (_new) {
-				$scope.resources = angular.fromJson(angular.toJson($scope.document.resources))
+			$scope.$watch("document.resources", function (resources) {
+				$scope.resources = resources ? angular.fromJson(angular.toJson(resources)) : undefined;
 
-				if ($scope.document.resources) {
-					for (var idx = 0; idx < $scope.document.resources.length; idx++) {
-						$scope.loadReferences($scope.document.resources[idx].references);
+				if ($scope.resources) {
+					for (var idx = 0; idx < $scope.resources.length; idx++) {
+						loadReferences($scope.resources[idx].references, true);
 					}
 				}
 			});
@@ -26,12 +27,12 @@ angular.module('kmApp').compileProvider // lazy
 			//====================
 			//
 			//====================
-			$scope.$watch(function () { return angular.toJson($scope.document.champions); }, function (_new) {
-				$scope.champions = angular.fromJson(angular.toJson($scope.document.champions))
+			$scope.$watch("document.champions", function (champions) {
+				$scope.champions = champions ? angular.fromJson(angular.toJson(champions)) : undefined;
 
-				if ($scope.document.champions) {
-					for (var idx = 0; idx < $scope.document.champions.length; idx++) {
-						$scope.loadReferences($scope.document.champions[idx].organizations);
+				if ($scope.champions) {
+					for (var idx = 0; idx < $scope.champions.length; idx++) {
+						loadReferences($scope.champions[idx].organizations);
 					}
 				}
 			});
@@ -40,28 +41,40 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//====================
 			$scope.$watch("document.strategicPlanIndicators", function (indicators) {
-					$scope.strategicPlanIndicators = indicators ? angular.fromJson(angular.toJson(indicators)) : undefined;
-
-					if ($scope.strategicPlanIndicators) {
-						$scope.loadReferences($scope.strategicPlanIndicators, true);
-					}
-				});
-
-			//====================
-			//
-			//====================
-			$scope.$watch("document.otherStrategicPlanIndicators", function (indicators) {
-				$scope.otherStrategicPlanIndicators = indicators ? angular.fromJson(angular.toJson(indicators)) : undefined;
-
-				if ($scope.otherStrategicPlanIndicators) {
-					$scope.loadReferences($scope.otherStrategicPlanIndicators, true);
-				}
+				$scope.strategicPlanIndicators = indicators ? loadFromIndex(indicators)	: undefined;
 			});
 
 			//====================
 			//
 			//====================
-			$scope.loadReferences = function (targets, infoOnly) {
+			$scope.$watch("document.otherStrategicPlanIndicators", function (indicators) {
+				$scope.otherStrategicPlanIndicators = indicators ? loadFromIndex(indicators) : undefined;
+			});
+
+
+			//====================
+			//
+			//====================
+			function loadFromIndex(references)	{
+
+				var query = {
+					q: "identifier_s:("+_.pluck(references, "identifier").join(" ")+")",
+					fl: "identifier_s,title_t",
+					rows: 99999999
+				};
+
+				return $http.get("/api/v2013/index", { params: query, cache:true }).then(function(response) {
+					return response.data.response.docs;
+				});
+			}
+
+			//====================
+			//
+			//====================
+			function loadReferences(targets, infoOnly) {
+
+				if(!targets)
+					return;
 
 				angular.forEach(targets, function (ref) {
 

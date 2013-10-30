@@ -67,7 +67,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" name="strategicGoal" caption="Strategic Goal">
-									<div km-select required name="strategicGoal" ng-model="document.strategicGoal" items="options.strategicGoal()" binding-type="term[]"></div>
+									<div km-select required name="strategicGoal" ng-model="document.strategicGoal" watch-items items="options.strategicGoals" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
@@ -81,24 +81,14 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" name="strategicPlanIndicators" caption="Most Relevant Global Indicator(s)">
-									<div km-reference multiple name="strategicPlanIndicators" ng-model="document.strategicPlanIndicators" loader="loadRecords(identifier, 'strategicPlanIndicator')">
-										<div>
-											<div><strong>{{reference.title | lstring}}</strong></div>
-											<div>{{reference.summary | lstring | truncate:120:'...'}}</div>
-										</div>
-									</div>
+									<div km-select multiple name="strategicPlanIndicators" ng-model="document.strategicPlanIndicators" watch-items items="options.strategicPlanIndicators"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" name="otherStrategicPlanIndicators" caption="Other Relevant Global Indicator(s)">
-									<div km-reference multiple name="otherStrategicPlanIndicators" ng-model="document.otherStrategicPlanIndicators" loader="loadRecords(identifier, 'strategicPlanIndicator')">
-										<div>
-											<div><strong>{{reference.title | lstring}}</strong></div>
-											<div>{{reference.summary | lstring | truncate:120:'...'}}</div>
-										</div>
-									</div>
+									<div km-select multiple name="otherStrategicPlanIndicators" ng-model="document.otherStrategicPlanIndicators" watch-items items="options.strategicPlanIndicators"></div>
 								</div>
 							</div>
 						</div>
@@ -131,7 +121,7 @@
 									<div  class="row">
 										<div class="col-md-12">
 											<div class="km-control-group" name="targetChampionsRegions" caption="Target Champions (regions)">
-												<div km-select multiple required name="targetChampionsRegions" ng-model="champion.countries" items="options.targetChampionsRegions()" placeholder="Please select a country..."></div>
+												<div km-select multiple required name="targetChampionsRegions" ng-model="champion.countries" watch-items items="options.targetChampionsRegions" placeholder="Please select a country..."></div>
 											</div>
 										</div>
 									</div>
@@ -197,7 +187,7 @@
 									<div class="row">
 										<div class="span10">
 											<div class="km-control-group" name="linkResourceCategory" caption="Link to resources (categories)">
-												<div km-select required multiple name="linkResourceCategory" ng-model="resource.categories" items="options.linkResourcesCategories()" binding-type="term[]"></div>
+												<div km-select required multiple name="linkResourceCategory" ng-model="resource.categories" watch-items items="options.linkResourcesCategories" binding-type="term[]"></div>
 											</div>
 										</div>
 									</div>
@@ -253,7 +243,7 @@
 					  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
 					</div>
 
-					<div class="view-aichi-target" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
+					<div class="view-aichi-target" ng-model="reviewDocument" allow-drafts="true" locale="review.locale" link-target="_blank"></div>
 
 				</div>
 

@@ -1,4 +1,5 @@
-﻿$compile.directive('countryProfile', ['authHttp', '$location', function ($http, $location) {
+﻿angular.module('kmApp').compileProvider // lazy
+.directive('countryProfile', ['authHttp', '$location', function ($http, $location) {
     return {
         priority: 0,
         restrict: 'EAC',

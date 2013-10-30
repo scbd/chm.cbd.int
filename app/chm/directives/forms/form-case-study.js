@@ -39,7 +39,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "editFormUtility", "authentication", "ngProgress", "managementUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, managementUrls) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "editFormUtility", "authentication", "ngProgress", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls) 
 		{
 			//==================================
 			//
@@ -216,7 +216,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				$location.url(managementUrls.drafts);
+				$location.url(siteMapUrls.management.drafts);
 			};
 
 			//==================================

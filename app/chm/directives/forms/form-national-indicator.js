@@ -208,7 +208,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostWorkflow = function(data) {
-				$location.url(managementUrls.workflows);
+				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================

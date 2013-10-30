@@ -152,12 +152,12 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			$rootScope.navigation = [];
 		}
 
-		function ManagementPageController($rootScope, $scope, $route, $location, underscore, managementUrls, user) {
+		function ManagementPageController($rootScope, $scope, $route, $location, siteMapUrls, user) {
 
-			if(!user.isAuthenticated && $route.current.originalPath!=managementUrls.signin) {
+			if(!user.isAuthenticated && $route.current.originalPath!=siteMapUrls.user.signIn) {
 				var sUrl = $location.url();
 				
-				$location.path(managementUrls.signin);
+				$location.path(siteMapUrls.user.signIn);
 				$location.search({ returnUrl : sUrl});
 			}
 
@@ -174,14 +174,27 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 }]);
 
 app.value("schemaTypes", [ "aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"])
-app.value("managementUrls", {
-	root : "/management",
-	drafts : "/management/my-drafts",
-	records : "/management/my-records",
-	workflows : "/management",
-	signin    : "/management/signin",
-	notFound  : "/help/404"
-})
+app.value("siteMapUrls", {
+
+	management : {
+		home      : "/management",
+		drafts    : "/management/my-drafts",
+		records   : "/management/my-records",
+		workflows : "/management"
+	},
+
+	errors: {
+		notFound      : "/help/404",
+		notAuthorized : "/help/403"
+	},
+
+	user : {
+		signIn  : "/management/signin",
+		signUp  : "/user/sign-up",
+		account : "/user/my-account"
+	}
+});
+
 function PageController($scope, $window, $location, authentication) {
 
 	$(function () {

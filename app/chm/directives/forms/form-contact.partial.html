@@ -1,16 +1,12 @@
 ﻿<div>
 	<h1>Contact Details</h1>
 
-	<div ng-show="isLoading()">
-		<div class="loadProgress" progress="1" timeout="1500"></div>
-	</div>
-
 	<div class="alert alert-danger" ng-cloak ng-show="error">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div ng-show="status=='loading'">Loading...</div>
+	<div ng-show="status=='loading'"><em>Loading...</em></div>
 	
 	<div ng-hide="status=='hidden'||status=='loading'">
 
@@ -35,7 +31,7 @@
 			<div class="col-sm-4 hidden-xs" style="text-align:right">
 				<div class="pagination">
 					<span km-form-languages ng-model="document.header.languages"></span>
-					<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 				</div>
 			</div>
 		</div>
@@ -240,13 +236,13 @@
 
 			<div class="col-sm-3 hidden-xs" style="text-align:right">
 				<div class="pagination">
-					<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 				</div>
 			</div>
 
 			<div class="col-xs-12 visible-xs">
 				<div class="">
-					<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 				</div>
 			</div>
 		</div>

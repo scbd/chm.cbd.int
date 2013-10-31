@@ -9508,13 +9508,13 @@ span.recommended-info:before {
   ul.resources li.whitepapers a {
     background: url(/assets/img/resource-icons-sprite.png) no-repeat -560px 18px;
   }
-  form input[type="text"],
+/*form input[type="text"],
   form textarea {
     width: 220px;
   }
   form select {
     width: 235px;
-  }
+  } */
   img.home-feature {
     max-width: 330px;
   }
@@ -9773,13 +9773,13 @@ span.recommended-info:before {
     font-size: 20px;
     line-height: 30px;
   }
-  form input[type="text"],
+/*form input[type="text"],
   form textarea {
     width: 160px;
   }
   form select {
     width: 175px;
-  }
+  } */
   img.home-feature {
     max-width: 259px;
   }
@@ -10708,13 +10708,13 @@ span.recommended-info:before {
     line-height: 26px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
-  form input[type="text"],
+/*form input[type="text"],
   form textarea {
     width: 260px;
   }
   form select {
     width: 275px;
-  }
+  }*/
   .contact .sidebar,
   .vidside,
   .resourceside {

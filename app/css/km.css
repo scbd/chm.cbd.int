@@ -3,8 +3,6 @@ form label[required]:after
 {
 	color: #e32;
 	content: ' * ';
-	display:inline;
-	font-size: 18px;
 }
 
 div.viewForm > h1 {

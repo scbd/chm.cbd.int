@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editContact', ['authHttp', "URI", "guid", "$filter", function ($http, URI, guid, $filter) {
+.directive('editContact', [function ($http, URI, guid, $filter) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-contact.partial.html',
@@ -8,41 +8,15 @@ angular.module('kmApp').compileProvider // lazy
 		scope      : {},
 		link : function($scope, $element)
 		{
+			$scope.init();
+		},
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, siteMapUrls, Thesaurus, guid) 
+		{
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
 			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
-			$scope.options  = {
-				countries         : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				organizationTypes : function() { return $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return o.data; }); }
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.$watch('tab', function(tab) {
-				if (tab == 'review')
-					$scope.validate();
-			});
-
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, editFormUtility, authentication, siteMapUrls) 
-		{
-			//==================================
-			//
-			//==================================
-			$scope.isLoading = function() {
-				return $scope.status=="loading";
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.hasError = function() {
-				return $scope.error!=null;
-			}
 
 			//==================================
 			//
@@ -53,98 +27,117 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
 				var promise = null;
+				var schema  = "contact";
+				var qs      = $location.search();
 
-				if(identifier)
-					promise = editFormUtility.load(identifier, "contact");
-				else
-					promise = $q.when({
-						header: {
-							identifier: guid(),
-							schema   : "contact",
-							languages: ["en"]
-						}
+				if(qs.uid) { // Load
+					promise = editFormUtility.load(qs.uid, schema);
+				}
+				else { // Create
+
+					promise = $q.when(guid()).then(function(identifier) {
+						return storage.drafts.security.canCreate(identifier, schema).then(function(isAllowed) {
+
+							if (!isAllowed)
+								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
+
+							return identifier;
+						});
+					}).then(function(identifier) {
+
+						return {
+							header: {
+								identifier: identifier,
+								schema   : schema,
+								languages: ["en"]
+							}
+						};
 					});
+				}
 
+				promise.then(function(doc) {
+				
+					if(!$scope.options) {
+						$scope.options  = {
+							countries         : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							organizationTypes : $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return o.data; })
+						};
+					}
 
-				promise.then(
-					function(doc) {
-						$scope.status = "ready";
-						$scope.document = doc;
-					}).then(null, 
-					function(err) {
-						$scope.onError(err.data, err.status)
-						throw err;
-					});
-			}
+					return doc;
 
-			//==================================
-			//
-			//==================================
-			$scope.cleanUp = function(document) {
-				document = document || $scope.document;
+				}).then(function(doc) {
+				
+					$scope.status = "ready";
+					$scope.document = doc;
 
-				if (!document)
-					return $q.when(true);
-
-				if (/^\s*$/g.test(document.firstName )) document.firstName  = undefined;
-				if (/^\s*$/g.test(document.middleName)) document.middleName = undefined;
-				if (/^\s*$/g.test(document.lastName  )) document.lastName   = undefined;
-				if (/^\s*$/g.test(document.notes     )) document.notes      = undefined;
-
-				return $q.when(false);
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.validate = function(clone) {
-
-				$scope.validationReport = null;
-
-				var oDocument = $scope.document;
-
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
+				}).catch(function(err) {
+					$scope.onError(err.data, err.status)
+					throw err;
 				});
 			}
 
 			//==================================
 			//
 			//==================================
-			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
+			$scope.getCleanDocument = function(document) {
+				document = document || $scope.document;
 
-				return true;
+				if (!document)
+					return undefined
+
+				document = angular.fromJson(angular.toJson(document));
+
+				if (/^\s*$/g.test(document.firstName )) document.firstName  = undefined;
+				if (/^\s*$/g.test(document.middleName)) document.middleName = undefined;
+				if (/^\s*$/g.test(document.lastName  )) document.lastName   = undefined;
+				if (/^\s*$/g.test(document.notes     )) document.notes      = undefined;
+
+				return document;
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.validate = function() {
+
+				$scope.validationReport = null;
+
+				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
+
+				return storage.documents.validate(oDocument).then(function(success) {
+				
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
+
+				}).catch(function(error) {
+					
+					$scope.onError(error.data);
+					return true;
+
+				});
 			}
 
+			//==================================
+			//
+			//==================================
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
+			});
 
 			//==================================
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================
 			//
 			//==================================
 			$scope.onPrePublish = function() {
-				return $scope.validate(false).then(function(hasError) {
+				return $scope.validate().then(function(hasError) {
 					if (hasError)
 						$scope.tab = "review";
 					return hasError;

@@ -109,6 +109,8 @@ angular.module('kmApp').compileProvider // lazy
 				if (!document)
 					return undefined
 
+				document = angular.fromJson(angular.toJson(document));
+
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
@@ -124,7 +126,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
-				return storage.documents.validate($scope.getCleanDocument()).then(function(success) {
+				return storage.documents.validate(oDocument).then(function(success) {
 				
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);

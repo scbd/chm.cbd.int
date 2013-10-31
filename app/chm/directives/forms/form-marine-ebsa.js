@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editMarineEbsa', ['authHttp', "$q", "$timeout", "$filter", "URI", "Enumerable", "guid", function ($http, $q, $timeout, $filter, URI, Enumerable, guid) {
+.directive('editMarineEbsa', [function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-marine-ebsa.partial.html',
@@ -8,138 +8,34 @@ angular.module('kmApp').compileProvider // lazy
 		scope      : {},
 		link : function($scope, $element)
 		{
+			$scope.init();
+		},
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, authentication, siteMapUrls, Thesaurus, guid) 
+		{
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
 			$scope.tab      = "general";
 			$scope.review   = { locale : "en" };
-			$scope.options  = {
-				countries         : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				libraries         : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				copDecisions      : function() { return $http.get("/api/v2013/index/select?q=schema_s%3Adecision+AND+body_s%3ACOP&sort=event_s+desc%2Cdecision_s+asc&rows=999999&fl=title_t%2C+decision_s%2C+symbol_s", { cache: true })
-															 .then(function(res) {
-															 	return Enumerable.From(res.data.response.docs).Select(function(o) {
-															 		return {
-															 			identifier: o.decision_s,
-															 			title: (o.decision_s + " - " + o.title_t)
-															 		}
-															 	}).ToArray();
-															 });
-				}
-			};
 
-			//==================================
-			//
-			//==================================
-			$scope.$watch('tab', function(tab) {
-
-				if(!tab)
-					return;
-
-				if(tab == "general"   ) { $scope.prevTab = "general";    $scope.nextTab = "status" }
-				if(tab == "status"    ) { $scope.prevTab = "general";    $scope.nextTab = "assessment" }
-				if(tab == "assessment") { $scope.prevTab = "status";     $scope.nextTab = "review" }
-				if(tab == "review"    ) { $scope.prevTab = "assessment"; $scope.nextTab = "review" }
-
-				if (tab == 'review')
-					$scope.validate();
-
-			});
-
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "editFormUtility", "authentication", "ngProgress", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls) 
-		{
-			var self = this;
-
-			//==================================
-			//
-			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.cleanUp = function(document) {
-				document = document || $scope.document;
-
-				if (!document)
-					return $q.when(true);
-
-				if (document.approvedByGovernmentOn && document.approvedByGovernmentOn.indexOf('0001') == 0)
-					document.approvedByGovernmentOn = undefined;
-
-				if (document.recommendedToCopByGovernmentOn && document.recommendedToCopByGovernmentOn.indexOf('0001') == 0)
-					document.recommendedToCopByGovernmentOn = undefined;
-
-				if (/^\s*$/g.test(document.notes))
-					document.notes = undefined;
-
-				return $q.when(false);
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.validate = function(clone) {
-
-				$scope.validationReport = null;
-
-				var oDocument = $scope.document;
-
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-
-				$scope.reviewDocument = oDocument;
-
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
-				});
-			}
-
-			//==================================
-			//
-			//==================================
-			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
-
-				return true;
-			}
+			// Ensure user as signed in
+			navigation.securize();
 
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
 
-				if(!authentication.user().isAuthenticated) {
-					$location.search({returnUrl : $location.url() });
-					$location.path('/management/signin');
-					return;
-				}
-
 				if ($scope.document)
 					return;
 
-				ngProgress.start();
-
 				$scope.status = "loading";
+
+				ngProgress.start();
 
 				var promise = null;
 				var schema  = "marineEbsa";
-				var qs = $location.search();
-
+				var qs      = $location.search();
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);
@@ -153,7 +49,8 @@ angular.module('kmApp').compileProvider // lazy
 								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
 
 							return identifier;
-						});
+						})
+						;
 					}).then(function(identifier) {
 
 						return {
@@ -166,9 +63,24 @@ angular.module('kmApp').compileProvider // lazy
 					});
 				}
 
-				promise.then(function(doc) {
-						
-					$scope.cleanUp(doc);
+				return promise.then(function(doc) {
+			
+					if(!$scope.options)	{
+						$scope.options  = {
+							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							libraries     : $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							copDecisions  : $http.get("/api/v2013/index/select?q=schema_s%3Adecision+AND+body_s%3ACOP&sort=event_s+desc%2Cdecision_s+asc&rows=999999&fl=title_t%2C+decision_s%2C+symbol_s", { cache: true })
+												 .then(function(res) {
+												 	return _.map(res.data.response.docs, function(o) {
+												 		return {
+												 			identifier: o.decision_s,
+												 			title: (o.decision_s + " - " + o.title_t)
+												 		}
+												 	});
+												 })
+						}
+					}
+
 			        return doc;
 
 				}).then(function(doc) {
@@ -184,6 +96,51 @@ angular.module('kmApp').compileProvider // lazy
 				}).finally(function() {
 
 					ngProgress.complete();
+
+				});
+			}			
+
+			//==================================
+			//
+			//==================================
+			$scope.getCleanDocument = function(document) {
+				document = document || $scope.document;
+
+				if (!document)
+					return undefined
+
+				document = angular.fromJson(angular.toJson(document));
+
+				if (document.approvedByGovernmentOn && document.approvedByGovernmentOn.indexOf('0001') == 0)
+					document.approvedByGovernmentOn = undefined;
+
+				if (document.recommendedToCopByGovernmentOn && document.recommendedToCopByGovernmentOn.indexOf('0001') == 0)
+					document.recommendedToCopByGovernmentOn = undefined;
+
+				if (/^\s*$/g.test(document.notes))
+					document.notes = undefined;
+
+				return document
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.validate = function(clone) {
+
+				$scope.validationReport = null;
+
+				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
+
+				return storage.documents.validate(oDocument).then(function(success) {
+				
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
+
+				}).catch(function(error) {
+					
+					$scope.onError(error.data);
+					return true;
 
 				});
 			}
@@ -211,8 +168,25 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
+			$scope.$watch('tab', function(tab) {
+
+				if(!tab)
+					return;
+
+				if(tab == "general"   ) { $scope.prevTab = "general";    $scope.nextTab = "status" }
+				if(tab == "status"    ) { $scope.prevTab = "general";    $scope.nextTab = "assessment" }
+				if(tab == "assessment") { $scope.prevTab = "status";     $scope.nextTab = "review" }
+				if(tab == "review"    ) { $scope.prevTab = "assessment"; $scope.nextTab = "review" }
+
+				if (tab == 'review')
+					$scope.validate();
+
+			});
+
+			//==================================
+			//
+			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================

@@ -10,47 +10,264 @@
 	<div ng-show="status=='loading'"><em>Loading...</em></div>
 	
 	<div ng-hide="status=='hidden'||status=='loading'">
-		<div style="position:relative">
 
-			<div class="row">
-				<div class="col-xs-12 visible-xs">
-					<div class="">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+		<div class="row">
+			<div class="col-xs-12 visible-xs">
+				<div class="">
+					<span km-form-languages ng-model="document.header.languages"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
+			</div>
+
+			<div class="col-sm-8 col-xs-12">
+				<ul class="pagination">
+					<li ng-class="{ disabled: tab=='general'    }"><a href="" ng-click="tab=prevTab">&laquo;</a></li>
+					<li ng-class="{ active  : tab=='general'    }"><a href="" ng-click="tab='general'">General</a></li>
+					<li ng-class="{ active  : tab=='status'     }"><a href="" ng-click="tab='status'" >Status</a></li>
+					<li ng-class="{ active  : tab=='assessment' }"><a href="" ng-click="tab='assessment'">Assessment</a></li>
+					<li ng-class="{ active  : tab=='review'     }"><a href="" ng-click="tab='review'">Review</a></li>
+					<li ng-class="{ disabled: tab=='review'     }"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
+				</ul>	
+			</div>
+
+			<div class="col-sm-4 hidden-xs" style="text-align:right">
+				<div class="pagination">
+					<span km-form-languages ng-model="document.header.languages"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
+			</div>
+		</div>
+
+
+		<form name="editForm" style="margin-top:10px">
+			<div km-tab="general">
+
+				<legend>General Information</legend>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" for="title" required>Title / Name of the area</label>
+							<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" ></div>
+						</div>
 					</div>
 				</div>
 
-				<div class="col-sm-8 col-xs-12">
-					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general'    }"><a href="" ng-click="tab=prevTab">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general'    }"><a href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='status'     }"><a href="" ng-click="tab='status'" >Status</a></li>
-						<li ng-class="{ active  : tab=='assessment' }"><a href="" ng-click="tab='assessment'">Assessment</a></li>
-						<li ng-class="{ active  : tab=='review'     }"><a href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'     }"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
-					</ul>	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" required for="summary">Summary</label>
+							<div km-textbox-ml required name="summary" ng-model="document.summary" rows="12" locales="document.header.languages" placeholder="example: this area..."></div>
+						</div>
+					</div>
 				</div>
 
-				<div class="col-sm-4 hidden-xs" style="text-align:right">
-					<div class="pagination">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" for="areaIntroducion">Introduction of the area</label>
+							<div km-textbox-ml name="areaIntroducion" ng-model="document.areaIntroducion" rows="12" locales="document.header.languages" placeholder="example: this area..."></div>
+						</div>
+					</div>
+				</div>
+
+				<legend>Location</legend>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" required for="location">Location</label>
+							<div km-textbox-ml required name="location" ng-model="document.location" rows="4" locales="document.header.languages" placeholder="example: this area is located..."></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" required for="gisFiles">Geo-Location</label>
+							<span class="help-block">Limited to .geojson files (<a href="http://www.geojson.org/">http://www.geojson.org/</a>)	</span>
+							<div km-link required name="gisFiles" ng-model="document.gisFiles" allow-link="false" identifier="document.header.identifier" mime-types="application/json"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="leaflet" center="document.gisMapCenter" layers="gisLayer" style=""></div>
+					</div>
+				</div>
+
+				<legend>Area Details</legend>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" for="areaDescription">Feature description of the area</label>
+							<div km-textbox-ml name="areaDescription" ng-model="document.areaDescription" rows="4" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" for="areaConditions">Feature conditions and future outlook of the proposed area</label>
+							<div km-textbox-ml name="areaConditions" ng-model="document.areaConditions" rows="4" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" for="areaFeatures">Feature description of the area</label>
+							<div km-textbox-ml name="areaFeatures" ng-model="document.areaFeatures" rows="4" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" for="countries" required>Related countries</label><br/>
+							<div km-select required name="countries" multiple ng-model="document.countries" placeholder="Please select countries..." watch-items items="options.countries"></div>
+						</div>
+					</div>
+
+					<div class="col-md-4 col-md-offset1">
+						<div class="form-group">
+							<label class="control-label" for="beyondNationalJurisdiction">Is this marine areas beyond national jurisdiction?</label>><br/>
+							<div class="km-yes-no" ng-model="document.beyondNationalJurisdiction"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<a name="#References"></a>
+				<legend>References</legend>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" name="referenceText">References</label>
+							<div km-textbox-ml name="referenceText" rows="4" ng-model="document.referenceText" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" name="resources">CBD Recources</label>
+							<div km-reference multiple name="resources" ng-model="document.resources" loader="loadRecords(identifier, 'resource')">
+								<div>
+									<div><strong>{{reference.title | lstring:'en'}}</strong></div>
+									<div>{{reference.summary | lstring:'en' | truncate:250:'...'}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="relation">Other relevant website address or attached documents</label>
+							<div km-link name="relation" ng-model="document.relation" identifier="document.header.identifier"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 
+			<div km-tab="status">
 
-			<div>
-				<form name="editForm" style="margin-top:10px">
-					<div km-tab="general">
+				<a name="#StatusOfSubmission"></a>
+				<legend>Status of submission</legend>
 
-						<legend>General Information</legend>
+				<ol style="list-style-type: none">
+					<label style="display:none" class="control-label" for="status" required>Status</label>
+					<li style="margin-bottom:15px">
+						<input type="radio" name="status" ng-model="document.status" value="approved" style="margin-left: -18px; margin-top: -4px" />
+						<!-- APPROVED -->
+						<b>a)</b> Areas meeting EBSA criteria approved for inclusion in the EBSA Repository
 
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" for="title" required>Title / Name of the area</label>
-									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" ></div>
+									<label class="control-label" for="approvedByCopDecision">COP Decision</label><br/>
+									<div km-select name="approvedByCopDecision" ng-model="document.approvedByCopDecision" ng-disabled="document.status!='approved'" placeholder="Please select a decision..." watch-items items="options.copDecisions"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="control-label" for="approvedByGovernment">Approved by a Party or other Government through national process (national jurisdiction only)</label>
+									<div km-select name="approvedByGovernment" ng-model="document.approvedByGovernment" ng-disabled="document.status!='approved'" placeholder="Please select a country..." watch-items items="options.countries"></div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label" for="approvedByGovernmentOn">Date</label>
+									<div km-date ng-model="document.approvedByGovernmentOn" ng-disabled="document.status!='approved'"></div>
+								</div>
+							</div>
+						</div>
+
+					</li>
+
+					<li style="margin-bottom:15px">
+						<input type="radio" name="status" ng-model="document.status" value="recommendedToCop" style="margin-left: -18px; margin-top: -4px" />
+						<!-- RECOMMENDED TO COP/GOV -->
+						<b>b)</b> Areas meeting EBSA criteria for consideration by COP or by a Party /other Government through national process
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="control-label" for="recommendedToCopBySbstta">Recommended by SBSTTA to COP for consideration and possible inclusion in the EBSA Repository</label><br/>
+									<div km-select name="recommendedToCopBySbstta" ng-model="document.recommendedToCopBySbstta" ng-disabled="document.status!='recommendedToCop'" terms="options.sbsttsRecommendations()"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="control-label" for="recommendedToCopByGovernment">Ongoing official national process (within national jurisdiction only)</label>
+									<div km-select name="recommendedToCopByGovernment" ng-model="document.recommendedToCopByGovernment" ng-disabled="document.status!='recommendedToCop'" placeholder="Please select a country..." watch-items items="options.countries"></div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label class="control-label" for="recommendedToCopByGovernmentOn">Date</label>
+									<div km-date name="recommendedToCopByGovernmentOn" ng-model="document.recommendedToCopByGovernmentOn" ng-disabled="document.status!='recommendedToCop'"></div>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li style="margin-bottom:15px">
+						<input type="radio" name="status" ng-model="document.status" value="recommendedToSbstta" style="margin-left: -22px; margin-top: -4px" />
+						<!-- RECOMMENDED TO SBSTTA -->
+						<b>c)</b> Areas meeting EBSA criteria for consideration by SBSTTA
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="control-label" for="preparedBySCBD">
+										<input type="radio" value="SCBD" id="preparedBySCBD" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="document.status!='recommendedToSbstta'" />
+										Prepared by CBD regional workshops
+									</label><br/>
+									<label class="control-label" for="preparedByORG">
+										<input type="radio" value="ORG" id="preparedByORG" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="document.status!='recommendedToSbstta'" />
+										Prepared by Competent Organizations through regional processes 
+									</label>
 								</div>
 							</div>
 						</div>
@@ -58,453 +275,228 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" required for="summary">Summary</label>
-									<div km-textbox-ml required name="summary" ng-model="document.summary" rows="12" locales="document.header.languages" placeholder="example: this area..."></div>
+									<label class="control-label" for="recommendedToSbsttaByWorkshop">CBD Workshop</label><br/>
+									<div km-select name="recommendedToSbsttaByWorkshop" ng-model="document.recommendedToSbsttaByWorkshop" ng-disabled="document.status!='recommendedToSbstta'" watch-items items="options.meetings"></div>
 								</div>
 							</div>
 						</div>
+					</li>
+
+					<li style="margin-bottom:15px">
+						<input type="radio" name="status" ng-model="document.status" value="recommendedToWorkshop" style="margin-left: -18px; margin-top: -4px" />
+						<!-- RECOMMENDED TO WORKSHOP -->
+						<b>d)</b> Areas meeting EBSA criteria for consideration by CBD regional Workshop
 
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" for="areaIntroducion">Introduction of the area</label>
-									<div km-textbox-ml name="areaIntroducion" ng-model="document.areaIntroducion" rows="12" locales="document.header.languages" placeholder="example: this area..."></div>
+									<label class="control-label" for="recommendedToWorkshopByGov">
+										<input type="radio" value="GOV" id="recommendedToWorkshopByGov" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="document.status!='recommendedToWorkshop'" />
+										Government(s)
+									</label><br/>
+									<label class="control-label" for="recommendedToWorkshopByOrg">
+										<input type="radio" value="ORG" id="recommendedToWorkshopByOrg" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="document.status!='recommendedToWorkshop'" />
+										Competent Organization(s)
+									</label><br/>
+									<label class="control-label" for="recommendedToWorkshopByOthers">
+										<input type="radio" value="OTHER" id="recommendedToWorkshopByOthers" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="document.status!='recommendedToWorkshop'" />
+										Other(s)
+									</label>
 								</div>
 							</div>
 						</div>
 
-						<legend>Location</legend>
-
-						<div class="row">
+						<div class="row" ng-show="document.recommendedToWorkshopBy=='GOV'">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" required for="location">Location</label>
-									<div km-textbox-ml required name="location" ng-model="document.location" rows="4" locales="document.header.languages" placeholder="example: this area is located..."></div>
+									<label class="control-label" for="recommendedToWorkshopByGovernments">Please select the country(ies)</label>
+									<div km-select name="recommendedToWorkshopByGovernments" multiple ng-model="document.recommendedToWorkshopByGovernments" ng-disabled="document.status!='recommendedToWorkshop'" placeholder="Please select countries..." watch-items items="options.countries"></div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row" ng-show="document.recommendedToWorkshopBy=='ORG'">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" required for="gisFiles">Geo-Location</label>
-									<span class="help-block">Limited to .geojson files (<a href="http://www.geojson.org/">http://www.geojson.org/</a>)	</span>
-									<div km-link required name="gisFiles" ng-model="document.gisFiles" allow-link="false" identifier="document.header.identifier" mime-types="application/json"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="leaflet" center="document.gisMapCenter" layers="gisLayer" style=""></div>
-							</div>
-						</div>
-
-						<legend>Area Details</legend>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="control-label" for="areaDescription">Feature description of the area</label>
-									<div km-textbox-ml name="areaDescription" ng-model="document.areaDescription" rows="4" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="control-label" for="areaConditions">Feature conditions and future outlook of the proposed area</label>
-									<div km-textbox-ml name="areaConditions" ng-model="document.areaConditions" rows="4" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="control-label" for="areaFeatures">Feature description of the area</label>
-									<div km-textbox-ml name="areaFeatures" ng-model="document.areaFeatures" rows="4" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label class="control-label" for="countries" required>Related countries</label><br/>
-									<div km-select required name="countries" multiple ng-model="document.countries" placeholder="Please select countries..." items="options.countries()"></div>
-								</div>
-							</div>
-
-							<div class="col-md-4 col-md-offset1">
-								<div class="form-group">
-									<label class="control-label" for="beyondNationalJurisdiction">Is this marine areas beyond national jurisdiction?</label>><br/>
-									<div class="km-yes-no" ng-model="document.beyondNationalJurisdiction"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<a name="#References"></a>
-						<legend>References</legend>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="control-label" name="referenceText">References</label>
-									<div km-textbox-ml name="referenceText" rows="4" ng-model="document.referenceText" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label class="control-label" name="resources">CBD Recources</label>
-									<div km-reference multiple name="resources" ng-model="document.resources" loader="loadRecords(identifier, 'resource')">
+									<label class="control-label" for="recommendedToWorkshopByOrganizations">Please select the organization(s)</label>
+									<div km-reference multiple name="recommendedToWorkshopByOrganizations" ng-model="document.recommendedToWorkshopByOrganizations" ng-disabled="document.status!='recommendedToWorkshop'" loader="loadRecords(identifier, 'organization')">
 										<div>
 											<div><strong>{{reference.title | lstring:'en'}}</strong></div>
-											<div>{{reference.summary | lstring:'en' | truncate:250:'...'}}</div>
+											<div>{{reference.summary | lstring:'en'}}</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+
+						<div class="row" ng-show="document.recommendedToWorkshopBy=='OTHER'">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="control-label" for="recommendedToWorkshopByOthers">Please provide details</label>
+									<div km-textbox-ml name="recommendedToWorkshopByOthers" rows="4" ng-model="document.recommendedToWorkshopByOthers" ng-disabled="document.status!='recommendedToWorkshop'" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+					</li>
+
+					<li style="margin-bottom:15px">
+						<input type="radio" name="status" ng-model="document.status" value="recommendedToAny" style="margin-left: -18px; margin-top: -4px" />
+						<!-- RECOMMENDED TO ANY -->
+						<b>e)</b> Other relevant Areas meeting EBSA criteria
 
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="relation">Other relevant website address or attached documents</label>
-									<div km-link name="relation" ng-model="document.relation" identifier="document.header.identifier"></div>
+									<label class="control-label" for="recommendedToAnyByGov">
+										<input type="radio" value="GOV" id="recommendedToAnyByGov" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="document.status!='recommendedToAny'" />
+										Government(s)
+									</label><br/>
+									<label class="control-label" for="recommendedToAnyByOrg">
+										<input type="radio" value="ORG" id="recommendedToAnyByOrg" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="document.status!='recommendedToAny'" />
+										Competent Organization(s)
+									</label><br/>
+									<label class="control-label" for="recommendedToAnyByOthers">
+										<input type="radio" value="OTHER" id="recommendedToAnyByOthers" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="document.status!='recommendedToAny'" />
+										Other(s)
+									</label>
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<div km-tab="status">
-
-						<a name="#StatusOfSubmission"></a>
-						<legend>Status of submission</legend>
-
-						<ol style="list-style-type: none">
-							<label style="display:none" class="control-label" for="status" required>Status</label>
-							<li style="margin-bottom:15px">
-								<input type="radio" name="status" ng-model="document.status" value="approved" style="margin-left: -18px; margin-top: -4px" />
-								<!-- APPROVED -->
-								<b>a)</b> Areas meeting EBSA criteria approved for inclusion in the EBSA Repository
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="approvedByCopDecision">COP Decision</label><br/>
-											<div km-select name="approvedByCopDecision" ng-model="document.approvedByCopDecision" ng-disabled="document.status!='approved'" placeholder="Please select a decision..." items="options.copDecisions()"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group">
-											<label class="control-label" for="approvedByGovernment">Approved by a Party or other Government through national process (national jurisdiction only)</label>
-											<div km-select name="approvedByGovernment" ng-model="document.approvedByGovernment" ng-disabled="document.status!='approved'" placeholder="Please select a country..." items="options.countries()"></div>
-										</div>
-									</div>
-
-									<div class="col-md-3">
-										<div class="form-group">
-											<label class="control-label" for="approvedByGovernmentOn">Date</label>
-											<div km-date ng-model="document.approvedByGovernmentOn" ng-disabled="document.status!='approved'"></div>
-										</div>
-									</div>
-								</div>
-
-							</li>
-
-							<li style="margin-bottom:15px">
-								<input type="radio" name="status" ng-model="document.status" value="recommendedToCop" style="margin-left: -18px; margin-top: -4px" />
-								<!-- RECOMMENDED TO COP/GOV -->
-								<b>b)</b> Areas meeting EBSA criteria for consideration by COP or by a Party /other Government through national process
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToCopBySbstta">Recommended by SBSTTA to COP for consideration and possible inclusion in the EBSA Repository</label><br/>
-											<div km-select name="recommendedToCopBySbstta" ng-model="document.recommendedToCopBySbstta" ng-disabled="document.status!='recommendedToCop'" terms="options.sbsttsRecommendations()"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToCopByGovernment">Ongoing official national process (within national jurisdiction only)</label>
-											<div km-select name="recommendedToCopByGovernment" ng-model="document.recommendedToCopByGovernment" ng-disabled="document.status!='recommendedToCop'" placeholder="Please select a country..." items="options.countries()"></div>
-										</div>
-									</div>
-
-									<div class="col-md-3">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToCopByGovernmentOn">Date</label>
-											<div km-date name="recommendedToCopByGovernmentOn" ng-model="document.recommendedToCopByGovernmentOn" ng-disabled="document.status!='recommendedToCop'"></div>
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li style="margin-bottom:15px">
-								<input type="radio" name="status" ng-model="document.status" value="recommendedToSbstta" style="margin-left: -22px; margin-top: -4px" />
-								<!-- RECOMMENDED TO SBSTTA -->
-								<b>c)</b> Areas meeting EBSA criteria for consideration by SBSTTA
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="preparedBySCBD">
-												<input type="radio" value="SCBD" id="preparedBySCBD" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="document.status!='recommendedToSbstta'" />
-												Prepared by CBD regional workshops
-											</label><br/>
-											<label class="control-label" for="preparedByORG">
-												<input type="radio" value="ORG" id="preparedByORG" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="document.status!='recommendedToSbstta'" />
-												Prepared by Competent Organizations through regional processes 
-											</label>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToSbsttaByWorkshop">CBD Workshop</label><br/>
-											<div km-select name="recommendedToSbsttaByWorkshop" ng-model="document.recommendedToSbsttaByWorkshop" ng-disabled="document.status!='recommendedToSbstta'" items="options.meetings()"></div>
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li style="margin-bottom:15px">
-								<input type="radio" name="status" ng-model="document.status" value="recommendedToWorkshop" style="margin-left: -18px; margin-top: -4px" />
-								<!-- RECOMMENDED TO WORKSHOP -->
-								<b>d)</b> Areas meeting EBSA criteria for consideration by CBD regional Workshop
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToWorkshopByGov">
-												<input type="radio" value="GOV" id="recommendedToWorkshopByGov" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="document.status!='recommendedToWorkshop'" />
-												Government(s)
-											</label><br/>
-											<label class="control-label" for="recommendedToWorkshopByOrg">
-												<input type="radio" value="ORG" id="recommendedToWorkshopByOrg" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="document.status!='recommendedToWorkshop'" />
-												Competent Organization(s)
-											</label><br/>
-											<label class="control-label" for="recommendedToWorkshopByOthers">
-												<input type="radio" value="OTHER" id="recommendedToWorkshopByOthers" name="recommendedToWorkshopBy" ng-model="document.recommendedToWorkshopBy" ng-disabled="document.status!='recommendedToWorkshop'" />
-												Other(s)
-											</label>
-										</div>
-									</div>
-								</div>
-
-								<div class="row" ng-show="document.recommendedToWorkshopBy=='GOV'">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToWorkshopByGovernments">Please select the country(ies)</label>
-											<div km-select name="recommendedToWorkshopByGovernments" multiple ng-model="document.recommendedToWorkshopByGovernments" ng-disabled="document.status!='recommendedToWorkshop'" placeholder="Please select countries..." items="options.countries()"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row" ng-show="document.recommendedToWorkshopBy=='ORG'">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToWorkshopByOrganizations">Please select the organization(s)</label>
-											<div km-reference multiple name="recommendedToWorkshopByOrganizations" ng-model="document.recommendedToWorkshopByOrganizations" ng-disabled="document.status!='recommendedToWorkshop'" loader="loadRecords(identifier, 'organization')">
-												<div>
-													<div><strong>{{reference.title | lstring:'en'}}</strong></div>
-													<div>{{reference.summary | lstring:'en'}}</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row" ng-show="document.recommendedToWorkshopBy=='OTHER'">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToWorkshopByOthers">Please provide details</label>
-											<div km-textbox-ml name="recommendedToWorkshopByOthers" rows="4" ng-model="document.recommendedToWorkshopByOthers" ng-disabled="document.status!='recommendedToWorkshop'" locales="document.header.languages"></div>
-										</div>
-									</div>
-								</div>
-							</li>
-
-							<li style="margin-bottom:15px">
-								<input type="radio" name="status" ng-model="document.status" value="recommendedToAny" style="margin-left: -18px; margin-top: -4px" />
-								<!-- RECOMMENDED TO ANY -->
-								<b>e)</b> Other relevant Areas meeting EBSA criteria
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToAnyByGov">
-												<input type="radio" value="GOV" id="recommendedToAnyByGov" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="document.status!='recommendedToAny'" />
-												Government(s)
-											</label><br/>
-											<label class="control-label" for="recommendedToAnyByOrg">
-												<input type="radio" value="ORG" id="recommendedToAnyByOrg" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="document.status!='recommendedToAny'" />
-												Competent Organization(s)
-											</label><br/>
-											<label class="control-label" for="recommendedToAnyByOthers">
-												<input type="radio" value="OTHER" id="recommendedToAnyByOthers" name="recommendedToAnyBy" ng-model="document.recommendedToAnyBy" ng-disabled="document.status!='recommendedToAny'" />
-												Other(s)
-											</label>
-										</div>
-									</div>
-								</div>
-
-								<div class="row" ng-show="document.recommendedToAnyBy=='GOV'">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToAnyByGovernments">Please select the country(ies)</label>
-											<div km-select name="recommendedToAnyByGovernments" multiple ng-model="document.recommendedToAnyByGovernments" ng-disabled="document.status!='recommendedToAny'" placeholder="Please select countries..." items="options.countries()"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row" ng-show="document.recommendedToAnyBy=='ORG'">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToAnyByOrganizations">Please select the organization(s)</label>
-											<div km-reference multiple name="recommendedToAnyByOrganizations" ng-model="document.recommendedToAnyByOrganizations" ng-disabled="document.status!='recommendedToWorkshop'" loader="loadRecords(identifier, 'organization')">
-												<div>
-													<div><strong>{{reference.title | lstring:'en'}}</strong></div>
-													<div>{{reference.summary | lstring:'en'}}</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row" ng-show="document.recommendedToAnyBy=='OTHER'">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label" for="recommendedToAnyByOthers">Please provide details</label>
-											<div km-textbox-ml name="recommendedToAnyByOthers" rows="4" ng-model="document.recommendedToAnyByOthers" ng-disabled="document.status!='recommendedToAny'" locales="document.header.languages"></div>
-										</div>
-									</div>
-								</div>
-							</li>
-						</ol>
-					</div>
-
-					<div km-tab="assessment">
-
-						<a name="#assessment"></a>
-						<legend>Assessment of the area against CBD EBSA criteria</legend>
-						<script type="text/ng-template" id="marine-ebsa-assessment.html">
-							<ol style="list-style-type: none">
-								<li style="margin-bottom:15px" ng-repeat="assessment in assessments">
-									<input type="checkbox" ng-model="assessment.selected" style="margin-left: -18px; margin-top: -4px">
-									<b>{{assessment.title}}</b>
-									<br/>
-									<br/>
-										<div class="btn-group" ng-model="assessment.level" bs-buttons-radio>
-											<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='high',          'active':assessment.level=='high'}"          value="high">High</button>
-											<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='medium',        'active':assessment.level=='medium'}"        value="medium">Medium</button>
-											<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='low',           'active':assessment.level=='low'}"           value="low">Low</button>
-											<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='noInformation', 'active':assessment.level=='noInformation'}" value="noInformation">No information</button>
-										</div>
-									<br/>
-									<br/>
-
-									<div class="km-textbox-ml" ng-disabled="!assessment.selected" ng-model="assessment.justification" rows="8" locales="locales"></div>
-								</li>
-							</ol>
-						</script>
-
-						<label style="display:none" class="control-label" for="assessments" required>Assessments</label>
-
-						<div class="marine-ebsa-assessment" ng-model="document.assessments" locales="document.header.languages">
-						</div>
-
-						<a name="#AdditionalInformation"></a>
-						<legend>Additional Information</legend>
-
-						<div class="row">
+						<div class="row" ng-show="document.recommendedToAnyBy=='GOV'">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" name="additionalInformation">Additional Information</label>
-									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
-									<div km-textbox-ml name="additionalInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+									<label class="control-label" for="recommendedToAnyByGovernments">Please select the country(ies)</label>
+									<div km-select name="recommendedToAnyByGovernments" multiple ng-model="document.recommendedToAnyByGovernments" ng-disabled="document.status!='recommendedToAny'" placeholder="Please select countries..." watch-items items="options.countries"></div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row" ng-show="document.recommendedToAnyBy=='ORG'">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label class="control-label" for="relation">Other relevant website address or attached documents</label>
-									<div km-link name="relation" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+									<label class="control-label" for="recommendedToAnyByOrganizations">Please select the organization(s)</label>
+									<div km-reference multiple name="recommendedToAnyByOrganizations" ng-model="document.recommendedToAnyByOrganizations" ng-disabled="document.status!='recommendedToWorkshop'" loader="loadRecords(identifier, 'organization')">
+										<div>
+											<div><strong>{{reference.title | lstring:'en'}}</strong></div>
+											<div>{{reference.summary | lstring:'en'}}</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 
-
-						<div class="row">
+						<div class="row" ng-show="document.recommendedToAnyBy=='OTHER'">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="notes">Notes</label>
-									<div class="help-block">The field “Notes” is for personal reference and can be seen only when the record is being edited</div>
-									<textarea class="form-control" rows="4" name="notes" ng-model="document.notes" style="width:100%"></textarea>
+									<label class="control-label" for="recommendedToAnyByOthers">Please provide details</label>
+									<div km-textbox-ml name="recommendedToAnyByOthers" rows="4" ng-model="document.recommendedToAnyByOthers" ng-disabled="document.status!='recommendedToAny'" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
+					</li>
+				</ol>
+			</div>
+
+			<div km-tab="assessment">
+
+				<a name="#assessment"></a>
+				<legend>Assessment of the area against CBD EBSA criteria</legend>
+				<script type="text/ng-template" id="marine-ebsa-assessment.html">
+					<ol style="list-style-type: none">
+						<li style="margin-bottom:15px" ng-repeat="assessment in assessments">
+							<input type="checkbox" ng-model="assessment.selected" style="margin-left: -18px; margin-top: -4px">
+							<b>{{assessment.title}}</b>
+							<br/>
+							<br/>
+								<div class="btn-group" ng-model="assessment.level" bs-buttons-radio>
+									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='high',          'active':assessment.level=='high'}"          value="high">High</button>
+									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='medium',        'active':assessment.level=='medium'}"        value="medium">Medium</button>
+									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='low',           'active':assessment.level=='low'}"           value="low">Low</button>
+									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='noInformation', 'active':assessment.level=='noInformation'}" value="noInformation">No information</button>
+								</div>
+							<br/>
+							<br/>
+
+							<div class="km-textbox-ml" ng-disabled="!assessment.selected" ng-model="assessment.justification" rows="8" locales="locales"></div>
+						</li>
+					</ol>
+				</script>
+
+				<label style="display:none" class="control-label" for="assessments" required>Assessments</label>
+
+				<div class="marine-ebsa-assessment" ng-model="document.assessments" locales="document.header.languages">
+				</div>
+
+				<a name="#AdditionalInformation"></a>
+				<legend>Additional Information</legend>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" name="additionalInformation">Additional Information</label>
+							<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+							<div km-textbox-ml name="additionalInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+						</div>
 					</div>
-				</form>
-
-				<div km-tab="review">
-
-					<div km-document-validation ng-model="validationReport"></div>
-
-					<div class="btn-group" ng-show="document.header.languages.length>1">
-						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
-					</div>
-
-					<div class="view-marine-ebsa" ng-model="reviewDocument" locale="review.locale"></div>
 				</div>
 
 				<div class="row">
-
-					<div class="col-sm-9 col-xs-12">
-						<ul class="pagination">
-							<li ng-class="{ disabled: tab=='general'    }"><a href="" ng-click="tab=prevTab">&laquo;</a></li>
-							<li ng-class="{ active  : tab=='general'    }"><a href="" ng-click="tab='general'">General</a></li>
-							<li ng-class="{ active  : tab=='status'     }"><a href="" ng-click="tab='status'" >Status</a></li>
-							<li ng-class="{ active  : tab=='assessment' }"><a href="" ng-click="tab='assessment'">Assessment</a></li>
-							<li ng-class="{ active  : tab=='review'     }"><a href="" ng-click="tab='review'">Review</a></li>
-							<li ng-class="{ disabled: tab=='review'     }"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
-						</ul>	
-					</div>
-
-					<div class="col-sm-3 hidden-xs" style="text-align:right">
-						<div class="pagination">
-							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-						</div>
-					</div>
-
-					<div class="col-xs-12 visible-xs">
-						<div class="">
-							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="control-label" for="relation">Other relevant website address or attached documents</label>
+							<div km-link name="relation" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
 						</div>
 					</div>
 				</div>
 
-				<ul class="pagination">
-				</ul>				
 
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="notes">Notes</label>
+							<div class="help-block">The field “Notes” is for personal reference and can be seen only when the record is being edited</div>
+							<textarea class="form-control" rows="4" name="notes" ng-model="document.notes" style="width:100%"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<div km-tab="review">
+
+			<div km-document-validation ng-model="validationReport"></div>
+
+			<div class="btn-group" ng-show="document.header.languages.length>1">
+				<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+			</div>
+
+			<div class="view-marine-ebsa" ng-model="reviewDocument" locale="review.locale"></div>
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-9 col-xs-12">
+				<ul class="pagination">
+					<li ng-class="{ disabled: tab=='general'    }"><a href="" ng-click="tab=prevTab">&laquo;</a></li>
+					<li ng-class="{ active  : tab=='general'    }"><a href="" ng-click="tab='general'">General</a></li>
+					<li ng-class="{ active  : tab=='status'     }"><a href="" ng-click="tab='status'" >Status</a></li>
+					<li ng-class="{ active  : tab=='assessment' }"><a href="" ng-click="tab='assessment'">Assessment</a></li>
+					<li ng-class="{ active  : tab=='review'     }"><a href="" ng-click="tab='review'">Review</a></li>
+					<li ng-class="{ disabled: tab=='review'     }"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
+				</ul>	
+			</div>
+
+			<div class="col-sm-3 hidden-xs" style="text-align:right">
+				<div class="pagination">
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
+			</div>
+
+			<div class="col-xs-12 visible-xs">
+				<div class="">
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
 			</div>
 		</div>
 	</div>

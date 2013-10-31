@@ -7,37 +7,25 @@ angular.module('kmApp').compileProvider // lazy
         transclude: false,
         scope: {},
         link: function ($scope, $element) {
+            $scope.init();
+        },
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, authentication, siteMapUrls, thesaurus, guid) 
+		{
             $scope.status = "";
             $scope.error = null;
             $scope.tab = "general";
             $scope.document = null;
             $scope.review = { locale: "en" };
 
-
-			//==================================
-			//
-			//==================================
-			$scope.$watch('tab', function(tab) {
-				if (tab == 'review')
-					$scope.validate();
-			});
-
-            $scope.init();
-        },
-		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', function ($scope, $q, storage, authentication, editFormUtility, guid, $location, ngProgress) {
-
 			$scope.qs = $location.search();
+
+			// Ensure user as signed in
+			navigation.securize();
 
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
-
-				if(!authentication.user().isAuthenticated) {
-					$location.search({returnUrl : $location.url() });
-					$location.path('/management/signin');
-					return;
-				}
 
 				if ($scope.document)
 					return;
@@ -90,10 +78,6 @@ angular.module('kmApp').compileProvider // lazy
 			            	aichiTargets:	 $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",		sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
 			            	nationalTargets: []
 			            };
-
-			            return $q.all(_.values($scope.options)).then(function() {
-			            	return doc;
-			            });
 			        }
 
 			        return doc;
@@ -158,12 +142,13 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.cleanUp = function(document) {
-
+			$scope.getCleanDocument = function(document) {
 				document = document || $scope.document;
 
 				if (!document)
-					return $q.when(true);
+					return undefined
+
+				document = angular.fromJson(angular.toJson(document));
 
 				if (!$scope.isJurisdictionSubNational(document))
 					document.jurisdictionInfo = undefined;
@@ -171,7 +156,7 @@ angular.module('kmApp').compileProvider // lazy
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return $q.when(false);
+				return document;
 			};
 
 			//==================================
@@ -224,39 +209,31 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.validate = function(clone) {
-
-				$scope.validationReport = null;
-
-				var oDocument = $scope.document;
-
-
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-				$scope.reviewedDocument = oDocument;
-
-				return $scope.cleanUp(oDocument).then(function (cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
-				});
-			}
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
+			});
 
 			//==================================
 			//
 			//==================================
-			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !_.findWhere($scope.validationReport.errors, { property: field });
+			$scope.validate = function() {
 
-				return true;
+				$scope.validationReport = null;
+
+				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
+
+				return storage.documents.validate(oDocument).then(function(success) {
+				
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
+
+				}).catch(function(error) {
+					
+					$scope.onError(error.data);
+					return true;
+
+				});
 			}
 
 			//==================================
@@ -296,7 +273,6 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================

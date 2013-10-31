@@ -105,7 +105,7 @@
 		<div ng-show ="document.images">
 			<label>Images for showcase</label>
 			<div class="km-value">
-				<a ng-repeat="link in document.images" ng-href="{{link.url}}" target="_blank">
+				<a ng-repeat="link in document.images" ng-href="{{link.url}}" target="{{target}}">
 					<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />
 				</a>
 			</div>

@@ -9,7 +9,7 @@ angular.module('kmApp').compileProvider // lazy
 			document: "=ngModel",
 			locale  : "=",
 			allowDrafts : "@",
-			linkTarget : "@"
+			target : "@linkTarget"
 		},
 		controller: ['$scope', 'IStorage', "underscore", function ($scope, storage, _) {
 

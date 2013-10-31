@@ -1,156 +1,143 @@
 ﻿<div>
-	<h1>National ABS Website or Database</h1>
+	<h1>National Website or Database</h1>
 
-	<div ng-show="isLoading()">
-		<div class="loadProgress" progress="1" timeout="1500"></div>
-	</div>
-
-	<div class="alert alert-danger" ng-show="hasError()">
+	<div class="alert alert-danger" ng-cloak ng-show="error">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div ng-show="!isLoading()&&status!='hidden'">
+	<div ng-show="status=='loading'"><em>Loading...</em></div>
+	
+	<div ng-hide="status=='hidden'||status=='loading'">
 
-		<div style="position: relative">
+		<div class="row">
 
-			<div class="row">
-
-				<div class="col-xs-12 visible-xs">
-					<div class="">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-					</div>
-				</div>
-
-				<div class="col-sm-8 col-xs-12">
-					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-					</ul>
-				</div>
-
-				<div class="col-sm-4 hidden-xs" style="text-align:right">
-					<div class="pagination">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-					</div>
+			<div class="col-xs-12 visible-xs">
+				<div class="">
+					<span km-form-languages ng-model="document.header.languages"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 				</div>
 			</div>
 
-			<div>
+			<div class="col-sm-8 col-xs-12">
+				<ul class="pagination">
+					<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+					<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+					<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+					<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				</ul>
+			</div>
 
-				<div class="tab-content" style="overflow:visible;margin-top:10px">
-					<form name="editForm">
-						<div km-tab="general">
-							<legend>Website or Database details </legend>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="government" required caption="Country">
-										<div class="alert alert-info" ng-show="userGovernment()"><i class="icon-hand-right"></i>You cannot change this value.</div>
-										<div km-select required name="government" ng-disabled="userGovernment()" ng-model="document.government" items="options.countries()" placeholder="Please select a country..."></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="title" required caption="Website or database name">
-										<div class="help-block">Please enter the name of the website or database as you would like it to appear in the title of the record.</div>
-										<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" placeholder="example: The title"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="description" required caption="Description">
-										<div class="help-block">Please enter a short description of the national website or database, such as its function or information it makes available.</div>
-										<div km-textbox-ml required name="description" ng-model="document.description" rows="4" locales="document.header.languages" placeholder="example: The description"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="website" required caption="Website address">
-										<div class="help-block">Please provide the full URL of the website (e.g. http://www.cbd.int).</div>
-										<input type="url" ng-model="document.website.url" required class="form-control" placeholder="example: http://www.cbd.int" />
-									</div>
-								</div>
-							</div>
+			<div class="col-sm-4 hidden-xs" style="text-align:right">
+				<div class="pagination">
+					<span km-form-languages ng-model="document.header.languages"></span>
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
+			</div>
+		</div>
 
-							<legend>Additional information</legend>
-
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="address" caption="Any other relevant information">
-										<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
-										<div km-textbox-ml ng-model="document.relevantInformation" rows="4" placeholder="" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="relevantDocuments" caption="Any other relevant documents">
-										<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="notes" caption="Notes">
-										<span class="help-block">
-											The field “Notes” is for personal reference and can be seen only when the record is being edited.
-										</span>
-										<textarea class="form-control" rows="4" name="notes" ng-model="document.notes" ></textarea>
-									</div>
-								</div>
-							</div>
+		<form name="editForm">
+			<div km-tab="general">
+				<legend>Website or Database details </legend>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="government" required caption="Country">
+							<div class="alert alert-info" ng-show="userGovernment()"><i class="icon-hand-right"></i>You cannot change this value.</div>
+							<div km-select required name="government" ng-disabled="userGovernment()" ng-model="document.government" watch-items items="options.countries" placeholder="Please select a country..."></div>
 						</div>
-					</form>
-
-					<div km-tab="review">
-
-						<div km-document-validation ng-model="validationReport"></div>
-
-						<div class="btn-group" ng-show="document.header.languages.length>1">
-							<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="title" required caption="Website or database name">
+							<div class="help-block">Please enter the name of the website or database as you would like it to appear in the title of the record.</div>
+							<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" placeholder="example: The title"></div>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="description" required caption="Description">
+							<div class="help-block">Please enter a short description of the national website or database, such as its function or information it makes available.</div>
+							<div km-textbox-ml required name="description" ng-model="document.description" rows="4" locales="document.header.languages" placeholder="example: The description"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="website" required caption="Website address">
+							<div class="help-block">Please provide the full URL of the website (e.g. http://www.cbd.int).</div>
+							<input type="url" ng-model="document.website.url" required class="form-control" placeholder="example: http://www.cbd.int" />
+						</div>
+					</div>
+				</div>
 
-						<div class="view-database" ng-model="document" locale="review.locale" link-target="_blank"></div>
+				<legend>Additional information</legend>
 
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="address" caption="Any other relevant information">
+							<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+							<div km-textbox-ml ng-model="document.relevantInformation" rows="4" placeholder="" locales="document.header.languages"></div>
+						</div>
 					</div>
 				</div>
 
 				<div class="row">
-
-					<div class="col-sm-9 col-xs-12">
-						<ul class="pagination">
-							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-						</ul>	
-					</div>
-
-					<div class="col-sm-3 hidden-xs" style="text-align:right">
-						<div class="pagination">
-							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-						</div>
-					</div>
-
-					<div class="col-xs-12 visible-xs">
-						<div class="">
-							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					<div class="col-md-12">
+						<div class="km-control-group" name="relevantDocuments" caption="Any other relevant documents">
+							<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
 						</div>
 					</div>
 				</div>
 
-				<ul class="pagination">
-				</ul>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="notes" caption="Notes">
+							<span class="help-block">
+								The field “Notes” is for personal reference and can be seen only when the record is being edited.
+							</span>
+							<textarea class="form-control" rows="4" name="notes" ng-model="document.notes" ></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 
+		<div km-tab="review">
+
+			<div km-document-validation ng-model="validationReport"></div>
+
+			<div class="btn-group" ng-show="document.header.languages.length>1">
+				<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+			</div>
+
+			<div class="view-database" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
+
+		</div>
+
+		<div class="row">
+
+			<div class="col-sm-9 col-xs-12">
+				<ul class="pagination">
+					<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+					<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+					<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+					<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+				</ul>	
+			</div>
+
+			<div class="col-sm-3 hidden-xs" style="text-align:right">
+				<div class="pagination">
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
+			</div>
+
+			<div class="col-xs-12 visible-xs">
+				<div class="">
+					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
 			</div>
 		</div>
 	</div>
+</div>

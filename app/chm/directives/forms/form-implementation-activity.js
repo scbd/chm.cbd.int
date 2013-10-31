@@ -7,35 +7,24 @@ angular.module('kmApp').compileProvider // lazy
         transclude: false,
         scope: {},
         link: function ($scope, $element) {
+            $scope.init();
+        },
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, authentication, siteMapUrls, Thesaurus, guid) 
+		{
             $scope.status = "";
             $scope.error = null;
             $scope.document = null;
             $scope.tab = 'general';
             $scope.review = { locale: "en" };
 
-			//==================================
-			//
-			//==================================
-			$scope.$watch('tab', function(tab) {
-				if (tab == 'review')
-					$scope.validate();
-			});
-
-            $scope.init();
-        },
-		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', function ($scope, $q, storage, authentication, editFormUtility, guid, $location, ngProgress) {
+			// Ensure user as signed in
+			navigation.securize();
 
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
 				
-				if(!authentication.user().isAuthenticated) {
-					$location.search({returnUrl : $location.url() });
-					$location.path('/management/signin');
-					return;
-				}
-
 				if ($scope.document)
 					return;
 
@@ -43,21 +32,36 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
 				var promise = null;
+				var schema  = "implementationActivity";
+				var qs = $location.search();
 
-				if(identifier)
-					promise = editFormUtility.load(identifier, "implementationActivity");
-				else
-					promise = $q.when({
-						header: {
-							identifier: guid(),
-							schema   : "implementationActivity",
-							languages: ["en"]
-						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+				if(qs.uid) { // Load
+					promise = editFormUtility.load(qs.uid, schema);
+				}
+				else { // Create
+
+					promise = $q.when(guid()).then(function(identifier) {
+						return storage.drafts.security.canCreate(identifier, schema).then(function(isAllowed) {
+
+							if (!isAllowed)
+								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
+
+							return identifier;
+						})
+						;
+					}).then(function(identifier) {
+
+						return {
+							header: {
+								identifier: identifier,
+								schema   : schema,
+								languages: ["en"]
+							},
+							government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+						}
 					});
-
+				}
 
 				promise.then(function(doc) {
 
@@ -71,13 +75,9 @@ angular.module('kmApp').compileProvider // lazy
 			                nationalIndicators: [],
 			                nationalTargets:    []
 			            };
+					}
 
-						return $q.all(_.values($scope.options)).then(function() {
-			            	return doc;
-			            });
-			        }
-
-			        return doc;
+	            	return doc;
 
 				}).then(function(doc) {
 
@@ -142,12 +142,13 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.cleanUp = function(document) {
-
+			$scope.getCleanDocument = function(document) {
 				document = document || $scope.document;
 
 				if (!document)
-					return $q.when(true);
+					return undefined
+
+				document = angular.fromJson(angular.toJson(document));
 
 				if (!$scope.isJurisdictionSubNational(document))
 					document.jurisdictionInfo = undefined;
@@ -155,7 +156,7 @@ angular.module('kmApp').compileProvider // lazy
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return $q.when(false);
+				return document
 			};
 
 			//==================================
@@ -208,38 +209,31 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
-			$scope.validate = function(clone) {
-
-				$scope.validationReport = null;
-
-				var oDocument = $scope.document;
-
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-					return storage.documents.validate(oDocument).then(
-						function(success) {
-							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
-						},
-						function(error) {
-							$scope.onError(error.data);
-							return true;
-						}
-					);
-				});
-			}
+			$scope.$watch('tab', function(tab) {
+				if (tab == 'review')
+					$scope.validate();
+			});
 
 			//==================================
 			//
 			//==================================
-			$scope.isFieldValid = function(field) {
-				if (field && $scope.validationReport && $scope.validationReport.errors) {
-					return !_.findWhere($scope.validationReport.errors, { property: field });
-				}
+			$scope.validate = function() {
 
-				return true;
+				$scope.validationReport = null;
+
+				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
+
+				return storage.documents.validate(oDocument).then(function(success) {
+				
+					$scope.validationReport = success.data;
+					return !!(success.data && success.data.errors && success.data.errors.length);
+
+				}).catch(function(error) {
+					
+					$scope.onError(error.data);
+					return true;
+
+				});
 			}
 
 			//==================================
@@ -281,14 +275,13 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			}
 
 			//==================================
 			//
 			//==================================
 			$scope.onPrePublish = function() {
-				return $scope.validate(false).then(function(hasError) {
+				return $scope.validate().then(function(hasError) {
 					if (hasError)
 						$scope.tab = "review";
 					return hasError;

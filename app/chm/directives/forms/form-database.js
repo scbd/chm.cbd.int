@@ -29,8 +29,6 @@ angular.module('kmApp').compileProvider // lazy
 				if ($scope.document)
 					return;
 
-				ngProgress.start();
-
 				$scope.status = "loading";
 
 				var promise = null;

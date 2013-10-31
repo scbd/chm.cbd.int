@@ -8,7 +8,8 @@ angular.module('kmApp').compileProvider // lazy
 		scope: {
 			document: "=ngModel",
 			locale  : "=",
-			allowDrafts : "@"
+			allowDrafts : "@",
+			target : "@linkTarget"
 		},
 		controller: ['$scope', "authHttp", "underscore", 'IStorage', function ($scope, $http, _, storage) {
 			//====================

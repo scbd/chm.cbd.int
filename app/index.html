@@ -104,9 +104,9 @@
                     </span>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 visible-xs">
-                    <span class="logo" href="http://www.cbd.int/" style="position:relative;z-index:999;cursor:pointer" ng-click="goHome()">
+                    <span class="logo" href="http://www.cbd.int/" style="position:relative;z-index:999;cursor:pointer;height:40px;" ng-click="goHome()">
                         <div style="font-size:24px;color:#f8f8f8">
-                            <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width:60px"/>
+                            <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width:60px;"/>
                             <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-right:5px;width:20px"/>CHM
                         </div>
                     </span>
@@ -121,15 +121,20 @@
                             </a>
                             <ul class="header-actions">
                                 <li ng-hide="currentPath()=='/database/'">
-                                    <form action="/search" style="display: none;" class="site-search">
-                                        <input type="text" placeholder="Search the CHM" name="q" />
-                                        <input type="submit" value="" style="width:200px" />
-                                    </form>
-                                    <a href="" class="search-icon"></a>
+                                    <a href="/database" class="search-icon"></a>
                                 </li>
-                                <li><a href="/database/news" style="color:black">News</a></li>
                                 <li><a class="icon icon-globe" style="color:black">&nbsp;Language: EN</a></li>
-                                <li><a class="signin" href="/database" data-slug="signin" style="color:black">Search</a></li>
+                                <li ng-hide="user.isAuthenticated">
+                                    <a class="icon-off" href="/management/signin" style="color:black">&nbsp;Sign In</a>
+                                </li>
+                                <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
+                                    <a data-toggle="dropdown" href="#"><i class="icon-chevron-down" style="font-size:15px"></i>&nbsp; Sign Out</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="disabled"><a href="#"><i class="icon-cog" style="font-size:15px"></i>&nbsp; Settings</a></li>
+                                        <li class="disabled"><a href="#"><i class="icon-user" style="font-size:15px"></i>&nbsp; Profile</a></li>
+                                        <li><a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>

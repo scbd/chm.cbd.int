@@ -7,7 +7,9 @@ angular.module('kmApp').compileProvider // lazy
 		transclude : false,
 		scope: {
 			document: "=ngModel",
-			locale  : "="
+			locale  : "=",
+			target  : "@linkTarget",
+			allowDrafts : "@"
 		},
 		controller: ['$scope', 'IStorage', function ($scope, storage) {
 

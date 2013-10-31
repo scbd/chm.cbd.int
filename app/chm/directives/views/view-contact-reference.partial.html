@@ -28,6 +28,6 @@
 		Emails: <span ng-repeat="item in document.emails"><a ng-href="mailto:{{item}}">{{item}}</a><span ng-show="!$last">, </span></span>
 	</div>
 	<div ng-show="document.websites">
-		Websites: <span ng-repeat="item in document.websites"><a ng-href="{{item.url}}">{{item.name||item.url}}</a><span ng-show="!$last">, </span></span>
+		Websites: <span ng-repeat="item in document.websites"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a><span ng-show="!$last">, </span></span>
 	</div>
 </div>

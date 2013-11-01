@@ -83,13 +83,14 @@
     </style>
 </head>
 <body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
-        
+
     <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom:0px;text-align:center">
         <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
     </div>
 
-    <img src="/app/img/landscape.jpg" style="position:absolute" ng-show="homePage">
+    <img class="hidden-xs" src="/app/img/landscape.jpg" style="position:absolute" ng-show="homePage">
+    <img class="visible-xs" src="/app/img/landscapeMobile.jpg" style="position:absolute" ng-show="homePage">
     <div class="main-nav">
 
         <div class="header-banner" style="position:absolute;width:100%;height:140px"></div>
@@ -123,17 +124,22 @@
                                 <li ng-hide="currentPath()=='/database/'">
                                     <a href="/database" class="search-icon"></a>
                                 </li>
-                                <li><a class="icon icon-globe" style="color:black">&nbsp;Language: EN</a></li>
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="icon icon-globe" style="color:black" href="#">&nbsp;Language: EN</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="disabled"><a>لعربية</a></li>
+                                        <li class="disabled"><a>中文</a></li>
+                                        <li><a href="#"><strong>English</strong></a></li>
+                                        <li class="disabled"><a>Español</a></li>
+                                        <li class="disabled"><a>Français</a></li>
+                                        <li class="disabled"><a>Русский</a></li>
+                                    </ul>
+                                </li>
                                 <li ng-hide="user.isAuthenticated">
                                     <a class="icon-off" href="/management/signin" style="color:black">&nbsp;Sign In</a>
                                 </li>
                                 <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
-                                    <a data-toggle="dropdown" href="#"><i class="icon-chevron-down" style="font-size:15px"></i>&nbsp; Sign Out</a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li class="disabled"><a href="#"><i class="icon-cog" style="font-size:15px"></i>&nbsp; Settings</a></li>
-                                        <li class="disabled"><a href="#"><i class="icon-user" style="font-size:15px"></i>&nbsp; Profile</a></li>
-                                        <li><a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
-                                    </ul>
+                                    <a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size:15px"></i>&nbsp; Sign-out</a>
                                 </li>
                             </ul>
                         </div>

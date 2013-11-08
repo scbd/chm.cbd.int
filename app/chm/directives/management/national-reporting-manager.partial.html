@@ -1,7 +1,9 @@
 <div class="container reporting">
-    
+
+    <h2 ng-show="government">{{governmentName}}</h2>
 	<select style="margin-top:-40px" class="pull-right" ng-show="!userGovernment()" ng-model="government" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
 	
+	<div ng-show="governmentName">
 	<h4 class="heading">
 		<span class="text-muted">National Reports, Action Plans and Other Reports</span>
         <span style="font-size:14px;"><span class="label label-warning pull-right label-spacingl">not published</span>
@@ -548,8 +550,8 @@
 		    </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->		
+	</div>
 </div>
-
 <style type="text/css">
     .reporting a { color: #5e7600; }
     .label-spacing {

@@ -73,9 +73,16 @@
 			}
 
 		},
-		controller: ['$rootScope', '$scope', '$q', 'authHttp', "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $q, $http, _, $location, URI, authentication) {
+		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication) {
 
-			$scope.government = 'AF';
+			navigation.securize();
+ 
+			if(userGovernment() && userGovernment()!=$routeParams.country) {
+				$location.path("/management/national-reporting/"+userGovernment());
+				return;
+			}
+
+			$scope.government  = $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear();
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 			$scope.countries           = $http.get('/api/v2013/countries').then(function(response) { return response.data });
@@ -86,8 +93,6 @@
 										 "DA7E04F1-D2EA-491E-9503-F7923B1FD7D4", // NR3
 										 "A49393CA-2950-4EFD-8BCC-33266D69232F", // NR2
 										 "F27DBC9B-FF25-471B-B624-C0F73E76C8B"]; // NR1
-
-
 
 			$scope.orderList = true;
 			$scope.sortTerm = 'title';
@@ -125,9 +130,6 @@
 			    return result;
 			}
 
-
-
-
 			//==================================
 			//
 			//==================================
@@ -145,10 +147,14 @@
 			//==================================
 			//
 			//==================================
-			$scope.$watch("government", function(gov) {
+			$scope.$watch("government", function(gov, prev) {
 
-				if ($location.search() != gov && gov)
-					$location.search("country", gov||null);
+				if($scope.government!=$routeParams.country) {
+					$location.path("/management/national-reporting/"+$scope.government);
+					return;
+				}
+
+				console.log("government", gov, prev)
 
 				load();
 			});
@@ -156,9 +162,19 @@
 			//==================================
 			//
 			//==================================
-			$scope.$watch(function() { return $location.search().country }, function government(government) {
+			//==================================
+			//
+			//==================================
+			$rootScope.$on('$routeUpdate', function(evt, currentRoute) {
 
-				$scope.government = government || userGovernment() || undefined;
+				console.log("$routeUpdate", currentRoute);
+
+				var government = currentRoute.params.country;
+
+				if(userGovernment())
+					government = userGovernment();
+
+				$scope.government = government;
 			});
 
 			//==================================
@@ -257,6 +273,7 @@
 			//==================================
 			function load() {
 
+				$scope.governmentName = null;
 				$scope.nationalReports = [];
 				$scope.nationalStrategicPlans = [];
 				$scope.otherNationalReports = [];
@@ -269,6 +286,13 @@
 				$scope.nationalSupportTools = [];
 
 				if ($scope.government) {
+
+					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government, { cache:true }).then(function (response) {
+						console.log(response.data);
+						return response.data.name.en;
+					}).catch(function(err) {
+						navigation.notFound();
+					});
 
 					var government = $scope.government.toLowerCase();
 

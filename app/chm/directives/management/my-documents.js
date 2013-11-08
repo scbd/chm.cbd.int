@@ -69,9 +69,10 @@
 
 				storage.documents.security.canDelete(document.identifier, document.type).then(
 					function(isAllowed) {
-						if (!isAllowed)
-							if (alert("You are not authorised to delete this document?"))
-								return;
+						if (!isAllowed) {
+							alert("You are not authorized to delete this document?");
+							return;
+						}
 
 						if (!confirm("Delete the document?"))
 							return;

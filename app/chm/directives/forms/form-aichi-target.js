@@ -40,7 +40,7 @@ angular.module('kmApp').compileProvider // lazy
 					promise = editFormUtility.load(identifier, "aichiTarget");
 				else
 					promise = $q.when({}).then(function(doc) {
-						throw { error: { data: "Forbidden"}, status : "notAuthorized"};
+						throw { error: { data: "Forbidden"}, status : "cannotCreate"};
 					});
 
 				promise.then(function(doc) {
@@ -207,7 +207,11 @@ angular.module('kmApp').compileProvider // lazy
 			{
 				$scope.status = "error";
 
-				if (status == "notAuthorized") {
+				if (status == "cannotCreate") {
+					$scope.status = "hidden";
+					$scope.error  = "A new aichi target cannot be created";
+				}
+				else if (status == "notAuthorized") {
 					$scope.status = "hidden";
 					$scope.error  = "You are not authorized to modify this record";
 				}

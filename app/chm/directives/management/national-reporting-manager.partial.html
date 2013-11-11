@@ -187,8 +187,7 @@
 							<th style="text-align:center" ng-click="sortTable('isUpToDate')">Assessment of Aichi Target<i ng-show="sortTerm=='number'" ng-class="{true:'down-caret', false:'up-caret'}[orderList]"></i></th>
 							<th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
 						</tr>
-						<tr ng-repeat="aichiTarget in aichiTargets| orderBy:sortTerm:orderList">
-                            
+						<tr ng-repeat="aichiTarget in aichiTargets| orderBy:number">
 							<!-- aichi target icon -->
 							<td style="width:42px;text-align:center">
 								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}"><img class="aichi-icon" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>

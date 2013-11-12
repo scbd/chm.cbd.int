@@ -30,6 +30,13 @@ angular.module('kmApp').compileProvider // lazy
 			//===============
 			//
 			//===============
+			$scope.$watch("document.higherLevelNationalTarget", function(refs) {
+				$scope.higherLevelNationalTarget = loadReferences(refs, { info : true });
+			});
+
+			//===============
+			//
+			//===============
 			$scope.$watch("document.nationalIndicators", function(refs) {
 				$scope.nationalIndicators = loadReferences(refs, { info : true });
 			});

@@ -86,7 +86,9 @@ angular.module('kmApp').compileProvider // lazy
 			                countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms",    { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
 			                jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data }),
 			            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
-			                nationalIndicators: []
+			            	aichiTargets:       $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+			                nationalIndicators: [],
+			                nationalTargets:    []
 			            };
 
        				    return $q.all(_.values($scope.options)).then(function() {
@@ -123,6 +125,7 @@ angular.module('kmApp').compileProvider // lazy
             	if(!term) return;
 
             	$scope.options.nationalIndicators = [];
+            	$scope.options.nationalTargets = [];
 
         		var buidQueryFn = function(schema) {
         			return {
@@ -143,6 +146,7 @@ angular.module('kmApp').compileProvider // lazy
         		};
 
         		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
+        		$scope.options.nationalTargets    = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
             });
 
 			//==================================

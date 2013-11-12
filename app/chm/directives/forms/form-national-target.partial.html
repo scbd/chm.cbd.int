@@ -111,6 +111,14 @@
 
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
+								<div class="km-control-group" required name="higherLevelNationalTarget" caption="If this National Target is a sub-target, please indicate the higher level National Target.">
+									<div km-select required displaycount="1" name="higherLevelNationalTarget" multiple ng-model="document.higherLevelNationalTarget" placeholder="Please select National Target" watch-items items="options.nationalTargets"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row bottom-spacing">
+							<div class="col-md-12">
 								<div class="km-control-group" name="nationalIndicators" caption="Link to National Indicators">
 									<div km-select name="nationalIndicators" multiple ng-model="document.nationalIndicators" placeholder="" watch-items items="options.nationalIndicators"></div>
 								</div>

@@ -20,13 +20,13 @@
 	</div>
 
 	<div ng-show="document.strategicPlanIndicators">
-		<label>Most Relevant Global Indicator(s)</label>
+		<label>Most Relevant Indicator(s)</label>
 		<ul class="km-value">
 			<li ng-repeat="doc in strategicPlanIndicators">{{doc.title_t | lstring:locale}} </li>
 		</ul>
 	</div>
 	<div ng-show="document.otherStrategicPlanIndicators">
-		<label>Other Relevant Global Indicator(s)</label>
+		<label>Other Relevant Indicator(s)</label>
 		<ul class="km-value">
 			<li ng-repeat="doc in otherStrategicPlanIndicators">{{doc.title_t | lstring:locale}} </li>
 		</ul>

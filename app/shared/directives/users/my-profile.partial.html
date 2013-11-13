@@ -1,0 +1,54 @@
+<div>
+	<!--h1>Profile - {{document.number}}</h1-->
+
+	<div class="alert alert-danger" ng-cloak ng-show="error">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div ng-show="status=='loading'"><em>Loading...</em></div>
+	
+	<div ng-hide="status=='hidden'||status=='loading'">
+
+		<div style="position:relative">
+			
+			<div>
+				<div  class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="title" caption="Full Title">
+							<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+				<div  class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="shortTitle" caption="Short title">
+							<div km-textbox-ml name="shortTitle" ng-model="document.shortTitle" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+				<div  class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="icons" caption="Target Icon">
+							<div km-link name="icons" ng-model="document.icons" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="strategicGoal" caption="Strategic Goal">
+							<div km-select required name="strategicGoal" ng-model="document.strategicGoal" watch-items items="options.strategicGoals" binding-type="term[]"></div>
+						</div>
+					</div>
+				</div>
+				<div  class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="guide" caption="Quick Guide">
+							<div km-textbox-ml name="guide" ng-model="document.guide" locales="document.header.languages" rows="8"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -58,6 +58,9 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/help/404',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
  		when('/help/403',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/403.html', 				resolve: { user : getUser } }).
 
+
+ 		when('/settings/profile', 			{ controller:ManagementPageController, templateUrl:'/app/views/settings/profile.html'          , resolve: { user : getUser } }).
+
 		otherwise({redirectTo:'/help/404'});
 
  		function HomePageController($scope, $rootScope, $route, $browser, $location, $window, user, authentication) {

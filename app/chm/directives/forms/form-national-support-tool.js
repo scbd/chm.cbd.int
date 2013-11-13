@@ -74,7 +74,8 @@ angular.module('kmApp').compileProvider // lazy
 			                status:			 $http.get("/api/v2013/thesaurus/domains/B91693BB-648B-4601-9C4E-5B6ABE160D35/terms", { cache: true }).then(function (o) { return o.data }),
 			            	jurisdictions:	 $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
 							thematicAreas:	 $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",						  { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }),
-							supportTools:	 function() { return $http.get("/api/v2013/thesaurus/domains/B63B9640-1CB8-4868-89DA-3D0571638870/terms", { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }) },
+							//supportTools:	 function() { return $http.get("/api/v2013/thesaurus/domains/B63B9640-1CB8-4868-89DA-3D0571638870/terms", { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }) },
+							supportTools:	 $http.get("/api/v2013/thesaurus/domains/B63B9640-1CB8-4868-89DA-3D0571638870/terms", { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }),
 			            	aichiTargets:	 $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",		sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
 			            	nationalTargets: []
 			            };

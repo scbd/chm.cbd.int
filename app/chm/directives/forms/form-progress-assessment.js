@@ -66,18 +66,14 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.init();
         },
-		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", function ($scope, $q, storage, authentication, editFormUtility, guid, $location) {
+		controller : ['$scope', "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", function ($scope, $q, storage, authentication, editFormUtility, guid, $location, navigation) {
 
 			//==================================
 			//
 			//==================================
 			$scope.init = function() {
 
-				if(!authentication.user().isAuthenticated) {
-					$location.search({returnUrl : $location.url() });
-					$location.path('/management/signin');
-					return;
-				}
+				//navigation.securize();
 
 				if ($scope.document)
 					return;

@@ -204,8 +204,10 @@ app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authent
 				if(!user.isAuthenticated) {
 					
 					console.log("securize: force sign in");
-
-					$location.search({returnUrl : $location.url() });
+					
+					if(!$location.search().returnUrl)
+						$location.search({returnUrl : $location.url() });
+	
 					$location.path(siteMapUrls.user.signIn);
 
 				}

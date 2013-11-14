@@ -67,7 +67,10 @@
 
 			if(!authentication.user().isAuthenticated) {
 				$timeout.cancel(qTimeout);
-				$location.search({returnUrl : $location.url() });
+				
+				if(!$location.search().returnUrl)
+					$location.search({returnUrl : $location.url() });
+				
 				$location.path('/management/signin');
 				return;
 			}

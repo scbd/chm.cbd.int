@@ -2,7 +2,7 @@
 	<h1>{{document.title | lstring:locale}}</i></h1>
 
 	<div ng-show="document.subjects || document.aichiTargets ||
-		document.regions || document.languages">
+		document.regions || document.languages || document.countries">
 		<legend>General information</legend>
 		<div ng-show="document.subjects">
 			<label>Related CBD Subject area(s)</label>
@@ -18,11 +18,18 @@
 		</div>
 
 		<div ng-show="document.regions">
-			<label>Related Country(ies / Region(s) / Economic group(s)</label>
+			<label>Related Region(s) / Economic group(s)</label>
 			<ul class="km-value" km-terms ng-model="document.regions">
 				<li ng-repeat="term in terms">{{term.name}}</li>
 			</ul>
 		</div>
+
+		<div ng-show="document.countries">
+			<label>Related Country(ies)</label>
+			<ul class="km-value" km-terms ng-model="document.countries">
+				<li ng-repeat="term in terms">{{term.name}}</li>
+			</ul>
+		</div>		
 
 		<div ng-show="document.languages">
 			<label>Language(s)</label>

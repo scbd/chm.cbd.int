@@ -73,10 +73,8 @@ angular.module('kmApp').compileProvider // lazy
 							docLanguages	: $http.get("/api/v2013/thesaurus/domains/ISO639-2/terms",									{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							scales			: $http.get("/api/v2013/thesaurus/domains/96FCD864-D388-4148-94DB-28B484047BA5/terms",      { cache: true }).then(function(o){ return o.data; }),
 							statuses		: $http.get("/api/v2013/thesaurus/domains/Capacity%20Building%20Project%20Status/terms",    { cache: true }).then(function(o){ return o.data; }),
-							regions			: $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
-													  $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); })]).then(function(res) {
-								return _.union(res[0], res[1]);
-							})
+							regions			: $http.get("/api/v2013/thesaurus/domains/regions/terms",   								{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+					      	countries		: $http.get("/api/v2013/thesaurus/domains/countries/terms", 								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); })
 						};
 					}
 					

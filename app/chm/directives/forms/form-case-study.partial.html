@@ -67,12 +67,18 @@
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-12"> 
-								<div class="km-control-group" required name="regions" caption="Related Country(ies) / Region(s) / Economic group(s)">
+							<div class="col-md-4"> 
+								<div class="km-control-group" required name="regions" caption="Related Region(s) / Economic group(s)">
 									<div km-select name="regions" multiple ng-model="document.regions" placeholder="" watch-items items="options.regions"></div>
 								</div>
 							</div>
-						</div>
+							<div class="col-md-2"><em>OR</em></div>
+							<div class="col-md-4"> 
+								<div class="km-control-group" required name="countries" caption="Related Country(ies)">
+									<div km-select name="countries" multiple ng-model="document.countries" placeholder="" watch-items items="options.countries"></div>
+								</div>
+							</div>
+						</div>						
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" required name="languages" caption="Language(s)">

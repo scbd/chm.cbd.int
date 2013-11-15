@@ -1,4 +1,4 @@
-<div>
+<div class="container">
 	<!--h1>Profile - {{document.number}}</h1-->
 
 	<div class="alert alert-danger" ng-cloak ng-show="error">
@@ -9,46 +9,169 @@
 	<div ng-show="status=='loading'"><em>Loading...</em></div>
 	
 	<div ng-hide="status=='hidden'||status=='loading'">
+		Content : {{document}}</br></br>
+		<form name="editForm">
+			<div class="row form-group">
+				<div  class="row">
+					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+						<label>Salutation</label>
+						<input type="text" class="form-control" name="salutation" ng-model="document.salutation" required/>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+						<label>Gender</label>
+						<select class="form-control" ng-model="document.gender">
+							<option></option>
+							<option>FEMALE</option>
+							<option>MALE</option>
+							<option>OTHER</option>
+						</select>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+						<label>First Name</label>
+						<input type="text" class="form-control" name="firstName" ng-model="document.firstName" required/>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+						<label>Middle Name</label>
+						<input type="text" class="form-control" name="middleName" ng-model="document.middleName" required/>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+						<label>Last Name</label>
+						<input type="text" class="form-control" name="lastName" ng-model="document.lastName" required/>
+					</div>
+				</div>
 
-		<div style="position:relative">
-			
-			<div>
-				<div  class="row">
+
+				<div class="row">
 					<div class="col-md-12">
-						<div class="km-control-group" name="title" caption="Full Title">
-							<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
-						</div>
+						<label>Job Title</label>
+						<input type="text" class="form-control" name="designation" ng-model="document.designation" required/>
 					</div>
 				</div>
-				<div  class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="shortTitle" caption="Short title">
-							<div km-textbox-ml name="shortTitle" ng-model="document.shortTitle" locales="document.header.languages"></div>
-						</div>
-					</div>
-				</div>
-				<div  class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="icons" caption="Target Icon">
-							<div km-link name="icons" ng-model="document.icons" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
-						</div>
+				<div class="row">
+					<div class="col-md-8">
+						<label>Organization</label>
+						<input type="text" class="form-control" name="organization" ng-model="document.organization" required/>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div class="km-control-group" name="strategicGoal" caption="Strategic Goal">
-							<div km-select required name="strategicGoal" ng-model="document.strategicGoal" watch-items items="options.strategicGoals" binding-type="term[]"></div>
+						<label>Departement</label>
+						<input type="text" class="form-control" name="department" ng-model="document.department" required/>
+					</div>
+				</div>
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label>Address</label>
+						<textarea rows="2" class="form-control" name="address" ng-model="document.address" required/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<label>Neighborhood</label>
+						<input type="text" class="form-control" name="neighborhood" ng-model="document.neighborhood" required/>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<label>City</label>
+						<input type="text" class="form-control" name="city" ng-model="document.city" required/>
+					</div>
+					<div class="col-md-4">
+						<label>Sub-region</label>
+						<input type="text" class="form-control" name="subregion" ng-model="document.subregion" required/>
+					</div>
+					<div class="col-md-6">
+						<label>Region</label>
+						<input type="text" class="form-control" name="region" ng-model="document.region" required/>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<label>Postal Code</label>
+						<input type="text" class="form-control" name="postalCode" ng-model="document.postalCode" required/>
+					</div>
+					<div class="col-md-4">
+						<label>Postal Code extension</label>
+						<input type="text" class="form-control" name="postalCodeExtension" ng-model="document.postalCodeExtension" required/>
+					</div>
+				</div>
+
+				<br/>
+				<div class="row">
+					<div class="col-md-6">
+						<label>Country</label>
+						<div>
+							<div km-select name="country" ng-model="document.country" items="options.countries()"/>
 						</div>
 					</div>
 				</div>
-				<div  class="row">
+
+				<br/>
+				<div class="row">
 					<div class="col-md-12">
-						<div class="km-control-group" name="guide" caption="Quick Guide">
-							<div km-textbox-ml name="guide" ng-model="document.guide" locales="document.header.languages" rows="8"></div>
+						<label>Phone numbers</label>
+						<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
+
+						<div class="col-md-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
+							<div class="col-md-6" style="padding-left:0px">
+								<input type="phone" class="form-control" ng-model="phone.value" ng-change="save()" placeholder="phone" ng-required="isRequired()"/>
+							</div>
+							<div class="col-md-2" style="padding-left:0px">
+								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="save()" placeholder="extension" ng-required="isRequired()"/>
+							</div>
+							<div class="col-md-2">
+								<select class="form-control" ng-model="phone.type">
+								  <option></option>
+								  <option>LAND LINE</option>
+								  <option>MOBILE</option>
+								</select>
+							</div>
+							<span class="input-group-btn col-md-1" ng-show="!$last">
+								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
+							</span>
+						</div>
+
+					</div>
+				</div>
+
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label>Fax numbers</label>
+						<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
+
+						<div class="col-md-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getFaxes()">
+							<div class="col-md-6" style="padding-left:0px">
+								<input type="phone" class="form-control" ng-model="phone.value" ng-change="save()" placeholder="fax" ng-required="isRequired()"/>
+							</div>
+							<div class="col-md-2" style="padding-left:0px">
+								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="save()" placeholder="extension" ng-required="isRequired()"/>
+							</div>
+							<span class="input-group-btn col-md-1" ng-show="!$last">
+								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<br/>
+				<div class="row">
+					<div class="col-md-12">
+						<label>Email</label>
+						<div class="col-md-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="email in getEmails()">
+							<div class="col-md-6" style="padding-left:0px">
+								<input type="email" class="form-control" ng-model="email.value" ng-change="save()" placeholder="email" ng-required="isRequired()"/>
+							</div>
+							<span class="input-group-btn col-md-1" ng-show="!$last">
+								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
+							</span>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>

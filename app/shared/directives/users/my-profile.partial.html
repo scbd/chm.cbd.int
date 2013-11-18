@@ -1,5 +1,4 @@
 <div class="container">
-	<!--h1>Profile - {{document.number}}</h1-->
 
 	<div class="alert alert-danger" ng-cloak ng-show="error">
 		<strong>Error as occured...</strong>
@@ -9,7 +8,7 @@
 	<div ng-show="status=='loading'"><em>Loading...</em></div>
 	
 	<div ng-hide="status=='hidden'||status=='loading'">
-		Content : {{document}}</br></br>
+		</br></br>
 		<form name="editForm">
 			<div class="row form-group">
 				<div  class="row">
@@ -111,11 +110,11 @@
 
 				<br/>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 col-xs-12">
 						<label>Phone numbers</label>
 						<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
 
-						<div class="col-md-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
+						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.value" ng-change="save()" placeholder="phone" ng-required="isRequired()"/>
 							</div>
@@ -129,7 +128,7 @@
 								  <option>MOBILE</option>
 								</select>
 							</div>
-							<span class="input-group-btn col-md-1" ng-show="!$last">
+							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
 							</span>
 						</div>
@@ -139,18 +138,18 @@
 
 				<br/>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 col-xs-12">
 						<label>Fax numbers</label>
 						<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
 
-						<div class="col-md-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getFaxes()">
+						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getFaxes()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.value" ng-change="save()" placeholder="fax" ng-required="isRequired()"/>
 							</div>
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="save()" placeholder="extension" ng-required="isRequired()"/>
 							</div>
-							<span class="input-group-btn col-md-1" ng-show="!$last">
+							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
 							</span>
 						</div>
@@ -159,13 +158,13 @@
 
 				<br/>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 col-xs-12">
 						<label>Email</label>
-						<div class="col-md-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="email in getEmails()">
+						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="email in getEmails()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
 								<input type="email" class="form-control" ng-model="email.value" ng-change="save()" placeholder="email" ng-required="isRequired()"/>
 							</div>
-							<span class="input-group-btn col-md-1" ng-show="!$last">
+							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
 							</span>
 						</div>

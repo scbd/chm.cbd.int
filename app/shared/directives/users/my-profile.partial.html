@@ -1,5 +1,5 @@
 <div class="container">
-
+	{{document}}
 	<div class="alert alert-danger" ng-cloak ng-show="error">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -10,15 +10,18 @@
 	<div ng-hide="status=='hidden'||status=='loading'">
 		</br></br>
 		<form name="editForm">
+				<div class="modal-footer" style="margin-top:0">
+					<button type="button" ng-click="onPostSave()"   class="btn btn-info">Save</button>
+				</div>
 			<div class="row form-group">
 				<div  class="row">
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 						<label>Salutation</label>
-						<input type="text" class="form-control" name="salutation" ng-model="document.salutation" required/>
+						<input type="text" class="form-control" name="Title" ng-model="document.Title" required/>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 						<label>Gender</label>
-						<select class="form-control" ng-model="document.gender">
+						<select class="form-control" ng-model="document.Gender">
 							<option></option>
 							<option>FEMALE</option>
 							<option>MALE</option>
@@ -27,15 +30,15 @@
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
 						<label>First Name</label>
-						<input type="text" class="form-control" name="firstName" ng-model="document.firstName" required/>
+						<input type="text" class="form-control" name="FirstName" ng-model="document.FirstName" required/>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 						<label>Middle Name</label>
-						<input type="text" class="form-control" name="middleName" ng-model="document.middleName" required/>
+						<input type="text" class="form-control" name="MiddleName" ng-model="document.MiddleName" required/>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
 						<label>Last Name</label>
-						<input type="text" class="form-control" name="lastName" ng-model="document.lastName" required/>
+						<input type="text" class="form-control" name="LastName" ng-model="document.LastName" required/>
 					</div>
 				</div>
 
@@ -43,39 +46,39 @@
 				<div class="row">
 					<div class="col-md-12">
 						<label>Job Title</label>
-						<input type="text" class="form-control" name="designation" ng-model="document.designation" required/>
+						<input type="text" class="form-control" name="Designation" ng-model="document.Designation" required/>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-8">
 						<label>Organization</label>
-						<input type="text" class="form-control" name="organization" ng-model="document.organization" required/>
+						<input type="text" class="form-control" name="Organization" ng-model="document.Organization" required/>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<label>Departement</label>
-						<input type="text" class="form-control" name="department" ng-model="document.department" required/>
+						<input type="text" class="form-control" name="Department" ng-model="document.Department" required/>
 					</div>
 				</div>
 				<br/>
 				<div class="row">
 					<div class="col-md-12">
 						<label>Address</label>
-						<textarea rows="2" class="form-control" name="address" ng-model="document.address" required/>
+						<textarea rows="2" class="form-control" name="Address" ng-model="document.Address" required/>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-6">
 						<label>Neighborhood</label>
-						<input type="text" class="form-control" name="neighborhood" ng-model="document.neighborhood" required/>
+						<input type="text" class="form-control" name="Address2" ng-model="document.Address2" required/>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-md-6">
 						<label>City</label>
-						<input type="text" class="form-control" name="city" ng-model="document.city" required/>
+						<input type="text" class="form-control" name="City" ng-model="document.City" required/>
 					</div>
 					<div class="col-md-4">
 						<label>Sub-region</label>
@@ -83,14 +86,14 @@
 					</div>
 					<div class="col-md-6">
 						<label>Region</label>
-						<input type="text" class="form-control" name="region" ng-model="document.region" required/>
+						<input type="text" class="form-control" name="Region" ng-model="document.Region" required/>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-md-6">
 						<label>Postal Code</label>
-						<input type="text" class="form-control" name="postalCode" ng-model="document.postalCode" required/>
+						<input type="text" class="form-control" name="Zip" ng-model="document.Zip" required/>
 					</div>
 					<div class="col-md-4">
 						<label>Postal Code extension</label>
@@ -103,7 +106,7 @@
 					<div class="col-md-6">
 						<label>Country</label>
 						<div>
-							<div km-select name="country" ng-model="document.country" items="options.countries()"/>
+							<div km-select name="Country" ng-model="document.Country" items="options.countries()"/>
 						</div>
 					</div>
 				</div>
@@ -116,13 +119,13 @@
 
 						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
-								<input type="phone" class="form-control" ng-model="phone.value" ng-change="save()" placeholder="phone" ng-required="isRequired()"/>
+								<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-required="isRequired()"/>
 							</div>
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
-								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="save()" placeholder="extension" ng-required="isRequired()"/>
+								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="savePhones()" placeholder="extension" ng-required="isRequired()"/>
 							</div>
 							<div class="col-md-2 col-xs-2">
-								<select class="form-control" ng-model="phone.type">
+								<select class="form-control" ng-model="phone.type" ng-change="savePhones()">
 								  <option></option>
 								  <option>LAND LINE</option>
 								  <option>MOBILE</option>
@@ -144,10 +147,10 @@
 
 						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getFaxes()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
-								<input type="phone" class="form-control" ng-model="phone.value" ng-change="save()" placeholder="fax" ng-required="isRequired()"/>
+								<input type="phone" class="form-control" ng-model="phone.value" ng-change="saveFaxes()" placeholder="fax" ng-required="isRequired()"/>
 							</div>
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
-								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="save()" placeholder="extension" ng-required="isRequired()"/>
+								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="saveFaxes()" placeholder="extension" ng-required="isRequired()"/>
 							</div>
 							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
@@ -162,7 +165,7 @@
 						<label>Email</label>
 						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="email in getEmails()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
-								<input type="email" class="form-control" ng-model="email.value" ng-change="save()" placeholder="email" ng-required="isRequired()"/>
+								<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="email" ng-required="isRequired()"/>
 							</div>
 							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>

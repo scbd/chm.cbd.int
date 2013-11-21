@@ -28,10 +28,10 @@ angular.module('kmApp').compileProvider // lazy
                     $scope.loadFaxes();
                     $scope.loadEmails();
                     //debugger;
-                  }).
-                  error(function (data, status, headers, config) {
+                }).
+                    error(function (data, status, headers, config) {
                     // ...
-                  });
+                });
             }
 
             //==============================
@@ -65,7 +65,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.loadPhones = function ()
             {
-                $scope.phones = angular.toJson($scope.document.phones);
+                $scope.phones = $scope.document.phones ? $scope.document.phones.split(';') : undefined;
             }
 
             //==============================
@@ -73,7 +73,11 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.savePhones = function ()
             {
-                $scope.document.phones = angular.fromJson($scope.phones);                
+                $scope.document.phones = "";
+                $.each($scope.phones, function( index, value ) {
+                    $scope.document.phones += value.value;
+                    $scope.document.phones += ';';
+                });
             }
 
             //==============================
@@ -114,15 +118,19 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.loadFaxes = function ()
             {
-                $scope.phones = angular.toJson($scope.document.phones);
+                $scope.faxes = $scope.document.faxes ? $scope.document.faxes.split(';') : undefined;
             }
 
             //==============================
             //
             //==============================
-            $scope.saveFaxes = function ()
+            $scope.saveFGaxes = function ()
             {
-                $scope.document.phones = angular.fromJson($scope.phones);                
+                $scope.document.faxes = "";
+                $.each($scope.faxes, function( index, value ) {
+                    $scope.document.faxes += value.value;
+                    $scope.document.faxes += ';';
+                });
             }
 
             //==============================
@@ -139,29 +147,29 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.getEmails = function () 
             {
-                if($scope.emails==undefined)
+                if($scope.EmailsCc==undefined)
                 {
-                    $scope.emails = [];
+                    $scope.EmailsCc = [];
                 }
 
-                if($scope.emails.length==0)
-                    $scope.emails.push({value : ""});
+                if($scope.EmailsCc.length==0)
+                    $scope.EmailsCc.push({value : ""});
 
-                var sLastValue = $scope.emails[$scope.emails.length-1].value; 
+                var sLastValue = $scope.EmailsCc[$scope.EmailsCc.length-1].value; 
 
                 //NOTE: IE can set value to 'undefined' for a moment
                 if(sLastValue && sLastValue!="")
-                    $scope.emails.push({value : ""});
+                    $scope.EmailsCc.push({value : ""});
 
-                return $scope.emails;
+                return $scope.EmailsCc;
             };
 
             //==============================
             //
             //==============================
-            $scope.loadEmails = function ()
+            $scope.loadEmails  = function ()
             {
-                $scope.phones = angular.toJson($scope.document.phones);
+                $scope.EmailsCc = $scope.document.EmailsCc ? $scope.document.EmailsCc.split(';') : undefined;
             }
 
             //==============================
@@ -169,7 +177,11 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.saveEmails = function ()
             {
-                $scope.document.phones = angular.fromJson($scope.phones);                
+                $scope.document.EmailsCc = "";
+                $.each($scope.EmailsCc, function( index, value ) {
+                    $scope.document.EmailsCc += value.value;
+                    $scope.document.EmailsCc += ';';
+                });
             }
 
             //==============================
@@ -177,7 +189,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.removeEmail = function(index) 
             {
-                $scope.emails.splice(index, 1);
+                $scope.EmailsCc.splice(index, 1);
                 saveEmails();
             }
 
@@ -185,13 +197,14 @@ angular.module('kmApp').compileProvider // lazy
             //
             //==================================
             $scope.onPostSave = function(data) {
-                $http.post('/api/v2013/users/',
-                    angular.toJson($scope.document)).then(
-                    function(resp)
-                    {
-                        return resp.data;
-                    }
-                )
+                $http.post('/api/v2013/users/', angular.toJson($scope.document))
+                .success(function (data, status, headers, config) {
+                    //debugger;
+                })
+                .error(function (data, status, headers, config) {
+                    $scope.error = data;
+                    //debugger;
+                });
             };
 
         }]

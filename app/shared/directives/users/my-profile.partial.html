@@ -1,5 +1,5 @@
 <div class="container">
-	{{document}}
+	<!--{{document}}-->
 	<div class="alert alert-danger" ng-cloak ng-show="error">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -10,9 +10,9 @@
 	<div ng-hide="status=='hidden'||status=='loading'">
 		</br></br>
 		<form name="editForm">
-				<div class="modal-footer" style="margin-top:0">
-					<button type="button" ng-click="onPostSave()"   class="btn btn-info">Save</button>
-				</div>
+			<div class="modal-footer" style="margin-top:0">
+				<button type="button" ng-click="onPostSave()"   class="btn btn-info">Save</button>
+			</div>
 			<div class="row form-group">
 				<div  class="row">
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
@@ -121,6 +121,7 @@
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-required="isRequired()"/>
 							</div>
+							<!--
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="savePhones()" placeholder="extension" ng-required="isRequired()"/>
 							</div>
@@ -131,6 +132,7 @@
 								  <option>MOBILE</option>
 								</select>
 							</div>
+							-->
 							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
 							</span>
@@ -149,9 +151,11 @@
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.value" ng-change="saveFaxes()" placeholder="fax" ng-required="isRequired()"/>
 							</div>
+							<!--
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
 								<input type="phone" class="form-control" ng-model="phone.ext" ng-change="saveFaxes()" placeholder="extension" ng-required="isRequired()"/>
 							</div>
+							-->
 							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
 								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
 							</span>
@@ -173,6 +177,9 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="modal-footer" style="margin-top:0">
+				<button type="button" ng-click="onPostSave()"   class="btn btn-info">Save</button>
 			</div>
 		</form>
 	</div>

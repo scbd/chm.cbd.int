@@ -197,7 +197,7 @@ angular.module('kmApp').compileProvider // lazy
             //
             //==================================
             $scope.onPostSave = function(data) {
-                $http.post('/api/v2013/users/', angular.toJson($scope.document))
+                $http.put('/api/v2013/users/'+$scope.user.userID, angular.toJson($scope.document))
                 .success(function (data, status, headers, config) {
                     //debugger;
                 })

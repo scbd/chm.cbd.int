@@ -12,8 +12,6 @@ angular.module('kmApp').compileProvider // lazy
         },
         controller: ['$scope' , '$filter', '$location', 'URI', function ($scope, $filter, $location, URI) {
 
-            $scope.document = $scope.user;
-
             $scope.options  = {
                 countries                   : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
             };

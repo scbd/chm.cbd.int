@@ -1,5 +1,4 @@
 <div class="container">
-	<!--{{document}}-->
 	<div class="alert alert-danger" ng-cloak ng-show="error">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -86,7 +85,7 @@
 					</div-->
 					<div class="col-md-6">
 						<label>State/Province/Region</label>
-						<input type="text" class="form-control" name="Region" ng-model="document.Region" />
+						<input type="text" class="form-control" name="State" ng-model="document.State" />
 					</div>
 				</div>
 
@@ -106,7 +105,7 @@
 					<div class="col-md-6">
 						<label>Country</label>
 						<div>
-							<div km-select name="Country" ng-model="document.Country" items="options.countries()"/>
+							<div km-select name="Country" ng-model="document.Country" items="options.countries()"  binding-type="string"/>
 						</div>
 					</div>
 				</div>

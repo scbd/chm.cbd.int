@@ -152,8 +152,11 @@ angular.module('kmApp').compileProvider // lazy
             {
                 $scope.document.Fax = "";
                 $.each($scope.faxes, function( index, value ) {
-                    $scope.document.Fax += value.value;
-                    $scope.document.Fax += ';';
+                    if(value.value!=undefined && value.value!='')
+                    {
+                        $scope.document.Fax += value.value;
+                        $scope.document.Fax += ';';
+                    }
                 });
             }
 
@@ -162,8 +165,8 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.removeFaxe = function(index) 
             {
-                $scope.Faxes.splice(index, 1);
-                saveFaxes();
+                $scope.faxes.splice(index, 1);
+                $scope.saveFaxes();
             }
 
             //==============================

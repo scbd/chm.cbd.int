@@ -13,6 +13,7 @@ angular.module('kmApp').compileProvider // lazy
         controller: ['$scope' , '$filter', '$location', 'URI', function ($scope, $filter, $location, URI) {
 
             $scope.document = $scope.user;
+
             $scope.options  = {
                 countries                   : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
             };
@@ -65,7 +66,17 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.loadPhones = function ()
             {
-                $scope.phones = $scope.document.phones ? $scope.document.phones.split(';') : undefined;
+                $scope.phones = [];
+                var phones = $scope.document.Phone ? $scope.document.Phone.split(';') : undefined;
+                if(phones)
+                {
+                    $.each(phones, function( index, phone ) {
+                        if(phone!=undefined && phone!='')
+                        {
+                            $scope.phones.push({value: phone})
+                        }
+                    });
+                }
             }
 
             //==============================
@@ -73,10 +84,13 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.savePhones = function ()
             {
-                $scope.document.phones = "";
+                $scope.document.Phone = "";
                 $.each($scope.phones, function( index, value ) {
-                    $scope.document.phones += value.value;
-                    $scope.document.phones += ';';
+                    if(value.value!=undefined && value.value!='')
+                    {
+                        $scope.document.Phone += value.value;
+                        $scope.document.Phone += ';';
+                    }
                 });
             }
 
@@ -86,7 +100,7 @@ angular.module('kmApp').compileProvider // lazy
             $scope.removePhone = function(index) 
             {
                 $scope.phones.splice(index, 1);
-                savePhones();
+                $scope.savePhones();
             }
 
             //==============================
@@ -118,18 +132,28 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.loadFaxes = function ()
             {
-                $scope.faxes = $scope.document.faxes ? $scope.document.faxes.split(';') : undefined;
+                $scope.faxes = [];
+                var Faxes = $scope.document.Fax ? $scope.document.Fax.split(';') : undefined;
+                if(Faxes)
+                {
+                    $.each(Faxes, function( index, faxe ) {
+                        if(faxe!=undefined && faxe!='')
+                        {
+                            $scope.faxes.push({value: faxe})
+                        }
+                    });
+                }
             }
 
             //==============================
             //
             //==============================
-            $scope.saveFGaxes = function ()
+            $scope.saveFaxes = function ()
             {
-                $scope.document.faxes = "";
+                $scope.document.Fax = "";
                 $.each($scope.faxes, function( index, value ) {
-                    $scope.document.faxes += value.value;
-                    $scope.document.faxes += ';';
+                    $scope.document.Fax += value.value;
+                    $scope.document.Fax += ';';
                 });
             }
 
@@ -138,7 +162,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.removeFaxe = function(index) 
             {
-                $scope.faxes.splice(index, 1);
+                $scope.Faxes.splice(index, 1);
                 saveFaxes();
             }
 
@@ -153,13 +177,13 @@ angular.module('kmApp').compileProvider // lazy
                 }
 
                 if($scope.EmailsCc.length==0)
-                    $scope.EmailsCc.push({value : ""});
+                    $scope.EmailsCc.push({value: ""});
 
-                var sLastValue = $scope.EmailsCc[$scope.EmailsCc.length-1].value; 
+                var sLastValue = $scope.EmailsCc[$scope.EmailsCc.length-1];
 
                 //NOTE: IE can set value to 'undefined' for a moment
-                if(sLastValue && sLastValue!="")
-                    $scope.EmailsCc.push({value : ""});
+                if(sLastValue.value && sLastValue.value!="")
+                    $scope.EmailsCc.push({value: ""});
 
                 return $scope.EmailsCc;
             };
@@ -169,7 +193,17 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             $scope.loadEmails  = function ()
             {
-                $scope.EmailsCc = $scope.document.EmailsCc ? $scope.document.EmailsCc.split(';') : undefined;
+                $scope.EmailsCc = [];
+                var emails = $scope.document.EmailsCc ? $scope.document.EmailsCc.split(';') : undefined;
+                if(emails)
+                {
+                    $.each(emails, function( index, email ) {
+                        if(email!=undefined && email!='')
+                        {
+                            $scope.EmailsCc.push({value: email})
+                        }
+                    });
+                }
             }
 
             //==============================
@@ -178,9 +212,12 @@ angular.module('kmApp').compileProvider // lazy
             $scope.saveEmails = function ()
             {
                 $scope.document.EmailsCc = "";
-                $.each($scope.EmailsCc, function( index, value ) {
-                    $scope.document.EmailsCc += value.value;
-                    $scope.document.EmailsCc += ';';
+                $.each($scope.EmailsCc, function( index, email ) {
+                    if(email.value!=undefined && email.value!='')
+                    {
+                        $scope.document.EmailsCc += email.value;
+                        $scope.document.EmailsCc += ';';
+                    }
                 });
             }
 
@@ -190,7 +227,7 @@ angular.module('kmApp').compileProvider // lazy
             $scope.removeEmail = function(index) 
             {
                 $scope.EmailsCc.splice(index, 1);
-                saveEmails();
+                $scope.saveEmails();
             }
 
             //==================================

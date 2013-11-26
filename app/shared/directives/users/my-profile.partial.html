@@ -14,91 +14,91 @@
 				<button type="button" ng-click="onPostSave()"   class="btn btn-info">Save</button>
 			</div>
 			<div class="row form-group">
-				<div  class="row">
-					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-						<label>Salutation</label>
-						<input type="text" class="form-control" name="Title" ng-model="document.Title" required/>
-					</div>
+				<div class="row">
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
 						<label>Gender</label>
 						<select class="form-control" ng-model="document.Gender">
 							<option></option>
-							<option>FEMALE</option>
-							<option>MALE</option>
-							<option>OTHER</option>
+							<option>Female</option>
+							<option>Male</option>
+							<option>Other</option>
 						</select>
 					</div>
+				</div>
+				<div  class="row">
+					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+						<label>Salutation</label>
+						<input type="text" class="form-control" name="Title" ng-model="document.Title"/>
+					</div>
 					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
-						<label>First Name</label>
-						<input type="text" class="form-control" name="FirstName" ng-model="document.FirstName" required/>
+						<label>First Name *</label>
+						<input type="text" class="form-control" name="FirstName" ng-model="document.FirstName" required />
+					</div>
+					<!--div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+						<label>Middle Name</label>
+						<input type="text" class="form-control" name="MiddleName" ng-model="document.MiddleName" />
+					</div-->
+					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+						<label>Last Name *</label>
+						<input type="text" class="form-control" name="LastName" ng-model="document.LastName" required/>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-						<label>Middle Name</label>
-						<input type="text" class="form-control" name="MiddleName" ng-model="document.MiddleName" required/>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
-						<label>Last Name</label>
-						<input type="text" class="form-control" name="LastName" ng-model="document.LastName" required/>
+						<label>Job Title</label>
+						<input type="text" class="form-control" name="Designation" ng-model="document.Designation"/>
 					</div>
 				</div>
 
 
 				<div class="row">
 					<div class="col-md-12">
-						<label>Job Title</label>
-						<input type="text" class="form-control" name="Designation" ng-model="document.Designation" required/>
+						<label>Departement</label>
+						<input type="text" class="form-control" name="Department" ng-model="document.Department" />
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-8">
 						<label>Organization</label>
-						<input type="text" class="form-control" name="Organization" ng-model="document.Organization" required/>
+						<input type="text" class="form-control" name="Organization" ng-model="document.Organization" />
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<label>Departement</label>
-						<input type="text" class="form-control" name="Department" ng-model="document.Department" required/>
-					</div>
-				</div>
-				<br/>
+
 				<div class="row">
 					<div class="col-md-12">
 						<label>Address</label>
-						<textarea rows="2" class="form-control" name="Address" ng-model="document.Address" required/>
+						<textarea rows="3" class="form-control" name="Address" ng-model="document.Address" />
 					</div>
 				</div>
-				<div class="row">
+				<!--div class="row">
 					<div class="col-md-6">
 						<label>Neighborhood</label>
-						<input type="text" class="form-control" name="Address2" ng-model="document.Address2" required/>
+						<input type="text" class="form-control" name="Address2" ng-model="document.Address2" />
 					</div>
-				</div>
+				</div-->
 
 				<div class="row">
 					<div class="col-md-6">
 						<label>City</label>
-						<input type="text" class="form-control" name="City" ng-model="document.City" required/>
+						<input type="text" class="form-control" name="City" ng-model="document.City" />
 					</div>
-					<div class="col-md-4">
+					<!--div class="col-md-4">
 						<label>Sub-region</label>
-						<input type="text" class="form-control" name="subregion" ng-model="document.subregion" required/>
-					</div>
+						<input type="text" class="form-control" name="subregion" ng-model="document.subregion" />
+					</div-->
 					<div class="col-md-6">
-						<label>Region</label>
-						<input type="text" class="form-control" name="Region" ng-model="document.Region" required/>
+						<label>State/Province/Region</label>
+						<input type="text" class="form-control" name="Region" ng-model="document.Region" />
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-md-6">
-						<label>Postal Code</label>
-						<input type="text" class="form-control" name="Zip" ng-model="document.Zip" required/>
+						<label>Postal/Zip Code</label>
+						<input type="text" class="form-control" name="Zip" ng-model="document.Zip" />
 					</div>
-					<div class="col-md-4">
+					<!--div class="col-md-4">
 						<label>Postal Code extension</label>
-						<input type="text" class="form-control" name="postalCodeExtension" ng-model="document.postalCodeExtension" required/>
-					</div>
+						<input type="text" class="form-control" name="postalCodeExtension" ng-model="document.postalCodeExtension" />
+					</div-->
 				</div>
 
 				<br/>
@@ -119,7 +119,7 @@
 
 						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
-								<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-required="isRequired()"/>
+								<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-pattern=/[\u0030-\u0039]+/g />
 							</div>
 							<!--
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
@@ -149,7 +149,7 @@
 
 						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getFaxes()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
-								<input type="phone" class="form-control" ng-model="phone.value" ng-change="saveFaxes()" placeholder="fax" ng-required="isRequired()"/>
+								<input type="phone" class="form-control" ng-model="phone.value" ng-change="saveFaxes()" placeholder="fax" ng-required="isRequired()" ng-pattern=/[\u0030-\u0039]+/g/>
 							</div>
 							<!--
 							<div class="col-md-2 col-xs-2" style="padding-left:0px">
@@ -163,16 +163,22 @@
 					</div>
 				</div>
 
-				<br/>
+				<div class="row">
+					<div class="col-md-6 col-xs-6">
+						<label>Email</label>
+						<input type="email" class="form-control col-md-6" ng-model="document.Email" ng-disabled="true"/>
+					</div>
+				</div>
+
 				<div class="row">
 					<div class="col-md-12 col-xs-12">
-						<label>Email</label>
+						<label>Other email(s)</label>
 						<div class="col-md-12 col-xs-12" ng-class="{'input-group' : !$last}" style="margin-bottom:2px; padding-left: 0px" ng-repeat="email in getEmails()">
 							<div class="col-md-6 col-xs-6" style="padding-left:0px">
 								<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="email" ng-required="isRequired()"/>
 							</div>
 							<span class="input-group-btn col-md-1 col-xs-1" ng-show="!$last">
-								<button type="button" class="btn btn-default" ng-click="removePhone($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
+								<button type="button" class="btn btn-default" ng-click="removeEmail($index)" ng-show="!$last"><i class="icon-trash icon"></i></button>
 							</span>
 						</div>
 					</div>

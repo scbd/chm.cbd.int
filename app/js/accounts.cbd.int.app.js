@@ -207,6 +207,9 @@ app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authent
 
 function PageController($scope, $window, $location, authentication) {
 
+	if($location.protocol()=="http" && $location.host()=="accounts.cbd.int")
+		$window.location = "https://accounts.cbd.int/";
+
 	$(function () {
 		$.scrollUp({ scrollText: 'scroll to top' });
 	});

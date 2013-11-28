@@ -7868,7 +7868,7 @@ h1 + p,
 .aws-comparison #main h1 + p,
 .product-special #main h1 + p {
   line-height: 36px;
-  font-family: "adelle-n3", "adelle", serif;
+/*  font-family: "adelle-n3", "adelle", serif; */
   font-weight: 300;
   font-style: normal;
   font-size: 24px;

@@ -23,19 +23,21 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 
 	$routeProvider.
  		when('/', 				  { controller:HomePageController,        templateUrl:'/public/accounts.cbd.int/index.html', 	     resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/management'       ,{ controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signin.html', 	     resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/signin',{ controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signin.html', 	     resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/signin/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signin.html', 	     resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/signup/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signup-step1.html', 	 resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/signup-step2/', 	  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signup-step2.html', 	 resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/profile/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/profile.html', 	     resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/password/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/password.html',       resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/recovery/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/recovery.html',       resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/profile/', 		  { controller:InnerPageController,       templateUrl:'/app/views/404-temp.html'/*'/public/accounts.cbd.int/profile.html'*/, 	     resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/password/', 		  { controller:InnerPageController,       templateUrl:'/app/views/404-temp.html'/*'/public/accounts.cbd.int/password.html'*/,       resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/recovery/', 		  { controller:InnerPageController,       templateUrl:'/app/views/404-temp.html'/*'/public/accounts.cbd.int/recovery.html'*/,       resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/twofactor/', 	  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/twofactor.html',      resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/activity/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/activity.html',       resolve: { user : getUser }, reloadOnSearch: false }).
       
  		when('/admin/users',      { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/admin/users.html',    resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/admin/users/:id',  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/admin/users-id.html', resolve: { user : getUser }, reloadOnSearch: false }).
  		
+ 		when('/help/offline',	  { controller:AboutPortalPageController, templateUrl:'/app/views/404-temp.html', 			         resolve: { user : getUser } }).
  		when('/help/404',		  { controller:AboutPortalPageController, templateUrl:'/app/views/404.html', 				         resolve: { user : getUser } }).
  		when('/help/403',		  { controller:AboutPortalPageController, templateUrl:'/app/views/403.html', 				         resolve: { user : getUser } }).
 

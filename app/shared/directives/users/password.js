@@ -23,12 +23,15 @@ angular.module('kmApp').compileProvider // lazy
             //
             //==================================
             $scope.onPostChangePassword = function(data) {
-                $http.put('/api/v2013/users/'+$scope.user.userID, angular.toJson($scope.document))
+
+                $http.put('/api/v2013/changepassword/'+$scope.user.userID, angular.toJson($scope.document))
                 .success(function (data, status, headers, config) {
-                    //debugger;
+                    $scope.error = "";
+                    $scope.success = "Password changed!";
                 })
                 .error(function (data, status, headers, config) {
                     $scope.error = data;
+                    $scope.success = undefined;
                     //debugger;
                 });
             };

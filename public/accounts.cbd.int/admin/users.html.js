@@ -1,4 +1,6 @@
-function ViewController ($scope, authHttp, $route) {
+function ViewController ($scope, authHttp, $route, navigation) {
+
+	navigation.securize();
 
 	$scope.roles = authHttp.get('/api/v2013/roles', { cache: true }).then(function (response) { 
 		var map = {};

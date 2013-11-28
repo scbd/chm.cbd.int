@@ -1,0 +1,95 @@
+<div class="container" ng-controller="ViewController">
+	<style>
+	.bs-filter {
+		position: relative;
+		margin: 15px 0;
+		padding: 39px 19px 14px;
+		*padding-top: 19px;
+		background-color: #fff;
+		border: 1px solid #ddd;
+		-webkit-border-radius: 4px;
+		 -moz-border-radius: 4px;
+		      border-radius: 4px;
+	}
+	.bs-filter:after {
+		content: "Filters";
+		position: absolute;
+		top: -1px;
+		left: -1px;
+		padding: 3px 7px;
+		font-size: 12px;
+		font-weight: bold;
+		background-color: #f5f5f5;
+		border: 1px solid #ddd;
+		color: #9da0a4;
+		-webkit-border-radius: 4px 0 4px 0;
+		 -moz-border-radius: 4px 0 4px 0;
+		      border-radius: 4px 0 4px 0;
+	}
+	.bs-filter + .prettyprint {
+		margin-top: -20px;
+		padding-top: 15px;
+	}
+	</style>
+	<div class="row" style="padding:30px 0">
+		<div class="col-sm-12">
+			<h1>User management</h1>
+			
+				<!-- <div class="form-group">
+					<label for="inputPassword">Country</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone"></i></span>
+						<input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">Role</label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-phone"></i></span>
+						<input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password">
+					</div>
+				</div> -->
+
+			<div class="bs-filter">
+				<form ng-submit="signIn()">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="icon-search"></i></span>
+							<input type="text" class="form-control" ng-model="freetext" placeholder="name or email">
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<ul class="pagination pull-right" style="margin:0">
+				<li ng-class="{disabled: currentPage == 0}">
+					<a href ng-click="actionSetPage(currentPage-1)">« Prev</a>
+				</li>
+	            <li ng-repeat="n in pages" ng-class="{active: n == currentPage}" ng-click="actionSetPage(n)">
+					<a href>{{n+1}}</a>
+				</li>
+				<li ng-class="{disabled: currentPage >= pageCount - 1}">
+					<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
+				</li>
+			</ul>
+
+			<a href="/admin/users/new"><button type="submit" class="btn btn-info">Create</button></a>
+
+			<table class="table table-striped" style="margin-top:30px">
+				<tr>
+					<th>Email</th>
+					<th>Name</th>
+					<th>Country / Organization</th>
+					<th style="width:20%">Roles</th>
+				</tr>
+				<tr ng-repeat="user in users">
+					<td><a ng-href="/admin/users/{{user.userID}}" style="color:#357ebd">{{user.email}}</a></td>
+					<td>{{user.firstName}} {{user.lastName}}</td>
+					<td>{{user.organization}}</td>
+					<td style="width:20%"><span class="badge badge-important" ng-repeat="role in user.roles" style="font-size:10px;margin-right:4px">{{roles[role].name}}</span></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<script src="/public/accounts.cbd.int/admin/users.html.js"></script>
+</div>

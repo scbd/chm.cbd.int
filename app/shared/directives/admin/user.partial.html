@@ -1,0 +1,267 @@
+<div class="container">
+	<style>
+		.panel-identity {
+			position: relative;
+			padding-top: 19px;
+		}
+		.panel-identity:after {
+			content: "Identity";
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			padding: 3px 7px;
+			font-size: 12px;
+			font-weight: bold;
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			color: #9da0a4;
+			-webkit-border-radius: 4px 0 4px 0;
+			 -moz-border-radius: 4px 0 4px 0;
+			      border-radius: 4px 0 4px 0;
+		}
+		.panel-address {
+			position: relative;
+			padding-top: 19px;
+		}
+		.panel-address:after {
+			content: "Address";
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			padding: 3px 7px;
+			font-size: 12px;
+			font-weight: bold;
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			color: #9da0a4;
+			-webkit-border-radius: 4px 0 4px 0;
+			 -moz-border-radius: 4px 0 4px 0;
+			      border-radius: 4px 0 4px 0;
+		}
+		.panel-coordinates {
+			position: relative;
+			padding-top: 19px;
+		}
+		.panel-coordinates:after {
+			content: "Coordinates";
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			padding: 3px 7px;
+			font-size: 12px;
+			font-weight: bold;
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			color: #9da0a4;
+			-webkit-border-radius: 4px 0 4px 0;
+			 -moz-border-radius: 4px 0 4px 0;
+			      border-radius: 4px 0 4px 0;
+		}
+		.panel-security {
+			position: relative;
+			padding-top: 19px;
+		}
+		.panel-security:after {
+			content: "Security";
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			padding: 3px 7px;
+			font-size: 12px;
+			font-weight: bold;
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			color: #9da0a4;
+			-webkit-border-radius: 4px 0 4px 0;
+			 -moz-border-radius: 4px 0 4px 0;
+			      border-radius: 4px 0 4px 0;
+		}
+		.bootstrap-duallistbox-container select {
+			font-size: 14px;
+			line-height: 1.428571429;
+			color: #666666;
+		}
+	</style>
+
+	<div class="alert alert-danger" ng-cloak ng-show="error">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div ng-show="status=='loading'"><em>Loading...</em></div>
+	
+	<div ng-hide="status=='hidden'||status=='loading'">
+		<form role="form">
+
+			<div class="panel panel-default panel-identity">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-2 col-xs-4">
+							<div class="form-group">
+								<label for="title">Salutation</label>
+								<input type="text" class="form-control" id="title" ng-model="document.Title">
+							</div>
+						</div>
+						<div class="clearfix visible-xs"></div>
+						<div class="col-sm-5 col-xs-12">
+							<div class="form-group">
+								<label for="firstName">First name</label>
+								<input type="text" class="form-control" id="firstName" ng-model="document.FirstName" required>
+							</div>
+						</div>
+						<div class="col-sm-5 col-xs-12">
+							<div class="form-group">
+								<label for="lastName">Last name *</label>
+								<input type="text" class="form-control" id="lastName" ng-model="document.LastName" required>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="designation">Job title</label>
+						<input type="text" class="form-control" id="designation" ng-model="document.Designation">
+					</div>
+
+					<div class="form-group">
+						<label for="departement">Departement</label>
+						<input type="text" class="form-control" id="departement" ng-model="document.Department">
+					</div>
+					<div class="form-group">
+						<label for="organization">Organization</label>
+						<input type="text" class="form-control" id="organization" ng-model="document.Organization">
+					</div>
+					<!-- <div class="row">
+						<div class="col-sm-2 col-xs-6">
+							<div class="form-group">
+								<label for="gender">Gender</label>
+								<select class="form-control" id="gender" ng-model="document.Gender">
+									<option></option>
+									<option>Female</option>
+									<option>Male</option>
+									<option>Other</option>
+								</select>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+
+			<div class="panel panel-default panel-address">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="address">Address</label>
+								<textarea rows="3" class="form-control" id="address" ng-model="document.Address"></textarea>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="city">City</label>
+								<input type="text" class="form-control" id="city" ng-model="document.City">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="state">State / Province / Region</label>
+								<input type="text" class="form-control" id="state" ng-model="document.State">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label for="zip">Postal / Zip code</label>
+								<input type="text" class="form-control" id="zip" ng-model="document.Zip">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>Country</label>
+								<div><div km-select name="Country" ng-model="document.Country" items="options.countries()" binding-type="string"></div></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default panel-coordinates">
+				<div class="panel-body">
+					<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-12">
+							<div class="form-group">
+								<label>Phone numbers</label>
+								<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
+									<span class="input-group-addon"><i class="icon-phone icon"></i></span>
+									<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-pattern=/[\u0030-\u0039]+/g />
+									<span class="input-group-btn" ng-if="!$last">
+								    	<button class="btn btn-default" ng-click="removePhone($index)" style="height:36px"><i class="icon-trash icon"></i></button>
+								    </span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-xs-12">
+							<div class="form-group">
+								<label>Fax numbers</label>
+								<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getFaxes()">
+									<span class="input-group-addon"><i class="icon-phone icon"></i></span>
+									<input type="fax" class="form-control" ng-model="fax.value" ng-change="saveFaxes()" placeholder="fax" ng-pattern=/[\u0030-\u0039]+/g />
+									<span class="input-group-btn" ng-if="!$last">
+								    	<button class="btn btn-default" ng-click="removeFax($index)" style="height:36px"><i class="icon-trash icon"></i></button>
+								    </span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-xs-12">
+							<div class="form-group">
+								<label>Email</label>
+								<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
+									<span class="input-group-addon"><i class="icon-envelope icon"></i></span>
+									<input type="email" class="form-control" ng-model="document.Email"> <!-- ng-disabled="document.UserID==null" -->
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-xs-12">
+							<div class="form-group">
+								<label>Alternate email addresses</label>
+								<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getEmails()">
+									<span class="input-group-addon"><i class="icon-envelope icon"></i></span>
+									<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="email" ng-required="isRequired()"/>
+									<span class="input-group-btn" ng-if="!$last">
+								    	<button class="btn btn-default" ng-click="removeEmail($index)" style="height:36px"><i class="icon-trash icon"></i></button>
+								    </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default panel-security">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>Government</label>
+								<div><div km-select ng-model="document.Government" items="options.countries()" binding-type="string"></div></div>
+							</div>
+
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Roles</label>
+						<select ng-model="roles" ng-options="r.roleId as r.name for r in roleList" multiple="multiple" size="10" class="duallistbox" name="duallistbox_demo1[]"></select>
+					</div>
+				</div>
+			</div>
+
+			<button type="button" class="btn btn-primary" ng-click="onPostSave()">Save</button>
+
+		</form>
+	</div>
+</div>

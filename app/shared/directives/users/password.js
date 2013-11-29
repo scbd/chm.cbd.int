@@ -10,7 +10,7 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, $element, $attr, $ctrl) {
             $scope.init();
         },
-        controller: ['$scope' , '$filter', '$location', '$route', 'URI', function ($scope, $filter, $location, $route, URI) {
+        controller: ['$scope' , '$filter', '$location', '$route', 'URI', '$window', function ($scope, $filter, $location, $route, URI, $window) {
 
             //==================================
             //
@@ -30,7 +30,7 @@ angular.module('kmApp').compileProvider // lazy
 
                     alert("Thank you!\r\n\r\nYour account has been successfully activated.")
                     
-                    windows.location = 'https://chm.cbd.int/';
+                    $window.location = 'https://chm.cbd.int/';
 
                 }).error(function (data, status, headers, config) {
                     $scope.error = status;

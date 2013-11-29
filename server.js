@@ -31,16 +31,16 @@ app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
 app.get   ('/api/v2013/countries'  , function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 app.get   ('/api/v2013/countries/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 
-app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
-app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
-app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
-app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
+app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
 
 // Configure index.html
 
 app.get('/*', function(req, res) {
 
-	if(req.headers.host=='accounts.cbd.int' || req.headers.host=='localhost:2000') {
+	if(req.headers.host=='accounts.cbd.int') {
 		fs.readFile(__dirname + '/app/accounts.cbd.int.html', 'utf8', function (error, text) { 
 			res.send(text); 
 		});

@@ -78,7 +78,7 @@
 		},
 		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication) {
 
-			navigation.securize();
+			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
  
 			if(userGovernment() && userGovernment()!=$routeParams.country) {
 				$location.path("/management/national-reporting/"+userGovernment());

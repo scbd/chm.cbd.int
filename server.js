@@ -31,10 +31,10 @@ app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
 app.get   ('/api/v2013/countries'  , function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 app.get   ('/api/v2013/countries/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 
-app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
+app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
+app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
+app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'localhost', port: 80 }); } );
 
 // Configure index.html
 

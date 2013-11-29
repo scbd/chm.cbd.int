@@ -10,8 +10,7 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, $element, $attr, $ctrl) {
             $scope.init();
         },
-        controller: ['$scope' , '$filter', '$location', 'URI', function ($scope, $filter, $location, URI) {
-
+        controller: ['$scope' , '$filter', '$location', '$route', 'URI', function ($scope, $filter, $location, $route, URI) {
 
             //==================================
             //
@@ -24,13 +23,17 @@ angular.module('kmApp').compileProvider // lazy
             //==================================
             $scope.onPostChangePassword = function(data) {
 
-                $http.put('/api/v2013/changepassword/'+$scope.user.userID, angular.toJson($scope.document))
-                .success(function (data, status, headers, config) {
+                var headers = { Authorization: "Ticket " + $location.search().key };
+
+                $http.put('/api/v2013/changepassword', angular.toJson($scope.document), { headers:headers }).success(function (data, status, headers, config) {
                     $scope.error = "";
-                    $scope.success = "Password changed!";
-                })
-                .error(function (data, status, headers, config) {
-                    $scope.error = data;
+
+                    alert("Thank you!\r\n\r\nYour account has been successfully activated.")
+                    
+                    windows.location = 'https://chm.cbd.int/';
+
+                }).error(function (data, status, headers, config) {
+                    $scope.error = status;
                     $scope.success = undefined;
                     //debugger;
                 });

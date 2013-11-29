@@ -1794,7 +1794,8 @@ angular.module('formControls',[])
 					if(visible == isVisible)
 						return $q.when(isVisible);
 
-					$scope.updateSecurity();
+					if(visible)
+						$scope.updateSecurity();
 
 					var defered = $q.defer();
 
@@ -1886,38 +1887,36 @@ angular.module('formControls',[])
 				{
 					$scope.security = {};
 
-					var document = $scope.getDocumentFn();
+					$q.when($scope.getDocumentFn()).then(function(document){
 
-					if(!document)
-						return;
+						if(!document || !document.header)
+							return;
 
-					debugger;
+						var identifier = document.header.identifier;
+						var schema     = document.header.schema;
 
+						storage.documents.exists(identifier).then(function(exist){
 
-					var identifier = document.header.identifier;
-					var schema     = document.header.schema;
+							var q = exist 
+								  ? storage.documents.security.canUpdate(document.header.identifier, schema)
+								  : storage.documents.security.canCreate(document.header.identifier, schema);
 
-					storage.documents.exists(identifier).then(function(exist){
+							q.then(function(allowed) { 
+								$scope.security.canSave = allowed 
+							});
+						})
 
-						var q = exist 
-							  ? storage.documents.security.canUpdate(document.header.identifier, schema)
-							  : storage.documents.security.canCreate(document.header.identifier, schema);
+						storage.drafts.exists(identifier).then(function(exist){
 
-						q.then(function(allowed) { 
-							$scope.security.canSave = allowed 
-						});
-					})
+							var q = exist 
+								  ? storage.drafts.security.canUpdate(document.header.identifier, schema)
+								  : storage.drafts.security.canCreate(document.header.identifier, schema);
 
-					storage.drafts.exists(identifier).then(function(exist){
-
-						var q = exist 
-							  ? storage.drafts.security.canUpdate(document.header.identifier, schema)
-							  : storage.drafts.security.canCreate(document.header.identifier, schema);
-
-						q.then(function(allowed) { 
-							$scope.security.canSaveDraft = allowed 
-						});
-					})
+							q.then(function(allowed) { 
+								$scope.security.canSaveDraft = allowed 
+							});
+						})
+					});
 				}
 
 				//====================

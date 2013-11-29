@@ -1,0 +1,19 @@
+﻿<div>
+	<pre> --== WORKFLOW ==--
+{{workflow}}</pre>
+
+	<div ng-repeat="activity in workflow.activities">
+
+		<pre>--== ACTIVITY ==--
+{{activity}}</pre>
+
+		<div ng-switch="activity.name">
+			<div ng-switch-when="publishRecord">
+
+				<button ng-disabled="activity.closedOn || !isAssignedToMe(activity)" ng-repeat="action in activity.input.actions" type="button" class="btn btn-default" ng-click="updateActivity(activity.name, { action : action })">{{action|uppercase}}</button>
+				<span ng-hide="isAssignedToMe(activity)">This actitivity is now assigned to you &#9785;</span>
+			</div>
+		</div>
+
+	</div>
+</div>

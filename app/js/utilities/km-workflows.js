@@ -28,8 +28,18 @@
 		//===========================
 		//
 		//===========================
-		this.activity = function(id, activityName, data) {
+		this.updateActivity = function(id, activityName, data) {
 			return $http.put("/api/v2013/workflows/"+id+"/activities/"+activityName, data).then(
+				function(resp){
+					return resp.data;
+				});
+		};
+
+		//===========================
+		//
+		//===========================
+		this.cancelActivity = function(id, activityName, data) {
+			return $http.delete("/api/v2013/workflows/"+id+"/activities/"+activityName, data).then(
 				function(resp){
 					return resp.data;
 				});
@@ -48,11 +58,10 @@
 		//===========================
 		//
 		//===========================
-		this.query  = function(q) {
-			return $http.get("/api/v2013/workflows/?q="+encodeURIComponent(JSON.stringify(q))).then(
-				function(resp){
-					return resp.data;
-				});
+		this.query  = function(query) {
+			return $http.get("/api/v2013/workflows/", { params : { q : query } }).then(function(resp){
+				return resp.data;
+			});
 		};
 	}
 }]);

@@ -3,7 +3,7 @@
 	return {
 		priority: 0,
 		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/my-tasks.partial.html',
+		templateUrl: '/app/chm/directives/management/tasks/my-tasks.partial.html',
 		replace: true,
 		transclude: false,
 		scope : true,
@@ -51,7 +51,7 @@ angular.module('kmApp').compileProvider // lazy
 	return {
 		priority: 0,
 		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/my-tasks.partial.html',
+		templateUrl: '/app/chm/directives/management/tasks/my-tasks.partial.html',
 		replace: true,
 		transclude: false,
 		scope : true,
@@ -93,7 +93,7 @@ angular.module('kmApp').compileProvider // lazy
 	return {
 		priority: 0,
 		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/my-tasks.partial.html',
+		templateUrl: '/app/chm/directives/management/tasks/my-tasks.partial.html',
 		replace: true,
 		transclude: false,
 		scope : true,

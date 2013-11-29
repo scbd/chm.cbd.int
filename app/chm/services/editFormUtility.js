@@ -170,7 +170,7 @@
 						return pCreateWorkflow.then(function(workflowInfo) {
 							return {
 								status: "publishRequest",
-								data: resp.data
+								data: workflowInfo
 							};
 						});
 					});

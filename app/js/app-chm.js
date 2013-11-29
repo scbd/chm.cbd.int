@@ -52,6 +52,9 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/contact',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/contact.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/edit/database',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/database.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
 
+ 		when('/management/tasks',			{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/index.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/management/tasks/:id',		{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/task.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
+
 		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/network.html', 			resolve: { user : getUser } }).
  		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/resources.html',		resolve: { user : getUser } }).
  		when('/about/',						{ controller:AboutPortalPageController    , templateUrl:'/app/views/about.html', 			resolve: { user : getUser } }).

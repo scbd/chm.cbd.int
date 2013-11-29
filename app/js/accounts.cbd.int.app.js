@@ -29,8 +29,9 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/signup/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signup-step1.html', 	 resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/signup-step2/', 	  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/signup-step2.html', 	 resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/profile/', 		  { controller:InnerPageController,       templateUrl:'/app/views/404-temp.html'/*'/public/accounts.cbd.int/profile.html'*/, 	     resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/activate', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/activate.html',       resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/password/', 		  { controller:InnerPageController,       templateUrl:'/app/views/404-temp.html'/*'/public/accounts.cbd.int/password.html'*/,       resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/recovery/', 		  { controller:InnerPageController,       templateUrl:'/app/views/404-temp.html'/*'/public/accounts.cbd.int/recovery.html'*/,       resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/recovery/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/recovery.html',       resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/twofactor/', 	  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/twofactor.html',      resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/activity/', 		  { controller:InnerPageController,       templateUrl:'/public/accounts.cbd.int/activity.html',       resolve: { user : getUser }, reloadOnSearch: false }).
       

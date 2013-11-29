@@ -25,7 +25,7 @@ angular.module('kmApp').compileProvider // lazy
 
                 var headers = { Authorization: "Ticket " + $location.search().key };
 
-                $http.put('/api/v2013/changepassword/'+$scope.user.userID, angular.toJson($scope.document), headers).success(function (data, status, headers, config) {
+                $http.put('/api/v2013/changepassword', angular.toJson($scope.document), headers).success(function (data, status, headers, config) {
                     $scope.error = "";
                     $scope.success = "Password changed!";
                 }).error(function (data, status, headers, config) {

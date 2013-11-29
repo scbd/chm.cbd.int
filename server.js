@@ -40,7 +40,7 @@ app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeO
 
 app.get('/*', function(req, res) {
 
-	if(req.headers.host=='accounts.cbd.int' || req.headers.host=='localhost:2000') {
+	if(req.headers.host=='accounts.cbd.int') {
 		fs.readFile(__dirname + '/app/accounts.cbd.int.html', 'utf8', function (error, text) { 
 			res.send(text); 
 		});

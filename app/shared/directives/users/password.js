@@ -8,20 +8,18 @@ angular.module('kmApp').compileProvider // lazy
         transclude: false,
         scope: false,
         link: function ($scope, $element, $attr, $ctrl) {
-            $scope.init();
         },
         controller: ['$scope' , '$filter', '$location', '$route', 'URI', '$window', function ($scope, $filter, $location, $route, URI, $window) {
 
-            //==================================
-            //
-            //==================================
-            $scope.init = function() {
+            if($scope.user.isAuthenticated) {
+                authentication.signOut();
             }
 
-            //==================================
+            //============================================================
             //
-            //==================================
-            $scope.onPostChangePassword = function(data) {
+            //
+            //============================================================
+            $scope.actionChangePassword = function(data) {
 
                 var headers = { Authorization: "Ticket " + $location.search().key };
 
@@ -39,6 +37,10 @@ angular.module('kmApp').compileProvider // lazy
                 });
             };
 
+            //============================================================
+            //
+            //
+            //============================================================
             $scope.updateComplexity =  function(){
                 //debugger;
                 $("#password").complexify({}, function (valid, complexity) {
@@ -52,4 +54,37 @@ angular.module('kmApp').compileProvider // lazy
             };
         }]
     }
+}]);
+
+angular.module('kmApp').compileProvider.directive('validLength', [function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+            var validator = function(value) {
+                ctrl.$setValidity('length', (value||'').length>=10);
+                return value;
+            };
+            ctrl.$parsers.unshift(validator);
+            ctrl.$formatters.unshift(validator);
+        }
+    };
+}]);
+
+angular.module('kmApp').compileProvider.directive('validPassword', [function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+            var validator = function(value) {
+                var count = 0;
+                count += (/[a-z]/g).test(value) ? 1 : 0;
+                count += (/[A-Z]/g).test(value) ? 1 : 0;
+                count += (/[0-9]/g).test(value) ? 1 : 0;
+                count += (/[^0-9^A-Z^a-z]/g).test(value) ? 1 : 0;
+                ctrl.$setValidity('password', (value||'').length>=10 && count>=2);
+                return value;
+            };
+            ctrl.$parsers.unshift(validator);
+            ctrl.$formatters.unshift(validator);
+        }
+    };
 }]);

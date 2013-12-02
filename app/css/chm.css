@@ -5221,8 +5221,8 @@ ol.linenums li {
 }
 html,
 body {
-  height: 100%;
-  -webkit-font-smoothing: antialiased;
+  /*height: 100%;*/
+  /*-webkit-font-smoothing: antialiased;*/
 }
 body.home {
   background: url(/assets/img/homepage/background-photo.jpg) no-repeat -300px -120px;

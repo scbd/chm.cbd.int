@@ -132,12 +132,24 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			];
 		}
 
-		function NetworkPortalPageController($rootScope, $scope, $route, user) {
+		function NetworkPortalPageController($rootScope, $scope, $route, user, $window, $timeout) {
 
 			$rootScope.homePage = false;
 			$rootScope.userGovernment = user.government;
 			$rootScope.portal = 'network';
 			$rootScope.navigation = [];
+
+//<div class="meetings" contentid="45877" cms-params="{&quot;theme&quot;:&quot;CHM&quot;,&quot;maxItems&quot;:5,&quot;pageSize&quot;:5,&quot;showPager&quot;:false,&quot;fullListUrl&quot;:&quot;/database/meetings&quot;,&quot;sortOrder&quot;:&quot;dateStart_dt asc&quot;,&quot;filterQuery&quot;:&quot;dateStart_dt:[NOW TO *]&quot;}">
+  //              {{title}}
+            //</div>
+            
+            $timeout(function () {
+				$window.parent.Mercury.trigger('reinitialize');
+				
+				console.log('reinitialized');
+            }, 1000);
+
+			//jQuery($window.parent).on('mercury:ready', function() {});
 		}
 
 		function ResourcesPortalPageController($rootScope, $scope, $route, user) {
@@ -272,3 +284,8 @@ app.filter('integer', function() {
 		return text;
 	};
 });
+
+//jQuery(window).on('mercury:ready', function() {
+//jQuery(document).ready(function() {
+//	angular.bootstrap(window.document.body, ['kmApp']); 
+//});

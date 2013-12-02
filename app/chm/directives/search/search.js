@@ -124,8 +124,6 @@ angular.module('kmApp').compileProvider // lazy
 
             self.query = function () {
 
-                console.log("QUERY at " + new Date().toISOString());
-
                 var q = 'realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
 
                 var queryParameters = {
@@ -138,6 +136,9 @@ angular.module('kmApp').compileProvider // lazy
                     'cb': new Date().getTime()
                 };
 
+                console.log("QUERY at " + new Date().toISOString());
+                console.log(queryParameters);
+
                 if (self.canceler != null) {
                     console.log('trying to abort pending request...');
                     self.canceler.resolve(true);
@@ -146,7 +147,7 @@ angular.module('kmApp').compileProvider // lazy
                 self.canceler = $q.defer();
 
                 $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
-                
+                   
                     self.canceler = null;
 
                     $scope.count = data.response.numFound;
@@ -155,6 +156,7 @@ angular.module('kmApp').compileProvider // lazy
                     $scope.rows  = data.response.docs.length;
 
                     $scope.documents = data.response.docs;
+                     console.log($scope.documents);
 
                     $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
 

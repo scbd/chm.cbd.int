@@ -1,52 +1,54 @@
 <div class="home-bottom" style="position:relative">
-    <div class="container main" id="main" style="padding-top:6px">
-<!-- <div class="home-bottom container main" id="main" style="position:relative;background-color:white"> -->
-	    <div class="row top">
-	        <h1>Network</h1>
-	        <div class="col-lg-4 col-md-4 col-sm-4">
-	            <div class="compute-product">
-	                <a href="#!/database/countries/nbsap">
-	                    <div class="product-text">
-	                        <h2>Lorem ipsum</h2>
-	                        <p>
-	                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	                            consequat. 
-	                        </p>
-	                    </div>
-	                </a>
-	            </div>
-	        </div>
-	        <div class="col-lg-4 col-md-4 col-sm-4 manta-product">
-	            <div class="manta-product">
-	                <a href="#!/database/countries/reporting">
-	                    <div class="product-text">
-	                        <h2>Duis aute irure</h2>
-	                        <p>
-	                            Duis aute irure dolor in reprehenderit in voluptate velit esse
-	                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-	                        </p>
-	                    </div>
-	                </a>
-	            </div>
-	        </div>
-	        <div class="col-lg-4 col-md-4 col-sm-4 private-product">
-	            <div class="private-product">
-	                <a href="#!/database/countries/contacts">
-	                    <div class="product-text">
-	                        <h2>Consectetur</h2>
-	                        <p>
-	                            Consectetur adipisicing elit, sed do eiusmod
-	                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	                            consequat. 
-	                        </p>
-	                    </div>
-	                </a>
-	            </div>
-	        </div>
-	    </div>
+	<script src="/app/shared/directives/cms/cms-row.js"></script>
+	<script src="/app/shared/directives/cms/cms-span.js"></script>
+	<div ng-if="true">
+	    <div class="container main" id="main" style="padding-top:6px">
+	<!-- <div class="home-bottom container main" id="main" style="position:relative;background-color:white"> -->
+		    <div class="row top"><div class="cmsRow"></div>
+		    	<div class="col-sm-12" style="display:inline-block"><div class="cmsSpan"></div>
+		        	<h1>Network</h1>
+		    	</div>
+		        <div class="col-sm-4" style="display:inline-block"><div class="cmsSpan"></div>
+	                <div data-mercury="full" id="block1">
+	                    <h2>Full</h2>
+	                    <p>
+	                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	                        consequat. 
+	                    </p>
+	                </div>
+		        </div>
+		        <div class="col-sm-4" style="display:inline-block"><div class="cmsSpan"></div>
+	                <div data-mercury="markdown" id="block2" xml:space="preserve">
+Second Level Header
+------------------------
+
+Now is the time for all good men to come to the aid of their country. This is just a regular paragraph.
+
+The quick brown fox jumped over the lazy dog's back.
+					</div>
+		        </div>
+		        <div class="col-sm-4" style="display:inline-block"><div class="cmsSpan"></div>
+	                <div data-mercury="snippets" id="block3">
+	                   <div class="col-sm-6" data-snippet="" data-version="0">
+			              <div class="contents" style="background-color:#ccc;border:1px solid #888">
+			                <h3>Snippet 1</h3>
+			                <p>Full HTML markup that utilizes the HTML5 contentEditable feature.  These are the core of what Mercury Editor does, and provide the most flexibility.</p>
+			              </div>
+			            </div>
+			            <div class="col-sm-6" data-snippet="" data-version="0">
+			              <div class="contents" style="background-color:#ccc;border:1px solid #888">
+			                <h3>Snippet 2</h3>
+			                <p>Full HTML markup that utilizes the HTML5 contentEditable feature.  These are the core of what Mercury Editor does, and provide the most flexibility.</p>
+			              </div>
+			            </div>
+	                </div>
+		        </div>
+		    </div>
+		    <div class="row top"><div class="cmsRow"></div>
+		    </div>
+		</div>
 	</div>
+	<br><br>
 </div>

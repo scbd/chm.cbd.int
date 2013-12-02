@@ -140,6 +140,19 @@
 					function(error) {
 						throw { error: error.data, errorCode: error.status };
 					});
+			},
+
+			//============================================================
+			//
+			//
+			//============================================================
+			resetPassword : function(email) {
+
+				return authHttp.post('/api/v2013/accounts/'+encodeURIComponent(email)+'/password-resets', {}).then(function success (success) {
+					return success.data;
+				}, function error (error) {
+					throw { error: error.data, errorCode: error.status, description: error.description };
+				});
 			}
 		};
 	}])

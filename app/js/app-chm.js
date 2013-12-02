@@ -52,8 +52,8 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/contact',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/contact.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/edit/database',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/database.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
 
-		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/network.html', 			resolve: { user : getUser } }).
- 		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/resources.html',		resolve: { user : getUser } }).
+		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
+ 		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/404.html',				resolve: { user : getUser } }).
  		when('/about/',						{ controller:AboutPortalPageController    , templateUrl:'/app/views/about.html', 			resolve: { user : getUser } }).
  		when('/help/404',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
  		when('/help/403',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/403.html', 				resolve: { user : getUser } }).

@@ -60,6 +60,33 @@
 			//===========================
 			//
 			//===========================
+			"exists" : function(identifier, params)
+			{
+				params            = clone(params||{});
+				params.identifier = identifier;
+
+				var useCache = !!params.cache;
+
+				params.cache = undefined;
+
+				var oTrans = transformPath(serviceUrls.documentUrl(), params);
+
+				return $http.head(oTrans.url, { params : oTrans.params, cache:useCache }).then(function(data) {
+					
+					return true;
+					
+				}).catch(function(error) {
+					
+					if(error.status!="404")
+						throw "Error";
+
+					return false;
+				});
+			},
+
+			//===========================
+			//
+			//===========================
 			"put" : function(identifier, data, params)
 			{
 				params            = clone(params||{});
@@ -160,6 +187,33 @@
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
 				return $http.get(oTrans.url, {  params : oTrans.params, cache:useCache });
+			},
+
+			//===========================
+			//
+			//===========================
+			"exists" : function(identifier, params)
+			{
+				params            = clone(params||{});
+				params.identifier = identifier;
+
+				var useCache = !!params.cache;
+
+				params.cache = undefined;
+
+				var oTrans = transformPath(serviceUrls.draftUrl(), params);
+
+				return $http.head(oTrans.url, {  params : oTrans.params, cache:useCache }).then(function(data) {
+					
+					return true;
+					
+				}).catch(function(error) {
+					
+					if(error.status!="404")
+						throw "Error";
+
+					return false;
+				});
 			},
 
 			//===========================

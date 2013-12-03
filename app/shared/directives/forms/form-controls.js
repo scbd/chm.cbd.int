@@ -1794,6 +1794,9 @@ angular.module('formControls',[])
 					if(visible == isVisible)
 						return $q.when(isVisible);
 
+					if(visible)
+						$scope.updateSecurity();
+
 					var defered = $q.defer();
 
 					$scope.saveDialogDefered.push(defered)
@@ -1876,6 +1879,45 @@ angular.module('formControls',[])
 						this.$apply(fn);
 					}
 				};
+
+				//====================
+				//
+				//====================
+				$scope.updateSecurity = function()
+				{
+					$scope.security = {};
+
+					$q.when($scope.getDocumentFn()).then(function(document){
+
+						if(!document || !document.header)
+							return;
+
+						var identifier = document.header.identifier;
+						var schema     = document.header.schema;
+
+						storage.documents.exists(identifier).then(function(exist){
+
+							var q = exist 
+								  ? storage.documents.security.canUpdate(document.header.identifier, schema)
+								  : storage.documents.security.canCreate(document.header.identifier, schema);
+
+							q.then(function(allowed) { 
+								$scope.security.canSave = allowed 
+							});
+						})
+
+						storage.drafts.exists(identifier).then(function(exist){
+
+							var q = exist 
+								  ? storage.drafts.security.canUpdate(document.header.identifier, schema)
+								  : storage.drafts.security.canCreate(document.header.identifier, schema);
+
+							q.then(function(allowed) { 
+								$scope.security.canSaveDraft = allowed 
+							});
+						})
+					});
+				}
 
 				//====================
 				//

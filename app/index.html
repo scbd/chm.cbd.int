@@ -43,7 +43,7 @@
     <script src="/app/js/utilities/km-workflows.js"></script>
     <script src="/app/chm/services/editFormUtility.js"></script>
     <script src="/app/shared/directives/forms/form-controls.js"></script>
-    
+
     <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
     <style>
         .nav > li > a {
@@ -89,8 +89,10 @@
         <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
     </div>
 
-    <img class="hidden-xs" src="/app/img/landscape.jpg" style="position:absolute" ng-show="homePage">
-    <img class="visible-xs" src="/app/img/landscapeMobile.jpg" style="position:absolute" ng-show="homePage">
+    <span ng-show="homePage">
+        <img class="hidden-xs" src="/app/img/landscape.jpg" style="position:absolute">
+        <img class="visible-xs" src="/app/img/landscapeMobile.jpg" style="position:absolute">
+    </span>
     <div class="main-nav">
 
         <div class="header-banner" style="position:absolute;width:100%;height:140px"></div>
@@ -150,7 +152,7 @@
                             <li><a ng-class="{active: portal=='management'}" href="/management">Registering Information</a></li>
                             <li><a ng-class="{active: portal=='network'}" href="/network">Network</a></li>
                             <li><a ng-class="{active: portal=='resources'}" href="/resources">Resources</a></li>
-                            <li><a ng-class="{active: portal=='about'}" href="/about">About</a></li>
+                            <li><a ng-class="{active: portal=='about'}" href="/about" target="_self">About</a></li>
                         </ul>
                         <ul class="nav subnav" ng-hide="homePage">
                             <li ng-repeat="item in navigation"><a ng-class="{active: item.url==currentPath()}" ng-href="{{item.url}}">{{item.title}}</a></li>
@@ -275,5 +277,9 @@
             </div>
         </div>
     </footer>
+     <script>//mercuryPackages = { all: {javascripts: 'jquery-1.7.js,mercury.min.js,mercury_dialogs.js', stylesheets: 'mercury.bundle.css'} };
+        //jQuery.browser = { webkit: true };
+    </script>
+    <!--script src="/app/libs/mercury/0.9.0/mercury_loader.js?pack=bundled&src=/app/libs/mercury/0.9.0"></script-->
 </body>
 </html>

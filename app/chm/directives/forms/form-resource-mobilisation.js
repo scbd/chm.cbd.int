@@ -27,7 +27,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "ngProgress", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "ngProgress", "siteMapUrls", "navigation", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls, navigation) 
 		{
 			watchResource('financialResources');
 			watchResource('countryFinancialResources');
@@ -163,31 +163,31 @@ angular.module('kmApp').compileProvider // lazy
 				document = document || $scope.document
 				document = angular.fromJson(angular.toJson(document));
 
-				if (!document)
-					return $q.when(true);
+				if (document)
+				{
+					if(document.financialResources) {
+						document.financialResources = _.filter(document.financialResources, function(o) { return !_.isEmpty(o) });
+						document.financialResources = document.financialResources.length!=0 ? document.financialResources : undefined;
+					}
 
-				if(document.financialResources) {
-					document.financialResources = _.filter(document.financialResources, function(o) { return !_.isEmpty(o) });
-					document.financialResources = document.financialResources.length!=0 ? document.financialResources : undefined;
+					if(document.countryFinancialResources) {
+						document.countryFinancialResources = _.filter(document.countryFinancialResources, function(o) { return !_.isEmpty(o) });
+						document.countryFinancialResources = document.countryFinancialResources.length!=0 ? document.countryFinancialResources : undefined;
+					}
+
+					if(document.financialMechanisms) {
+						document.financialMechanisms = _.filter(document.financialMechanisms, function(o) { return !_.isEmpty(o) });
+						document.financialMechanisms = document.financialMechanisms.length!=0 ? document.financialMechanisms : undefined;
+					}
+
+					if(document.resourceIntiatives) {
+						document.resourceIntiatives = _.filter(document.resourceIntiatives, function(o) { return !_.isEmpty(o) });
+						document.resourceIntiatives = document.resourceIntiatives.length!=0 ? document.resourceIntiatives : undefined;
+					}
+
+					if (/^\s*$/g.test(document.notes))
+						document.notes = undefined;
 				}
-
-				if(document.countryFinancialResources) {
-					document.countryFinancialResources = _.filter(document.countryFinancialResources, function(o) { return !_.isEmpty(o) });
-					document.countryFinancialResources = document.countryFinancialResources.length!=0 ? document.countryFinancialResources : undefined;
-				}
-
-				if(document.financialMechanisms) {
-					document.financialMechanisms = _.filter(document.financialMechanisms, function(o) { return !_.isEmpty(o) });
-					document.financialMechanisms = document.financialMechanisms.length!=0 ? document.financialMechanisms : undefined;
-				}
-
-				if(document.resourceIntiatives) {
-					document.resourceIntiatives = _.filter(document.resourceIntiatives, function(o) { return !_.isEmpty(o) });
-					document.resourceIntiatives = document.resourceIntiatives.length!=0 ? document.resourceIntiatives : undefined;
-				}
-
-				if (/^\s*$/g.test(document.notes))
-					document.notes = undefined;
 
 				return document
 			};

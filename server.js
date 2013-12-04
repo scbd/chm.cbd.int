@@ -45,6 +45,11 @@ app.get('/*', function(req, res) {
 			res.send(text); 
 		});
 	}
+	else if(req.url.match(/^\/business/g)) {
+		fs.readFile(__dirname + '/app/www.cbd.int-business.html', 'utf8', function (error, text) { 
+			res.send(text); 
+		});
+	}
 	else {
 		fs.readFile(__dirname + '/app/index.html', 'utf8', function (error, text) { 
 			res.send(text); 

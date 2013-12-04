@@ -60,3 +60,58 @@ angular.module('kmApp').directive('ngxView', ['$http', '$templateCache', '$route
     }
   };
 }]);
+
+angular.module('kmApp').directive("ngxDragstart", ["$parse", function ($parse) {
+    return function (scope, element, attr) {
+        var fn = $parse(attr["ngxDragstart"]);
+        element.bind("dragstart", function (event) {
+            return scope.$apply(function(event) {
+                return fn(scope, { $event: event });
+            });
+        });
+    };
+}]);
+
+angular.module('kmApp').directive("ngxDragend", ["$parse", function ($parse) {
+    return function (scope, element, attr) {
+        var fn = $parse(attr["ngxDragend"]);
+        element.bind("dragend", function (event) {
+            return scope.$apply(function (event) {
+                return fn(scope, { $event: event });
+            });
+        });
+    };
+}]);
+
+angular.module('kmApp').directive("ngxDrop", ["$parse", function ($parse) {
+    return function (scope, element, attr) {
+        var fn = $parse(attr["ngxDrop"]);
+        element.bind("drop", function (event) {
+            return scope.$apply(function (event) {
+                return fn(scope, { $event: event });
+            });
+        });
+    };
+}]);
+
+angular.module('kmApp').directive("ngxDragover", ["$parse", function ($parse) {
+    return function (scope, element, attr) {
+        var fn = $parse(attr["ngxDragover"]);
+        element.bind("dragover", function (event) {
+            return scope.$apply(function (event) {
+                return fn(scope, { $event: event });
+            });
+        });
+    };
+}]);
+
+angular.module('kmApp').directive("ngxDragleave", ["$parse", function ($parse) {
+    return function (scope, element, attr) {
+        var fn = $parse(attr["ngxDragleave"]);
+        element.bind("dragleave", function (event) {
+            return scope.$apply(function (event) {
+                return fn(scope, { $event: event });
+            });
+        });
+    };
+}]);

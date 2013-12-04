@@ -52,8 +52,8 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/contact',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/contact.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/edit/database',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/database.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
 
-		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/network.html', 			resolve: { user : getUser } }).
- 		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/resources.html',		resolve: { user : getUser } }).
+		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
+ 		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/404.html',				resolve: { user : getUser } }).
  		when('/about/',						{ controller:AboutPortalPageController    , templateUrl:'/app/views/about.html', 			resolve: { user : getUser } }).
  		when('/help/404',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
  		when('/help/403',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/403.html', 				resolve: { user : getUser } }).
@@ -132,12 +132,24 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			];
 		}
 
-		function NetworkPortalPageController($rootScope, $scope, $route, user) {
+		function NetworkPortalPageController($rootScope, $scope, $route, user, $window, $timeout) {
 
 			$rootScope.homePage = false;
 			$rootScope.userGovernment = user.government;
 			$rootScope.portal = 'network';
 			$rootScope.navigation = [];
+
+//<div class="meetings" contentid="45877" cms-params="{&quot;theme&quot;:&quot;CHM&quot;,&quot;maxItems&quot;:5,&quot;pageSize&quot;:5,&quot;showPager&quot;:false,&quot;fullListUrl&quot;:&quot;/database/meetings&quot;,&quot;sortOrder&quot;:&quot;dateStart_dt asc&quot;,&quot;filterQuery&quot;:&quot;dateStart_dt:[NOW TO *]&quot;}">
+  //              {{title}}
+            //</div>
+            
+            $timeout(function () {
+				$window.parent.Mercury.trigger('reinitialize');
+				
+				console.log('reinitialized');
+            }, 1000);
+
+			//jQuery($window.parent).on('mercury:ready', function() {});
 		}
 
 		function ResourcesPortalPageController($rootScope, $scope, $route, user) {
@@ -272,3 +284,8 @@ app.filter('integer', function() {
 		return text;
 	};
 });
+
+//jQuery(window).on('mercury:ready', function() {
+//jQuery(document).ready(function() {
+//	angular.bootstrap(window.document.body, ['kmApp']); 
+//});

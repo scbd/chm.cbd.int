@@ -18,6 +18,17 @@ app.configure(function() {
     app.use('/app', express.static(__dirname + '/app', { maxAge: oneDay }));
     app.use('/public', express.static(__dirname + '/public', { maxAge: oneDay }));
     app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge: oneDay }));
+
+    app.use(function (req, res, next) {
+		if(req.url.match(/^\/activate=3Fkey/g)) {
+	  		var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
+	  		res.writeHead(302, { 'Location': fixedUrl });
+			res.end();
+	  	}
+	  	else {
+	  		next();
+	  	}
+	});
 });
 
 

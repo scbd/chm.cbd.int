@@ -68,7 +68,7 @@ angular.module('kmApp').compileProvider // lazy
 				$scope.__loading = true;
 				$scope.__error   = null;
 
-				IWorkflows.query({ "createdBy" : authentication.user().userID }).then(function(workflows) {
+				IWorkflows.query({ $and : [{ "createdBy" : authentication.user().userID } , { closedOn : { $exists : false } } ] }).then(function(workflows) {
 
 					$scope.workflows = workflows;
 					$scope.__loading = false;
@@ -101,7 +101,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.workflows = {}; // Model
 			$scope.load();
 		},
-		controller: [ "$scope", "authHttp", "IStorage", function ($scope, $http, storage) 
+		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
 		{
 			//==============================
 			//
@@ -110,15 +110,16 @@ angular.module('kmApp').compileProvider // lazy
 				$scope.__loading = true;
 				$scope.__error   = null;
 
-				$http.get('/api/v2013/workflows-mocks/mycompletedtasks')
-					.success(function(data) {
-						$scope.workflows = data.workflows;
-						$scope.__loading = false;
-					})
-					.error(function(error){
-						$scope.__error   = error;
-						$scope.__loading = false;
-					});
+				IWorkflows.query({ $and : [{ "createdBy" : authentication.user().userID } , { closedOn : { $exists : true } } ] }).then(function(workflows) {
+
+					$scope.workflows = workflows;
+					$scope.__loading = false;
+
+				}).catch(function(error){
+
+					$scope.__error   = error;
+					$scope.__loading = false;
+				});
 			}
 		}]
 	}

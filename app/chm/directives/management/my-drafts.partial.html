@@ -45,7 +45,7 @@
 						<strong ng-switch-default>{{document.type}}*</strong>
                     </div>
 					<div>
-						{{draft.title | lstring:'en'}}
+						{{draft.workingDocumentTitle || draft.title | lstring:'en'}}
 					</div>
 				</td>
 				<td>

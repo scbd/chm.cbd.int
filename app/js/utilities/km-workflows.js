@@ -59,7 +59,7 @@
 		//
 		//===========================
 		this.query  = function(query) {
-			return $http.get("/api/v2013/workflows/", { params : { q : query } }).then(function(resp){
+			return $http.get("/api/v2013/workflows/", { params : { q : JSON.stringify(query) } }).then(function(resp){
 				return resp.data;
 			});
 		};

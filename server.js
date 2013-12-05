@@ -13,6 +13,9 @@ var oneDay = 86400000;
 
 app.configure(function() {
     app.set('port', process.env.PORT || 2000);
+    app.set('api-proxy-host',  process.env["API_PROXY_HOST" ] || "bch.cbd.int");
+    app.set('api-proxy-port',  process.env["API_PROXY_PORT" ] || 80);
+
     app.use(express.logger('dev'));
     app.use(express.compress());
     app.use('/app', express.static(__dirname + '/app', { maxAge: oneDay }));
@@ -42,10 +45,10 @@ app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
 app.get   ('/api/v2013/countries'  , function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 app.get   ('/api/v2013/countries/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 
-app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
-app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'bch.cbd.int', port: 80 }); } );
+app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-proxy-host"), port: app.get("api-proxy-port") }); } );
+app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-proxy-host"), port: app.get("api-proxy-port") }); } );
+app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-proxy-host"), port: app.get("api-proxy-port") }); } );
+app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-proxy-host"), port: app.get("api-proxy-port") }); } );
 
 // Configure index.html
 

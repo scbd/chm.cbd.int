@@ -61,6 +61,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 
  		when('/settings/profile', 			{ controller:ManagementPageController, templateUrl:'/app/views/settings/profile.html'          , resolve: { user : getUser } }).
  		when('/settings/password', 			{ controller:ManagementPageController, templateUrl:'/app/views/settings/password.html'         , resolve: { user : getUser } }).
+ 		when('/settings/changePassword',	{ controller:ManagementPageController, templateUrl:'/public/accounts.cbd.int/change-password.html'         , resolve: { user : getUser } }).
 
 		otherwise({redirectTo:'/help/404'});
 

@@ -22,52 +22,12 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
     };
 
 	$routeProvider.
- 		when('/', 							{ controller:HomePageController, templateUrl:'/app/views/index.html', 				resolve: { user : getUser } }).
- 		when('/database/', 					{ controller:InnerPageController, templateUrl:'/app/views/database/index.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/database/countries/', 		{ controller:InnerPageController, templateUrl:'/app/views/database/countries.html', resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/database/countries/:code', 	{ controller:InnerPageController, templateUrl:'/app/views/database/country.html', 	resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/database/record',            { controller:InnerPageController, templateUrl:'/app/views/database/record.html',    resolve: { user : getUser } }).
+ 		when('/business', 		  { controller:HomePageController,        templateUrl:'/public/www.cbd.int/business/index.html', resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/business/offline', { controller:AboutPortalPageController, templateUrl:'/app/views/404-temp.html', 			     resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/business/404',	  { controller:AboutPortalPageController, templateUrl:'/app/views/404.html', 				     resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/business/403',	  { controller:AboutPortalPageController, templateUrl:'/app/views/403.html', 				     resolve: { user : getUser }, reloadOnSearch: false }).
 
- 		when('/management/'                  , { controller:InnerPageController,      templateUrl:'/app/views/empty.html'                        , resolve: { user : getUser } }).
- 		when('/management/'                  , { controller:ManagementPageController, templateUrl:'/app/views/management/index.html'             , resolve: { user : getUser } }).
- 		when('/management/register'          , { controller:ManagementPageController, templateUrl:'/app/views/management/register.html'          , resolve: { user : getUser } }).
- 		when('/management/national-reporting/:country?', { controller:ManagementPageController, templateUrl:'/app/views/management/national-reporting.html', resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/my-records'        , { controller:ManagementPageController, templateUrl:'/app/views/management/my-records.html'        , resolve: { user : getUser } }).
- 		when('/management/my-drafts'         , { controller:ManagementPageController, templateUrl:'/app/views/management/my-drafts.html'         , resolve: { user : getUser } }).
- 		when('/management/signin'			 , { controller:ManagementPageController, templateUrl:'/app/views/management/signin.html'            , resolve: { user : getUser } }).
- 		
- 		when('/management/edit/resource', 				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/resource.html'					, resolve: { user : getUser } }).
- 		when('/management/edit/nationalReport', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalReport.html'				, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/nationalTarget', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalTarget.html'				, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/nationalIndicator', 		{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalIndicator.html'			, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/progressAssessment', 	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/progressAssessment.html'			, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/implementationActivity', { controller:ManagementPageController, templateUrl:'/app/views/management/edit/implementationActivity.html'		, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/nationalSupportTool', 	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/nationalSupportTool.html'		, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/aichiTarget', 			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/aichi-target.html'				, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/marineEbsa',             { controller:ManagementPageController, templateUrl:'/app/views/management/edit/marine-ebsa.html'                , resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/caseStudy', 				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/case-study.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/resourceMobilisation',	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/resource-mobilisation.html'		, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/strategicPlanIndicator',	{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/strategic-plan-indicator.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/organization',			{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/organization.html'				, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/contact',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/contact.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/edit/database',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/database.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
-
- 		when('/management/tasks',			{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/index.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/tasks/:id',		{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/task.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
-
-		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
- 		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/404.html',				resolve: { user : getUser } }).
-
- 		when('/about/',						{ controller:AboutPortalPageController    , templateUrl:'/app/views/about.html', 			resolve: { user : getUser } }).
- 		when('/help/404',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
- 		when('/help/403',					{ controller:AboutPortalPageController    , templateUrl:'/app/views/403.html', 				resolve: { user : getUser } }).
-
-
- 		when('/settings/profile', 			{ controller:ManagementPageController, templateUrl:'/app/views/settings/profile.html'          , resolve: { user : getUser } }).
- 		when('/settings/password', 			{ controller:ManagementPageController, templateUrl:'/app/views/settings/password.html'         , resolve: { user : getUser } }).
- 		when('/settings/changePassword',	{ controller:ManagementPageController, templateUrl:'/public/accounts.cbd.int/change-password.html'         , resolve: { user : getUser } }).
-
-		otherwise({redirectTo:'/help/404'});
+		otherwise({redirectTo:'/business/404'});
 
  		function HomePageController($scope, $rootScope, $route, $browser, $location, $window, user, authentication) {
 
@@ -137,20 +97,12 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 			];
 		}
 
-		function NetworkPortalPageController($rootScope, $scope, $route, user, $window, $timeout) {
+		function NetworkPortalPageController($rootScope, $scope, $route, user) {
 
 			$rootScope.homePage = false;
 			$rootScope.userGovernment = user.government;
 			$rootScope.portal = 'network';
 			$rootScope.navigation = [];
-
-            $timeout(function () {
-				$window.parent.Mercury.trigger('reinitialize');
-				
-				console.log('reinitialized');
-            }, 1000);
-
-			//jQuery($window.parent).on('mercury:ready', function() {});
 		}
 
 		function ResourcesPortalPageController($rootScope, $scope, $route, user) {
@@ -242,6 +194,9 @@ app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authent
 
 function PageController($scope, $window, $location, authentication) {
 
+	if($location.protocol()=="http" && $location.host()=="accounts.cbd.int")
+		$window.location = "https://accounts.cbd.int/";
+
 	$(function () {
 		$.scrollUp({ scrollText: 'scroll to top' });
 	});
@@ -285,8 +240,3 @@ app.filter('integer', function() {
 		return text;
 	};
 });
-
-//jQuery(window).on('mercury:ready', function() {
-//jQuery(document).ready(function() {
-//	angular.bootstrap(window.document.body, ['kmApp']); 
-//});

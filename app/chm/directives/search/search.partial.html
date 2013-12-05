@@ -85,7 +85,6 @@
 		<h4 ng-pluralize count="count" when="{'0': 'No record found', '1': '1 record found', 'other': '{{start+1}} to {{stop+1}} of {} records found'}"></h4>
 
 		<div class="document-item" style="margin-top:12px" ng-repeat="document in documents">
-			{{document}}
 			<div ng-switch on="document.schema_s">
 				<div class="row-notification" ng-switch-when="notification"></div>
 				<div class="row-statement" ng-switch-when="statement"></div>

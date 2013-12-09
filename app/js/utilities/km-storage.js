@@ -1,5 +1,5 @@
 ﻿angular.module('kmStorage', [])
-.factory('IStorage', ["authHttp", "$q", "URI", "authentication", function($http, $q, URI, authentication) {
+.factory('IStorage', ["authHttp", "$q", "authentication", function($http, $q, authentication) {
 	return new function()
 	{
 		var self        = this;

@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editResource', ['authHttp', "URI", "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, URI, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
+.directive('editResource', ['authHttp', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource.partial.html',
@@ -181,7 +181,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
+				var identifier = $location.search().uid;
 				var promise = null;
 
 				if(identifier)

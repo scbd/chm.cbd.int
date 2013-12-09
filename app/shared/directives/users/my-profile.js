@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('myProfile', ["$rootScope", "$http", "authHttp", "$browser", "authentication", "URI", function ($rootScope, $http, authHttp, $browser, authentication, URI) {
+.directive('myProfile', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -10,7 +10,7 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, $element, $attr, $ctrl) {
             $scope.init();
         },
-        controller: ['$scope' , '$filter', '$location', 'URI', function ($scope, $filter, $location, URI) {
+        controller: ['$scope' , '$filter', '$location', function ($scope, $filter, $location) {
 
             $scope.options  = {
                 countries                   : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },

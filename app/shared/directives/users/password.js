@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('password', ["$rootScope", "$http", "authHttp", "$browser", "authentication", "URI", function ($rootScope, $http, authHttp, $browser, authentication, URI) {
+.directive('password', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -9,7 +9,7 @@ angular.module('kmApp').compileProvider // lazy
         scope: false,
         link: function ($scope, $element, $attr, $ctrl) {
         },
-        controller: ['$scope' , '$filter', '$location', '$route', 'URI', '$window', function ($scope, $filter, $location, $route, URI, $window) {
+        controller: ['$scope' , '$filter', '$location', '$route', '$window', function ($scope, $filter, $location, $route, $window) {
 
             if($scope.user.isAuthenticated) {
                 authentication.signOut();

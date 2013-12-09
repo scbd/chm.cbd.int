@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editStrategicPlanIndicator', ['authHttp', "URI", "$filter", "$q", "guid", "$timeout", function ($http, URI, $filter, $q, guid, $timeout) {
+.directive('editStrategicPlanIndicator', ['authHttp', "$filter", "$q", "guid", "$timeout", function ($http, $filter, $q, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-strategic-plan-indicator.partial.html',
@@ -59,7 +59,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
+				var identifier = $location.search().uid;
 				var promise = null;
 
 				if(identifier)

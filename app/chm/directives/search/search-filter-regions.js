@@ -21,7 +21,7 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, element, attrs, ngModelController)
         {
         },
-        controller : ['$scope', '$element', '$window', 'Thesaurus', function ($scope, $element, $window, thesaurus)
+        controller : ['$scope', '$element', '$location', 'Thesaurus', function ($scope, $element, $location, thesaurus)
         {
             var self = this;
             self.termsMap = [];
@@ -31,7 +31,7 @@ angular.module('kmApp').compileProvider // lazy
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
 
-            var parameters = $window.URI().search(true);
+            var parameters = $location.search();
 
             if (parameters[$scope.facet]) {
                 $scope.selectedItems.push(parameters[$scope.facet]);

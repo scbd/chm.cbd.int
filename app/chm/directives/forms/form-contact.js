@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editContact', [function ($http, URI, guid, $filter) {
+.directive('editContact', [function ($http, guid, $filter) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-contact.partial.html',

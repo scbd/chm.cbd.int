@@ -255,12 +255,8 @@
 
 				$q.all([d1]).then(function(res) {
 
-					var url = URI("/management/edit/" + schema);
-
-					if (option)
-						url = url.search(option);
-
-					$location.url(url.toString());
+					$location.path("/management/edit/"+schema);
+					$location.search(option||{});
 				});
 			}
 

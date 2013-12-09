@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editResourceMobilisation', ['authHttp', "URI", "$filter", "$q", "guid", "underscore", "$timeout", function ($http, URI, $filter, $q, guid, _, $timeout) {
+.directive('editResourceMobilisation', ['authHttp', "$filter", "guid", "underscore", function ($http, $filter, guid, _) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource-mobilisation.partial.html',

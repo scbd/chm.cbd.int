@@ -7,30 +7,18 @@
 		replace: true,
 		transclude: false,
 		scope : true,
-		link : function($scope) {
-			$scope.workflows = null;
-			$scope.load();
-		},
 		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
 		{
-			//==============================
-			//
-			//==============================
-			$scope.load = function() {
-				$scope.__loading = true;
-				$scope.__error   = null;
+			var myUserID = authentication.user().userID;
+			var query    = { 
+				$and : [
+					{ "activities.assignedTo" : myUserID }, 
+					{ closedOn : { $exists : false } } 
+				] 
+			};
 
-				IWorkflows.query({ "activities.assignedTo" : authentication.user().userID }).then(function(workflows) {
+			$scope.workflows = IWorkflows.query(query);
 
-					$scope.workflows = workflows;
-					$scope.__loading = false;
-
-				}).catch(function(error){
-
-					$scope.__error   = error;
-					$scope.__loading = false;
-				});
-			}
 			//==============================
 			//
 			//==============================
@@ -41,87 +29,4 @@
 	}
 }])
 
-//==================================================
-//
-// My Pending Tasks
-//
-//==================================================
-angular.module('kmApp').compileProvider // lazy
-.directive("myPendingTasks", [function () {
-	return {
-		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/tasks/my-tasks.partial.html',
-		replace: true,
-		transclude: false,
-		scope : true,
-		link : function($scope) {
-			$scope.workflows = {}; // Model
-			$scope.load();
-		},
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
-		{
-			//==============================
-			//
-			//==============================
-			$scope.load = function() {
-				$scope.__loading = true;
-				$scope.__error   = null;
-
-				IWorkflows.query({ $and : [{ "createdBy" : authentication.user().userID } , { closedOn : { $exists : false } } ] }).then(function(workflows) {
-
-					$scope.workflows = workflows;
-					$scope.__loading = false;
-
-				}).catch(function(error){
-
-					$scope.__error   = error;
-					$scope.__loading = false;
-				});
-			}
-		}]
-	}
-}])
-
-//==================================================
-//
-// My Completed Tasks
-//
-//==================================================
-angular.module('kmApp').compileProvider // lazy
-.directive("myCompletedTasks", [function () {
-	return {
-		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/tasks/my-tasks.partial.html',
-		replace: true,
-		transclude: false,
-		scope : true,
-		link : function($scope) {
-			$scope.workflows = {}; // Model
-			$scope.load();
-		},
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
-		{
-			//==============================
-			//
-			//==============================
-			$scope.load = function() {
-				$scope.__loading = true;
-				$scope.__error   = null;
-
-				IWorkflows.query({ $and : [{ "createdBy" : authentication.user().userID } , { closedOn : { $exists : true } } ] }).then(function(workflows) {
-
-					$scope.workflows = workflows;
-					$scope.__loading = false;
-
-				}).catch(function(error){
-
-					$scope.__error   = error;
-					$scope.__loading = false;
-				});
-			}
-		}]
-	}
-}])
 ;

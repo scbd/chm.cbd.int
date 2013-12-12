@@ -6,21 +6,17 @@
 	<table class="table table-condensed table-striped" ng-hide="__error">
 		<tbody>
 			<tr>
-				<th>Type</th>
+				<th>ID</th>
 				<th>Description</th>
 				<th>Status</th>
-				<th>Requested by/on</th>
+				<th>by/on</th>
 				<th>&nbsp;</th>
 			</tr>
 
 			<tr ng-repeat="workflow in workflows" >
-			<td>
-				<div ng-switch="workflow.type.name">
-					<span ng-switch-when="publishReferenceRecord">Publish a record</span>
-					<span ng-switch-when="publishNationalRecord">Publish a record</span>
-					<span ng-switch-default>*{{workflow.type.name}}</span>
-				</div>
-			</td>
+				<td>
+					{{workflow._id}}
+				</td>
 				<td>
 					<div ng-switch="workflow.data.metadata.schema">
 						<strong ng-switch-when="focalPoint">National Focal Point</strong>
@@ -49,13 +45,32 @@
 					<div>{{workflow.data.title | lstring}}</div>
 				</td>
 				<td>
-					<div ng-repeat="activity in workflow.activities | filter:isOpen"> <!-- Last Activity -->
-					
-						<i class="glyphicon glyphicon-time"></i>
-						<span ng-switch="activity.name">
-							<strong ng-switch-when="publishRecord">Wait for publication approval</strong>
-						</span>
+					<span ng-switch="workflow.state">
+						<span ng-switch-when="running">  <i class="icon-wrench"></i> <b>Processing...</b></span>
+						<span ng-switch-when="completed"><i class="icon-ok">    </i> <b>Completed</b></span>
+						<span ng-switch-default>TODO workflow.state: {{workflow.state}}</span>
+					</span>
+
+					<div ng-switch="workflow.type.name">
+						
+						<div ng-switch-when="publishNationalRecord">
+							
+							<div ng-repeat="activity in workflow.activities | limitTo:-1"> <!-- Last Activity -->
+								{{activity.name}}
+								<div ng-hide="activity.closedOn">Wait for user action</div>
+								<div ng-show="activity.completedOn">
+									<div ng-switch="activity.result.action">
+										<span ng-switch-when="approve">Approved</span>
+										<span ng-switch-when="approve">Rejected</span>
+									</div>
+								</div>
+							</div>
+									
+						</div>
+						<div ng-switch-default>TODO workflow.type.name: {{workflow.state}}</div>
+
 					</div>
+
 				</td>
 				<td>
 					<em>{{workflow.createdBy_info.email}}</em>

@@ -36,6 +36,7 @@ app.configure(function() {
 	});
 
 	console.log("API server:",  app.get("api-proto") + "://" + app.get("api-host") +":"+app.get("api-port"));
+});
 
 // Configure routes
 

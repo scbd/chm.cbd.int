@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive("editProgressAssessment", ['authHttp', "$q", "$filter", "URI", "IStorage", "underscore", function ($http, $q, $filter, URI, storage, _) {
+.directive("editProgressAssessment", ['authHttp', "$filter", "underscore", function ($http, $filter, _) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-progress-assessment.partial.html',
@@ -79,7 +79,7 @@ angular.module('kmApp').compileProvider // lazy
 					return;
 
 				$scope.status = "loading";
-				var qs = URI().search(true);
+				var qs = $location.search();
 				var identifier  = qs.uid;
 				var year        = qs.year;
 				var aichiTarget = qs.aichiTarget;
@@ -259,7 +259,7 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			$scope.defaultGovernment = function() {
 
-				var qsGovernment = new URI().search(true).government;
+				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
 					qsGovernment = qsGovernment.toLowerCase()

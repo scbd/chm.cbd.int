@@ -173,7 +173,7 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			$scope.defaultGovernment = function() {
 
-				var qsGovernment = new URI().search(true).government;
+				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
 					qsGovernment = qsGovernment.toLowerCase()

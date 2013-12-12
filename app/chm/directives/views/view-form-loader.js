@@ -19,7 +19,7 @@
 
 			$scope.init();
 		},
-		controller: ['$scope', "$rootScope", "URI", 'IStorage', "authentication", "localization", "$q", "$location", "$window", function ($scope, $rootScope, URI, storage, authentication, localization, $q, $location, $window) {
+		controller: ['$scope', "$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", function ($scope, $rootScope, storage, authentication, localization, $q, $location) {
 
 			if($rootScope.showAcknowledgement)
 			    $scope.showAcknowledgement = true;
@@ -36,7 +36,7 @@
 				if ($scope.document || $scope.schema)
 					return;
 
-				var oQsParams = URI().search(true);
+				var oQsParams = $location.search();
 
 				if (oQsParams.documentID || oQsParams.documentid)
 					$scope.load(oQsParams.documentID || oQsParams.documentid);
@@ -87,7 +87,8 @@
 				var schema     = $scope.internalDocumentInfo.type;
 				var identifier = $scope.internalDocumentInfo.identifier;
 
-				$location.url(new URI("/management/edit/" + schema).search({ uid: identifier, returnUrl : $location.url() }).toString());
+				$location.search({ uid: identifier, returnUrl : $location.url() });
+				$location.path("/management/edit/" + schema);
 			}
 
 			//==================================

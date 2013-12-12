@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive("editImplementationActivity", ['authHttp', "$q", "$filter", "URI", "IStorage", function ($http, $q, $filter, URI, storage) {
+.directive("editImplementationActivity", [function () {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-implementation-activity.partial.html',
@@ -262,7 +262,7 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			$scope.defaultGovernment = function() {
 
-				var qsGovernment = new URI().search(true).government;
+				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
 					qsGovernment = qsGovernment.toLowerCase()

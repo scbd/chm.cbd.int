@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('editOrganization', ['authHttp', "URI", "guid", "$filter", "Thesaurus", "guid", "$timeout", function ($http, URI, guid, $filter, Thesaurus, guid, $timeout) {
+.directive('editOrganization', ['authHttp', "guid", "$filter", "Thesaurus", "guid", "$timeout", function ($http, guid, $filter, Thesaurus, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-organization.partial.html',
@@ -82,7 +82,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$scope.status = "loading";
 
-				var identifier = URI().search(true).uid;
+				var identifier = $location.search().uid;
 				var promise = null;
 
 				if(identifier)

@@ -1,5 +1,5 @@
 angular.module('kmApp').compileProvider // lazy
-.directive("editNationalSupportTool", ['authHttp', "$q", "$filter", "URI", "IStorage", "Thesaurus", function ($http, $q, $filter, URI, storage, thesaurus) {
+.directive("editNationalSupportTool", ["$filter", "Thesaurus", function ($filter, thesaurus) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-national-support-tool.partial.html',
@@ -262,7 +262,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.defaultGovernment = function() {
-				var qsGovernment = new URI().search(true).government;
+				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
 					qsGovernment = qsGovernment.toLowerCase()

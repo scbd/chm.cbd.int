@@ -38,6 +38,8 @@
 				var oTrans = transformPath(serviceUrls.documentQueryUrl(), params);
 
 				return $http.get(oTrans.url, {  params : oTrans.params, cache:useCache });
+
+				//TODO: return result.data;
 			},
 
 			//===========================
@@ -55,6 +57,9 @@
 				var oTrans = transformPath(serviceUrls.documentUrl(), params);
 
 				return $http.get(oTrans.url, { params : oTrans.params, cache:useCache });
+
+				//TODO: return result.data;
+
 			},
 
 			//===========================
@@ -97,7 +102,9 @@
 
 				var oTrans = transformPath(serviceUrls.documentUrl(), params);
 
-				return $http.put(oTrans.url, data, { "params" : oTrans.params });
+				return $http.put(oTrans.url, data, { "params" : oTrans.params }).then(function(result){
+					return result.data;
+				});
 			},
 
 			//===========================
@@ -126,6 +133,8 @@
 				var oTrans = transformPath(serviceUrls.validateUrl(), params);
 
 				return $http.put(oTrans.url, document, { "params" : oTrans.params });
+
+				//TODO: return result.data;
 			},
 
 			//===========================
@@ -169,6 +178,8 @@
 				var oTrans = transformPath(serviceUrls.documentQueryUrl(), params);
 
 				return $http.get(oTrans.url, {  params : oTrans.params, cache:useCache });
+
+				//TODO: return result.data;
 			},
 
 
@@ -187,6 +198,8 @@
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
 				return $http.get(oTrans.url, {  params : oTrans.params, cache:useCache });
+
+				//TODO: return result.data;
 			},
 
 			//===========================
@@ -229,7 +242,9 @@
 
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
-				return $http.put(oTrans.url, data, { "params" : oTrans.params });
+				return $http.put(oTrans.url, data, { "params" : oTrans.params }).then(function(result){
+					return result.data;
+				});
 			},
 
 			//===========================
@@ -243,6 +258,8 @@
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
 				return $http.delete(oTrans.url, { "params" : oTrans.params });
+
+				//TODO: return result.data;
 			},
 
 			//===========================

@@ -186,6 +186,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 		}
 }]);
 
+app.value("realm", "CHM");
 app.value("schemaTypes", [ "aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"])
 app.value("siteMapUrls", {
 

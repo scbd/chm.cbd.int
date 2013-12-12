@@ -24,8 +24,9 @@
 				</div>
 				<div class="modal-footer" style="margin-top:0">
 					<button type="button" ng-click="closeDialog()" class="btn btn-default" >Cancel</button>
-					<button type="button" ng-click="saveDraft()"   ng-disabled="!security.canSaveDraft" class="btn btn-info"    >Save as draft</button>
-					<button type="button" ng-click="publish()"     ng-disabled="!security.canSave"      class="btn btn-primary" >Save and publish</button>
+					<button type="button" ng-click="saveDraft()"      ng-disabled="!security.canSaveDraft" class="btn btn-info"    >Save as draft</button>
+					<button type="button" ng-click="publish()"        ng-show="security.canSave" ng-disabled="!security.canSave" class="btn btn-primary" >Save and publish</button>
+					<button type="button" ng-click="publishRequest()" ng-hide="security.canSave" ng-disabled="security.canSave"  class="btn btn-primary" >Save and request publication</button>
 				</div>
 			</div>
 		</div>

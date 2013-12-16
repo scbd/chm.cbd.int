@@ -15,10 +15,10 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
 	
 	var getUser = function($q, $http, authentication) {
 		
-		if(authentication.user())
-			return authentication.user();
+		return $q.when(authentication.loadCurrentUser(true)).catch(function error() {
 
-    	return authentication.loadCurrentUser();
+			return authentication.user(null);
+    	});
     };
 
 	$routeProvider.

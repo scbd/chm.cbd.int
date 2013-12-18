@@ -49,13 +49,21 @@
 					</div>
 				</td>
 				<td>
+
+					<div ng-show="draft.workingDocumentLock">
+						<div>
+							<i class="icon-lock" ng-click="unlock(draft)"></i>
+							<b>Locked</b> by <em>{{draft.workingDocumentLock.lockedBy.email}}</em>
+						</div>
+					</div>
+
 					<em>{{draft.workingDocumentUpdatedBy.email}}</em>
 					<div>{{draft.workingDocumentUpdatedOn | date:'yyyy-MM-dd HH:mm'}}</div>
 				</td>
 				<td style="text-align:end;width:100px">
 					<div class="btn-group" style="white-space:nowrap;">
-						<button class="btn btn-default"  ng-click="edit(draft);"  type="button" title="Edit"><i class="icon-edit"></i></button>
-						<button class="btn btn-default"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
+						<button class="btn btn-default"  ng-click="edit(draft);"  type="button" title="Edit"   ng-disabled="draft.workingDocumentLock"><i class="icon-edit"></i></button>
+						<button class="btn btn-default"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="draft.workingDocumentLock || document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
 					</div>
 				</td>
 			</tr>

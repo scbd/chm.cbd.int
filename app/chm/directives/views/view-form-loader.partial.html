@@ -7,8 +7,13 @@
 	<div ng-show="!error && internalDocument">
 
 		<div style="float:right">
-			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()">Edit &raquo;</button>
-			<button type="button" class="btn btn-default" ng-click="delete()" ng-show="user().isAuthenticated" ng-disabled="!canDelete()" title="{{deleteTooltip}}">Delete &raquo;</button>
+		
+			<span>
+				<i class="icon-lock"></i>
+				Document is locked
+			</span>
+			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
+			<button type="button" class="btn btn-default" ng-click="delete()" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="{{deleteTooltip}}">Delete &raquo;</button>
 		</div>
 
 		<div ng-switch on="internalDocument.header.schema">

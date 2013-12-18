@@ -10,7 +10,7 @@
 			$scope.drafts  = null;
 			$scope.load();
 		},
-		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", function ($scope, $location, storage, ngProgress, schemaTypes) 
+		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", "authentication", function ($scope, $location, storage, ngProgress, schemaTypes, authentication) 
 		{
 			//==============================
 			//
@@ -77,6 +77,26 @@
 								alert("Error: " + error);
 							});
 					});				
+			};
+
+			//==============================
+			//
+			//==============================
+			$scope.unlock = function(draft)
+			{
+				if(draft.workingDocumentLock && authentication.user() && authentication.user().roles.indexOf("administrator"))
+				{
+					if (!confirm("WARNING: Unlocking draft can break workflows. \n Unlock the draft?"))
+						return;
+
+					storage.drafts.locks.delete(draft.identifier, draft.workingDocumentLock.lockID).then(function(success) {
+						$scope.load();
+
+					}).catch(function(error) {
+
+						alert("Error: " + error);
+					});
+				};				
 			};
 		}]
 	}

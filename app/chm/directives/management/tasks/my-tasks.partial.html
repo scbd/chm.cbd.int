@@ -50,8 +50,14 @@
 				</td>
 				<td>
 					<div ng-repeat="activity in workflow.activities | filter:isOpen"> <!-- Last Activity -->
-					
-						<i class="glyphicon glyphicon-time"></i>
+
+						<span ng-switch="workflow.state">
+							<i ng-switch-when="running"   class="glyphicon glyphicon-wrench"></i>
+							<i ng-switch-when="waiting"   class="glyphicon glyphicon-time"></i>
+							<i ng-switch-when="completed" class="glyphicon glyphicon-ok"></i>
+							<i ng-switch-when="failed"    class="glyphicon glyphicon-remove"></i>
+						</span>
+
 						<span ng-switch="activity.name">
 							<strong ng-switch-when="publishRecord">Wait for publication approval</strong>
 						</span>

@@ -46,28 +46,18 @@
 				</td>
 				<td>
 					<span ng-switch="workflow.state">
-						<span ng-switch-when="running">  <i class="icon-wrench"></i> <b>Processing...</b></span>
-						<span ng-switch-when="completed"><i class="icon-ok">    </i> <b>Completed</b></span>
+						<span ng-switch-when="running">  <i class="glyphicon glyphicon-wrench"></i> <b>Processing...</b></span>
+						<span ng-switch-when="waiting">  <i class="glyphicon glyphicon-time"></i> <b>Wait for user action...</b></span>
+						<span ng-switch-when="completed"><i class="glyphicon glyphicon-ok"></i> <b>Completed</b></span>
 						<span ng-switch-default>TODO workflow.state: {{workflow.state}}</span>
 					</span>
 
-					<div ng-switch="workflow.type.name">
-						
-						<div ng-switch-when="publishNationalRecord">
-							
-							<div ng-repeat="activity in workflow.activities | limitTo:-1"> <!-- Last Activity -->
-								{{activity.name}}
-								<div ng-hide="activity.closedOn">Wait for user action</div>
-								<div ng-show="activity.completedOn">
-									<div ng-switch="activity.result.action">
-										<span ng-switch-when="approve">Approved</span>
-										<span ng-switch-when="approve">Rejected</span>
-									</div>
-								</div>
-							</div>
-									
+					<div ng-repeat="activity in workflow.activities"> <!-- Last Activity -->
+
+						<div ng-switch="activity.name">
+							<span ng-switch-when="publishRecord">Publish a record</span>
+							<span ng-switch-default>*{{activity.name}}</span>
 						</div>
-						<div ng-switch-default>TODO workflow.type.name: {{workflow.state}}</div>
 
 					</div>
 
@@ -77,7 +67,7 @@
 					<div>{{workflow.createdOn | date:'yyyy-MM-dd HH:mm'}}</div>
 				</td>
 				<td style="text-align:end">
-					<a class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}"  type="button"><i class="icon-edit icon-white"></i></button>
+					<a class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}"  type="button"><i class="glyphicon glyphicon-search"></i></button>
 				</td>
 			</tr>
 

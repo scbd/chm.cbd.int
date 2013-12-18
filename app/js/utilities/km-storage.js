@@ -1,5 +1,5 @@
 ﻿angular.module('kmStorage', [])
-.factory('IStorage', ["authHttp", "$q", "authentication", function($http, $q, authentication) {
+.factory('IStorage', ["authHttp", "$q", "authentication", "realm", function($http, $q, authentication, defaultRealm) {
 	return new function()
 	{
 		var self        = this;
@@ -9,7 +9,9 @@
 			validateUrl        : function() { return "/api/v2013/documents/x/validate"; },
 			draftUrl           : function() { return "/api/v2013/documents/:identifier/versions/draft"; },
 			attachmentUrl      : function() { return "/api/v2013/documents/:identifier/attachments/:filename"; },
-			securityUrl        : function() { return "/api/v2013/documents/:identifier/security/:operation"; }
+			securityUrl        : function() { return "/api/v2013/documents/:identifier/securities/:operation"; },
+			draftSecurityUrl   : function() { return "/api/v2013/documents/:identifier/versions/draft/securities/:operation"; },
+			draftLockUrl       : function() { return "/api/v2013/documents/:identifier/versions/draft/locks/:lockID"; }
 		}
 
 		//==================================================
@@ -142,15 +144,15 @@
 			//===========================
 			"security": {
 				canCreate: function(identifier, schema, metadata) {
-					return canDo("create", identifier, schema, metadata);
+					return canDo(serviceUrls.securityUrl(), "create", identifier, schema, metadata);
 				},
 
 				canUpdate: function(identifier, schema, metadata) {
-					return canDo("update", identifier, schema, metadata);
+					return canDo(serviceUrls.securityUrl(), "update", identifier, schema, metadata);
 				},
 
 				canDelete: function(identifier, schema, metadata) {
-					return canDo("delete", identifier, schema, metadata);
+					return canDo(serviceUrls.securityUrl(), "delete", identifier, schema, metadata);
 				}
 			}
 		}
@@ -267,15 +269,37 @@
 			//===========================
 			"security": {
 				canCreate: function(identifier, schema, metadata) {
-					return canDo("createDraft", identifier, schema, metadata);
+					return canDo(serviceUrls.draftSecurityUrl(), "create", identifier, schema, metadata);
 				},
 
 				canUpdate: function(identifier, schema, metadata) {
-					return canDo("updateDraft", identifier, schema, metadata);
+					return canDo(serviceUrls.draftSecurityUrl(), "update", identifier, schema, metadata);
 				},
 
 				canDelete: function(identifier, schema, metadata) {
-					return canDo("deleteDraft", identifier, schema, metadata);
+					return canDo(serviceUrls.draftSecurityUrl(), "delete", identifier, schema, metadata);
+				}
+			},
+
+			"locks" : {
+
+				//===========================
+				//
+				// Not tested
+				//
+				//===========================
+				"delete" : function(identifier, lockID)
+				{
+					var params = {
+						identifier : identifier,
+						lockID     : lockID
+					};
+
+					var oTrans = transformPath(serviceUrls.draftLockUrl(), params);
+
+					return $http.delete(oTrans.url).then(function(success) {
+						return success.data;
+					});
 				}
 			}
 		}
@@ -318,6 +342,7 @@
 			}
 		}
 
+		
 		//==================================================
 		//
 		//
@@ -402,11 +427,15 @@
 		// Calls storage security
 		//
 		//===========================
-		var canDo = function(operation, identifier, schema, metadata) {
-			metadata = angular.extend(metadata || {}, { 'schema': schema });
+		var canDo = function(patternPath, operation, identifier, schema, metadata) {
+
+			metadata = angular.extend({}, { 'schema': schema }, metadata || {});
 
 			if (!metadata.government && authentication.user().government)
 				metadata = angular.extend(metadata, { 'government': authentication.user().government });
+
+			if (!metadata.realm && defaultRealm)
+				metadata = angular.extend(metadata, { 'realm': defaultRealm });
 
 			var params = {
 				"identifier" : identifier,
@@ -414,9 +443,9 @@
 				"metadata"   : metadata
 			};
 
-			var oTrans = transformPath(serviceUrls.securityUrl(), params);
+			var oTrans = transformPath(patternPath, params);
 
-			return $http.get(oTrans.url, { "params": oTrans.params, cache: true }).then(
+			return $http.get(oTrans.url, { "params": oTrans.params }).then(
 				function(res) {
 					return res.data.isAllowed;
 				});

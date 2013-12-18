@@ -74,9 +74,7 @@
 			//
 			//==============================
 			$scope.load = function() {
-				if(!$scope.loading)
-				{
-					$scope.loading = true;
+				ngProgress.reset();
 					ngProgress.start();
 
 					$scope.__loading = true;
@@ -117,9 +115,7 @@
 
 					}).finally(function(){
 						ngProgress.complete();
-						$scope.loading = undefined;
 					});
-				}
 			}
 
 			//==============================

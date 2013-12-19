@@ -6,9 +6,9 @@
 
 	<div ng-show="!error && internalDocument">
 
-		<div style="float:right">
+		<div ng-hide="hideButtons=='true'" style="float:right">
 		
-			<span>
+			<span ng-show="internalDocumentInfo.workingDocumentLock">
 				<i class="icon-lock"></i>
 				Document is locked
 			</span>

@@ -7,6 +7,7 @@
 		transclude: false,
 		scope: {
 			linkTarget: "@",
+			hideButtons: "@",
 			document: "=",
 			locale  : "="
 		},
@@ -15,7 +16,7 @@
 			$scope.internalDocument     = undefined;
 			$scope.internalDocumentInfo = undefined;
 
-			$scope.$watch("document", function(_new) { $scope.internalDocument = _new; });
+			$scope.$watch("document", function(_new) { $scope.error=null; $scope.internalDocument = _new; });
 
 			$scope.init();
 		},

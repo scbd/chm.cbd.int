@@ -4,24 +4,30 @@
 	</div>
 
 	<table class="table table-condensed table-striped" ng-hide="__error">
-		<tbody>
+		<thead>
 			<tr>
-				<th>Type</th>
+				<th>Task</th>
 				<th>Description</th>
-				<th>Status</th>
+				<th>Desired Action</th>
 				<th>Requested by/on</th>
 				<th>&nbsp;</th>
 			</tr>
+		</thead>
 
-			<tr ng-repeat="workflow in workflows" >
-			<td>
-				<div ng-switch="workflow.type.name">
-					<span ng-switch-when="publishReferenceRecord">Publish a record</span>
-					<span ng-switch-when="publishNationalRecord">Publish a record</span>
-					<span ng-switch-default>*{{workflow.type.name}}</span>
-				</div>
-			</td>
-				<td>
+		<tbody ng-repeat="workflow in workflows">
+	
+			<tr ng-repeat="activity in (myActivities = workflow.activities|filter:isOpen|filter:isAssignedToMe)" ng-init="activityOrWorkflow = (activity || workflow)">
+	
+				<td colspan="myActivities.length||1" ng-show="$first">
+					<a ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
+					<div ng-switch="workflow.type.name">
+						<em ng-switch-when="publishNationalRecord">Publish a national record</em>
+						<em ng-switch-when="publishReferenceRecord">Publish a reference record</em>
+						<em ng-switch-default>*{{workflow.type.name|uppercase}}</em>
+					</div>
+				</td>
+
+				<td colspan="myActivities.length||1" ng-show="$first">
 					<div ng-switch="workflow.data.metadata.schema">
 						<strong ng-switch-when="focalPoint">National Focal Point</strong>
 						<strong ng-switch-when="authority">Competent National Authority</strong>
@@ -48,24 +54,20 @@
 					</div>
 					<div>{{workflow.data.title | lstring}}</div>
 				</td>
+
 				<td>
-					<div ng-repeat="activity in workflow.activities | filter:isOpen"> <!-- Last Activity -->
-
-						<span ng-switch="workflow.state">
-							<i ng-switch-when="running"   class="glyphicon glyphicon-wrench"></i>
-							<i ng-switch-when="waiting"   class="glyphicon glyphicon-time"></i>
-							<i ng-switch-when="completed" class="glyphicon glyphicon-ok"></i>
-							<i ng-switch-when="failed"    class="glyphicon glyphicon-remove"></i>
-						</span>
-
-						<span ng-switch="activity.name">
-							<strong ng-switch-when="publishRecord">Wait for publication approval</strong>
-						</span>
+					<div ng-hide="activity">
+						No user action required
+					</div>
+					<div ng-show="activity" ng-switch="activity.name">
+						<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
+						<span ng-switch-default>*{{activity.name|uppercase}}</span>
 					</div>
 				</td>
+
 				<td>
 					<em>{{workflow.createdBy_info.email}}</em>
-					<div>{{workflow.createdOn | date:'yyyy-MM-dd HH:mm'}}</div>
+					<div>{{workflow.createdOn|date:'short'}}</div>
 				</td>
 				<td style="text-align:end">
 					<a class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}"  type="button"><i class="icon-edit icon-white"></i></button>

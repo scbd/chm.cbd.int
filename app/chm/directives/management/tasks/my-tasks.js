@@ -7,7 +7,7 @@
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
+		controller: [ "$scope", "IWorkflows", "authentication", "underscore", function ($scope, IWorkflows, authentication, _) 
 		{
 			var myUserID = authentication.user().userID;
 			var query    = { 
@@ -19,6 +19,21 @@
 
 			$scope.workflows = IWorkflows.query(query);
 
+			//==============================
+			//
+			//==============================
+			$scope.isOpen = function(element) {
+				return !element.closedOn;
+			}
+			
+			//==============================
+			//
+			//==============================
+			$scope.isAssignedToMe = function(activity) {
+
+				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
+			};
+		
 			//==============================
 			//
 			//==============================

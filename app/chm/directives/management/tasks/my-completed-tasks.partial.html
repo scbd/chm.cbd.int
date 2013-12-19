@@ -4,20 +4,29 @@
 	</div>
 
 	<table class="table table-condensed table-striped" ng-hide="__error">
-		<tbody>
+		<thead>
 			<tr>
-				<th>ID</th>
+				<th>Task</th>
 				<th>Description</th>
-				<th>Status</th>
-				<th>by/on</th>
-				<th>&nbsp;</th>
+				<th>Desired Action</th>
+				<th>Result</th>
 			</tr>
+		</thead>
 
-			<tr ng-repeat="workflow in workflows" >
-				<td>
-					{{workflow._id}}
+		<tbody ng-repeat="workflow in workflows">
+
+			<tr ng-repeat="activity in workflow.activities||[null]" ng-init="fallbackActivity = (activity || workflow)">
+				
+				<td colspan="workflow.activities.length||1" ng-show="$first">
+					<a ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
+					<div ng-switch="workflow.type.name">
+						<em ng-switch-when="publishNationalRecord">Publish a national record</em>
+						<em ng-switch-when="publishReferenceRecord">Publish a reference record</em>
+						<em ng-switch-default>*{{workflow.type.name|uppercase}}</em>
+					</div>
 				</td>
-				<td>
+
+				<td colspan="workflow.activities.length||1" ng-show="$first">
 					<div ng-switch="workflow.data.metadata.schema">
 						<strong ng-switch-when="focalPoint">National Focal Point</strong>
 						<strong ng-switch-when="authority">Competent National Authority</strong>
@@ -44,41 +53,42 @@
 					</div>
 					<div>{{workflow.data.title | lstring}}</div>
 				</td>
+
 				<td>
-					<span ng-switch="workflow.state">
-						<span ng-switch-when="running">  <i class="glyphicon glyphicon-wrench"></i> <b>Processing...</b></span>
-						<span ng-switch-when="completed"><i class="glyphicon glyphicon-ok">    </i> <b>Completed</b></span>
-						<span ng-switch-when="failed"><i class="glyphicon glyphicon-remove">    </i> <b>Failed</b></span>
-						<span ng-switch-default>TODO workflow.state: {{workflow.state}}</span>
-					</span>
+					<div ng-hide="activity">
+						No user action required
+					</div>
+					<div ng-show="activity" ng-switch="activity.name">
+						<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
+						<span ng-switch-default>*{{activity.name|uppercase}}</span>
+					</div>
+				</td>
 
-					<div ng-switch="workflow.type.name">
-						
-						<div ng-switch-when="publishNationalRecord">
-							
-							<div ng-repeat="activity in workflow.activities | limitTo:-1"> <!-- Last Activity -->
-								{{activity.name}}
-								<div ng-hide="activity.closedOn">Wait for user action</div>
-								<div ng-show="activity.completedOn">
-									<div ng-switch="activity.result.action">
-										<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i>Approved</span>
-										<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i>Rejected</span>
-									</div>
-								</div>
-							</div>
-									
-						</div>
-						<div ng-switch-default>TODO workflow.type.name: {{workflow.state}}</div>
+				<td>
+					<div ng-hide="fallbackActivity.closedOn">Wait for user action</div>
 
+					<div ng-show="fallbackActivity.completedOn">
+
+						<span ng-show="activity" ng-switch="activity.result.action">
+							<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
+							<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+						</span>
+
+						<span ng-hide="activity"><i class="glyphicon glyphicon-ok"></i> Completed</span>
+
+						on {{fallbackActivity.completedOn|date:'short'}} 
+						<div>by {{fallbackActivity.completedBy_info.firstName}} {{fallbackActivity.completedBy_info.lastName}}</div>
 					</div>
 
-				</td>
-				<td>
-					<em>{{workflow.createdBy_info.email}}</em>
-					<div>{{workflow.createdOn | date:'yyyy-MM-dd HH:mm'}}</div>
-				</td>
-				<td style="text-align:end">
-					<a class="btn btn-default" ng-href="/management/tasks/{{workflow._id}}"  type="button"><i class="glyphicon glyphicon-search"></i></button>
+					<div ng-show="fallbackActivity.canceledOn">
+						Canceled on {{fallbackActivity.canceledOn|date:'short'}} 
+						<div>by {{fallbackActivity.canceledBy_info.firstName}} {{fallbackActivity.canceledBy_info.lastName}}</div>
+					</div>
+
+					<div ng-show="fallbackActivity.failedOn">
+						Failed on {{fallbackActivity.failedOn|date:'short'}}
+					</div>
+							
 				</td>
 			</tr>
 

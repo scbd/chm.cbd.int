@@ -1,22 +1,99 @@
 ﻿<div>
-	<pre> --== WORKFLOW ==--
-{{workflow}}</pre>
+	<h2>{{workflow.data.title|lstring}}</h2>
+	<p>{{workflow.data.abstract|lstring}}</p>
 
-	<div ng-repeat="activity in workflow.activities">
 
-		<pre>--== ACTIVITY ==--
-{{activity}}</pre>
-
-		<div ng-switch="activity.name">
-			<div ng-switch-when="publishRecord">
-
-				<span ng-hide="activity.closedOn">
-					<button ng-disabled="activity.closedOn || !isAssignedToMe(activity)" ng-repeat="action in activity.input.actions" type="button" class="btn btn-default" ng-click="updateActivity(activity.name, { action : action })">{{action|uppercase}}</button>
-					<span ng-hide="isAssignedToMe(activity)">This actitivity is now assigned to you &#9785;</span>
-				</span>
-				
+	<table class="table table-striped">
+	  <tr>
+	  	<td>Type</td>
+	  	<td>
+	  		<div ng-switch="workflow.type.name">
+				<span ng-switch-when="publishNationalRecord">Publish a national record</span>
+				<span ng-switch-when="publishReferenceRecord">Publish a reference record</span>
+				<span ng-switch-default>*{{workflow.type.name|uppercase}}</span>
 			</div>
-		</div>
+		</td>
+	  </tr>
+	  <tr ng-show="workflow.createdOn">
+	  	<td>Created</td>
+	  	<td>{{workflow.createdOn|date:'short'}} by {{workflow.createdBy_info.firstName}} {{workflow.createdBy_info.lastName}}</td>
+	  </tr>
+	  <tr>
+	  	<td>Overall status</td>
+	  	<td>
+	  		<span ng-switch="workflow.state">
+	  			<span ng-switch-when="running">
+					<span ng-show="(workflow.activities|filter:isOpen)">Waiting for user action</span>	  				
+					<span ng-hide="(workflow.activities|filter:isOpen)">Processing</span>	  				
+	  			</span>
+	  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+	  			<span ng-switch-when="canceled">Canceled on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+	  			<span ng-switch-when="">Failed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+	  			<span ng-switch-default>*{{workflow.state|uppercase}}</span>
+		</td>
+	  </tr>
 
-	</div>
+	  <tr ng-show="workflow.activities">
+	  	<th>Activity(ies)</th>
+	  	<th>Status / Result</th>
+	  </tr>
+
+	  <tr ng-repeat="activity in workflow.activities">
+	  	<td>
+			<div ng-show="activity" ng-switch="activity.name">
+				<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
+				<span ng-switch-default>*{{activity.name|uppercase}}</span>
+			</div>
+	  	</td>
+	  	<td>
+			<div ng-hide="activity.closedOn" ng-switch="activity.name">
+				<div ng-switch-when="publishRecord">
+
+					<span ng-hide="activity.closedOn">
+						<button ng-disabled="activity.closedOn || !isAssignedToMe(activity)" ng-repeat="action in activity.input.actions" type="button" class="btn btn-default" ng-click="updateActivity(activity.name, { action : action })">{{action|uppercase}}</button>
+						<span ng-hide="isAssignedToMe(activity)">This actitivity is not assigned to you &#9785;</span>
+					</span>
+					
+				</div>
+			</div>
+
+			<div ng-show="activity.completedOn">
+
+				<span ng-show="activity" ng-switch="activity.result.action">
+					<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
+					<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+				</span>
+
+				<span ng-hide="activity"><i class="glyphicon glyphicon-ok"></i> Completed</span>
+
+				on {{activity.completedOn|date:'short'}} by {{activity.completedBy_info.firstName}} {{activity.completedBy_info.lastName}}
+			</div>
+
+			<div ng-show="activity.canceledOn">
+				Canceled on {{activity.canceledOn|date:'short'}} by {{activity.canceledBy_info.firstName}} {{activity.canceledBy_info.lastName}}
+			</div>
+
+			<div ng-show="activity.failedOn">
+				Failed on {{activity.failedOn|date:'short'}}
+			</div>
+
+
+	  	</td>
+	  </tr>
+
+	  
+	</table>
+
+
+	<div ng-show="document" class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Document to approve</h3>
+	  </div>
+	  <div class="panel-body">
+		<div class="cbd-View-Form-Loader" document="document" hide-buttons="true" link-target="_self"></div>
+	  </div>
+	</div>	
+
+  	
+
 </div>

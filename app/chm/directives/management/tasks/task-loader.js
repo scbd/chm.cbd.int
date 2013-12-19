@@ -8,7 +8,7 @@
 		transclude: false,
 		scope : true,
 		link : function($scope) {},
-		controller: [ "$scope", "authHttp", "$route", "IWorkflows", "authentication", function ($scope, $http, $route, IWorkflows, authentication) 
+		controller: [ "$scope", "authHttp", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication, _) 
 		{
 			load();
 			//==================================================
@@ -19,6 +19,12 @@
 
 				IWorkflows.get($route.current.params.id).then(function(workflow){
 					$scope.workflow = workflow;
+
+					if(!workflow.closedOn && workflow.data.identifier) {
+						IStorage.drafts.get(workflow.data.identifier).then(function(result){
+							$scope.document = result.data || result;
+						});
+					}
 				});
 			}
 
@@ -37,8 +43,17 @@
 			//==================================================
 			$scope.isAssignedToMe = function(activity) {
 
-				return activity.assignedTo.indexOf(authentication.user().userID)>=0;
+				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
 			};
+
+			//==================================================
+			//
+			//
+			//==================================================
+			$scope.isOpen = function(element) {
+				return !element.closedOn;
+			}
+
 		}]
 	}
 }])

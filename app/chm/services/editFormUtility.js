@@ -126,7 +126,6 @@
 		//
 		//==================================
 		publish: function(document) {
-debugger;
 
 			var identifier = document.header.identifier;
 			var schema     = document.header.schema;
@@ -162,7 +161,7 @@ debugger;
 		//
 		//==================================
 		publishRequest: function(document) {
-debugger;
+
 			var identifier = document.header.identifier;
 			var schema     = document.header.schema;
 			var metadata   = {};

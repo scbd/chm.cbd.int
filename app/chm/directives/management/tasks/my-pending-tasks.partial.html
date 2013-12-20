@@ -3,7 +3,7 @@
 		<strong>Error: </strong>{{__error}}
 	</div>
 
-	<table class="table table-condensed table-striped" ng-hide="__error">
+	<table class="table table-hover" ng-hide="__error">
 		<thead>
 			<tr>
 				<th>Task</th>
@@ -16,7 +16,7 @@
 
 		<tbody ng-repeat="workflow in workflows">
 
-			<tr ng-repeat="activity in workflow.activities||[null]" ng-init="activityOrWorkflow = (activity || workflow)">
+			<tr ng-repeat="activity in workflow.activities" ng-init="activityOrWorkflow = (activity || workflow)">
 
 				<td colspan="workflow.activities.length||1" ng-show="$first">
 					<a ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
@@ -55,14 +55,14 @@
 					<div>{{workflow.data.title | lstring}}</div>
 				</td>
 				
-				<td colspan="workflow.activities.length||1" ng-show="$first">
-					<span ng-show="(workflow.activities|filter:isOpen)">Wait for user action</span>
-					<span ng-hide="(workflow.activities|filter:isOpen)">Processing</span>
+				<td colspan="workflow.activities.length" ng-show="$first">
+					<span ng-show="(workflow.activities|filter:isOpen).length"><i class="glyphicon glyphicon-time"></i> Wait for user action</span>
+					<span ng-hide="(workflow.activities|filter:isOpen).length"><i class="glyphicon glyphicon-cog"></i> Processing</span>
 				</td>
 
 				<td>
 					<div ng-hide="activity">
-						No user action required
+						<em>No user action required for the moment</em>
 					</div>
 					<div ng-show="activity" ng-switch="activity.name">
 						<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
@@ -72,7 +72,10 @@
 
 				<td>
 					<div ng-show="activity && !activity.closedOn">
-						Assigned to <span ng-repeat="user in activity.assignedTo_info">{{user.firstName}} {{user.lastName}}<span ng-hide="$last">, </span><span>
+						<span ng-repeat="user in activity.assignedTo_info">{{user.firstName}} {{user.lastName}}<span ng-hide="$last">, </span><span>
+					</div>
+					<div ng-hide="activity || activityOrWorkflow.closedOn">
+						<em>Not Assigned</em>
 					</div>
 
 					<div ng-show="activityOrWorkflow.completedOn">

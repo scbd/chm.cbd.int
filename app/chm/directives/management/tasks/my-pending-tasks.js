@@ -22,10 +22,19 @@ angular.module('kmApp').compileProvider // lazy
 				] 
 			};
 
-			$scope.workflows = IWorkflows.query(query);
+			$scope.workflows = IWorkflows.query(query).then(function(workflows){
+
+				workflows.forEach(function(workflow) {
+
+					if(!workflow.activities || !workflow.activities.length)
+						workflow.activities = [null];
+				});
+
+				return workflows;
+			});
 
 			$scope.isOpen = function(element) {
-				return !element.closedOn;
+				return element && !element.closedOn;
 			}
 		}]
 	}

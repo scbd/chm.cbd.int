@@ -66,7 +66,11 @@
                 { identifier: 'BCH-FP'   , title: { en: 'BCH National Focal Point' } },
                 { identifier: 'CPB-FP1'  , title: { en: 'Cartagena Protocol National Focal Point' } },
                 { identifier: 'CPB-FP2'  , title: { en: 'Cartagena Protocol Secondary National Focal Point' } }
-        	];
+        	].sort(function(a,b){
+			  var aName = a['title']['en'].toLowerCase();
+			  var bName = b['title']['en'].toLowerCase(); 
+			  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+          	});
 		},
 		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", '$timeout', function ($scope, $location, storage, ngProgress, schemaTypes, $timeout) 
 		{
@@ -95,10 +99,6 @@
 
 				var sQuery = undefined;
 
-				/*
-				if (schemaTypes)
-					sQuery = "(type eq '" + schemaTypes.join("' or type eq '") + "')"
-				*/
 				if ($scope.selectedSchemasList)
 				{
 					sQuery = "(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')"
@@ -111,6 +111,8 @@
 					//debugger;
 					$scope.pageCount = Math.ceil(result.data.Count / $scope.nbItemsPerPage);
 					$scope.pages = [];
+
+
 					for (var i=0; i<$scope.pageCount; i++)
 					{
   						$scope.pages.push(i);

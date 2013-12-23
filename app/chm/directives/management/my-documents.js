@@ -68,54 +68,67 @@
                 { identifier: 'CPB-FP2'  , title: { en: 'Cartagena Protocol Secondary National Focal Point' } }
         	];
 		},
-		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", function ($scope, $location, storage, ngProgress, schemaTypes) 
+		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", '$timeout', function ($scope, $location, storage, ngProgress, schemaTypes, $timeout) 
 		{
+
+            $scope.loadScheduled = null;
+
+			//==============================
+			//
+			//==============================
+            $scope.search = function() {
+                if($scope.loadScheduled)
+                    $timeout.cancel($scope.loadScheduled);
+
+                $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
+            }
+
 			//==============================
 			//
 			//==============================
 			$scope.load = function() {
 				ngProgress.reset();
-					ngProgress.start();
+				ngProgress.start();
 
-					$scope.__loading = true;
-					$scope.__error   = null;
+				$scope.__loading = true;
+				$scope.__error   = null;
 
-					var sQuery = undefined;
+				var sQuery = undefined;
 
-					/*
-					if (schemaTypes)
-						sQuery = "(type eq '" + schemaTypes.join("' or type eq '") + "')"
-					*/
-					if ($scope.selectedSchemasList)
+				/*
+				if (schemaTypes)
+					sQuery = "(type eq '" + schemaTypes.join("' or type eq '") + "')"
+				*/
+				if ($scope.selectedSchemasList)
+				{
+					sQuery = "(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')"
+					//debugger;
+				}
+
+				$scope.documents = undefined;
+
+				return storage.documents.query(sQuery, "my", { q: $scope.freetext, sk: $scope.currentPage*$scope.nbItemsPerPage, l: $scope.nbItemsPerPage }).then(function(result) {
+					//debugger;
+					$scope.pageCount = Math.ceil(result.data.Count / $scope.nbItemsPerPage);
+					$scope.pages = [];
+					for (var i=0; i<$scope.pageCount; i++)
 					{
-						sQuery = "(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')"
-						//debugger;
-					}
+  						$scope.pages.push(i);
+  					}
+					//return input;
+					$scope.documents = result.data.Items;
+					$scope.__loading = false;
 
-					$scope.documents = undefined;
+					return result.data.Items;
 
-					return storage.documents.query(sQuery, "my", { q: $scope.freetext, sk: $scope.currentPage*$scope.nbItemsPerPage, l: $scope.nbItemsPerPage }).then(function(result) {
-						//debugger;
-						$scope.pageCount = Math.ceil(result.data.Count / $scope.nbItemsPerPage);
-						$scope.pages = [];
-						for (var i=0; i<$scope.pageCount; i++)
-						{
-      						$scope.pages.push(i);
-      					}
-    					//return input;
-						$scope.documents = result.data.Items;
-						$scope.__loading = false;
+				}).catch(function(error) {
 
-						return result.data.Items;
+					$scope.__error   = error;
+					$scope.__loading = false;
 
-					}).catch(function(error) {
-
-						$scope.__error   = error;
-						$scope.__loading = false;
-
-					}).finally(function(){
-						ngProgress.complete();
-					});
+				}).finally(function(){
+					ngProgress.complete();
+				});
 			}
 
 			//==============================
@@ -171,9 +184,9 @@
 
 			$scope.actionSetPage = setPage;
 
-			$scope.$watch('freetext', $scope.load);
-			$scope.$watch('selectedSchemasList', $scope.load);
-			$scope.$watch('currentPage', $scope.load);
+			$scope.$watch('freetext', $scope.search);
+			$scope.$watch('selectedSchemasList', $scope.search);
+			$scope.$watch('currentPage', $scope.search);
 		}]
 	}
 }]);

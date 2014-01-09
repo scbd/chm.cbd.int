@@ -10,14 +10,12 @@
 			$scope.drafts  = null;
 			$scope.load();
 		},
-		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", "authentication", function ($scope, $location, storage, ngProgress, schemaTypes, authentication) 
+		controller : ['$scope', "$location", "IStorage", "schemaTypes", "authentication", function ($scope, $location, storage, schemaTypes, authentication) 
 		{
 			//==============================
 			//
 			//==============================
 			$scope.load = function() {
-
-				ngProgress.start();
 
 				$scope.__loading = true;
 				$scope.__error   = null;
@@ -41,8 +39,6 @@
 					$scope.__error   = error;
 					$scope.__loading = false;
 
-				}).finally(function(){
-					ngProgress.complete();
 				});
 			}
 

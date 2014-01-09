@@ -9,7 +9,7 @@ angular.module('kmApp').compileProvider // lazy
         link: function ($scope, $element) {
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, authentication, siteMapUrls, thesaurus, guid) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) 
 		{
             $scope.status = "";
             $scope.error = null;
@@ -28,8 +28,6 @@ angular.module('kmApp').compileProvider // lazy
 
 				if ($scope.document)
 					return;
-
-				ngProgress.start();
 
 				$scope.status = "loading";
 
@@ -92,10 +90,6 @@ angular.module('kmApp').compileProvider // lazy
 
 					$scope.onError(err.data, err.status)
 					throw err;
-
-				}).finally(function() {
-
-					ngProgress.complete();
 
 				});
 			}

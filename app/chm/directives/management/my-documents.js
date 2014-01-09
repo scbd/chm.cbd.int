@@ -68,14 +68,12 @@
                 { identifier: 'CPB-FP2'  , title: { en: 'Cartagena Protocol Secondary National Focal Point' } }
         	];
 		},
-		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", function ($scope, $location, storage, ngProgress, schemaTypes) 
+		controller : ['$scope', "$location", "IStorage", "schemaTypes", function ($scope, $location, storage, schemaTypes) 
 		{
 			//==============================
 			//
 			//==============================
 			$scope.load = function() {
-				ngProgress.reset();
-					ngProgress.start();
 
 					$scope.__loading = true;
 					$scope.__error   = null;
@@ -113,8 +111,6 @@
 						$scope.__error   = error;
 						$scope.__loading = false;
 
-					}).finally(function(){
-						ngProgress.complete();
 					});
 			}
 

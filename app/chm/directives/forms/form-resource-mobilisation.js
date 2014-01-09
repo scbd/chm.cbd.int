@@ -27,7 +27,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "ngProgress", "siteMapUrls", "navigation", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, ngProgress, siteMapUrls, navigation) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation) 
 		{
 			watchResource('financialResources');
 			watchResource('countryFinancialResources');
@@ -57,8 +57,6 @@ angular.module('kmApp').compileProvider // lazy
 
 				if ($scope.document)
 					return;
-
-				ngProgress.start();
 
 				$scope.status = "loading";
 
@@ -107,8 +105,6 @@ angular.module('kmApp').compileProvider // lazy
 					$scope.onError(err.data, err.status)
 					throw err;
 
-				}).finally(function() {
-					ngProgress.complete();
 				});
 			}
 

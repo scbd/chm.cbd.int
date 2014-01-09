@@ -1862,7 +1862,7 @@ angular.module('formControls',[])
 					});
 				});
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", 'ngProgress', function ($scope, storage, editFormUtility, ngProgress) 
+			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) 
 			{
 				//====================
 				//
@@ -1924,8 +1924,6 @@ angular.module('formControls',[])
 				//====================
 				$scope.publish = function()
 				{
-					ngProgress.start();
-
 					$q.when($scope.onPrePublishFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
@@ -1954,10 +1952,6 @@ angular.module('formControls',[])
 						$scope.onErrorFn({ action: "publish", error: error });
 						$scope.closeDialog();
 
-					}).finally(function(){
-
-						ngProgress.complete();
-						
 					});
 				};
 
@@ -1966,8 +1960,6 @@ angular.module('formControls',[])
 				//====================
 				$scope.publishRequest = function()
 				{
-					ngProgress.start();
-
 					$q.when($scope.onPrePublishFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
@@ -1996,10 +1988,6 @@ angular.module('formControls',[])
 						$scope.onErrorFn({ action: "publishRequest", error: error });
 						$scope.closeDialog();
 
-					}).finally(function(){
-
-						ngProgress.complete();
-						
 					});
 				};
 
@@ -2008,8 +1996,6 @@ angular.module('formControls',[])
 				//====================
 				$scope.saveDraft = function()
 				{
-					ngProgress.start();
-
 					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
@@ -2030,8 +2016,6 @@ angular.module('formControls',[])
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
 						$scope.closeDialog();
-					}).finally(function(){
-						ngProgress.complete();
 					});
 				};
 
@@ -2102,7 +2086,7 @@ angular.module('formControls',[])
 			scope: {
 				binding : '=ngModel',
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", 'ngProgress', function ($scope, storage, editFormUtility, ngProgress) {
+			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) {
 
 				$scope.locales = [
 					{identifier:"ar", name:"Arabic"  }, 

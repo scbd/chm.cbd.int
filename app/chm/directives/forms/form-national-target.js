@@ -23,7 +23,7 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", 'ngProgress', "navigation", function ($scope, $http, $q, storage, authentication, editFormUtility, guid, $location, ngProgress, navigation) {
+		controller : ['$scope', "authHttp", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", function ($scope, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation) {
 
 			//==================================
 			//
@@ -34,8 +34,6 @@ angular.module('kmApp').compileProvider // lazy
 
 				if ($scope.document)
 					return;
-
-				ngProgress.start();
 
 				$scope.status = "loading";
 
@@ -103,10 +101,6 @@ angular.module('kmApp').compileProvider // lazy
 					
 					$scope.onError(err.data, err.status)
 					throw err;
-
-				}).finally(function() {
-					
-					ngProgress.complete();
 
 				});
 			}

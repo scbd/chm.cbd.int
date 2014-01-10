@@ -15,8 +15,8 @@ app.configure(function() {
     app.set('port', process.env.PORT || 2000);
 
     app.set('api-proto', process.env["API_PROTO"] || "http");
-    app.set('api-host',  process.env["API_HOST" ] || "bch.cbd.int");
-    app.set('api-port',  process.env["API_PORT" ] || 80);
+    app.set('api-host',  process.env["API_HOST" ] || "api.cbd.int");
+    app.set('api-port',  process.env["API_PORT" ] || 8000);
 
     app.use(express.logger('dev'));
     app.use(express.compress());
@@ -44,9 +44,6 @@ var proxy = new httpProxy.RoutingProxy();
 
 app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );
 app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
-
-app.get   ('/api/v2013/countries'  , function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
-app.get   ('/api/v2013/countries/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: '54.208.130.180', port: 8000 }); } );
 
 app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-host"), port: app.get("api-port") }); } );
 app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-host"), port: app.get("api-port") }); } );

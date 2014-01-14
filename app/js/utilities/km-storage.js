@@ -1,5 +1,6 @@
 ﻿angular.module('kmStorage', [])
-.factory('IStorage', ["authHttp", "$q", "authentication", "realm", function($http, $q, authentication, defaultRealm) {
+.factory('IStorage', ["authHttp", "$q", "authentication", "underscore", "realm", function($http, $q, authentication, _, defaultRealm) {
+
 	return new function()
 	{
 		var self        = this;
@@ -26,7 +27,7 @@
 			//===========================
 			"query" : function(query, collection, params)
 			{
-				params            = clone(params||{});
+				params            = _.extend({}, params||{});
 				params.collection = collection;
 				params["$filter"] = query;
 

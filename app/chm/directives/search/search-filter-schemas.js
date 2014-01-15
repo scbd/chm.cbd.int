@@ -181,6 +181,8 @@ angular.module('kmApp').compileProvider // lazy
             $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords );
             $scope.termsx = dictionarize($scope.terms);
 
+            // Set intitial selection from QueryString parameters
+
             var initialSelection = $location.search()[$scope.facet];
 
             if(initialSelection && $scope.termsx[initialSelection]) {

@@ -21,8 +21,13 @@
 					$scope.workflow = workflow;
 
 					if(!workflow.closedOn && workflow.data.identifier) {
+
 						IStorage.drafts.get(workflow.data.identifier).then(function(result){
 							$scope.document = result.data || result;
+						});
+
+						IStorage.documents.get(workflow.data.identifier, { info:"" }).then(function(result){
+							$scope.documentInfo = result.data || result;
 						});
 					}
 				});
@@ -52,6 +57,14 @@
 			//==================================================
 			$scope.isOpen = function(element) {
 				return !element.closedOn;
+			}
+
+			//==================================================
+			//
+			//
+			//==================================================
+			$scope.hasOpenActivities = function(activities) {
+				return !_.isEmpty(_.filter(activities, $scope.isOpen));
 			}
 
 		}]

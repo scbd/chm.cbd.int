@@ -2,12 +2,12 @@ var app = angular.module('kmApp', [ 'ngRoute', 'ngSanitize', 'kmAuthentication',
 
 //(function() {
 
-app.config(['$routeProvider', '$locationProvider', '$compileProvider', function($routeProvider, $locationProvider, $compileProvider, $q) {
+app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$controllerProvider", function($routeProvider, $locationProvider, $compileProvider, $controllerProvider, $q) {
 
 	$locationProvider.html5Mode(true);
 	$locationProvider.hashPrefix('!');
 
-//	app.controllerProvider = $controllerProvider;
+	app.controllerProvider = $controllerProvider;
     app.routeProvider      = $routeProvider;
     app.compileProvider    = $compileProvider;
 //  app.filterProvider     = $filterProvider;
@@ -49,8 +49,8 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', function(
  		when('/management/edit/contact',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/contact.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/edit/database',				{ controller:ManagementPageController, templateUrl:'/app/views/management/edit/database.html'					, resolve: { user : getUser }, reloadOnSearch: false }).
 
- 		when('/management/tasks',			{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/index.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
- 		when('/management/tasks/:id',		{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/task.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/management/tasks',			{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/tasks.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/management/tasks/:id',		{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/tasks-id.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
 
 		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
  		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/404.html',				resolve: { user : getUser } }).

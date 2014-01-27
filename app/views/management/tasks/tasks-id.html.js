@@ -9,15 +9,18 @@
 		IWorkflows.get($route.current.params.id).then(function(workflow){
 			$scope.workflow = workflow;
 
-			if(!workflow.closedOn && workflow.data.identifier) {
-
-				IStorage.drafts.get(workflow.data.identifier).then(function(result){
-					$scope.document = result.data || result;
-				});
+			if(workflow.data.identifier) {
 
 				IStorage.documents.get(workflow.data.identifier, { info:"" }).then(function(result){
 					$scope.documentInfo = result.data || result;
 				});
+
+				if(!workflow.closedOn) {
+
+					IStorage.drafts.get(workflow.data.identifier).then(function(result){
+						$scope.document = result.data || result;
+					});
+				}
 			}
 		});
 	}
@@ -30,7 +33,11 @@
 	//==================================================
 	$scope.updateActivity = function(activityName, resultData) {
 
-		IWorkflows.updateActivity($scope.workflow._id, activityName, resultData).then(load);
+		IWorkflows.updateActivity($scope.workflow._id, activityName, resultData).then(function(){
+			load();
+		}).catch(function(error) {
+			alert(error);
+		});
 	};
 
 	//==================================================
@@ -39,7 +46,7 @@
 	//==================================================
 	$scope.isAssignedToMe = function(activity) {
 
-		return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
+		return activity && _.contains(activity.assignedTo||[], authentication.user().userID||-1);
 	};
 
 	//==================================================

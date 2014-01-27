@@ -121,9 +121,14 @@
 
 							<span ng-hide="activity.closedOn">
 
-								<button ng-disabled="!isAssignedToMe(activity)" type="button" class="btn btn-default" ng-click="updateActivity(activity.name, { action : 'approve' })"><i class="glyphicon glyphicon-ok"></i> Approve</button>
-								<button ng-disabled="!isAssignedToMe(activity)" type="button" class="btn btn-default" ng-click="updateActivity(activity.name, { action : 'reject' })"><i class="glyphicon glyphicon-remove"></i> Reject </button>
-								<span ng-hide="isAssignedToMe(activity)">This actitivity is not assigned to you &#9785;</span>
+								<div ng-show="isAssignedToMe(activity)">
+									<button type="button" class="btn btn-primary" ng-click="updateActivity(activity.name, { action : 'approve' })"><i class="glyphicon glyphicon-ok"></i> Approve</button>
+									<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal" ng-click="$parent.$parent.currentActivity = activity" ><i class="glyphicon glyphicon-remove"></i> Reject </button>
+								</div>
+								<span ng-hide="isAssignedToMe(activity)">
+									<i class="glyphicon glyphicon-time"></i>
+									Waiting for <em>{{activity.assignedTo_info[0].firstName}} {{activity.assignedTo_info[0].lastName}}</em> to approve or reject this request.
+								</span>
 							</span>
 							
 						</div>
@@ -159,6 +164,30 @@
 
   		</div>
 	</div>
+
+
+	<form name="rejectForm" role="form">
+	<div class="modal fade" id="rejectModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	        <h4 class="modal-title">Reject a record revision</h4>
+	      </div>
+	      <div class="modal-body">
+		    <p ng-class="{ 'has-warning':rejectForm.reason.$error.required, 'has-success':!rejectForm.reason.$invalid }">
+			    <textarea class="form-control" rows="5" name="reason" ng-model="rejectReason" required></textarea>
+			    <span class="help-block" ng-show="rejectForm.reason.$error.required">Please specify a reason.</span>
+	        </p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="updateActivity(currentActivity.name, { action : 'reject', reason: rejectReason })"><i class="glyphicon glyphicon-remove"></i> Reject </button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
+    </form>
 
 
 	<style>

@@ -12,7 +12,7 @@ angular.module('kmApp').compileProvider // lazy
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
+		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", function ($scope, $timeout, IWorkflows, authentication) 
 		{
 			var myUserID = authentication.user().userID;
 			var query    = {  
@@ -22,7 +22,21 @@ angular.module('kmApp').compileProvider // lazy
 				] 
 			};
 
-			$scope.workflows = IWorkflows.query(query);
+			//==============================
+			//
+			//==============================
+			function load() {
+				
+				IWorkflows.query(query).then(function(workflows){
+
+					$scope.workflows = workflows;
+
+					$timeout(load, 15*1000);
+				});
+			}
+
+			load();
+	
 		}]
 	}
 }])

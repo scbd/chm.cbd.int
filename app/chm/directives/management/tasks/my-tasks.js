@@ -7,7 +7,7 @@
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "IWorkflows", "authentication", "underscore", function ($scope, IWorkflows, authentication, _) 
+		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, IWorkflows, authentication, _) 
 		{
 			var myUserID = authentication.user().userID;
 			var query    = { 
@@ -17,8 +17,21 @@
 				] 
 			};
 
-			$scope.workflows = IWorkflows.query(query);
+			//==============================
+			//
+			//==============================
+			function load() {
+				
+				IWorkflows.query(query).then(function(workflows){
 
+					$scope.workflows = workflows;
+
+					$timeout(load, 15*1000);
+				});
+			}
+
+			load();
+			
 			//==============================
 			//
 			//==============================

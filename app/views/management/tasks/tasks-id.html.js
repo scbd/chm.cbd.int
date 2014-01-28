@@ -1,4 +1,4 @@
-﻿angular.module('kmApp').controllerProvider.register("TaskRequestController", [ "$scope", "authHttp", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication, _) 
+﻿angular.module('kmApp').controllerProvider.register("TaskRequestController", [ "$scope", "$timeout", "authHttp", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, $http, $route, IStorage, IWorkflows, authentication, _) 
 {
 	//==================================================
 	//

@@ -12,7 +12,7 @@ angular.module('kmApp').compileProvider // lazy
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
+		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", function ($scope, $timeout, IWorkflows, authentication) 
 		{
 			var myUserID = authentication.user().userID;
 			var query    = { 
@@ -22,17 +22,29 @@ angular.module('kmApp').compileProvider // lazy
 				] 
 			};
 
-			$scope.workflows = IWorkflows.query(query).then(function(workflows){
+			//==============================
+			//
+			//==============================
+			function load() {
+				
+				IWorkflows.query(query).then(function(workflows){
 
-				workflows.forEach(function(workflow) {
+					workflows.forEach(function(workflow) { //tweaks
+						if(!workflow.activities || !workflow.activities.length)
+							workflow.activities = [null];
+					});
 
-					if(!workflow.activities || !workflow.activities.length)
-						workflow.activities = [null];
-				});
+					$scope.workflows = workflows;
 
-				return workflows;
-			});
+					$timeout(load, 15*1000);
+				})
+			}
 
+			load();
+
+			//==============================
+			//
+			//==============================
 			$scope.isOpen = function(element) {
 				return element && !element.closedOn;
 			}

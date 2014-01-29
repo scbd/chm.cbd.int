@@ -9,6 +9,7 @@
 		scope : true,
 		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, IWorkflows, authentication, _) 
 		{
+			var nextLoad  = null
 			var myUserID = authentication.user().userID;
 			var query    = { 
 				$and : [
@@ -26,7 +27,7 @@
 
 					$scope.workflows = workflows;
 
-					$timeout(load, 15*1000);
+					nextLoad = $timeout(load, 15*1000);
 				});
 			}
 
@@ -53,6 +54,20 @@
 			$scope.edit = function (workflow) {
 				$location.url("/management/edit/" + workflow.info.type + "?uid=" + workflow.info.identifier);
 			};
+
+
+			//============================================================
+			//
+			// ROUTE CHANGE CLEAN-UP
+			//
+			//============================================================
+			var unreg_RouteChangeStart = $scope.$on('$routeChangeStart', function() {
+
+				unreg_RouteChangeStart();
+
+				if(nextLoad)
+					$timeout.cancel(nextLoad);
+			});
 		}]
 	}
 }])

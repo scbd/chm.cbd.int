@@ -14,6 +14,7 @@ angular.module('kmApp').compileProvider // lazy
 		scope : true,
 		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", function ($scope, $timeout, IWorkflows, authentication) 
 		{
+			var nextLoad = null;
 			var myUserID = authentication.user().userID;
 			var query    = { 
 				$and : [
@@ -36,7 +37,7 @@ angular.module('kmApp').compileProvider // lazy
 
 					$scope.workflows = workflows;
 
-					$timeout(load, 15*1000);
+					nextLoad = $timeout(load, 15*1000);
 				})
 			}
 
@@ -48,6 +49,19 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.isOpen = function(element) {
 				return element && !element.closedOn;
 			}
+
+			//============================================================
+			//
+			// ROUTE CHANGE CLEAN-UP
+			//
+			//============================================================
+			var unreg_RouteChangeStart = $scope.$on('$routeChangeStart', function() {
+
+				unreg_RouteChangeStart();
+
+				if(nextLoad)
+					$timeout.cancel(nextLoad);
+			});
 		}]
 	}
 }])

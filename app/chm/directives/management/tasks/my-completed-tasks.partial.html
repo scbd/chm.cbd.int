@@ -6,7 +6,7 @@
 	<table class="table table-hover" ng-hide="__error">
 		<thead>
 			<tr>
-				<th>Task ID</th>
+				<th>ID</th>
 				<th>Description</th>
 				<th>Desired Action</th>
 				<th>Result</th>
@@ -18,7 +18,7 @@
 			<tr ng-repeat="activity in workflow.activities||[null]" ng-init="fallbackActivity = (activity || workflow)">
 				
 				<td colspan="workflow.activities.length||1" ng-show="$first">
-					<a ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
+					<a style="text-transform:uppercase" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
 					<div ng-switch="workflow.type.name">
 						<em ng-switch-when="publishNationalRecord">Publish a national record</em>
 						<em ng-switch-when="publishReferenceRecord">Publish a reference record</em>
@@ -50,11 +50,11 @@
 						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
 						<strong ng-switch-when="absPermit">Permit</strong>
 						<strong ng-switch-default>{{document.type}}*</strong>
+
+						<span ng-show="workflow.result.documentID">(<a ng-href="/database/record?documentID={{workflow.result.documentID}}">{{workflow.result.documentID}}</a>)</span>
 					</div>
 					<div>{{workflow.data.title | lstring}}</div>
-
-					<div ng-show="workflow.result.documentInfo.documentID">Record <a ng-href="/database/record?documentID={{workflow.result.documentInfo.documentID}}"> {{workflow.result.documentInfo.documentID}}</a></div>
-
+					
 				</td>
 
 				<td>

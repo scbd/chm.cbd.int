@@ -9,18 +9,11 @@
 		IWorkflows.get($route.current.params.id).then(function(workflow){
 			$scope.workflow = workflow;
 
-			if(workflow.data.identifier) {
+			if(workflow.data.identifier && !workflow.closedOn) {
 
-				IStorage.documents.get(workflow.data.identifier, { info:"" }).then(function(result){
-					$scope.documentInfo = result.data || result;
+				IStorage.drafts.get(workflow.data.identifier).then(function(result){
+					$scope.document = result.data || result;
 				});
-
-				if(!workflow.closedOn) {
-
-					IStorage.drafts.get(workflow.data.identifier).then(function(result){
-						$scope.document = result.data || result;
-					});
-				}
 			}
 		});
 	}

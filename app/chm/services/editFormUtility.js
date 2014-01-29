@@ -198,6 +198,7 @@
 
 				var workflowData = { 
 					"realm"      : realm, 
+					"documentID" : draftInfo.documentID, 
 					"identifier" : draftInfo.identifier, 
 					"title"      : draftInfo.workingDocumentTitle,
 					"abstract"   : draftInfo.workingDocumentSummary,

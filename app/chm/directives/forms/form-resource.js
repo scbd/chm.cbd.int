@@ -21,7 +21,7 @@ angular.module('kmApp').compileProvider // lazy
 				resourceTypes : function() { return $http.get("/api/v2013/thesaurus/domains/83BA4728-A843-442B-9664-705F55A8EC52/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data) }); },
 				cbdSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",                         { cache: true }).then(function(o){ return o.data; }); },
 				aichiTargets  : function() { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",                        { cache: true }).then(function(o){ return o.data; }); },
-				absSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/ABS-SUBJECTS/terms",                         { cache: true }).then(function(o){ return o.data; }); },
+				absSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms", { cache: true }).then(function(o){ return o.data; }); },
 				bchSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/043C7F0D-2226-4E54-A56F-EE0B74CCC984/terms", { cache: true }).then(function(o){ return o.data; }); },
 				bchRaSubjects : function() { return $http.get("/api/v2013/thesaurus/domains/69B43BB5-693B-4ED9-8FE0-95895E144142/terms", { cache: true }).then(function(o){ return o.data; }); },
 				ebsaSubjects  : function() { return []; },

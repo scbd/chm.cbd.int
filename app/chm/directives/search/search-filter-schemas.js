@@ -25,12 +25,6 @@ angular.module('kmApp').compileProvider // lazy
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
 
-            var parameters = $location.search();
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
-
             $scope.isSelected = function(item) {
                 return $.inArray(item.symbol, $scope.selectedItems) >= 0;
             };
@@ -187,6 +181,14 @@ angular.module('kmApp').compileProvider // lazy
             $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords );
             $scope.termsx = dictionarize($scope.terms);
 
+            // Set intitial selection from QueryString parameters
+
+            var initialSelection = $location.search()[$scope.facet];
+
+            if(initialSelection && $scope.termsx[initialSelection]) {
+                $scope.termsx[initialSelection].selected = true;
+            }
+
             function onWatch_items(values) { if(!values) return;
                 values.forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
@@ -196,7 +198,8 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.$watch('items', onWatch_items);
 
-            $scope.refresh = buildQuery;
+            //$scope.refresh = 
+            buildQuery();
         }]
     }
 });

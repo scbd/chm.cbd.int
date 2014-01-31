@@ -67,6 +67,9 @@
 					$scope.internalDocument = results[0];
 					$scope.internalDocumentInfo = results[1];
 				}).then(null, function(error) {
+
+					$scope.errorNotFound = error && error.status==404
+
 					$scope.error = error.Message || error || "Http Error: " + errorCode;
 				})
 			};

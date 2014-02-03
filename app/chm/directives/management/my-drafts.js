@@ -31,7 +31,7 @@
           	});
 			$scope.load();
 		},
-		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', function ($scope, $location, storage, schemaTypes, $timeout) 
+		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', "authentication", function ($scope, $location, storage, schemaTypes, $timeout, authentication) 
 		{
 
             $scope.loadScheduled = null;
@@ -130,7 +130,7 @@
 			//==============================
 			$scope.unlock = function(draft)
 			{
-				if(draft.workingDocumentLock && authentication.user() && authentication.user().roles.indexOf("administrator"))
+				if(draft.workingDocumentLock && authentication.user() && (authentication.user().roles.indexOf("administrator") || authentication.user().userID == draft.workingDocumentLock.lockedBy.userID))
 				{
 					if (!confirm("WARNING: Unlocking draft can break workflows. \n Unlock the draft?"))
 						return;

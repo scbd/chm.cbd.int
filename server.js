@@ -14,10 +14,6 @@ var oneDay = 86400000;
 app.configure(function() {
     app.set('port', process.env.PORT || 2000);
 
-    app.set('api-proto', process.env["API_PROTO"] || "http");
-    app.set('api-host',  process.env["API_HOST" ] || "api.cbd.int");
-    app.set('api-port',  process.env["API_PORT" ] || 80);
-
     app.use(express.logger('dev'));
     app.use(express.compress());
     app.use('/app', express.static(__dirname + '/app', { maxAge: oneDay }));
@@ -47,10 +43,10 @@ var proxy = new httpProxy.RoutingProxy();
 app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );
 app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
 
-app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-host"), port: app.get("api-port") }); } );
-app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-host"), port: app.get("api-port") }); } );
-app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-host"), port: app.get("api-port") }); } );
-app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: app.get("api-host"), port: app.get("api-port") }); } );
+app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', https: true } ) } );
+app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', https: true } ) } );
+app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', https: true } ) } );
+app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', https: true } ) } );
 
 // Configure index.html
 

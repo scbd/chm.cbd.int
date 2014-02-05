@@ -32,21 +32,17 @@ app.configure(function() {
 	});
 });
 
-console.log("api-proto", app.get("api-proto"));
-console.log("api-host",  app.get("api-host"));
-console.log("api-port",  app.get("api-port"));
-
 // Configure routes
 
-var proxy = new httpProxy.RoutingProxy();
+var proxy = httpProxy.createProxyServer({});
 
 app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );
 app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
 
-app.get   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', port: 80,  } ) } );
-app.put   ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', port: 80,  } ) } );
-app.post  ('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', port: 80,  } ) } );
-app.delete('/api/*', function(req, res) { proxy.proxyRequest(req, res, { changeOrigin: true, host: 'api.cbd.int', port: 80,  } ) } );
+app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
+app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
+app.post  ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
+app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
 
 // Configure index.html
 

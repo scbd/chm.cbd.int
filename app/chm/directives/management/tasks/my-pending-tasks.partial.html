@@ -3,109 +3,90 @@
 		<strong>Error: </strong>{{__error}}
 	</div>
 
-	<table class="table table-hover" ng-hide="__error">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Description</th>
-				<th>Status</th>
-				<th>Desired Action</th>
-				<th>Assigned to</th>
-			</tr>
-		</thead>
+	<table class="table table-striped" ng-hide="__error">
+		<tr>
+			<th>ID</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Assigned to</th>
+		</tr>
 
-		<tbody ng-repeat="workflow in workflows">
 
-			<tr ng-repeat="activity in workflow.activities" ng-init="activityOrWorkflow = (activity || workflow)">
+		<tr ng-repeat="workflow in workflows|orderBy:'createdOn'">
 
-				<td colspan="workflow.activities.length||1" ng-show="$first">
-					<a style="text-transform:uppercase" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
-					<div ng-switch="workflow.type.name">
-						<em ng-switch-when="publishNationalRecord">Publish a national record</em>
-						<em ng-switch-when="publishReferenceRecord">Publish a reference record</em>
-						<em ng-switch-default>*{{workflow.type.name|uppercase}}</em>
-					</div>
-				</td>
+			<td> <!-- ID -->
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
+				<div ng-switch="workflow.type.name">
+					<em ng-switch-when="publishNationalRecord">Publishing request</em>
+					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
+					<em ng-switch-default>*{{workflow.type.name|uppercase}}*</em>
+				</div>
+			</td>
 
-				<td colspan="workflow.activities.length||1" ng-show="$first">
-					<div ng-switch="workflow.data.metadata.schema">
-						<strong ng-switch-when="focalPoint">National Focal Point</strong>
-						<strong ng-switch-when="authority">Competent National Authority</strong>
-						<strong ng-switch-when="caseStudy">Case Study</strong>
-						<strong ng-switch-when="contact">Contact</strong>
-						<strong ng-switch-when="database">National Database</strong>
-						<strong ng-switch-when="resource">Virtual Library Resource</strong>
-						<strong ng-switch-when="organization">Organization</strong>
-						<strong ng-switch-when="measure">National Regulation</strong>
-						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs)</strong>
-						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
-						<strong ng-switch-when="strategicPlanIndicator">Strategic Plan Indicator</strong>
-						<strong ng-switch-when="nationalIndicator">National Indicator</strong>
-						<strong ng-switch-when="nationalTarget">National Target</strong>
-						<strong ng-switch-when="progressAssessment">Progress Assessment</strong>
-						<strong ng-switch-when="nationalReport">National Report</strong>
-						<strong ng-switch-when="implementationActivity">Implementation Activity</strong>
-						<strong ng-switch-when="nationalSupportTool">Guidance and Support Tools</strong>
-						<strong ng-switch-when="resourceMobilisation">Resource Mobilisation</strong>
-						<strong ng-switch-when="absCheckpoint">Checkpoint</strong>
-						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
-						<strong ng-switch-when="absPermit">Permit</strong>
-						<strong ng-switch-default>{{document.type}}*</strong>
+			<td> <!-- Description -->
+				<strong ng-show="workflow.result.documentID||workflow.data.documentID"><a ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.data.metadata.schema|schemaName}}</a></strong>
+				<strong ng-hide="workflow.result.documentID||workflow.data.documentID">{{workflow.data.metadata.schema|schemaName}}</strong>
 
-						<span ng-show="workflow.data.documentID">(<a ng-href="/database/record?documentID={{workflow.data.documentID}}">{{workflow.data.documentID}}</a>)</span>
-						<span ng-hide="workflow.data.documentID">(new record)</span>
+				<div>{{workflow.data.title | lstring}}</div>
+			</td>
+			
+			<td> <!-- Status -->
+				<div ng-repeat="activity in workflow.activities|orderBy:'createdOn'">
 
-					</div>
-					<div>{{workflow.data.title | lstring}}</div>
-				</td>
-				
-				<td colspan="workflow.activities.length" ng-show="$first">
-					<span ng-show="(workflow.activities|filter:isOpen).length"><i class="glyphicon glyphicon-time"></i> Wait for user action</span>
-					<span ng-hide="(workflow.activities|filter:isOpen).length"><i class="glyphicon glyphicon-cog"></i> Processing</span>
-				</td>
-
-				<td>
-					<div ng-hide="activity">
-						<em>No user action required for the moment</em>
-					</div>
-					<div ng-show="activity" ng-switch="activity.name">
-						<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
-						<span ng-switch-default>*{{activity.name|uppercase}}</span>
-					</div>
-				</td>
-
-				<td>
-					<div ng-show="activity && !activity.closedOn">
-						<span ng-repeat="user in activity.assignedTo_info">{{user.firstName}} {{user.lastName}}<span ng-hide="$last">, </span><span>
-					</div>
-					<div ng-hide="activity || activityOrWorkflow.closedOn">
-						<em>Not Assigned</em>
+					<div ng-show="isOpen(activity)">
+						<div ng-switch="activity.name">
+							<span ng-switch-when="publishRecord"><i class="glyphicon glyphicon-time"></i> Waiting for validation</span>
+							<span ng-switch-default>{{activity.name}}*</span>
+						</div>
 					</div>
 
-					<div ng-show="activityOrWorkflow.completedOn">
+					<div ng-hide="isOpen(activity)">
+						<div ng-switch="activity.name+'-'+activity.result.action">
+							<span ng-switch-when="publishRecord-approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
+							<span ng-switch-when="publishRecord-reject"> <i class="glyphicon glyphicon-remove"></i> Rejected</span>
+							<span ng-switch-when="null-null"> <i class="glyphicon glyphicon-cog"></i> Pending</span>
+							<span ng-switch-default>*{{activity.name+'-'+activity.result.action}}*</span>
+						</div>
+					</div>
+				</div>
+			</td>
 
-						<span ng-show="activity" ng-switch="activity.result.action">
-							<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
-							<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
-						</span>
+			<td>  <!-- Assigned to -->
+				<div ng-repeat="activity in workflow.activities|orderBy:'createdOn'">
 
-						<span ng-hide="activity"><i class="glyphicon glyphicon-ok"></i> Completed</span>
+					<div ng-show="isOpen(activity)">
+						<div ng-show="activity.assignedToRule">
+							<div ng-switch="activity.assignedToRule|limitTo:7">
+								<span ng-switch-when="ABS-NFP">ABS-CH Focal Point</span>
+								<span ng-switch-when="BCH-NFP">BCH Focal Point</span>
+								<span ng-switch-when="CHM-NFP">CHM Focal Point</span>
+								<span ng-switch-when="BCH-Adm">SCBD</span>
+								<span ng-switch-when="ABS-Adm">SCBD</span>
+								<span ng-switch-when="CHM-Adm">SCBD</span>
+								<span ng-switch-default>*{{activity.assignedToRule}}*</span>
+							</div>
+						</div>
 
-						on {{activityOrWorkflow.completedOn|date:'short'}} by {{activityOrWorkflow.completedBy_info.firstName}} {{activityOrWorkflow.completedBy_info.lastName}}
+						<div ng-hide="activity.assignedToRule">
+
+							<div ng-show="activity.assignedTo">
+								<span ng-repeat="user in activity.assignedTo_info|orderBy:'lastName'">{{user.firstName}} {{user.lastName}}<span ng-hide="$last">, </span>
+							</span>
+
+							<div ng-hide="activity.assignedTo">
+								<em>Not assigned yet</em>
+							</div>
+						</div>
+						
 					</div>
 
-					<div ng-show="activityOrWorkflow.canceledOn">
-						Canceled on {{activityOrWorkflow.canceledOn|date:'short'}} by {{activityOrWorkflow.canceledBy_info.firstName}} {{activityOrWorkflow.canceledBy_info.lastName}}
+					<div ng-hide="isOpen(activity)">
+						Not assigned
 					</div>
 
-					<div ng-show="activityOrWorkflow.failedOn">
-						Failed on {{activityOrWorkflow.failedOn|date:'short'}}
-					</div>
-							
-				</td>
-			</tr>
-
-		</tbody>
+				</div>
+			</td>
+		</tr>
 	</table>
 
 	<div ng-show="workflows.length==0">

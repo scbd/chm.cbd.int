@@ -18,6 +18,8 @@
 				] 
 			};
 
+			$scope.tasks = null;
+
 			//==============================
 			//
 			//==============================
@@ -25,7 +27,19 @@
 				
 				IWorkflows.query(query).then(function(workflows){
 
-					$scope.workflows = workflows;
+					var tasks  = [];
+
+					workflows.forEach(function(workflow) {
+						
+						workflow.activities.forEach(function(activity){
+
+							if(isAssignedToMe(activity)) {
+								tasks.push({ workflow : workflow, activity : activity});
+							}
+						});
+					});
+
+					$scope.tasks = tasks;
 
 					nextLoad = $timeout(load, 15*1000);
 				});
@@ -36,25 +50,17 @@
 			//==============================
 			//
 			//==============================
-			$scope.isOpen = function(element) {
-				return !element.closedOn;
-			}
-			
-			//==============================
-			//
-			//==============================
-			$scope.isAssignedToMe = function(activity) {
+			function isAssignedToMe(activity) {
 
 				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
-			};
+			}
 		
 			//==============================
 			//
 			//==============================
-			$scope.edit = function (workflow) {
-				$location.url("/management/edit/" + workflow.info.type + "?uid=" + workflow.info.identifier);
+			$scope.formatWID = function (workflowID) {
+				return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
 			};
-
 
 			//============================================================
 			//

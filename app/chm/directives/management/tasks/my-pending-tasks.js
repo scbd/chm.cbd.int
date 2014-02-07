@@ -50,6 +50,13 @@ angular.module('kmApp').compileProvider // lazy
 				return element && !element.closedOn;
 			}
 
+			//==============================
+			//
+			//==============================
+			$scope.formatWID = function (workflowID) {
+				return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
+			};
+
 			//============================================================
 			//
 			// ROUTE CHANGE CLEAN-UP

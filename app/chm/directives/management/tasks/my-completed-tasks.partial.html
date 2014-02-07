@@ -3,99 +3,71 @@
 		<strong>Error: </strong>{{__error}}
 	</div>
 
-	<table class="table table-hover" ng-hide="__error">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Description</th>
-				<th>Desired Action</th>
-				<th>Result</th>
-			</tr>
-		</thead>
+	<table class="table table-striped" ng-hide="__error">
+		<tr>
+			<th>ID</th>
+			<th>Description</th>
+			<th>Result</th>
+		</tr>
 
-		<tbody ng-repeat="workflow in workflows|orderBy:'-closedOn'">
+		<tr ng-repeat="workflow in workflows|orderBy:'-closedOn'">
+			
+			<td>
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
+				<div ng-switch="workflow.type.name">
+					<em ng-switch-when="publishNationalRecord">Publishing request</em>
+					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
+					<em ng-switch-default>*{{workflow.type.name|uppercase}}*</em>
+				</div>
+			</td>
 
-			<tr ng-repeat="activity in workflow.activities||[null]" ng-init="fallbackActivity = (activity || workflow)">
-				
-				<td colspan="workflow.activities.length||1" ng-show="$first">
-					<a style="text-transform:uppercase" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{workflow._id}}</a>
-					<div ng-switch="workflow.type.name">
-						<em ng-switch-when="publishNationalRecord">Publish a national record</em>
-						<em ng-switch-when="publishReferenceRecord">Publish a reference record</em>
-						<em ng-switch-default>*{{workflow.type.name|uppercase}}</em>
-					</div>
-				</td>
+			<td>
+				<strong ng-show="workflow.result.documentID||workflow.data.documentID"><a ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.data.metadata.schema|schemaName}}</a></strong>
+				<strong ng-hide="workflow.result.documentID||workflow.data.documentID">{{workflow.data.metadata.schema|schemaName}}</strong>
 
-				<td colspan="workflow.activities.length||1" ng-show="$first">
-					<div ng-switch="workflow.data.metadata.schema">
-						<strong ng-switch-when="focalPoint">National Focal Point</strong>
-						<strong ng-switch-when="authority">Competent National Authority</strong>
-						<strong ng-switch-when="caseStudy">Case Study</strong>
-						<strong ng-switch-when="contact">Contact</strong>
-						<strong ng-switch-when="database">National Database</strong>
-						<strong ng-switch-when="resource">Virtual Library Resource</strong>
-						<strong ng-switch-when="organization">Organization</strong>
-						<strong ng-switch-when="measure">National Regulation</strong>
-						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs)</strong>
-						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
-						<strong ng-switch-when="strategicPlanIndicator">Strategic Plan Indicator</strong>
-						<strong ng-switch-when="nationalIndicator">National Indicator</strong>
-						<strong ng-switch-when="nationalTarget">National Target</strong>
-						<strong ng-switch-when="progressAssessment">Progress Assessment</strong>
-						<strong ng-switch-when="nationalReport">National Report</strong>
-						<strong ng-switch-when="implementationActivity">Implementation Activity</strong>
-						<strong ng-switch-when="nationalSupportTool">Guidance and Support Tools</strong>
-						<strong ng-switch-when="resourceMobilisation">Resource Mobilisation</strong>
-						<strong ng-switch-when="absCheckpoint">Checkpoint</strong>
-						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
-						<strong ng-switch-when="absPermit">Permit</strong>
-						<strong ng-switch-default>{{document.type}}*</strong>
+				<div>{{workflow.data.title | lstring}}</div>
+			</td>
 
-						<span ng-show="workflow.result.documentID">(<a ng-href="/database/record?documentID={{workflow.result.documentID}}">{{workflow.result.documentID}}</a>)</span>
-					</div>
-					<div>{{workflow.data.title | lstring}}</div>
-					
-				</td>
+			<td>
+				<div ng-repeat="activity in workflow.activities|orderBy:'createdOn'">
 
-				<td>
-					<div ng-hide="activity">
-						No user action required
-					</div>
-					<div ng-show="activity" ng-switch="activity.name">
-						<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
-						<span ng-switch-default>*{{activity.name|uppercase}}</span>
-					</div>
-				</td>
-
-				<td>
-					<div ng-hide="fallbackActivity.closedOn">Wait for user action</div>
-
-					<div ng-show="fallbackActivity.completedOn">
+					<div ng-show="activity.completedOn">
 
 						<span ng-show="activity" ng-switch="activity.result.action">
 							<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
 							<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+							<span ng-switch-default>*{{activity.result.action}}
 						</span>
-
-						<span ng-hide="activity"><i class="glyphicon glyphicon-ok"></i> Completed</span>
-
-						on {{fallbackActivity.completedOn|date:'short'}} 
-						<div>by {{fallbackActivity.completedBy_info.firstName}} {{fallbackActivity.completedBy_info.lastName}}</div>
+						<span> on {{activity.completedOn|date:'short'}} </span>
+					</div>
+					
+					<div ng-show="activity.canceledOn">
+						Canceled on {{activity.canceledOn|date:'short'}} 
 					</div>
 
-					<div ng-show="fallbackActivity.canceledOn">
-						Canceled on {{fallbackActivity.canceledOn|date:'short'}} 
-						<div>by {{fallbackActivity.canceledBy_info.firstName}} {{fallbackActivity.canceledBy_info.lastName}}</div>
+					<div ng-show="activity.failedOn">
+						Failed on {{activity.failedOn|date:'short'}}
 					</div>
 
-					<div ng-show="fallbackActivity.failedOn">
-						Failed on {{fallbackActivity.failedOn|date:'short'}}
-					</div>
-							
-				</td>
-			</tr>
+				</div>
 
-		</tbody>
+				<div ng-hide="workflow.activities">
+					
+					<div ng-show="workflow.completedOn">
+						Compledted on {{activity.completedOn|date:'short'}}
+					</div>
+					
+					<div ng-show="workflow.canceledOn">
+						Canceled on {{activity.canceledOn|date:'short'}} 
+					</div>
+
+					<div ng-show="workflow.failedOn">
+						Failed on {{activity.failedOn|date:'short'}}
+					</div>
+
+				</div>
+			</td>
+		</tr>
 	</table>
 
 	<div ng-show="workflows.length==0">

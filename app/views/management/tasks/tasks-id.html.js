@@ -1,4 +1,4 @@
-﻿angular.module('kmApp').controllerProvider.register("TaskRequestController", [ "$scope", "$timeout", "authHttp", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, $http, $route, IStorage, IWorkflows, authentication, _) 
+﻿angular.module('kmApp').controllerProvider.register("TaskIdController", [ "$scope", "$timeout", "authHttp", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, $http, $route, IStorage, IWorkflows, authentication, _) 
 {
 	//==================================================
 	//
@@ -24,19 +24,6 @@
 	//
 	//
 	//==================================================
-	$scope.updateActivity = function(activityName, resultData) {
-
-		IWorkflows.updateActivity($scope.workflow._id, activityName, resultData).then(function(){
-			load();
-		}).catch(function(error) {
-			alert(error);
-		});
-	};
-
-	//==================================================
-	//
-	//
-	//==================================================
 	$scope.isAssignedToMe = function(activity) {
 
 		return activity && _.contains(activity.assignedTo||[], authentication.user().userID||-1);
@@ -47,15 +34,21 @@
 	//
 	//==================================================
 	$scope.isOpen = function(element) {
-		return !element.closedOn;
+		return element && !element.closedOn;
 	}
 
 	//==================================================
 	//
 	//
 	//==================================================
-	$scope.hasOpenActivities = function(activities) {
-		return !_.isEmpty(_.filter(activities, $scope.isOpen));
+	$scope.isClose = function(element) {
+		return element && element.closedOn;
 	}
-	
+
+	//==============================
+	//
+	//==============================
+	$scope.formatWID = function (workflowID) {
+		return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
+	};
 }]);

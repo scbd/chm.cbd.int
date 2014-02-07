@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp').compileProvider // lazy
-.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
+.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", '$window', "authentication", function ($rootScope, $http, authHttp, $browser, $window, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -33,13 +33,10 @@
                     function (data) { // Success
                         $scope.setCookie("lastLoginEmail", $scope.rememberMe ? sEmail : undefined, 365, '/');
 
-                        authentication.loadCurrentUser().then(function () {
-                         
-                            if ($location.search().returnUrl)
-                                $location.url($location.search().returnUrl);
-                            else
-                                $location.path("/management"); 
-                        });
+                        if ($location.search().returnUrl)
+                            $window.location.href = $location.search().returnUrl;
+                        else
+                            $window.location.href = '/management'; 
                     },
                     function (error) { // Error
                         $scope.password = "";

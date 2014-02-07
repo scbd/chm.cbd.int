@@ -51,6 +51,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
 
  		when('/management/tasks',			{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/tasks.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
  		when('/management/tasks/:id',		{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/tasks-id.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
+ 		when('/management/tasks/:id/:activity',{ controller:ManagementPageController, templateUrl:'/app/views/management/tasks/tasks-id-activity.html'	, resolve: { user : getUser }, reloadOnSearch: false }).
 
 		when('/network/', 					{ controller:NetworkPortalPageController  , templateUrl:'/app/views/404.html', 				resolve: { user : getUser } }).
  		when('/resources/', 				{ controller:ResourcesPortalPageController, templateUrl:'/app/views/404.html',				resolve: { user : getUser } }).
@@ -282,6 +283,41 @@ app.filter('integer', function() {
 		return text;
 	};
 });
+
+//============================================================
+//
+//============================================================
+app.filter('schemaName', function() {
+	return function(schema) {
+
+		if(schema =="focalPoint")              return "National Focal Point";
+		if(schema =="authority")               return "Competent National Authority";
+		if(schema =="caseStudy")               return "Case Study";
+		if(schema =="contact")                 return "Contact";
+		if(schema =="database")                return "National Database";
+		if(schema =="resource")                return "Virtual Library Resource";
+		if(schema =="organization")            return "Organization";
+		if(schema =="measure")                 return "National Regulation";
+		if(schema =="marineEbsa")              return "Ecologically or Biologically Significant Areas (EBSAs)";
+		if(schema =="aichiTarget")             return "Aichi Target";
+		if(schema =="strategicPlanIndicator")  return "Strategic Plan Indicator";
+		if(schema =="nationalIndicator")       return "National Indicator";
+		if(schema =="nationalTarget")          return "National Target";
+		if(schema =="progressAssessment")      return "Progress Assessment";
+		if(schema =="nationalReport")          return "National Report";
+		if(schema =="implementationActivity")  return "Implementation Activity";
+		if(schema =="nationalSupportTool")     return "Guidance and Support Tools";
+		if(schema =="resourceMobilisation")    return "Resource Mobilisation";
+		if(schema =="absCheckpoint")           return "Checkpoint";
+		if(schema =="absCheckpointCommunique") return "Checkpoint Communiqué";
+		if(schema =="absPermit")               return "Permit";
+
+		return (schema||"")+"*"
+	};
+});
+
+
+
 
 //jQuery(window).on('mercury:ready', function() {
 //jQuery(document).ready(function() {

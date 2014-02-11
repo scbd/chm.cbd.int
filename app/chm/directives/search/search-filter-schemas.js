@@ -2,19 +2,13 @@ angular.module('kmApp').compileProvider // lazy
 .directive('searchFilterSchemas', function ($http) {
     return {
         restrict: 'EAC',
-         templateUrl: '/app/chm/directives/search/search-filter-schemas.partial.html?'+(new Date().getTime()),
+        templateUrl: '/app/chm/directives/search/search-filter-schemas.partial.html?'+(new Date().getTime()),
         replace: true,
-        // require : "?ngModel",
         scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
               title: '@title',
               items: '=ngModel',
               field: '@field',
               query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
         },
         link: function ($scope, element, attrs, ngModelController)
         {
@@ -54,21 +48,7 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.items2 = $scope.items.slice(count1, count2+count2);
                 $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
 
-                console.log($scope.items1);
-                console.log($scope.items2);
-                console.log($scope.items3);
-
-
                 $element.find("#dialogSelect").modal("show");
-
-
-
-
-
-                //if(!$scope.expanded)
-                    //$scope.$parent.$broadcast('onExpand', $scope);
-
-                //$scope.expanded = !$scope.expanded;
             };
 
             $scope.$on('onExpand', function(scope) {

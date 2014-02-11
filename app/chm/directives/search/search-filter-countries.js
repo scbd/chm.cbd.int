@@ -4,17 +4,11 @@ angular.module('kmApp').compileProvider // lazy
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-countries.partial.html?'+(new Date().getTime()),
         replace: true,
-        // require : "?ngModel",
         scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
               title: '@title',
               items: '=ngModel',
               field: '@field',
               query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
         },
         link: function ($scope, element, attrs, ngModelController)
         {
@@ -50,7 +44,6 @@ angular.module('kmApp').compileProvider // lazy
                 }
 
                 buildQuery();
-                // $scope.updateQuery();
             };
 
             $scope.actionExpand = function() {

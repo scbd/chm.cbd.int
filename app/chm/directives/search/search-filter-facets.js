@@ -4,17 +4,11 @@ angular.module('kmApp').compileProvider // lazy
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-facets.partial.html?'+(new Date().getTime()),
         replace: true,
-        // require : "?ngModel",
         scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
               title: '@title',
               items: '=ngModel',
               field: '@field',
               query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
         },
         link: function ($scope, element, attrs, ngModelController)
         {
@@ -60,28 +54,7 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.items2 = $scope.items.slice(count1, count2+count2);
                 $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
 
-                console.log($scope.items1);
-                console.log($scope.items2);
-                console.log($scope.items3);
-
-
                 $element.find("#dialogSelect").modal("show");
-
-                
-
-
-
-
-                
-
-
-
-
-
-                //if(!$scope.expanded)
-                    //$scope.$parent.$broadcast('onExpand', $scope);
-
-                //$scope.expanded = !$scope.expanded;
             };
 
             $scope.$on('onExpand', function(scope) {
@@ -91,7 +64,6 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.filterx = function(item) {
                 console.log(item);
-                //return item.selected;
             };
 
             $scope.ccc = function(item) {
@@ -138,21 +110,6 @@ angular.module('kmApp').compileProvider // lazy
 
                     setBroaders(term.broaderTerms, selected); 
                 });
-
-
-                // if(term.indeterminate) {
-                //     term.state = term.selected;
-                //     term.selected = false;
-                // }
-
-                // if(!term.indeterminate) {
-                //     term.selected = term.state;
-                //     term.state = null;
-                // }
-
-                // term.indeterminate = selected;
-
-                
             }
 
             function setNarrowers(narrowerTerms, selected) {
@@ -167,15 +124,6 @@ angular.module('kmApp').compileProvider // lazy
 
                     setNarrowers(term.narrowerTerms, selected); 
                 });
-
-
-                // 
-
-                // 
-
-                // term.indeterminate = selected;
-
-                
             }
 
             $scope.onclick = function (scope, evt) {
@@ -191,23 +139,6 @@ angular.module('kmApp').compileProvider // lazy
 
                 setBroaders(term.broaderTerms, term.selected);
                 setNarrowers(term.narrowerTerms, term.selected);
-                
-                //if(scope.item.indeterminate)
-                  //  scope.item.indeterminate = scope.item.indeterminate = false;
-
-                //if(scope.item.selected==true) unselect(scope.item);
-                //else          
-         //       if(scope.item.selected) { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(select); }
-           //     else                    { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(unselect); }
-
-                //var cb = evt.target;
-                                
-                //if (cb.readOnly) cb.checked=cb.readOnly=false;
-                //else if (!cb.checked) cb.readOnly=cb.indeterminate=true;
-
-                //$scope.actionSelect(scope.item);
-
-
 
                 buildQuery();
             }

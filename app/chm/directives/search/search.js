@@ -4,13 +4,7 @@ angular.module('kmApp').compileProvider // lazy
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search.partial.html?'+(new Date().getTime()),
         replace: true,
-        // require : "?ngModel",
         scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
-              // binding    : '=ngModel',
-              // locales    : '=',
-              // required   : "@"
         },
         controller: ['$scope', '$q', '$timeout', '$location', function ($scope, $q, $timeout, $location)
         {
@@ -132,9 +126,6 @@ angular.module('kmApp').compileProvider // lazy
                     'cb': new Date().getTime()
                 };
 
-                console.log("QUERY at " + new Date().toISOString());
-                console.log(queryParameters);
-
                 if (self.canceler != null) {
                     console.log('trying to abort pending request...');
                     self.canceler.resolve(true);
@@ -152,7 +143,6 @@ angular.module('kmApp').compileProvider // lazy
                     $scope.rows  = data.response.docs.length;
 
                     $scope.documents = data.response.docs;
-                     console.log($scope.documents);
 
                     $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
 
@@ -174,7 +164,7 @@ angular.module('kmApp').compileProvider // lazy
                             $scope.regions = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
                             $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
                             $scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
-console.log($scope.aichiTargets);
+
                         }).error(function (error) { console.log('onerror'); console.log(error); } );
                     }
                 }).error(function (error) { console.log('onerror'); console.log(error); });
@@ -292,8 +282,6 @@ angular.module('kmApp').compileProvider // lazy
                 } else {
                     $scope.query = '*:*';
                 }
-                
-                console.log($scope.query);
             };
 
             $scope.$watch('selectedDate', function (value) {

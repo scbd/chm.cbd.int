@@ -6,17 +6,11 @@ angular.module('kmApp').compileProvider // lazy
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-regions.partial.html?v'+(new Date()).getTime(),
         replace: true,
-        // require : "?ngModel",
         scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
               title: '@title',
               items: '=ngModel',
               field: '@field',
               query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
         },
         link: function ($scope, element, attrs, ngModelController)
         {
@@ -25,7 +19,6 @@ angular.module('kmApp').compileProvider // lazy
         {
             var self = this;
             self.termsMap = [];
-
 
             $scope.expanded = false;
             $scope.selectedItems = [];
@@ -54,26 +47,7 @@ angular.module('kmApp').compileProvider // lazy
                 }
 
                 buildQuery();
-                // $scope.updateQuery();
             };
-
-            // $scope.actionExpand = function() {
-
-            //     var count1 = Math.ceil($scope.items.length/3);
-            //     var count2 = Math.ceil(($scope.items.length-count1)/2);
-            //     var count3 = Math.ceil(($scope.items.length-count2-count1));
-
-            //     $scope.items1 = $scope.items.slice(0, count1);
-            //     $scope.items2 = $scope.items.slice(count1, count2+count2);
-            //     $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
-
-            //     console.log($scope.items1);
-            //     console.log($scope.items2);
-            //     console.log($scope.items3);
-
-
-            //     $element.find("#dialogSelect").modal("show");
-            // };
 
             $scope.ccc = function(item) {
                 return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
@@ -95,8 +69,6 @@ angular.module('kmApp').compileProvider // lazy
                     query += ' )';
                     $scope.query = query;
                 }
-
-                console.log($scope.query);
             }
 
             function buildConditions (conditions, items) {
@@ -167,18 +139,8 @@ angular.module('kmApp').compileProvider // lazy
                 });
 
                 return classes;
-
-
-                
-                //$scope.termsxx = _.values($scope.termsx);
                 
             });
-            // $scope.termsx = [];
-            // $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
-            //     $scope.terms = data;
-            //     $scope.termsx = dictionarize($scope.terms);
-            //     onWatch_items($scope.items);
-            // });
 
             function onWatch_items(values) {
                 (values||[]).forEach(function (item) {
@@ -186,8 +148,6 @@ angular.module('kmApp').compileProvider // lazy
                         $scope.termsx[item.symbol].count = item.count;
                 });
             }
-
-            //$scope.$watch('items', onWatch_items);
 
             $scope.refresh = buildQuery;
         }]

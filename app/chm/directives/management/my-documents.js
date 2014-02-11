@@ -32,7 +32,7 @@
 			  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
           	});
 		},
-		controller : ['$scope', "$location", "IStorage", "ngProgress", "schemaTypes", '$timeout', function ($scope, $location, storage, ngProgress, schemaTypes, $timeout) 
+		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', function ($scope, $location, storage, schemaTypes, $timeout) 
 		{
 
             $scope.loadScheduled = null;
@@ -51,8 +51,6 @@
 			//
 			//==============================
 			$scope.load = function() {
-				ngProgress.reset();
-				ngProgress.start();
 
 				$scope.__loading = true;
 				$scope.__error   = null;
@@ -74,16 +72,14 @@
 				$scope.documents = undefined;
 
 				return storage.documents.query(qAnd.join(" and ")||undefined, "my", { "$skip": $scope.currentPage*$scope.nbItemsPerPage, "$top": $scope.nbItemsPerPage, "$orderby" : "type,documentID" }).then(function(result) {
-					//debugger;
+
 					$scope.pageCount = Math.ceil(result.data.Count / $scope.nbItemsPerPage);
 					$scope.pages = [];
 
-
-					for (var i=0; i<$scope.pageCount; i++)
-					{
+					for (var i=0; i<$scope.pageCount; i++) {
   						$scope.pages.push(i);
   					}
-					//return input;
+
 					$scope.documents = result.data.Items;
 					$scope.__loading = false;
 
@@ -94,8 +90,6 @@
 					$scope.__error   = error;
 					$scope.__loading = false;
 
-				}).finally(function(){
-					ngProgress.complete();
 				});
 			}
 

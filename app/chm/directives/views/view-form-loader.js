@@ -7,6 +7,7 @@
 		transclude: false,
 		scope: {
 			linkTarget: "@",
+			hideButtons: "@",
 			document: "=",
 			locale  : "="
 		},
@@ -15,7 +16,7 @@
 			$scope.internalDocument     = undefined;
 			$scope.internalDocumentInfo = undefined;
 
-			$scope.$watch("document", function(_new) { $scope.internalDocument = _new; });
+			$scope.$watch("document", function(_new) { $scope.error=null; $scope.internalDocument = _new; });
 
 			$scope.init();
 		},
@@ -66,6 +67,9 @@
 					$scope.internalDocument = results[0];
 					$scope.internalDocumentInfo = results[1];
 				}).then(null, function(error) {
+
+					$scope.errorNotFound = error && error.status==404
+
 					$scope.error = error.Message || error || "Http Error: " + errorCode;
 				})
 			};

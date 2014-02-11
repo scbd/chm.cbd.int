@@ -2,13 +2,20 @@
 .factory('IWorkflows', ["authHttp", "$q", function($http, $q) {
 	return new function()
 	{
-		var self        = this;
+		var self = this;
 
 		//===========================
 		//
 		//===========================
-		this.create = function(type, data) {
-			return $http.post("/api/v2013/workflows", { type : type, data : data }).then(
+		this.create = function(type, version, data) {
+
+			var body = { 
+				type    : type,
+				version : version,
+				data    : data 
+			}
+
+			return $http.post("/api/v2013/workflows", body).then(
 				function(resp) {
 					return resp.data;
 				}

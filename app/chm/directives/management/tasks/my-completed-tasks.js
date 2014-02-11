@@ -12,8 +12,9 @@ angular.module('kmApp').compileProvider // lazy
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
+		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", function ($scope, $timeout, IWorkflows, authentication) 
 		{
+			var nextLoad = null;
 			var myUserID = authentication.user().userID;
 			var query    = {  
 				$and : [
@@ -22,7 +23,40 @@ angular.module('kmApp').compileProvider // lazy
 				] 
 			};
 
-			$scope.workflows = IWorkflows.query(query);
+			//==============================
+			//
+			//==============================
+			function load() {
+				
+				IWorkflows.query(query).then(function(workflows){
+
+					$scope.workflows = workflows;
+
+					nextLoad = $timeout(load, 15*1000);
+				});
+			}
+
+			load();
+
+			//==============================
+			//
+			//==============================
+			$scope.formatWID = function (workflowID) {
+				return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
+			};
+
+			//============================================================
+			//
+			// ROUTE CHANGE CLEAN-UP
+			//
+			//============================================================
+			var unreg_RouteChangeStart = $scope.$on('$routeChangeStart', function() {
+
+				unreg_RouteChangeStart();
+
+				if(nextLoad)
+					$timeout.cancel(nextLoad);
+			});
 		}]
 	}
 }])

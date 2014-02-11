@@ -10,7 +10,7 @@ angular.module('kmApp').compileProvider // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "ngProgress", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, ngProgress, authentication, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -30,8 +30,6 @@ angular.module('kmApp').compileProvider // lazy
 					return;
 
 				$scope.status = "loading";
-
-				ngProgress.start();
 
 				var promise = null;
 				var schema  = "marineEbsa";
@@ -92,10 +90,6 @@ angular.module('kmApp').compileProvider // lazy
 
 					$scope.onError(err.data, err.status)
 					throw err;
-
-				}).finally(function() {
-
-					ngProgress.complete();
 
 				});
 			}			

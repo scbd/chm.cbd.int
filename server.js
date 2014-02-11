@@ -16,7 +16,7 @@ app.configure(function() {
 
     app.use(express.logger('dev'));
     app.use(express.compress());
-    app.use('/app', express.static(__dirname + '/app', { maxAge: oneDay }));
+    app.use('/app', express.static(__dirname + '/app'));//, { maxAge: oneDay }));
     app.use('/public', express.static(__dirname + '/public', { maxAge: oneDay }));
     app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge: oneDay }));
 

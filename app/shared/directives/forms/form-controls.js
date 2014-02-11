@@ -1862,7 +1862,7 @@ angular.module('formControls',[])
 					});
 				});
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", 'ngProgress', function ($scope, storage, editFormUtility, ngProgress) 
+			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) 
 			{
 				//====================
 				//
@@ -1924,8 +1924,6 @@ angular.module('formControls',[])
 				//====================
 				$scope.publish = function()
 				{
-					ngProgress.start();
-
 					$q.when($scope.onPrePublishFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
@@ -1942,27 +1940,54 @@ angular.module('formControls',[])
 						if(!document)
 							throw "Invalid document";
 
-						return editFormUtility.publish(document).then(function(success) {
+						return editFormUtility.publish(document).then(function(documentInfo) {
 
-							if (success.action == "publish")
-								$scope.onPostPublishFn({ data: success.data });
-							else if (success.action == "publishRequest")
-								$scope.onPostWorkflowFn({ data: success.data });
-							else
-								throw "unknown action" + success.action;
+							$scope.onPostPublishFn({ data: documentInfo });
 
-							return success;
+							return documentInfo;
 						});
 
 					}).catch(function(error){
 						
-						$scope.onErrorFn({ action: "saveDraft", error: error });
+						$scope.onErrorFn({ action: "publish", error: error });
 						$scope.closeDialog();
 
-					}).finally(function(){
+					});
+				};
 
-						ngProgress.complete();
+				//====================
+				//
+				//====================
+				$scope.publishRequest = function()
+				{
+					$q.when($scope.onPrePublishFn()).then(function(result) {
+					
+						return $scope.closeDialog().then(function() { 
+							return result;
+						});
+
+					}).then(function(canceled) {
+
+						if(canceled)
+							return;
+
+						var document = $scope.getDocumentFn();
+
+						if(!document)
+							throw "Invalid document";
+
+						return editFormUtility.publishRequest(document).then(function(workflowInfo) {
+
+							$scope.onPostWorkflowFn({ data: workflowInfo });
+
+							return workflowInfo;
+						});
+
+					}).catch(function(error){
 						
+						$scope.onErrorFn({ action: "publishRequest", error: error });
+						$scope.closeDialog();
+
 					});
 				};
 
@@ -1971,8 +1996,6 @@ angular.module('formControls',[])
 				//====================
 				$scope.saveDraft = function()
 				{
-					ngProgress.start();
-
 					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
 					
 						return $scope.closeDialog().then(function() { 
@@ -1987,14 +2010,12 @@ angular.module('formControls',[])
 						if(!document)
 							throw "Invalid document";
 
-						return editFormUtility.saveDraft(document).then(function(success) {
-							$scope.onPostSaveDraftFn({ data: success.data });
+						return editFormUtility.saveDraft(document).then(function(draftInfo) {
+							$scope.onPostSaveDraftFn({ data: draftInfo });
 						});
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
 						$scope.closeDialog();
-					}).finally(function(){
-						ngProgress.complete();
 					});
 				};
 
@@ -2065,7 +2086,7 @@ angular.module('formControls',[])
 			scope: {
 				binding : '=ngModel',
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", 'ngProgress', function ($scope, storage, editFormUtility, ngProgress) {
+			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) {
 
 				$scope.locales = [
 					{identifier:"ar", name:"Arabic"  }, 

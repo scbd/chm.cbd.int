@@ -7,8 +7,9 @@
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "IWorkflows", "authentication", function ($scope, IWorkflows, authentication) 
+		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, IWorkflows, authentication, _) 
 		{
+			var nextLoad  = null
 			var myUserID = authentication.user().userID;
 			var query    = { 
 				$and : [
@@ -17,14 +18,62 @@
 				] 
 			};
 
-			$scope.workflows = IWorkflows.query(query);
+			$scope.tasks = null;
 
 			//==============================
 			//
 			//==============================
-			$scope.edit = function (workflow) {
-				$location.url("/management/edit/" + workflow.info.type + "?uid=" + workflow.info.identifier);
+			function load() {
+				
+				IWorkflows.query(query).then(function(workflows){
+
+					var tasks  = [];
+
+					workflows.forEach(function(workflow) {
+						
+						workflow.activities.forEach(function(activity){
+
+							if(isAssignedToMe(activity)) {
+								tasks.push({ workflow : workflow, activity : activity});
+							}
+						});
+					});
+
+					$scope.tasks = tasks;
+
+					nextLoad = $timeout(load, 15*1000);
+				});
+			}
+
+			load();
+			
+			//==============================
+			//
+			//==============================
+			function isAssignedToMe(activity) {
+
+				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
+			}
+		
+			//==============================
+			//
+			//==============================
+			$scope.formatWID = function (workflowID) {
+				return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
 			};
+
+			//============================================================
+			//
+			// ROUTE CHANGE CLEAN-UP
+			//
+			//============================================================
+			var unreg_RouteChangeStart = $scope.$on('$routeChangeStart', function() {
+
+				unreg_RouteChangeStart();
+
+				if(nextLoad)
+					$timeout.cancel(nextLoad);
+			});
 		}]
 	}
 }])

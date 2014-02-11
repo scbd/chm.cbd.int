@@ -12,11 +12,7 @@ angular.module('kmApp').compileProvider // lazy
               // locales    : '=',
               // required   : "@"
         },
-        link: function ($scope, element, attrs, ngModelController)
-        {
-            //ngProgress.start();
-        },
-        controller: ['$scope', '$q', '$timeout', '$location', 'ngProgress', function ($scope, $q, $timeout, $location, ngProgress)
+        controller: ['$scope', '$q', '$timeout', '$location', function ($scope, $q, $timeout, $location)
         {
             var self = this;
 
@@ -160,8 +156,6 @@ angular.module('kmApp').compileProvider // lazy
 
                     $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
 
-                    //ngProgress.complete();
-
                     if(!$scope.schemas) {
                         var queryFacetsParameters = {
                             'q': 'realm_ss:chm',
@@ -214,8 +208,6 @@ console.log($scope.aichiTargets);
 
             $scope.queryScheduled = null;
             function search() {
-                //ngProgress.reset();
-                //ngProgress.start();
 
                 if($scope.queryScheduled)
                     $timeout.cancel($scope.queryScheduled);

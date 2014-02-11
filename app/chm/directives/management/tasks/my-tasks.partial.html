@@ -2,74 +2,56 @@
 	<div class="alert alert-danger" ng-show="__error">
 		<strong>Error: </strong>{{__error}}
 	</div>
+	
+	<table class="table table-striped" ng-hide="__error">
 
-	<table class="table table-condensed table-striped" ng-hide="__error">
-		<tbody>
-			<tr>
-				<th>Type</th>
-				<th>Description</th>
-				<th>Status</th>
-				<th>Requested by/on</th>
-				<th>&nbsp;</th>
-			</tr>
+		<tr>
+			<th>ID</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Requested on</th>
+			<th>&nbsp;</th>
+		</tr>
 
-			<tr ng-repeat="workflow in workflows" >
-			<td>
-				<div ng-switch="workflow.type.name">
-					<span ng-switch-when="publishReferenceRecord">Publish a record</span>
-					<span ng-switch-when="publishNationalRecord">Publish a record</span>
-					<span ng-switch-default>*{{workflow.type.name}}</span>
+		<tr ng-repeat="task in tasks|orderBy:'activity.createdOn'">
+	
+			<td> <!-- ID -->
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{task.workflow._id}}/{{task.activity.name}}"  type="button">{{formatWID(task.workflow._id)}}</a>
+				<div ng-switch="task.workflow.type.name">
+					<em ng-switch-when="publishNationalRecord">Publishing request</em>
+					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
+					<em ng-switch-default>*{{task.workflow.type.name|uppercase}}*</em>
 				</div>
 			</td>
-				<td>
-					<div ng-switch="workflow.data.metadata.schema">
-						<strong ng-switch-when="focalPoint">National Focal Point</strong>
-						<strong ng-switch-when="authority">Competent National Authority</strong>
-						<strong ng-switch-when="caseStudy">Case Study</strong>
-						<strong ng-switch-when="contact">Contact</strong>
-						<strong ng-switch-when="database">National Database</strong>
-						<strong ng-switch-when="resource">Virtual Library Resource</strong>
-						<strong ng-switch-when="organization">Organization</strong>
-						<strong ng-switch-when="measure">National Regulation</strong>
-						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs)</strong>
-						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
-						<strong ng-switch-when="strategicPlanIndicator">Strategic Plan Indicator</strong>
-						<strong ng-switch-when="nationalIndicator">National Indicator</strong>
-						<strong ng-switch-when="nationalTarget">National Target</strong>
-						<strong ng-switch-when="progressAssessment">Progress Assessment</strong>
-						<strong ng-switch-when="nationalReport">National Report</strong>
-						<strong ng-switch-when="implementationActivity">Implementation Activity</strong>
-						<strong ng-switch-when="nationalSupportTool">Guidance and Support Tools</strong>
-						<strong ng-switch-when="resourceMobilisation">Resource Mobilisation</strong>
-						<strong ng-switch-when="absCheckpoint">Checkpoint</strong>
-						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
-						<strong ng-switch-when="absPermit">Permit</strong>
-						<strong ng-switch-default>{{document.type}}*</strong>
-					</div>
-					<div>{{workflow.data.title | lstring}}</div>
-				</td>
-				<td>
-					<div ng-repeat="activity in workflow.activities | filter:isOpen"> <!-- Last Activity -->
-					
-						<i class="glyphicon glyphicon-time"></i>
-						<span ng-switch="activity.name">
-							<strong ng-switch-when="publishRecord">Wait for publication approval</strong>
-						</span>
-					</div>
-				</td>
-				<td>
-					<em>{{workflow.createdBy_info.email}}</em>
-					<div>{{workflow.createdOn | date:'yyyy-MM-dd HH:mm'}}</div>
-				</td>
-				<td style="text-align:end">
-					<a class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}"  type="button"><i class="icon-edit icon-white"></i></button>
-				</td>
-			</tr>
 
-		</tbody>
+			<td> <!-- Description -->
+				<strong ng-show="task.workflow.result.documentID||task.workflow.data.documentID"><a ng-href="/database/record?documentID={{task.workflow.result.documentID||task.workflow.data.documentID}}">{{task.workflow.data.metadata.schema|schemaName}}</a></strong>
+				<strong ng-hide="task.workflow.result.documentID||task.workflow.data.documentID">{{task.workflow.data.metadata.schema|schemaName}}</strong>
+
+				<div>{{task.workflow.data.title | lstring}}</div>
+			</td>
+			
+			<td> <!-- Status -->
+				<div ng-switch="task.activity.name">
+					<span ng-switch-when="publishRecord">Waiting for validation</span>
+					<span ng-switch-default>{{activity.name}}*</span>
+				</div>
+			</td>
+
+			<td> <!-- Requested on -->
+				<div>{{task.workflow.createdOn|date:'short'}}</div>
+				<div><em> by {{task.workflow.createdBy_info.firstName}} {{task.workflow.createdBy_info.lastName}}</em></div>
+			</td>
+
+			<td style="text-align:end">
+				<a class="btn btn-info" ng-href="/management/tasks/{{task.workflow._id}}/{{task.activity.name}}"  type="button"><i class="icon-edit icon-white"></i></button>
+			</td>
+		</tr>
+
+
 	</table>
 
-	<div ng-show="workflows.length==0">
+	<div ng-show="tasks.length==0">
 		No record found
 	</div>
 </div>

@@ -19,7 +19,7 @@ angular.module('kmApp').compileProvider // lazy
 				countries					: function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
 				organizationTypes			: function() { return $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
 				cbdSubjects					: function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
-				absThematicAreas			: function() { return $http.get("/api/v2013/thesaurus/domains/ABS-SUBJECTS/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
+				absThematicAreas			: function() { return $http.get("/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
 				libraries					: function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();})},
 				typeOfGeneticResources		: function () { return $http.get("/api/v2013/thesaurus/domains/20945FA8-C24C-4AF6-B3D9-367592AFDF48/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 				originOfGeneticResources	: function () { return $http.get("/api/v2013/thesaurus/domains/545CD54C-CFF3-41E8-A003-FDD278426A3A/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },

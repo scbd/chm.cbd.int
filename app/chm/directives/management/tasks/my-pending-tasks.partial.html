@@ -3,85 +3,90 @@
 		<strong>Error: </strong>{{__error}}
 	</div>
 
-	<table class="table table-condensed table-striped" ng-hide="__error">
-		<tbody>
-			<tr>
-				<th>ID</th>
-				<th>Description</th>
-				<th>Status</th>
-				<th>by/on</th>
-				<th>&nbsp;</th>
-			</tr>
+	<table class="table table-striped" ng-hide="__error">
+		<tr>
+			<th>ID</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Assigned to</th>
+		</tr>
 
-			<tr ng-repeat="workflow in workflows" >
-				<td>
-					{{workflow._id}}
-				</td>
-				<td>
-					<div ng-switch="workflow.data.metadata.schema">
-						<strong ng-switch-when="focalPoint">National Focal Point</strong>
-						<strong ng-switch-when="authority">Competent National Authority</strong>
-						<strong ng-switch-when="caseStudy">Case Study</strong>
-						<strong ng-switch-when="contact">Contact</strong>
-						<strong ng-switch-when="database">National Database</strong>
-						<strong ng-switch-when="resource">Virtual Library Resource</strong>
-						<strong ng-switch-when="organization">Organization</strong>
-						<strong ng-switch-when="measure">National Regulation</strong>
-						<strong ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs)</strong>
-						<strong ng-switch-when="aichiTarget">Aichi Target</strong>
-						<strong ng-switch-when="strategicPlanIndicator">Strategic Plan Indicator</strong>
-						<strong ng-switch-when="nationalIndicator">National Indicator</strong>
-						<strong ng-switch-when="nationalTarget">National Target</strong>
-						<strong ng-switch-when="progressAssessment">Progress Assessment</strong>
-						<strong ng-switch-when="nationalReport">National Report</strong>
-						<strong ng-switch-when="implementationActivity">Implementation Activity</strong>
-						<strong ng-switch-when="nationalSupportTool">Guidance and Support Tools</strong>
-						<strong ng-switch-when="resourceMobilisation">Resource Mobilisation</strong>
-						<strong ng-switch-when="absCheckpoint">Checkpoint</strong>
-						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
-						<strong ng-switch-when="absPermit">Permit</strong>
-						<strong ng-switch-default>{{document.type}}*</strong>
-					</div>
-					<div>{{workflow.data.title | lstring}}</div>
-				</td>
-				<td>
-					<span ng-switch="workflow.state">
-						<span ng-switch-when="running">  <i class="icon-wrench"></i> <b>Processing...</b></span>
-						<span ng-switch-when="completed"><i class="icon-ok">    </i> <b>Completed</b></span>
-						<span ng-switch-default>TODO workflow.state: {{workflow.state}}</span>
-					</span>
 
-					<div ng-switch="workflow.type.name">
-						
-						<div ng-switch-when="publishNationalRecord">
-							
-							<div ng-repeat="activity in workflow.activities | limitTo:-1"> <!-- Last Activity -->
-								{{activity.name}}
-								<div ng-hide="activity.closedOn">Wait for user action</div>
-								<div ng-show="activity.completedOn">
-									<div ng-switch="activity.result.action">
-										<span ng-switch-when="approve">Approved</span>
-										<span ng-switch-when="approve">Rejected</span>
-									</div>
-								</div>
-							</div>
-									
+		<tr ng-repeat="workflow in workflows|orderBy:'createdOn'">
+
+			<td> <!-- ID -->
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
+				<div ng-switch="workflow.type.name">
+					<em ng-switch-when="publishNationalRecord">Publishing request</em>
+					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
+					<em ng-switch-default>*{{workflow.type.name|uppercase}}*</em>
+				</div>
+			</td>
+
+			<td> <!-- Description -->
+				<strong ng-show="workflow.result.documentID||workflow.data.documentID"><a ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.data.metadata.schema|schemaName}}</a></strong>
+				<strong ng-hide="workflow.result.documentID||workflow.data.documentID">{{workflow.data.metadata.schema|schemaName}}</strong>
+
+				<div>{{workflow.data.title | lstring}}</div>
+			</td>
+			
+			<td> <!-- Status -->
+				<div ng-repeat="activity in workflow.activities|orderBy:'createdOn'">
+
+					<div ng-show="isOpen(activity)">
+						<div ng-switch="activity.name">
+							<span ng-switch-when="publishRecord"><i class="glyphicon glyphicon-time"></i> Waiting for validation</span>
+							<span ng-switch-default>{{activity.name}}*</span>
 						</div>
-						<div ng-switch-default>TODO workflow.type.name: {{workflow.state}}</div>
-
 					</div>
 
-				</td>
-				<td>
-					<em>{{workflow.createdBy_info.email}}</em>
-					<div>{{workflow.createdOn | date:'yyyy-MM-dd HH:mm'}}</div>
-				</td>
-				<td style="text-align:end">
-					<a class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}"  type="button"><i class="icon-edit icon-white"></i></button>
-				</td>
-			</tr>
+					<div ng-hide="isOpen(activity)">
+						<div ng-switch="activity.name+'-'+activity.result.action">
+							<span ng-switch-when="publishRecord-approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
+							<span ng-switch-when="publishRecord-reject"> <i class="glyphicon glyphicon-remove"></i> Rejected</span>
+							<span ng-switch-when="null-null"> <i class="glyphicon glyphicon-cog"></i> Pending</span>
+							<span ng-switch-default>*{{activity.name+'-'+activity.result.action}}*</span>
+						</div>
+					</div>
+				</div>
+			</td>
 
-		</tbody>
+			<td>  <!-- Assigned to -->
+				<div ng-repeat="activity in workflow.activities|orderBy:'createdOn'">
+
+					<div ng-show="isOpen(activity)">
+						<div ng-show="activity.assignedToRule">
+							<div ng-switch="activity.assignedToRule|limitTo:7">
+								<span ng-switch-when="ABS-NFP">ABS-CH Focal Point</span>
+								<span ng-switch-when="BCH-NFP">BCH Focal Point</span>
+								<span ng-switch-when="CHM-NFP">CHM Focal Point</span>
+								<span ng-switch-when="BCH-Adm">SCBD</span>
+								<span ng-switch-when="ABS-Adm">SCBD</span>
+								<span ng-switch-when="CHM-Adm">SCBD</span>
+								<span ng-switch-default>*{{activity.assignedToRule}}*</span>
+							</div>
+						</div>
+
+						<div ng-hide="activity.assignedToRule">
+
+							<div ng-show="activity.assignedTo">
+								<span ng-repeat="user in activity.assignedTo_info|orderBy:'lastName'">{{user.firstName}} {{user.lastName}}<span ng-hide="$last">, </span>
+							</span>
+
+							<div ng-hide="activity.assignedTo">
+								<em>Not assigned yet</em>
+							</div>
+						</div>
+						
+					</div>
+
+					<div ng-hide="isOpen(activity)">
+						Not assigned
+					</div>
+
+				</div>
+			</td>
+		</tr>
 	</table>
 
 	<div ng-show="workflows.length==0">

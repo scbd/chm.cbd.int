@@ -1,14 +1,24 @@
 ﻿<div ng-cloak>
-	<div class="alert alert-danger" ng-show="error">
+	<div ng-show="errorNotFound">
+    	<h1 style="font-size:60px;font-weight:bold">Oops...</h1>
+        <h1>Looks like the record you we're looking for doesn't exist anymore. Sorry about that.</h1>
+	</div>
+
+	<div class="alert alert-danger" ng-show="!errorNotFound && error">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
 	</div>
 
 	<div ng-show="!error && internalDocument">
 
-		<div style="float:right">
-			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()">Edit &raquo;</button>
-			<button type="button" class="btn btn-default" ng-click="delete()" ng-show="user().isAuthenticated" ng-disabled="!canDelete()" title="{{deleteTooltip}}">Delete &raquo;</button>
+		<div ng-hide="hideButtons=='true'" style="float:right">
+		
+			<span ng-show="internalDocumentInfo.workingDocumentLock">
+				<i class="icon-lock"></i>
+				Document is locked
+			</span>
+			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
+			<button type="button" class="btn btn-default" ng-click="delete()" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="{{deleteTooltip}}">Delete &raquo;</button>
 		</div>
 
 		<div ng-switch on="internalDocument.header.schema">

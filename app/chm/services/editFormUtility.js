@@ -1,6 +1,26 @@
 ﻿angular.module('kmApp')
 
-.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", function(storage, workflows, $q) {
+.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", function(storage, workflows, $q, realm) {
+
+	var schemasWorkflowTypes  = {
+		"aichiTarget"            : { name : "publishReferenceRecord", version : undefined },
+		"contact"                : { name : "publishReferenceRecord", version : undefined },
+		"caseStudy"              : { name : "publishReferenceRecord", version : undefined },
+		"marineEbsa"             : { name : "publishReferenceRecord", version : undefined },
+		"strategicPlanIndicator" : { name : "publishReferenceRecord", version : undefined },
+		"resource"               : { name : "publishReferenceRecord", version : undefined },
+		"organization"           : { name : "publishReferenceRecord", version : undefined },
+
+		"database"               : { name : "publishNationalRecord", version : "0.4" },
+		"implementationActivity" : { name : "publishNationalRecord", version : "0.4" },
+		"nationalIndicator"      : { name : "publishNationalRecord", version : "0.4" },
+		"nationalReport"         : { name : "publishNationalRecord", version : "0.4" },
+		"nationalSupportTool"    : { name : "publishNationalRecord", version : "0.4" },
+		"nationalTarget"         : { name : "publishNationalRecord", version : "0.4" },
+		"progressAssessment"     : { name : "publishNationalRecord", version : "0.4" },
+		"resourceMobilisation"   : { name : "publishNationalRecord", version : "0.4" }
+	};
+
 	var _self = {
 
 		//==================================
@@ -49,39 +69,41 @@
 		//
 		//==================================
 		draftExists: function(identifier) {
-			return storage.drafts.get(identifier, { info: "" }).then(
-				function(success) {
-					return true;
-				},
-				function(error) {
-					if (error.status == 404)
-						return false
-					throw error;
-				});
+
+			return storage.drafts.get(identifier, { info: "" }).then(function(success) {
+				return true;
+			},function(error) {
+				if (error.status == 404)
+					return false
+				throw error;
+			});
 		},
 
 		//==================================
 		//
 		//==================================
 		saveDraft: function(document) {
-			return _self.draftExists(document.header.identifier).then(
+
+			var identifier = document.header.identifier;
+			var schema     = document.header.schema;
+			var metadata   = {};
+
+			if (document.government)
+				metadata.government = document.government.identifier;
+
+			return _self.draftExists(identifier).then(
 				function(hasDraft) {
 
-					metadata = {};
-
-					if (document.government)
-						metadata.government = document.government.identifier;
-
 					var securityPromise = hasDraft
-						? storage.drafts.security.canUpdate(document.header.identifier, document.header.schema, metadata)
-						: storage.drafts.security.canCreate(document.header.identifier, document.header.schema, metadata);
+						? storage.drafts.security.canUpdate(identifier, document.header.schema, metadata)
+						: storage.drafts.security.canCreate(identifier, document.header.schema, metadata);
 
 					return securityPromise.then(
 						function(isAllowed) {
 							if (!isAllowed)
 								throw { error: "Not authorized to save draft" };
 
-							return storage.drafts.put(document.header.identifier, document);
+							return storage.drafts.put(identifier, document);
 						});
 				});
 		},
@@ -90,15 +112,14 @@
 		//
 		//==================================
 		documentExists: function(identifier) {
-			return storage.documents.get(identifier, { info: "" }).then(
-				function(success) {
-					return true;
-				},
-				function(error) {
-					if (error.status == 404)
-						return false
-					throw error;
-				});
+
+			return storage.documents.get(identifier, { info: "" }).then(function(success) {
+				return true;
+			},function(error) {
+				if (error.status == 404)
+					return false
+				throw error;
+			});
 		},
 
 		//==================================
@@ -113,68 +134,78 @@
 			if (document.government)
 				metadata.government = document.government.identifier;
 
-			// Check if doc & draft exists
+			// Check if document exists
 
-			var pDocExists   = _self.documentExists(document.header.identifier);
-			var pDraftExists = _self.draftExists   (document.header.identifier);
+			return _self.documentExists(identifier).then(function(exists) {
 
-			return $q.all([pDocExists, pDraftExists]).then(function(result) {
+				// Check user security on document
 
-				return {
-					existsDocument : result[0],
-					existsDraft : result[1]
-				};
+				var qCanWrite = exists
+							  ? storage.documents.security.canUpdate(identifier, schema, metadata)
+							  : storage.documents.security.canCreate(identifier, schema, metadata);
 
-			}).then(function(exists) {
+				return qCanWrite;
 
-				// Check if user security on doc & drafts
+			}).then(function(canWrite) {
 
-				var pDocSecurity = exists.existsDocument
-						? storage.documents.security.canUpdate(identifier, schema, metadata)
-						: storage.documents.security.canCreate(identifier, schema, metadata);
-
-				var pDraftSecurity = exists.existsDraft
-						? storage.drafts.security.canUpdate(identifier, schema, metadata)
-						: storage.drafts.security.canCreate(identifier, schema, metadata);
-
-				return $q.all([pDocSecurity, pDraftSecurity]).then(
-					function(result) {
-						return { 
-							canWriteDocument : result[0],
-							canWriteDraft : result[1]
-						};
-					});
-
-			}).then(function(writable) {
-
-				if(!writable.canWriteDocument && !writable.canWriteDraft)
+				if(!canWrite)
 					throw { error : "Not allowed" };
 
 				//Save document
 
-				if (writable.canWriteDocument) {
-					return storage.documents.put(identifier, document).then(function(resp) {
-						return {
-							action: "publish",
-							data: resp.data
-						};						
-					});
-				}
-				else {
-					//Save draft 
-					return storage.drafts.put(identifier, document).then(function(result) {
+				return storage.documents.put(identifier, document);	// return documentInfo
+			});
+		},
 
-						var workflowData = { identifier: identifier };
-						var pCreateWorkflow = workflows.create("publishingRequest", workflowData);
+		//==================================
+		//
+		//==================================
+		publishRequest: function(document) {
 
-						return pCreateWorkflow.then(function(workflowInfo) {
-							return {
-								status: "publishRequest",
-								data: workflowInfo
-							};
-						});
-					});
-				}
+			var identifier = document.header.identifier;
+			var schema     = document.header.schema;
+			var metadata   = {};
+
+			if (document.government)
+				metadata.government = document.government.identifier;
+
+			// Check if doc & draft exists
+
+			return _self.draftExists(identifier).then(function(exists) {
+
+				// Check user security on drafts
+
+				var qCanWrite = exists
+						? storage.drafts.security.canUpdate(identifier, schema, metadata)
+						: storage.drafts.security.canCreate(identifier, schema, metadata);
+
+				return qCanWrite
+
+			}).then(function(canWrite) {
+
+				if(!canWrite)
+					throw { error : "Not allowed" };
+
+				//Save draft 
+				return storage.drafts.put(identifier, document);
+
+			}).then(function(draftInfo) {
+
+				var type = schemasWorkflowTypes[draftInfo.type];
+
+				if(!type)
+					throw "No workflow type defined for this record type: " + draftInfo.type;
+
+				var workflowData = { 
+					"realm"      : realm, 
+					"documentID" : draftInfo.documentID, 
+					"identifier" : draftInfo.identifier, 
+					"title"      : draftInfo.workingDocumentTitle,
+					"abstract"   : draftInfo.workingDocumentSummary,
+					"metadata"   : draftInfo.workingDocumentMetadata
+				};
+
+				return workflows.create(type.name, type.version, workflowData); // return workflow info
 			});
 		}
 	}

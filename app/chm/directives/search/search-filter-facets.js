@@ -254,7 +254,7 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.terms = thesaurus.buildTree(data);
                 $scope.termsx = flatten($scope.terms, {});
                 $scope.termsxx = _.values($scope.termsx);
-                $scope.items.forEach(function (item) {
+                ($scope.items||[]).forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;
                 });

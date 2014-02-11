@@ -108,7 +108,7 @@ angular.module('kmApp').compileProvider // lazy
 
             function dictionarize(items) {
                 var dictionary = [];
-                items.forEach(function (item) { 
+                (items||[]).forEach(function (item) { 
                     item.selected = false;
                     dictionary[item.identifier] = item;
                 });
@@ -161,7 +161,7 @@ angular.module('kmApp').compileProvider // lazy
 
                 $scope.allTerms = _.values(self.termsMap);
 
-                $scope.items.forEach(function (item) {
+                ($scope.items||[]).forEach(function (item) {
                     if(_.has(self.termsMap, item.symbol))
                         self.termsMap[item.symbol].count = item.count;
                 });
@@ -180,8 +180,8 @@ angular.module('kmApp').compileProvider // lazy
             //     onWatch_items($scope.items);
             // });
 
-            function onWatch_items(values) { if(!values) return;
-                values.forEach(function (item) {
+            function onWatch_items(values) {
+                (values||[]).forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;
                 });

@@ -198,7 +198,8 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.$watch('items', onWatch_items);
 
-            //$scope.refresh = 
+            $scope.refresh = buildQuery;
+            
             buildQuery();
         }]
     }

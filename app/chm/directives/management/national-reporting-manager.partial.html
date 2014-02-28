@@ -42,6 +42,7 @@
                     
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
 						<div class="boxed">
+
 							<h4>
 								<i class="glyphicon glyphicon-file"></i> 
 								{{strategicPlan.title}} ({{strategicPlan.year}})
@@ -49,6 +50,8 @@
 							<p>
                             {{strategicPlan.summary|lstring|truncate:160:'...'}} <a ng-href="{{strategicPlan.url}}">more &raquo;</a>
 							</p>
+						    <span ng-show="isDraft(strategicPlan)"  class="label label-warning pull-right label-spacing">not published</span>
+				            <span ng-show="isPublic(strategicPlan)" class="label label-info pull-right label-spacing">published</span>
 							<button type="button" class="btn btn-default btn-mini btn-xs btn-edit" ng-click="edit('nationalReport', {uid:strategicPlan.identifier})">edit &raquo;</button>
 						</div>	
 					</div>
@@ -93,6 +96,8 @@
 								<p>
                                 {{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{nationalReport.url}}">more &raquo;</a>
 								</p>
+							    <span ng-show="isDraft(nationalReport)"  class="label label-warning pull-right label-spacing">not published</span>
+					            <span ng-show="isPublic(nationalReport)" class="label label-info pull-right label-spacing">published</span>
 								<button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:nationalReport.identifier})">edit &raquo;</button>
 							</div>
 						</div>
@@ -138,6 +143,8 @@
 							<p>
                             {{otherReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{otherReport.url}}">more &raquo;</a>
 							</p>
+						    <span ng-show="isDraft(otherReport)"  class="label label-warning pull-right label-spacing">not published</span>
+				            <span ng-show="isPublic(otherReport)" class="label label-info pull-right label-spacing">published</span>
 							<button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:otherReport.identifier})">edit &raquo;</button>
 						</div>
 					</div>

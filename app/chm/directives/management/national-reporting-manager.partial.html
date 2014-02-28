@@ -48,7 +48,7 @@
 								{{strategicPlan.title}} ({{strategicPlan.year}})
 							</h4>
 							<p>
-                            {{strategicPlan.summary|lstring|truncate:160:'...'}} <a ng-href="{{strategicPlan.url}}">more &raquo;</a>
+                            {{strategicPlan.summary|lstring|truncate:160:'...'}} <a ng-show="strategicPlan.url" ng-href="{{strategicPlan.url}}">more &raquo;</a>
 							</p>
 						    <span ng-show="isDraft(strategicPlan)"  class="label label-warning pull-right label-spacing">not published</span>
 				            <span ng-show="isPublic(strategicPlan)" class="label label-info pull-right label-spacing">published</span>
@@ -94,7 +94,7 @@
 							<div ng-repeat="nationalReport in filteredReports = (nationalReports | filter:{ reportType : nrType })"> <!-- NR -->
 								<h5>{{nationalReport.title|lstring}}</h5>
 								<p>
-                                {{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{nationalReport.url}}">more &raquo;</a>
+                                {{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-show="nationalReport.url" ng-href="{{nationalReport.url}}">more &raquo;</a>
 								</p>
 							    <span ng-show="isDraft(nationalReport)"  class="label label-warning pull-right label-spacing">not published</span>
 					            <span ng-show="isPublic(nationalReport)" class="label label-info pull-right label-spacing">published</span>
@@ -141,7 +141,7 @@
 							</h4>
 							<h5>{{otherReport.title}}</h5>
 							<p>
-                            {{otherReport.summary|lstring|truncate:160:'...'}} <a ng-href="{{otherReport.url}}">more &raquo;</a>
+                            {{otherReport.summary|lstring|truncate:160:'...'}} <a ng-show="otherReport.url" ng-href="{{otherReport.url}}">more &raquo;</a>
 							</p>
 						    <span ng-show="isDraft(otherReport)"  class="label label-warning pull-right label-spacing">not published</span>
 				            <span ng-show="isPublic(otherReport)" class="label label-info pull-right label-spacing">published</span>

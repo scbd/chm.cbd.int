@@ -1,6 +1,6 @@
+/* jshint node: true */
 var fs = require('fs');
 var http = require('http');
-var https = require('https');
 var express = require('express');
 var httpProxy = require('http-proxy');
 
@@ -22,13 +22,13 @@ app.configure(function() {
 
     app.use(function (req, res, next) {
 		if(req.url.match(/^\/activate=3Fkey/g)) {
-	  		var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
-	  		res.writeHead(302, { 'Location': fixedUrl });
+			var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
+			res.writeHead(302, { 'Location': fixedUrl });
 			res.end();
-	  	}
-	  	else {
-	  		next();
-	  	}
+		}
+		else {
+			next();
+		}
 	});
 });
 
@@ -39,30 +39,18 @@ var proxy = httpProxy.createProxyServer({});
 app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );
 app.get   ('/public/*', function(req, res) { res.send('404', 404); } );
 
-app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
-app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
-app.post  ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
-app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ) } );
+app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ); } );
+app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ); } );
+app.post  ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ); } );
+app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int', secure: false } ); } );
 
 // Configure index.html
 
 app.get('/*', function(req, res) {
 
-	if(req.headers.host=='accounts.cbd.int') {
-		fs.readFile(__dirname + '/app/accounts.cbd.int.html', 'utf8', function (error, text) { 
-			res.send(text); 
-		});
-	}
-	else if(req.url.match(/^\/business/g)) {
-		fs.readFile(__dirname + '/app/www.cbd.int-business.html', 'utf8', function (error, text) { 
-			res.send(text); 
-		});
-	}
-	else {
-		fs.readFile(__dirname + '/app/index.html', 'utf8', function (error, text) { 
-			res.send(text); 
-		});
-	}
+	fs.readFile(__dirname + '/app/index.html', 'utf8', function (error, text) {
+		res.send(text);
+	});
 });
 
 // Start server

@@ -1,4 +1,5 @@
-﻿angular.module('kmApp').compileProvider // lazy
+﻿/* jshint quotmark: false */
+angular.module('kmApp').compileProvider // lazy
 .directive('nationalReportingManager', ["$timeout", "$q", "$location", "authentication", function ($timeout, $q, $location, authentication) {
 	return {
 		restrict: 'EAC',
@@ -9,23 +10,25 @@
 		link: function($scope, $elm) {
 
 
-			var qTimeout = $timeout(function(){ 
+			var qTimeout = $timeout(function(){
+				var qElement = null;
 				if($scope.$root.NRLastSection){
 
-					var qElement = $elm.find("#"+$scope.$root.NRLastSection);
+					qElement = $elm.find("#"+$scope.$root.NRLastSection);
 
 					qElement.collapse("show");
 					qElement.prev().removeClass("collapsed");//fixe boostrap bug
-
+					
+					/* global $: true */
 					$('body').stop().animate({ scrollTop : qElement.offset().top-100 }, 600);
 				}
 				else {
-					var qElement = $elm.find(".panel-collapse:first");
+					qElement = $elm.find(".panel-collapse:first");
 					
 					qElement.collapse("show");
 					qElement.prev().removeClass("collapsed");//fixe boostrap bug
 				}
-			}, 250)
+			}, 250);
 
 
 			function showModal(modal, display) {
@@ -76,7 +79,7 @@
 			}
 
 		},
-		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication) {
+		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter", function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
 
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
  
@@ -88,8 +91,8 @@
 			$scope.government  = $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear();
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
-			$scope.countries           = $http.get('/api/v2013/countries').then(function(response) { return response.data });
-			$scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data });
+			$scope.countries           = $http.get('/api/v2013/countries').then(function(response) { return response.data; });
+			$scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
 			$scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
 			$scope.cbdNationalReports = ["B3079A36-32A3-41E2-BDE0-65E4E3A51601", // NR5
 										 "272B0A17-5569-429D-ADF5-2A55C588F7A7", // NR4
@@ -112,7 +115,7 @@
 			        $scope.sortTerm = term;
 			        $scope.orderList = true;
 			    }
-			}
+			};
 
 		    //==================================
 		    //
@@ -131,7 +134,7 @@
 
 			    }
 			    return result;
-			}
+			};
 
 			//==================================
 			//
@@ -157,7 +160,7 @@
 					return;
 				}
 
-				console.log("government", gov, prev)
+				console.log("government", gov, prev);
 
 				load();
 			});
@@ -186,18 +189,18 @@
 			function userGovernment() {
 				if(authentication.user().government)
 					return authentication.user().government.toUpperCase();
-			};
+			}
 
 			$scope.setLastSection = function(name) {
 				$rootScope.NRLastSection = name;
-			}
+			};
 
 			//===============
 			//
 			//===============
 			$scope.isAssessed = function(value) {
 				return value && value.progressAssessments && value.progressAssessments.length > 0;
-			}
+			};
 
 			//===============
 			//
@@ -205,8 +208,8 @@
 			$scope.getAssessment = function(value, year) {
 
 				if (value && value.progressAssessments)
-					return _.first(_.filter(value.progressAssessments, function(o) { return _.contains(o.years, year) }));
-			}
+					return _.first(_.filter(value.progressAssessments, function(o) { return _.contains(o.years, year); }));
+			};
 
 		    //===============
 		    //
@@ -229,43 +232,43 @@
 			        }
 			    }
 			    return result;
-			}
+			};
 
 
 			//===============
 			//
 			//===============
 			$scope.isPublic = function(value) {
-				return true; //TODO
-			}
+				return value && (value.isPublic===true || value.isDraft===undefined);
+			};
 
 			//===============
 			//
 			//===============
 			$scope.isDraft = function(value) {
-				return false; //TODO
-			}
+				return value && value.isDraft===true;
+			};
 
 			//===============
 			//
 			//===============
 			$scope.edit = function(schema, option) {
 
-				var d1 = $scope.showLinkTargetDialog(false)
+				var d1 = $scope.showLinkTargetDialog(false);
 
-				$q.all([d1]).then(function(res) {
+				$q.all([d1]).then(function() {
 
 					$location.path("/management/edit/"+schema);
 					$location.search(option||{});
 				});
-			}
+			};
 
 			//===============
 			//
 			//===============
 			$scope.userGovernment = function() {
 				return userGovernment();
-			}
+			};
 			
 			//==================================
 			//
@@ -289,7 +292,7 @@
 					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government, { cache:true }).then(function (response) {
 						console.log(response.data);
 						return response.data.name.en;
-					}).catch(function(err) {
+					}).catch(function() {
 						navigation.notFound();
 					});
 
@@ -297,7 +300,7 @@
 
 					var req = [
 						loadNationalReports(government),
-						loadAssessments(government), 
+						loadAssessments(government),
 					];
 
 					$q.all(req).then(function(res) {
@@ -324,15 +327,32 @@
 					q: "schema_s:(nationalReport) AND government_s:" + government,
 					fl: "schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_CEN_s,year_is",
 					rows: 99999999
-				}
+				};
 
-				return $http.get("/api/v2013/index", { params: nrQuery }).then(function(response) {
+				var qDocuments = $http.get("/api/v2013/index", { params: nrQuery }).then(function(response) {
+					return _.map(response.data.response.docs, function(d){
+						return _.extend(d, {isPublic : true});
+					});
+				});
 
-					var qRecords = response.data.response.docs;
+				var qDrafts = storage.drafts.query("(type eq 'nationalReport')", { body:"" }).then(function(r){
 
-					var qqNationalReports = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNationalReports, o.reportType_s) });
-					var qqNBSAPs          = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNBSAPs,          o.reportType_s) });
-					var qqOthers          = _.filter(qRecords, function(o) { return !(_.contains($scope.cbdNationalReports, o.reportType_s) || _.contains($scope.cbdNBSAPs, o.reportType_s)) });
+					var res = _.filter(r.data.Items || r.Items, function(e){
+						return e.workingDocumentBody.government && e.workingDocumentBody.government.identifier == government;
+					});
+
+					return _.map(res, function(e){
+						return toNrIndexFormat(e);
+					});
+				});
+
+				return $q.all([qDocuments, qDrafts]).then(function(response) {
+
+					var qRecords = mergeWithDrafts(response[0], response[1]);
+
+					var qqNationalReports = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNationalReports, o.reportType_s); });
+					var qqNBSAPs          = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNBSAPs,          o.reportType_s); });
+					var qqOthers          = _.filter(qRecords, function(o) { return !(_.contains($scope.cbdNationalReports, o.reportType_s) || _.contains($scope.cbdNBSAPs, o.reportType_s)); });
 
 					return {
 						nationalReports:        map_reports(qqNationalReports),
@@ -348,6 +368,8 @@
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier : record.identifier_s,
 							title : record.title_t,
 							summary : record.summary_t,
@@ -356,8 +378,28 @@
 							years: record.year_is,
 							reportType : record.reportType_s,
 							reportTypeEx : tryParseJson(record.reportType_CEN_s)
-						}
+						};
 					});
+				}
+
+				//====================================
+				//
+				//====================================
+				function toNrIndexFormat(draftInfo) {
+
+					var reportType = (draftInfo.workingDocumentBody.reportType || draftInfo.body.reportType || {}).identifier;
+
+					return {
+						isDraft      : true,
+						schema_s     : draftInfo.type,
+						identifier_s : draftInfo.identifier,
+						title_t      : $filter("lstring")(draftInfo.workingDocumentTitle  ||draftInfo.title, "en"),
+						summary_t    : $filter("lstring")(draftInfo.workingDocumentSummary||draftInfo.summary, "en"),
+						url_ss       : [],
+						reportType_s : reportType,
+						reportType_CEN_s : { symbole : reportType },
+						year_is		 : [2014]
+					};
 				}
 			}
 
@@ -370,7 +412,7 @@
 					fl: "schema_s, url_ss, identifier_s, title_t, icon_s, url_ss, number_d",
 					sort: "number_d ASC",
 					rows: 99999999
-				}
+				};
 
 				var nationalQuery = {
 					q: "schema_s:(nationalIndicator nationalTarget progressAssessment implementationActivity nationalSupportTool) AND government_s:" + government,
@@ -395,7 +437,7 @@
 					var aichiTargets = _.map(qAichiTargets, function(record) {
 
 						var qqAssessments     = _.compact(_.where(qProgressAssessments, { aichiTarget_s : record.identifier_s }));
-						var qqNationalTargets = _.compact(_.filter(qNationalTargets, function(o) { return _.contains(o.aichiTarget_ss, record.identifier_s) }));
+						var qqNationalTargets = _.compact(_.filter(qNationalTargets, function(o) { return _.contains(o.aichiTarget_ss, record.identifier_s); }));
 
 						return _.first(_.map(map_aichiTargets([record]), function(record) {
 
@@ -407,14 +449,14 @@
 								isUpToDate          : isUpToDate(_.flatten(_.pluck(qqAssessments, "year_is")))
 							});
 						}));
-					})
+					});
 
 					// National Targets
 					var nationalTargets = _.map(qNationalTargets, function(record) {
 
 						var qqAssessments  = _.compact(_.where (qProgressAssessments, { nationalTarget_s : record.identifier_s }));
-						var qqAichiTargets = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss, o.identifier_s) }));
-						var qqIndicators   = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(record.nationalIndicator_ss, o.identifier_s) }));
+						var qqAichiTargets = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss, o.identifier_s); }));
+						var qqIndicators   = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(record.nationalIndicator_ss, o.identifier_s); }));
 
 						return _.first(_.map(map_nationalTargets([record]), function(record) {
 
@@ -432,9 +474,9 @@
 					// National Indicators
 					var nationalIndicators = _.map(qNationalIndicators, function(record) {
 
-						var qqNationalTargets  = _.compact(_.filter(qNationalTargets, function(o) { return _.contains(o.nationalIndicator_ss, record.identifier_s) }));
+						var qqNationalTargets  = _.compact(_.filter(qNationalTargets, function(o) { return _.contains(o.nationalIndicator_ss, record.identifier_s); }));
 						var qqAichiTargetCodes = _.compact(_.uniq(_.flatten(_.pluck(qqNationalTargets, "aichiTarget_ss"))));
-						var qqAichiTargets     = _.compact(_.filter(qAichiTargets,    function(o) { return _.contains(qqAichiTargetCodes, o.identifier_s) }));
+						var qqAichiTargets     = _.compact(_.filter(qAichiTargets,    function(o) { return _.contains(qqAichiTargetCodes, o.identifier_s); }));
 
 						return _.first(_.map(map_nationalTargets([record]), function(record) {
 
@@ -449,9 +491,9 @@
 					// Implementation Activities
 					var implementationActivities = _.map(qImplementationActivities, function(record) {
 
-						var qqAichiTargets    = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss,       o.identifier_s) }));
-						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(record.nationalIndicator_ss, o.identifier_s) }));
-						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s) }));
+						var qqAichiTargets    = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss,       o.identifier_s); }));
+						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(record.nationalIndicator_ss, o.identifier_s); }));
+						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s); }));
 
 						return _.first(_.map(map_implementationActivities([record]), function(record) {
 
@@ -466,10 +508,10 @@
 					// National Support Tools
 					var nationalSupportTools = _.map(qNationalSupportTools, function(record) {
 
-						var qqAichiTargets    = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss,       o.identifier_s) }));
-						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s) }));
-						var qqIndicatorCodes  = _.uniq(_.flatten(_.compact(_.map(qqNationalTargets, function(t) { return t.nationalIndicator_ss }))));
-						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(qqIndicatorCodes,            o.identifier_s) }));
+						var qqAichiTargets    = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss,       o.identifier_s); }));
+						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s); }));
+						var qqIndicatorCodes  = _.uniq(_.flatten(_.compact(_.map(qqNationalTargets, function(t) { return t.nationalIndicator_ss; }))));
+						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(qqIndicatorCodes,            o.identifier_s); }));
 												
 						return _.first(_.map(map_nationalSupportTools([record]), function(record) {
 
@@ -487,7 +529,7 @@
 						aichiTargets : aichiTargets,
 						implementationActivities : implementationActivities,
 						nationalSupportTools : nationalSupportTools
-					}
+					};
 				});
 
 
@@ -503,7 +545,7 @@
 							url : makeRelative(_.first(record.url_ss||[])),
 							number: record.identifier_s.replace("AICHI-TARGET-", ""),
 							iconUrl: record.icon_s
-						}
+						};
 					});
 				}
 
@@ -589,9 +631,25 @@
 			//===============
 			//
 			//===============
+			function mergeWithDrafts(docs, drafts) {
+
+				var qIdentifiers = _.union(_.pluck(docs, "identifier_s"), _.pluck(drafts, "identifier_s"));
+
+				return _.map(qIdentifiers, function(uid){
+
+					var doc   = _.findWhere(docs,   { identifier_s : uid });
+					var draft = _.findWhere(drafts, { identifier_s : uid });
+
+					return _.extend(doc||{}, draft||{});
+				});
+			}
+
+			//===============
+			//
+			//===============
 			function nextAssessmentYear(years) {
 				if(years && years.length)
-					return _.chain(_.range(2010, $scope.currentYear+1)).difference(years).last().value()
+					return _.chain(_.range(2010, $scope.currentYear+1)).difference(years).last().value();
 
 				return $scope.currentYear;
 			}
@@ -630,7 +688,7 @@
 				else if(_.isString(serializedObject)) {
 					return angular.fromJson(serializedObject);
 				}
-			};
+			}
 		}]
 	};
 }]);

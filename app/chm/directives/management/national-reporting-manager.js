@@ -395,7 +395,7 @@ angular.module('kmApp').compileProvider // lazy
 						identifier_s : draftInfo.identifier,
 						title_t      : $filter("lstring")(draftInfo.workingDocumentTitle  ||draftInfo.title, "en"),
 						summary_t    : $filter("lstring")(draftInfo.workingDocumentSummary||draftInfo.summary, "en"),
-						url_ss       : [],
+					//	url_ss       : [],
 						reportType_s : reportType,
 						reportType_CEN_s : { symbole : reportType },
 						year_is		 : [2014]

@@ -162,6 +162,16 @@ angular.module('kmApp').compileProvider // lazy
 
 				console.log("government", gov, prev);
 
+				$scope.governmentName = null;
+				$scope.nationalReports = [];
+				$scope.nationalStrategicPlans = [];
+				$scope.otherNationalReports = [];
+				$scope.aichiTargets = [];
+				$scope.nationalIndicators = [];
+				$scope.nationalTargets = [];
+				$scope.implementationActivities = [];
+				$scope.nationalSupportTools = [];
+
 				load();
 			});
 
@@ -270,22 +280,15 @@ angular.module('kmApp').compileProvider // lazy
 				return userGovernment();
 			};
 			
+			var autoRefresh = null;
+
 			//==================================
 			//
 			//==================================
 			function load() {
 
-				$scope.governmentName = null;
-				$scope.nationalReports = [];
-				$scope.nationalStrategicPlans = [];
-				$scope.otherNationalReports = [];
-
-				$scope.aichiTargets = [];
-				$scope.nationalIndicators = [];
-				$scope.nationalTargets = [];
-
-				$scope.implementationActivities = [];
-				$scope.nationalSupportTools = [];
+				if(autoRefresh)
+					$timeout.cancel(autoRefresh);
 
 				if ($scope.government) {
 
@@ -314,6 +317,10 @@ angular.module('kmApp').compileProvider // lazy
 						$scope.nationalTargets          = res[1].nationalTargets;
 						$scope.implementationActivities = res[1].implementationActivities;
 						$scope.nationalSupportTools     = res[1].nationalSupportTools;
+					}).then(function(){
+
+						if(!autoRefresh)
+							autoRefresh = $timeout(load, 5000);
 					});
 				}
 			}

@@ -409,7 +409,7 @@
 
 								<span style="font-size:16px;"><i class="glyphicon glyphicon-cog"></i> {{activity.title|lstring}}</span>
 								<p>
-									{{activity.description|lstring|truncate:240:'...'}} <a ng-href="{{activity.url}}">more &raquo;</a>
+									{{activity.description|lstring|truncate:240:'...'}} <a ng-show="isPublic(activity)" ng-href="{{activity.url}}">more &raquo;</a>
                                 </p>
                                 
 								
@@ -497,7 +497,7 @@
 
 								<span style="font-size:16px;"><i class="glyphicon glyphicon-screenshot"></i> {{tool.title|lstring}}</span>
 								<p>
-									{{tool.description|lstring|truncate:240:'...'}} <a ng-href="{{tool.url}}">more &raquo;</a>
+									{{tool.description|lstring|truncate:240:'...'}} <a ng-show="isPublic(tool)" ng-href="{{tool.url}}">more &raquo;</a>
                                 </p>
 							</td>
 							<td>

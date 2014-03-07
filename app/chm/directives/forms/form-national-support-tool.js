@@ -314,7 +314,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			function gotoManager() { 
-				$location.url("/management/national-reporting" + ($scope.document.government ? "?country=" + $scope.document.government.identifier.toUpperCase() : ""));
+				$location.url("/management/national-reporting" + ($scope.document.government ? "/" + $scope.document.government.identifier.toUpperCase() : ""));
 			}
 
 			//==================================

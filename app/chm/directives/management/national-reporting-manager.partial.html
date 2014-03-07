@@ -96,8 +96,8 @@
 								<p>
                                 {{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-show="nationalReport.url" ng-href="{{nationalReport.url}}">more &raquo;</a>
 								</p>
-							    <span ng-show="isDraft(nationalReport)"  class="label label-warning pull-right label-spacing">not published</span>
 					            <span ng-show="isPublic(nationalReport)" class="label label-info pull-right label-spacing">published</span>
+							    <span ng-show="isDraft(nationalReport)"  class="label label-warning pull-right label-spacing">not published</span>
 								<button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:nationalReport.identifier})">edit &raquo;</button>
 							</div>
 						</div>
@@ -143,8 +143,8 @@
 							<p>
                             {{otherReport.summary|lstring|truncate:160:'...'}} <a ng-show="otherReport.url" ng-href="{{otherReport.url}}">more &raquo;</a>
 							</p>
-						    <span ng-show="isDraft(otherReport)"  class="label label-warning pull-right label-spacing">not published</span>
 				            <span ng-show="isPublic(otherReport)" class="label label-info pull-right label-spacing">published</span>
+						    <span ng-show="isDraft(otherReport)"  class="label label-warning pull-right label-spacing">not published</span>
 							<button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:otherReport.identifier})">edit &raquo;</button>
 						</div>
 					</div>
@@ -403,6 +403,10 @@
 								</strong></td>
 
 							<td>
+
+					            <span ng-show="isPublic(activity)" class="label label-info pull-right label-spacing">published</span>
+							    <span ng-show="isDraft(activity)"  class="label label-warning pull-right label-spacing">not published</span>
+
 								<span style="font-size:16px;"><i class="glyphicon glyphicon-cog"></i> {{activity.title|lstring}}</span>
 								<p>
 									{{activity.description|lstring|truncate:240:'...'}} <a ng-href="{{activity.url}}">more &raquo;</a>
@@ -487,6 +491,10 @@
 								<button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalSupportTool', { uid:tool.identifier})">edit &raquo;</button>
 							</td>
 							<td>
+
+					            <span ng-show="isPublic(tool)" class="label label-info pull-right label-spacing">published</span>
+							    <span ng-show="isDraft(tool)"  class="label label-warning pull-right label-spacing">not published</span>
+
 								<span style="font-size:16px;"><i class="glyphicon glyphicon-screenshot"></i> {{tool.title|lstring}}</span>
 								<p>
 									{{tool.description|lstring|truncate:240:'...'}} <a ng-href="{{tool.url}}">more &raquo;</a>

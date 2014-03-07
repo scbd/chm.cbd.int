@@ -324,31 +324,16 @@ angular.module('kmApp').compileProvider // lazy
 			function loadNationalReports(government) {
 
 				var nrQuery = {
-					q: "schema_s:(nationalReport) AND government_s:" + government,
-					fl: "schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_CEN_s,year_is",
+					q: 'schema_s:("nationalReport") AND government_s:"' + government + '"',
+					fl: 'schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_CEN_s,year_is,version_s',
 					rows: 99999999
 				};
 
-				var qDocuments = $http.get("/api/v2013/index", { params: nrQuery }).then(function(response) {
-					return _.map(response.data.response.docs, function(d){
-						return _.extend(d, {isPublic : true});
-					});
+				var qResults = $http.get('/api/v2013/index', { params: nrQuery }).then(function(response) {
+					return mergeWithDrafts(response.data.response.docs);
 				});
 
-				var qDrafts = storage.drafts.query("(type eq 'nationalReport')", { body:"" }).then(function(r){
-
-					var res = _.filter(r.data.Items || r.Items, function(e){
-						return e.workingDocumentBody.government && e.workingDocumentBody.government.identifier == government;
-					});
-
-					return _.map(res, function(e){
-						return toNrIndexFormat(e);
-					});
-				});
-
-				return $q.all([qDocuments, qDrafts]).then(function(response) {
-
-					var qRecords = mergeWithDrafts(response[0], response[1]);
+				return $q.all(qResults).then(function(qRecords) {
 
 					var qqNationalReports = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNationalReports, o.reportType_s); });
 					var qqNBSAPs          = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNBSAPs,          o.reportType_s); });
@@ -381,26 +366,6 @@ angular.module('kmApp').compileProvider // lazy
 						};
 					});
 				}
-
-				//====================================
-				//
-				//====================================
-				function toNrIndexFormat(draftInfo) {
-
-					var reportType = (draftInfo.workingDocumentBody.reportType || draftInfo.body.reportType || {}).identifier;
-
-					return {
-						isDraft      : true,
-						schema_s     : draftInfo.type,
-						identifier_s : draftInfo.identifier,
-						title_t      : $filter("lstring")(draftInfo.workingDocumentTitle  ||draftInfo.title, "en"),
-						summary_t    : $filter("lstring")(draftInfo.workingDocumentSummary||draftInfo.summary, "en"),
-					//	url_ss       : [],
-						reportType_s : reportType,
-						reportType_CEN_s : { symbole : reportType },
-						year_is		 : [2014]
-					};
-				}
 			}
 
 			//==================================
@@ -408,30 +373,35 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			function loadAssessments(government) {
 				var aichiTargetQuery = {
-					q: "schema_s:aichiTarget",
-					fl: "schema_s, url_ss, identifier_s, title_t, icon_s, url_ss, number_d",
+					q: "schema_s:aichiTarget NOT version_s:*",
+					fl: "schema_s, url_ss, identifier_s, title_t, icon_s, url_ss, number_d, version_s",
 					sort: "number_d ASC",
 					rows: 99999999
 				};
 
 				var nationalQuery = {
 					q: "schema_s:(nationalIndicator nationalTarget progressAssessment implementationActivity nationalSupportTool) AND government_s:" + government,
-					fl: "schema_s, url_ss, identifier_s, title_t, description_t, nationalIndicator_ss, aichiTarget_ss, aichiTarget_s, nationalTarget_s, nationalTarget_ss, year_is, government_s, completion_CEN_s",
+					fl: "schema_s, url_ss, identifier_s, title_t, description_t, nationalIndicator_ss, aichiTarget_ss, aichiTarget_s, nationalTarget_s, nationalTarget_ss, year_is, government_s, completion_CEN_s, version_s",
 					sort: "title_s ASC",
 					rows: 99999999
 				};
 
-				var qAichiTargetRecords = $http.get("/api/v2013/index", { params: aichiTargetQuery });
-				var qNationalRecords    = $http.get("/api/v2013/index", { params: nationalQuery });
+				var qAichiTargetRecords = $http.get("/api/v2013/index", { params: aichiTargetQuery }).then(function(response) {
+					return response.data.response.docs;
+				});
+
+				var qNationalRecords    = $http.get("/api/v2013/index", { params: nationalQuery }).then(function(response) {
+					return mergeWithDrafts(response.data.response.docs);
+				});
 
 				return $q.all([qAichiTargetRecords, qNationalRecords]).then(function(response) {
 
-					var qAichiTargets = response[0].data.response.docs;
-					var qNationalIndicators       = _.where(response[1].data.response.docs, { schema_s: 'nationalIndicator' });
-					var qNationalTargets          = _.where(response[1].data.response.docs, { schema_s: 'nationalTarget' });
-					var qProgressAssessments      = _.where(response[1].data.response.docs, { schema_s: 'progressAssessment' });
-					var qImplementationActivities = _.where(response[1].data.response.docs, { schema_s: 'implementationActivity' });
-					var qNationalSupportTools     = _.where(response[1].data.response.docs, { schema_s: 'nationalSupportTool' });
+					var qAichiTargets             =         response[0];
+					var qNationalIndicators       = _.where(response[1], { schema_s: 'nationalIndicator' });
+					var qNationalTargets          = _.where(response[1], { schema_s: 'nationalTarget' });
+					var qProgressAssessments      = _.where(response[1], { schema_s: 'progressAssessment' });
+					var qImplementationActivities = _.where(response[1], { schema_s: 'implementationActivity' });
+					var qNationalSupportTools     = _.where(response[1], { schema_s: 'nationalSupportTool' });
 
 					// Aichi Targets
 					var aichiTargets = _.map(qAichiTargets, function(record) {
@@ -540,6 +510,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier: record.identifier_s,
 							title: record.title_t,
 							url : makeRelative(_.first(record.url_ss||[])),
@@ -556,6 +528,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier: record.identifier_s,
 							government: record.government_s,
 							title: record.title_t,
@@ -571,6 +545,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier: record.identifier_s,
 							government: record.government_s,
 							title: record.title_t,
@@ -586,6 +562,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier: record.identifier_s,
 							government: record.government_s,
 							title: record.title_t,
@@ -603,6 +581,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier: record.identifier_s,
 							government: record.government_s,
 							title: record.title_t,
@@ -619,6 +599,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					return _.map(rawRecords, function(record) {
 						return {
+							isPublic : record.isPublic,
+							isDraft : record.isDraft,
 							identifier: record.identifier_s,
 							title: record.title_t,
 							url : makeRelative(_.first(record.url_ss||[])),
@@ -631,16 +613,19 @@ angular.module('kmApp').compileProvider // lazy
 			//===============
 			//
 			//===============
-			function mergeWithDrafts(docs, drafts) {
+			function mergeWithDrafts(docsAndDrafts) {
 
-				var qIdentifiers = _.union(_.pluck(docs, "identifier_s"), _.pluck(drafts, "identifier_s"));
+				var qIdentifiers = _.union(_.pluck(docsAndDrafts, "identifier_s"));
 
 				return _.map(qIdentifiers, function(uid){
 
-					var doc   = _.findWhere(docs,   { identifier_s : uid });
-					var draft = _.findWhere(drafts, { identifier_s : uid });
+					var doc   = _.find(docsAndDrafts,   function(d) { return d.identifier_s == uid && d.version_s===undefined; });
+					var draft = _.find(docsAndDrafts,   function(d) { return d.identifier_s == uid && d.version_s==="draft"  ; });
 
-					return _.extend(doc||{}, draft||{});
+					if(doc)   doc  .isPublic = true;
+					if(draft) draft.isDraft  = true;
+
+					return _.extend({}, doc||{}, draft||{});
 				});
 			}
 

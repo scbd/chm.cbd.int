@@ -203,7 +203,12 @@
 							<!-- Related National Target -->
 							<td>
 								<ul class="list-unstyled">
-									<li style="padding-bottom:5px;" ng-repeat="target in aichiTarget.nationalTargets"><i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title}}</a></li>
+									<li style="padding-bottom:5px;" ng-repeat="target in aichiTarget.nationalTargets">
+							            <span ng-show="isPublic(target)" class="label label-info pull-right label-spacing">published</span>
+										<span ng-show="isDraft(target)"  class="label label-warning pull-right label-spacing">not published</span>
+										<i class="glyphicon glyphicon-record"></i>
+										<a ng-href="{{target.url}}">{{target.title}}</a>
+									</li>
 								</ul>
 								<button type="button" class="btn btn-default btn-xs btn-link" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ aichiTarget:aichiTarget, excludeTargets: aichiTarget.nationalTargets })" title="Link this Aichi Target to a National Target">link +</button>
 
@@ -211,7 +216,7 @@
                             
 							<!-- Assessment status -->
 							<td style="text-align:center" ng-class="{false:'not-up-to-date'}[aichiTarget.isUpToDate]">
-                                <span ng-show="aichiTarget.isUpToDate"  style="padding:5px;"><small>up-to-date</small></span>
+                                <span class="label label-success" ng-show="aichiTarget.isUpToDate"  style="padding:5px;">up-to-date</span>
                                 <span ng-show="!aichiTarget.assessmentYears.length || !aichiTarget.isUpToDate"  style="padding:5px;"><small>not up-to-date</small></span>
 
 
@@ -228,7 +233,7 @@
 							<td ng-repeat="year in globalYears" style="text-align:center" style="text-align:center" ng-class="{false:'not-up-to-date'}[aichiTarget.isUpToDate]">
 								
                                 <span ng-show="aichiTarget.assessmentYears.indexOf(year)>=0">
-									<a style="cursor:pointer" ng-href="{{getAssessment(aichiTarget, year).url}}"><span class="badge badge-lightgreen " ng-class="{'2013':'badge-darkgreen'}[year]"><i class="glyphicon glyphicon-ok"></i></span></a>
+									<a style="cursor:pointer" ng-href="{{getAssessment(aichiTarget, year).url}}"><span class="badge badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(aichiTarget, year)), 'badge-published' : isPublic(getAssessment(aichiTarget, year)) }"><i class="glyphicon glyphicon-ok"></i></span></a>
 								</span>
 							</td>
 						</tr>
@@ -269,7 +274,12 @@
         <tbody ng-repeat="target in nationalTargets | orderBy:sortTerm:orderList">
             <tr >
                 <td><button type="button" class="btn btn-default btn-xs pull-right btn-edit" ng-click="edit('nationalTarget', { uid:target.identifier })">edit &raquo;</button></td>
-                <td > <i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+                <td > 
+						<i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+						<div>
+	                		<span ng-show="isPublic(target)" class="label label-info label-spacing">published</span>
+							<span ng-show="isDraft(target)"  class="label label-warning label-spacing">not published</span>
+						</div>
                 </td>
                 <td><span class="aichi-icons">
                     <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'">
@@ -277,12 +287,16 @@
                 </span></td>
                 <td>
                     <div ng-repeat="indicator in target.nationalIndicators">
+                		<span ng-show="isPublic(indicator)" class="label label-info pull-right label-spacing" title="published">p</span>
+						<span ng-show="isDraft(indicator)"  class="label label-warning pull-right label-spacing" title="not published">np</span>
                         <i class="glyphicon glyphicon-dashboard"></i> <a ng-href="{{indicator.url}}">{{indicator.title}}</a><span ng-show="!$last">;                                                                                            
                         </span>
                     </div>
                 </td>
                 <td>
                     <div ng-repeat=" activity in getActivities(implementationActivities, target.identifier) ">
+                		<span ng-show="isPublic(activity)" class="label label-info pull-right label-spacing" title="published">p</span>
+						<span ng-show="isDraft(activity)"  class="label label-warning pull-right label-spacing" title="not published">np</span>
                         <i class="glyphicon glyphicon-cog"></i> <a ng-href="{{activity.url}}">{{activity.title}}</a>
                      </div>
                 </td>
@@ -291,7 +305,7 @@
 					<div ng-show="!target.isUpToDate" style="padding:5px;"><small>not up-to-date</small></div>
 	
                     <div ng-repeat="year in target.assessmentYears "  >
-                        <a ng-href="{{getAssessment(target, year).url}}"><span class="label badge-lightgreen " ng-class="{'2013':'badge-darkgreen'}[year]"> {{year}}</span></a>
+                        <a ng-href="{{getAssessment(target, year).url}}"><span class="label badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(target, year)), 'badge-published' : isPublic(getAssessment(target, year)) }"> {{year}}</span></a>
                     </div>
                     <button style="margin-top:5px;" type="button" class="btn btn-info btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : target.nextAssessmentYear, government : government })" title="Add a new assessment">
                         add +</button>
@@ -336,11 +350,19 @@
 							</td>
 							<td>
 								<i class="glyphicon glyphicon-dashboard"></i> <a ng-href="{{indicator.url}}">{{indicator.title|lstring}}</a>
+								<div>
+			                		<span ng-show="isPublic(indicator)" class="label label-info label-spacing">published</span>
+									<span ng-show="isDraft(indicator)"  class="label label-warning label-spacing">not published</span>
+								</div>
 							</td>
 							
 							<td>
 								<ul class="list-unstyled">
-									<li ng-repeat="target in indicator.nationalTargets"><i class="glyphicon glyphicon-record"></i>  <a ng-href="{{target.url}}">{{target.title}}</a></li>
+									<li ng-repeat="target in indicator.nationalTargets">
+				                		<span ng-show="isPublic(target)" class="label label-info pull-right label-spacing" title="published">p</span>
+										<span ng-show="isDraft(target)"  class="label label-warning pull-right label-spacing" title="not published">np</span>
+										<i class="glyphicon glyphicon-record"></i>  <a ng-href="{{target.url}}">{{target.title}}</a>
+									</li>
 								</ul>
 								<button type="button" class="btn btn-default btn-xs btn-link" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ nationalIndicator:indicator, excludeTargets: indicator.nationalTargets })" title="Link this National Indicator to a National Target">link +</button>
 							</td>
@@ -422,6 +444,8 @@
 								<ul  style="padding-left:0 ;list-style-type: none;">
 									<li ng-repeat="target in activity.nationalTargets|orderBy:'identifier'">
 										<i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+										<span ng-show="isDraft(target)"  class="label label-warning label-spacing" title="not published">n-p</span>
+							            <span ng-show="isPublic(target)" class="label label-info label-spacing" title="published">p</span>
 									</li>
 									<p>
 									<em ng-show="activity.nationalIndicators">Indicator(s): 
@@ -507,6 +531,8 @@
 								<ul  style="padding-left:0 ;list-style-type: none;">
 									<li ng-repeat="target in tool.nationalTargets|orderBy:'identifier'">
 										<i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+									    <span ng-show="isDraft(target)"  class="label label-warning label-spacing" title="not published">n-p</span>
+							            <span ng-show="isPublic(target)" class="label label-info label-spacing" title="published">p</span>
 									</li>
 								
 								</ul>
@@ -627,15 +653,22 @@
     	background-color:#d9edf7;
 
     }
-    .badge-lightgreen {
-        background-color:#00FF99;
+
+    .badge-published {
+        background-color:#5bc0de;
         color: #ffffff
     }
 
     .badge-darkgreen {
-        background-color:#5cb85c!important;
+        background-color:#5cb85c;
         color: #ffffff
     }
+
+    .badge-draft {
+        background-color:#f0ad4e;
+        color: #ffffff
+	}
+
 
   .up-to-date{
     	background-color:#dff0d8!important;

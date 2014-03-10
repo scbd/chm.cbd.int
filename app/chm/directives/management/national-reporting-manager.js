@@ -89,7 +89,7 @@ angular.module('kmApp').compileProvider // lazy
 			}
 
 			$scope.government  = $routeParams.country;
-			$scope.currentYear = new Date().getUTCFullYear();
+			$scope.currentYear = new Date().getUTCFullYear()-1;
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 			$scope.countries           = $http.get('/api/v2013/countries').then(function(response) { return response.data; });
 			$scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
@@ -218,7 +218,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.getAssessment = function(value, year) {
 
 				if (value && value.progressAssessments)
-					return _.first(_.filter(value.progressAssessments, function(o) { return _.contains(o.years, year); }));
+					return _.find(value.progressAssessments, function(o) { return _.contains(o.years, year); });
 			};
 
 		    //===============

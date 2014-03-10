@@ -312,8 +312,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$location.url("/management/my-drafts"); //TMP
-				//gotoManager();
+				gotoManager();
 			};
 
 			//==================================

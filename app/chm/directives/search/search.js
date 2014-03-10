@@ -114,7 +114,8 @@ angular.module('kmApp').compileProvider // lazy
 
             self.query = function () {
 
-                var q = 'realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
+                // NOT version_s:* remove non-public records from resultset
+                var q = 'NOT version_s:* AND realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
 
                 var queryParameters = {
                     'q': q,
@@ -148,7 +149,7 @@ angular.module('kmApp').compileProvider // lazy
 
                     if(!$scope.schemas) {
                         var queryFacetsParameters = {
-                            'q': 'realm_ss:chm',
+                            'q': 'NOT version_s:* AND realm_ss:chm',
                             'fl': '',
                             'wt': 'json',
                             'rows': 0,

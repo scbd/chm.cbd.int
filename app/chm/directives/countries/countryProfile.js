@@ -17,7 +17,7 @@
                     return response.data;
                 });
 
-                $http.get("/api/v2013/index/select?q=government_s:" + code.toLowerCase() + "&rows=0&wt=json&facet=true&facet.field=schema_CEN_s").then(function (response) {
+                $http.get("/api/v2013/index/select?q=NOT version_s:* AND government_s:" + code.toLowerCase() + "&rows=0&wt=json&facet=true&facet.field=schema_CEN_s").then(function (response) {
                     
                     var facets_data = response.data.facet_counts.facet_fields.schema_CEN_s;
                     var facets = [];

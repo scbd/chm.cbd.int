@@ -154,13 +154,13 @@ angular.module('kmApp').compileProvider // lazy
                             'wt': 'json',
                             'rows': 0,
                             'facet': true,
-                            'facet.field': ['schema_REL_ss', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
+                            'facet.field': ['schema_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
                             'facet.limit': 512
                         };
 
                         $http.get('/api/v2013/index/select', { params: queryFacetsParameters }).success(function (data) {
 
-                            $scope.schemas = readFacets2(data.facet_counts.facet_fields.schema_REL_ss);
+                            $scope.schemas = readFacets2(data.facet_counts.facet_fields.schema_s);
                             $scope.governments = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
                             $scope.regions = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
                             $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);

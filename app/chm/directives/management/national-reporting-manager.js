@@ -91,7 +91,16 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.government  = $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear()-1;
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
-			$scope.countries           = $http.get('/api/v2013/countries').then(function(response) { return response.data; });
+			$scope.countries   = $http.get('/api/v2013/countries').then(function(response) { 
+
+				var eu  = _.findWhere(response.data, { code : "EU"  });
+				var eur = _.findWhere(response.data, { code : "EUR" });
+
+				if(eur && !eu ) response.data.push(_.extend(_.clone(eur), { code: "EU"  }));
+				if(eu  && !eur) response.data.push(_.extend(_.clone(eu ), { code: "EUR" }));
+
+				return $scope.countries = response.data; 
+			});
 			$scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
 			$scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
 			$scope.cbdNationalReports = ["B3079A36-32A3-41E2-BDE0-65E4E3A51601", // NR5

@@ -36,6 +36,7 @@
 	<div ng-show="document.areaDescription || document.areaConditions ||
 		document.areaFeatures || document.countries ||
 		document.beyondNationalJurisdiction">
+		<div><strong>DISCLAIMER:</strong> The designations employed and the presentation of material in this map do not imply the expression of any opinion whatsoever on the part of the Secretariat concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.</div>
 		<legend>Area Details</legend>
 		<div ng-show="document.areaDescription">
 			<label>Feature description of the area</label>
@@ -89,7 +90,7 @@
 		<div ng-show="document.status=='approved' || document.approvedByCopDecision || document.approvedByCopDecision || fixDate(document.approvedByGovernmentOn)">
 
 			<div class="panel panel-default" ng-class="{ 'panel-success' : document.status=='approved' }">
-			  <div class="panel-heading">Areas meeting EBSA criteria approved for inclusion in the EBSA Repository</div>
+			  <div class="panel-heading">Areas described as meeting EBSA criteria that were considered by the Conference of the Parties</div>
 				<div class="panel-body">
 
 					<div ng-show="document.approvedByCopDecision">

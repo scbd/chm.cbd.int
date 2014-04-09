@@ -44,127 +44,127 @@
     <script src="/app/chm/services/editFormUtility.js"></script>
     <script src="/app/shared/directives/forms/form-controls.js"></script>
 
-    <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
+    <style>
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
     <style>
         .nav > li > a {
             font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: normal;
         }
+
         .sec2 .body-content h2 {
             font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: normal;
         }
+
         h3 {
             font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: normal;
         }
+
         a.getstarted {
             font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: normal;
         }
+
         .home-page .nav a {
             color: #eee;
             font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: bold;
         }
-        .home-page .header-actions > li > a {
-            color: #eee;   
-        }
+
         .dropdown li {
             border-right: none;
         }
+
         .home-page .main-nav p {
-            color: #eee;   
+            color: #eee;
         }
-        .home-page .header-banner { 
+
+        .home-page {
+            background-color: #F6F6F6;
+        }
+
+        /*.home-page .header-banner {
             background-color: rgba(0,0,0,0.50);
             border-bottom: 1px solid black;
+        }*/
+        #cbdMenu li a {
+            float: left;
+            padding-left: 12px;
+        }
+
+        #cbdMenu li {
+            display: block;
         }
     </style>
 </head>
+
+
+
 <body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
 
-    <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom:0px;text-align:center">
-        <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
-    </div>
 
-    <span ng-show="homePage">
-        <img class="hidden-xs" src="/app/img/landscape.jpg" style="position:absolute">
-        <img class="visible-xs" src="/app/img/landscapeMobile.jpg" style="position:absolute">
-    </span>
-    <div class="main-nav">
+    <div class="container">
+        <!-- <span ng-show="homePage">
+            <img class="hidden-xs" src="/app/img/landscape.jpg" style="position: absolute">
+            <img class="visible-xs" src="/app/img/landscapeMobile.jpg" style="position: absolute">
+        </span>-->
+        <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom: 0px; text-align: center">
+            <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
+        </div>
+        <div class="main-nav">
+            <div class="container" id="main-nav" style="padding-left: 20px; padding-right: 20px">
+                <div id="t-header">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div id="t-headerLogo">
+                                <a href="/">
+                                    <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-leaf-line.gif" id="CCbdLogoLeaf" height="65" width="52" alt="Convention on Biological Diversity">
+                                    <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-text-en.gif" id="CCbdLogoText" height="65" alt="Convention on Biological Diversity">
+                                </a>
+                            </div>
 
-        <div class="header-banner" style="position:absolute;width:100%;height:140px"></div>
-        <div class="container" id="main-nav">
-            <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
-                    <span class="logo" href="http://www.cbd.int/" style="position:relative;z-index:999;cursor:pointer" ng-click="goHome()">
-                        <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width:60px">
-                        <div style="margin-top:-10px;margin-left:18px;font-size:24px;color:#f8f8f8;min-width:60px;">
-                            <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-top:4px;margin-left:-26px;width:20px"> CHM
                         </div>
-                    </span>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2 visible-xs">
-                    <span class="logo" href="http://www.cbd.int/" style="position:relative;z-index:999;cursor:pointer;height:40px;" ng-click="goHome()">
-                        <div style="font-size:24px;color:#f8f8f8">
-                            <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width:60px;"/>
-                            <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-right:5px;width:20px"/>CHM
-                        </div>
-                    </span>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="navbar visible-xs">
-                        <div class="navbar-header">
-                            <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </a>
-                            <ul class="header-actions">
-                                <li ng-hide="currentPath()=='/database/'">
-                                    <a href="/database" class="search-icon"></a>
-                                </li>
-                                <li class="dropdown">
-                                    <a data-toggle="dropdown" class="icon icon-globe" style="color:black" href="#">&nbsp;Language: EN</a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li class="disabled"><a>لعربية</a></li>
-                                        <li class="disabled"><a>中文</a></li>
-                                        <li><a href="#"><strong>English</strong></a></li>
-                                        <li class="disabled"><a>Español</a></li>
-                                        <li class="disabled"><a>Français</a></li>
-                                        <li class="disabled"><a>Русский</a></li>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="navbar visible-xs">
+                                <div class="navbar-header">
+                                    <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </a>
+                                    <ul class="header-actions">
+                                        <li ng-hide="currentPath()=='/database/'">
+                                            <a href="/database" class="search-icon"></a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">&nbsp;Language: EN</a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li class="disabled"><a>لعربية</a></li>
+                                                <li class="disabled"><a>中文</a></li>
+                                                <li><a href="#"><strong>English</strong></a></li>
+                                                <li class="disabled"><a>Español</a></li>
+                                                <li class="disabled"><a>Français</a></li>
+                                                <li class="disabled"><a>Русский</a></li>
+                                            </ul>
+                                        </li>
+                                        <li ng-hide="user.isAuthenticated">
+                                            <a class="icon-off" href="/management/signin" style="color: black">&nbsp;Sign In</a>
+                                        </li>
+                                        <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
+                                            <a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a>
+                                        </li>
                                     </ul>
-                                </li>
-                                <li ng-hide="user.isAuthenticated">
-                                    <a class="icon-off" href="/management/signin" style="color:black">&nbsp;Sign In</a>
-                                </li>
-                                <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
-                                    <a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size:15px"></i>&nbsp; Sign-out</a>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav">
-                            <li><a ng-class="{active: portal=='database'}" href="/database">Finding Information</a></li>
-                            <li><a ng-class="{active: portal=='management'}" href="/management">Registering Information</a></li>
-                            <li><a ng-class="{active: portal=='network'}" href="/network">Network</a></li>
-                            <li><a ng-class="{active: portal=='resources'}" href="/resources">Resources</a></li>
-                            <li><a ng-class="{active: portal=='about'}" href="/about" target="_self">About</a></li>
-                        </ul>
-                        <ul class="nav subnav" ng-hide="homePage">
-                            <li ng-repeat="item in navigation"><a ng-class="{active: item.url==currentPath()}" ng-href="{{item.url}}">{{item.title}}</a></li>
-                        </ul>
-                        <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-                    <ul class="header-actions">
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" href="#"><i class="icon icon-globe" style="font-size:15px"></i>&nbsp; Language: <strong>EN</strong></a>
-                            <ul class="dropdown-menu" role="menu">
+                        <div class="col-lg-8 col-md-8 col-sm-8 hidden-xs">
+                            <ul class="header-actions pull-left">
                                 <li class="disabled"><a>لعربية</a></li>
                                 <li class="disabled"><a>中文</a></li>
                                 <li><a href="#"><strong>English</strong></a></li>
@@ -172,114 +172,306 @@
                                 <li class="disabled"><a>Français</a></li>
                                 <li class="disabled"><a>Русский</a></li>
                             </ul>
-                        </li>
-                        <li ng-cloak ng-hide="user.isAuthenticated" style="border-right:none;padding-right:0">
-                            <a class="signin" href="/management/signin" data-slug="signin"><i class="icon-off" style="font-size:15px"></i>&nbsp; Sign In</a>
-                        </li>
-                        <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
-                            <a data-toggle="dropdown" href="#"><i class="icon-chevron-down" style="font-size:15px"></i>&nbsp; {{user.name}}</a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="disabled"><a href="#"><i class="icon-cog" style="font-size:15px"></i>&nbsp; Settings</a></li>
-                                <li class="disabled"><a href="#"><i class="icon-user" style="font-size:15px"></i>&nbsp; Profile</a></li>
-                                <li><a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
+                            <ul class="header-actions pull-right">
+                                <li ng-cloak ng-hide="user.isAuthenticated" style="border-right: none; padding-right: 0">
+                                    <a class="signin" href="/management/signin" data-slug="signin"><i class="icon-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
+                                </li>
+                                <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
+                                    <a data-toggle="dropdown" href="#"><i class="icon-chevron-down" style="font-size: 15px"></i>&nbsp; {{user.name}}</a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="disabled"><a href="#"><i class="icon-cog" style="font-size: 15px"></i>&nbsp; Settings</a></li>
+                                        <li class="disabled"><a href="#"><i class="icon-user" style="font-size: 15px"></i>&nbsp; Profile</a></li>
+                                        <li><a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a></li>
+                                    </ul>
+                                </li>
                             </ul>
-                        </li>
-                    </ul>
-                    <div style="clear:both;margin-top:80px">
-                        <div class="col-lg-4" style="text-align:right;padding:8px 10px 0 0;color:#fff" ng-show="homePage">
-                            Get Started:
                         </div>
-                        <div class="col-lg-8 pull-right" ng-hide="currentPath()=='/database/'">
-                            <form ng-submit="doSearch()">
-                                <input type="text" class="form-control" ng-model="searchQuery" placeholder="search" style=";border-radius:16px">
-                            </form>
+                    </div>
+                    <div class="row hidden-xs">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <ul id="cbdMenu" class="pull-right">
+                                <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
+                                <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
+                                <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
+                                <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
+                                <li><a href="http://www.cbd.int/information/">Information</a></li>
+                                <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <!--    <div class="header-banner"></div>-->
+                <div class="row header-banner">
+                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
+                        <!--<span class="logo" href="http://www.cbd.int/" style="position: relative; z-index: 999; cursor: pointer" ng-click="goHome()">
+                            <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width: 60px">
+                            <div style="margin-top: -10px; margin-left: 18px; font-size: 24px; color: #f8f8f8; min-width: 60px;">
+                                <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-top: 4px; margin-left: -26px; width: 20px">
+                                CHM
+                            </div>
+                        </span>-->
+                        <span href="http://www.cbd.int/" id="PortalAnchor" ng-click="goHome()">
+                            <div id="PortalName">Clearing House Mechanism</div>
+                        </span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 visible-xs">
+                        <span class="logo" href="http://www.cbd.int/" style="position: relative; z-index: 999; cursor: pointer; height: 40px;" ng-click="goHome()">
+                            <div style="font-size: 24px; color: #f8f8f8">
+                                <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width: 60px;" />
+                                <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-right: 5px; width: 20px" />CHM
+                            </div>
+                        </span>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs">
+                        <form ng-submit="doSearch()">
+                            <div style="margin-top: 50px" class="pull-left input-group" ng-hide="currentPath()=='/database/'">
+
+                                <input type="text" class="form-control" ng-model="searchQuery" placeholder="search">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="navbar visible-xs">
+                            <div class="navbar-header">
+                                <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </a>
+                                <ul class="header-actions">
+                                    <li ng-hide="currentPath()=='/database/'">
+                                        <a href="/database" class="search-icon"></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">&nbsp;Language: EN</a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li class="disabled"><a>لعربية</a></li>
+                                            <li class="disabled"><a>中文</a></li>
+                                            <li><a href="#"><strong>English</strong></a></li>
+                                            <li class="disabled"><a>Español</a></li>
+                                            <li class="disabled"><a>Français</a></li>
+                                            <li class="disabled"><a>Русский</a></li>
+                                        </ul>
+                                    </li>
+                                    <li ng-hide="user.isAuthenticated">
+                                        <a class="icon-off" href="/management/signin" style="color: black">&nbsp;Sign In</a>
+                                    </li>
+                                    <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
+                                        <a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav">
+                                <li><a ng-class="{active: portal=='database'}" href="/database">Finding Information</a></li>
+                                <li><a ng-class="{active: portal=='management'}" href="/management">Registering Information</a></li>
+                                <li><a ng-class="{active: portal=='network'}" href="/network">Network</a></li>
+                                <li><a ng-class="{active: portal=='resources'}" href="/resources">Resources</a></li>
+                                <li><a ng-class="{active: portal=='about'}" href="/about" target="_self">About</a></li>
+                            </ul>
+                            <ul class="nav subnav" ng-hide="homePage">
+                                <li ng-repeat="item in navigation"><a ng-class="{active: item.url==currentPath()}" ng-href="{{item.url}}">{{item.title}}</a></li>
+                            </ul>
+                            <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
+                        <ul class="header-actions">
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" href="#"><i class="icon icon-globe" style="font-size: 15px"></i>&nbsp; Language: <strong>EN</strong></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="disabled"><a>لعربية</a></li>
+                                    <li class="disabled"><a>中文</a></li>
+                                    <li><a href="#"><strong>English</strong></a></li>
+                                    <li class="disabled"><a>Español</a></li>
+                                    <li class="disabled"><a>Français</a></li>
+                                    <li class="disabled"><a>Русский</a></li>
+                                </ul>
+                            </li>
+                            <li ng-cloak ng-hide="user.isAuthenticated" style="border-right: none; padding-right: 0">
+                                <a class="signin" href="/management/signin" data-slug="signin"><i class="icon-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
+                            </li>
+                            <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
+                                <a data-toggle="dropdown" href="#"><i class="icon-chevron-down" style="font-size: 15px"></i>&nbsp; {{user.name}}</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="disabled"><a href="#"><i class="icon-cog" style="font-size: 15px"></i>&nbsp; Settings</a></li>
+                                    <li class="disabled"><a href="#"><i class="icon-user" style="font-size: 15px"></i>&nbsp; Profile</a></li>
+                                    <li><a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div style="clear: both; margin-top: 80px">
+                            <div class="col-lg-4" style="text-align: right; padding: 8px 10px 0 0; color: #fff" ng-show="homePage">
+                                Get Started:
+                            </div>
+                            <div class="col-lg-8 pull-right" ng-hide="currentPath()=='/database/'">
+                                <form ng-submit="doSearch()">
+                                    <input type="text" class="form-control" ng-model="searchQuery" placeholder="search" style="border-radius: 16px">
+                                </form>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="row webNavBar">
+                    <div class="col-lg-14 col-md-14 col-sm-14">
+                        <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Finding Information<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/database/">Search</a></li>
+                                        <li><a href="/database/countries">Parties and Country Profiles</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Registering Information<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/management/">My Dashboard</a></li>
+                                        <li><a href="/management/register">Register a new record</a></li>
+                                        <li><a href="/management/my-records">Edit a published record</a></li>
+                                        <li><a href="/management/my-drafts">Edit a draft record</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/network">Network</a></li>
+                                <li><a href="/resources">Resources</a></li>
+                                <li><a href="/about" target="_self">About</a></li>
+                                <li class="dropdown  visible-xs">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <img src="/app/images/top-header-cbd-logo.png" alt="cbd" width="25" height="30" style="position: relative; top: -4px;">
+                                        <span style="position: relative; top: -4px;">CBD<b class="caret"></b></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
+                                        <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
+                                        <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
+                                        <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
+                                        <li><a href="http://www.cbd.int/information/">Information</a></li>
+                                        <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+                <div class="row hidden-xs" style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;">
+                    <div class="col-lg-2 col-md-2 col-sm-2 PageTitle" ng-hide="homePage">
+                        <span style="width: 250px">{{navigationTree.subMenu}}</span>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 hidden-xs historyBar" style="">
+                        <div>
+                            <img src="/app/images/top-header-cbd-logo.png" alt="cbd" width="15" height="15" style="position: relative;">
+                            > 
+                            <a ng-href="#" ng-click="goHome()">CHM  </a>
+                            <span ng-hide="homePage">> {{navigationTree.mainMenu}} > {{navigationTree.subMenu}}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="page-content">
+                    <div ngx-view>
+                    </div>
+                </div>
+                <div id="footerMain">
+
+                    <footer class="footer">
+                        <div class="container" id="footer">
+                            <div class="row hidden-xs">
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <h4>Finding</h4>
+                                    <ul>
+                                        <li><a href="/database">Overview</a></li>
+                                        <li><a href="/database">List of Parties</a></li>
+                                        <li><a href="/database">Country Profiles</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <h4>Registering</h4>
+                                    <ul>
+                                        <li><a href="/management">Data</a></li>
+                                        <li><a href="/management">Infrastructure</a></li>
+                                        <li><a href="/management">Services</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <h4>Network</h4>
+                                    <ul>
+                                        <li><a href="/network">Overview</a></li>
+                                        <li><a href="/network">Services</a></li>
+                                        <li><a href="/network">Open Data</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <h4>Dev Center</h4>
+                                    <ul>
+                                        <li><a href="/developers">Overview</a></li>
+                                        <li><a href="/developers">REST API</a></li>
+                                        <li><a href="/developers">Support</a></li>
+                                        <li><a href="/developers">Collaborating</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <h4>Resources</h4>
+                                    <ul>
+                                        <li><a href="/resources/blog">Blog</a></li>
+                                        <li><a href="/resources/type:Guides">Guides</a></li>
+                                        <li><a href="/resources/type:Data%20Sheets">Datasheets</a></li>
+                                        <li><a href="/resources/type:White%20Papers">White Papers</a></li>
+                                        <li><a href="/resources/type:Videos">Videos</a></li>
+                                        <li><a href="/resources/type:Presentations">Presentations</a></li>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2">
+                                    <h4>Follow us</h4>
+                                    <!--<ul>
+                                <li><a href="/about">Overview</a></li>
+                                <li><a href="/about/press">Press Room</a></li>
+                                <li><a href="/about/events">Events</a></li>
+                                <li><a href="/about/careers">Careers</a></li>
+                                <li><a href="/about/contact">Contact Us</a></li>
+                            </ul>-->
+                                    <ul class="social clearfix">
+                                        <li><a href="http://twitter.com/scbd" class="twitter"><span>Twitter</span></a></li>
+                                        <li><a href="http://www.linkedin.com/company/scbd" class="linkedin"><span>Linkedin</span></a></li>
+                                        <li><a href="https://www.facebook.com/scbd" class="facebook"><span>Facebook</span></a></li>
+                                        <li><a href="https://plus.google.com/0000/posts" class="google"><span>Google+</span></a></li>
+                                        <li><a href="/database/news" class="rss"><span>RSS</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+                <div class="row hidden-xs" style="padding-left: 10px">
+                    <div class="container">
+                        <a href="http://www.cbd.int/feedback">Feedback</a> | 
+                                <a href="http://www.cbd.int/map/">Site Map</a> | 
+                                <a href="http://www.cbd.int/contact">Contact us</a> | 
+                                <a href="http://www.cbd.int/terms">Terms of Use</a> | 
+                                <a href="http://www.cbd.int/privacy">Privacy Policy</a> | 
+                                <a href="http://www.cbd.int/credits">Credits</a> | 
+                                <a href="http://www.cbd.int/copyright">&#169; CBD Secretariat</a>
+                        <div style="float: right">
+                            <a id="CLinkUN" href="http://www.un.org">
+                                <img alt="United Nations" src="http://www.cbd.int/styles/ui/templates/cbd2011/images/un-logo-white.gif" /></a>
+                            <a id="CLinkUNENP" href="http://www.unep.org">
+                                <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/unep-logo-white-en.gif" alt="United Nations Environment Programme" /></a>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
+
+        <script>            //mercuryPackages = { all: {javascripts: 'jquery-1.7.js,mercury.min.js,mercury_dialogs.js', stylesheets: 'mercury.bundle.css'} };
+            //jQuery.browser = { webkit: true };
+        </script>
+        <!--script src="/app/libs/mercury/0.9.0/mercury_loader.js?pack=bundled&src=/app/libs/mercury/0.9.0"></script-->
     </div>
-    
-    <div class="page-content">
-        <div ngx-view>
-    </div>
-    
-    <footer class="footer">
-        <div class="container" id="footer">
-        <div class="row hidden-xs">
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Finding</h4>
-                <ul>
-                    <li><a href="/database">Overview</a></li>
-                    <li><a href="/database">List of Parties</a></li>
-                    <li><a href="/database">Country Profiles</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Registering</h4>
-                <ul>
-                    <li><a href="/management">Data</a></li>
-                    <li><a href="/management">Infrastructure</a></li>
-                    <li><a href="/management">Services</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Network</h4>
-                <ul>
-                    <li><a href="/network">Overview</a></li>
-                    <li><a href="/network">Services</a></li>
-                    <li><a href="/network">Open Data</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Dev Center</h4>
-                <ul>
-                    <li><a href="/developers">Overview</a></li>
-                    <li><a href="/developers">REST API</a></li>
-                    <li><a href="/developers">Support</a></li>
-                    <li><a href="/developers">Collaborating</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="/resources/blog">Blog</a></li>
-                    <li><a href="/resources/type:Guides">Guides</a></li>
-                    <li><a href="/resources/type:Data%20Sheets">Datasheets</a></li>
-                    <li><a href="/resources/type:White%20Papers">White Papers</a></li>
-                    <li><a href="/resources/type:Videos">Videos</a></li>
-                    <li><a href="/resources/type:Presentations">Presentations</a></li>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-2">
-                    <h4>About</h4>
-                    <ul>
-                        <li><a href="/about">Overview</a></li>
-                        <li><a href="/about/press">Press Room</a></li>
-                        <li><a href="/about/events">Events</a></li>
-                        <li><a href="/about/careers">Careers</a></li>
-                        <li><a href="/about/contact">Contact Us</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row copyright">
-                <div class="col-lg-6 col-md-6 col-sm-6 logorow">
-                    <a href="http://www.cbd.int/" class="logo" style="height:60px"></a>
-                    <p style="margin-top:-8px">© 2013 SCBD | <a href="http://www.cbd.int/privacy">Privacy Policy</a> | <a href="http://www.cbd.int/terms">Terms of Use</a></p>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <ul class="social clearfix">
-                    <li><a href="http://twitter.com/scbd" class="twitter"></a></li>
-                    <li><a href="http://www.linkedin.com/company/scbd" class="linkedin"></a></li>
-                    <li><a href="https://www.facebook.com/scbd" class="facebook"></a></li>
-                    <li><a href="https://plus.google.com/0000/posts" class="google"></a></li>
-                    <li><a href="/database/news" class="rss"></a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-     <script>//mercuryPackages = { all: {javascripts: 'jquery-1.7.js,mercury.min.js,mercury_dialogs.js', stylesheets: 'mercury.bundle.css'} };
-        //jQuery.browser = { webkit: true };
-    </script>
-    <!--script src="/app/libs/mercury/0.9.0/mercury_loader.js?pack=bundled&src=/app/libs/mercury/0.9.0"></script-->
 </body>
 </html>

@@ -12882,7 +12882,7 @@ span.recommended-info {
 /*Common css*/
 #PortalAnchor {
     cursor: pointer;
-    margin-left: -5px;
+    /*margin-left: -5px;*/
 }
 
 #MainNav ul {
@@ -12920,7 +12920,7 @@ span.recommended-info {
     }
 
 .header-banner {
-    background: url('/app/img/banner-0.jpg');
+    background: url('/app/img/landscape.jpg');
     height: 140px;
 }
 

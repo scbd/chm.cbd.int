@@ -5687,6 +5687,7 @@ td.visible-xs {
     }
 
     .webNavBar {
+
         /*height: 5px!important;*/
     }
 }
@@ -11241,7 +11242,6 @@ span.recommended-info {
     #t-header {
         background-color: #fff;
         margin-left: 5px;
-        padding-bottom: 10px;
     }
 
     #t-headerLogo {
@@ -12926,4 +12926,9 @@ span.recommended-info {
 
 .webNavBar {
     height: 50px;
+    padding-top: 5px;
+}
+
+li:last-child{
+    border-right: none;
 }

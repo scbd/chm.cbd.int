@@ -89,7 +89,7 @@
         #cbdMenu li a {
             color: rgb(137, 207, 49);
             float: left;
-            padding-left: 12px;
+     /*       padding-left: 12px;*/
         }
 
         #cbdMenu li {
@@ -180,10 +180,18 @@
                                     </ul>
                                 </li>
                             </ul>
+                            <ul id="cbdMenu" class="header-actions pull-right hidden-xs">
+                                <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
+                                <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
+                                <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
+                                <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
+                                <li><a href="http://www.cbd.int/information/">Information</a></li>
+                                <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
+                            </ul>
                         </div>
                         
                     </div>
-                    <div class="row hidden-xs">
+                   <!--  <div class="row hidden-xs">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <ul id="cbdMenu" class="header-actions pull-right">
                                 <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
@@ -194,14 +202,14 @@
                                 <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
                 <!--    <div class="header-banner"></div>-->
                 <div class="row header-banner">
                     <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">                        
                         <span href="http://www.cbd.int/" id="PortalAnchor" ng-click="goHome()">
-                            <div id="PortalName">Clearing House Mechanism</div>
+                            <div id="PortalName">Clearing-House Mechanism</div>
                         </span>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 visible-xs">
@@ -353,7 +361,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row hidden-xs" style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;">
+                <div class="row hidden-xs" style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;padding-top:10px;">
                     <div class="col-lg-2 col-md-2 col-sm-2 PageTitle" ng-hide="homePage">
                         <span style="width: 250px">{{navigationTree.subMenu}}</span>
                     </div>

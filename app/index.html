@@ -118,7 +118,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div id="t-headerLogo">
-                                <a href="/">
+                                <a href="http://www.cbd.int/">
                                     <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-leaf-line.gif" id="CCbdLogoLeaf" height="65" width="52" alt="Convention on Biological Diversity">
                                     <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-text-en.gif" id="CCbdLogoText" height="65" alt="Convention on Biological Diversity">
                                 </a>
@@ -126,20 +126,20 @@
 
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="navbar visible-xs">
+                            <div class="navbar visible-xs" style="margin-bottom:-10px">
                                 <div class="navbar-header">
-                                    <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <a class="btn navbar-toggle" data-toggle="collapse" data-target="#MainNav">
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </a>
-                                    <ul class="header-actions">
+                                    <ul class="header-actions">                                       
                                         <li ng-hide="currentPath()=='/database/'">
                                             <a href="/database" class="search-icon"></a>
                                         </li>
                                         <li class="dropdown">
                                             <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">&nbsp;Language: EN</a>
-                                            <ul class="dropdown-menu" role="menu">
+                                            <ul class="dropdown-menu" role="menu" style="min-width:auto">
                                                 <li class="disabled"><a>لعربية</a></li>
                                                 <li class="disabled"><a>中文</a></li>
                                                 <li><a href="#"><strong>English</strong></a></li>
@@ -182,8 +182,8 @@
                             </ul>
                             <ul id="cbdMenu" class="header-actions pull-right hidden-xs">
                                 <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
-                                <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
-                                <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
+                                <li><a href="http://bch.cbd.int/protocol/">Cartagena Protocol</a></li>
+                                <li><a href="http://www.cbd.int/abs/">Nagoya Protocol</a></li>
                                 <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
                                 <li><a href="http://www.cbd.int/information/">Information</a></li>
                                 <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
@@ -191,36 +191,15 @@
                         </div>
                         
                     </div>
-                   <!--  <div class="row hidden-xs">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <ul id="cbdMenu" class="header-actions pull-right">
-                                <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
-                                <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
-                                <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
-                                <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
-                                <li><a href="http://www.cbd.int/information/">Information</a></li>
-                                <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
-                            </ul>
-                        </div>
-                    </div> -->
-
                 </div>
                 <!--    <div class="header-banner"></div>-->
-                <div class="row header-banner">
-                    <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">                        
+                <div class="row header-banner hidden-xs">
+                    <div class="col-lg-3 col-md-3 col-sm-3 ">                        
                         <span href="http://www.cbd.int/" id="PortalAnchor" ng-click="goHome()">
                             <div id="PortalName">Clearing-House Mechanism</div>
                         </span>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 visible-xs">
-                        <span class="logo" href="http://www.cbd.int/" style="position: relative; z-index: 999; cursor: pointer; height: 40px;" ng-click="goHome()">
-                            <div style="font-size: 24px; color: #f8f8f8">
-                                <img src="/app/img/chm-logo-white.svg" class="svg" alt="CBD logo" style="width: 60px;" />
-                                <img src="/app/img/cbd-leaf-white.svg" class="svg" alt="CBD logo" style="margin-right: 5px; width: 20px" />CHM
-                            </div>
-                        </span>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 hidden-xs">
+                    </div>                  
+                    <div class="col-lg-9 col-md-9 col-sm-90">
                         <form ng-submit="doSearch()">
                             <div class="row" style="margin-top: 50px" >
                                 <div class="pull-left input-group col-lg-6 col-md-6 col-sm-6" ng-hide="currentPath()=='/database/'">
@@ -230,100 +209,20 @@
                                     </div>
                                 </div>
                                 <div class="pull-right col-lg-4 col-md-4 col-sm-4">
+                                    <a href="/management/register">
                                      <button type="button" class="btn btn-default btn-md">
                                       Submit Information <span class="glyphicon glyphicon-upload"></span>
-                                    </button>
+                                    </button></a>
                                 </div>
                             </div>
                            
                         </form>
                     </div>
-                    <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="navbar visible-xs">
-                            <div class="navbar-header">
-                                <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </a>
-                                <ul class="header-actions">
-                                    <li ng-hide="currentPath()=='/database/'">
-                                        <a href="/database" class="search-icon"></a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">&nbsp;Language: EN</a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li class="disabled"><a>لعربية</a></li>
-                                            <li class="disabled"><a>中文</a></li>
-                                            <li><a href="#"><strong>English</strong></a></li>
-                                            <li class="disabled"><a>Español</a></li>
-                                            <li class="disabled"><a>Français</a></li>
-                                            <li class="disabled"><a>Русский</a></li>
-                                        </ul>
-                                    </li>
-                                    <li ng-hide="user.isAuthenticated">
-                                        <a class="icon-off" href="/management/signin" style="color: black">&nbsp;Sign In</a>
-                                    </li>
-                                    <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
-                                        <a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav">
-                                <li><a ng-class="{active: portal=='database'}" href="/database">Finding Information</a></li>
-                                <li><a ng-class="{active: portal=='management'}" href="/management">Registering Information</a></li>
-                                <li><a ng-class="{active: portal=='network'}" href="/network">Network</a></li>
-                                <li><a ng-class="{active: portal=='resources'}" href="/resources">Resources</a></li>
-                                <li><a ng-class="{active: portal=='about'}" href="/about" target="_self">About</a></li>
-                            </ul>
-                            <ul class="nav subnav" ng-hide="homePage">
-                                <li ng-repeat="item in navigation"><a ng-class="{active: item.url==currentPath()}" ng-href="{{item.url}}">{{item.title}}</a></li>
-                            </ul>
-                            <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs">
-                        <ul class="header-actions">
-                            <li class="dropdown">
-                                <a data-toggle="dropdown" href="#"><i class="icon icon-globe" style="font-size: 15px"></i>&nbsp; Language: <strong>EN</strong></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="disabled"><a>لعربية</a></li>
-                                    <li class="disabled"><a>中文</a></li>
-                                    <li><a href="#"><strong>English</strong></a></li>
-                                    <li class="disabled"><a>Español</a></li>
-                                    <li class="disabled"><a>Français</a></li>
-                                    <li class="disabled"><a>Русский</a></li>
-                                </ul>
-                            </li>
-                            <li ng-cloak ng-hide="user.isAuthenticated" style="border-right: none; padding-right: 0">
-                                <a class="signin" href="/management/signin" data-slug="signin"><i class="icon-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
-                            </li>
-                            <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
-                                <a data-toggle="dropdown" href="#"><i class="icon-chevron-down" style="font-size: 15px"></i>&nbsp; {{user.name}}</a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li class="disabled"><a href="#"><i class="icon-cog" style="font-size: 15px"></i>&nbsp; Settings</a></li>
-                                    <li class="disabled"><a href="#"><i class="icon-user" style="font-size: 15px"></i>&nbsp; Profile</a></li>
-                                    <li><a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div style="clear: both; margin-top: 80px">
-                            <div class="col-lg-4" style="text-align: right; padding: 8px 10px 0 0; color: #fff" ng-show="homePage">
-                                Get Started:
-                            </div>
-                            <div class="col-lg-8 pull-right" ng-hide="currentPath()=='/database/'">
-                                <form ng-submit="doSearch()">
-                                    <input type="text" class="form-control" ng-model="searchQuery" placeholder="search" style="border-radius: 16px">
-                                </form>
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
-                <div class="row webNavBar">
+
+                <div class="row webNavBar" style="padding-top:2px;">
                     <div class="col-lg-14 col-md-14 col-sm-14">
-                        <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation">
+                         <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation">
                             <ul class="nav navbar-nav pull-left">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Finding Information<b class="caret"></b></a>
@@ -360,12 +259,14 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-                <div class="row hidden-xs" style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;padding-top:10px;">
-                    <div class="col-lg-2 col-md-2 col-sm-2 PageTitle" ng-hide="homePage">
+                </div> 
+
+
+                <div class="row hidden-xs" style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;">
+                    <!-- <div class="col-lg-2 col-md-2 col-sm-2 PageTitle" ng-hide="homePage">
                         <span style="width: 250px">{{navigationTree.subMenu}}</span>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 hidden-xs historyBar" style="">
+                    </div> -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar" style="">
                         <div>
                             <img src="/app/images/top-header-cbd-logo.png" alt="cbd" width="15" height="15" style="position: relative;">
                             > 
@@ -374,7 +275,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="page-content">
                     <div ngx-view>

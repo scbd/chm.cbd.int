@@ -21,7 +21,7 @@
             
             $http.get('/api/v2013/index/', {
                 params: {
-                    q: "schema_s:news AND theme_ss:" + $scope.cmsParamsFn().theme || "*",
+                    q: "schema_s:news and theme_ss:" + $scope.cmsParamsFn().theme || "*",
                     fq: $scope.cmsParamsFn().filterQuery || "",
                     sort: $scope.cmsParamsFn().sortOrder || "",
                     rows: $scope.cmsParamsFn().maxItems || 1000,

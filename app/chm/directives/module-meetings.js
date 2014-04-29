@@ -17,16 +17,18 @@
             $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
         },
         controller: ['$scope', 'authHttp', 'underscore', function ($scope, $http, _) {
+            console.log($scope.cmsParamsFn().theme);
             $http.get('/api/v2013/index/', 
                 {
                     params: {
-                           q: "schema_s:meeting AND theme_ss:" + ($scope.cmsParamsFn().theme.code || "*"),
-                          fq: $scope.cmsParamsFn().filterQuery || "",
+                           q: "schema_s:meeting and theme_ss:" + ($scope.cmsParamsFn().theme || "*"),
+                          //fq: $scope.cmsParamsFn().filterQuery || "",
                         sort: $scope.cmsParamsFn().sortOrder || "",
                         rows: $scope.cmsParamsFn().maxItems || 1000,
                         fl  : ""
                     }
                 }).success(function (data) {
+                    console.log (eval(data.response.docs));
                     $scope.meetings = data.response.docs;
                 });
 

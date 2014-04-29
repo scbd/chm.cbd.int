@@ -444,7 +444,7 @@ p {
         padding-right: 9px;
         text-align: center;
         vertical-align: middle;
-        width: 300px;
+        width: 500px;
     }
 }
 
@@ -3045,7 +3045,7 @@ textarea.input-lg {
     content: "";
 }
 
-.dropdown {
+/*.dropdown {
     position: relative;
 }
 
@@ -3186,10 +3186,9 @@ textarea.input-lg {
 
     .nav:before,
     .nav:after {
-        content: " ";
-        /* 1 */
+        content: " ";        
         display: table;
-        /* 2 */
+       
     }
 
     .nav:after {
@@ -3199,9 +3198,9 @@ textarea.input-lg {
     .nav:before,
     .nav:after {
         content: " ";
-        /* 1 */
+       
         display: table;
-        /* 2 */
+       
     }
 
     .nav:after {
@@ -3241,7 +3240,7 @@ textarea.input-lg {
     .nav .open > a:hover,
     .nav .open > a:focus {
         background-color: #cccccc;
-        border-color: #89cf31; /* #a8cd1b; */
+        border-color: #89cf31;
     }
 
     .nav .nav-divider {
@@ -3332,7 +3331,7 @@ textarea.input-lg {
     .nav-tabs.nav-justified > .active > a:focus {
         border-bottom-color: #ffffff;
     }
-}
+}*/
 
 .nav-pills > li {
     float: left;
@@ -3448,9 +3447,9 @@ textarea.input-lg {
     display: block;
 }
 
-.nav .caret {
-    border-top-color: #89cf31; /* #a8cd1b; */
-    border-bottom-color: #89cf31; /* #a8cd1b; */
+/*.nav .caret {
+    border-top-color: #89cf31; 
+    border-bottom-color: #89cf31; 
 }
 
 .nav a:hover .caret {
@@ -3466,9 +3465,9 @@ textarea.input-lg {
     -webkit-border-top-left-radius: 0;
     -moz-border-radius-topleft: 0;
     border-top-left-radius: 0;
-}
+}*/
 
-.navbar {
+/*.navbar {
     position: relative;
     z-index: 1000;
     min-height: 50px;
@@ -3478,10 +3477,8 @@ textarea.input-lg {
 
     .navbar:before,
     .navbar:after {
-        content: " ";
-        /* 1 */
+        content: " ";       
         display: table;
-        /* 2 */
     }
 
     .navbar:after {
@@ -3491,9 +3488,7 @@ textarea.input-lg {
     .navbar:before,
     .navbar:after {
         content: " ";
-        /* 1 */
         display: table;
-        /* 2 */
     }
 
     .navbar:after {
@@ -3508,10 +3503,8 @@ textarea.input-lg {
 
 .navbar-header:before,
 .navbar-header:after {
-    content: " ";
-    /* 1 */
+    content: " ";  
     display: table;
-    /* 2 */
 }
 
 .navbar-header:after {
@@ -3521,9 +3514,7 @@ textarea.input-lg {
 .navbar-header:before,
 .navbar-header:after {
     content: " ";
-    /* 1 */
     display: table;
-    /* 2 */
 }
 
 .navbar-header:after {
@@ -3549,9 +3540,7 @@ textarea.input-lg {
     .navbar-collapse:before,
     .navbar-collapse:after {
         content: " ";
-        /* 1 */
         display: table;
-        /* 2 */
     }
 
     .navbar-collapse:after {
@@ -3561,9 +3550,7 @@ textarea.input-lg {
     .navbar-collapse:before,
     .navbar-collapse:after {
         content: " ";
-        /* 1 */
         display: table;
-        /* 2 */
     }
 
     .navbar-collapse:after {
@@ -4105,7 +4092,7 @@ textarea.input-lg {
     .navbar-inverse .navbar-link:hover {
         color: #ffffff;
     }
-
+*/
 .breadcrumb {
     padding: 8px 15px;
     margin-bottom: 22px;
@@ -6772,9 +6759,7 @@ a.learnmore {
         border-bottom: 1px solid #b34700;
     }
 
-.main-nav {
-    /*background-color: #eef0f2;
-    height: 140px;*/
+/*.main-nav {   
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -6799,7 +6784,7 @@ a.learnmore {
 
     .nav a {
         display: inline !important;
-        color: #5e7f00; /* #a8cd1b; */
+        color: #5e7f00; 
         font-size: 13px;
         line-height: 12px;
         font-weight: bold;
@@ -6808,13 +6793,15 @@ a.learnmore {
 
     .nav + .nav a {
         font-weight: normal !important;
-    }
+    }*/
 
-.home .nav a {
+.home  {
     color: white;
 }
 
-.nav a.active {
+/*.home .nav a {
+    color: white;
+}.nav a.active {
     color: #333333;
     font-weight: bold !important;
 }
@@ -6834,7 +6821,7 @@ a.learnmore {
 .nav > li > a:hover {
     background-color: transparent !important;
     text-decoration: underline;
-}
+}*/
 
 .header-actions {
     list-style-type: none;
@@ -12071,7 +12058,7 @@ span.recommended-info {
         height: auto;
     }
 
-    .navbar-collapse {
+/*    .navbar-collapse {
         background: #eef0f2;
         -webkit-border-bottom-right-radius: 4px;
         -moz-border-radius-bottomright: 4px;
@@ -12080,35 +12067,29 @@ span.recommended-info {
         -moz-border-radius-bottomleft: 4px;
         border-bottom-left-radius: 4px;
     }
-
-        .navbar-collapse .nav {
+*/
+        /*.navbar-collapse .nav {
             float: left;
             margin-top: 0;
-        }
+        }*/
 
             .navbar-collapse .nav:first-child {
                 margin-left: 15px;
                 margin-bottom: 15px;
             }
 
-    .navbar {
+    /*.navbar {
         margin-top: 10px;
         border: none;
         margin-bottom: 0;
         min-height: 10px;
-    }
+    }*/
 
-    .navbar-collapse .nav > li > a {
-        color: #385774;
-        opacity: .8;
+    .navbar-collapse .nav > li > a {     
         padding: 0;
     }
-
-        .navbar-collapse .nav > li > a.active {
-            opacity: 1;
-        }
-
-    .navbar-collapse p {
+       
+   /* .navbar-collapse p {
         padding-top: 10px;
         padding-bottom: 5px;
         border-top: 1px solid #e6e6e6;
@@ -12116,7 +12097,7 @@ span.recommended-info {
         margin-top: 0 !important;
         width: 100%;
         text-align: right;
-    }
+    }*/
 
         .navbar-collapse p a.getstarted {
             margin-right: 20px;
@@ -12885,16 +12866,15 @@ span.recommended-info {
     /*margin-left: -5px;*/
 }
 
-#MainNav ul {
-    padding-left: 10px;
+#MainNav  {margin-bottom:5px;
 }
 
-    #MainNav ul li {
+/*    #MainNav ul li {
         padding-right: 20px;
-    }
+    }*/
 
 .main-nav {
-    background-color: #fff;
+    background-color: #fff;    
     height: auto;
 }
 
@@ -12903,7 +12883,7 @@ span.recommended-info {
 }
 
 .historyBar {
-    padding-top: 5px;
+    padding-top: 5px;background-color: #E6E6E6;
 }
 
 .PageTitle {
@@ -12921,13 +12901,15 @@ span.recommended-info {
 
 .header-banner {
     background: url('/app/img/landscape.jpg');
+
+    font-size: 1.5em;
     height: 140px;
 }
 
-.webNavBar {
+/*.webNavBar {
     height: 50px;
     padding-top: 5px;
-}
+}*/
 
 li:last-child{
     border-right: none;

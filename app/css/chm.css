@@ -434,7 +434,7 @@ p {
     }
 
     #PortalName {
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.2);
         border-left-color: rgb(0, 155, 72);
         border-left-style: solid;
         border-left-width: 5px;
@@ -11875,7 +11875,7 @@ span.recommended-info {
         .home .header-actions li:last-child {
             background-size: 15px 15px;
             background-position: 3px 2px;
-            padding-left: 20px;
+           /* padding-left: 20px;*/
         }
 
     .search-icon,

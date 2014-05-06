@@ -8,7 +8,31 @@
   "devDependencies": {
     "awsbox": "0.6.x",
     "karma": "~0.10.x",
-    "karma-ng-html2js-preprocessor": "~0.1.x"
+    "karma-ng-html2js-preprocessor": "~0.1.x",
+    "grunt": "^0.4.4",
+    "grunt-bootstrap": "^0.1.0",
+    "grunt-contrib-less": "^0.11.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-concat": "^0.4.0"
   },
-  "engine": "node >= 0.10.18"
+  "engine": "node >= 0.10.18",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "version": "0.0.0",
+  "main": "gruntfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scbd/chm.cbd.int.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/scbd/chm.cbd.int/issues"
+  },
+  "homepage": "https://github.com/scbd/chm.cbd.int"
 }

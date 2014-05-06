@@ -12,8 +12,11 @@ logs
 results
 
 npm-debug.log
+node_modules
+app/libs
+app_build
 
-node_modules/*
-*/node_modules/*
 
 server.json
+
+

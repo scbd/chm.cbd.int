@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Clearing-House Mechanism of the Convention on Biological Diversity">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="/app/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/app/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/app/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.css">
     <link rel="stylesheet" type="text/css" href="/app/css/chm.css">
     <link rel="stylesheet" type="text/css" href="/app/css/font-awesome.css">
@@ -15,8 +15,8 @@
     <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/ab363dc0-d9f9-4148-a52d-4dca15df47ba.css">
     <link rel="stylesheet" type="text/css" href="/app/libs/leaflet/0.7-dev/leaflet.css">
 
-    <script src="/app/libs/jquery/2.0.3/jquery-2.0.3.min.js"></script>
-    <script src="/app/libs/bootstrap/3.0.0/bootstrap.min.js"></script>
+    <script src="/app/libs/jquery/dist/jquery.min.js"></script>
+    <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/app/libs/angularjs/1.2.0-rc.2/angular.patched.js"></script>
     <script src="/app/libs/angularjs/i18n/angular-locale_en-iso.js"></script>
     <script src="/app/libs/angularjs/1.2.0-rc.2/angular-route.min.js"></script>
@@ -50,7 +50,7 @@
         }
     </style>
     <style>
-        .nav > li > a {
+        /*.nav > li > a {
             font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: normal;
         }
@@ -68,7 +68,7 @@
         a.getstarted {
             font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
             font-weight: normal;
-        }
+        }*/
 
         .home-page .nav a {
             color: #666666;
@@ -112,8 +112,8 @@
             <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
         </div>
-        <div class="main-nav">
-            <div class="container" id="main-nav" style="padding-left: 20px; padding-right: 20px">
+        <div class="main-nav container">
+            <div  id="main-nav" >
                 <div id="t-header">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -128,11 +128,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="navbar visible-xs" style="margin-bottom:-10px">
                                 <div class="navbar-header">
-                                    <a class="btn navbar-toggle" data-toggle="collapse" data-target="#MainNav">
+                                    <!-- <a class="btn navbar-toggle" data-toggle="collapse" data-target="#MainNav">
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
-                                    </a>
+                                    </a> -->
                                     <ul class="header-actions">                                       
                                         <li ng-hide="currentPath()=='/database/'">
                                             <a href="/database" class="search-icon"></a>
@@ -193,8 +193,8 @@
                     </div>
                 </div>
                 <!--    <div class="header-banner"></div>-->
-                <div class="row header-banner hidden-xs">
-                    <div class="col-lg-3 col-md-3 col-sm-3 ">                        
+                <div class="row header-banner hidden-xs" >
+                    <div class="col-lg-3 col-md-3 col-sm-3 " style="padding-left:0px">                        
                         <span href="http://www.cbd.int/" id="PortalAnchor" ng-click="goHome()">
                             <div id="PortalName">Clearing-House Mechanism</div>
                         </span>
@@ -220,7 +220,7 @@
                     </div>
                 </div>
 
-                <div class="row webNavBar" style="padding-top:2px;">
+               <!--  <div class="row webNavBar" style="padding-top:2px;">
                     <div class="col-lg-14 col-md-14 col-sm-14">
                          <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation">
                             <ul class="nav navbar-nav pull-left">
@@ -259,20 +259,14 @@
                             </ul>
                         </div>
                     </div>
-                </div> 
+                </div>  -->
 
 
-                <div class="row hidden-xs" style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;">
-                    <!-- <div class="col-lg-2 col-md-2 col-sm-2 PageTitle" ng-hide="homePage">
-                        <span style="width: 250px">{{navigationTree.subMenu}}</span>
-                    </div> -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar" style="">
-                        <div>
-                            <img src="/app/images/top-header-cbd-logo.png" alt="cbd" width="15" height="15" style="position: relative;">
-                            > 
-                            <a ng-href="#" ng-click="goHome()">CHM  </a>
+                <div class="row hidden-xs " style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;">
+                   <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar pull-left">
+                            <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;">
+                            > <a ng-href="#" ng-click="goHome()">CHM  </a>
                             <span ng-hide="homePage">> {{navigationTree.mainMenu}} > {{navigationTree.subMenu}}</span>
-                        </div>
                     </div>
                 </div>
 
@@ -366,8 +360,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
 

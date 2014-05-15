@@ -259,7 +259,7 @@ angular.module('kmApp').compileProvider // lazy
 				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
-						var qResult = Enumerable.From (results[0].data.Items)
+						var qResult = Enumerable.from (results[0].data.Items)
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});

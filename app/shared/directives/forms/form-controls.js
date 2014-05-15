@@ -504,7 +504,7 @@ angular.module('formControls',[])
 						if (($scope.layout||"tree") == "tree") //Default layout
 							$scope.rootTerms = thesaurus.buildTree(refTerms);
 						else
-							$scope.rootTerms = Enumerable.From(refTerms).Select("o=>{identifier : o.identifier, name : o.name, title : o.title}").ToArray();
+							$scope.rootTerms = Enumerable.from(refTerms).Select("o=>{identifier : o.identifier, name : o.name, title : o.title}").ToArray();
 					}
 
 					$scope.load();
@@ -654,7 +654,7 @@ angular.module('formControls',[])
 						if (($scope.layout||"tree") == "tree") //Default layout
 							$scope.rootTerms = thesaurus.buildTree(refTerms);
 						else
-							$scope.rootTerms = Enumerable.From(refTerms).Select("o=>{identifier : o.identifier, name : o.name}").ToArray();
+							$scope.rootTerms = Enumerable.from(refTerms).Select("o=>{identifier : o.identifier, name : o.name}").ToArray();
 					}
 
 					$scope.load();

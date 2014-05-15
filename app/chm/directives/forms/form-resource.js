@@ -16,7 +16,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.tab      = 'general';
 			$scope.review   = { locale: "en" };
 			$scope.options  = {
-				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();})},
+				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.from(o.data).where("$.identifier!='cbdLibrary:bch'").toArray();})},
 				languages     : function() { return $http.get("/api/v2013/thesaurus/domains/52AFC0EE-7A02-4EFA-9277-8B6C327CE21F/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
 				resourceTypes : function() { return $http.get("/api/v2013/thesaurus/domains/83BA4728-A843-442B-9664-705F55A8EC52/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data) }); },
 				cbdSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",                         { cache: true }).then(function(o){ return o.data; }); },
@@ -27,8 +27,8 @@ angular.module('kmApp').compileProvider // lazy
 				ebsaSubjects  : function() { return []; },
 				regions       : function() { return $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }), 
 														    $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true })]).then(function(o) {
-														    	return Enumerable.From($filter('orderBy')(o[0].data, 'name')).Union(
-																	   Enumerable.From($filter('orderBy')(o[1].data, 'name'))).ToArray();
+														    	return Enumerable.from($filter('orderBy')(o[0].data, 'name')).union(
+																	   Enumerable.from($filter('orderBy')(o[1].data, 'name'))).toArray();
 														   }) }
 			};
 
@@ -124,12 +124,12 @@ angular.module('kmApp').compileProvider // lazy
 				if (!document || !document.libraries)
 					return false;
 
-				var qLibraries = Enumerable.From(document.libraries);
+				var qLibraries = Enumerable.from(document.libraries);
 
-				if(name=="chm"  ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:chm"    });
-				if(name=="absch") return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:abs-ch" });
-				if(name=="bch"  ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:bch"    });
-				if(name=="ebsa" ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:ebsa"   });
+				if(name=="chm"  ) return qLibraries.any(function(o){ return o.identifier == "cbdLibrary:chm"    });
+				if(name=="absch") return qLibraries.any(function(o){ return o.identifier == "cbdLibrary:abs-ch" });
+				if(name=="bch"  ) return qLibraries.any(function(o){ return o.identifier == "cbdLibrary:bch"    });
+				if(name=="ebsa" ) return qLibraries.any(function(o){ return o.identifier == "cbdLibrary:ebsa"   });
 
 				return false;
 			}
@@ -143,9 +143,9 @@ angular.module('kmApp').compileProvider // lazy
 				if (!document || !document.bchSubjects)
 					return false;
 
-				var qLibraries = Enumerable.From(document.bchSubjects);
+				var qLibraries = Enumerable.from(document.bchSubjects);
 
-				return qLibraries.Any(function(o) {
+				return qLibraries.any(function(o) {
 					return o.identifier == "FBAF958B-14BF-45DD-BC6D-D34A9953BCEF"  //Risk assessment
 					    || o.identifier == "6F28D3FB-7CCE-4FD0-8C29-FB0306C52BD0"; //Risk assessment and risk management
 				});
@@ -329,7 +329,7 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
+					return !Enumerable.from($scope.validationReport.errors).any(function(x){return x.property==field})
 
 				return true;
 			}
@@ -390,8 +390,8 @@ angular.module('kmApp').compileProvider // lazy
 				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
-						var qResult = Enumerable.From (results[0].data.Items)
-												.Union(results[1].data.Items, "$.identifier");
+						var qResult = Enumerable.from (results[0].data.Items)
+												.union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});
 			}

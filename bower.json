@@ -1,6 +1,28 @@
 {
   "name": "chm.cbd.int",
   "dependencies": {
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "angular": "~1.2.5",
+    "angular-animate": "~1.2.5",
+    "angular-cookies": "~1.2.5",
+    "angular-route": "~1.2.5",
+    "angular-sanitize": "~1.2.5",
+    "font-awesome": "~4.0.3",
+    "requirejs": "latest",
+    "requirejs-domready": "latest",
+    "requirejs-text": "latest",
+    "requirejs-plugins": "latest",
+    "underscore": "latest",
+    "bootstrap-duallistbox": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git#2.1.1",
+    "uri": "https://github.com/medialize/URI.js.git",
+    "angular-leaflet": "latest",
+    "moment":"latest",
+    "font-awesome": "~4.0.3", 
+    "linqjs": "*",
+    "mapsicon": "https://github.com/djaiss/mapsicon.git",
+    "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
+    "angular-strap": "latest",
+    "scrollup":"https://github.com/markgoodyear/scrollup.git",
+    "angular-i18n":"https://github.com/angular/bower-angular-i18n.git"
   }
 }

@@ -20,6 +20,8 @@ angular.module('kmApp').compileProvider // lazy
             var self = this;
             self.termsMap = [];
 
+            $scope.terms = [];
+
             $scope.expanded = false;
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
@@ -96,7 +98,8 @@ angular.module('kmApp').compileProvider // lazy
                 });
                 return collection;
             }
-
+            $scope.terms = [];
+            console.log($scope.terms);
             $scope.terms = $http.get('/api/v2013/thesaurus/domains/regions/terms').then(function (response) {
 
                 var termsTree = thesaurus.buildTree(response.data);
@@ -132,17 +135,31 @@ angular.module('kmApp').compileProvider // lazy
                 });
 
                 $scope.allTerms = _.values(self.termsMap);
-
+console.log($scope.items);
                 ($scope.items||[]).forEach(function (item) {
+                    console.log(item);
                     if(_.has(self.termsMap, item.symbol))
+                    {
+                        console.log(item);
                         self.termsMap[item.symbol].count = item.count;
+                    }
                 });
-
+// console.log(classes);
+// console.log($scope.terms);
+// $scope.blaise = classes
                 return classes;
                 
             });
+            
+            $scope.$watch($scope.terms, function(oldValue, newValue){
+                    console.log (oldValue + '-' + newValue);
+
+            })
+
 
             function onWatch_items(values) {
+                console.log('onWatch_items');
+                console.log(values);
                 (values||[]).forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;

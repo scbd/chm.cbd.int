@@ -18,8 +18,10 @@
   },
   "engine": "node >= 0.10.18",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "node ./node_modules/bower/bin/bower install"
   },
+  
   "version": "0.0.0",
   "main": "gruntfile.js",
   "directories": {

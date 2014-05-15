@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Clearing-House Mechanism v</title>
+    <title>Clearing-House Mechanism</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Clearing-House Mechanism of the Convention on Biological Diversity">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/app/css/bootstrap.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/app/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.css"> -->
+    <link rel="stylesheet" type="text/css" href="/app/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.css">
     <link rel="stylesheet" type="text/css" href="/app/css/chm.css">
-    <link rel="stylesheet" type="text/css" href="/app/libs/font-awesome/css/font-awesome.min.css">
-    <!-- <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/app/css/font-awesome.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/app/css/km.css">
     <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/ab363dc0-d9f9-4148-a52d-4dca15df47ba.css">
-    <link rel="stylesheet" type="text/css" href="/app/libs/leaflet-dist/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="/app/libs/leaflet/0.7-dev/leaflet.css">
 
     <script src="/app/libs/jquery/jquery.min.js"></script>
     <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -21,18 +21,18 @@
     <script src="/app/libs/angular-i18n/angular-locale_en-iso.js"></script>
     <script src="/app/libs/angular-route/angular-route.min.js"></script>
     <script src="/app/libs/angular-sanitize/angular-sanitize.min.js"></script>
+
     <script src="/app/libs/uri/src/URI.js"></script>
     <script src="/app/libs/underscore/underscore.js"></script>
-    <script src="/app/libs/linqjs/linq.js"></script>
     <script src="/app/libs/moment/min/moment.min.js"></script>
     <script src="/app/libs/scrollup/js/jquery.scrollUp.min.js"></script>
-<!--<script src="/app/libs/angular-Strap/angular-strap.min.js"></script>
-<script src="/app/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.js"></script>-->
 
-    <script src="/app/libs/angular-strap/dist/angular-strap.min.js"></script>
-    <!--  <script src="/app/libs/angular-Strap/dist/modules/datepicker.min.js"></script> -->
-    <script src="/app/libs/leaflet-dist/leaflet.js"></script>
-    <script src="/app/js/angular-leaflet-directive.js"></script>
+
+    <script src="/app/js/libs/linq.js/2.2.0.2/linq.js"></script>
+    <script src="/app/js/libs/angularStrap/0.7.4/angular-strap.min.js"></script>
+    <script src="/app/js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/app/js/libs/leaflet/0.7-dev/leaflet.js"></script>
+    <script src="/app/js/libs/leaflet/angular-leaflet-directive.js"></script>
 
     <script src="/app/js/app-chm.js?v1"></script>
     <script src="/app/js/support.js"></script>
@@ -43,7 +43,7 @@
     <script src="/app/chm/services/editFormUtility.js"></script>
     <script src="/app/shared/directives/forms/form-controls.js"></script>
 
-    <style>
+     <style>
         [ng\:cloak], [ng-cloak], .ng-cloak {
             display: none !important;
         }
@@ -120,9 +120,8 @@
                                 <a href="http://www.cbd.int/">
                                     <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-leaf-line.gif" id="CCbdLogoLeaf" height="65" width="52" alt="Convention on Biological Diversity">
                                     <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-text-en.gif" id="CCbdLogoText" height="65" alt="Convention on Biological Diversity">
-                                </a>
-                            </div>
-
+                                </a> 
+                            </div>                            
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="navbar visible-xs" style="margin-bottom:-10px">
@@ -132,12 +131,15 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </a> -->
-                                    <ul class="header-actions">                                       
+                                    <ul class="header-actions"> 
+                                        <li>
+                                             <a title="Submit Information" href="/management/register" class="glyphicon glyphicon-upload"></a>
+                                        </li>
                                         <li ng-hide="currentPath()=='/database/'">
-                                            <a href="/database" class="search-icon"></a>
+                                            <a title="Search" href="/database" class="glyphicon glyphicon-search"></a>
                                         </li>
                                         <li class="dropdown">
-                                            <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">&nbsp;Language: EN</a>
+                                            <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">Language: EN</a>
                                             <ul class="dropdown-menu" role="menu" style="min-width:auto">
                                                 <li class="disabled"><a>لعربية</a></li>
                                                 <li class="disabled"><a>中文</a></li>
@@ -148,10 +150,10 @@
                                             </ul>
                                         </li>
                                         <li ng-hide="user.isAuthenticated">
-                                            <a class="icon-off" href="/management/signin" style="color: black">&nbsp;Sign In</a>
+                                            <a title="Sign In" class="icon-off" href="/management/signin" style="color: black"></a>
                                         </li>
                                         <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
-                                            <a href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i>&nbsp; Sign-out</a>
+                                            <a title="Sign out"href="#" ng-click="signOut()"><i class="icon-signout" style="font-size: 15px"></i></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -179,6 +181,9 @@
                                     </ul>
                                 </li>
                             </ul>
+                    </div>
+                    <div class="row" style="padding-top:0px;padding-bottom:0px;padding-right:5px">
+                        <div class="col-lg-12 col-md-12 col-sm-12 pull-right" style="padding-top:0px;padding-bottom:0px">
                             <ul id="cbdMenu" class="header-actions pull-right hidden-xs">
                                 <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
                                 <li><a href="http://bch.cbd.int/protocol/">Cartagena Protocol</a></li>
@@ -188,7 +193,6 @@
                                 <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
                             </ul>
                         </div>
-                        
                     </div>
                 </div>
                 <!--    <div class="header-banner"></div>-->
@@ -278,86 +282,87 @@
                     <footer class="footer">
                         <div class="container" id="footer">
                             <div class="row hidden-xs">
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <h4>Finding</h4>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <h2>Quick Links</h2>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                </div>                           
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <h2>Follow us</h2>                                   
+                                </div>
+                            </div>
+                            <div class="row hidden-xs">
+                                <div class="col-lg-4 col-md-4 col-sm-4">                                    
                                     <ul>
-                                        <li><a href="/database">Overview</a></li>
-                                        <li><a href="/database">List of Parties</a></li>
-                                        <li><a href="/database">Country Profiles</a></li>
+                                        <li>
+                                            <a href="http://www.cbd.int/decisions" class="tk-ff-meta-web-pro">Decisions</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.cbd.int/meetings" class="tk-ff-meta-web-pro">Meetings</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.cbd.int/notifications" class="tk-ff-meta-web-pro">Notifications</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.cbd.int/news" class="tk-ff-meta-web-pro">News Headlines</a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.cbd.int/publications" class="tk-ff-meta-web-pro">Publications</a>
+                                        </li>
+                                        <li><a href="http://www.cbd.int/chm" class="tk-ff-meta-web-pro">CHM</a>
+                                        </li>
+                                        <li><a href="http://bch.cbd.int" class="tk-ff-meta-web-pro">BCH</a>
+                                        </li>
                                     </ul>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <h4>Registering</h4>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
                                     <ul>
-                                        <li><a href="/management">Data</a></li>
-                                        <li><a href="/management">Infrastructure</a></li>
-                                        <li><a href="/management">Services</a></li>
+                                        <li><a href="http://www.cbd.int/parties" class="tk-ff-meta-web-pro">Parties</a></li>
+                                        <li><a href="http://www.cbd.int/countries" class="tk-ff-meta-web-pro">Country Profiles</a></li>
+                                        <li><a href="http://www.cbd.int/nfp" class="tk-ff-meta-web-pro">National Focal Points</a></li>
+                                        <li><a href="http://www.cbd.int/nbsap" class="tk-ff-meta-web-pro">Nationals Strategies (NBSAPs)</a></li>
+                                        <li><a href="http://www.cbd.int/reports" class="tk-ff-meta-web-pro">National Reports</a></li>
+                                        <li><a href="http://www.cbd.int/contributions" class="tk-ff-meta-web-pro">Contributions</a></li>
+                                        <li><a href="http://www.cbd.int/cooperation" class="tk-ff-meta-web-pro">Cooperation &amp; Partnerships</a></li>
                                     </ul>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <h4>Network</h4>
-                                    <ul>
-                                        <li><a href="/network">Overview</a></li>
-                                        <li><a href="/network">Services</a></li>
-                                        <li><a href="/network">Open Data</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <h4>Dev Center</h4>
-                                    <ul>
-                                        <li><a href="/developers">Overview</a></li>
-                                        <li><a href="/developers">REST API</a></li>
-                                        <li><a href="/developers">Support</a></li>
-                                        <li><a href="/developers">Collaborating</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <h4>Resources</h4>
-                                    <ul>
-                                        <li><a href="/resources/blog">Blog</a></li>
-                                        <li><a href="/resources/type:Guides">Guides</a></li>
-                                        <li><a href="/resources/type:Data%20Sheets">Datasheets</a></li>
-                                        <li><a href="/resources/type:White%20Papers">White Papers</a></li>
-                                        <li><a href="/resources/type:Videos">Videos</a></li>
-                                        <li><a href="/resources/type:Presentations">Presentations</a></li>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2">
-                                    <h4>Follow us</h4>
-                                    <!--<ul>
-                                <li><a href="/about">Overview</a></li>
-                                <li><a href="/about/press">Press Room</a></li>
-                                <li><a href="/about/events">Events</a></li>
-                                <li><a href="/about/careers">Careers</a></li>
-                                <li><a href="/about/contact">Contact Us</a></li>
-                            </ul>-->
-                                    <ul class="social clearfix">
+                                </div>   
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                     <ul class="social clearfix"> 
+                                      <li><a href="/database/news" class="rss"><span>RSS</span></a></li>
                                         <li><a href="http://twitter.com/scbd" class="twitter"><span>Twitter</span></a></li>
-                                        <li><a href="http://www.linkedin.com/company/scbd" class="linkedin"><span>Linkedin</span></a></li>
                                         <li><a href="https://www.facebook.com/scbd" class="facebook"><span>Facebook</span></a></li>
-                                        <li><a href="https://plus.google.com/0000/posts" class="google"><span>Google+</span></a></li>
-                                        <li><a href="/database/news" class="rss"><span>RSS</span></a></li>
+                                        <li><a href="http://www.youtube.com/user/chmcbd" class="google"><span>Youtube</span></a></li>
+                                      
                                     </ul>
-                                </div>
+                                </div>                               
                             </div>
                         </div>
                     </footer>
                 </div>
-                <div class="row hidden-xs" style="padding-left: 10px">
-                    <div class="container">
-                        <a href="http://www.cbd.int/feedback">Feedback</a> | 
-                                <a href="http://www.cbd.int/map/">Site Map</a> | 
-                                <a href="http://www.cbd.int/contact">Contact us</a> | 
-                                <a href="http://www.cbd.int/terms">Terms of Use</a> | 
-                                <a href="http://www.cbd.int/privacy">Privacy Policy</a> | 
-                                <a href="http://www.cbd.int/credits">Credits</a> | 
-                                <a href="http://www.cbd.int/copyright">&#169; CBD Secretariat</a>
-                        <div style="float: right">
+                <div class="row hidden-xs footerLinks" style="padding-left: 10px">
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div>
+                            <a href="http://www.cbd.int/feedback">Feedback</a> | 
+                            <a href="http://www.cbd.int/map/">Site Map</a> | 
+                            <a href="http://www.cbd.int/contact">Contact us</a> | 
+                            <a href="http://www.cbd.int/terms">Terms of Use</a> | 
+                            <a href="http://www.cbd.int/privacy">Privacy Policy</a> | 
+                            <a href="http://www.cbd.int/credits">Credits</a> | 
+                            <a href="http://www.cbd.int/copyright">&#169; CBD Secretariat</a>                            
+                        </div>
+                       <!--  <a href="http://www.cbd.int/user/rate.shtml?pid=3701&amp;key=7d9443bc7a46de18e182368add1df0be&amp;returnurl=http://www.chm.cbd.int">Rate this page</a>&nbsp;
+                        <span>- 36 people have rated this page</span>&nbsp;</div>
+                        <div class="pull-left starRating twoStars"></div>   -->                      
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                         <div style="float: right">
                             <a id="CLinkUN" href="http://www.un.org">
                                 <img alt="United Nations" src="http://www.cbd.int/styles/ui/templates/cbd2011/images/un-logo-white.gif" /></a>
                             <a id="CLinkUNENP" href="http://www.unep.org">
                                 <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/unep-logo-white-en.gif" alt="United Nations Environment Programme" /></a>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

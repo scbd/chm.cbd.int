@@ -15,7 +15,12 @@
         padding-right: 9px;
         text-align: center;
         vertical-align: middle;
-        width: 300px;
+        width: 200px;
+    }
+
+    #PortalAnchor:hover div {
+        color: #fff;
+        background-color: #009b48;
     }
 }
 
@@ -59,27 +64,27 @@ footer {
     background-image: linear-gradient(top, #ecf0f3, #f8f9fa); /*margin-top: -390px;*/
 }
 
-    footer .col-lg-2 h4 {
-        color: #333333;
-        text-transform: uppercase;
-        font-family: "adelle-n4", "adelle", serif;
-        font-weight: 400;
-        font-style: normal;
+    footer .col-lg-4 h2 {
         font-size: 14px;
-        padding-bottom: 0;
+        color: rgb(102, 102, 102);
+        display: block;
+        font-weight: bold;
+        height: 18px;
+        line-height: 18px;
+        margin-bottom: 10px;
     }
 
-    footer .col-lg-2 ul {
+    footer .col-lg-4 ul {
         list-style-type: none;
         padding-left: 0;
         font-size: 14px;
     }
 
-        footer .col-lg-2 ul li {
+        footer .col-lg-4 ul li {
             padding-bottom: 5px;
         }
 
-            footer .col-lg-2 ul li a {
+            footer .col-lg-4 ul li a,.footerLinks a, .footerLinks div{
                 color: #666666;
             }
 
@@ -158,7 +163,7 @@ footer {
             .home .body-content .social li a.google,
             .sidebar .social li a.google,
             footer .social li a.google {
-                background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIzM3B4IiBoZWlnaHQ9IjMzcHgiIHZpZXdCb3g9IjAgMCAzMyAzMyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzMgMzMiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiNDMDIwMjYiIGQ9Ik02Ljk1MSwyNC43ODhjLTEuNTY2LDAtMi45NzksMC4zMDYtNC4yMzksMC44MDNDMC45OTMsMjIuOTU1LDAsMTkuODYxLDAsMTYuNWMwLTAuMzA2LDAtMC41NzMsMC4wMzgtMC44NzkgYzAuODAyLDIuNzg4LDMuMzYxLDQuODEzLDYuODc1LDQuODEzYzAuMjY4LDAsMC41NzMsMCwwLjg0LDBjLTAuMjY3LDAuNTM0LTAuNDU4LDEuMTA3LTAuNDU4LDEuNzU3YzAsMS4wMywwLjU3MywxLjg3MSwxLjI2MSwyLjU5NyBDOC4wMjEsMjQuNzg4LDcuNTI0LDI0Ljc4OCw2Ljk1MSwyNC43ODh6IE0xNi41LDBDOS45MywwLDQuMjc3LDMuODE5LDEuNjA0LDkuMzk2QzMuMTcsNy43OTIsNS41LDYuNzIzLDcuOTA2LDYuNzIzIGMyLjM2NywwLDkuMzk2LDAsOS4zOTYsMEwxNS4yMDEsOC4yNWgtMi45NzljMS45ODYsMC43NjQsMy4wMTgsMy4wNTYsMy4wMTgsNS40MjRjMCwxLjk4Ni0xLjA2OSwzLjcwNS0yLjYzNiw0LjkyNyBjLTEuNTI4LDEuMTg0LTEuNzk1LDEuNjgxLTEuNzk1LDIuNjc0YzAsMC44NzksMS42MDQsMi4zMywyLjQ0NCwyLjk0MWMyLjQ4MiwxLjc1NywzLjMyMywzLjM2LDMuMzIzLDYuMDcyIGMwLDAuOTE3LTAuMjY4LDEuODMzLTAuNzI2LDIuNzEyYzAuMjI5LDAsMC40MiwwLDAuNjQ5LDBDMjUuNjI4LDMzLDMzLDI1LjYyOCwzMywxNi41QzMzLDcuMzcyLDI1LjYyOCwwLDE2LjUsMHogTTMuMTMyLDEzLjU5OCBjLTAuNDItMy4xNzEsMS4xODQtNS42MTUsMy41OTEtNS41MzljMi40NDQsMC4wNzYsNC43MzUsMi42MzUsNS4xNTUsNS44MDVjMC40MiwzLjE3MS0xLjIyMiw1LjY5MS0zLjYyOCw1LjYxNSBDNS44NDQsMTkuNDAyLDMuNTUyLDE2Ljc2OCwzLjEzMiwxMy41OTh6IE0xNC4xMzIsMzAuNjdjMCwwLjc2NS0wLjExNSwxLjQ1MS0wLjQyMSwyLjEwMWMtNC4wODctMC42ODgtNy42MzktMi44NjQtMTAuMTIxLTUuOTU4IGMxLjIyMy0wLjcyNiwyLjc1LTEuMTg1LDQuMzU0LTEuMTQ2YzAuODQsMCwxLjYwNCwwLjE1MiwyLjMyOSwwLjM4MmMxLjk0OCwxLjMzNiwzLjM2MSwyLjEwMSwzLjc0MywzLjY2NiBDMTQuMDkzLDMwLjAyMSwxNC4xMzIsMzAuMzY0LDE0LjEzMiwzMC42N3ogTTI0Ljc1LDEyLjM3NVYxNi41aC0yLjA2M3YtNC4xMjVoLTQuMTI1di0yLjA2Mmg0LjEyNVY2LjE4OGgyLjA2M3Y0LjEyNWg0LjEyNHYyLjA2MiBIMjQuNzV6Ii8+PC9zdmc+DQo=') no-repeat 0 0;
+                background: url('http://www.cbd.int/styles/ui/templates/cbd2011/images/ic-youtube.png') no-repeat 0 0;
                 /* google-color.svg */
                 background-size: 100%;
             }
@@ -467,9 +472,11 @@ img.thumb {
 @media (min-width: 1440px) {    
     #t-header {
         background-color: #fff;
-        margin-left: 5px;
+        /*margin-left: 5px;*/
     }
-
+ #t-header div{
+    padding: 0px;
+ }
     #t-headerLogo {
         display: block;
         float: left;
@@ -503,7 +510,8 @@ img.thumb {
     /*margin-left: -5px;*/
 }
 
-#MainNav  {margin-bottom:5px;
+#main-nav  {
+    padding: 15px;
 }
 
 /*    #MainNav ul li {
@@ -520,7 +528,8 @@ img.thumb {
 }
 
 .historyBar {
-    padding-top: 5px;    
+    padding-top: 5px !important;    
+    padding-left: 0px;
 }
 
 .PageTitle {
@@ -564,3 +573,13 @@ body{
 .top{
     padding-right: 10px; 
 }
+.starRating{
+    height: 16px;
+    width: 80px;
+    background: url(http://www.cbd.int/cms/images/starRating.png) -80px 0 no-repeat;
+}
+.oneStar   {    background-position: -64px 0; }
+.twoStars  {    background-position: -48px 0; }
+.threeStars{    background-position: -32px 0; }
+.fourStars {    background-position: -16px 0; }
+.fiveStars {    background-position: 0px   0; }

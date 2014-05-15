@@ -99,7 +99,7 @@
 			var oTerms    = [];
 			var oTermsMap = {};
 
-			Enumerable.from(terms).forEach(function(value) {
+			Enumerable.From(terms).ForEach(function(value) {
 				var oTerm = {
 					identifier : value.identifier,
 					name       : value.name
@@ -128,7 +128,7 @@
 				}
 			}
 
-			return Enumerable.from(oTerms).where("o=>!o.broaderTerms").toArray();
+			return Enumerable.From(oTerms).Where("o=>!o.broaderTerms").ToArray();
 		}
 	}
 }])

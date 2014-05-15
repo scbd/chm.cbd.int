@@ -1,13 +1,13 @@
 {
   "name": "chm.cbd.int",
   "dependencies": {
-    "bootstrap": "~3.1.1",
+    "bootstrap": "~3.1.x",
     "angular": "1.2.x",
     "angular-animate": "1.2.x",
     "angular-cookies": "1.2.x",
     "angular-route": "1.2.x",
     "angular-sanitize": "1.2.x",
-    "font-awesome": "~4.0.3",
+    "font-awesome": "~4.0.x",
     "requirejs": "latest",
     "requirejs-domready": "latest",
     "requirejs-text": "latest",
@@ -17,7 +17,6 @@
     "uri": "https://github.com/medialize/URI.js.git",
     "angular-leaflet": "latest",
     "moment":"latest",
-    "font-awesome": "~4.0.3", 
     "linqjs": "*",
     "mapsicon": "https://github.com/djaiss/mapsicon.git",
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",

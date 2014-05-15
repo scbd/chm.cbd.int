@@ -20,7 +20,7 @@ angular.module('kmApp').compileProvider // lazy
 				organizationTypes			: function() { return $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
 				cbdSubjects					: function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
 				absThematicAreas			: function() { return $http.get("/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
-				libraries					: function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return Enumerable.from(o.data).Where("$.identifier!='cbdLibrary:bch'").toArray();})},
+				libraries					: function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();})},
 				typeOfGeneticResources		: function () { return $http.get("/api/v2013/thesaurus/domains/20945FA8-C24C-4AF6-B3D9-367592AFDF48/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 				originOfGeneticResources	: function () { return $http.get("/api/v2013/thesaurus/domains/545CD54C-CFF3-41E8-A003-FDD278426A3A/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 				userOfGeneticResources      : function () { return $http.get("/api/v2013/thesaurus/domains/034C8D3F-EF8B-4144-8CA4-3839C466F96E/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
@@ -49,12 +49,12 @@ angular.module('kmApp').compileProvider // lazy
 				if (!document || !document.libraries)
 					return false;
 
-				var qLibraries = Enumerable.from(document.libraries);
+				var qLibraries = Enumerable.From(document.libraries);
 
-				if (name == "chm") return qLibraries.any(function (o) { return o.identifier == "cbdLibrary:chm" });
-				if (name == "absch") return qLibraries.any(function (o) { return o.identifier == "cbdLibrary:abs-ch" });
-				if (name == "bch") return qLibraries.any(function (o) { return o.identifier == "cbdLibrary:bch" });
-				if (name == "ebsa") return qLibraries.any(function (o) { return o.identifier == "cbdLibrary:ebsa" });
+				if (name == "chm") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:chm" });
+				if (name == "absch") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:abs-ch" });
+				if (name == "bch") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:bch" });
+				if (name == "ebsa") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:ebsa" });
 
 				return false;
 			}
@@ -158,7 +158,7 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.from($scope.validationReport.errors).any(function(x){return x.property==field})
+					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
 
 				return true;
 			}
@@ -267,9 +267,9 @@ angular.module('kmApp').compileProvider // lazy
 				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
-						var qResult = Enumerable.from (results[0].data.Items)
+						var qResult = Enumerable.From (results[0].data.Items)
 												.Union(results[1].data.Items, "$.identifier");
-						return qResult.toArray();
+						return qResult.ToArray();
 					});
 			}
 		}]

@@ -303,7 +303,7 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.load = function() {
-				var qBinding = Enumerable.from($scope.binding || []);
+				var qBinding = Enumerable.From($scope.binding || []);
 
 				angular.forEach($scope.assessments, function(criteria, key) {
 					var oBindingCriteria = qBinding.FirstOrDefault(undefined, function(o) { return o.identifier == criteria.code });

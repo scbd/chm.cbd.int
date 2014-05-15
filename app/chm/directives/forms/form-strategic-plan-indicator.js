@@ -135,7 +135,7 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.from($scope.validationReport.errors).any(function(x){return x.property==field})
+					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
 
 				return true;
 			}
@@ -246,7 +246,7 @@ angular.module('kmApp').compileProvider // lazy
 				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
-						var qResult = Enumerable.from (results[0].data.Items)
+						var qResult = Enumerable.From (results[0].data.Items)
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});

@@ -102,6 +102,10 @@
 <body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
 
 
+    <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom: 0px; text-align: center">
+        <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
+    </div>
     <div class="container">
         <!-- <span ng-show="homePage">
             <img class="hidden-xs" src="/app/img/landscape.jpg" style="position: absolute">
@@ -109,10 +113,6 @@
         </span>-->
         
         <div class="main-nav container">
-            <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom: 0px; text-align: center">
-                <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.
-            </div>
             <div  id="main-nav" >
                 <div id="t-header">
                     <div class="row">
@@ -139,9 +139,9 @@
                                         <li ng-hide="currentPath()=='/database/'">
                                             <a title="Search" href="/database" class="glyphicon glyphicon-search"></a>
                                         </li>
-                                        <li class="dropdown">
-                                            <a class="icon icon-globe"data-toggle="dropdown"href="#"><span  style="color: black;font-family:sans-serif, 'Helvetica Neue', Helvetica, Arial;"> Language: EN</span></a>
-                                            <ul class="dropdown-menu" role="menu" style="min-width:auto">
+                                        <li class="dropdown" style="display:none">
+                                            <a data-toggle="dropdown" class="icon icon-globe" style="color: black" href="#">Language: EN</a>
+                                            <ul class="dropdown-menu" role="menu" style="min-width:auto;">
                                                 <li class="disabled"><a>لعربية</a></li>
                                                 <li class="disabled"><a>中文</a></li>
                                                 <li><a href="#"><strong>English</strong></a></li>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 hidden-xs">
-                            <ul class="header-actions pull-left">
+                            <ul class="header-actions pull-left" style="display:none">
                                 <li class="disabled"><a>لعربية</a></li>
                                 <li class="disabled"><a>中文</a></li>
                                 <li><a href="#"><strong>English</strong></a></li>

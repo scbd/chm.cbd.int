@@ -5,6 +5,9 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+	.boldHeader{
+		font-weight: bold;
+	}
 	.label-selected-facet { 
 		position: relative;
 		display: block;
@@ -49,18 +52,18 @@
 	    opacity: 1;
 	}
 	</style>
-	<div class="col-sm-3 col-lg-3" style="padding-right:15px">
-		<ul class="list-group">
-            <li class="list-group-item">
+	<div class="col-sm-3 col-lg-3" style="padding-right:15px;">
+		<ul class="list-group" >
+            <li class="list-group-item"style="background-color: #FAFAFA;">
                 <i class="icon-info-sign"></i>&nbsp;&nbsp;Choose fields to narrow search results.
             </li>
-            <search-filter-keywords title='Keywords' ng-model='keywords' query='queryKeywords'></search-filter-keywords>
-            <search-filter-schemas title='Document Types' ng-model='schemas' field='schema_s' query='querySchema'></search-filter-schemas>
-            <search-filter-countries title='Countries' ng-model='governments' field='government_s' query='queryGovernment'></search-filter-countries>
-            <search-filter-regions title='Regions' ng-model='regions' field='government_REL_ss' query='queryGovernment'></search-filter-regions>
-            <search-filter-facets title='Aichi Targets' ng-model='aichiTargets' field='aichiTarget_REL_ss' query='queryTargets'></search-filter-facets>
-            <search-filter-themes title='Thematic Areas' ng-model='thematicAreas' field='thematicArea_REL_ss' query='queryTheme'></search-filter-themes>
-            <search-filter-dates title='Date of record' query='queryDate'></search-filter-dates>
+            <search-filter-keywords title='Keywords' ng-model='keywords' query='queryKeywords'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-keywords>
+            <search-filter-schemas title='Document Types' ng-model='schemas' field='schema_s' query='querySchema'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-schemas>
+            <search-filter-countries title='Countries' ng-model='governments' field='government_s' query='queryGovernment'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-countries>
+            <search-filter-regions title='Regions' ng-model='regions' field='government_REL_ss' query='queryGovernment'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-regions>
+            <search-filter-facets title='Aichi Targets' ng-model='aichiTargets' field='aichiTarget_REL_ss' query='queryTargets'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-facets>
+            <search-filter-themes title='Thematic Areas' ng-model='thematicAreas' field='thematicArea_REL_ss' query='queryTheme'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-themes>
+            <search-filter-dates title='Date of record' query='queryDate'style="padding-right:15px;background-color: #FAFAFA;"></search-filter-dates>
    		</ul>
 	</div>
 
@@ -91,7 +94,6 @@
 				<div class="row-press-release" ng-switch-when="pressRelease"></div>
 				<div class="row-announcement" ng-switch-when="announcement"></div>
 				<div class="row-aichi-target" ng-switch-when="aichiTarget"></div>
-				<div class="row-notification" ng-switch-when="notification"></div>
 				<div class="row-meeting" ng-switch-when="meeting"></div>
 				<!--CBD Meetings and Outcomes-->
 				<div class="search-result" ng-switch-when="focalPoint"></div>

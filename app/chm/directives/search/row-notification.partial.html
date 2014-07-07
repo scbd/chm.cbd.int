@@ -1,11 +1,14 @@
 <div>
 	<div style="font-size:10px;color:#777">NOTIFICATION | SCBD</div>
-	<div class="truncate">
-		<a style="font-size:14px;font-weight:bold;color:#79B82B;text-decoration:underline" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.reference_s}}</a>
+	<div class="truncate boldHeader">
+		{{document.symbol_s}}
 	</div>
 	<div style="margin:2px 0;font-size:13px">{{document.title_t}}</div>
 	<div>
 		<i style="color:#ccc" class="icon-rss"></i> <span style="font-size:12px">Communicated on {{formatDate(document.date_dt)}} to {{document.recipient_ss[0]}}</span>
+	</div>
+	<div>
+		<a ng-show="document.url_ss[0]" ng-href="http://www.cbd.int{{fixUrl(document.url_ss[0])}}">http://www.cbd.int{{fixUrl(document.url_ss[0])}}</a>
 	</div>
 	<div ng-if="document.meeting_ss">
 		<i class="icon-tag"></i>

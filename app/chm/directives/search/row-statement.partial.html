@@ -1,13 +1,17 @@
 <div>
 	<div style="font-size:10px;color:#777">STATEMENT | SCBD</div>
-	<div class="truncatex">
-		<a style="font-size:14px;font-weight:bold;color:#79B82B;text-decoration:underline" ng-href="{{fixUrl(document.url_ss[0])}}">{{cleanTitle(document.title_t)}}</a>
+	<div class="truncatex boldHeader">
+		{{document.symbol_s}}<br>
+		{{cleanTitle(document.title_t)}}
 	</div>
 	<div style="font-size:13px;margin-top:2px">{{document.description_t}}</div>
 	<div>
 		<i style="color:#ccc" class="icon-map-marker"></i> <span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span>
 		&nbsp; &nbsp; 
 		<i style="color:#ccc" class="icon-microphone"></i> <span style="font-size:12px;color:#444">Mr. Braulio Ferreira de Souza Dias, CBD Executive Secretary</span>
+	</div>
+	<div>
+<a ng-show="document.url_ss[0]" ng-href="http://www.cbd.int{{fixUrl(document.url_ss[0])}}">http://www.cbd.int{{fixUrl(document.url_ss[0])}}</a>
 	</div>
 	<div ng-if="document.meeting_ss">
 		<i class="icon-tag"></i>

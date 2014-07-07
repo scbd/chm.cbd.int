@@ -2,11 +2,12 @@
   "name": "chm.cbd.int",
   "dependencies": {
     "bootstrap": "~3.1.x",
-    "angular": "1.2.x",
-    "angular-animate": "1.2.x",
-    "angular-cookies": "1.2.x",
-    "angular-route": "1.2.x",
-    "angular-sanitize": "1.2.x",
+    "angular": "1.2.0-rc.2",
+    "angular-animate": "1.2.0-rc.2",
+    "angular-cookies": "1.2.0-rc.2",
+    "angular-route": "1.2.0-rc.2",
+    "angular-sanitize": "1.2.0-rc.2",
+    "angular-strap": "2.0.0",
     "font-awesome": "~4.0.x",
     "requirejs": "latest",
     "requirejs-domready": "latest",
@@ -16,12 +17,14 @@
     "bootstrap-duallistbox": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git#2.1.1",
     "uri": "https://github.com/medialize/URI.js.git",
     "angular-leaflet": "latest",
-    "moment":"latest",
+    "moment": "latest",
     "linqjs": "*",
     "mapsicon": "https://github.com/djaiss/mapsicon.git",
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
-    "angular-strap": "latest",
-    "scrollup":"https://github.com/markgoodyear/scrollup.git",
-    "angular-i18n":"https://github.com/angular/bower-angular-i18n.git"
+    "scrollup": "https://github.com/markgoodyear/scrollup.git",
+    "angular-i18n": "https://github.com/angular/bower-angular-i18n.git"
+  },
+  "resolutions": {
+    "angular": "1.2.0-rc.2"
   }
 }

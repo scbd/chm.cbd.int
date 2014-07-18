@@ -68,5 +68,5 @@ server.on('listening', function () {
 proxy.on('error', function (e, req, res) {
     console.error(new Date().toUTCString() + ' error proxying: '+req.url);
     console.error('proxy error:', e);
-    res.send( { code: 500, source:'accounts/proxy', message : 'proxy error', proxyError: e }, 500);
+    res.send( { code: 500, source:'chm/proxy', message : 'proxy error', proxyError: e }, 500);
 });

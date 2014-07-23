@@ -1,5 +1,8 @@
 /* jshint node: true, browser: false */
 'use strict';
+
+require("console-stamp")(console, "HH:MM:ss.l");
+
 // LOG UNHANDLED EXCEPTION AND EXIT
 process.on('uncaughtException', function (err) {
   console.error((new Date()).toUTCString() + ' uncaughtException:', err.message);

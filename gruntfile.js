@@ -1,28 +1,19 @@
-
-
+'use strict';
+/* jshint node:true */
 module.exports = function(grunt) {
 
- //Initializing the configuration object
-      grunt.initConfig({
+  // load all grunt tasks automatically
+  require('load-grunt-tasks')(grunt);
 
-            less: {
-              development: {
-                options: {
-                  paths: ["assets/css"]
-                },
-                files: {
-                  "./app/css/bootstrap.css":"./app/css/SCBDBootstrapVariables.less"
-                }
-              }
-            }
+  // Project configuration.
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    bower: {
+      install: { }//just run 'grunt bower:install' and you'll see files from your Bower packages in lib directory
+    },
+      // configurable paths
+    app: require('./bower.json').appPath || 'app'
+  });
 
-            
-      });
-
-      grunt.loadNpmTasks('grunt-contrib-concat');
-      grunt.loadNpmTasks('grunt-contrib-uglify');
-      grunt.loadNpmTasks('grunt-contrib-less');
-      grunt.loadNpmTasks('grunt-contrib-watch');
-      grunt.registerTask('default', ['watch']);
-      // grunt.registerTask('default', ['bower']);
+  grunt.registerTask('default', ['bower']);
 };

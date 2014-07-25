@@ -57,9 +57,9 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", function ($http, $
 
                 map.on("drag", function (e) {
                 	scope.$apply(function(s) {
-                		s.center = angular.extend(s.center||{}, { 
+                		s.center = angular.extend(s.center||{}, {
                 			lat : map.getCenter().lat,
-                			lng : map.getCenter().lng 
+                			lng : map.getCenter().lng
                 		});
                     });
                 });
@@ -100,7 +100,7 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", function ($http, $
                 map.on("zoomend", function (e) {
                     if (!scope.$$phase) {
                     	scope.$apply(function(s) {
-                    		s.center = angular.extend(s.center||{}, { 
+                    		s.center = angular.extend(s.center||{}, {
                     			zoom : map.getZoom()
                     		});
                         });

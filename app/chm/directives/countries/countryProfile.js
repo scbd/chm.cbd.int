@@ -11,14 +11,14 @@
             $scope.$watch(function () { return $location.path() }, function (path) {
 
                 var code = path.replace('/', '');
-                
+
                 $scope.country = $http.get('/api/v2013/countries/' + code.toUpperCase()).then(function (response) {
                     response.data.name = response.data.name.en; // TODO: L10N
                     return response.data;
                 });
 
                 $http.get("/api/v2013/index/select?q=NOT version_s:* AND government_s:" + code.toLowerCase() + "&rows=0&wt=json&facet=true&facet.field=schema_CEN_s").then(function (response) {
-                    
+
                     var facets_data = response.data.facet_counts.facet_fields.schema_CEN_s;
                     var facets = [];
 

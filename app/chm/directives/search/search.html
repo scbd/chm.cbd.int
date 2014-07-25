@@ -8,7 +8,7 @@
 	.boldHeader{
 		font-weight: bold;
 	}
-	.label-selected-facet { 
+	.label-selected-facet {
 		position: relative;
 		display: block;
 		background-color: #12496B;
@@ -19,8 +19,8 @@
 		padding-top: 6px;
 		border-radius: 3px;
 	}
-	.animate-enter, 
-	.animate-leave { 
+	.animate-enter,
+	.animate-leave {
 	    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
 	    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
 	    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
@@ -28,8 +28,8 @@
 	    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
 	    position: relative;
 	    display: block;
-	} 
-	 
+	}
+
 	.animate-leave.animate-leave-active,
 	.animate-enter {
 	    -webkit-transform: scaleY(0);
@@ -40,7 +40,7 @@
 	    height: 0px;
 	    opacity: 0;
 	}
-	 
+
 	.animate-enter.animate-enter-active,
 	.animate-leave {
 	    -webkit-transform: scaleY(1);
@@ -82,7 +82,7 @@
 		</ul>
 
 		<h1>Search</h1>
-		
+
 		<div class="clearfix"></div>
 
 		<h4 ng-pluralize count="count" when="{'0': 'No record found', '1': '1 record found', 'other': '{{start+1}} to {{stop+1}} of {} records found'}"></h4>
@@ -134,7 +134,7 @@
 				<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
 			</li>
 		</ul>
-	
+
 	</div>
-	
+
 </div>

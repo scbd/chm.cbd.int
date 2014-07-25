@@ -16,34 +16,17 @@
     <link rel="stylesheet" type="text/css" href="/app/css/km.css">
     <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/ab363dc0-d9f9-4148-a52d-4dca15df47ba.css">
     <link rel="stylesheet" type="text/css" href="/app/libs/leaflet-dist/leaflet.css">
-
-    <script src="/app/js/libs/jquery.min.js"></script>
-    <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/app/js/libs/angular.patched.js"></script>
+<!--
     <script src="/app/libs/angular-i18n/angular-locale_en-iso.js"></script>
     <script src="/app/libs/angular-route/angular-route.min.js"></script>
-    <script src="/app/libs/angular-sanitize/angular-sanitize.min.js"></script>
 
-    <script src="/app/libs/uri/src/URI.js"></script>
-    <script src="/app/libs/underscore/underscore.js"></script>
     <script src="/app/libs/moment/min/moment.min.js"></script>
-    <script src="/app/libs/scrollup/js/jquery.scrollUp.min.js"></script>
 
-
-    <script src="/app/js/libs/linq.js/2.2.0.2/linq.js"></script>
     <script src="/app/js/libs/angularStrap/0.7.4/angular-strap.min.js"></script>
     <script src="/app/js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.js"></script>
     <script src="/app/js/libs/leaflet/0.7-dev/leaflet.js"></script>
     <script src="/app/js/libs/leaflet/angular-leaflet-directive.js"></script>
-
-    <script src="/app/js/app-chm.js?v1"></script>
-    <script src="/app/js/support.js"></script>
-    <script src="/app/js/utilities/km-utilities.js"></script>
-    <script src="/app/js/utilities/km-authentication.js"></script>
-    <script src="/app/js/utilities/km-storage.js"></script>
-    <script src="/app/js/utilities/km-workflows.js"></script>
-    <script src="/app/chm/services/editFormUtility.js"></script>
-    <script src="/app/shared/directives/forms/form-controls.js"></script>
+-->
 
      <style>
         [ng\:cloak], [ng-cloak], .ng-cloak {
@@ -90,7 +73,7 @@
         #cbdMenu li a {
             color: #009b48;
             float: left;
-            font-size: 15px;    
+            font-size: 15px;
      /*       padding-left: 12px;*/
         }
 
@@ -102,7 +85,7 @@
 
 
 
-<body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
+<body ng-controller="TemplateController" ng-class="{'home-page':homePage}">
 
 
     <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom: 0px; text-align: center">
@@ -114,7 +97,7 @@
             <img class="hidden-xs" src="/app/img/landscape.jpg" style="position: absolute">
             <img class="visible-xs" src="/app/img/landscapeMobile.jpg" style="position: absolute">
         </span>-->
-        
+
         <div class="main-nav container">
             <div  id="main-nav" >
                 <div id="t-header">
@@ -124,8 +107,8 @@
                                 <a href="http://www.cbd.int/">
                                     <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-leaf-line.gif" id="CCbdLogoLeaf" height="65" width="52" alt="Convention on Biological Diversity">
                                     <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/logo-cbd-text-en.gif" id="CCbdLogoText" height="65" alt="Convention on Biological Diversity">
-                                </a> 
-                            </div>                            
+                                </a>
+                            </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="navbar visible-xs" style="margin-bottom:-10px;padding-right:2px;">
@@ -135,7 +118,7 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </a>
-                                    <ul class="header-actions"> 
+                                    <ul class="header-actions">
                                         <li>
                                              <a title="Submit Information" href="/management/register" class="glyphicon glyphicon-upload"></a>
                                         </li>
@@ -692,25 +675,17 @@
                                                     </li>
                                         </ul>
                                    </div>
-                                   <script type="text/javascript">
-                                   
-                                    $("#ctl06_menuSubcbd").mouseover(function () { $("#ctl06_menuTopcbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcbd").removeClass("hover"); });
-                                    $("#ctl06_menuSubcpb").mouseover(function () { $("#ctl06_menuTopcpb").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcpb").removeClass("hover"); });
-                                    $("#ctl06_menuSubprog").mouseover(function () { $("#ctl06_menuTopprog").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopprog").removeClass("hover"); });
-                                    $("#t-masterNavi *").removeClass('t-navSelected');$("#ctl06_menuSubinfo").mouseover(function () { $("#ctl06_menuTopinfo").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopinfo").removeClass("hover"); });
-                                    $("#ctl06_menuSubscbd").mouseover(function () { $("#ctl06_menuTopscbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopscbd").removeClass("hover"); });
-                                    </script> 
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--    <div class="header-banner"></div>-->
                 <div class="row header-banner hidden-xs" >
-                    <div class="col-lg-3 col-md-3 col-sm-3 " style="padding-left:0px">                        
+                    <div class="col-lg-3 col-md-3 col-sm-3 " style="padding-left:0px">
                         <span href="http://www.cbd.int/" id="PortalAnchor" ng-click="goHome()">
                             <div id="PortalName">Clearing-House Mechanism</div>
                         </span>
-                    </div>                  
+                    </div>
                     <div class="col-lg-9 col-md-9 col-sm-90">
                         <form ng-submit="doSearch()">
                             <div class="row" style="margin-top: 50px" >
@@ -727,7 +702,7 @@
                                     </button></a>
                                 </div>
                             </div>
-                           
+
                         </form>
                     </div>
                 </div>
@@ -742,18 +717,21 @@
                                         <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
                                         <li><a href="http://www.cbd.int/information/">Information</a></li>
                                         <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
-                                    
+
                             </ul>
                         </div>
                     </div>
-                </div> 
+                </div>
 
 
                 <div class="row hidden-xs " style="border-bottom-color: #cdcdcd; border-bottom-width: 1px; border-bottom-style: solid;padding-bottom:5px">
                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar pull-left">
                             <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;">
                             > <a ng-href="#" ng-click="goHome()">CHM  </a>
-                            <span ng-hide="homePage">> {{navigationTree.mainMenu}} > {{navigationTree.subMenu}}</span>
+                            <span ng-hide="homePage" ng-cloak>
+                                <span ng-show="navigationTree.mainMenu"> &gt; {{navigationTree.mainMenu}}</span>
+                                <span ng-show="navigationTree.subMenu" > &gt; {{navigationTree.subMenu}}</span>
+                            </span>
                     </div>
                 </div>
 
@@ -770,13 +748,13 @@
                                     <h2>Quick Links</h2>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4">
-                                </div>                           
+                                </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <h2>Follow us</h2>                                   
+                                    <h2>Follow us</h2>
                                 </div>
                             </div>
                             <div class="row hidden-xs">
-                                <div class="col-lg-4 col-md-4 col-sm-4">                                    
+                                <div class="col-lg-4 col-md-4 col-sm-4">
                                     <ul>
                                         <li>
                                             <a href="http://www.cbd.int/decisions" class="tk-ff-meta-web-pro">Decisions</a>
@@ -809,16 +787,16 @@
                                         <li><a href="http://www.cbd.int/contributions" class="tk-ff-meta-web-pro">Contributions</a></li>
                                         <li><a href="http://www.cbd.int/cooperation" class="tk-ff-meta-web-pro">Cooperation &amp; Partnerships</a></li>
                                     </ul>
-                                </div>   
+                                </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4">
-                                     <ul class="social clearfix"> 
+                                     <ul class="social clearfix">
                                       <li><a href="/database/news" class="rss"><span>RSS</span></a></li>
                                         <li><a href="http://twitter.com/scbd" class="twitter"><span>Twitter</span></a></li>
                                         <li><a href="https://www.facebook.com/scbd" class="facebook"><span>Facebook</span></a></li>
                                         <li><a href="http://www.youtube.com/user/chmcbd" class="google"><span>Youtube</span></a></li>
-                                      
+
                                     </ul>
-                                </div>                               
+                                </div>
                             </div>
                         </div>
                     </footer>
@@ -826,17 +804,17 @@
                 <div class="row hidden-xs footerLinks" style="padding-left: 10px">
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div>
-                            <a href="http://www.cbd.int/feedback">Feedback</a> | 
-                            <a href="http://www.cbd.int/map/">Site Map</a> | 
-                            <a href="http://www.cbd.int/contact">Contact us</a> | 
-                            <a href="http://www.cbd.int/terms">Terms of Use</a> | 
-                            <a href="http://www.cbd.int/privacy">Privacy Policy</a> | 
-                            <a href="http://www.cbd.int/credits">Credits</a> | 
-                            <a href="http://www.cbd.int/copyright">&#169; CBD Secretariat</a>                            
+                            <a href="http://www.cbd.int/feedback">Feedback</a> |
+                            <a href="http://www.cbd.int/map/">Site Map</a> |
+                            <a href="http://www.cbd.int/contact">Contact us</a> |
+                            <a href="http://www.cbd.int/terms">Terms of Use</a> |
+                            <a href="http://www.cbd.int/privacy">Privacy Policy</a> |
+                            <a href="http://www.cbd.int/credits">Credits</a> |
+                            <a href="http://www.cbd.int/copyright">&#169; CBD Secretariat</a>
                         </div>
                        <!--  <a href="http://www.cbd.int/user/rate.shtml?pid=3701&amp;key=7d9443bc7a46de18e182368add1df0be&amp;returnurl=http://www.chm.cbd.int">Rate this page</a>&nbsp;
                         <span>- 36 people have rated this page</span>&nbsp;</div>
-                        <div class="pull-left starRating twoStars"></div>   -->                      
+                        <div class="pull-left starRating twoStars"></div>   -->
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
                          <div style="float: right">
@@ -846,15 +824,14 @@
                                 <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/unep-logo-white-en.gif" alt="United Nations Environment Programme" /></a>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
 
-        <script>            //mercuryPackages = { all: {javascripts: 'jquery-1.7.js,mercury.min.js,mercury_dialogs.js', stylesheets: 'mercury.bundle.css'} };
-            //jQuery.browser = { webkit: true };
-        </script>
-        <!--script src="/app/libs/mercury/0.9.0/mercury_loader.js?pack=bundled&src=/app/libs/mercury/0.9.0"></script-->
+      <!-- Boot the app -->
+      <script src="/app/libs/requirejs/require.js" data-main="/app/js/boot.js"></script>
+
     </div>
 </body>
 </html>

@@ -1,0 +1,52 @@
+(function() { 'use strict';
+
+window.name = 'NG_DEFER_BOOTSTRAP!';
+
+require.config({
+  baseUrl : '/app/js',
+  paths: {
+    'angular'          : '../libs/angular/angular',
+    'angular-route'    : '../libs/angular-route/angular-route',
+    'angular-cookies'  : '../libs/angular-cookies/angular-cookies',
+    'angular-animate'  : '../libs/angular-animate/angular-animate',
+    'angular-sanitize' : '../libs/angular-sanitize/angular-sanitize.min',
+    'domReady'         : '../libs/requirejs-domready/domReady',
+    'bootstrap'        : '../libs/bootstrap/dist/js/bootstrap.min',
+    'underscore'       : '../libs/underscore/underscore',
+    'URIjs'            : '../libs/uri/src',
+    'linqjs'           : 'libs/linq.js/2.2.0.2/linq',
+    'leaflet'          : 'libs/leaflet/0.7-dev/leaflet',
+    'leaflet-directive': 'libs/leaflet/angular-leaflet-directive',
+    'angular-strap'    : 'libs/angularStrap/0.7.4/angular-strap.min',
+//    'angular-growl'   : '../libs/angular-growl/build/angular-growl',
+//    'angular-moment'  : '../libs/angular-moment/angular-moment',
+    'jquery'           : '../libs/jquery/jquery',
+    'scrollUp'         : '../libs/scrollup/dist/jquery.scrollUp.min',
+    'moment'           : '../libs/moment/moment',
+  },
+  shim: {
+    'angular'          : { 'deps': ['jquery'], 'exports': 'angular' },
+    'angular-route'    : { 'deps': ['angular'] },
+    'angular-cookies'  : { 'deps': ['angular'] },
+    'angular-animate'  : { 'deps': ['angular'] },
+    'angular-sanitize' : { 'deps': ['angular'] },
+//  'angular-moment'   : { 'deps': ['moment'] },
+    'bootstrap'        : { 'deps': ['jquery'] },
+    'linqjs'           : { 'deps': [], 'exports' : 'Enumerable' },
+    'leaflet'          : { 'deps': [], 'exports' : 'L' },
+    'leaflet-directive': { 'deps': ['angular', 'leaflet'] },
+    'angular-strap'    : { 'deps': ['angular', 'libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker'] },
+  }
+});
+
+require(['angular' ,'bootstrap', 'domReady'], function (ng) {
+
+  // NOTE: place operations that need to initialize prior to app start here using the `run` function on the top-level module
+
+  require(['domReady!', 'app', 'app-routes', '../index.html'], function (document) {
+    ng.bootstrap(document, ['kmApp']);
+    ng.resumeBootstrap();
+  });
+});
+
+})();

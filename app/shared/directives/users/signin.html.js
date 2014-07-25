@@ -1,13 +1,16 @@
-﻿angular.module('kmApp').compileProvider // lazy
-.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", '$window', "authentication", function ($rootScope, $http, authHttp, $browser, $window, authentication) {
+/* global escape */
+define(['app', 'angular', 'authentication'], function(app) { 'use strict';
+
+
+    app.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", '$window', "authentication", function ($rootScope, $http, authHttp, $browser, $window, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/shared/directives/users/signin.partial.html',
+        templateUrl: '/app/shared/directives/users/signin.html',
         replace: true,
         transclude: false,
         scope: false,
-        link: function ($scope, $element, $attr, $ctrl) {
+        link: function ($scope) {
             $scope.password = "";
             $scope.email = $browser.cookies().lastLoginEmail || "";
             $scope.rememberMe = !!$browser.cookies().lastLoginEmail;
@@ -15,6 +18,8 @@
             //init sevice location
 
             $scope.clearErrors();
+
+
         },
         controller: ['$scope', '$location', function ($scope, $location) {
 
@@ -30,13 +35,13 @@
                 var sPassword = $scope.password;
 
                 authentication.signIn(sEmail, sPassword).then(
-                    function (data) { // Success
+                    function () { // Success
                         $scope.setCookie("lastLoginEmail", $scope.rememberMe ? sEmail : undefined, 365, '/');
 
                         if ($location.search().returnUrl)
                             $window.location.href = $location.search().returnUrl;
                         else
-                            $window.location.href = '/management'; 
+                            $window.location.href = '/management';
                     },
                     function (error) { // Error
                         $scope.password = "";
@@ -54,7 +59,7 @@
             //==============================
             $scope.signOut = function () {
                 authentication.signOut();
-
+                $window.location.reload();
             };
 
             //==============================
@@ -65,7 +70,7 @@
                 $scope.isNoService = false;
                 $scope.isError = false;
                 $scope.error = null;
-            }
+            };
 
             //==============================
             //
@@ -73,17 +78,19 @@
             $scope.onRememberMeChange = function () {
                 if (!$scope.rememberMe)
                     $scope.setCookie("lastLoginEmail", undefined);
-            }
+            };
 
             //==============================
             //
             //==============================
+            var user = null;
             $scope.isAuthenticated = function () {
-                if (authentication.user())
-                    return authentication.user().isAuthenticated && !!authentication.token();
 
-                return !!authentication.token();
-            }
+                if(!user)
+                    user = authentication.getUser().then(function (u){ user = u});
+
+                return user.isAuthenticated;
+            };
 
             //==============================
             //
@@ -91,13 +98,13 @@
             $scope.setCookie = function (name, value, days, path) {
                 var sCookieString = escape(name) + "=";
 
-                if (value) sCookieString += escape(value)
-                else days = -1
+                if (value) sCookieString += escape(value);
+                else days = -1;
 
                 if (path)
                     sCookieString += "; path=" + path;
 
-                if (days || days == 0) {
+                if (days || days === 0) {
                     var oExpire = new Date();
 
                     oExpire.setDate(oExpire.getDate() + days);
@@ -105,8 +112,9 @@
                     sCookieString += "; expires=" + oExpire.toUTCString();
                 }
 
-                document.cookie = sCookieString
+                document.cookie = sCookieString;
             };
         }]
-    }
+    };
 }]);
+});

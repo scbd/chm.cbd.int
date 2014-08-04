@@ -25,25 +25,22 @@ var proxy   = require('http-proxy').createProxyServer({});
 
 var oneDay = 86400000;
 
-app.configure(function() {
+app.use(express.logger('dev'));
+app.use(express.compress());
 
-    app.use(express.logger('dev'));
-    app.use(express.compress());
+app.set('port', process.env.PORT || 2000);
+app.use('/app',         express.static(__dirname + '/app'));
+app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge:    oneDay }));
 
-    app.set('port', process.env.PORT || 2000);
-    app.use('/app',         express.static(__dirname + '/app'));
-    app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge:    oneDay }));
-
-    app.use(function (req, res, next) {
-		if(req.url.match(/^\/activate=3Fkey/g)) {
-			var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
-			res.writeHead(302, { 'Location': fixedUrl });
-			res.end();
-		}
-		else {
-			next();
-		}
-	});
+app.use(function (req, res, next) {
+	if(req.url.match(/^\/activate=3Fkey/g)) {
+		var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
+		res.writeHead(302, { 'Location': fixedUrl });
+		res.end();
+	}
+	else {
+		next();
+	}
 });
 
 // Configure routes

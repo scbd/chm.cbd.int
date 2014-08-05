@@ -32,17 +32,6 @@ app.set('port', process.env.PORT || 2000);
 app.use('/app',         express.static(__dirname + '/app'));
 app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge:    oneDay }));
 
-app.use(function (req, res, next) {
-	if(req.url.match(/^\/activate=3Fkey/g)) {
-		var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
-		res.writeHead(302, { 'Location': fixedUrl });
-		res.end();
-	}
-	else {
-		next();
-	}
-});
-
 // Configure routes
 
 app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );

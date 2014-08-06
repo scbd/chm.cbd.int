@@ -22,7 +22,8 @@
     "mapsicon": "https://github.com/djaiss/mapsicon.git",
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
     "scrollup": "https://github.com/markgoodyear/scrollup.git",
-    "angular-i18n": "https://github.com/angular/bower-angular-i18n.git"
+    "angular-i18n": "https://github.com/angular/bower-angular-i18n.git",
+    "ngprogress": "~1.0.4"
   },
   "resolutions": {
     "angular": "1.2.0-rc.2"

@@ -1,5 +1,5 @@
 var app = angular.module('kmApp', ['ngRoute', 'ngSanitize', 'kmAuthentication', 'kmUtilities', 'formControls', 'kmStorage', 
-    '$strap.directives', 'leaflet-directive']);
+    '$strap.directives', 'leaflet-directive', 'ngProgress']);
 
 //(function() {
 

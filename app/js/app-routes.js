@@ -42,12 +42,12 @@ define(['app', 'extended-route-provider', 'support'], function(app) {
             when('/network/',                                 { templateUrl: '/app/views/404.html',                                      controller: LEGACY_NetworkPortalPageController,   resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/resources/',                               { templateUrl: '/app/views/404.html',                                      controller: LEGACY_ResourcesPortalPageController, resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/about/',                                   { templateUrl: '/app/views/about.html',                                    controller: LEGACY_AboutPortalPageController,     resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-            when('/help/404',                                 { templateUrl: '/app/views/404.html',                                      controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-            when('/help/403',                                 { templateUrl: '/app/views/403.html',                                      controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/settings/profile',                         { templateUrl: '/app/views/settings/profile.html',                         controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/settings/password',                        { templateUrl: '/app/views/settings/password.html',                        controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/settings/changePassword',                  { templateUrl: '/public/accounts.cbd.int/change-password.html',            controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
 
+            when('/help/404',                                 { templateUrl: '/app/views/404.html',                                      controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
+            when('/help/403',                                 { templateUrl: '/app/views/403.html',                                      controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             otherwise({ redirectTo: '/help/404' });
 
 

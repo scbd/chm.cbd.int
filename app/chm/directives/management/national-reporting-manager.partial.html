@@ -87,7 +87,7 @@
 							</h4>
 							
 							<div ng-hide="filteredReports.length"> <!-- no report -->
-								<p><em>Please submit a record.</em></p>
+								<p><em>Please submit the report.</em></p>
 								<button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalReport', {reportType:nrType, government : government})">add +</button>
 							</div>
                             
@@ -128,7 +128,7 @@
 					<div ng-hide="otherNationalReports"> <!-- no records -->
 						<p>
                         No other report exists.<br/>
-                        <em>Please submit a record.</em>
+                        <em>Please submit the report.</em>
 						</p>
 						<button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalReport', {type:'other', government : government})">add +</button>
 					</div>

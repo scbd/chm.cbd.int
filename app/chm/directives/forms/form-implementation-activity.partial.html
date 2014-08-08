@@ -78,7 +78,7 @@
 					<div class="col-md-11 ">
 						<div class="km-control-group" required name="jurisdiction" caption="Level of implementation">
 						<span class="help-block">Please specify if the activity was carried out at the national or subnational level</span>
-							<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
+							<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of implementation" watch-items items="options.jurisdictions"></div>
 						</div>
 					</div>
 					<div class="span10" ng-show="isJurisdictionSubNational()">
@@ -92,7 +92,7 @@
 
 				<div class="row bottom-spacing">
 					<div class="col-md-12">
-						<div class="km-control-group" name="nationalIndicators" caption="Link to National Indicators">
+						<div class="km-control-group" name="nationalIndicators" caption="Link to Relevant National Indicators">
 							<div km-select name="nationalIndicators" multiple ng-model="document.nationalIndicators" placeholder="" watch-items items="options.nationalIndicators"></div>
 						</div>
 					</div>
@@ -108,7 +108,7 @@
 
 				<div class="row bottom-spacing">
 					<div class="col-md-12">
-						<div class="km-control-group" required name="aichiTargets" caption="Link to Aichi Targets">
+						<div class="km-control-group" required name="aichiTargets" caption="Link to Relevant Aichi Targets">
 							<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
 						</div>
 					</div>

@@ -1,5 +1,5 @@
 var app = angular.module('kmApp', ['ngRoute', 'ngSanitize', 'kmAuthentication', 'kmUtilities', 'formControls', 'kmStorage', 
-    '$strap.directives', 'leaflet-directive']);
+    '$strap.directives', 'leaflet-directive', 'ngProgress']);
 
 //(function() {
 
@@ -323,6 +323,8 @@ function PageController($scope, $window, $location, authentication) {
     $scope.goHome = function () { $location.path('/'); };
 
     $scope.currentPath = function () { return $location.path(); };
+
+    $scope.hideSubmitInfoButton = function() { return $scope.currentPath()=="/management/register"; };
 }
 
 //============================================================

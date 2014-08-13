@@ -11,6 +11,7 @@ logs
 results
 npm-debug.log
 node_modules
+lib
 app/libs
 app_build
 server.json

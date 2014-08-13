@@ -56,12 +56,12 @@
 
 
 footer {
-    background-color: #ecf0f3;
+    background-color: #F4F4F4;
     position: relative;
     /*height: 390px;*/
     clear: both;
     padding-top: 30px;
-    background-image: linear-gradient(top, #ecf0f3, #f8f9fa); /*margin-top: -390px;*/
+    /*background-image: linear-gradient(top, #ecf0f3, #f8f9fa);*/ /*margin-top: -390px;*/
 }
 
     footer .col-lg-4 h2 {
@@ -83,7 +83,15 @@ footer {
         footer .col-lg-4 ul li {
             padding-bottom: 5px;
         }
-
+            .footerLinks a:first-child{
+                padding-left:0px;
+            }
+            .footerLinks a{
+                padding-left:7px;
+            }
+            .footerLinks div{
+                padding-top:5px;
+            }
             footer .col-lg-4 ul li a,.footerLinks a, .footerLinks div{
                 color: #666666;
             }
@@ -583,3 +591,7 @@ body{
 .threeStars{    background-position: -32px 0; }
 .fourStars {    background-position: -16px 0; }
 .fiveStars {    background-position: 0px   0; }
+ .morelinks{
+    background: url('http://www.cbd.int/styles/ui/templates/cbd2011/images/arrow-0066CC.gif') no-repeat right 60%;
+    padding-right: 10px;
+}

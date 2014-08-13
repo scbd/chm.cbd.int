@@ -1,10 +1,11 @@
 ﻿angular.module('kmAuthentication', [])
-	.factory('authHttp', ["$http", "$browser", function($http, $browser) {
+	.factory('authHttp', ["$http", "$browser", "realm", function($http, $browser, realm) {
 
 		function addAuthentication(config) {
 		
 			if(!config)         config         = {};
 			if(!config.headers) config.headers = {};
+			if(!config.headers.realm) config.headers.realm = realm;
 
 			if($browser.cookies().authenticationToken) config.headers.Authorization = "Ticket "+$browser.cookies().authenticationToken;
 			else                                       config.headers.Authorization = undefined;

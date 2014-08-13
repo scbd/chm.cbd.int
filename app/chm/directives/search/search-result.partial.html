@@ -5,7 +5,7 @@
 	</div>
 	<div style="font-size:13px;font-weight:bold" ng-show="type">{{type}}</div>
 	<div class="truncatex">
-		<a style="font-size:14px;font-weight:bold;color:#79B82B;text-decoration:underline" ng-href="{{fixUrl(document.url_ss[0])}}">{{title}}</a>
+		{{title}}
 	</div>
 	<div style="font-size:13px;margin:2px 0">{{description}}</div>
 	<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{description2}}</div>
@@ -35,6 +35,9 @@
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
 		<a style="color:#428bca;padding:0 3px">ZH</a>
+	</div>
+	<div>
+		<a ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a>
 	</div>
 	<div ng-if="{'meetingDocument':true}[schema_s]">
 		<i class="icon-tag"></i>

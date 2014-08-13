@@ -6,18 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Clearing-House Mechanism of the Convention on Biological Diversity">
     <link rel="shortcut icon" href="/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/app/css/cbdMenu.css">
     <link rel="stylesheet" type="text/css" href="/app/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="/app/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.css">
+    <link rel="stylesheet" type="text/css" href="/app/js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.css">
     <link rel="stylesheet" type="text/css" href="/app/css/chm.css">
     <link rel="stylesheet" type="text/css" href="/app/css/font-awesome.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/app/css/km.css">
     <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/ab363dc0-d9f9-4148-a52d-4dca15df47ba.css">
-    <link rel="stylesheet" type="text/css" href="/app/libs/leaflet/0.7-dev/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="/app/libs/leaflet-dist/leaflet.css">
 
-    <script src="/app/libs/jquery/jquery.min.js"></script>
+    <script src="/app/js/libs/jquery.min.js"></script>
     <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/app/libs/angular/angular.min.js"></script>
+    <script src="/app/js/libs/angular.patched.js"></script>
     <script src="/app/libs/angular-i18n/angular-locale_en-iso.js"></script>
     <script src="/app/libs/angular-route/angular-route.min.js"></script>
     <script src="/app/libs/angular-sanitize/angular-sanitize.min.js"></script>
@@ -25,8 +27,10 @@
     <script src="/app/libs/uri/src/URI.js"></script>
     <script src="/app/libs/underscore/underscore.js"></script>
     <script src="/app/libs/moment/min/moment.min.js"></script>
-    <script src="/app/libs/scrollup/js/jquery.scrollUp.min.js"></script>
+    <script src="/app/libs/scrollup/dist/jquery.scrollUp.min.js"></script>
 
+    <script src="/app/libs/ngprogress/build/ngProgress.min.js"></script>
+    <link rel="stylesheet" type="textécss" href="/app/libs/ngprogress/ngProgress.css"></script>
 
     <script src="/app/js/libs/linq.js/2.2.0.2/linq.js"></script>
     <script src="/app/js/libs/angularStrap/0.7.4/angular-strap.min.js"></script>
@@ -86,8 +90,9 @@
             border-bottom: 1px solid black;
         }*/
         #cbdMenu li a {
-            color: rgb(137, 207, 49);
+            color: #009b48;
             float: left;
+            font-size: 15px;    
      /*       padding-left: 12px;*/
         }
 
@@ -125,13 +130,13 @@
                             </div>                            
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="navbar visible-xs" style="margin-bottom:-10px">
-                                <div class="navbar-header">
-                                    <!-- <a class="btn navbar-toggle" data-toggle="collapse" data-target="#MainNav">
+                            <div class="navbar visible-xs" style="margin-bottom:-10px;padding-right:2px;">
+                                <div class="navbar-header" style="padding-right:2px;">
+                                    <a class="btn navbar-toggle" data-toggle="collapse" data-target="#MainNav" style="padding-left:2px !important;padding-right:2px !important;">
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
-                                    </a> -->
+                                    </a>
                                     <ul class="header-actions"> 
                                         <li>
                                              <a title="Submit Information" href="/management/register" class="glyphicon glyphicon-upload"></a>
@@ -183,16 +188,521 @@
                                 </li>
                             </ul>
                     </div>
+                    <!-- <ul >
+                                        <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
+                                        <li><a href="http://bch.cbd.int/protocol/">Cartagena Protocol</a></li>
+                                        <li><a href="http://www.cbd.int/abs/">Nagoya Protocol</a></li>
+                                        <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
+                                        <li><a href="http://www.cbd.int/information/">Information</a></li>
+                                        <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
+                                    </ul> -->
                     <div class="row" style="padding-top:0px;padding-bottom:0px;padding-right:5px">
                         <div class="col-lg-12 col-md-12 col-sm-12 pull-right" style="padding-top:0px;padding-bottom:0px">
-                            <ul id="cbdMenu" class="header-actions pull-right hidden-xs">
-                                <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
-                                <li><a href="http://bch.cbd.int/protocol/">Cartagena Protocol</a></li>
-                                <li><a href="http://www.cbd.int/abs/">Nagoya Protocol</a></li>
-                                <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
-                                <li><a href="http://www.cbd.int/information/">Information</a></li>
-                                <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
-                            </ul>
+                            <div id="cbdMenu2" class="pull-right1 hidden-xs ltr">
+                                    <div id="t-header">
+                                        <div class="clear"></div>
+                                         <ul id="t-masterNavi">
+                                            <li class="t-navWide">
+                                                    <a href="http://www.cbd.int/convention" id="ctl06_menuTopcbd" class="">The Convention</a>
+                                                    <div id="ctl06_menuSubcbd" class="t-subNavContainer">
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">About the Convention</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/history">History of the Convention</a></li>
+
+                                                    <li><a href="http://www.cbd.int/convention/text">Convention Text</a></li>
+
+                                                    <li><a href="http://www.cbd.int/convention/parties/list">List of Parties</a></li>
+
+                                                    <li><a href="http://www.cbd.int/decisions">Decisions</a></li>
+
+                                                    <li><a href="http://www.cbd.int/gbo3">Global Biodiversity Outlook (GBO 3)</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Convention Protocols</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/biosafety">Cartagena Protocol on Biosafety</a></li>
+
+                                                    <li><a href="http://www.cbd.int/abs">Nagoya Protocol on Access and Benefit-Sharing</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Convention Bodies</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/cop">Conference of the Parties (COP)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/sbstta">Subsidiary Body on Scientific, Technical and Technological Advice (SBSTTA)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/wgri">Working Group on the Review of Implementation (WGRI)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/abs/icnp">Intergovernmental Committee for the Nagoya Protocol (ICNP)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/convention/wg8j.shtml">Working Group on Article 8(j)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/convention/wgpa.shtml">Working Group on Protected Areas</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading"><a href="http://www.cbd.int/sp">Strategic Plan for Biodiversity 2011-2020</a></div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/sp/elements">Key Elements</a></li>
+
+                                                    <li><a href="http://www.cbd.int/sp/targets">Aichi Biodiversity Targets</a></li>
+
+                                                    <li><a href="http://www.cbd.int/sp/implementation">Implementation</a></li>
+
+                                                    <li><a href="http://www.cbd.int/2011-2020">United Nations Decade on Biodiversity 2011-2020</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading"><a href="http://www.cbd.int/mechanisms">Mechanisms for Implementation</a></div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/nbsap">National Biodiversity Strategies &amp; Action Plans</a></li>
+
+                                                    <li><a href="http://www.cbd.int/reports">National Reports</a></li>
+
+                                                    <li><a href="http://www.cbd.int/financial">Financial Resources &amp; Mechanism</a></li>
+
+                                                    <li><a href="http://www.cbd.int/lifeweb">LifeWeb for Financing Protected Areas</a></li>
+
+                                                    <li><a href="http://www.cbd.int/chm">Clearing-House Mechanism (CHM)</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading"><a href="http://www.cbd.int/cooperation">Cooperation &amp; Partnerships</a></div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/ssc">South-South Cooperation</a></li>
+
+                                                    <li><a href="http://www.cbd.int/cooperation/csp/">Consortium of Scientific Partners</a></li>
+
+                                                    <li><a href="http://www.cbd.int/rio">Rio Conventions</a></li>
+
+                                                    <li><a href="http://www.cbd.int/brc">Biodiversity-related Conventions</a></li>
+
+                                                    <li><a href="http://www.cbd.int/jbf">Japan Biodiversity Fund</a></li>
+
+                                                    <li><a href="http://www.cbd.int/agreements">Partnership Agreements</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    </div>
+                                                    </li><li class="t-navWide">
+                                                    <a href="http://www.cbd.int/biosafety" id="ctl06_menuTopcpb" title="Catagena Protocol on Biosafety" class="">Cartagena Protocol</a>
+                                                    <div id="ctl06_menuSubcpb" class="t-subNavContainer">
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading"><a href="http://bch.cbd.int/protocol/">The Cartagena Protocol</a></div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/news/">What's new</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/background/">About the Protocol</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/text/">Text of the Cartagena Protocol</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Key Protocol Issues</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/issues/cpb_art35.shtml">Assessment and Review</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art22.shtml">Capacity Building</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art34.shtml">Compliance</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_detection.shtml">Sampling, Detection and Identification</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art28.shtml">Financial Mechanism</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art18.shtml">Handling, Transport, Packaging and Identification</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art20.shtml">Information sharing</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/supplementary/">Liability and Redress</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art33.shtml">Monitoring and Reporting</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art23.shtml">Public Awareness and Participation</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art15.shtml">Risk Assessment</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art16.shtml">Risk Management</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_roster.shtml">Roster of Experts</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_art26.shtml">Socio-economic Considerations</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Parties</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/parties/">List of Parties</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/ratification.shtml">Becoming a Party</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/database/contacts/focalpoints.shtml">National Contacts</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_natreports.shtml">National Reports</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/budget/">Status of Contributions</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">COP-MOP (Governing Body)</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_bureau.shtml">COP-MOP Bureau</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_mopmeetings.shtml">COP-MOP Meetings</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/decisions/">COP-MOP Decisions</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Activities and Documentation</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/meetings/">Meetings and Documents</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/notifications/">Notifications</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_esreports.shtml">Reports of the Executive Secretary</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Resources</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/about/">The Biosafety Clearing-House</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_faq.shtml">Frequently Asked Questions</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_media.shtml">Media and Outreach</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_media_video1.shtml">A video on the Cartagena Protocol</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/database/resources/">Search the BIRC</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Publications</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_publications.shtml">Protocols and decisions</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_factsheets.shtml">Fact Sheets and Banners</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_newsletter.shtml">Newsletter</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_technicalseries.shtml">Biosafety Technical Series</a></li>
+
+                                                    <li><a href="http://bch.cbd.int/protocol/cpb_otherpubl.shtml">Other Publications</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading"><a href="http://bch.cbd.int/protocol/supplementary/">Nagoya – Kuala Lumpur Supplementary Protocol on Liability and Redress</a></div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a>&nbsp;</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading"><a href="http://bch.cbd.int/">The Biosafety Clearing-House (BCH)</a></div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a>&nbsp;</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    </div>
+                                                    </li><li class="t-navWide">
+                                                    <a href="http://www.cbd.int/abs" id="ctl06_menuTopnpabs" title="Nagoya Protocol on Access to Genetic Resources and the Fair and Equitable Sharing of Benefits Arising from their Utilization">Nagoya Protocol</a>
+
+                                                    </li><li class="t-navWide t-navAlignRight">
+                                                    <a href="http://www.cbd.int/programmes" id="ctl06_menuTopprog" class="">Programmes</a>
+                                                    <div id="ctl06_menuSubprog" class="t-subNavContainer">
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Thematic Programmes</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/agro">Agricultural Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/drylands">Dry and Sub-humid Land Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/forest">Forest Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/waters">Inland Waters Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/island">Island Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/marine">Marine and Coastal Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/mountain">Mountain Biodiversity</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Major Groups</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/authorities/">Local Authorities</a></li>
+
+                                                    <li><a href="http://www.cbd.int/parliamentarians/">Parliamentarians</a></li>
+
+                                                    <li><a href="http://www.cbd.int/business/">Business</a></li>
+
+                                                    <li><a href="http://www.cbd.int/universities/">Universities and the Scientific Community</a></li>
+
+                                                    <li><a href="http://www.cbd.int/youth/">Children &amp; Youth</a></li>
+
+                                                    <li><a href="http://greenwave.cbd.int">The Green Wave for Schools</a></li>
+
+                                                    <li><a href="http://www.cbd.int/ngo/">Non-Governmental Organizations (NGOs)</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Cross-Cutting Issues</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/lbcd/">Biological and Cultural Diversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/development">Biodiversity for Development</a></li>
+
+                                                    <li><a href="http://www.cbd.int/climate">Climate Change and Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/cepa">Communication, Education and Public Awareness</a></li>
+
+                                                    <li><a href="http://www.cbd.int/incentives">Economics, Trade and Incentive Measures</a></li>
+
+                                                    <li><a href="http://www.cbd.int/ecosystem">Ecosystem Approach</a></li>
+
+                                                    <li><a href="http://www.cbd.int/gender">Gender and Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/gspc">Global Strategy for Plant Conservation</a></li>
+
+                                                    <li><a href="http://www.cbd.int/gti">Global Taxonomy Initiative</a></li>
+
+                                                    <li><a href="http://www.cbd.int/en/health">Health &amp; Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/impact">Impact Assessment</a></li>
+
+                                                    <li><a href="http://www.cbd.int/indicators">Identification, Monitoring, Indicators and Assessments</a></li>
+
+                                                    <li><a href="http://www.cbd.int/invasive">Invasive Alien Species</a></li>
+
+                                                    <li><a href="http://www.cbd.int/liability">Liability and Redress - Article 14.2</a></li>
+
+                                                    <li><a href="http://www.cbd.int/protected">Protected Areas</a></li>
+
+                                                    <li><a href="http://www.cbd.int/sustainable">Sustainable Use of Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/tech-transfer">Technology Transfer and Cooperation</a></li>
+
+                                                    <li><a href="http://www.cbd.int/tourism">Tourism and Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/traditional">Traditional Knowledge, Innovations and Practices - Article 8(j)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/emerging">New &amp; Emerging Issues</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    </div>
+                                                    </li>
+                                                    <li class="t-navWide t-navAlignRight">
+                                                    <a href="http://www.cbd.int/information" id="ctl06_menuTopinfo">Information</a>
+
+                                                    <div id="ctl06_menuSubinfo" class="t-subNavContainer">
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">News and Communications</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/new/">CBD Announcements</a></li>
+
+                                                    <li><a href="http://www.cbd.int/statements.shtml">Statements</a></li>
+
+                                                    <li><a href="http://www.cbd.int/notifications">Notifications</a></li>
+
+                                                    <li><a href="http://www.cbd.int/information/news.shtml">News Headlines on Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/press-releases/">Press Releases</a></li>
+
+                                                    <li><a href="http://www.cbd.int/rss/">RSS Feeds</a></li>
+
+                                                    <li><a href="http://twitter.com/cbdnews">Twitter</a></li>
+
+                                                    <li><a href="http://www.facebook.com/UNBiodiversity">Facebook</a></li>
+
+                                                    <li><a href="http://www.cbd.int/forums.shtml">Discussion Forums</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">National Information</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/countries/">Country Profiles</a></li>
+
+                                                    <li><a href="http://www.cbd.int/information/parties.shtml">List of Parties</a></li>
+
+                                                    <li><a href="http://www.cbd.int/information/nfp.shtml">Lists of National Focal Points</a></li>
+
+                                                    <li><a href="http://www.cbd.int/nbsap/">National Biodiversity Strategies and Action Plans (NBSAPs)</a></li>
+
+                                                    <li><a href="http://www.cbd.int/reports/">National Reports</a></li>
+
+                                                    <li><a href="http://www.cbd.int/convention/parties/contributions.shtml">Status of Contributions</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Multimedia</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/photos">Photo Gallery</a></li>
+
+                                                    <li><a href="http://www.cbd.int/videos">Video Gallery</a></li>
+
+                                                    <li><a href="http://www.youtube.com/user/chmcbd">YouTube</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+
+                                                    </div>
+
+                                                    <div class="t-navSubSection">
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">General References</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/decisions">Decisions</a></li>
+
+                                                    <li><a href="http://www.cbd.int/recommendations">Recommendations</a></li>
+
+                                                    <li><a href="http://www.cbd.int/meetings/">Meetings</a></li>
+
+                                                    <li><a href="http://www.cbd.int/information/library.shtml">Library and Documents</a></li>
+
+                                                    <li><a href="http://www.cbd.int/guidelines/">Principles, Guidelines and Tools</a></li>
+
+                                                    <li><a href="http://www.cbd.int/doc/negotiation/">Resources for Negotiators</a></li>
+
+                                                    <li><a href="http://www.cbd.int/ecolex/">ECOLEX - A Gateway to Biodiversity-Related Law</a></li>
+
+                                                    <li><a href="http://www.cbd.int/case-studies/">Case Studies</a></li>
+
+                                                    <li><a href="http://www.cbd.int/links/">Related Websites</a></li>
+
+                                                    <li><a href="http://www.cbd.int/agreements/">Partnership Agreements</a></li>
+
+                                                    </ul>
+                                                    <div id="ctl06_divSubMenuSectionHeading" class="t-navSubHeading">Thematic Databases</div>
+                                                    <div class="clear"></div>
+                                                    <ul>
+
+                                                    <li><a href="http://www.cbd.int/ecosystem/sourcebook/">Ecosystem Approach Sourcebook</a></li>
+
+                                                    <li><a href="http://adaptation.cbd.int">Database on Climate Change Adaptation</a></li>
+
+                                                    <li><a href="http://www.cbd.int/incentives/case-studies.shtml">Database on Incentive Measures</a></li>
+
+                                                    <li><a href="http://www.cbd.int/assessments/">Database of Scientific Assessments</a></li>
+
+                                                    <li><a href="http://www.cbd.int/programmes/cross-cutting/technology/search.aspx">Database on Technology Transfer</a></li>
+
+                                                    <li><a href="http://www.cbd.int/impact/case-studies/">Case Studies on Impact Assessment</a></li>
+
+                                                    <li><a href="http://www.cbd.int/drylands/cs/">Case Studies on Dry and Sub-Humid Land Biodiversity</a></li>
+
+                                                    <li><a href="http://www.cbd.int/abs/measures/">ABS Measures Search Page</a></li>
+
+                                                    <li><a href="http://www.cbd.int/abs/projects.shtml">ABS Database on Capacity Building Projects</a></li>
+
+                                                    <li><a href="http://www.cbd.int/abs/roster/">ABS Roster of Experts</a></li>
+
+                                                    </ul>
+
+                                                    </div>
+
+                                                    </div>
+                                                    </li><li class="t-navAlignRight">
+                                                    <a href="http://www.cbd.int/secretariat" id="ctl06_menuTopscbd" class="">Secretariat</a>
+                                                    <ul id="ctl06_menuSubscbd" class="t-subNavContainer">
+
+                                                    <li><a href="http://www.cbd.int/secretariat/role.shtml">About the Secretariat</a></li>
+
+                                                    <li><a href="http://www.cbd.int/staff">Staff</a></li>
+
+                                                    <li><a href="http://www.cbd.int/museum">Museum of Nature and Culture</a></li>
+
+                                                    <li><a href="http://www.cbd.int/secretariat/initiatives.shtml">Initiatives</a></li>
+
+                                                    <li><a href="http://www.cbd.int/secretariat/documents.shtml">Secretariat Documents</a></li>
+
+                                                    <li><a href="http://www.cbd.int/employment">Employment Opportunities</a></li>
+
+                                                    <li><a href="http://www.cbd.int/secretariat/business">Doing Business with the CBD</a></li>
+
+                                                    </ul>
+                                                    </li>
+                                        </ul>
+                                   </div>
+                                   <script type="text/javascript">
+                                   
+                                    $("#ctl06_menuSubcbd").mouseover(function () { $("#ctl06_menuTopcbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcbd").removeClass("hover"); });
+                                    $("#ctl06_menuSubcpb").mouseover(function () { $("#ctl06_menuTopcpb").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcpb").removeClass("hover"); });
+                                    $("#ctl06_menuSubprog").mouseover(function () { $("#ctl06_menuTopprog").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopprog").removeClass("hover"); });
+                                    $("#t-masterNavi *").removeClass('t-navSelected');$("#ctl06_menuSubinfo").mouseover(function () { $("#ctl06_menuTopinfo").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopinfo").removeClass("hover"); });
+                                    $("#ctl06_menuSubscbd").mouseover(function () { $("#ctl06_menuTopscbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopscbd").removeClass("hover"); });
+                                    </script> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -212,7 +722,7 @@
                                         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                     </div>
                                 </div>
-                                <div class="pull-right col-lg-4 col-md-4 col-sm-3">
+                                <div class="pull-right col-lg-4 col-md-4 col-sm-3" ng-hide="hideSubmitInfoButton()">
                                     <a href="/management/register">
                                      <button type="button" class="btn btn-default btn-md">
                                       Submit Information <span class="glyphicon glyphicon-upload"></span>
@@ -224,49 +734,24 @@
                     </div>
                 </div>
 
-               <!--  <div class="row webNavBar" style="padding-top:2px;">
+                <div class="row webNavBar visible-xs" style="padding-top:2px;">
                     <div class="col-lg-14 col-md-14 col-sm-14">
                          <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation">
-                            <ul class="nav navbar-nav pull-left">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Finding Information<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="/database/">Search</a></li>
-                                        <li><a href="/database/countries">Parties and Country Profiles</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Registering Information<b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="/management/">My Dashboard</a></li>
-                                        <li><a href="/management/register">Register a new record</a></li>
-                                        <li><a href="/management/my-records">Edit a published record</a></li>
-                                        <li><a href="/management/my-drafts">Edit a draft record</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="/network">Network</a></li>
-                                <li><a href="/resources">Resources</a></li>
-                                <li><a href="/about" target="_self">About</a></li>
-                                <li class="dropdown  visible-xs" style="padding-top:10px">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="/app/images/top-header-cbd-logo.png" alt="cbd" width="25" height="30" style="position: relative; top: -4px;">
-                                        <span style="position: relative; top: -4px;">CBD<b class="caret"></b></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
+                            <ul class="nav navbar-nav pull-left ">
+                                   <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
                                         <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
                                         <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
                                         <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
                                         <li><a href="http://www.cbd.int/information/">Information</a></li>
                                         <li><a href="http://www.cbd.int/secretariat">Secretariat</a></li>
-                                    </ul>
-                                </li>
+                                    
                             </ul>
                         </div>
                     </div>
-                </div>  -->
+                </div> 
 
 
-                <div class="row hidden-xs " style="border-bottom-color: #EEE; border-bottom-width: 1px; border-bottom-style: solid;">
+                <div class="row hidden-xs " style="border-bottom-color: #cdcdcd; border-bottom-width: 1px; border-bottom-style: solid;padding-bottom:5px">
                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar pull-left">
                             <img src="http://www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;">
                             > <a ng-href="#" ng-click="goHome()">CHM  </a>

@@ -1,5 +1,5 @@
 ﻿<div>
-    <table class="table table-striped">
+    <table class="table">
         <tr ng-repeat="doc in docs | limitTo:pageSize">
             <td>
                 <div class="time-ago" title="{{doc.date_dt}}">{{doc.date_dt|truncate:10}}</div>
@@ -8,7 +8,7 @@
         </tr>
         <tr ng-hide="isPagerVisible()">
             <td>
-                <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}">More news...</a></div>
+                <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}" class="morelinks">More News</a></div>
                 <div ng-hide="hasRecords()">Sorry, there are no news currently available.</div>
             </td>
         </tr>

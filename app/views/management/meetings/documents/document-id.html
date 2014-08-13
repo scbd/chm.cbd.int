@@ -1,1 +1,40 @@
-MEETINGS/DOCUMENTS/ID
+<h1>Meeting Document</h1>
+<h2>{{document.symbol}}</h2>
+<h3>{{document.languages.en.title}}</h3>
+
+<form role="form"  ng-submit='save()'>
+
+    <div class="row">
+
+        <div class="col-xs-12 form-group">
+            <label for="title">Title</label>
+            <input id="title" type="text" ng-model="document.languages.en.title" class="form-control">
+        </div>
+
+        <div class="col-md-3 form-group">
+            <label for="serie">Document Type</label>
+            <select id="serie" class="form-control" ng-options='o.code as o.title for o in options.series' ng-model="document.serie">
+            </select>
+        </div>
+
+        <div class="col-md-7 col-sm-8 form-group">
+            <label for="symbol">Symbol</label>
+            <div>
+                <input  ng-model="document.symbol" class="form-control" id="symbol" type="text">
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-4  form-group">
+            <label for="component">Add Component</label>
+            <div>
+                <select ng-model="component" ng-show="options.components[document.serie]" class="form-control" ng-options="o as o.title for o in options.components[document.serie]" id="component" ></select>
+            </div>
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-default">Save</button>
+
+    <pre>{{document}}</pre>
+
+</form>

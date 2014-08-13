@@ -5,7 +5,7 @@ require("console-stamp")(console, "HH:MM:ss.l");
 
 // LOG UNHANDLED EXCEPTION AND EXIT
 process.on('uncaughtException', function (err) {
-  console.error((new Date()).toUTCString() + ' uncaughtException:', err.message);
+  console.error('uncaughtException:', err.message);
   console.error(err.stack);
   process.exit(1);
 });
@@ -36,10 +36,10 @@ app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge:    
 
 app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );
 
-app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
-app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
-app.post  ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
-app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
+app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'http://localhost:8000', secure: false } ); } );
+app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'http://localhost:8000', secure: false } ); } );
+app.post  ('/api/*', function(req, res) { proxy.web(req, res, { target: 'http://localhost:8000', secure: false } ); } );
+app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'http://localhost:8000', secure: false } ); } );
 
 // Configure index.html
 
@@ -55,7 +55,7 @@ server.on('listening', function () {
 // LOG PROXY ERROR & RETURN http:500
 
 proxy.on('error', function (e, req, res) {
-    console.error(new Date().toUTCString() + ' error proxying: '+req.url);
+    console.error('error proxying: '+req.url);
     console.error('proxy error:', e);
     res.send( { code: 500, source:'chm/proxy', message : 'proxy error', proxyError: e }, 500);
 });

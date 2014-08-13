@@ -19,9 +19,9 @@ define(['app', 'extended-route-provider', 'support'], function(app) {
             when('/management/my-drafts',                     { templateUrl: '/app/views/management/my-drafts.html',                     controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/management/signin',                        { templateUrl: '/app/views/management/signin.html',                 resolveController: true, resolveUser: true }).
 
-            when('/management/meetings',                        { templateUrl: '/app/views/management/meetings/index.html',                 resolveController: true, resolveUser: true }).
-            when('/management/meetings/:meeting/documents',     { templateUrl: '/app/views/management/meetings/documents/index.html',       resolveController: true, resolveUser: true }).
-            when('/management/meetings/:meeting/documents/:id', { templateUrl: '/app/views/management/meetings/documents/document-id.html', resolveController: true, resolveUser: true }).
+            when('/management/meetings',                          { templateUrl: '/app/views/management/meetings/index.html',                 resolveController: true, resolveUser: true }).
+            when('/management/meetings/:meetingId/documents',     { templateUrl: '/app/views/management/meetings/documents/index.html',       resolveController: true, resolveUser: true }).
+            when('/management/meetings/:meetingId/documents/:id', { templateUrl: '/app/views/management/meetings/documents/document-id.html', resolveController: true, resolveUser: true }).
 
             when('/management/edit/resource',                 { templateUrl: '/app/views/management/edit/resource.html',                 controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['/app/chm/services/editFormUtility.js', '/app/shared/directives/forms/form-controls.js']) } }).
             when('/management/edit/nationalReport',           { templateUrl: '/app/views/management/edit/nationalReport.html',           controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { dependencies : legacyResolver(['/app/chm/services/editFormUtility.js', '/app/shared/directives/forms/form-controls.js']) }, reloadOnSearch: false }).

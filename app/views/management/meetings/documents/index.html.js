@@ -2,7 +2,7 @@ define(['underscore', 'app', 'authentication'], function(_) { 'use strict';
 
     return ['$scope', '$route', 'authHttp', function($scope, $route, $http) {
 
-        $scope.meeting     = $route.current.params.meeting;
+        $scope.meetingId   = $route.current.params.meetingId;
         $scope.pages       = [];
         $scope.pageSize    = 50;
         $scope.currentPage =  0;
@@ -23,7 +23,7 @@ define(['underscore', 'app', 'authentication'], function(_) { 'use strict';
                 l  : $scope.pageSize
             };
 
-            var apiUrl = '/api/v2014/meetings/'+encodeURIComponent($route.current.params.meeting)+'/documents';
+            var apiUrl = '/api/v2014/meetings/'+encodeURIComponent($route.current.params.meetingId)+'/documents';
 
             $http.get(apiUrl, { params : { c : true } }).then(function(res){
                 $scope.pages = _.range(0, Math.ceil(parseInt(res.data) / $scope.pageSize));

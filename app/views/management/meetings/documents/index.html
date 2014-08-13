@@ -1,5 +1,7 @@
 <h1>Meeting Documents</h1>
 
+<a ng-href='/management/meetings/{{meetingId}}/documents/NEW' type="button" class="btn btn-default pull-right">Add +</i></a>
+
 <ul class="pagination" ng-show="pages">
   <li ng-class="{disabled:currentPage<=0}"><a href="#" ng-click="setPage(currentPage-1)">&laquo;</a></li>
   <li ng-repeat="page in pages" ng-class="{active:page==currentPage}">
@@ -14,16 +16,16 @@
         <th>#</th>
         <th>Code</th>
         <th>Title</th>
-        <th>Files</th>
+        <th>Type</th>
         <th></th>
     </tr>
     <tr ng-repeat="document in documents">
         <td>{{currentPage*pageSize+$index+1}}</td>
         <td style="white-space:nowrap">{{document.symbol}}</td>
         <td>{{document.languages.en.title || 'NO TITLE'}}</td>
-        <td style="white-space:nowrap">TODO</td>
+        <td style="white-space:nowrap">{{document.serie}}</td>
         <td>
-            <a ng-href='/management/documents/{{meetingCode}}/documents/{{document._id}}' type="button" class="btn btn-default"><i class="fa fa-file-o"></i></a>
+            <a ng-href='/management/meetings/{{meetingId}}/documents/{{document._id}}' type="button" class="btn btn-default"><i class="fa fa-file-o"></i></a>
         </td>
     </tr>
 </table>

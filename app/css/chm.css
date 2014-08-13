@@ -171,7 +171,7 @@ footer {
             .home .body-content .social li a.google,
             .sidebar .social li a.google,
             footer .social li a.google {
-                background: url('http://www.cbd.int/styles/ui/templates/cbd2011/images/ic-youtube.png') no-repeat 0 0;
+                background: url('//www.cbd.int/styles/ui/templates/cbd2011/images/ic-youtube.png') no-repeat 0 0;
                 /* google-color.svg */
                 background-size: 100%;
             }
@@ -327,7 +327,7 @@ img.thumb {
 
 
 @media (max-width: 767px) {
-  
+
     h1 {
         font-size: 30px;
     }
@@ -350,11 +350,11 @@ img.thumb {
                 margin-left: 15px;
                 margin-bottom: 15px;
             }
-   
-    .navbar-collapse .nav > li > a {     
+
+    .navbar-collapse .nav > li > a {
         padding: 0;
     }
-  
+
         .navbar-collapse p a.getstarted {
             margin-right: 20px;
         }
@@ -477,7 +477,7 @@ img.thumb {
 
 }
 
-@media (min-width: 1440px) {    
+@media (min-width: 1440px) {
     #t-header {
         background-color: #fff;
         /*margin-left: 5px;*/
@@ -527,7 +527,7 @@ img.thumb {
     }*/
 
 .main-nav {
-    background-color: #fff;    
+    background-color: #fff;
     height: auto;
 }
 
@@ -536,7 +536,7 @@ img.thumb {
 }
 
 .historyBar {
-    padding-top: 5px !important;    
+    padding-top: 5px !important;
     padding-left: 0px;
 }
 
@@ -575,16 +575,16 @@ body{
 
 #Main{
     padding-top: 6px;
-    padding-right: 10px; 
-    padding-left: 0px;    
+    padding-right: 10px;
+    padding-left: 0px;
 }
 .top{
-    padding-right: 10px; 
+    padding-right: 10px;
 }
 .starRating{
     height: 16px;
     width: 80px;
-    background: url(http://www.cbd.int/cms/images/starRating.png) -80px 0 no-repeat;
+    background: url('//www.cbd.int/cms/images/starRating.png') -80px 0 no-repeat;
 }
 .oneStar   {    background-position: -64px 0; }
 .twoStars  {    background-position: -48px 0; }
@@ -592,6 +592,6 @@ body{
 .fourStars {    background-position: -16px 0; }
 .fiveStars {    background-position: 0px   0; }
  .morelinks{
-    background: url('http://www.cbd.int/styles/ui/templates/cbd2011/images/arrow-0066CC.gif') no-repeat right 60%;
+    background: url('//www.cbd.int/styles/ui/templates/cbd2011/images/arrow-0066CC.gif') no-repeat right 60%;
     padding-right: 10px;
 }

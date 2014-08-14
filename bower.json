@@ -23,7 +23,8 @@
     "linqjs": "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=linqjs&DownloadId=200633&FileTime=129400959544500000&Build=20928",
     "mapsicon": "https://github.com/djaiss/mapsicon.git",
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
-    "scrollup": "https://github.com/markgoodyear/scrollup.git"
+    "scrollup": "https://github.com/markgoodyear/scrollup.git",
+    "ngprogress": "~1.0.4"
   },
   "resolutions": {
     "angular": "1.2.22"

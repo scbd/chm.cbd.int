@@ -1,8 +1,8 @@
-define(['angular', 'angular-animate', 'angular-route', 'angular-cookies', 'angular-sanitize', 'leaflet-directive', 'angular-strap', 'angular-growl'], function(angular) { 'use strict';
+define(['angular', 'angular-animate', 'angular-route', 'angular-cookies', 'angular-sanitize', 'leaflet-directive', 'angular-strap', 'angular-growl', 'ngProgress'], function(angular) { 'use strict';
 
     var legacyNoDuplicateStores = {};
 
-    var app = angular.module('kmApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngAnimate', 'leaflet-directive', '$strap.directives', 'angular-growl']);
+    var app = angular.module('kmApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngAnimate', 'leaflet-directive', '$strap.directives', 'angular-growl', 'ngProgress']);
 
     app.config(['$controllerProvider', '$compileProvider', '$provide', '$filterProvider', 'growlProvider', function($controllerProvider, $compileProvider, $provide, $filterProvider, growlProvider) {
 

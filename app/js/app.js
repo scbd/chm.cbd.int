@@ -1,10 +1,10 @@
-define(['angular', 'angular-animate', 'angular-route', 'angular-cookies', 'angular-sanitize', 'leaflet-directive', 'angular-strap'], function(angular) { 'use strict';
+define(['angular', 'angular-animate', 'angular-route', 'angular-cookies', 'angular-sanitize', 'leaflet-directive', 'angular-strap', 'angular-growl'], function(angular) { 'use strict';
 
     var legacyNoDuplicateStores = {};
 
-    var app = angular.module('kmApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngAnimate', 'leaflet-directive', '$strap.directives']);
+    var app = angular.module('kmApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngAnimate', 'leaflet-directive', '$strap.directives', 'angular-growl']);
 
-    app.config(['$controllerProvider', '$compileProvider', '$provide', '$filterProvider', function($controllerProvider, $compileProvider, $provide, $filterProvider) {
+    app.config(['$controllerProvider', '$compileProvider', '$provide', '$filterProvider', 'growlProvider', function($controllerProvider, $compileProvider, $provide, $filterProvider, growlProvider) {
 
         // Allow dynamic registration
 
@@ -19,6 +19,8 @@ define(['angular', 'angular-animate', 'angular-route', 'angular-cookies', 'angul
         app.controllerProvider = $controllerProvider;
         app.compileProvider    = $compileProvider;
 
+        growlProvider.onlyUniqueMessages(true);
+        growlProvider.globalTimeToLive(5000);
     }]);
 
     return app;
@@ -47,5 +49,4 @@ define(['angular', 'angular-animate', 'angular-route', 'angular-cookies', 'angul
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
-
 });

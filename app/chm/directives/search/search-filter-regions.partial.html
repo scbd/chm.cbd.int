@@ -29,7 +29,7 @@
 												<label><input type="checkbox" ng-model="region.selected" ng-click="refresh()"> {{region.name}} ({{region.count}})</label>
 											</div>
 											<div class="checkbox" style="margin-top:0;margin-bottom:0;margin-left:20px" ng-repeat="region2 in region.narrowerTerms">
-												<label><input type="checkbox" ng-model="region2.selected" ng-click="refresh()">{{region2.name}} ({{region2.count}})</label>
+												<label><input type="checkbox" ng-model="region2.selected" ng-change="refresh()">{{region2.name}} ({{region2.count}})</label>
 											</div>
 										</div>
 									</div>

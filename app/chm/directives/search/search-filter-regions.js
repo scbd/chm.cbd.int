@@ -97,7 +97,8 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
             }
 
             $scope.$watch('items', function() {
-                $scope.terms = $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
+
+                $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
 
                     var termsTree = thesaurus.buildTree(response.data);
                     self.termsMap = flatten(termsTree, {});
@@ -138,7 +139,7 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                             self.termsMap[item.symbol].count = item.count;
                     });
 
-                    return classes;
+                    $scope.terms = classes;
 
                 });
             });

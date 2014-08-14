@@ -155,7 +155,44 @@ define(['underscore', 'jquery', 'app', 'authentication'], function(_, $) { 'use 
 
                 if($route.current.params.id != doc._id)
                     $location.path($location.path().replace(/\/NEW$/, '/'+doc._id)); //update URL. replace /NEW by /_id
-                    
+
+            }).catch(function(error){
+                console.error(error);
+            });
+        }
+
+        //==================================================
+        //
+        //
+        //==================================================
+        $scope.askDeleteFile = function(locale, type, file) {
+
+            if(confirm('Delete file:' + type+'-'+locale)){
+                deleteFile(locale, type);
+            }
+        };
+
+        //==================================================
+        //
+        //
+        //==================================================
+        function deleteFile(locale, type) {
+
+            var document = $scope.document;
+
+            var url     = [
+                '/api/v2014/meetings', encodeURIComponent($route.current.params.meetingId),
+                'documents', encodeURIComponent(document._id),
+                'languages', encodeURIComponent(locale),
+                'files',     encodeURIComponent(type)
+            ].join('/');
+
+            console.log('Delete: ', url);
+
+            $http.delete(url).success(function(){
+
+                delete $scope.document.languages[locale].files[type];
+
             }).catch(function(error){
                 console.error(error);
             });
@@ -166,13 +203,22 @@ define(['underscore', 'jquery', 'app', 'authentication'], function(_, $) { 'use 
         //
         //==================================================
         $scope.options = {
+            languages : [
+                { code: 'en', title : 'English' },
+                { code: 'es', title : 'Spanish' },
+                { code: 'fr', title : 'French'  },
+                { code: 'ar', title : 'Arabic'  },
+                { code: 'ru', title : 'Russian' },
+                { code: 'zh', title : 'Chinese' }
+            ],
+
             series : [
-                { code: 'OFFICIAL', title : 'Official'},
-                { code: 'INF',      title : 'Information'},
-                { code: 'CRP',      title : 'CRP'},
-                { code: 'L',        title : 'L'},
-                { code: 'NONPAPER', title : 'Non-Paper'},
-                { code: 'OTHER',    title : 'Other'}
+                { code : 'OFFICIAL', title : 'Official'    },
+                { code : 'INF',      title : 'Information' },
+                { code : 'CRP',      title : 'CRP'         },
+                { code : 'L',        title : 'L'           },
+                { code : 'NONPAPER', title : 'Non-Paper'   },
+                { code : 'OTHER',    title : 'Other'       }
             ],
 
             components : {

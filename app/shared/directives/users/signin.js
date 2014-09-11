@@ -49,6 +49,10 @@
                     });
             };
 
+            $scope.actionSignup = function () { 
+                  $window.location.href = 'https://accounts.cbd.int/signup';
+              };
+
             //==============================
             //
             //==============================

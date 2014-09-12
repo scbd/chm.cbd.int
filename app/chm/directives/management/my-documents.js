@@ -28,12 +28,15 @@
                 { identifier: 'contact', title: { en: 'Contacts' } },
         	].sort(function(a,b){
 			  var aName = a['title']['en'].toLowerCase();
-			  var bName = b['title']['en'].toLowerCase(); 
+			  var bName = b['title']['en'].toLowerCase();
 			  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
           	});
 		},
-		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', function ($scope, $location, storage, schemaTypes, $timeout) 
+		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', '$route', function ($scope, $location, storage, schemaTypes, $timeout, $route)
 		{
+
+			if($route.current.params.schema)
+				$scope.selectedSchemasList = [$route.current.params.schema];
 
             $scope.loadScheduled = null;
 
@@ -129,7 +132,7 @@
 							function(error) {
 								alert("Error: " + error);
 							});
-					});				
+					});
 			};
 
 			//==============================

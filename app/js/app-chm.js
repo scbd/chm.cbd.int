@@ -1,4 +1,4 @@
-var app = angular.module('kmApp', ['ngRoute', 'ngSanitize', 'kmAuthentication', 'kmUtilities', 'formControls', 'kmStorage', 
+var app = angular.module('kmApp', ['ngRoute', 'ngSanitize', 'kmAuthentication', 'kmUtilities', 'formControls', 'kmStorage',
     '$strap.directives', 'leaflet-directive', 'ngProgress']);
 
 //(function() {
@@ -30,7 +30,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
  		when('/management/', { controller: ManagementPageController, templateUrl: '/app/views/management/index.html', resolve: { user: getUser } }).
  		when('/management/register', { controller: ManagementPageController, templateUrl: '/app/views/management/register.html', resolve: { user: getUser } }).
  		when('/management/national-reporting/:country?', { controller: ManagementPageController, templateUrl: '/app/views/management/national-reporting.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/my-records', { controller: ManagementPageController, templateUrl: '/app/views/management/my-records.html', resolve: { user: getUser } }).
+ 		when('/management/my-records/:schema?', { controller: ManagementPageController, templateUrl: '/app/views/management/my-records.html', resolve: { user: getUser } }).
  		when('/management/my-drafts', { controller: ManagementPageController, templateUrl: '/app/views/management/my-drafts.html', resolve: { user: getUser } }).
  		when('/management/signin', { controller: ManagementPageController, templateUrl: '/app/views/management/signin.html', resolve: { user: getUser } }).
 
@@ -379,5 +379,5 @@ app.filter('schemaName', function () {
 
 //jQuery(window).on('mercury:ready', function() {
 //jQuery(document).ready(function() {
-//	angular.bootstrap(window.document.body, ['kmApp']); 
+//	angular.bootstrap(window.document.body, ['kmApp']);
 //});

@@ -35,8 +35,11 @@
 		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', '$route', function ($scope, $location, storage, schemaTypes, $timeout, $route)
 		{
 
-			if($route.current.params.schema)
+			if($route.current.params.schema) {
+
+				$scope.hideFilters = true
 				$scope.selectedSchemasList = [$route.current.params.schema];
+			}
 
             $scope.loadScheduled = null;
 

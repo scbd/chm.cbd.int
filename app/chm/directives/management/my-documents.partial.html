@@ -35,7 +35,7 @@
 	<div class="alert alert-danger" ng-show="__error">
 		<strong>Error: </strong>{{__error}}
 	</div>
-	<div class="bs-filter">
+	<div class="bs-filter" ng-hide="hideFilters">
 		<form ng-submit="signIn()">
 			<div class="form-group">
 				<div class="input-group">
@@ -67,7 +67,7 @@
 				<th>Last edited by/on</th>
 				<th style="width:100px">&nbsp;</th>
 			</tr>
-			
+
 			<tr ng-repeat="document in documents">
 				<td>
 					<a ng-href="/database/record?documentID={{document.documentID}}">{{document.documentID}}</a>

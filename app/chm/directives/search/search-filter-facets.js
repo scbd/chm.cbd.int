@@ -73,7 +73,7 @@ angular.module('kmApp').compileProvider // lazy
             $scope.updateQuery = function() {
 
                 console.log($scope.query);
-                
+
                 $scope.query = '';
 
                 $scope.selectedItems.forEach(function(item) {
@@ -108,7 +108,7 @@ angular.module('kmApp').compileProvider // lazy
                     console.log(term.indeterminateCounterA);
                     term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
 
-                    setBroaders(term.broaderTerms, selected); 
+                    setBroaders(term.broaderTerms, selected);
                 });
             }
 
@@ -116,13 +116,13 @@ angular.module('kmApp').compileProvider // lazy
 
                 if(!narrowerTerms) return;
 
-                narrowerTerms.forEach(function (term) { 
+                narrowerTerms.forEach(function (term) {
 
                     term.indeterminateCounterB = term.indeterminateCounterB + (selected ? 1 : -1);
                     console.log(term.indeterminateCounterB);
                     term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
 
-                    setNarrowers(term.narrowerTerms, selected); 
+                    setNarrowers(term.narrowerTerms, selected);
                 });
             }
 
@@ -159,9 +159,9 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             function buildConditions (conditions, items) {
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     if(item.selected)
-                        conditions.push('aichiTarget_REL_ss:'+item.identifier);
+                        conditions.push('aichiTarget_ss:'+item.identifier);
                     else if(item.narrowerTerms) {
                         buildConditions(conditions, item.narrowerTerms);
                     }
@@ -169,12 +169,12 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             function flatten(items, collection) {
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     item.selected = false;
                     item.indeterminateCounterA = 0;
                     item.indeterminateCounterB = 0;
                     collection[item.identifier] = item;
-                    if(item.narrowerTerms) 
+                    if(item.narrowerTerms)
                         flatten(item.narrowerTerms, collection);
                 });
                 return collection;

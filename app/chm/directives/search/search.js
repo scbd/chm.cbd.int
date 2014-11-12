@@ -95,7 +95,7 @@ angular.module('kmApp').compileProvider // lazy
                 }
 
                 return facets;
-            };         
+            };
 
 
             function readFacets2(solrArray) {
@@ -110,7 +110,7 @@ angular.module('kmApp').compileProvider // lazy
                 }
 
                 return facets;
-            };              
+            };
 
             self.query = function () {
 
@@ -135,7 +135,7 @@ angular.module('kmApp').compileProvider // lazy
                 self.canceler = $q.defer();
 
                 $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
-                   
+
                     self.canceler = null;
 
                     $scope.count = data.response.numFound;
@@ -154,7 +154,7 @@ angular.module('kmApp').compileProvider // lazy
                             'wt': 'json',
                             'rows': 0,
                             'facet': true,
-                            'facet.field': ['schema_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
+                            'facet.field': ['schema_s', 'government_REL_ss', 'aichiTarget_ss', 'thematicArea_REL_ss'],
                             'facet.limit': 512
                         };
 
@@ -163,7 +163,7 @@ angular.module('kmApp').compileProvider // lazy
                             $scope.schemas = readFacets2(data.facet_counts.facet_fields.schema_s);
                             $scope.governments = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
                             $scope.regions = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
-                            $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
+                            $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.aichiTarget_ss);
                             $scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
 
                         }).error(function (error) { console.log('onerror'); console.log(error); } );
@@ -182,7 +182,7 @@ angular.module('kmApp').compileProvider // lazy
                 var maxCount = 10;
                 var middle = 5;
                 var count = end - start;
-                
+
                 if (count > maxCount) {
                     if ($scope.currentPage > middle)
                         start = $scope.currentPage - middle;
@@ -190,7 +190,7 @@ angular.module('kmApp').compileProvider // lazy
                     end = Math.min(count, start + maxCount);
                     start = Math.max(0, end - maxCount);
                 }
-                
+
                 for (var i = start; i < end; i++) {
                     ret.push(i);
                 }
@@ -458,14 +458,14 @@ angular.module('kmApp').compileProvider.directive('searchResult', function () {
                 if($scope.document.schema_s=='nationalReport') $scope.type        = $scope.document.reportType_EN_t;
 
                 if($scope.document.schema_s=='implementationActivity') $scope.type = $scope.document.jurisdiction_EN_t + ' - ' + $scope.document.completion_EN_t;
-                
+
                 if($scope.document.schema_s=='marineEbsa') $scope.schema = 'ECOLOGICALLY OR BIOLOGICALLY SIGNIFICANT AREA';
 
                 if($scope.document.schema_s=='event') {
                     $scope.dates = formatDate(document.startDate_s) + ' to ' + formatDate(document.endDate_s);
                     $scope.venue = document.eventCity_EN_t + ', ' + document.eventCountry_EN_t;
                 }
-                
+
                 if($scope.document.schema_s=='resource') {
                     $scope.schema = 'VIRTUAL LIBRARY RESOURCE';
                     $scope.source = ($scope.document.resourceTypes_EN_txt||[])[0];

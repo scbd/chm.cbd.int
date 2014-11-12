@@ -96,7 +96,7 @@
 						<strong ng-switch-when="absCheckpoint">Checkpoint</strong>
 						<strong ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</strong>
 						<strong ng-switch-when="absPermit">Permit</strong>
-						<strong ng-switch-default>{{document.type}}*</strong>
+						<strong ng-switch-default>{{draft.type}}*</strong>
                     </div>
 					<div>
 						{{draft.workingDocumentTitle || draft.title | lstring:'en'}}
@@ -117,7 +117,7 @@
 				<td style="text-align:end;width:100px">
 					<div class="btn-group" style="white-space:nowrap;">
 						<button class="btn btn-default"  ng-click="edit(draft);"  type="button" title="Edit"   ng-disabled="draft.workingDocumentLock"><i class="icon-edit"></i></button>
-						<button class="btn btn-default"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="draft.workingDocumentLock || document.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
+						<button class="btn btn-default"  ng-click="erase(draft);" type="button" title="Delete" ng-disabled="draft.workingDocumentLock || draft.workingDocumentCreatedOn!=null"><i class=" icon-trash"></i></button>
 					</div>
 				</td>
 			</tr>

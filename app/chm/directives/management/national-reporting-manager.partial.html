@@ -2,18 +2,18 @@
 
     <h2 ng-show="government">{{governmentName}}</h2>
 	<select style="margin-top:-40px" class="pull-right" ng-show="!userGovernment()" ng-model="government" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
-	
+
 	<div ng-show="governmentName">
 	<h4 class="heading">
 		<span class="text-muted">National Reports, NBSAPs and Other Reports</span>
         <span style="font-size:14px;"><span class="label label-warning pull-right label-spacingl">not published</span>
             <span class="label label-info pull-right label-spacing">published</span></span>
 	</h4>
-    
+
 	<div class="panel-group" id="accordion1">
-        
-        
-		<!-- 
+
+
+		<!--
          //================
          // National Biodiversity Strategies and Action Plans (NBSAPS)
          //================
@@ -28,10 +28,10 @@
 					<span class="label label-info pull-right label-spacing">{{(nationalStrategicPlans|filter:isPublic).length}}</span>
 				</h4>
 			</div>
-            
+
 			<div id="collapseOne" class="panel-collapse collapse">
 				<div class="panel-body row">
-                    
+
 					<div ng-hide="nationalStrategicPlans"> <!-- no records -->
 						<p>
                         No National Biodiversity Strategies and Action Plans exists.<br/>
@@ -39,12 +39,12 @@
 						</p>
 						<button type="button" class="btn btn-default btn-xs btn-add" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government : government})">add +</button>
 					</div>
-                    
+
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
 						<div class="boxed">
 
 							<h4>
-								<i class="glyphicon glyphicon-file"></i> 
+								<i class="glyphicon glyphicon-file"></i>
 								{{strategicPlan.title}} ({{strategicPlan.year}})
 							</h4>
 							<p>
@@ -53,14 +53,14 @@
 						    <span ng-show="isDraft(strategicPlan)"  class="label label-warning pull-right label-spacing">not published</span>
 				            <span ng-show="isPublic(strategicPlan)" class="label label-info pull-right label-spacing">published</span>
 							<button type="button" class="btn btn-default btn-mini btn-xs btn-edit" ng-click="edit('nationalReport', {uid:strategicPlan.identifier})">edit &raquo;</button>
-						</div>	
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-        
-        
-		<!-- 
+
+
+		<!--
          //================
          // National Reports
          //================
@@ -68,7 +68,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseTwo')" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					<i class="glyphicon glyphicon-file"></i> National Reports 
+					<i class="glyphicon glyphicon-file"></i> National Reports
 					<i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {type:'nr', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(nationalReports|filter:isDraft).length}}</span>
@@ -77,7 +77,7 @@
 			</div>
 			<div id="collapseTwo" class="panel-collapse collapse">
       			<div class="panel-body row">
-                    
+
 					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="nrType in cbdNationalReports" style="padding-bottom:10px">
 						<div class="boxed">
 							<h4>
@@ -85,12 +85,12 @@
 								{{(nationalReportTypes | filter:{ identifier : nrType })[0].title | lstring}}
 								<span ng-hide="filteredReports.length" class="label label-important">missing</span>
 							</h4>
-							
+
 							<div ng-hide="filteredReports.length"> <!-- no report -->
 								<p><em>Please submit the report.</em></p>
 								<button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalReport', {reportType:nrType, government : government})">add +</button>
 							</div>
-                            
+
 							<div ng-repeat="nationalReport in filteredReports = (nationalReports | filter:{ reportType : nrType })"> <!-- NR -->
 								<h5>{{nationalReport.title|lstring}}</h5>
 								<p>
@@ -102,12 +102,12 @@
 							</div>
 						</div>
 					</div>
-                    
+
 				</div>
 			</div>
 		</div>
-        
-		<!-- 
+
+		<!--
          //================
          // Other Reports
          //================
@@ -115,7 +115,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseThree')" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
-					<i class="glyphicon glyphicon-file"></i> Other Reports 
+					<i class="glyphicon glyphicon-file"></i> Other Reports
 					<i class="icon-chevron-right icon-white"></i>
 					<button style="margin-left:20px" class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {type:'other', government:government })">add +</button>
 					<span class="label label-warning pull-right label-spacing">{{(otherNationalReports|filter:isDraft).length}}</span>
@@ -124,7 +124,7 @@
 			</div>
 			<div id="collapseThree" class="panel-collapse collapse">
 				<div class="panel-body row">
-                    
+
 					<div ng-hide="otherNationalReports"> <!-- no records -->
 						<p>
                         No other report exists.<br/>
@@ -132,7 +132,7 @@
 						</p>
 						<button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalReport', {type:'other', government : government})">add +</button>
 					</div>
-                    
+
 					<div class="col-lg-4 col-md-4 col-sm-4" ng-repeat="otherReport in otherNationalReports | orderBy:'year':true"> <!-- other reports -->
 						<div class="boxed">
 							<h4>
@@ -152,15 +152,15 @@
 			</div>
 		</div>
 	</div>
-    
-    
-	<!-- 
+
+
+	<!--
      //================================================
      // Progress towards implementation of the targets
      //================================================
 	 -->
-    
-    
+
+
 	<h4 class="heading" style="padding-top:60px;">
 		<span class="text-muted"><strong> Progress towards implementation of national and Aichi Biodiversity Targets</strong></span>
         <span style="font-size:14px;">
@@ -169,15 +169,15 @@
             <span class="label label-success pull-right label-spacing">up-to-date</span>
          </span>
 	</h4>
-    
+
 	<div class="panel-group" id="accordion2">
-        
-		<!-- 
+
+		<!--
          //================
          // Aichi Biodiversity Targets
          //================
 		 -->
-        
+
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseFour')" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
@@ -199,7 +199,7 @@
 							<td style="width:42px;text-align:center">
 								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}"><img class="aichi-icon" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
 							</td>
-                            
+
 							<!-- Related National Target -->
 							<td>
 								<ul class="list-unstyled">
@@ -207,13 +207,14 @@
 							            <span ng-show="isPublic(target)" class="label label-info pull-right label-spacing">published</span>
 										<span ng-show="isDraft(target)"  class="label label-warning pull-right label-spacing">not published</span>
 										<i class="glyphicon glyphicon-record"></i>
-										<a ng-href="{{target.url}}">{{target.title}}</a>
+										<a ng-show="isPublic(target)" ng-href="{{target.url}}">{{target.title}}</a>
+                                        <a ng-show="isDraft(target)"  ng-href="#" ng-click="edit('nationalTarget', { uid:target.identifier})">{{target.title}}</a>
 									</li>
 								</ul>
 								<button type="button" class="btn btn-default btn-xs btn-link" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ aichiTarget:aichiTarget, excludeTargets: aichiTarget.nationalTargets })" title="Link this Aichi Target to a National Target">link +</button>
 
 							</td>
-                            
+
 							<!-- Assessment status -->
 							<td style="text-align:center" ng-class="{false:'not-up-to-date'}[aichiTarget.isUpToDate]">
                                 <span class="label label-success" ng-show="aichiTarget.isUpToDate"  style="padding:5px;">up-to-date</span>
@@ -223,15 +224,15 @@
 								<!--<span class="label label-success"   ng-show="aichiTarget.isUpToDate">up-to-date</span>
 								<span class="label label-warning"   ng-show="aichiTarget.assessmentYears.length && !aichiTarget.isUpToDate">not up-to-date</span>
 								<span class="label label-default"   ng-hide="aichiTarget.assessmentYears">missing</span>-->
-                                
+
 								<div ng-show="aichiTarget.nextAssessmentYear" style="margin-top:3px">
-									<button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : aichiTarget.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>								
+									<button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : aichiTarget.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>
 								</div>
 							</td>
-                            
+
 							<!-- Years -->
 							<td ng-repeat="year in globalYears" style="text-align:center" style="text-align:center" ng-class="{false:'not-up-to-date'}[aichiTarget.isUpToDate]">
-								
+
                                 <span ng-show="aichiTarget.assessmentYears.indexOf(year)>=0">
 									<a style="cursor:pointer" ng-href="{{getAssessment(aichiTarget, year).url}}"><span class="badge badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(aichiTarget, year)), 'badge-published' : isPublic(getAssessment(aichiTarget, year)) }"><i class="glyphicon glyphicon-ok"></i></span></a>
 								</span>
@@ -241,14 +242,14 @@
 				</div>
 			</div>
 		</div>
-        
-        
-		<!-- 
+
+
+		<!--
          //================
          // National Targets
          //================
 		 -->
-        
+
 		<div class="panel panel-default">
 			<div class="panel-heading collapsed" ng-click="setLastSection('collapseFive')" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive" style="cursor:pointer">
 				<h4 class="accordion-toggle panel-title">
@@ -264,8 +265,8 @@
 
     <table class="table table-striped">
         <tr>
-            <th></th>
-            <th style="width:500px" ng-click="sortTable('title')">National Target <i ng-show="sortTerm=='title'" ng-class="{true:'down-caret', false:'up-caret'}[orderList]"></i></th>
+            <th style="width:100px" ></th>
+            <th style="width:450px" ng-click="sortTable('title')">National Target <i ng-show="sortTerm=='title'" ng-class="{true:'down-caret', false:'up-caret'}[orderList]"></i></th>
             <th style="width:50px"  ng-click="sortTable('aichiTargets')">Aichi Targets <i ng-show="sortTerm=='aichiTargets'" ng-class="{true:'down-caret', false:'up-caret'}[orderList]"></i></th>
             <th style="width:250px" ng-click="sortTable('nationalIndicators')">Related Indicators <i ng-show="sortTerm=='nationalIndicators'" ng-class="{true:'down-caret', false:'up-caret'}[orderList]"></i></th>
             <th style="width:250px" >Related Activities </th>
@@ -273,9 +274,19 @@
         </tr>
         <tbody ng-repeat="target in nationalTargets | orderBy:sortTerm:orderList">
             <tr >
-                <td><button type="button" class="btn btn-default btn-xs pull-right btn-edit" ng-click="edit('nationalTarget', { uid:target.identifier })">edit &raquo;</button></td>
-                <td > 
-						<i class="glyphicon glyphicon-record"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+                <td>
+                    <div class="btn-group" style="white-space:nowrap;">
+                        <button type="button" class="btn btn-default" ng-click="edit('nationalTarget', { uid:target.identifier })" title="edit"><i class="icon-edit"></i></button>
+                        <button type="button" class="btn btn-default" ng-show="isDraft(target)"  ng-click="eraseDraft(target, 'nationalTarget', nationalTargets, target.identifier)" title="Delete"><i class=" icon-trash"></i></button>
+                        <button type="button" class="btn btn-default" ng-show="isPublic(target)" ng-click="eraseDocument(target, 'nationalTarget', nationalTargets, target.identifier)" title="Delete"><i class=" icon-trash"></i></button>
+                    </div>
+                    <span ng-show="deleting==target.identifier"><i class="fa fa-spinner fa-spin"/>loading</span>
+                </td>
+                <td >
+						<i class="glyphicon glyphicon-record"></i>
+                            <a ng-show="isPublic(target)" ng-href="{{target.url}}">{{target.title|lstring}}</a>
+                            <a ng-show="isDraft(target)"  ng-href="#" ng-click="edit('nationalTarget', { uid:target.identifier })">{{target.title|lstring}}</a>
+                        <div style="text-align: justify;">{{target.description|lstring}}</div>
 						<div>
 	                		<span ng-show="isPublic(target)" class="label label-info label-spacing">published</span>
 							<span ng-show="isDraft(target)"  class="label label-warning label-spacing">not published</span>
@@ -289,7 +300,7 @@
                     <div ng-repeat="indicator in target.nationalIndicators">
                 		<span ng-show="isPublic(indicator)" class="label label-info pull-right label-spacing" title="published">p</span>
 						<span ng-show="isDraft(indicator)"  class="label label-warning pull-right label-spacing" title="not published">np</span>
-                        <i class="glyphicon glyphicon-dashboard"></i> <a ng-href="{{indicator.url}}">{{indicator.title}}</a><span ng-show="!$last">;                                                                                            
+                        <i class="glyphicon glyphicon-dashboard"></i> <a ng-href="{{indicator.url}}">{{indicator.title}}</a><span ng-show="!$last">;
                         </span>
                     </div>
                 </td>
@@ -303,24 +314,24 @@
                 <td  ng-class="{false:'not-up-to-date'}[target.isUpToDate]" style="text-align:center;">
 
 					<div ng-show="!target.isUpToDate" style="padding:5px;"><small>not up-to-date</small></div>
-	
+
                     <div ng-repeat="year in target.assessmentYears "  >
                         <a ng-href="{{getAssessment(target, year).url}}"><span class="label badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(target, year)), 'badge-published' : isPublic(getAssessment(target, year)) }"> {{year}}</span></a>
                     </div>
                     <button style="margin-top:5px;" type="button" class="btn btn-info btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : target.nextAssessmentYear, government : government })" title="Add a new assessment">
                         add +</button>
-                    
+
                 </td>
             </tr>
         </tbody>
     </table>
 
-    
+
 				</div>
 			</div>
 		</div>
 
-		<!-- 
+		<!--
 		//================
 		// National Indicators
 		//================
@@ -349,13 +360,15 @@
 								<button type="button" class="btn btn-default btn-xs pull-right btn-edit" ng-click="edit('nationalIndicator', { uid:indicator.identifier})">edit &raquo;</button>
 							</td>
 							<td>
-								<i class="glyphicon glyphicon-dashboard"></i> <a ng-href="{{indicator.url}}">{{indicator.title|lstring}}</a>
+								<i class="glyphicon glyphicon-dashboard"></i>
+                                <a ng-show="isPublic(indicator)" ng-href="{{indicator.url}}">{{indicator.title|lstring}}</a>
+                                <a ng-show="isDraft(indicator)"  ng-href="#" ng-click="edit('nationalIndicator', { uid:indicator.identifier})">{{indicator.title|lstring}}</a>
 								<div>
 			                		<span ng-show="isPublic(indicator)" class="label label-info label-spacing">published</span>
 									<span ng-show="isDraft(indicator)"  class="label label-warning label-spacing">not published</span>
 								</div>
 							</td>
-							
+
 							<td>
 								<ul class="list-unstyled">
 									<li ng-repeat="target in indicator.nationalTargets">
@@ -377,7 +390,7 @@
 
 	</div>
 
-	<!-- 
+	<!--
      //================================================
      // Activities, Guidance and Support Tools
      //================================================
@@ -390,7 +403,7 @@
 
          </span>
 	</h4>
-    
+
 	<div class="panel-group" id="accordion3">
 
 
@@ -433,10 +446,10 @@
 								<p>
 									{{activity.description|lstring|truncate:240:'...'}} <a ng-show="isPublic(activity)" ng-href="{{activity.url}}">more &raquo;</a>
                                 </p>
-                                
-								
+
+
 							</td>
-                          
+
 							<td>
 								<a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'"><img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png"/></a>
 							</td>
@@ -448,7 +461,7 @@
 							            <span ng-show="isPublic(target)" class="label label-info label-spacing" title="published">p</span>
 									</li>
 									<p>
-									<em ng-show="activity.nationalIndicators">Indicator(s): 
+									<em ng-show="activity.nationalIndicators">Indicator(s):
 										<i class="glyphicon glyphicon-dashboard"></i>  <span ng-repeat="indicator in activity.nationalIndicators"><a ng-href="{{indicator.url}}">{{indicator.title}}</a><span ng-show="!$last">;</span> </span>
 									</em>
 									</p>
@@ -461,7 +474,7 @@
 			</div>
 		</div>
 
-	<!-- 
+	<!--
      //================================================
      // Guidance and Support Tools
      //================================================
@@ -476,10 +489,10 @@
 					<span class="label label-info pull-right label-spacing">{{(nationalSupportTools|filter:isPublic).length}}</span>
 				</h4>
 			</div>
-            
+
 			<div id="collapseEight" class="panel-collapse collapse">
 				<div class="panel-body row">
-                    
+
 					<div ng-hide="nationalSupportTools"> <!-- no records -->
 						<p>
                         No Guidance or Support Tool exists.<br/>
@@ -488,8 +501,8 @@
 						<button type="button" class="btn btn-info btn-xs" ng-click="edit('nationalSupportTool', { government : government})">add +</button>
 					</div>
 
-                   <!-- 
-					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="tool in nationalSupportTools"> 
+                   <!--
+					<div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="tool in nationalSupportTools">
 						<div class="boxed">
 							<h4>
 								<i class="glyphicon glyphicon-screenshot"></i>
@@ -499,7 +512,7 @@
                             {{tool.description|lstring|truncate:160:'...'}} <a ng-href="{{tool.url}}">more &raquo;</a>
 							</p>
 							<button type="button" class="btn btn-default btn-mini btn-xs" ng-click="edit('nationalSupportTool', {uid:tool.identifier})">edit &raquo;</button>
-						</div>	
+						</div>
 					</div>  -->
 
 
@@ -534,7 +547,7 @@
 									    <span ng-show="isDraft(target)"  class="label label-warning label-spacing" title="not published">n-p</span>
 							            <span ng-show="isPublic(target)" class="label label-info label-spacing" title="published">p</span>
 									</li>
-								
+
 								</ul>
 							</td>
 						</tr>
@@ -544,7 +557,7 @@
 				</div>
 			</div>
 		</div>
-        
+
 	</div>
 
 
@@ -562,7 +575,7 @@
                     <div ng-show="linkTargetData.nationalIndicator">Indicator: {{linkTargetData.nationalIndicator.title}}</div>
                 </div>
                 <div class="modal-body" style="max-height:500px;overflow-y:auto">
-                    
+
                     <table class="table">
                         <tr>
                             <th>National Target</th>
@@ -581,7 +594,7 @@
                             </td>
                         </tr>
                     </table>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -589,7 +602,7 @@
                 </div>
 		    </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->		
+    </div><!-- /.modal -->
 	</div>
 </div>
 <style type="text/css">
@@ -597,19 +610,19 @@
     .label-spacing {
         margin-right: 5px;
     }
-    
+
     .aichi-icon {
         width: 46px;
     }
-    
+
     .aichi-icons {
         width: 48px;
     }
-    
+
     .aichi-icon-xs {
         width: 21px;
     }
-    
+
     .badge-success {
         background-color:#5cb85c;
     }
@@ -619,13 +632,13 @@
         color: white;
         text-decoration: none;
     }
-    
+
     .boxed {
         border:1px solid #ddd;
         padding:0 10px 10px 10px;
         border-radius:4px;
     }
-    
+
     .container.reporting  .panel-heading {
         border-color: #bce8f1;
         background-color: #2A5E8C;
@@ -633,7 +646,7 @@
     .container.reporting  .panel-heading h4 {
         color:white;
     }
-    
+
     .container.reporting  .panel-heading.collapsed {
         background-color: #f5f5f5;
         border-color: #dddddd;
@@ -641,7 +654,7 @@
     .container.reporting  .panel-heading.collapsed h4{
         color:black;
     }
-    
+
     .label {
         padding-top: 0.3em!important;
     }

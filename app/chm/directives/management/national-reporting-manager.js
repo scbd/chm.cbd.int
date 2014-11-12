@@ -18,13 +18,13 @@ angular.module('kmApp').compileProvider // lazy
 
 					qElement.collapse("show");
 					qElement.prev().removeClass("collapsed");//fixe boostrap bug
-					
+
 					/* global $: true */
 					$('body').stop().animate({ scrollTop : qElement.offset().top-100 }, 600);
 				}
 				else {
 					qElement = $elm.find(".panel-collapse:first");
-					
+
 					qElement.collapse("show");
 					qElement.prev().removeClass("collapsed");//fixe boostrap bug
 				}
@@ -70,10 +70,10 @@ angular.module('kmApp').compileProvider // lazy
 
 			if(!authentication.user().isAuthenticated) {
 				$timeout.cancel(qTimeout);
-				
+
 				if(!$location.search().returnUrl)
 					$location.search({returnUrl : $location.url() });
-				
+
 				$location.path('/management/signin');
 				return;
 			}
@@ -82,7 +82,7 @@ angular.module('kmApp').compileProvider // lazy
 		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter", function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
 
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
- 
+
 			if(userGovernment() && userGovernment()!=$routeParams.country) {
 				$location.path("/management/national-reporting/"+userGovernment());
 				return;
@@ -91,7 +91,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.government  = $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear()-1;
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
-			$scope.countries   = $http.get('/api/v2013/countries').then(function(response) { 
+			$scope.countries   = $http.get('/api/v2013/countries').then(function(response) {
 
 				var eu  = _.findWhere(response.data, { code : "EU"  });
 				var eur = _.findWhere(response.data, { code : "EUR" });
@@ -99,7 +99,7 @@ angular.module('kmApp').compileProvider // lazy
 				if(eur && !eu ) response.data.push(_.extend(_.clone(eur), { code: "EU"  }));
 				if(eu  && !eur) response.data.push(_.extend(_.clone(eu ), { code: "EUR" }));
 
-				return $scope.countries = response.data; 
+				return $scope.countries = response.data;
 			});
 			$scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
 			$scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
@@ -288,7 +288,7 @@ angular.module('kmApp').compileProvider // lazy
 			$scope.userGovernment = function() {
 				return userGovernment();
 			};
-			
+
 			var autoRefresh = null;
 
 			//==================================
@@ -498,7 +498,7 @@ angular.module('kmApp').compileProvider // lazy
 						var qqNationalTargets = _.compact(_.filter(qNationalTargets,     function(o) { return _.contains(record.nationalTarget_ss,    o.identifier_s); }));
 						var qqIndicatorCodes  = _.uniq(_.flatten(_.compact(_.map(qqNationalTargets, function(t) { return t.nationalIndicator_ss; }))));
 						var qqIndicators      = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(qqIndicatorCodes,            o.identifier_s); }));
-												
+
 						return _.first(_.map(map_nationalSupportTools([record]), function(record) {
 
 							return _.extend(record, {
@@ -566,6 +566,7 @@ angular.module('kmApp').compileProvider // lazy
 							identifier: record.identifier_s,
 							government: record.government_s,
 							title: record.title_t,
+							description: record.description_t,
 							url : makeRelative(_.first(record.url_ss||[]))
 						};
 					});
@@ -690,7 +691,70 @@ angular.module('kmApp').compileProvider // lazy
 					return angular.fromJson(serializedObject);
 				}
 			}
+
+			//==============================
+			//
+			//==============================
+			$scope.eraseDraft = function(draft, type, sourceCollection, identifier)
+			{
+				$scope.deleting = identifier;
+				storage.drafts.get(identifier, { info: "true" }).then(function(document){
+
+					if(document.workingDocumentLock || document.workingDocumentCreatedOn!=null){
+						alert("You are not authorized to delete this draft. \n Document is in workflow mode.");
+						return;
+					}
+
+					return storage.drafts.security.canDelete(identifier, type).then(
+						function(isAllowed) {
+							if (!isAllowed) {
+								alert("You are not authorized to delete this draft");
+								return;
+							}
+
+							if (!confirm("Delete the draft?"))
+								return;
+
+							storage.drafts.delete(identifier).then(
+								function(success) {
+							 		sourceCollection.splice(sourceCollection.indexOf(draft), 1);
+								},
+								function(error) {
+									alert("Error: " + error);
+								});
+						});
+				}).then(function(){
+					$scope.deleting = false;
+				});
+			};
+			//==============================
+			//
+			//==============================
+			$scope.eraseDocument = function(draft, type, sourceCollection, identifier)
+			{
+				$scope.deleting = identifier;
+					return storage.documents.security.canDelete(identifier, type).then(
+						function(isAllowed) {
+							if (!isAllowed) {
+								alert("You are not authorized to delete this draft");
+								return;
+							}
+
+							if (!confirm("Delete the document?"))
+								return;
+
+							storage.documents.delete(identifier).then(
+								function(success) {
+							 		sourceCollection.splice(sourceCollection.indexOf(draft), 1);
+										$scope.deleting = false;
+								},
+								function(error) {
+									alert("Error: " + error);
+								});
+						});
+
+			};
+
 		}]
 	};
 }]);
-

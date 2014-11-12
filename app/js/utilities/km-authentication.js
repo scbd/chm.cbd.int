@@ -2,7 +2,7 @@
 	.factory('authHttp', ["$http", "$browser", "realm", function($http, $browser, realm) {
 
 		function addAuthentication(config) {
-		
+
 			if(!config)         config         = {};
 			if(!config.headers) config.headers = {};
 			if(!config.headers.realm) config.headers.realm = realm;
@@ -89,6 +89,11 @@
 
 								_self.token(token.authenticationToken);
 
+								var response = { type: 'setAuthenticationToken', authenticationToken: token.authenticationToken, setAuthenticationEmail: $cookies.email };
+
+								var authenticationFrame = angular.element(document.querySelector('#authenticationFrame'))[0];
+								authenticationFrame.contentWindow.postMessage(JSON.stringify(response), 'https://accounts.cbd.int');
+
 							    //_self.user(user);                                 // service should be SCOPE/UI independent
 							    //$rootScope.$broadcast("signIn", _self.user());    // service should be SCOPE/UI independent
 
@@ -117,7 +122,7 @@
 
 				var oConfig = { timeout : 2000 };
 				var oToken  = _self.token();
-				
+
 				if (oToken)
 					oConfig.headers = { Authorization: "Ticket " + oToken };
 

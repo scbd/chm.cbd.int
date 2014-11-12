@@ -15,7 +15,7 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/app/css/km.css">
     <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/ab363dc0-d9f9-4148-a52d-4dca15df47ba.css">
-    
+
     <link rel="stylesheet" type="text/css" href="/app/js/libs/leaflet/0.7-dev/leaflet.css">
 
     <script src="/app/js/libs/jquery.min.js"></script>
@@ -107,7 +107,7 @@
 
 <body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
 
-
+    <iframe id="authenticationFrame" src="https://accounts.cbd.int/app/authorize.html" style="display:none"></iframe>
     <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom: 0px; text-align: center">
         <button type="button" ng-click="hideDisclaimer=true" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <strong>Warning!</strong> Information displayed is for demonstration purposes only and does not reflect CHM records.

@@ -89,7 +89,7 @@
 
 								_self.token(token.authenticationToken);
 
-								var response = { type: 'setAuthenticationToken', authenticationToken: token.authenticationToken, setAuthenticationEmail: $cookies.email };
+								var response = { type: 'setAuthenticationToken', authenticationToken: token.authenticationToken, setAuthenticationEmail: email };
 
 								var authenticationFrame = angular.element(document.querySelector('#authenticationFrame'))[0];
 								authenticationFrame.contentWindow.postMessage(JSON.stringify(response), 'https://accounts.cbd.int');

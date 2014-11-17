@@ -101,18 +101,19 @@
 							</div>
 						</div>
 
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="meansOfAssessment" caption="Means to assess progress">
-									<div km-textbox-ml required name="meansOfAssessment" ng-model="document.meansOfAssessment" rows="6" locales="document.header.languages" placeholder=""></div>
-								</div>
-							</div>
-						</div>
-
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
 								<div class="km-control-group" required name="higherLevelNationalTarget" caption="If this National Target is a sub-target, please indicate the higher level National Target.">
 									<div km-select required displaycount="1" name="higherLevelNationalTarget" multiple ng-model="document.higherLevelNationalTarget" placeholder="Please select National Target" watch-items items="options.nationalTargets"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="meansOfAssessment" caption="Means to assess progress">
+								<span class="help-block">Please describe in this field how you envisage to assess whether the national target has been achieved or what progress is being made to achieve the target. This could be done through indicators that might be used or through other means of verification such as case study information, project evaluations or expert judgment. <em>If this information is not currently available, please enter the date by which you can commit to providing this information in the text field below</em>.</span>
+									<div km-textbox-ml required name="meansOfAssessment" ng-model="document.meansOfAssessment" rows="6" locales="document.header.languages" placeholder=""></div>
 								</div>
 							</div>
 						</div>

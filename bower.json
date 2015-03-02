@@ -26,6 +26,7 @@
     "ngprogress": "~1.0.4"
   },
   "resolutions": {
-    "angular": "1.2.0-rc.2"
+    "angular": "1.2.0-rc.2",
+    "font-awesome": "~4.2.0"
   }
 }

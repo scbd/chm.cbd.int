@@ -8,7 +8,7 @@
     "angular-route": "1.2.0-rc.2",
     "angular-sanitize": "1.2.0-rc.2",
     "angular-strap": "2.0.0",
-    "font-awesome": "~4.0.x",
+    "font-awesome": "~4.3.x",
     "requirejs": "latest",
     "requirejs-domready": "latest",
     "requirejs-text": "latest",

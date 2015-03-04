@@ -294,7 +294,7 @@ app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authent
 
 }])
 
-function PageController($scope, $window, $location, authentication) {
+function PageController($scope, $window, $location, authentication, $browser) {
 
     $(function () {
         $.scrollUp({ scrollText: 'scroll to top' });
@@ -325,6 +325,70 @@ function PageController($scope, $window, $location, authentication) {
     $scope.currentPath = function () { return $location.path(); };
 
     $scope.hideSubmitInfoButton = function() { return $scope.currentPath()=="/management/register"; };
+
+    //============================================================
+    //
+    //
+    //============================================================
+   function setCookie (name, value, days, path) {
+
+        var cookieString = escape(name) + "=";
+
+        if(value) cookieString += escape(value);
+        else      days = -1;
+
+        if(path)
+            cookieString += "; path=" + path;
+
+        if(days || days == 0) {
+
+            var expirationDate = new Date();
+
+            expirationDate.setDate(expirationDate.getDate() + days);
+
+            cookieString += "; expires=" + expirationDate.toUTCString();
+        }
+
+        document.cookie = cookieString
+    };
+
+
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function receiveMessage(event)
+    {
+        if(event.origin!='https://accounts.cbd.int')
+            return;
+
+        var message = JSON.parse(event.data);
+
+        if(message.type=='ready')
+            event.source.postMessage('{"type":"getAuthenticationToken"}', event.origin);
+
+        if(message.type=='authenticationToken') {
+            if(message.authenticationToken && !$browser.cookies().authenticationToken) {
+                setCookie('authenticationToken', message.authenticationToken, 7, '/');
+                $window.location.href = window.location.href;
+            }
+            if(!message.authenticationToken && $browser.cookies().authenticationToken) {
+                authentication.signOut();
+                $window.location.href = $window.location.href;
+            }
+        }
+    }
+
+    window.addEventListener('message', receiveMessage, false);
+
+    $(document).ready(function(){
+
+        $("#authenticationFrame").bind("load", function() {
+            var iframe = angular.element(document.querySelector('#authenticationFrame'))[0];
+            iframe.contentWindow.postMessage('{"type":"getAuthenticationToken"}', 'https://accounts.cbd.int');            
+        });
+    });
 }
 
 //============================================================

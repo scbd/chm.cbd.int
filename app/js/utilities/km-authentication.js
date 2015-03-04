@@ -27,7 +27,8 @@
 		return authHttp;
 	}])
 
-	.factory('authentication', ["$q", "$browser", "$location", "$rootScope", "$http", "authHttp", function($q, $browser, $location, $rootScope, $http, authHttp) {
+	.factory('authentication', ["$q", "$browser", "$location", "$rootScope", "$http", "authHttp", "$window",
+	function($q, $browser, $location, $rootScope, $http, authHttp, $window) {
 
 		return {
 			//==============================
@@ -87,9 +88,11 @@
 							function(success) {
 								var user = success.data;
 
-								_self.token(token.authenticationToken);
+								// _self.token(token.authenticationToken);
+								$browser.cookies().authenticationToken = token.authenticationToken;
+		                        // $browser.cookies().email = rememberMe ? email : undefined;
 
-								var response = { type: 'setAuthenticationToken', authenticationToken: token.authenticationToken, setAuthenticationEmail: email };
+		                        var response = { type: 'setAuthenticationToken', authenticationToken: $browser.cookies().authenticationToken, setAuthenticationEmail: email };
 
 								var authenticationFrame = angular.element(document.querySelector('#authenticationFrame'))[0];
 								authenticationFrame.contentWindow.postMessage(JSON.stringify(response), 'https://accounts.cbd.int');
@@ -118,6 +121,8 @@
 					_self.token(null);
 					_self.user (null);
 					$rootScope.$broadcast("signOut", _self.user());
+					var redirect_uri = encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/');
+            		$window.location.href = 'https://accounts.cbd.int/signout?redirect_uri='+redirect_uri;
 				};
 
 				var oConfig = { timeout : 2000 };
@@ -125,6 +130,7 @@
 
 				if (oToken)
 					oConfig.headers = { Authorization: "Ticket " + oToken };
+
 
 				return $http.delete (_self.serviceUrls.token(false), oConfig).then(onCompleteFn, onCompleteFn);
 			},

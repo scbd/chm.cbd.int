@@ -43,7 +43,7 @@
 			//
 			//==============================
 			user : function(newUser) {
-				if (newUser === null)
+				if (newUser === null || !$browser.cookies().authenticationToken)
 					newUser = { userID: 1, name: "anonymous", email: "@anonymous", government : null, isAuthenticated: false, roles: [] };
 
 				if (newUser && !angular.equals($rootScope.user, newUser)) {

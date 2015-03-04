@@ -375,7 +375,7 @@ function PageController($scope, $window, $location, authentication, $browser) {
             }
             if(!message.authenticationToken && $browser.cookies().authenticationToken) {
                 authentication.signOut();
-                $window.location.href = $window.location.href;
+                //$window.location.href = $window.location.href;
             }
         }
     }
@@ -386,7 +386,7 @@ function PageController($scope, $window, $location, authentication, $browser) {
 
         $("#authenticationFrame").bind("load", function() {
             var iframe = angular.element(document.querySelector('#authenticationFrame'))[0];
-            iframe.contentWindow.postMessage('{"type":"getAuthenticationToken"}', 'https://accounts.cbd.int');            
+            iframe.contentWindow.postMessage('{"type":"getAuthenticationToken"}', 'https://accounts.cbd.int');
         });
     });
 }

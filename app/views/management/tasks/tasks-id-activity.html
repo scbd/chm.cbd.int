@@ -2,18 +2,18 @@
     <div >
       	<div class="row top">
 
-	    	<h1 ng-hide="activity">Action</h1>  
+	    	<h1 ng-hide="activity">Action</h1>
 			<h1 ng-show="activity" ng-switch="activity.name">
 				<span ng-switch-when="publishRecord">Approve or Reject record publication</span>
 				<span ng-switch-default>*{{activity.name|uppercase}}</span>
 			</h1>
-	        
+
 			<table class="table table-striped">
 			  <tr>
 				  <th colspan="2">
 				  	Request information and status
-				  </th>	
-			  </tr>	
+				  </th>
+			  </tr>
 			  <tr>
 			  	<td style="width:40%">Request ID</td>
 			  	<td style="text-transform:uppercase;white-space:nowrap;">
@@ -51,7 +51,7 @@
 			  	<td>Status</td>
 			  	<td>
 			  		<span ng-switch="workflow.state">
-			  			<span ng-switch-when="running"><i class="glyphicon glyphicon-cog"></i> Pending</span>	  				
+			  			<span ng-switch-when="running"><i class="glyphicon glyphicon-cog"></i> Pending</span>
 			  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'short'}}</span>
 			  			<span ng-switch-when="canceled"><i class="glyphicon glyphicon-remove-circle"></i> Canceled on {{workflow.closedOn|date:'short'}}</span>
 			  			<span ng-switch-when=""><i class="glyphicon glyphicon-exclamation-sign"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
@@ -76,13 +76,15 @@
 						<div ng-show="isAssignedToMe(activity)">
 							<button type="button" class="btn btn-primary" ng-click="updateActivity({ action : 'approve' })"><i class="glyphicon glyphicon-ok"></i> Approve</button>
 							<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="glyphicon glyphicon-remove"></i> Request Changes / Reject </button>
+                            <a type="button" class="btn btn-success" ng-href="/management/edit/{{workflow.data.metadata.schema}}?uid={{workflow.data.identifier}}&worflowId={{workflow._id}}"
+                            ><i class="glyphicon glyphicon-edit"></i> Edit</a>
 						</div>
 						<span ng-hide="isAssignedToMe(activity)">
 							<i class="glyphicon glyphicon-time"></i>
 							Waiting for <em>{{activity.assignedTo_info[0].firstName}} {{activity.assignedTo_info[0].lastName}}</em> to approve or reject this request.
 						</span>
 					</span>
-					
+
 				</div>
 			</div>
 
@@ -110,7 +112,7 @@
 
 			<div ng-show="document" class="t-document">
 				<div class="cbd-View-Form-Loader" document="document" hide-buttons="true" link-target="_self"></div>
-			</div>	
+			</div>
 
   		</div>
 
@@ -137,7 +139,7 @@
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->	
+	</div><!-- /.modal -->
     </form>
 
 </div>

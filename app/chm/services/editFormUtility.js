@@ -1,6 +1,6 @@
 ﻿angular.module('kmApp')
 
-.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", function(storage, workflows, $q, realm) {
+.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm","$route", function(storage, workflows, $q, realm, $route) {
 
 	var schemasWorkflowTypes  = {
 		"aichiTarget"            : { name : "publishReferenceRecord", version : undefined },
@@ -154,6 +154,14 @@
 				//Save document
 
 				return storage.documents.put(identifier, document);	// return documentInfo
+			}).then(function(document){
+
+				//update workflow if user is a approver and has come from task list page to edit the document before publishing.
+				if($route.current.params.worflowId){
+					workflows.updateActivity($route.current.params.worflowId, 'publishRecord', { action : 'approve' })
+				}
+
+				return document;
 			});
 		},
 
@@ -186,7 +194,7 @@
 				if(!canWrite)
 					throw { error : "Not allowed" };
 
-				//Save draft 
+				//Save draft
 				return storage.drafts.put(identifier, document);
 
 			}).then(function(draftInfo) {
@@ -196,10 +204,10 @@
 				if(!type)
 					throw "No workflow type defined for this record type: " + draftInfo.type;
 
-				var workflowData = { 
-					"realm"      : realm, 
-					"documentID" : draftInfo.documentID, 
-					"identifier" : draftInfo.identifier, 
+				var workflowData = {
+					"realm"      : realm,
+					"documentID" : draftInfo.documentID,
+					"identifier" : draftInfo.identifier,
 					"title"      : draftInfo.workingDocumentTitle,
 					"abstract"   : draftInfo.workingDocumentSummary,
 					"metadata"   : draftInfo.workingDocumentMetadata
@@ -213,4 +221,3 @@
 	return _self;
 
 }])
-

@@ -25,7 +25,7 @@ angular.module('kmApp').compileProvider.directive('searchFilterKeywords', functi
             };
 
             $scope.$watch('value', function () {
-                $scope.query = $scope.value == '' ? '*:*' : '(title_t:' + $scope.value + '* OR description_t:' + $scope.value + '* OR text_EN_txt:' + $scope.value + '*)';
+                $scope.query = $scope.value == '' ? '*:*' : '(title_t:"' + $scope.value + '*" OR description_t:"' + $scope.value + '*" OR text_EN_txt:"' + $scope.value + '*")';
             });
         }]
     }

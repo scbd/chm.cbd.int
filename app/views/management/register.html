@@ -1,73 +1,6 @@
 
-
-<style>
-
-
-
-h3{text-transform:uppercase;}
-h1, h3{color:#333;}
-h4{font-size:12px;}
-
-    .btn-schema {
-        text-align: left;
-        line-height: 14px;
-        white-space: normal;
-        padding:5px;
-        margin-bottom: 5px;
-        font-size:12px;
-        text-decoration: none;
-        background-color: #ddd;
-        cursor:pointer;
-        height:50px;
-    }
-    .dashboard{
-        height:20px;
-        font-weight:bold;
-    }
-
-    /*.national > div > .btn-schema {
-        background-color: #95B9C7;
-    }
-    .reference > div.btn-schema {
-        background-color: #F3E5AB;
-    }*/
-    .btn-schema > table {padding:0;margin:0;vertical-align:top;font-size:12px;}
-    .btn-schema > table > tbody > tr > td {padding:0;margin:0;vertical-align:top;font-size:12px!important;}
-    .btn-schema > table > tbody > tr > td.facets {font-size:12px!important;position:relative;top:-2px;}
-    .btn-schema:hover {
-        background-color: #666!important;color:#fff;
-    }
-
-    .btn-schema-selected {
-        border:0;
-        border-left:#418BCA solid 3px;
-
-        color:#111;
-        text-decoration: none;
-        padding-left:10px;
-        padding-right:10px;
-        background-color: #FFF!important;
-        padding:5px;
-
-
-        -webkit-border-radius: 3px;
-        -webkit-border-top-left-radius: 0px;
-        -webkit-border-bottom-left-radius: 0px;
-        -moz-border-radius: 3px;
-        -moz-border-radius-topleft: 0px;
-        -moz-border-radius-bottomleft: 0px;
-        border-radius: 3px;
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
-    }
-    .page-header{padding-top:14px;margin:0;}
-
-</style>
-
-
-
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-xs-3">
 
             <h2  class="color-black">Register Records
             </h2>
@@ -89,7 +22,9 @@ h4{font-size:12px;}
                 <h2  class="color-blue" ng-click="showNational=!showNational" style="cursor:pointer;margin-bottom:3px;">
                     <i class="fa fa-chevron-circle-up" ng-show="showNational"></i>
                     <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i>
-                    National Records</h2>
+                    National Records
+                    <span class="small">Submitted and validated by countries</span>
+                    </h2>
                 <div ng-show="showNational">
                     <h3>Online Reporting</h3>
                     <h4>National Reports, NBSAPs and Other Reports</h4>
@@ -123,7 +58,9 @@ h4{font-size:12px;}
                 <h2  class="color-orange" ng-click="showReference=!showReference" style="cursor:pointer;margin-bottom:3px;">
                     <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
                     <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i>
-                    Reference Records</h2>
+                    Reference Records
+                    <span class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</span>
+                    </h2>
                     <div ng-show="showReference">
                         <div class="btn-schema">Virtual Library - CHM Resources</div>
                         <div class="btn-schema">Biodiversity-related Organizations</div>
@@ -134,7 +71,9 @@ h4{font-size:12px;}
                 <h2  class="color-darkgrey" ng-click="showSCBD=!showSCBD" style="cursor:pointer;margin-bottom:3px;">
                     <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
                     <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i>
-                    SCBD Records</h2>
+                    SCBD Records
+                    <span class="small">Managed by the CBD Secretariat</span>
+                    </h2>
                 <div ng-show="showSCBD">
                     <div class="btn-schema">Marine Ecologically or Biologically Significant Areas (EBSA)</div>
                     <div class="btn-schema">Strategic Plan Indicators</div>

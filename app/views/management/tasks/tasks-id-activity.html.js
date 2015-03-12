@@ -1,4 +1,6 @@
-﻿angular.module('kmApp').controllerProvider.register("TaskIdActivityController", [ "$scope", "$timeout", "authHttp", "$route", "$location", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication, _) 
+﻿angular.module('kmApp').controllerProvider.register("TaskIdActivityController",
+[ "$scope", "$timeout", "authHttp", "$route", "$location", "IStorage", "IWorkflows", "authentication", "underscore",
+function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication, _)
 {
 	//==================================================
 	//
@@ -27,7 +29,7 @@
 			$scope.activity = activity
 		});
 	}
-	
+
 	load();
 
 	//==================================================
@@ -39,7 +41,7 @@
 		IWorkflows.updateActivity($scope.workflow._id, $scope.activity.name, resultData).then(function(){
 
 			$location.path("/management/tasks/"+$scope.workflow._id)
-			
+
 		}).catch(function(error) {
 			alert(error);
 		});
@@ -66,6 +68,8 @@
 	//
 	//==============================
 	$scope.formatWID = function (workflowID) {
+		if(!workflowID)
+			return '';
 		return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
 	};
 

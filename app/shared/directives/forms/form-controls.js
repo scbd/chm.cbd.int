@@ -1,5 +1,5 @@
 angular.module('formControls',[])
-	
+
 	//============================================================
 	//
 	//
@@ -20,12 +20,12 @@ angular.module('formControls',[])
 	        link: function ($scope, $element, attrs, ngModelController) {
 	            $scope.timestamp = Date.now();
 	            $scope.skipLoad = false;
-	            $scope.texts = [];            
+	            $scope.texts = [];
 	            $scope.$watch('binding', $scope.load);
 	            $scope.$watch('binding', function () {
 	                ngModelController.$setViewValue($scope.binding);
 	            });
-	           
+
 	        },
             controller: ["$scope", function ($scope) {
 	                //==============================
@@ -100,7 +100,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmTextboxMl', function ($http) 
+	.directive('kmTextboxMl', function ($http)
 	{
 		return {
 			restrict: 'EAC',
@@ -116,7 +116,7 @@ angular.module('formControls',[])
 				required   : "@",
 				ngChange   : "&"
 			},
-			link: function ($scope, element, attrs, ngModelController) 
+			link: function ($scope, element, attrs, ngModelController)
 			{
 				$scope.text = {}
 				$scope.$watch('locales', $scope.watchLocales);
@@ -126,12 +126,12 @@ angular.module('formControls',[])
 				});
 
 			},
-			controller : ["$scope", function ($scope) 
+			controller : ["$scope", function ($scope)
 			{
 				//==============================
 				//Remove value of not selected languages/empty languages
 				//==============================
-				$scope.watchLocales = function() 
+				$scope.watchLocales = function()
 				{
 					var oLocales = $scope.locales || [];
 					var oBinding = $scope.binding || {};
@@ -144,7 +144,7 @@ angular.module('formControls',[])
 				//==============================
 				//Remove value of not selected languages/empty languages
 				//==============================
-				$scope.watchBinding = function() 
+				$scope.watchBinding = function()
 				{
 					var oLocales = $scope.locales || [];
 					var oBinding = $scope.binding || {};
@@ -157,7 +157,7 @@ angular.module('formControls',[])
 				//==============================
 				//Remove value of not selected languages/empty languages
 				//==============================
-				$scope.onchange = function() 
+				$scope.onchange = function()
 				{
 					var oLocales    = $scope.locales || [];
 					var oText       = $scope.text    || {};
@@ -166,7 +166,7 @@ angular.module('formControls',[])
 					angular.forEach(oLocales, function(locale, i)
 					{
 						if($.trim(oText[locale])!="")
-							oNewBinding[locale] = oText[locale]; 
+							oNewBinding[locale] = oText[locale];
 					});
 
 					$scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
@@ -178,7 +178,7 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined 
+					return $scope.required!=undefined
 						&& $.isEmptyObject($scope.binding);
 				}
 
@@ -210,7 +210,7 @@ angular.module('formControls',[])
 				binding     : "=ngModel",
 				required    : "@"
 			},
-			link: function ($scope, $element, attrs, ngModelController) 
+			link: function ($scope, $element, attrs, ngModelController)
 			{
 				$scope.skipLoad = false;
 				$scope.texts    = [];
@@ -219,12 +219,12 @@ angular.module('formControls',[])
 					ngModelController.$setViewValue($scope.binding);
 				});
 			},
-			controller: ["$scope", function ($scope) 
+			controller: ["$scope", function ($scope)
 			{
 				//==============================
 				//
 				//==============================
-				$scope.load = function () 
+				$scope.load = function ()
 				{
 					if($scope.skipLoad)
 					{
@@ -241,11 +241,11 @@ angular.module('formControls',[])
 						$scope.texts.push({value : text});
 					});
 				};
-				
+
 				//==============================
 				//
 				//==============================
-				$scope.remove = function (index) 
+				$scope.remove = function (index)
 				{
 					$scope.texts.splice(index, 1);
 
@@ -255,7 +255,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.save = function () 
+				$scope.save = function ()
 				{
 					var oNewBinding = [];
 					var oText       = $scope.texts;
@@ -273,12 +273,12 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.getTexts = function () 
+				$scope.getTexts = function ()
 				{
 					if($scope.texts.length==0)
 						$scope.texts.push({value : ""});
 
-					var sLastValue = $scope.texts[$scope.texts.length-1].value; 
+					var sLastValue = $scope.texts[$scope.texts.length-1].value;
 
 					//NOTE: IE can set value to 'undefined' for a moment
 					if(sLastValue && sLastValue!="")
@@ -292,7 +292,7 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined 
+					return $scope.required!=undefined
 						&& $.isEmptyObject($scope.binding);
 				}
 			}]
@@ -303,7 +303,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmTerms', function ($http) 
+	.directive('kmTerms', function ($http)
 	{
 		return {
 			restrict: 'EAC',
@@ -313,17 +313,17 @@ angular.module('formControls',[])
 			scope: {
 				binding : '=ngModel',
 			},
-			link: function ($scope, element, attrs, controller) 
+			link: function ($scope, element, attrs, controller)
 			{
 				$scope.terms = [];
 				$scope.$watch('binding', $scope.load);
 			},
-			controller: ["$scope", "$q", "underscore", function ($scope, $q, _) 
+			controller: ["$scope", "$q", "underscore", function ($scope, $q, _)
 			{
 				//==============================
 				//
 				//==============================
-				$scope.load = function() 
+				$scope.load = function()
 				{
 					$scope.terms = [];
 					var oBinding = null;
@@ -381,7 +381,7 @@ angular.module('formControls',[])
 				required    : "@",
 				layout      : "@"
 			},
-			link: function ($scope, $element, $attr, ngModelController) 
+			link: function ($scope, $element, $attr, ngModelController)
 			{
 				$scope.identifiers = null;
 				$scope.terms       = null;
@@ -400,7 +400,7 @@ angular.module('formControls',[])
 					$element.addClass("list-unstyled");
 
 			},
-			controller: ["$scope", "$q", "Thesaurus", "Enumerable", '$timeout', function ($scope, $q, thesaurus, Enumerable, $timeout) 
+			controller: ["$scope", "$q", "Thesaurus", "Enumerable", '$timeout', function ($scope, $q, thesaurus, Enumerable, $timeout)
 			{
 				//==============================
 				//
@@ -414,7 +414,7 @@ angular.module('formControls',[])
 					if(qData==undefined)
 						$timeout($scope.init, 250); // MEGA UGLY PATCH
 
-					$q.when(qData, 
+					$q.when(qData,
 						function(data) { // on success
 							$scope.__loading = false;
 							$scope.terms     = data;
@@ -427,7 +427,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.load = function() 
+				$scope.load = function()
 				{
 					if (!$scope.terms) // Not initialized
 						return;
@@ -457,14 +457,14 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.save = function() 
+				$scope.save = function()
 				{
 					if(!$scope.identifiers)
 						return;
 
 					var oNewBinding = [];
 
-					angular.forEach($scope.terms, function(term, i) 
+					angular.forEach($scope.terms, function(term, i)
 					{
 						if(term==undefined) return //IE8 BUG
 
@@ -488,7 +488,7 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined 
+					return $scope.required!=undefined
 						&& $.isEmptyObject($scope.binding);
 				}
 
@@ -545,7 +545,7 @@ angular.module('formControls',[])
 				layout      : "@",
 				required    : "@"
 			},
-			link: function ($scope, $element, $attr, ngModelController) 
+			link: function ($scope, $element, $attr, ngModelController)
 			{
 				$scope.selection = null;
 				$scope.terms     = null;
@@ -563,7 +563,7 @@ angular.module('formControls',[])
 				if(!$attr["class"])
 					$element.addClass("list-unstyled");
 			},
-			controller: ["$scope", "$q", "Thesaurus", "Enumerable", function ($scope, $q, thesaurus, Enumerable) 
+			controller: ["$scope", "$q", "Thesaurus", "Enumerable", function ($scope, $q, thesaurus, Enumerable)
 			{
 				//==============================
 				//
@@ -572,7 +572,7 @@ angular.module('formControls',[])
 					$scope.setError(null);
 					$scope.__loading = true;
 
-					$q.when($scope.termsFn(), 
+					$q.when($scope.termsFn(),
 						function(data) { // on success
 							$scope.__loading = false;
 							$scope.terms     = data;
@@ -585,7 +585,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.load = function() 
+				$scope.load = function()
 				{
 					if (!$scope.terms) // Not initialized
 						return;
@@ -612,7 +612,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.save = function() 
+				$scope.save = function()
 				{
 					if(!$scope.selection)
 						return;
@@ -638,7 +638,7 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined 
+					return $scope.required!=undefined
 						&& $.isEmptyObject($scope.binding);
 				}
 
@@ -696,7 +696,7 @@ angular.module('formControls',[])
 				identifier : '=',
 				mimeTypes  : "@"
 			},
-			link: function ($scope, $element, $attr, ngModelController) 
+			link: function ($scope, $element, $attr, ngModelController)
 			{
 				// init
 				$scope.links = [];
@@ -760,7 +760,7 @@ angular.module('formControls',[])
 					if(_new!=_old && !_new) $element.find("#editFile,#editLink").modal("hide");
 				});
 			},
-			controller: ["$scope", "IStorage", function ($scope, storage) 
+			controller: ["$scope", "IStorage", function ($scope, storage)
 			{
 				$scope.editor = {};
 
@@ -779,9 +779,10 @@ angular.module('formControls',[])
 
 					angular.forEach($scope.binding || [], function(link, i)
 					{
-						oNewLinks.push({ 
+						oNewLinks.push({
 							url  : link.url,
-							name : link.name
+							name : link.name,
+							tag  : link.tag
 						});
 					});
 
@@ -799,8 +800,11 @@ angular.module('formControls',[])
 					{
 						var oNewLink = { url : $.trim(link.url) };
 
-						if(link.name && $.trim(link.name)!="") 
+						if(link.name && $.trim(link.name)!="")
 							oNewLink.name = $.trim(link.name);
+
+						if(link.tag && $.trim(link.tag)!="")
+							oNewLink.tag = $.trim(link.tag);
 
 						oNewBinding.push(oNewLink);
 					});
@@ -813,7 +817,7 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined 
+					return $scope.required!=undefined
 						&& $.isEmptyObject($scope.binding);
 				}
 
@@ -824,7 +828,7 @@ angular.module('formControls',[])
 				{
 					if(!this.isAllowLink())
 						return;
-						
+
 					$scope.editor.editLink(null);
 				}
 
@@ -838,14 +842,14 @@ angular.module('formControls',[])
 
 					if(!$scope.identifier)
 						throw "identifier not specified";
-					
+
 					$scope.editor.editFile(null);
 				}
 
 				//==============================
 				//
 				//==============================
-				$scope.remove = function(link) 
+				$scope.remove = function(link)
 				{
 					$scope.links.splice($scope.links.indexOf(link), 1);
 					$scope.save();
@@ -856,7 +860,7 @@ angular.module('formControls',[])
 				//==============================
 				$scope.editor.editLink = function(link)
 				{
-					link = link || {url:"", name:""};
+					link = link || {url:"http://www.", name:""};
 
 					$scope.editor.close();
 
@@ -874,7 +878,7 @@ angular.module('formControls',[])
 					if(link!=null)
 						throw "Only new file is allowed"
 
-					link = link || {url:"", name:""};
+					link = link || {url:"", name:"", tag:""};
 
 					$scope.editor.close();
 
@@ -882,6 +886,7 @@ angular.module('formControls',[])
 					$scope.editor.url  = link.url;
 					$scope.editor.name = link.name;
 					$scope.editor.type = "file";
+					$scope.editor.name = link.tag;
 
 					$scope.editor.startUploadProcess(function() {
 						$scope.editor.visible = true;
@@ -899,6 +904,7 @@ angular.module('formControls',[])
 					$scope.editor.error   = null;
 					$scope.editor.type    = null;
 					$scope.editor.visible = false;
+					$scope.editor.tag     = null;
 				}
 
 				//==============================
@@ -910,6 +916,8 @@ angular.module('formControls',[])
 
 					if($.trim($scope.editor.name||"")!="")
 						oLink.name = $scope.editor.name;
+					if($.trim($scope.editor.tag||"")!="")
+						oLink.tag = $scope.editor.tag;
 
 					var iIndex = $scope.links.indexOf($scope.editor.link);
 
@@ -931,14 +939,15 @@ angular.module('formControls',[])
 					$scope.editor.uploadPlaceholder.prepend("<input type='file' style='display:none' />");
 
 					var qHtmlInputFile = $scope.editor.uploadPlaceholder.children("input[type=file]:first");
-		
+
 					qHtmlInputFile.change(function()
 					{
 						var file = this.files[0];
 						var type = storage.attachments.getMimeType(file);
 						var link = {
 							url: null,
-							name: file.name
+							name: file.name,
+							tag : ''
 						};
 
 						$scope.safeApply(function() {
@@ -976,7 +985,7 @@ angular.module('formControls',[])
 								});
 						});
 					});
-		
+
 					qHtmlInputFile.click();
 				}
 
@@ -1011,7 +1020,9 @@ angular.module('formControls',[])
 					if(link.name && $scope.editor.name!="")
 						$scope.editor.name = link.name;
 
-					$scope.editor.save();
+					$scope.editor.progress = null;
+
+					//$scope.editor.save();
 				}
 
 				//==============================
@@ -1025,7 +1036,7 @@ angular.module('formControls',[])
 					console.log('xhr.upload error: ' + message)
 
 					$scope.editor.error = message;
-					
+
 					if($scope.editor.progress)
 						$scope.editor.progress.style   = "error";
 				}
@@ -1067,7 +1078,7 @@ angular.module('formControls',[])
 				loaderFn  : "&loader",
 				orderByFn : "&orderBy"
 			},
-			link: function ($scope, $element, $attr, ngModelController) 
+			link: function ($scope, $element, $attr, ngModelController)
 			{
 				//Init
 				$scope.references = [];
@@ -1078,19 +1089,19 @@ angular.module('formControls',[])
 				});
 
 				//Watchers
-				 
+
 				$scope.$watch("binding", $scope.load);
 				$scope.$watch('binding', function() {
 					ngModelController.$setViewValue($scope.binding);
 				});
 
-				$scope.$watch("editor.visible", function(_new, _old) 
-				{ 
+				$scope.$watch("editor.visible", function(_new, _old)
+				{
 					if(_new!=_old &&  _new) $element.find("#editReference").modal("show");
 					if(_new!=_old && !_new) $element.find("#editReference").modal("hide");
 				});
 			},
-			controller: ["$scope", "authHttp", "underscore", function ($scope, $http, _) 
+			controller: ["$scope", "authHttp", "underscore", function ($scope, $http, _)
 			{
 				$scope.editor = {};
 
@@ -1181,13 +1192,13 @@ angular.module('formControls',[])
 
 					$scope.save();
 				};
-				
+
 				//====================
 				//
 				//====================
 				$scope.loadAllReferences = function(reload)
 				{
-					if($scope.editor.references && !reload) 
+					if($scope.editor.references && !reload)
 						return;
 
 					$scope.isLoading = true;
@@ -1274,7 +1285,7 @@ angular.module('formControls',[])
 				//====================
 				//
 				//====================
-				$scope.editor.filterExcludeSelected = function(ref) 
+				$scope.editor.filterExcludeSelected = function(ref)
 				{
 					return !_.findWhere($scope.references, { identifier: ref.identifier });
 				}
@@ -1282,7 +1293,7 @@ angular.module('formControls',[])
 				//====================
 				//
 				//====================
-				$scope.editor.sortReference = function(ref) 
+				$scope.editor.sortReference = function(ref)
 				{
 					if($scope.orderByFn)
 						return $scope.orderByFn({reference : ref});
@@ -1297,7 +1308,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmSelect', ["underscore", "htmlUtility", function (_, html) 
+	.directive('kmSelect', ["underscore", "htmlUtility", function (_, html)
 	{
 		return {
 			restrict: 'EAC',
@@ -1316,7 +1327,7 @@ angular.module('formControls',[])
 				minimumFn    : "&minimum",
 				maximumFn    : "&maximum",
 			},
-			link: function ($scope, $element, $attrs, ngModelController) 
+			link: function ($scope, $element, $attrs, ngModelController)
 			{
 				$scope.identifier = null;
 				$scope.rootItems  = null;
@@ -1362,7 +1373,7 @@ angular.module('formControls',[])
 						}
 					});
 			},
-			controller: ["$scope", "$q","$filter", "$timeout", "underscore", function ($scope, $q, $filter, $timeout, _) 
+			controller: ["$scope", "$q","$filter", "$timeout", "underscore", function ($scope, $q, $filter, $timeout, _)
 			{
 				//==============================
 				//
@@ -1444,7 +1455,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.getTitle = function(maxCount, truncate) 
+				$scope.getTitle = function(maxCount, truncate)
 				{
 					if ($scope.__loading)
 						return "Loading...";
@@ -1471,7 +1482,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.getTitles = function() 
+				$scope.getTitles = function()
 				{
 					return _.map($scope.getSelectedItems(), function(o) {
 						return $filter("lstring")(o.title || o.name, $scope.locale);
@@ -1481,7 +1492,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.getMinimum = function() 
+				$scope.getMinimum = function()
 				{
 					var value = $scope.minimumFn();
 
@@ -1494,7 +1505,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.getMaximum = function() 
+				$scope.getMaximum = function()
 				{
 					var value = $scope.maximumFn();
 
@@ -1521,7 +1532,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.load = function() 
+				$scope.load = function()
 				{
 					if (!$scope.allItems) // Not initialized
 						return;
@@ -1546,7 +1557,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.save = function() 
+				$scope.save = function()
 				{
 					if (!$scope.allItems) // Not initialized
 						return;
@@ -1702,7 +1713,7 @@ angular.module('formControls',[])
 				$element.children("input").on('focus', function() { $scope.hasFocus = true; });
 				$element.children("input").on('blur',  function() { $scope.hasFocus = false; });
 			},
-			controller: ["$scope", function ($scope) 
+			controller: ["$scope", function ($scope)
 			{
 				var _self = this;
 
@@ -1775,7 +1786,7 @@ angular.module('formControls',[])
 				onPostWorkflowFn  : "&onPostWorkflow",
 				onErrorFn: "&onError"
 			},
-			link: function ($scope, $element) 
+			link: function ($scope, $element)
 			{
 				$scope.errors              = null;
 
@@ -1833,7 +1844,7 @@ angular.module('formControls',[])
 				});
 
 				qSaveDialog.on('hidden.bs.modal' ,function() {
-					
+
 					$scope.safeApply(function(){
 
 						var promise = null;
@@ -1843,7 +1854,7 @@ angular.module('formControls',[])
 				});
 
 				qCancelDialog.on('shown.bs.modal' ,function() {
-					
+
 					$scope.safeApply(function(){
 
 						var promise = null;
@@ -1862,7 +1873,7 @@ angular.module('formControls',[])
 					});
 				});
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) 
+			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility)
 			{
 				//====================
 				//
@@ -1897,23 +1908,23 @@ angular.module('formControls',[])
 
 						storage.documents.exists(identifier).then(function(exist){
 
-							var q = exist 
+							var q = exist
 								  ? storage.documents.security.canUpdate(document.header.identifier, schema)
 								  : storage.documents.security.canCreate(document.header.identifier, schema);
 
-							q.then(function(allowed) { 
-								$scope.security.canSave = allowed 
+							q.then(function(allowed) {
+								$scope.security.canSave = allowed
 							});
 						})
 
 						storage.drafts.exists(identifier).then(function(exist){
 
-							var q = exist 
+							var q = exist
 								  ? storage.drafts.security.canUpdate(document.header.identifier, schema)
 								  : storage.drafts.security.canCreate(document.header.identifier, schema);
 
-							q.then(function(allowed) { 
-								$scope.security.canSaveDraft = allowed 
+							q.then(function(allowed) {
+								$scope.security.canSaveDraft = allowed
 							});
 						})
 					});
@@ -1925,8 +1936,8 @@ angular.module('formControls',[])
 				$scope.publish = function()
 				{
 					$q.when($scope.onPrePublishFn()).then(function(result) {
-					
-						return $scope.closeDialog().then(function() { 
+
+						return $scope.closeDialog().then(function() {
 							return result;
 						});
 
@@ -1948,7 +1959,7 @@ angular.module('formControls',[])
 						});
 
 					}).catch(function(error){
-						
+
 						$scope.onErrorFn({ action: "publish", error: error });
 						$scope.closeDialog();
 
@@ -1961,8 +1972,8 @@ angular.module('formControls',[])
 				$scope.publishRequest = function()
 				{
 					$q.when($scope.onPrePublishFn()).then(function(result) {
-					
-						return $scope.closeDialog().then(function() { 
+
+						return $scope.closeDialog().then(function() {
 							return result;
 						});
 
@@ -1984,7 +1995,7 @@ angular.module('formControls',[])
 						});
 
 					}).catch(function(error){
-						
+
 						$scope.onErrorFn({ action: "publishRequest", error: error });
 						$scope.closeDialog();
 
@@ -1997,8 +2008,8 @@ angular.module('formControls',[])
 				$scope.saveDraft = function()
 				{
 					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
-					
-						return $scope.closeDialog().then(function() { 
+
+						return $scope.closeDialog().then(function() {
 							return result;
 						});
 					}).then(function(cancel) {
@@ -2025,8 +2036,8 @@ angular.module('formControls',[])
 				$scope.close = function()
 				{
 					$q.when($scope.onPreCloseFn()).then(function(result) {
-					
-						return $scope.closeDialog().then(function() { 
+
+						return $scope.closeDialog().then(function() {
 							return result;
 						});
 					}).then(function(result) {
@@ -2044,7 +2055,7 @@ angular.module('formControls',[])
 				//====================
 				//
 				//====================
-				$scope.checkErrors = function() 
+				$scope.checkErrors = function()
 				{
 					$scope.errors = "";
 
@@ -2055,7 +2066,7 @@ angular.module('formControls',[])
 				//====================
 				//
 				//====================
-				$scope.closeDialog = function() 
+				$scope.closeDialog = function()
 				{
 					return $q.all([$scope.showSaveDialog(false), $scope.showCancelDialog(false)]);
 				};
@@ -2089,11 +2100,11 @@ angular.module('formControls',[])
 			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) {
 
 				$scope.locales = [
-					{identifier:"ar", name:"Arabic"  }, 
-					{identifier:"en", name:"English" }, 
-					{identifier:"es", name:"Spanish" }, 
-					{identifier:"fr", name:"French"  }, 
-					{identifier:"ru", name:"Russian" }, 
+					{identifier:"ar", name:"Arabic"  },
+					{identifier:"en", name:"English" },
+					{identifier:"es", name:"Spanish" },
+					{identifier:"fr", name:"French"  },
+					{identifier:"ru", name:"Russian" },
 					{identifier:"zh", name:"Chinese" }
 				];
 
@@ -2153,7 +2164,7 @@ angular.module('formControls',[])
 				}
 
 			},
-			controller: ["$scope", function ($scope) 
+			controller: ["$scope", function ($scope)
 			{
 				//====================
 				//
@@ -2195,7 +2206,7 @@ angular.module('formControls',[])
 	{
 		return {
 			restrict: 'A',
-			link: function ($scope, $element, $attr) 
+			link: function ($scope, $element, $attr)
 			{
 				//==============================
 				//
@@ -2241,7 +2252,7 @@ angular.module('formControls',[])
 				required  : '@required',
 				isValidFn : "&isValid"
 			},
-			link: function ($scope, $element, $attr) 
+			link: function ($scope, $element, $attr)
 			{
 				if ($attr.isValid) {
 					$scope.hasError = function() { return false; }
@@ -2256,12 +2267,12 @@ angular.module('formControls',[])
 					}
 				}
 			},
-			controller: ["$scope", "underscore", function ($scope, _) 
+			controller: ["$scope", "underscore", function ($scope, _)
 			{
 				$scope.hasWarning = function() {  //default behavior
 
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.warnings) {
-						
+
 						return !!_.findWhere($scope.$parent.validationReport.warnings, { property : $scope.name })
 					}
 
@@ -2269,7 +2280,7 @@ angular.module('formControls',[])
 				}
 
 				$scope.hasError = function() {  //default behavior
-					
+
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.errors) {
 
 						return !!_.findWhere($scope.$parent.validationReport.errors, { property : $scope.name })

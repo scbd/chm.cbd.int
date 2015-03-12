@@ -1,4 +1,252 @@
-<div class="home-bottom" style="position:relative">
+
+
+<style>
+
+
+
+h3{text-transform:uppercase;}
+h1, h3{color:#333;}
+h4{font-size:12px;}
+
+    .btn-schema {
+        text-align: left;
+        line-height: 14px;
+        white-space: normal;
+        padding:5px;
+        margin-bottom: 5px;
+        font-size:12px;
+        text-decoration: none;
+        background-color: #ddd;
+        cursor:pointer;
+        height:50px;
+    }
+    .dashboard{
+        height:20px;
+        font-weight:bold;
+    }
+
+    /*.national > div > .btn-schema {
+        background-color: #95B9C7;
+    }
+    .reference > div.btn-schema {
+        background-color: #F3E5AB;
+    }*/
+    .btn-schema > table {padding:0;margin:0;vertical-align:top;font-size:12px;}
+    .btn-schema > table > tbody > tr > td {padding:0;margin:0;vertical-align:top;font-size:12px!important;}
+    .btn-schema > table > tbody > tr > td.facets {font-size:12px!important;position:relative;top:-2px;}
+    .btn-schema:hover {
+        background-color: #666!important;color:#fff;
+    }
+
+    .btn-schema-selected {
+        border:0;
+        border-left:#418BCA solid 3px;
+
+        color:#111;
+        text-decoration: none;
+        padding-left:10px;
+        padding-right:10px;
+        background-color: #FFF!important;
+        padding:5px;
+
+
+        -webkit-border-radius: 3px;
+        -webkit-border-top-left-radius: 0px;
+        -webkit-border-bottom-left-radius: 0px;
+        -moz-border-radius: 3px;
+        -moz-border-radius-topleft: 0px;
+        -moz-border-radius-bottomleft: 0px;
+        border-radius: 3px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    .page-header{padding-top:14px;margin:0;}
+
+</style>
+
+
+
+    <div class="row">
+        <div class="col-md-3">
+
+            <h2  class="color-black">Register Records
+            </h2>
+
+            <div style="margin-bottom:10px;font-size:12px;" class="pull-right">
+                <span class="pull-right"> Published  <span class="label label-success">&nbsp;</span></span><br>
+                <span class="pull-right"> Draft <span class="label label-default">&nbsp;</span></span><br>
+                <span class="pull-right"> Awaiting approval <span class="label label-danger">&nbsp;</span></span>
+            </div><div class="clearfix"></div>
+
+
+            <div class="btn-schema dashboard">Dashboard (all records)</div>
+            <div class="btn-schema dashboard">Requests</div>
+
+
+
+
+            <div class="national">
+                <h2  class="color-blue" ng-click="showNational=!showNational" style="cursor:pointer;margin-bottom:3px;">
+                    <i class="fa fa-chevron-circle-up" ng-show="showNational"></i>
+                    <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i>
+                    National Records</h2>
+                <div ng-show="showNational">
+                    <h3>Online Reporting</h3>
+                    <h4>National Reports, NBSAPs and Other Reports</h4>
+                    <div class="btn-schema">
+                        <table><tr>
+                            <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> National Biodiversity Strategies and Action Plans (NBSAPS) </td>
+                            <td class="facets">
+                                <span class="label label-success label-small"> 3 </span><br>
+                                <span class="label label-default label-small"> 0 </span><br>
+                                <span class="label label-danger label-small"> 0 </span><br>
+                        </td></tr></table>
+                    </div>
+                    <div class="btn-schema">National Reports</div>
+                    <div class="btn-schema">National Other Reports</div>
+                    <h4>Progress towards implementation of national and Aichi Biodiversity Targets</h4>
+                    <div class="btn-schema">Aichi Biodiversity Targets</div>
+                    <div class="btn-schema">National Targets</div>
+                    <div class="btn-schema">National Indicators</div>
+                    <h4>Activities, Guidance and Support Tools</h4>
+                    <div class="btn-schema">Implementation Activities</div>
+                    <div class="btn-schema">Guidance and Support Tools</div>
+
+
+                    <h3>Financial Resource Mobilisation </h3>
+                    <h4>Implementation of the Strategy for Resource Mobilization</h4>
+                    <div class="btn-schema">Preliminary Reporting Framework</div>
+                </div>
+            </div>
+
+            <div class="reference">
+                <h2  class="color-orange" ng-click="showReference=!showReference" style="cursor:pointer;margin-bottom:3px;">
+                    <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
+                    <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i>
+                    Reference Records</h2>
+                    <div ng-show="showReference">
+                        <div class="btn-schema">Virtual Library - CHM Resources</div>
+                        <div class="btn-schema">Biodiversity-related Organizations</div>
+                    </div>
+            </div>
+
+            <div class="scbd">
+                <h2  class="color-darkgrey" ng-click="showSCBD=!showSCBD" style="cursor:pointer;margin-bottom:3px;">
+                    <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
+                    <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i>
+                    SCBD Records</h2>
+                <div ng-show="showSCBD">
+                    <div class="btn-schema">Marine Ecologically or Biologically Significant Areas (EBSA)</div>
+                    <div class="btn-schema">Strategic Plan Indicators</div>
+                    <div class="btn-schema">Case Studies</div>
+                    <div class="btn-schema">Case Study - Biodiversity and Human Well-being</div>
+                    <div class="btn-schema">Strategic Plan Indicators</div>
+                    <div class="btn-schema">Aichi Targets</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-xs-9">
+
+
+            <h1 class="page-header">Dashboard</h1>
+
+            <div class="row row-same-height" style="margin-bottom:20px;">
+                <div class="col-xs-6 col-xs-height col-top" >
+                    <h3 style="color:#555;">Welcome. You are signed in!</h3>
+                    <!-- <dl class="dl-horizontal" style="padding-top:20px;">
+                        <dt style="text-align:left">Name</dt><dd>{{user.name}}</dd>
+                    <dt style="text-align:left;white-space:nowrap;">Primary email</dt><dd><strong>{{user.email}}</strong></dd>
+                    <dt style="text-align:left;white-space:nowrap;" ng-show="user.government">Country</dt><dd style="text-transform:uppercase;">
+                        <a href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd>
+                    </dl> -->
+
+                    <div class="no-shadow thin-border" style="padding:10px;">
+                        <h4 style="padding-top;0;margin-top:0;">Manage your account with <a href="http://accounts.cbd.int" class="color-green bold">accounts.cbd.int</a></h4>
+                        <ul>
+                            <li><a href="#" ng-click="actionProfile()">Update your profile</a></li>
+                            <li><a href="#" ng-click="actionPassword()" >Change your password</a></li>
+                            <li><a href="mailto:chm@cbd.int" class="color-blue">Contact us: chm@cbd.int</a></li>
+                            <li><a href="#" ng-click="actionSignOut()" style="text-transform:uppercase;">sign out</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 bg-white col-xs-height col-top" style="border-left:3px solid #999;">
+
+                    <!-- <div style="padding-bottom:10px;" ng-show="user.roles.indexOf(getRoleName('AbsNationalFocalPoint')) != -1">
+                        <span ng-show="user.roles.indexOf(getRoleName('AbsNationalFocalPoint')) != -1" class="label label-primary" style="text-transform:uppercase;"><i class="fa fa-check-square"></i> You are a Focal Points (NP-FP)</span>
+                        <span ng-hide="user.roles.indexOf(getRoleName('AbsNationalFocalPoint')) != -1" class="label label-default" style="text-transform:uppercase;"><i class="fa fa-times-circle"></i> Focal Points (NP-FP)</span>
+
+                        CBD Primary Focal Points or Nagoya Focal Points have the responsiblity to designate themselves or another user as the Publishing Authority (PA). A Focal Point can complete <a href="http://www.cbd.int/abs/doc/commonformats/ABSCH-PA-NAU.doc">this offline form</a> and email it to <a href="mailto:absch@cbd.int" class="color-blue">absch@cbd.int</a> to designate or change a PA.
+                        For more information, please see <a href="http://www.cbd.int/abs/text/articles/default.shtml?sec=abs-13">Article 13</a> of the Nagoya Protocol.
+                    </div>
+
+                    <div>
+                        <span ng-show="user.roles.indexOf(getRoleName('AbsPublishingAuthorities')) != -1" class="label label-primary" style="text-transform:uppercase;"><i class="fa fa-check-square"></i> YOU ARE THE PUBLISHING AUTHORITY (PA)</span>
+                        <span ng-hide="user.roles.indexOf(getRoleName('AbsPublishingAuthorities')) != -1" class="label label-default" style="text-transform:uppercase;"><i class="fa fa-times-circle"></i> Publishing Authority (PA)</span>
+
+                        Each country can designate only one PA. The PA's job to ensure all records are validated before they are published and become publically available on the ABS-CH. PAs can also designate National Authorized Users (NAUs) who are allowed to submit draft records for your country.
+                        To designated or change a NAU, the PA should send an email to <a href="mailto:absch@cbd.int" class="color-blue">absch@cbd.int</a> indicating the change, name and email of the NAU.
+                    </div>
+
+                    <div style="padding-top:10px;">
+                        <span ng-show="user.roles.indexOf(getRoleName('AbsNationalAuthorizedUser')) != -1" class="label label-primary" style="text-transform:uppercase;"><i class="fa fa-check-square"></i> You are a National Authorized User (NAU)</span>
+                        <span ng-hide="user.roles.indexOf(getRoleName('AbsNationalAuthorizedUser')) != -1" class="label label-default" style="text-transform:uppercase;"><i class="fa fa-times-circle"></i> National Authorized Users (NAU)</span>
+
+                        NAUs can save draft national records and request national records to be published by the Publishing Authority (PA).
+                    </div>
+
+                    <div style="padding-top:10px;">
+                        <span ng-show="user.roles.indexOf(getRoleName('User')) != -1" class="label label-primary" style="text-transform:uppercase;"><i class="fa fa-check-square"></i> YOU ARE A REGISTERED USER</span>
+                        <span ng-hide="user.roles.indexOf(getRoleName('User')) != -1" class="label label-default" style="text-transform:uppercase;"><i class="fa fa-times-circle"></i> REGISTERED USERS</span>
+
+                        Registered Users can save draft reference records and request reference records to be published in the Virtual Library.
+                        Reference records are validated by the SCBD Secretariat before they are published in the ABSCH.
+                    </div> -->
+                </div>
+            </div>
+
+
+            <h2 class="sub-header" >All Records</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Last Update</th>
+                            <th>Status</th>
+                            <th>X record(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1,001</td>
+                            <td>Lorem</td>
+                            <td>ipsum</td>
+                            <td>dolor</td>
+                            <td>sit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="home-bottom" style="position:relative">
     <div class="main" id="main" style="padding-top:6px">
       	<div class="row top">
 
@@ -76,4 +324,4 @@
 			</div>
       	</div>
   	</div>
-</div>
+</div> -->

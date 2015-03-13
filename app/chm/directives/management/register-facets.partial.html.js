@@ -38,8 +38,8 @@ angular.module('kmApp').compileProvider // lazy
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
         },
-        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',
-         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q)
+        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',"realm","IWorkflows",
+         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows)
         {
 
             $rootScope.government = userGovernment();

@@ -12,7 +12,9 @@
 			attachmentUrl      : function() { return "/api/v2013/documents/:identifier/attachments/:filename"; },
 			securityUrl        : function() { return "/api/v2013/documents/:identifier/securities/:operation"; },
 			draftSecurityUrl   : function() { return "/api/v2013/documents/:identifier/versions/draft/securities/:operation"; },
-			draftLockUrl       : function() { return "/api/v2013/documents/:identifier/versions/draft/locks/:lockID"; }
+			draftLockUrl       : function() { return "/api/v2013/documents/:identifier/versions/draft/locks/:lockID"; },
+
+			documentFacetsQueryUrl  : function() { return "/api/v2013/documents/query/facets"; },
 		}
 
 		//==================================================
@@ -80,11 +82,11 @@
 				var oTrans = transformPath(serviceUrls.documentUrl(), params);
 
 				return $http.head(oTrans.url, { params : oTrans.params, cache:useCache }).then(function(data) {
-					
+
 					return true;
-					
+
 				}).catch(function(error) {
-					
+
 					if(error.status!="404")
 						throw "Error";
 
@@ -220,11 +222,11 @@
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
 				return $http.head(oTrans.url, {  params : oTrans.params, cache:useCache }).then(function(data) {
-					
+
 					return true;
-					
+
 				}).catch(function(error) {
-					
+
 					if(error.status!="404")
 						throw "Error";
 
@@ -324,7 +326,7 @@
 
 				var oTrans = transformPath(serviceUrls.attachmentUrl(), params);
 
-				return $http.put(oTrans.url, file, { 
+				return $http.put(oTrans.url, file, {
 					"headers" : { "Content-Type": contentType },
 					"params"  : oTrans.params
 				}).then(
@@ -343,7 +345,34 @@
 			}
 		}
 
-		
+		//==================================================
+		//
+		// Document Query
+		//
+		//==================================================
+		this.documentQuery = {
+
+			//===========================
+			//
+			//===========================
+			"facets" : function(filter, params)
+			{
+			params            = _.extend({}, params||{});
+			params.$filter    = filter;
+
+			var useCache = !!params.cache;
+			if(!params.cache)
+				params.cache = true;
+
+			var oTrans = transformPath(serviceUrls.documentFacetsQueryUrl(), params);
+
+			return $http.get(oTrans.url, {  params : oTrans.params, cache:useCache });
+
+			//TODO: return result.data;
+			}
+
+		};
+
 		//==================================================
 		//
 		//

@@ -1,6 +1,6 @@
 ﻿/* jshint quotmark: false */
 angular.module('kmApp').compileProvider // lazy
-.directive('userInfo', ["$timeout", "$q", "$location", "authentication", function ($timeout, $q, $location, authentication) {
+.directive("userInfo", [function () {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/management/user-info.partial.html',
@@ -13,7 +13,7 @@ angular.module('kmApp').compileProvider // lazy
 
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
 
-			
+			$scope.user = authentication.user();
 
 		}]
 	};

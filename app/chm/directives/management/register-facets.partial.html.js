@@ -38,8 +38,8 @@ angular.module('kmApp').compileProvider // lazy
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
         },
-        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q','realm','IWorkflows',
-         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q, realm, IWorkflows)
+        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',
+         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q)
         {
 
             $rootScope.government = userGovernment();
@@ -65,7 +65,7 @@ angular.module('kmApp').compileProvider // lazy
             $scope.isAdmin = function(){
                 for(var i=0; i < authentication.user().roles.length; i++)
                 {
-                    if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'CHMAdministrator')
+                    if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'ChmAdministrator')
                     {
                         return true;
                     }

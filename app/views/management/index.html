@@ -1,32 +1,21 @@
-<div class="home-bottom" style="position:relative">
+<div class="row">
 
     <div class="col-xs-3">
         <div class="register-facets"></div>
         <script src="/app/chm/directives/management/register-facets.partial.html.js"></script><script src="/app/chm/directives/management/facet-bar.partial.html.js"></script>
     </div>
-    <div class="col-xs-9 my_well my_well-white">
-        <div class="row top">
-            <h1 ng-if="!user.authenticated">Welcome!</h1>
-            <h1 ng-if="user.authenticated">Welcome! You have logged-in as {{user.name}}.</h1>
-            <p></p>
-            <p>
-                This section allows you to register, edit or delete information according to the rights assigned for your specific role. In order to view the status of a record you have submitted for publication, please see the Record status page.
-            </p>
-            <br>
-            <p>Get Started:
-                <!-- <a href="/management/register" class="getstarted">Register a record</a> | -->
-                <a href="/management/my-records" class="getstarted">My published records</a> |
-                <a href="/management/my-drafts" class="getstarted">My drafts</a>
-            </p>
-        </div>
 
-        <h2>Items requiring your attention</h2>
+    <div class="col-xs-9 my_well my_well-white">
+    
+        <h1 >Requests</h1>
+
+        <h2 style="margin-top:30px;border:0;">Items requiring your attention</h2>
         <div class="my-tasks"></div>
 
-        <h2>Pending requests</h2>
+        <h2 style="margin-top:30px;border:0;">Pending requests</h2>
         <div class="my-pending-tasks"></div>
 
-        <h2>Completed requests</h2>
+        <h2 style="margin-top:30px;border:0;">Completed requests</h2>
         <div class="my-completed-tasks"></div>
 
     </div>

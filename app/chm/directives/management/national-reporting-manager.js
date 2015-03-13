@@ -300,7 +300,7 @@ angular.module('kmApp').compileProvider // lazy
 
 				$q.all([d1]).then(function() {
 
-					$location.path("/management/edit/"+schema);
+					$location.path("/management/edit/national-reporting/"+schema);
 					$location.search(option||{});
 				});
 			};

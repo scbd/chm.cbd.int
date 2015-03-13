@@ -1,3 +1,16 @@
+.my_well{
+    border:2px solid #ddd!important;
+    border-radius: 3px;
+    margin-top:50px!important;
+    margin-bottom:20px!important;
+}
+
+.my_well-blue{
+    background-color:#D9EDF7;
+}
+.my_well-white{
+    background-color:#FFF;
+}
 
 
 h3{text-transform:uppercase;}
@@ -14,13 +27,18 @@ h4{font-size:12px;}
     text-decoration: none;
     background-color: #ddd;
     cursor:pointer;
-    height:50px;
+    /*height:60px;*/
 }
 .dashboard{
     height:20px;
     font-weight:bold;
 }
+.filters{
 
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+    margin-bottom:20px;
+}
 /*.national > div > .btn-schema {
 background-color: #95B9C7;
 }
@@ -30,6 +48,10 @@ background-color: #F3E5AB;
 .btn-schema > table {padding:0;margin:0;vertical-align:top;font-size:12px;}
 .btn-schema > table > tbody > tr > td {padding:0;margin:0;vertical-align:top;font-size:12px!important;}
 .btn-schema > table > tbody > tr > td.facets {font-size:12px!important;position:relative;top:-2px;}
+.btn-schema > table > tbody > tr > td.facets > span.label {padding:2px;}
+.btn-schema > table > tbody > tr > td.title {width:100%;}
+.btn-schema > table > tbody > tr > td.title > a {color:#333;text-decoration:none;font-size:12px!important;}
+.btn-schema > table > tbody > tr > td.title > a:hover {color:#FFF!important;text-decoration:none!important;font-size:12px!important;}
 .btn-schema:hover {
     background-color: #666!important;color:#fff;
 }
@@ -76,6 +98,40 @@ background-color: #F3E5AB;
 }
 
 /* colors */
+
+.color-published{
+    color:#1FA65D!important;
+}
+.color-draft{
+    color:#999!important;
+}
+.color-request{
+    color:#C7532C!important;
+}
+.bg-published {
+    background-color:#1FA65D!important;
+    color:white;
+}
+.bg-draft{
+    background-color:#999!important;
+    color:#333;
+}
+.bg-request{
+    background-color:#C7532C!important;
+    color:white;
+}
+.bg-published-lite{
+    background-color:#dff0d8!important;
+}
+.bg-draft-lite{
+    background-color:#EEE!important;
+}
+.bg-request-lite{
+    background-color:#f2dede!important;
+}
+
+
+
 .color-red{
     color:#C7532C!important;
 }
@@ -164,6 +220,8 @@ background-color: #F3E5AB;
     background-color:#1FA65D!important;
 
 }
+
+
 
 .bg-black{
     background-color:#111!important;

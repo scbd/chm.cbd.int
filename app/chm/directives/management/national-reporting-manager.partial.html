@@ -8,13 +8,13 @@
 -->
     <div ng-show="schema == 'nationalStrategicPlans'">
         <h1 class="page-header">National Biodiversity Strategies and Action Plans (NBSAPS)</h1>
-        <h2 >
+        <div class="filters">
             FILTERS:
-            <span class="label label-default label-spacing">ALL</span>
-            <span class="label label-info label-spacing">{{(nationalStrategicPlans|filter:isPublic).length}}</span>
-            <span class="label label-warning label-spacing">{{(nationalStrategicPlans|filter:isDraft).length}}</span>
-            <button  class="btn btn-info btn-md  pull-rightbtn-add" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government:government })"><i class="fa fa-plus-square"></i> add new </button>
-        </h2>
+            <span class="label label-default bg-black label-spacing"> show all <span class="badge bg-white">{{(nationalStrategicPlans|filter:isPublic).length + (nationalStrategicPlans|filter:isDraft).length}}</span></span>
+            <span class="label bg-published label-spacing" > published <span class="badge  bg-white">{{(nationalStrategicPlans|filter:isPublic).length}}</span></span>
+            <span class="label bg-draft label-warning label-spacing"> drafts <span class="badge  bg-white">{{(nationalStrategicPlans|filter:isDraft).length}}</span></span>
+            <button  class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government:government })"><i class="fa fa-plus-square"></i> add new </button>
+        </div>
         <div ng-hide="nationalStrategicPlans"> <!-- no records -->
             <p class="alert alert-warning">
                 No National Biodiversity Strategies and Action Plans exists.<br/>
@@ -24,18 +24,18 @@
         </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="strategicPlan in nationalStrategicPlans"> <!-- NBSAPs -->
-            <div class="boxed">
-
-                <h4>
+            <div class="boxed" ng-class="{'bg-published-lite': isPublic(strategicPlan), 'bg-draft-lite': isDraft(strategicPlan)}">
+                <h3 ng-class="{'color-published': isPublic(strategicPlan), 'color-draft': isDraft(strategicPlan)}">
                     <i class="glyphicon glyphicon-file"></i>
                     {{strategicPlan.title}} ({{strategicPlan.year}})
-                </h4>
-                <p>
-                    {{strategicPlan.summary|lstring|truncate:160:'...'}} <a ng-show="strategicPlan.url" ng-href="{{strategicPlan.url}}">more &raquo;</a>
+                </h3>
+                <p class="small">
+                    {{strategicPlan.summary|lstring|truncate:160:'...'}}
+                    <a ng-show="strategicPlan.url" ng-href="{{strategicPlan.url}}">more &raquo;</a>
                 </p>
-                <span ng-show="isDraft(strategicPlan)"  class="label label-warning pull-right label-spacing">not published</span>
-                <span ng-show="isPublic(strategicPlan)" class="label label-info pull-right label-spacing">published</span>
-                <button type="button" class="btn btn-default btn-mini btn-xs btn-edit" ng-click="edit('nationalReport', {uid:strategicPlan.identifier})">edit &raquo;</button>
+                <div class="text-right">
+                    <button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {uid:strategicPlan.identifier})">edit &raquo;</button>
+                </div>
             </div>
         </div>
     </div> <!--end nationalStrategicPlans -->
@@ -489,6 +489,7 @@
         border:1px solid #ddd;
         padding:0 10px 10px 10px;
         border-radius:4px;
+        margin-bottom: 20px;
     }
 
     .container.reporting  .panel-heading {

@@ -13,9 +13,9 @@ angular.module('kmApp').compileProvider // lazy
 
 
             $scope.schemasList = [
-                { identifier: 'nationalReports',         title: ' National Biodiversity Strategies and Action Plans (NBSAPS)',  type:'nationalReports'  },
-                { identifier: 'otherNationalReports',    title: 'Other Reprots',                         type:'nationalReports'  },
-                { identifier: 'nbsapNationalReports',    title: 'National Other Reports',                type:'nationalReports'  },
+                { identifier: 'nationalStrategicPlans',   title: 'National Biodiversity Strategies and Action Plans (NBSAPS)',  type:'nationalReports',  schema:"nationalReport"  },
+                { identifier: 'nationalReports',        title: 'National Reports',                                      type:'nationalReports' , schema:"nationalReport"  },
+                { identifier: 'otherReports',   title: 'Other Reports',                                               type:'nationalReports' , schema:"nationalReport"  },
 
                 { identifier: 'progressAssessment',     title: 'Aichi Biodiversity Targets' ,           type:'Progress'  },
                 { identifier: 'nationalTarget',         title: 'National Targets' ,                     type:'Progress'  },
@@ -49,6 +49,12 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             $scope.loadScheduled = null;
+
+            //open section based on url
+            if($location.url().indexOf("national-reporting") >= 0){
+                $scope.showNational = true;
+            }
+
 
             //==============================
             //
@@ -204,8 +210,8 @@ angular.module('kmApp').compileProvider // lazy
                 var publishOtherCount      = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0)
 
                 _.where($scope.schemasList, {'identifier':'nationalReports'})[0][type] = publishNPCount;
-                _.where($scope.schemasList, {'identifier':'nbsapNationalReports'})[0][type] = publishNBSAPCount;
-                _.where($scope.schemasList, {'identifier':'otherNationalReports'})[0][type] = publishOtherCount;
+                _.where($scope.schemasList, {'identifier':'nationalStrategicPlans'})[0][type] = publishNBSAPCount;
+                _.where($scope.schemasList, {'identifier':'otherReports'})[0][type] = publishOtherCount;
 
 
             }

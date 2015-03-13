@@ -21,14 +21,15 @@
     <a href="/management/register"><div class="btn-schema dashboard"><i class="fa fa-dashboard"></i> Dashboard (all records)</div></a>
     <a href="/management/requests"><div ng-click="goto(requests)" class="btn-schema dashboard"><i class="fa fa-retweet"></i> Requests</div></a>
 
-    <select ng-show="!userGovernment()" ng-model="government" style="width:100%" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
-    <br/>
-    <div ng-show="government">
+
 
         <div class="national">
-            <h2 class="color-blue" ng-click="showNational=!showNational" style="cursor:pointer;margin-bottom:3px;">
-                <i class="fa fa-chevron-circle-up" ng-show="showNational"></i>
-                <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i> National Records <span class="small">Submitted and validated by countries</span></h2>
+            <h2 class="color-blue" style="cursor:pointer;margin-bottom:3px;">
+                <span  ng-click="showNational=!showNational"><i class="fa fa-chevron-circle-up" ng-show="showNational"></i>
+                <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i> National Records <div class="small">Submitted and validated by countries</div></span>
+                <select ng-show="!userGovernment()" ng-model="government" style="width:100%" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
+            </h2>
+
             <div ng-show="showNational">
                 <h3>Online Reporting</h3>
                 <h4>National Reports, NBSAPs and Other Reports</h4>
@@ -94,12 +95,12 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
     <div class="reference">
         <h2 class="color-orange" ng-click="showReference=!showReference" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
-            <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records <span class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</span></h2>
+            <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records <div class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</div></h2>
         <div ng-show="showReference">
             <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalReferenceFilter">
                 <table>
@@ -119,7 +120,7 @@
     <div class="scbd">
         <h2 class="color-darkgrey" ng-click="showSCBD=!showSCBD" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
-            <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records <span class="small">Managed by the CBD Secretariat</span></h2>
+            <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records <div class="small">Managed by the CBD Secretariat</div></h2>
         <div ng-show="showSCBD">
             <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalSCBDFilter">
                 <table>

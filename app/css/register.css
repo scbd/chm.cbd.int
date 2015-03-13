@@ -20,7 +20,12 @@ h4{font-size:12px;}
     height:20px;
     font-weight:bold;
 }
+.filters{
 
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+    margin-bottom:20px;
+}
 /*.national > div > .btn-schema {
 background-color: #95B9C7;
 }
@@ -76,6 +81,40 @@ background-color: #F3E5AB;
 }
 
 /* colors */
+
+.color-published{
+    color:#1FA65D!important;
+}
+.color-draft{
+    color:#999!important;
+}
+.color-request{
+    color:#C7532C!important;
+}
+.bg-published {
+    background-color:#1FA65D!important;
+    color:white;
+}
+.bg-draft{
+    background-color:#999!important;
+    color:#333;
+}
+.bg-request{
+    background-color:#C7532C!important;
+    color:white;
+}
+.bg-published-lite{
+    background-color:#dff0d8!important;
+}
+.bg-draft-lite{
+    background-color:#EEE!important;
+}
+.bg-request-lite{
+    background-color:#f2dede!important;
+}
+
+
+
 .color-red{
     color:#C7532C!important;
 }
@@ -164,6 +203,8 @@ background-color: #F3E5AB;
     background-color:#1FA65D!important;
 
 }
+
+
 
 .bg-black{
     background-color:#111!important;

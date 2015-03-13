@@ -56,6 +56,7 @@ angular.module('kmApp').compileProvider // lazy
             }
 
 
+
             //==============================
             //
             //==============================
@@ -66,8 +67,10 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
             }
             function userGovernment() {
-                if(authentication.user().government)
+                if(authentication.user().government){
+                    $scope.showNational = true;
                     return authentication.user().government.toLowerCase();
+                }
             }
 
             $scope.countries          = $http.get('/api/v2013/countries').then(function(response) { return response.data; });

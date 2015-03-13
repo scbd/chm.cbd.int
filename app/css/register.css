@@ -50,7 +50,7 @@ background-color: #F3E5AB;
 .btn-schema > table > tbody > tr > td.facets {font-size:12px!important;position:relative;top:-2px;}
 .btn-schema > table > tbody > tr > td.facets > span.label {padding:2px;}
 .btn-schema > table > tbody > tr > td.title {width:100%;}
-.btn-schema > table > tbody > tr > td.title > a {color:#333;text-decoration:none;font-size:12px!important;}
+.btn-schema > table > tbody > tr > td.title > a {color:#333;text-decoration:none;font-size:12px!important;font-weight:bold;}
 .btn-schema > table > tbody > tr > td.title > a:hover {color:#FFF!important;text-decoration:none!important;font-size:12px!important;}
 .btn-schema:hover {
     background-color: #666!important;color:#fff;

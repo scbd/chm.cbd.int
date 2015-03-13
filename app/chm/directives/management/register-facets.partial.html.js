@@ -45,15 +45,6 @@ angular.module('kmApp').compileProvider // lazy
             $rootScope.government = userGovernment();
 
 
-            $scope.isAdmin = function(){
-                // return commonjs.isUserInRole($rootScope.getRoleName('CHMAdministrator')) ||
-                // commonjs.isUserInRole($rootScope.getRoleName('Administrator'))
-                return authentication.user().roles;
-
-                //if(authentication.user().)
-            }
-
-
             if($route.current.params.schema) {
 
                 $scope.hideFilters = true
@@ -67,6 +58,20 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.showNational = true;
             }
 
+
+            //==============================
+            //
+            //==============================
+            $scope.isAdmin = function(){
+                for(var i=0; i < authentication.user().roles.length; i++)
+                {
+                    if(authentication.user().roles[i] == 'Administrator' || 'CHMAdministrator')
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            
             //==============================
             //
             //==============================
@@ -77,16 +82,17 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
             }
 
+            //==============================
+            //
+            //==============================
             function userGovernment() {
-
-                // if(authentication.user().IsAdminstrator() && $scope.government)
-                //     return $scope.government.toLowerCase();
+                if($scope.isAdmin() && $scope.government)
+                     return $scope.government.toLowerCase();
 
                 if(authentication.user().government){
                     $scope.showNational = true;
                     return authentication.user().government.toLowerCase();
                 }
-
             }
 
             $scope.countries          = $http.get('/api/v2013/countries').then(function(response) { return response.data; });

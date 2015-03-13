@@ -1,68 +1,4 @@
 
-
-<style>
-
-
-
-h3{text-transform:uppercase;}
-h1, h3{color:#333;}
-h4{font-size:12px;}
-
-    .btn-schema {
-        text-align: left;
-        line-height: 14px;
-        white-space: normal;
-        padding:5px;
-        margin-bottom: 5px;
-        font-size:12px;
-        text-decoration: none;
-        background-color: #ddd;
-        cursor:pointer;
-        height:50px;
-    }
-    .dashboard{
-        height:20px;
-        font-weight:bold;
-    }
-
-    /*.national > div > .btn-schema {
-        background-color: #95B9C7;
-    }
-    .reference > div.btn-schema {
-        background-color: #F3E5AB;
-    }*/
-    .btn-schema > table {padding:0;margin:0;vertical-align:top;font-size:12px;}
-    .btn-schema > table > tbody > tr > td {padding:0;margin:0;vertical-align:top;font-size:12px!important;}
-    .btn-schema > table > tbody > tr > td.facets {font-size:12px!important;position:relative;top:-2px;}
-    .btn-schema:hover {
-        background-color: #666!important;color:#fff;
-    }
-
-    .btn-schema-selected {
-        border:0;
-        border-left:#418BCA solid 3px;
-
-        color:#111;
-        text-decoration: none;
-        padding-left:10px;
-        padding-right:10px;
-        background-color: #FFF!important;
-        padding:5px;
-
-
-        -webkit-border-radius: 3px;
-        -webkit-border-top-left-radius: 0px;
-        -webkit-border-bottom-left-radius: 0px;
-        -moz-border-radius: 3px;
-        -moz-border-radius-topleft: 0px;
-        -moz-border-radius-bottomleft: 0px;
-        border-radius: 3px;
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
-    }
-    .page-header{padding-top:14px;margin:0;}
-
-</style>
 <script src="/app/chm/directives/management/register-facets.partial.html.js"></script>
 
 
@@ -134,28 +70,32 @@ h4{font-size:12px;}
             </div>
 
 
+
             <h2 class="sub-header" >All Records</h2>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Last Update</th>
-                            <th>Status</th>
-                            <th>X record(s)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1,001</td>
-                            <td>Lorem</td>
-                            <td>ipsum</td>
-                            <td>dolor</td>
-                            <td>sit</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div role="tabpanel">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#published" aria-controls="published" role="tab" data-toggle="tab"><span class="sub-header">Published Records</span></a></li>
+                    <li role="presentation"><a href="#draft" aria-controls="draft" role="tab" data-toggle="tab"><span class="sub-header">Draft Records</span></a></li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="published">
+                        <div class="my-documents"></div>
+                        <script src="/app/chm/directives/management/my-documents.js"></script>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="draft">
+                        <div class="my-drafts"></div>
+                        <script src="/app/chm/directives/management/my-drafts.js"></script>
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
     </div>

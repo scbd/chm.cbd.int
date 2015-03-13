@@ -27,7 +27,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
  		when('/database/record', { controller: InnerPageController, templateUrl: '/app/views/database/record.html', resolve: { user: getUser } }).
 
  		when('/management/', { controller: InnerPageController, templateUrl: '/app/views/empty.html', resolve: { user: getUser } }).
- 		when('/management/', { controller: ManagementPageController, templateUrl: '/app/views/management/index.html', resolve: { user: getUser } }).
+ 		when('/management/', { controller: ManagementPageController, templateUrl: '/app/views/management/register.html', resolve: { user: getUser } }).
  		when('/management/register', { controller: ManagementPageController, templateUrl: '/app/views/management/register.html', resolve: { user: getUser } }).
  		when('/management/requests', { controller: ManagementPageController, templateUrl: '/app/views/management/index.html', resolve: { user: getUser } }).
  		//when('/management/national-reporting/:country?', { controller: ManagementPageController, templateUrl: '/app/views/management/national-reporting.html', resolve: { user: getUser }, reloadOnSearch: false }).

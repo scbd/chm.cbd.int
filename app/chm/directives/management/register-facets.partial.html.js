@@ -60,11 +60,11 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
             }
             function userGovernment() {
-                return 'am';
                 if(authentication.user().government)
                     return authentication.user().government.toLowerCase();
             }
 
+            $scope.countries          = $http.get('/api/v2013/countries').then(function(response) { return response.data; });
             $scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
             $scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
             $scope.cbdNationalReports = ["B3079A36-32A3-41E2-BDE0-65E4E3A51601", // NR5
@@ -81,14 +81,14 @@ angular.module('kmApp').compileProvider // lazy
                 // console.log(userGovernment(),authentication.user())
 
 
-                if(userGovernment()){
+                if(userGovernment() || $scope.government){
                     ////////////////
                     // All 3 National Reports
                     ////////////////
                     var publisehdReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&q=(realm_ss:chm AND schema_s:nationalReport '+
-                    'AND government_s:' + userGovernment() + ')+AND+NOT+version_s:*&rows=0&wt=json');
+                    'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase())+ ')+AND+NOT+version_s:*&rows=0&wt=json');
                     var draftReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&q=(realm_ss:chm AND schema_s:nationalReport '+
-                    'AND government_s:' + userGovernment() + ')+AND+version_s:*&rows=0&wt=json');
+                    'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase()) + ')+AND+version_s:*&rows=0&wt=json');
 
 
                     $q.all([publisehdReportQuery,draftReportQuery]).then(function(result){
@@ -112,37 +112,85 @@ angular.module('kmApp').compileProvider // lazy
                     ////////////////
                     // All other schema
                     ////////////////
-                    var filter = "filter=progressAssessment,nationalTarget,nationalIndicator,nationalSupportTool,implementationActivity,resourceMobilisation,resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator"
-                    var published     = storage.documentQuery.facets(filter,{collection:"my"});
-                    var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
-                    var requests      = storage.documentQuery.facets(filter,{collection:"request"});
-                    $q.all([published, drafts, requests]).then(function(results) {
+                    var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation'];
+                    var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")"
+                    var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&q=(realm_ss:chm '+
+                                        'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase()) + qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');
+                    var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&q=(realm_ss:chm '+
+                                        'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase()) + qSchema + ')+AND+version_s:*&rows=0&wt=json');
+                    // var requests      = storage.documentQuery.facets(filter,{collection:"request"});
+                    $q.all([published, drafts]).then(function(results) {
 
                       var index=0;
                       _.each(results, function(facets){
-                          _.each(facets.data, function(count, format){
+                          _.each(readFacets2(facets.data.facet_counts.facet_fields.schema_s), function(facet){
 
-                                var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
+                                var schemaTypeFacet = _.where($scope.schemasList,{"identifier":facet.schema});
+
                                 if(schemaTypeFacet.length>0){
+                                    if(schemaTypeFacet[0].type=='SCBD' || schemaTypeFacet[0].type=='Reference')
+                                        return;
                                     if(index==0)
-                                          schemaTypeFacet[0].publishCount = count;
+                                          schemaTypeFacet[0].publishCount = facet.count;
                                     else if(index==1)
-                                          schemaTypeFacet[0].draftCount = count;
-                                    else if(index==2)
-                                        schemaTypeFacet[0].requestCount = count;
+                                          schemaTypeFacet[0].draftCount = facet.count;
+                                    // else if(index==2)
+                                    //     schemaTypeFacet[0].requestCount = count;
                                 }
                           })
                         index++;
                       });
 
                     }).then(null, function(error) {
-                      $scope.error = "error loading permit releated checkpoint communiqué.";
                        console.log(error );
                     })
-
                 }
 
             }
+
+            function loadVLRFacets(){
+                var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator";
+                var published     = storage.documentQuery.facets(filter,{collection:"my"});
+                var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
+                var requests      = storage.documentQuery.facets(filter,{collection:"request"});
+                $q.all([published, drafts, requests]).then(function(results) {
+
+                  var index=0;
+                //   console.log(results)
+                  _.each(results, function(facets){
+                      _.each(facets.data, function(count, format){
+
+                            var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
+                            console.log(schemaTypeFacet,format);
+                            if(schemaTypeFacet.length>0){
+                                if(index==0)
+                                      schemaTypeFacet[0].publishCount = count;
+                                else if(index==1)
+                                      schemaTypeFacet[0].draftCount = count;
+                                else if(index==2)
+                                    schemaTypeFacet[0].requestCount = count;
+                            }
+                      })
+                    index++;
+                  });
+                  //
+
+                }).then(null, function(error) {
+                   console.log(error );
+                })
+
+            }
+
+            function readFacets2(solrArray) {
+                var facets = [];
+                if(solrArray){
+                    for (var i = 0; i < solrArray.length; i += 2) {
+                        var facet = solrArray[i];
+                        facets.push({ schema: facet, title: facet, count: solrArray[i + 1] });
+                    }
+                }
+                return facets;
+            };
 
             function calculateFacet(list, type){
 
@@ -171,6 +219,7 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             $scope.load();
+            loadVLRFacets();
 
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';
@@ -187,6 +236,23 @@ angular.module('kmApp').compileProvider // lazy
             $scope.nationalSCBDFilter = function(entity){
                 return entity && entity.type=='SCBD';
             }
+
+            $scope.$watch('government', function(newVal, oldVal){
+                if(newVal && newVal!=oldVal){
+                    _.each($scope.schemasList, function(schema){
+                        if(schema.type=='SCBD' || schema.type=='Reference')
+                            return;
+
+                        if(schema.publishCount)
+                            schema.publishCount = undefined;
+                        if(schema.draftCount)
+                            schema.draftCount = undefined;
+                        if(schema.requestCount)
+                            schema.requestCount = undefined;
+                    })
+                    $scope.load();
+                }
+            })
 
         }]
     }

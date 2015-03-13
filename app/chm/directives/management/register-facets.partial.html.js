@@ -38,8 +38,8 @@ angular.module('kmApp').compileProvider // lazy
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
         },
-        controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',
-         function ($scope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q)
+        controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q','realm','IWorkflows',
+         function ($scope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q, realm, IWorkflows)
         {
 
             if($route.current.params.schema) {
@@ -154,7 +154,7 @@ angular.module('kmApp').compileProvider // lazy
 
             }
 
-            function loadVLRFacets(){
+            $scope.loadVLRFacets = function(){
                 var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator";
                 var published     = storage.documentQuery.facets(filter,{collection:"my"});
                 var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
@@ -224,9 +224,6 @@ angular.module('kmApp').compileProvider // lazy
                 }
             }
 
-            $scope.load();
-            loadVLRFacets();
-
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';
             }
@@ -243,6 +240,25 @@ angular.module('kmApp').compileProvider // lazy
                 return entity && entity.type=='SCBD';
             }
 
+            $scope.loadRequestsCount = function(){
+                var myUserID = authentication.user().userID;
+                var query    = {
+                    $and : [
+                        { "activities.assignedTo" : myUserID },
+                        { closedOn : { $exists : false } },
+					    { "data.realm" : realm.value }
+                    ]
+                };
+                IWorkflows.query(query).then(function(workflows){
+                    $scope.requestCount = workflows.length;
+                });
+            }
+
+
+            $scope.load();
+            $scope.loadVLRFacets();
+            $scope.loadRequestsCount();
+            
             $scope.$watch('government', function(newVal, oldVal){
                 if(newVal && newVal!=oldVal){
                     _.each($scope.schemasList, function(schema){

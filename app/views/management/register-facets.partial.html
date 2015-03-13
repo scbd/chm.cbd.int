@@ -19,7 +19,10 @@
 
 
     <a href="/management/register"><div class="btn-schema dashboard"><i class="fa fa-dashboard"></i> Dashboard (all records)</div></a>
-    <a href="/management/requests"><div ng-click="goto(requests)" class="btn-schema dashboard"><i class="fa fa-retweet"></i> Requests</div></a>
+    <a href="/management/requests">
+        <div ng-click="goto(requests)" class="btn-schema dashboard"><i class="fa fa-retweet"></i> Requests
+            <span class="facets pull-right label label-danger label-small" ng-show="requestCount">{{requestCount}} </span>
+        </div></a>
 
     <select ng-show="!userGovernment()" ng-model="government" style="width:100%" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
     <br/>

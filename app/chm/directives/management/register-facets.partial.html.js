@@ -152,7 +152,7 @@ angular.module('kmApp').compileProvider // lazy
                 var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator";
                 var published     = storage.documentQuery.facets(filter,{collection:"my"});
                 var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
-                var requests      = storage.documentQuery.facets(filter,{collection:"request"});
+                var requests      = storage.documentQuery.facets('',{collection:"request"});
                 $q.all([published, drafts, requests]).then(function(results) {
 
                   var index=0;
@@ -161,7 +161,7 @@ angular.module('kmApp').compileProvider // lazy
                       _.each(facets.data, function(count, format){
 
                             var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
-                            console.log(schemaTypeFacet,format);
+                            //console.log(schemaTypeFacet,format);
                             if(schemaTypeFacet.length>0){
                                 if(index==0)
                                       schemaTypeFacet[0].publishCount = count;

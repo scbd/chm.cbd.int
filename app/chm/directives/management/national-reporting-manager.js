@@ -163,12 +163,11 @@ angular.module('kmApp').compileProvider // lazy
 			//
 			//==================================
 			$scope.$watch("government", function(gov, prev) {
-
-				if($scope.government!=$routeParams.country) {
-					$location.path("/management/national-reporting/"+$scope.government);
-					return;
-				}
-
+				// if($scope.government!=$routeParams.country) {
+				// 	$location.path("/management/national-reporting/"+$scope.government);
+				// 	return;
+				// }
+				$scope.government ="BT";
 				console.log("government", gov, prev);
 
 				$scope.governmentName = null;
@@ -187,20 +186,44 @@ angular.module('kmApp').compileProvider // lazy
 			//==================================
 			//
 			//==================================
+			$scope.$watch("schema", function() {
+
+				if($routeParams.schema)
+					$scope.schema = $routeParams.schema;
+				else
+					$scope.schema = "nationalStrategicPlans";
+
+				$scope.governmentName = null;
+				$scope.nationalReports = [];
+				$scope.nationalStrategicPlans = [];
+				$scope.otherNationalReports = [];
+				$scope.aichiTargets = [];
+				$scope.nationalIndicators = [];
+				$scope.nationalTargets = [];
+				$scope.implementationActivities = [];
+				$scope.nationalSupportTools = [];
+
+				load();
+			});
+
+
 			//==================================
 			//
 			//==================================
-			$rootScope.$on('$routeUpdate', function(evt, currentRoute) {
-
-				console.log("$routeUpdate", currentRoute);
-
-				var government = currentRoute.params.country;
-
-				if(userGovernment())
-					government = userGovernment();
-
-				$scope.government = government;
-			});
+			//==================================
+			//
+			//==================================
+			// $rootScope.$on('$routeUpdate', function(evt, currentRoute) {
+			//
+			// 	console.log("$routeUpdate", currentRoute);
+			//
+			// 	var government = currentRoute.params.country;
+			//
+			// 	if(userGovernment())
+			// 		government = userGovernment();
+			//
+			// 	$scope.government = government;
+			// });
 
 			//==================================
 			//

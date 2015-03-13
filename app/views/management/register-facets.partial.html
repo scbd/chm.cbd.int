@@ -1,5 +1,5 @@
 <div>
-    <h2 class="color-black">Register Records
+    <h2 class="color-black">Register Information
     </h2>
 
     <div style="margin-bottom:10px;font-size:12px;" class="pull-right">
@@ -18,25 +18,31 @@
     <div class="clearfix"></div>
 
 
-    <div class="btn-schema dashboard">Dashboard (all records)</div>
-    <div class="btn-schema dashboard">Requests</div>
+    <a href="/management/register"><div class="btn-schema dashboard"><i class="fa fa-dashboard"></i> Dashboard (all records)</div></a>
+    <a href="/management/requests"><div ng-click="goto(requests)" class="btn-schema dashboard"><i class="fa fa-retweet"></i> Requests</div></a>
+
 
     <div class="national">
         <h2 class="color-blue" ng-click="showNational=!showNational" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showNational"></i>
-            <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i> National Records</h2>
+            <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i> National Records <span class="small">Submitted and validated by countries</span></h2>
         <div ng-show="showNational">
             <h3>Online Reporting</h3>
             <h4>National Reports, NBSAPs and Other Reports</h4>
             <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalReportsFilter">
                 <table>
                     <tr>
-                        <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> {{report.title}}</td>
-                        <td class="facets pull-right">
-                            <span class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </span><br>
-                            <span class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </span><br>
-                            <span class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </span><br>
+                        <td class="title">
+                            <a href="/management/national-reporting/{{report.identifier}}"> {{report.title}} </a><br>
                         </td>
+                        <td class="facets" row-span="2">
+                            <div class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </div>
+                            <div class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </div>
+                            <div class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/national-reporting/{{report.schema}}"><i class="fa fa-plus-square"></i> add new</a></td>
                     </tr>
                 </table>
             </div>
@@ -89,7 +95,7 @@
     <div class="reference">
         <h2 class="color-orange" ng-click="showReference=!showReference" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
-            <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records</h2>
+            <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records <span class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</span></h2>
         <div ng-show="showReference">
             <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalResourceFilter">
                 <table>
@@ -109,7 +115,7 @@
     <div class="scbd">
         <h2 class="color-darkgrey" ng-click="showSCBD=!showSCBD" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
-            <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records</h2>
+            <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records <span class="small">Managed by the CBD Secretariat</span></h2>
         <div ng-show="showSCBD">
             <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalSCBDFilter">
                 <table>

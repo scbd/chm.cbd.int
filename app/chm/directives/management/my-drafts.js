@@ -26,16 +26,23 @@
                 { identifier: 'contact', title: { en: 'Contacts' } },
         	].sort(function(a,b){
 			  var aName = a['title']['en'].toLowerCase();
-			  var bName = b['title']['en'].toLowerCase(); 
+			  var bName = b['title']['en'].toLowerCase();
 			  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
           	});
 			$scope.load();
 		},
-		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', "authentication", function ($scope, $location, storage, schemaTypes, $timeout, authentication) 
+		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', "authentication",'$route',
+		 function ($scope, $location, storage, schemaTypes, $timeout, authentication, $route)
 		{
 
+			if($route.current.params.schema) {
+
+				$scope.hideFilters = true
+				$scope.selectedSchemasList = [$route.current.params.schema];
+			}
+
             $scope.loadScheduled = null;
-			
+
 			//==============================
 			//
 			//==============================
@@ -122,7 +129,7 @@
 							function(error) {
 								alert("Error: " + error);
 							});
-					});				
+					});
 			};
 
 			//==============================
@@ -142,7 +149,7 @@
 
 						alert("Error: " + error);
 					});
-				};				
+				};
 			};
 
 			//==============================

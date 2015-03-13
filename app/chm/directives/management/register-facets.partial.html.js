@@ -38,8 +38,8 @@ angular.module('kmApp').compileProvider // lazy
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
         },
-        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',
-         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q)
+        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q','realm','IWorkflows',
+         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q, realm, IWorkflows)
         {
 
             $rootScope.government = userGovernment();
@@ -139,7 +139,6 @@ angular.module('kmApp').compileProvider // lazy
                             calculateFacet(pivotDraftResult[0].pivot, 'draftCount');
                             calculateFacet(pivotDraftResult[0].pivot, 'draftCount');
                         }
-                        console.log($scope.schemasList)
                     });
 
                     ////////////////
@@ -195,7 +194,6 @@ angular.module('kmApp').compileProvider // lazy
                       _.each(facets.data, function(count, format){
 
                             var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
-                            console.log(schemaTypeFacet,format);
                             if(schemaTypeFacet.length>0){
                                 if(index==0)
                                       schemaTypeFacet[0].publishCount = count;
@@ -268,6 +266,7 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.load();
             $scope.loadVLRFacets();
+            $scope.loadRequestsCount();
 
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';

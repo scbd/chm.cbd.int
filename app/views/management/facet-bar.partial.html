@@ -1,0 +1,20 @@
+<div>
+
+<div class="btn-schema" ng-repeat="report in schemaList|filter:schemaFilter">
+    <table>
+        <tr>
+            <td class="title">
+                <a href="/management/list/{{report.identifier}}"> {{report.title}} </a><br>
+            </td>
+            <td class="facets" row-span="2">
+                <div class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </div>
+                <div class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </div>
+                <div class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </div>
+            </td>
+        </tr>
+        <tr>
+            <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/{{report.identifier}}"><i class="fa fa-plus-square"></i> add new</a></td>
+        </tr>
+    </table>
+</div>
+</div>

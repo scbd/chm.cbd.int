@@ -33,6 +33,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
  		//when('/management/national-reporting/:country?', { controller: ManagementPageController, templateUrl: '/app/views/management/national-reporting.html', resolve: { user: getUser }, reloadOnSearch: false }).
         when('/management/national-reporting/:schema?', { controller: ManagementPageController, templateUrl: '/app/views/management/national-reporting.html', resolve: { user: getUser }, reloadOnSearch: false }).
         when('/management/my-records/:schema?', { controller: ManagementPageController, templateUrl: '/app/views/management/my-records.html', resolve: { user: getUser } }).
+        when('/management/list/:schema?', { controller: ManagementPageController, templateUrl: '/app/views/management/record-list.html', resolve: { user: getUser } }).
  		when('/management/my-drafts', { controller: ManagementPageController, templateUrl: '/app/views/management/my-drafts.html', resolve: { user: getUser } }).
  		when('/management/signin', { controller: ManagementPageController, templateUrl: '/app/views/management/signin.html', resolve: { user: getUser } }).
 

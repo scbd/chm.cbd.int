@@ -1,4 +1,5 @@
 <div>
+
     <h2 class="color-black">Register Information
     </h2>
 
@@ -47,38 +48,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/national-reporting/{{report.schema}}"><i class="fa fa-plus-square"></i> add new</a></td>
+                            <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/national-reporting/{{report.identifier}}"><i class="fa fa-plus-square"></i> add new</a></td>
                         </tr>
                     </table>
                 </div>
                 <h4>Progress towards implementation of national and Aichi Biodiversity Targets</h4>
-                <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalProgressFilter">
-                    <table>
-                        <tr>
-                            <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> {{report.title}}</td>
-                            <td class="facets pull-right">
-                                <span class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </span><br>
-                                <span class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </span><br>
-                                <span class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </span><br>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <div facet-bar schema-list="schemasList" schema-filter="nationalProgressFilter"></div>
                 <h4>Activities, Guidance and Support Tools</h4>
-                <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalActivitiesFilter">
-                    <table>
-                        <tr>
-                            <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> {{report.title}}</td>
-                            <td class="facets pull-right">
-                                <span class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </span><br>
-                                <span class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </span><br>
-                                <span class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </span><br>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-
+                <div facet-bar schema-list="schemasList" schema-filter="nationalActivitiesFilter"></div>
                 <h3>Financial Resource Mobilisation </h3>
                 <h4>Implementation of the Strategy for Resource Mobilization</h4>
 
@@ -86,11 +63,14 @@
                     <table>
                         <tr>
                             <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> Preliminary Reporting Framework</td>
-                            <td class="facets pull-right">
-                                <span class="label label-success label-small" ng-show="report.publishCount">{{getFacet(resourceMobilisation,publishCount)}} </span><br>
-                                <span class="label label-default label-small" ng-show="report.draftCount"> {{getFacet(resourceMobilisation,draftCount)}} </span><br>
-                                <span class="label label-danger label-small" ng-show="report.requestCount"> {{getFacet(resourceMobilisation,requestCount)}} </span><br>
+                            <td class="facets pull-right"row-span="2">
+                                <span class="label label-success label-small" ng-show="report.publishCount">{{getFacet('resourceMobilisation','publishCount')}} </span><br>
+                                <span class="label label-default label-small" ng-show="report.draftCount"> {{getFacet('resourceMobilisation','draftCount')}} </span><br>
+                                <span class="label label-danger label-small" ng-show="report.requestCount"> {{getFacet('resourceMobilisation','requestCount')}} </span><br>
                             </td>
+                        </tr>
+                        <tr>
+                            <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/resourceMobilisation?government={{userGovernment()||government}}"><i class="fa fa-plus-square"></i> add new</a></td>
                         </tr>
                     </table>
                 </div>
@@ -103,18 +83,7 @@
             <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
             <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records <div class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</div></h2>
         <div ng-show="showReference">
-            <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalReferenceFilter">
-                <table>
-                    <tr>
-                        <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> {{report.title}}</td>
-                        <td class="facets pull-right">
-                            <span class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </span><br>
-                            <span class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </span><br>
-                            <span class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </span><br>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <div facet-bar schema-list="schemasList" schema-filter="nationalReferenceFilter"></div>
         </div>
     </div>
 
@@ -123,18 +92,7 @@
             <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
             <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records <div class="small">Managed by the CBD Secretariat</div></h2>
         <div ng-show="showSCBD">
-            <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalSCBDFilter">
-                <table>
-                    <tr>
-                        <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> {{report.title}}</td>
-                        <td class="facets pull-right">
-                            <span class="label label-success label-small" ng-show="report.publishCount">{{report.publishCount}} </span><br>
-                            <span class="label label-default label-small" ng-show="report.draftCount"> {{report.draftCount}} </span><br>
-                            <span class="label label-danger label-small" ng-show="report.requestCount"> {{report.requestCount}} </span><br>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <div  facet-bar schema-list="schemasList" schema-filter="nationalSCBDFilter"></div>
             <!-- <div class="btn-schema">Marine Ecologically or Biologically Significant Areas (EBSA)</div>
             <div class="btn-schema">Strategic Plan Indicators</div>
             <div class="btn-schema">Case Studies</div>

@@ -56,6 +56,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
  		when('/management/tasks', { controller: ManagementPageController, templateUrl: '/app/views/management/tasks/tasks.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/tasks/:id', { controller: ManagementPageController, templateUrl: '/app/views/management/tasks/tasks-id.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/tasks/:id/:activity', { controller: ManagementPageController, templateUrl: '/app/views/management/tasks/tasks-id-activity.html', resolve: { user: getUser }, reloadOnSearch: false }).
+        when('/management/requests', { controller: ManagementPageController, templateUrl: '/app/views/management/index.html', resolve: { user: getUser } }).
 
 		when('/network/', { controller: NetworkPortalPageController, templateUrl: '/app/views/404.html', resolve: { user: getUser } }).
  		when('/resources/', { controller: ResourcesPortalPageController, templateUrl: '/app/views/404.html', resolve: { user: getUser } }).

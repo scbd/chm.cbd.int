@@ -167,7 +167,13 @@ angular.module('kmApp').compileProvider // lazy
 				// 	$location.path("/management/national-reporting/"+$scope.government);
 				// 	return;
 				// }
-				$scope.government ="BT";
+
+				if(authentication.user().government){
+					$scope.government =authentication.user().government;
+
+				if(authentication.user().IsAdministrator() ){
+						$scope.government =authentication.user().government;
+
 				console.log("government", gov, prev);
 
 				$scope.governmentName = null;

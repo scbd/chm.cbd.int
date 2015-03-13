@@ -16,15 +16,13 @@
         </span>
     </div>
     <div class="clearfix"></div>
-
+    {{isAdmin()}}
 
     <a href="/management/register"><div class="btn-schema dashboard"><i class="fa fa-dashboard"></i> Dashboard (all records)</div></a>
     <a href="/management/requests">
         <div ng-click="goto(requests)" class="btn-schema dashboard"><i class="fa fa-retweet"></i> Requests
             <span class="facets pull-right label label-danger label-small" ng-show="requestCount">{{requestCount}} </span>
         </div></a>
-
-
 
         <div class="national">
             <h2 class="color-blue" style="cursor:pointer;margin-bottom:3px;">

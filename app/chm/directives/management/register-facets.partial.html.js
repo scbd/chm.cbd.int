@@ -38,9 +38,21 @@ angular.module('kmApp').compileProvider // lazy
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
         },
-        controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q','realm','IWorkflows',
-         function ($scope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q, realm, IWorkflows)
+        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',
+         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http,authentication, $q)
         {
+
+            $rootScope.government = userGovernment();
+
+
+            $scope.isAdmin = function(){
+                // return commonjs.isUserInRole($rootScope.getRoleName('CHMAdministrator')) ||
+                // commonjs.isUserInRole($rootScope.getRoleName('Administrator'))
+                return authentication.user().roles;
+
+                //if(authentication.user().)
+            }
+
 
             if($route.current.params.schema) {
 
@@ -55,8 +67,6 @@ angular.module('kmApp').compileProvider // lazy
                 $scope.showNational = true;
             }
 
-
-
             //==============================
             //
             //==============================
@@ -66,11 +76,17 @@ angular.module('kmApp').compileProvider // lazy
 
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
             }
+
             function userGovernment() {
+
+                // if(authentication.user().IsAdminstrator() && $scope.government)
+                //     return $scope.government.toLowerCase();
+
                 if(authentication.user().government){
                     $scope.showNational = true;
                     return authentication.user().government.toLowerCase();
                 }
+
             }
 
             $scope.countries          = $http.get('/api/v2013/countries').then(function(response) { return response.data; });
@@ -157,11 +173,11 @@ angular.module('kmApp').compileProvider // lazy
 
             }
 
-            $scope.loadVLRFacets = function(){
+            function loadVLRFacets(){
                 var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator";
                 var published     = storage.documentQuery.facets(filter,{collection:"my"});
                 var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
-                var requests      = storage.documentQuery.facets('',{collection:"request"});
+                var requests      = storage.documentQuery.facets(filter,{collection:"request"});
                 $q.all([published, drafts, requests]).then(function(results) {
 
                   var index=0;
@@ -170,7 +186,7 @@ angular.module('kmApp').compileProvider // lazy
                       _.each(facets.data, function(count, format){
 
                             var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
-                            //console.log(schemaTypeFacet,format);
+                            console.log(schemaTypeFacet,format);
                             if(schemaTypeFacet.length>0){
                                 if(index==0)
                                       schemaTypeFacet[0].publishCount = count;
@@ -227,6 +243,9 @@ angular.module('kmApp').compileProvider // lazy
                 }
             }
 
+            $scope.load();
+            loadVLRFacets();
+
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';
             }
@@ -243,25 +262,6 @@ angular.module('kmApp').compileProvider // lazy
                 return entity && entity.type=='SCBD';
             }
 
-            $scope.loadRequestsCount = function(){
-                var myUserID = authentication.user().userID;
-                var query    = {
-                    $and : [
-                        { "activities.assignedTo" : myUserID },
-                        { closedOn : { $exists : false } },
-					    { "data.realm" : realm.value }
-                    ]
-                };
-                IWorkflows.query(query).then(function(workflows){
-                    $scope.requestCount = workflows.length;
-                });
-            }
-
-
-            $scope.load();
-            $scope.loadVLRFacets();
-            $scope.loadRequestsCount();
-            
             $scope.$watch('government', function(newVal, oldVal){
                 if(newVal && newVal!=oldVal){
                     _.each($scope.schemasList, function(schema){

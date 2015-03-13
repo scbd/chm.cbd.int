@@ -14,6 +14,19 @@ angular.module('kmApp').compileProvider // lazy
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
 
 			$scope.user = authentication.user();
+			//==============================
+			//
+			//==============================
+			$scope.isAdmin = function(){
+				for(var i=0; i < authentication.user().roles.length; i++)
+				{
+					if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'ChmAdministrator')
+					{
+						return true;
+					}
+				}
+				return false;
+			}
 
 		}]
 	};

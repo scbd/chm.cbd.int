@@ -65,13 +65,14 @@ angular.module('kmApp').compileProvider // lazy
             $scope.isAdmin = function(){
                 for(var i=0; i < authentication.user().roles.length; i++)
                 {
-                    if(authentication.user().roles[i] == 'Administrator' || 'CHMAdministrator')
+                    if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'CHMAdministrator')
+                    {
                         return true;
                     }
-                    return false;
                 }
+                return false;
             }
-            
+
             //==============================
             //
             //==============================
@@ -86,8 +87,9 @@ angular.module('kmApp').compileProvider // lazy
             //
             //==============================
             function userGovernment() {
-                if($scope.isAdmin() && $scope.government)
-                     return $scope.government.toLowerCase();
+
+                // if($scope.isAdmin() && $scope.government)
+                //      return $scope.government.toLowerCase();
 
                 if(authentication.user().government){
                     $scope.showNational = true;
@@ -179,7 +181,8 @@ angular.module('kmApp').compileProvider // lazy
 
             }
 
-            function loadVLRFacets(){
+
+            $scope.loadVLRFacets = function(){
                 var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator";
                 var published     = storage.documentQuery.facets(filter,{collection:"my"});
                 var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
@@ -210,6 +213,20 @@ angular.module('kmApp').compileProvider // lazy
                    console.log(error );
                 })
 
+            }
+
+            $scope.loadRequestsCount = function(){
+                var myUserID = authentication.user().userID;
+                var query    = {
+                    $and : [
+                { "activities.assignedTo" : myUserID },
+                { closedOn : { $exists : false } },
+                { "data.realm" : realm.value }
+                ]
+            };
+            IWorkflows.query(query).then(function(workflows){
+                $scope.requestCount = workflows.length;
+            });
             }
 
             function readFacets2(solrArray) {
@@ -250,7 +267,7 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             $scope.load();
-            loadVLRFacets();
+            $scope.loadVLRFacets();
 
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';
@@ -267,6 +284,8 @@ angular.module('kmApp').compileProvider // lazy
             $scope.nationalSCBDFilter = function(entity){
                 return entity && entity.type=='SCBD';
             }
+
+
 
             $scope.$watch('government', function(newVal, oldVal){
                 if(newVal && newVal!=oldVal){

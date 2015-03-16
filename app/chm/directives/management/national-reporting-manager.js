@@ -332,10 +332,8 @@ angular.module('kmApp').compileProvider // lazy
 
 					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government.toUpperCase(), { cache:true }).then(function (response) {
 						console.log(response.data);
-						if(response.data)
+
 							return response.data.name.en;
-						else
-							return '';
 					}).catch(function() {
 						navigation.notFound();
 					});

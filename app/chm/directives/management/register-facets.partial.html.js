@@ -13,9 +13,9 @@ angular.module('kmApp').compileProvider // lazy
 
 
             $scope.schemasList = [
-                { identifier: 'nationalStrategicPlans',   title: 'National Biodiversity Strategies and Action Plans (NBSAPS)',  type:'nationalReports',  schema:"nationalReport"  },
-                { identifier: 'nationalReports',        title: 'National Reports',                                      type:'nationalReports' , schema:"nationalReport"  },
-                { identifier: 'otherReports',   title: 'Other Reports',                                               type:'nationalReports' , schema:"nationalReport"  },
+                { identifier: 'nationalStrategicPlan',   title: 'National Biodiversity Strategies and Action Plans (NBSAPS)',  type:'nationalReports',  schema:"nationalReport" ,editType:"nbsap"  },
+                { identifier: 'nationalReport',        title: 'National Reports',                                      type:'nationalReports' , schema:"nationalReport"  ,editType:"nr" },
+                { identifier: 'otherReport',   title: 'Other Reports',                                               type:'nationalReports' , schema:"nationalReport" ,editType:"other"  },
 
                 { identifier: 'progressAssessment',     title: 'Aichi Biodiversity Targets' ,           type:'Progress'  },
                 { identifier: 'nationalTarget',         title: 'National Targets' ,                     type:'Progress'  },
@@ -24,7 +24,7 @@ angular.module('kmApp').compileProvider // lazy
                 { identifier: 'nationalSupportTool',    title: 'Guidance and Support Tools'  ,          type:'Activities'  },
                 { identifier: 'implementationActivity', title: 'Implementation Activities'  ,           type:'Activities'  },
 
-                { identifier: 'resourceMobilisation',   title: 'Preliminary Reporting Framework' ,      type:'finance'  },
+                { identifier: 'resourceMobilisation',   title: 'Preliminary Reporting Framework' ,      type:'Finance'  },
 
                 { identifier: 'resource',               title: 'Virtual Library - CHM Resouces' ,             type:'Reference'  },
                 { identifier: 'organization',           title: 'Biodiversity Related Organizations'  ,  type:'Reference'  },
@@ -62,7 +62,7 @@ angular.module('kmApp').compileProvider // lazy
                 || $location.url().indexOf("/nationalIndicator") >= 0
                 || $location.url().indexOf("/nationalSupportTool") >= 0
                 || $location.url().indexOf("/implementationActivity") >= 0
-                || $location.url().indexOf("/resourceMobilisation") >= 0        
+                || $location.url().indexOf("/resourceMobilisation") >= 0
             ){
                 $scope.showNational = true;
             }
@@ -316,19 +316,11 @@ angular.module('kmApp').compileProvider // lazy
                 var publishNBSAPCount   = _.reduce(qqNBSAPs, function(memo,item){ return memo + item.count;},0)
                 var publishOtherCount      = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0)
 
-                _.where($scope.schemasList, {'identifier':'nationalReports'})[0][type] = publishNPCount;
-                _.where($scope.schemasList, {'identifier':'nationalStrategicPlans'})[0][type] = publishNBSAPCount;
-                _.where($scope.schemasList, {'identifier':'otherReports'})[0][type] = publishOtherCount;
+                _.where($scope.schemasList, {'identifier':'nationalReport'})[0][type] = publishNPCount;
+                _.where($scope.schemasList, {'identifier':'nationalStrategicPlan'})[0][type] = publishNBSAPCount;
+                _.where($scope.schemasList, {'identifier':'otherReport'})[0][type] = publishOtherCount;
 
 
-            }
-
-            $scope.getFacet = function(schema, type) {
-
-                var schemaTypeFacet = _.where($scope.schemasList,{"identifier":schema});
-                if(schemaTypeFacet.length>0){
-                    return _.pluck(schemaTypeFacet, type) || '';
-                }
             }
 
             $scope.load();
@@ -350,6 +342,10 @@ angular.module('kmApp').compileProvider // lazy
             $scope.nationalSCBDFilter = function(entity){
                 return entity && entity.type=='SCBD';
             }
+            $scope.nationalFinanceFilter = function(entity){
+                return entity && entity.type=='Finance';
+            }
+
 
 
 

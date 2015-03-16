@@ -14,6 +14,7 @@ angular.module('kmApp').compileProvider // lazy
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
 
 			$scope.user = authentication.user();
+			
 			//==============================
 			//
 			//==============================

@@ -6,14 +6,14 @@
             <td class="title">
                 <a href="{{listUrl}}/{{report.identifier}}"> {{report.title}} </a><br>
             </td>
-            <td class="facets" row-span="2">
-                <div class="label label-success label-small pull-right" ng-show="report.publishCount">{{report.publishCount}} </div>
-                <div class="label label-default label-small pull-right" ng-show="report.draftCount"> {{report.draftCount}} </div>
-                <div class="label label-danger label-small pull-right" ng-show="report.requestCount"> {{report.requestCount}} </div>
+            <td class="facets" rowspan="2">
+                <div class="label label-success label-small pull-right" style="margin-top:3px;" ng-show="report.publishCount">{{report.publishCount}} </div>
+                <div class="label label-default label-small pull-right" style="margin-top:1px;" ng-show="report.draftCount"> {{report.draftCount}} </div>
+                <div class="label label-danger label-small pull-right" style="margin-top:1px;" ng-show="report.requestCount"> {{report.requestCount}} </div>
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="newlink">
                 <a style="font-size:10px;font-weight:bold;" href="{{getURL(report)}}">
                     <i class="fa fa-plus-square"></i>
                     add new</a>

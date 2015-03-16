@@ -60,9 +60,14 @@ background-color: #F3E5AB;
     background-color: #666!important;color:#fff;
 }
 
-.btn-schema-selected {
+/*.btn-schema-selected {
     background-color: #FFF!important;
+}*/
+.btn-schema-selected-active .newlink > a{
+    color: #FFF!important;
 }
+
+
 .page-header{padding-top:14px;margin:0;}
 
 .no-shadow{

@@ -1,6 +1,9 @@
 .my_well{
-    border:2px solid #ddd!important;
-    border-radius: 3px;
+    border-top:1px solid #bbb!important;
+    border-left:1px solid #ddd!important;
+    border-right:1px solid #ddd!important;
+    border-bottom:1px solid #bbb!important;
+    /*border-radius: 3px;*/
     margin-top:50px!important;
     margin-bottom:20px!important;
 }
@@ -25,7 +28,7 @@ h4{font-size:12px;}
     margin-bottom: 5px;
     font-size:12px;
     text-decoration: none;
-    background-color: #ddd;
+    background-color: #EEE;
     cursor:pointer;
     /*height:60px;*/
 }
@@ -52,6 +55,7 @@ background-color: #F3E5AB;
 .btn-schema > table > tbody > tr > td.title {width:100%;}
 .btn-schema > table > tbody > tr > td.title > a {color:#333;text-decoration:none;font-size:12px!important;font-weight:bold;}
 .btn-schema > table > tbody > tr > td.title > a:hover {color:#FFF!important;text-decoration:none!important;font-size:12px!important;}
+.btn-schema > table > tbody > tr > td > a:hover {color:#FFF!important;text-decoration:none!important;font-size:12px!important;}
 .btn-schema:hover {
     background-color: #666!important;color:#fff;
 }
@@ -139,6 +143,9 @@ background-color: #F3E5AB;
 }
 .color-litegrey{
     color:#999;
+}
+.color-litergrey{
+    color:#ddd;
 }
 .color-black{
     color:#111;

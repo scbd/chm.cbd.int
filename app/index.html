@@ -754,19 +754,37 @@
                 </div>
 
 
-                <div class="row hidden-xs " style="border-bottom-color: #cdcdcd; border-bottom-width: 1px; border-bottom-style: solid;padding-bottom:5px">
+                <!-- <div class="row hidden-xs " style="border-bottom-color: #cdcdcd; border-bottom-width: 1px; border-bottom-style: solid;padding-bottom:5px">
                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar pull-left">
                             <img src="//www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;">
                             > <a ng-href="#" ng-click="goHome()">CHM  </a>
                             <span ng-hide="homePage">> {{navigationTree.mainMenu}} > {{navigationTree.subMenu}}</span>
                     </div>
+                </div> -->
+
+                <div class="row hidden-xs" style="border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs">
+                        <!-- <img src="//www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;"> -->
+                        <a ng-href="http://www.cbd.int" class="color-green"> CBD  </a>
+                        <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>
+                        <a ng-href="#" ng-click="goHome()" class="color-grey"> CHM  </a>
+                        <span ng-hide="homePage" class="color-grey"> <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>  {{navigationTree.mainMenu}} <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span> {{navigationTree.subMenu}} </span>
+                    </div>
                 </div>
 
-                <div class="page-content">
+
+
+
+
+                <div class="row page-content" style="margin-right:0px!important;">
+
                     <div ngx-view>
                     </div>
                 </div>
-                <div id="footerMain">
+
+
+
+                <div id="row footerMain" style="margin-right:10px!important;">
 
                     <footer class="footer">
                         <div class="container" id="footer">

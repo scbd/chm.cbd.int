@@ -4,8 +4,8 @@
 	  <tr>
 		  <th colspan="2">
 		  	Request information and status
-		  </th>	
-	  </tr>	
+		  </th>
+	  </tr>
 	  <tr>
 	  	<td style="width:40%">Request ID</td>
 	  	<td>
@@ -65,8 +65,8 @@
 	  	<td>
 	  		<span ng-switch="workflow.state">
 	  			<span ng-switch-when="running">
-					<span ng-show="hasOpenActivities(workflow.activities)"><i class="glyphicon glyphicon-time"></i> Waiting for user action</span>	  				
-					<span ng-hide="hasOpenActivities(workflow.activities)"><i class="glyphicon glyphicon-cog"></i> Processing</span>	  				
+					<span ng-show="hasOpenActivities(workflow.activities)"><i class="glyphicon glyphicon-time"></i> Awaiting for user action</span>	  				
+					<span ng-hide="hasOpenActivities(workflow.activities)"><i class="glyphicon glyphicon-cog"></i> Processing</span>
 	  			</span>
 	  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
 	  			<span ng-switch-when="canceled"><i class="glyphicon glyphicon-remove-circle"></i> Canceled on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
@@ -99,7 +99,7 @@
 						<button ng-disabled="activity.closedOn || !isAssignedToMe(activity)" ng-repeat="action in activity.input.actions" type="button" class="btn btn-default" ng-click="updateActivity(activity.name, { action : action })">{{action|uppercase}}</button>
 						<span ng-hide="isAssignedToMe(activity)">This actitivity is not assigned to you &#9785;</span>
 					</span>
-					
+
 				</div>
 			</div>
 
@@ -127,7 +127,7 @@
 	  	</td>
 	  </tr>
 
-	  
+
 	</table>
 
 
@@ -138,8 +138,8 @@
 	  <div class="panel-body">
 		<div class="cbd-View-Form-Loader" document="document" hide-buttons="true" link-target="_self"></div>
 	  </div>
-	</div>	
+	</div>
 
-  	
+
 
 </div>

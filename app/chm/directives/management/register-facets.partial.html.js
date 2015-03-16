@@ -57,6 +57,20 @@ angular.module('kmApp').compileProvider // lazy
             if($location.url().indexOf("national-reporting") >= 0){
                 $scope.showNational = true;
             }
+            //open section based on url
+            if($location.url().indexOf("/resource") >= 0 || $location.url().indexOf("/organization") >= 0 ){
+                $scope.showReference = true;
+            }
+
+            //open section based on url
+            if(    $location.url().indexOf("/marineEbsa") >= 0
+                || $location.url().indexOf("/caseStudy") >= 0
+                || $location.url().indexOf("/caseStudyHwb") >= 0
+                || $location.url().indexOf("/aichiTarget") >= 0
+                || $location.url().indexOf("/strategicPlanIndicator") >= 0
+                ){
+                $scope.showSCBD = true;
+            }
 
 
             //==============================
@@ -66,6 +80,49 @@ angular.module('kmApp').compileProvider // lazy
                 for(var i=0; i < authentication.user().roles.length; i++)
                 {
                     if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'ChmAdministrator')
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            //==============================
+            //
+            //==============================
+            $scope.isNationalUser = function(){
+                for(var i=0; i < authentication.user().roles.length; i++)
+                {
+                    if(authentication.user().roles[i] == 'ChmNationalFocalPoint'
+                        || authentication.user().roles[i] == 'ChmNationalAuthorizedUser'
+                        || authentication.user().roles[i] == 'Administrator'
+                        || authentication.user().roles[i] == 'ChmAdministrator' && authentication.user().government)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            //==============================
+            //
+            //==============================
+            $scope.isReferenceUser = function(){
+                for(var i=0; i < authentication.user().roles.length; i++)
+                {
+                    if(authentication.user().roles[i] == 'User' )
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            //==============================
+            //
+            //==============================
+            $scope.isSCBDUser = function(){
+                for(var i=0; i < authentication.user().roles.length; i++)
+                {
+                    if(authentication.user().roles[i] == 'ScbdStaff' )
                     {
                         return true;
                     }

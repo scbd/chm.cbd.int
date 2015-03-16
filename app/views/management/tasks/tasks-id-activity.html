@@ -1,6 +1,14 @@
+
+
+
 <div class="home-bottom" style="position:relative" ng-controller="TaskIdActivityController">
-    <div >
-      	<div class="row top">
+    <div class="col-xs-3">
+        <div class="register-facets"></div>
+        <script src="/app/chm/directives/management/register-facets.partial.html.js"></script>
+        <script src="/app/chm/directives/management/facet-bar.partial.html.js"></script>
+    </div>
+    <div class="col-xs-9 my_well my_well-white">
+        <div>
 
 	    	<h1 ng-hide="activity">Action</h1>
 			<h1 ng-show="activity" ng-switch="activity.name">

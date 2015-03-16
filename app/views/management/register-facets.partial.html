@@ -45,11 +45,11 @@
             <span class="facets pull-right label label-danger label-small" ng-show="requestCount">{{requestCount}} </span>
         </div></a>
 
-        <div class="national">
+        <div class="national" ng-show="isNationalUser()">
             <h2 class="color-blue" style="cursor:pointer;margin-bottom:3px;">
                 <span  ng-click="showNational=!showNational"><i class="fa fa-chevron-circle-up" ng-show="showNational"></i>
                 <i class="fa fa-chevron-circle-down" ng-show="!showNational"></i> National Records <div class="small">Submitted and validated by countries</div></span>
-                <select ng-show="isAdmin()" ng-model="government" style="width:100%" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select>
+                <!-- <select ng-show="isAdmin()" ng-model="government" style="width:100%" ng-options="c.code as c.name|lstring for c in countries|orderBy:'name|lstring'"></select> -->
             </h2>
 
             <div ng-show="showNational">
@@ -98,7 +98,7 @@
         </div>
 
 
-    <div class="reference">
+    <div class="reference" ng-show="isReferenceUser()">
         <h2 class="color-orange" ng-click="showReference=!showReference" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
             <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records <div class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</div></h2>
@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    <div class="scbd">
+    <div class="scbd" ng-show="isSCBDUser()">
         <h2 class="color-darkgrey" ng-click="showSCBD=!showSCBD" style="cursor:pointer;margin-bottom:3px;">
             <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
             <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records <div class="small">Managed by the CBD Secretariat</div></h2>

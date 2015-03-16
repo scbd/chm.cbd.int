@@ -2,7 +2,7 @@
 	<div class="alert alert-danger" ng-show="__error">
 		<strong>Error: </strong>{{__error}}
 	</div>
-	
+
 	<table class="table table-striped" ng-hide="__error">
 
 		<tr>
@@ -14,7 +14,7 @@
 		</tr>
 
 		<tr ng-repeat="task in tasks|orderBy:'activity.createdOn'">
-	
+
 			<td> <!-- ID -->
 				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{task.workflow._id}}/{{task.activity.name}}"  type="button">{{formatWID(task.workflow._id)}}</a>
 				<div ng-switch="task.workflow.type.name">
@@ -30,10 +30,10 @@
 
 				<div>{{task.workflow.data.title | lstring}}</div>
 			</td>
-			
+
 			<td> <!-- Status -->
 				<div ng-switch="task.activity.name">
-					<span ng-switch-when="publishRecord">Waiting for validation</span>
+					<span ng-switch-when="publishRecord" class="color-request">Awaiting Approval</span>
 					<span ng-switch-default>{{activity.name}}*</span>
 				</div>
 			</td>

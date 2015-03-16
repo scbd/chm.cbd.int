@@ -46,7 +46,7 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
  		when('/management/edit/national-reporting/progressAssessment', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/progressAssessment.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/national-reporting/implementationActivity', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/implementationActivity.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/national-reporting/nationalSupportTool', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalSupportTool.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/edit/national-reporting/aichiTarget', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/aichi-target.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/aichiTarget', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/aichi-target.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/marineEbsa', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/marine-ebsa.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/caseStudy', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/case-study.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/caseStudyHwb', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/case-study-hwb.html', resolve: { user: getUser }, reloadOnSearch: false }).

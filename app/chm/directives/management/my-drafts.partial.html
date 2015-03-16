@@ -34,15 +34,23 @@
 	<div class="alert alert-danger" ng-show="__error">
 		<strong>Error: </strong>{{__error}}
 	</div>
-	<div class="bs-filter"  ng-hide="hideFilters">
+
+
+
+	<div class="filters">
 		<form ng-submit="signIn()">
-			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon"><i class="icon-search"></i></span>
-					<input type="text" class="form-control" ng-model="freetext" placeholder="keyword">
+			<div class="row" style="padding-top:10px;">
+				<div class="col-xs-1 color-grey" style="font-weight:bold;font-size:12px;" >FILTERS</div>
+				<div class="col-xs-5">
+					<div class="form-group" km-select multiple name="schemasList" ng-model="selectedSchemasList" watch-items items="schemasList" placeholer="Choose a document type" binding-type="string"></div>
+				</div>
+				<div class="col-xs-6">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-search"></i></span>
+						<input type="text" class="form-control" ng-model="freetext" placeholder="keyword">
+					</div>
 				</div>
 			</div>
-			<div class="form-group" km-select multiple name="schemasList" ng-model="selectedSchemasList" watch-items items="schemasList" placeholer="Choose a document type" binding-type="string"></div>
 		</form>
 	</div>
 
@@ -57,6 +65,9 @@
 			<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
 		</li>
 	</ul>
+
+
+
 	<table class="table table-condensed table-striped" ng-hide="__error">
 		<tbody>
 			<tr>

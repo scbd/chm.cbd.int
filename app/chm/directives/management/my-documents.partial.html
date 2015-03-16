@@ -38,10 +38,10 @@
 
 
 	<div class="filters">
-		FILTERS:
 		<form ng-submit="signIn()">
 			<div class="row">
-				<div class="col-xs-6">
+				<div class="col-xs-1 color-grey" style="font-weight:bold;font-size:12px;" >FILTERS</div>
+				<div class="col-xs-5">
 					<div class="form-group" km-select multiple name="schemasList" ng-model="selectedSchemasList" watch-items items="schemasList" placeholer="Choose a document type" binding-type="string"></div>
 				</div>
 				<div class="col-xs-6">
@@ -83,7 +83,7 @@
 					<a ng-href="/database/record?documentID={{document.documentID}}">{{document.documentID}}</a>
 				</td>
 				<td>
-					<div ng-switch="document.type">
+					<div ng-switch="document.type" >
 						<strong ng-switch-when="focalPoint">National Focal Point</strong>
 						<strong ng-switch-when="authority">Competent National Authority</strong>
 						<strong ng-switch-when="caseStudy">Case Study</strong>
@@ -110,7 +110,7 @@
 					<div>{{document.title | lstring:'en'}}</div>
 				</td>
 				<td ng-switch="document.workingDocumentUpdatedOn" style="white-space:nowrap">
-					<div ng-switch-when="null">
+					<div ng-switch-when="null" class="color-published">
 						<i class="icon-ok"></i>
 						<b>Published</b>
 					</div>

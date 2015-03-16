@@ -1,4 +1,4 @@
-<div>
+<div style="margin-bottom:30px;">
 
     <h2 class="color-black">Register Information
     </h2>
@@ -53,7 +53,7 @@
             </h2>
 
             <div ng-show="showNational">
-                <h3>Online Reporting</h3>
+                <h3 class="color-blue">Online Reporting</h3>
                 <h4>National Reports, NBSAPs and Other Reports</h4>
                 <div class="btn-schema" ng-repeat="report in schemasList |  filter:nationalReportsFilter">
                     <table>
@@ -76,17 +76,19 @@
                 <div facet-bar schema-list="schemasList" schema-filter="nationalProgressFilter"></div>
                 <h4>Activities, Guidance and Support Tools</h4>
                 <div facet-bar schema-list="schemasList" schema-filter="nationalActivitiesFilter"></div>
-                <h3>Financial Resource Mobilisation </h3>
+                <h3  class="color-blue">Financial Resource Mobilisation </h3>
                 <h4>Implementation of the Strategy for Resource Mobilization</h4>
 
                 <div class="btn-schema">
                     <table>
                         <tr>
-                            <td class="title"><a href=""><i class="fa fa-plus-square"></i></a> Preliminary Reporting Framework</td>
-                            <td class="facets pull-right"row-span="2">
-                                <span class="label label-success label-small" ng-show="report.publishCount">{{getFacet('resourceMobilisation','publishCount')}} </span><br>
-                                <span class="label label-default label-small" ng-show="report.draftCount"> {{getFacet('resourceMobilisation','draftCount')}} </span><br>
-                                <span class="label label-danger label-small" ng-show="report.requestCount"> {{getFacet('resourceMobilisation','requestCount')}} </span><br>
+                            <td class="title">
+                                <a href="/management/national-reporting/{{report.identifier}}">Preliminary Reporting Framework</a><br>
+                            </td>
+                            <td class="facets"row-span="2">
+                                <div class="label label-success label-small" ng-show="report.publishCount">{{getFacet('resourceMobilisation','publishCount')}} </div>
+                                <div class="label label-default label-small" ng-show="report.draftCount"> {{getFacet('resourceMobilisation','draftCount')}} </div>
+                                <div class="label label-danger label-small" ng-show="report.requestCount"> {{getFacet('resourceMobilisation','requestCount')}} </div>
                             </td>
                         </tr>
                         <tr>

@@ -54,11 +54,21 @@ angular.module('kmApp').compileProvider // lazy
             $scope.loadScheduled = null;
 
             //open section based on url
-            if($location.url().indexOf("national-reporting") >= 0){
+            if($location.url().indexOf("/nationalStrategicPlans") >= 0
+                || $location.url().indexOf("/nationalReports") >= 0
+                || $location.url().indexOf("/otherReports") >= 0
+                || $location.url().indexOf("/progressAssessment") >= 0
+                || $location.url().indexOf("/nationalTarget") >= 0
+                || $location.url().indexOf("/nationalIndicator") >= 0
+                || $location.url().indexOf("/nationalSupportTool") >= 0
+                || $location.url().indexOf("/implementationActivity") >= 0
+                || $location.url().indexOf("/resourceMobilisation") >= 0        
+            ){
                 $scope.showNational = true;
             }
             //open section based on url
-            if($location.url().indexOf("/resource") >= 0 || $location.url().indexOf("/organization") >= 0 ){
+            if($location.url().indexOf("/resource") >= 0
+                || $location.url().indexOf("/organization") >= 0 ){
                 $scope.showReference = true;
             }
 

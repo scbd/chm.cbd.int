@@ -1,13 +1,15 @@
 <div>
 
-	<div class="row row-same-height bg-litegrey" style="margin-bottom:20px;padding-top:10px;padding-bottom:10px;">
-		<div class="col-xs-6 col-xs-height col-top" >
-			<h2 class="color-green">Welcome. You are signed in! </h2>
+	<div class="row bg-litegrey" style="margin-bottom:20px;padding-top:10px;padding-bottom:10px;">
+		<div class="col-xs-6" >
+			<h2 class="color-green" style="padding-top:0;margin-top:0;">Welcome. You are signed in! </h2>
 			<dl class="dl-horizontal" style="padding-top:20px;">
 				<dt style="text-align:left">Name</dt><dd>{{user.name}}</dd>
 				<dt style="text-align:left;white-space:nowrap;">Primary email</dt><dd><strong>{{user.email}}</strong></dd>
-				<!-- <dt  style="text-align:left;white-space:nowrap;" ng-show="user.government">Country</dt><dd style="text-transform:uppercase;">
-					<a href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
+				<dt  style="text-align:left;white-space:nowrap;" ng-show="user.government">Country</dt>
+				<!-- <dd style="text-transform:uppercase;"><a href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
+				<dt  style="text-align:left;white-space:nowrap;" ng-show="user.roles">Roles</dt>
+				<!-- <dd style="text-transform:uppercase;"><a href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
 				</dl>
 		</div>
 

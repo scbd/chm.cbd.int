@@ -83,12 +83,12 @@ angular.module('kmApp').compileProvider // lazy
 
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
 
-			if(userGovernment() && userGovernment()!=$routeParams.country) {
-				$location.path("/management/national-reporting/"+userGovernment());
-				return;
-			}
+			// if(userGovernment() && userGovernment()!=$routeParams.country) {
+			// 	$location.path("/management/national-reporting/"+userGovernment());
+			// 	return;
+			// }
 			console.log($rootScope.government);
-			$scope.government  = $routeParams.country;
+			$scope.government  = userGovernment();// || $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear()-1;
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 			$scope.countries   = $http.get('/api/v2013/countries').then(function(response) {
@@ -168,10 +168,10 @@ angular.module('kmApp').compileProvider // lazy
 				// 	return;
 				// }
 
-				if(authentication.user().government){
+				if(authentication.user().government)
 					$scope.government =authentication.user().government;
 
-				if(authentication.user().IsAdministrator() ){
+				if(authentication.user().IsAdministrator() )
 						$scope.government =authentication.user().government;
 
 				console.log("government", gov, prev);
@@ -330,9 +330,12 @@ angular.module('kmApp').compileProvider // lazy
 
 				if ($scope.government) {
 
-					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government, { cache:true }).then(function (response) {
+					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government.toUpperCase(), { cache:true }).then(function (response) {
 						console.log(response.data);
-						return response.data.name.en;
+						if(response.data)
+							return response.data.name.en;
+						else
+							return '';
 					}).catch(function() {
 						navigation.notFound();
 					});

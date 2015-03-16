@@ -96,7 +96,7 @@
             <div class="boxed">
                 <h4>
                     <i class="glyphicon glyphicon-file"></i>
-                    {{otherReport.reportTypeEx.en}}
+                    {{otherReport.reportTypeEx|lstring}}
                 </h4>
                 <h5>{{otherReport.title}}</h5>
                 <p>
@@ -320,7 +320,7 @@
 
                 <td><!-- planned / on-going / complete -->
                     <!--<span class="label" ng-class="{'label-default':activity.completion.symbol=='2F4C5373-ECD5-4883-BC06-2E8B7F17DC5E', 'label-warning':activity.completion.symbol=='AD9696E5-52E9-49BB-A635-1DB06C89A757', 'label-primary':activity.completion.symbol=='E6640AB5-975D-479F-92C0-FC6E3AC0ADFF'}">-->
-                    <strong>{{activity.completion.en}}
+                    <strong>{{activity.completion|lstring}}
                     </strong></td>
 
                     <td>

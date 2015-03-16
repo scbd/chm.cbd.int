@@ -40,12 +40,12 @@ app.config(['$routeProvider', '$locationProvider', '$compileProvider', "$control
  		when('/management/signin', { controller: ManagementPageController, templateUrl: '/app/views/management/signin.html', resolve: { user: getUser } }).
 
  		when('/management/edit/resource', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/resource.html', resolve: { user: getUser } }).
- 		when('/management/edit/national-reporting/nationalReport', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalReport.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/edit/national-reporting/nationalTarget', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalTarget.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/edit/national-reporting/nationalIndicator', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalIndicator.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/edit/national-reporting/progressAssessment', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/progressAssessment.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/edit/national-reporting/implementationActivity', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/implementationActivity.html', resolve: { user: getUser }, reloadOnSearch: false }).
- 		when('/management/edit/national-reporting/nationalSupportTool', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalSupportTool.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalReport', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalReport.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalTarget', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalTarget.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalIndicator', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalIndicator.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/progressAssessment', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/progressAssessment.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/implementationActivity', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/implementationActivity.html', resolve: { user: getUser }, reloadOnSearch: false }).
+ 		when('/management/edit/nationalSupportTool', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/nationalSupportTool.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/aichiTarget', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/aichi-target.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/marineEbsa', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/marine-ebsa.html', resolve: { user: getUser }, reloadOnSearch: false }).
  		when('/management/edit/caseStudy', { controller: ManagementPageController, templateUrl: '/app/views/management/edit/case-study.html', resolve: { user: getUser }, reloadOnSearch: false }).

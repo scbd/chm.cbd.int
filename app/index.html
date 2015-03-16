@@ -176,7 +176,7 @@
                                 <li class="disabled"><a>Français</a></li>
                                 <li class="disabled"><a>Русский</a></li>
                             </ul>
-                            <ul class="header-actions pull-right">
+                            <ul class="header-actions pull-right" style="list-style:none;">
                                 <li ng-cloak ng-hide="user.isAuthenticated" style="border-right: none; padding-right: 0">
                                     <a class="signin" href="/management/signin" data-slug="signin"><i class="icon-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
                                 </li>
@@ -710,7 +710,7 @@
                     </div>
                 </div>
                 <!--    <div class="header-banner"></div>-->
-                <div class="row header-banner hidden-xs" >
+                <div class="row header-banner hidden-xs" style="margin-left:-25px;margin-top:0;padding-top:0;" >
                     <div class="col-lg-3 col-md-3 col-sm-3 " style="padding-left:0px">
                         <span href="http://www.cbd.int/" id="PortalAnchor" ng-click="goHome()">
                             <div id="PortalName">Clearing-House Mechanism</div>
@@ -738,9 +738,9 @@
                 </div>
 
                 <div class="row webNavBar visible-xs" style="padding-top:2px;">
-                    <div class="col-lg-14 col-md-14 col-sm-14">
-                         <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation">
-                            <ul class="nav navbar-nav pull-left ">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                         <div class="navbar navbar-inverse collapse navbar-collapse " id="MainNav" role="navigation" >
+                            <ul class="nav navbar-nav pull-left">
                                    <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
                                         <li><a href="http://bch.cbd.int/protocol/">Cartagena Protcol</a></li>
                                         <li><a href="http://www.cbd.int/abs/">Nagoya Procol</a></li>
@@ -754,19 +754,38 @@
                 </div>
 
 
-                <div class="row hidden-xs " style="border-bottom-color: #cdcdcd; border-bottom-width: 1px; border-bottom-style: solid;padding-bottom:5px">
+                <!-- <div class="row hidden-xs " style="border-bottom-color: #cdcdcd; border-bottom-width: 1px; border-bottom-style: solid;padding-bottom:5px">
                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar pull-left">
                             <img src="//www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;">
                             > <a ng-href="#" ng-click="goHome()">CHM  </a>
                             <span ng-hide="homePage">> {{navigationTree.mainMenu}} > {{navigationTree.subMenu}}</span>
                     </div>
+                </div> -->
+
+                <div class="row hidden-xs" style="border-bottom-color: #ddd; border-bottom-width: 1px; border-bottom-style: solid;margin-left:-25px;">
+                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs" style="padding-left:0;">
+                        <!-- <img src="//www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;"> -->
+                        <a ng-href="http://www.cbd.int" class="color-green">CBD  </a>
+                        <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>
+                        <a ng-href="#" ng-click="goHome()" class="color-grey"> CHM  </a>
+                        <span ng-hide="homePage" class="color-grey"> <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>  {{navigationTree.mainMenu}} <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span> {{navigationTree.subMenu}} </span>
+                    </div>
                 </div>
 
-                <div class="page-content">
+
+
+
+
+                <div class="row page-content" style="margin-right:0px!important;margin-left:-25px!important;">
+
                     <div ngx-view>
                     </div>
                 </div>
-                <div id="footerMain">
+
+            </div>
+        </div>
+
+                <div id="footerMain" style="padding-right:-80px!important;">
 
                     <footer class="footer">
                         <div class="container" id="footer">
@@ -828,6 +847,8 @@
                         </div>
                     </footer>
                 </div>
+
+
                 <div class="row hidden-xs footerLinks" style="padding-left: 10px">
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div>
@@ -853,8 +874,7 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
+
 
         <script>            //mercuryPackages = { all: {javascripts: 'jquery-1.7.js,mercury.min.js,mercury_dialogs.js', stylesheets: 'mercury.bundle.css'} };
             //jQuery.browser = { webkit: true };

@@ -9,13 +9,16 @@
         border-left-color: rgb(0, 155, 72);
         border-left-style: solid;
         border-left-width: 5px;
-        color: rgb(255, 255, 255);
+        color: #FFF;
         display: table-cell;
         height: 140px;
         padding-right: 9px;
         text-align: center;
         vertical-align: middle;
         width: 200px;
+        text-shadow: #44631E 0 -1px;
+        text-rendering: optimizeLegibility;
+    }
     }
 
     #PortalAnchor:hover div {

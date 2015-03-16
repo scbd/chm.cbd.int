@@ -82,7 +82,7 @@
 
 #t-masterNavi {
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
 }
 
     #t-masterNavi li {
@@ -289,5 +289,3 @@
 .t-subRightColumn {
     width: 340px;
 }
-
-

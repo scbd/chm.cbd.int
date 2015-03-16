@@ -3,7 +3,7 @@
     <table>
         <tr>
             <td class="title">
-                <a href="/management/list/{{report.identifier}}"> {{report.title}} </a><br>
+                <a href="{{listUrl}}/{{report.identifier}}"> {{report.title}} </a><br>
             </td>
             <td class="facets" row-span="2">
                 <div class="label label-success label-small pull-right" ng-show="report.publishCount">{{report.publishCount}} </div>
@@ -12,8 +12,10 @@
             </td>
         </tr>
         <tr>
-            <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/{{report.identifier}}"><i class="fa fa-plus-square"></i> add new</a></td>
+            <td><a style="font-size:10px;font-weight:bold;" href="{{editUrl}}/{{report.identifier}}"><i class="fa fa-plus-square"></i> add new</a></td>
         </tr>
     </table>
 </div>
+<!-- /management/edit/{{report.identifier}} -->
+<!-- /management/list/{{report.identifier}} -->
 </div>

@@ -8,27 +8,15 @@ angular.module('kmApp').compileProvider // lazy
         transclude: false,
         scope: {
             schemaList:'=',
-            schemaFilter:'='
+            schemaFilter:'=',
+            listUrl:'@',
+            editUrl:'@'
         },
         link: function($scope) {
         },
         controller : ['$scope','$rootScope', 'authentication', '$location',
          function ($scope, $rootScope, $http, authentication, $location)
         {
-            //==============================
-            //
-            //==============================
-            // $scope.isLocation = function(identifier){
-            //
-            //     if(!identifier) return false;
-            //
-            //     if($location.url().indexOf('/reference') >= 0){
-            //         return true;
-            //     }
-            //     return false;
-            // }
-
-            console.log('grrrrrrrrrrrrrrr',$scope.schemaList);
 
             //==============================
             //

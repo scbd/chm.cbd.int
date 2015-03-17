@@ -66,6 +66,9 @@ background-color: #F3E5AB;
 .btn-schema-selected-active .newlink > a{
     color: #FFF!important;
 }
+.btn-schema-selected-active .title > a{
+    color: #111!important;
+}
 
 
 .page-header{padding-top:14px;margin:0;}

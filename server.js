@@ -16,39 +16,23 @@ process.on('uncaughtException', function (err) {
 
 // CREATE HTTP SERVER AND PROXY
 
-var express = require('express');
-var app     = express();
-var server  = require('http').createServer(app);
+var app     = require('express')();
 var proxy   = require('http-proxy').createProxyServer({});
 
 // LOAD CONFIGURATION
 
 var oneDay = 86400000;
 
-app.configure(function() {
+app.use(require('morgan')('dev'));
+app.use(require('compression')());
 
-    app.use(express.logger('dev'));
-    app.use(express.compress());
-
-    app.set('port', process.env.PORT || 2000);
-    app.use('/app',         express.static(__dirname + '/app'));
-    app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { maxAge:    oneDay }));
-
-    app.use(function (req, res, next) {
-		if(req.url.match(/^\/activate=3Fkey/g)) {
-			var fixedUrl = req.url.replace('/activate=3Fkey', '/activate?key');
-			res.writeHead(302, { 'Location': fixedUrl });
-			res.end();
-		}
-		else {
-			next();
-		}
-	});
-});
+app.set('port', process.env.PORT || 2000);
+app.use('/app',         require('serve-static')(__dirname + '/app'));
+app.use('/favicon.ico', require('serve-static')(__dirname + '/favicon.ico', { maxAge:    oneDay }));
 
 // Configure routes
 
-app.get   ('/app/*'   , function(req, res) { res.send('404', 404); } );
+app.all   ('/app/*', function(req, res) { res.status(404).send(); } );
 
 app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
 app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
@@ -61,8 +45,7 @@ app.get('/*', function (req, res) { res.sendfile(__dirname + '/app/index.html');
 
 // Start server
 
-server.listen(app.get('port'), '0.0.0.0');
-server.on('listening', function () {
+app.listen(app.get('port'), function () {
 	console.log('Server listening on %j', this.address());
 });
 

@@ -1,25 +1,27 @@
-﻿angular.module('kmStorage')
-.factory('IWorkflows', ["authHttp", "$q", function($http, $q) {
-	return new function()
-	{
-		var self = this;
+define(['app', 'authentication'], function(app) { 'use strict';
 
+console.log("LOADED km-workflows");
+
+app.factory('IWorkflows', ["authHttp", function($http) {
+
+    function IWorkflows()
+	{
 		//===========================
 		//
 		//===========================
 		this.create = function(type, version, data) {
 
-			var body = { 
+			var body = {
 				type    : type,
 				version : version,
-				data    : data 
-			}
+				data    : data
+			};
 
 			return $http.post("/api/v2013/workflows", body).then(
 				function(resp) {
 					return resp.data;
 				}
-			)
+			);
 		};
 
 		//===========================
@@ -55,7 +57,7 @@
 		//===========================
 		//
 		//===========================
-		this.cancel = function(id) {
+		this.cancel = function() {
 			return $http.delete("/api/v2013/workflows/").then(
 				function(resp){
 					return resp.data;
@@ -71,4 +73,7 @@
 			});
 		};
 	}
+
+    return new IWorkflows();
 }]);
+});

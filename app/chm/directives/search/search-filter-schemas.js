@@ -1,5 +1,6 @@
-angular.module('kmApp').compileProvider // lazy
-.directive('searchFilterSchemas', function ($http) {
+define(['app', 'underscore'], function(app, _) { 'use strict';
+
+    app.directive('searchFilterSchemas', function () {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-schemas.partial.html?'+(new Date().getTime()),
@@ -9,9 +10,6 @@ angular.module('kmApp').compileProvider // lazy
               items: '=ngModel',
               field: '@field',
               query: '=query',
-        },
-        link: function ($scope, element, attrs, ngModelController)
-        {
         },
         controller : ['$scope', '$element', '$location', function ($scope, $element, $location)
         {
@@ -67,14 +65,14 @@ angular.module('kmApp').compileProvider // lazy
             $scope.updateQuery = function() {
 
                 console.log($scope.query);
-                
+
                 $scope.query = '';
 
                 $scope.selectedItems.forEach(function(item) {
-                    $scope.query += ($scope.query=='' ? '' : ' OR ') + $scope.field+':' + item;
+                    $scope.query += ($scope.query==='' ? '' : ' OR ') + $scope.field+':' + item;
                 });
 
-                if($scope.query!='')
+                if($scope.query!=='')
                     $scope.query = '(' + $scope.query + ')';
                 else
                     $scope.query = '*:*';
@@ -82,19 +80,19 @@ angular.module('kmApp').compileProvider // lazy
                 console.log($scope.query);
             };
 
-            $scope.onclick = function (scope, evt) {
+            $scope.onclick = function (scope) {
                 scope.item.selected = !scope.item.selected;
                 buildQuery();
-            }
+            };
 
             function buildQuery () {
                 var conditions = [];
                 buildConditions(conditions, $scope.terms);
 
-                if(conditions.length==0) $scope.query = '*:*';
+                if(conditions.length===0) $scope.query = '*:*';
                 else {
                     var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; });
+                    conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
                     query += ' )';
                     console.log(query);
                     $scope.query = query;
@@ -102,7 +100,7 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             function buildConditions (conditions, items) {
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     if(item.selected)
                         conditions.push($scope.field+':'+item.identifier);
                 });
@@ -110,7 +108,7 @@ angular.module('kmApp').compileProvider // lazy
 
             function dictionarize(items) {
                 var dictionary = [];
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     item.selected = false;
                     dictionary[item.identifier] = item;
                 });
@@ -153,7 +151,7 @@ angular.module('kmApp').compileProvider // lazy
                 { identifier: 'nationalIndicator'       , title: 'National Indicators'        },
                 { identifier: 'progressAssessment'      , title: 'Progress Assessments'       },
                 { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
-                { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' , count: 0 }, 
+                { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' , count: 0 },
                 {},
                 { identifier: 'resourceMobilizationTool', title: 'Resource Mobilization Tools' , count: 0 }
             ];
@@ -179,8 +177,9 @@ angular.module('kmApp').compileProvider // lazy
             $scope.$watch('items', onWatch_items);
 
             $scope.refresh = buildQuery;
-            
+
             buildQuery();
         }]
-    }
+    };
+});
 });

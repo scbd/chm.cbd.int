@@ -1,5 +1,10 @@
-angular.module('kmApp').compileProvider // lazy
-.directive('searchFilterThemes', function ($http) {
+define(['app', 'underscore'], function(app, _) { 'use strict';
+
+	//==============================================
+	//
+	//
+	//==============================================
+	app.directive('searchFilterThemes', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-themes.partial.html?'+(new Date().getTime()),
@@ -15,9 +20,6 @@ angular.module('kmApp').compileProvider // lazy
               // locales    : '=',
               // rows       : '=',
               // required   : "@"
-        },
-        link: function ($scope, element, attrs, ngModelController)
-        {
         },
         controller : ['$scope', '$element', '$location', 'Thesaurus', function ($scope, $element, $location, thesaurus)
         {
@@ -67,12 +69,12 @@ angular.module('kmApp').compileProvider // lazy
 
                 $element.find("#dialogSelect").modal("show");
 
-                
 
 
 
 
-                
+
+
 
 
 
@@ -101,14 +103,14 @@ angular.module('kmApp').compileProvider // lazy
             $scope.updateQuery = function() {
 
                 console.log($scope.query);
-                
+
                 $scope.query = '';
 
                 $scope.selectedItems.forEach(function(item) {
-                    $scope.query += ($scope.query=='' ? '' : ' OR ') + $scope.field+':' + item;
+                    $scope.query += ($scope.query==='' ? '' : ' OR ') + $scope.field+':' + item;
                 });
 
-                if($scope.query!='')
+                if($scope.query!=='')
                     $scope.query = '(' + $scope.query + ')';
                 else
                     $scope.query = '*:*';
@@ -116,15 +118,10 @@ angular.module('kmApp').compileProvider // lazy
                 console.log($scope.query);
             };
 
-            function select(item) {
-                if(!item.selected) item.indeterminate = true;
-                if(item.narrowerTerms) item.narrowerTerms.forEach(select);
-            }
-
             var unselect = $scope.unselect = function (item) {
                 if(!item.selected) item.indeterminate = false;
                 if(item.narrowerTerms) item.narrowerTerms.forEach(unselect);
-            }
+            };
 
             function setBroaders(broaderTerms, selected) {
 
@@ -136,7 +133,7 @@ angular.module('kmApp').compileProvider // lazy
                     console.log(term.indeterminateCounterA);
                     term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
 
-                    setBroaders(term.broaderTerms, selected); 
+                    setBroaders(term.broaderTerms, selected);
                 });
 
 
@@ -152,38 +149,38 @@ angular.module('kmApp').compileProvider // lazy
 
                 // term.indeterminate = selected;
 
-                
+
             }
 
             function setNarrowers(narrowerTerms, selected) {
 
                 if(!narrowerTerms) return;
 
-                narrowerTerms.forEach(function (term) { 
+                narrowerTerms.forEach(function (term) {
 
                     term.indeterminateCounterB = term.indeterminateCounterB + (selected ? 1 : -1);
                     console.log(term.indeterminateCounterB);
                     term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
 
-                    setNarrowers(term.narrowerTerms, selected); 
+                    setNarrowers(term.narrowerTerms, selected);
                 });
 
 
-                // 
+                //
 
-                // 
+                //
 
                 // term.indeterminate = selected;
 
-                
+
             }
 
             $scope.onclick = function (scope, evt) {
                 scope.item.selected = !scope.item.selected;
                 $scope.ts(scope, evt);
-            }
+            };
 
-            $scope.ts = function (scope, evt) {
+            $scope.ts = function (scope) {
 
                 var term = scope.item;
 
@@ -191,17 +188,17 @@ angular.module('kmApp').compileProvider // lazy
 
                 setBroaders(term.broaderTerms, term.selected);
                 setNarrowers(term.narrowerTerms, term.selected);
-                
+
                 //if(scope.item.indeterminate)
                   //  scope.item.indeterminate = scope.item.indeterminate = false;
 
                 //if(scope.item.selected==true) unselect(scope.item);
-                //else          
+                //else
          //       if(scope.item.selected) { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(select); }
            //     else                    { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(unselect); }
 
                 //var cb = evt.target;
-                                
+
                 //if (cb.readOnly) cb.checked=cb.readOnly=false;
                 //else if (!cb.checked) cb.readOnly=cb.indeterminate=true;
 
@@ -210,16 +207,16 @@ angular.module('kmApp').compileProvider // lazy
 
 
                 buildQuery();
-            }
+            };
 
             function buildQuery () {
                 var conditions = [];
                 buildConditions(conditions, $scope.terms);
 
-                if(conditions.length==0) $scope.query = '*:*';
+                if(conditions.length===0) $scope.query = '*:*';
                 else {
                     var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; });
+                    conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
                     query += ' )';
                     $scope.query = query;
                 }
@@ -228,7 +225,7 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             function buildConditions (conditions, items) {
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     if(item.selected)
                         conditions.push('thematicAreas_REL_ss:'+item.identifier);
                     else if(item.narrowerTerms) {
@@ -238,12 +235,12 @@ angular.module('kmApp').compileProvider // lazy
             }
 
             function flatten(items, collection) {
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     item.selected = false;
                     item.indeterminateCounterA = 0;
                     item.indeterminateCounterB = 0;
                     collection[item.identifier] = item;
-                    if(item.narrowerTerms) 
+                    if(item.narrowerTerms)
                         flatten(item.narrowerTerms, collection);
                 });
                 return collection;
@@ -254,7 +251,7 @@ angular.module('kmApp').compileProvider // lazy
 
                 $scope.termsMap   = flatten($scope.terms, {});
                 $scope.termsArray = _.values($scope.termsMap);
-                
+
                 if($scope.items)
                     $scope.items.forEach(function (item) {
                         if(_.has($scope.termsMap, item.symbol))
@@ -270,14 +267,14 @@ angular.module('kmApp').compileProvider // lazy
                     });
             });
         }]
-    }
-});
+    };
+    });
 
-//============================================================
-//
-//
-//============================================================
-angular.module('kmApp').compileProvider.directive('bindIndeterminate', [function () {
+    //============================================================
+    //
+    //
+    //============================================================
+    app.directive('bindIndeterminate', [function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -286,4 +283,6 @@ angular.module('kmApp').compileProvider.directive('bindIndeterminate', [function
             });
         }
     };
-}]);
+    }]);
+
+});

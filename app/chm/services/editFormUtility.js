@@ -1,6 +1,8 @@
-﻿angular.module('kmApp')
+define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(app) { 'use strict';
 
-.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm","$route", function(storage, workflows, $q, realm, $route) {
+console.log("LOADED editFormUtility");
+
+app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route", function(storage, workflows, $q, realm, $route) {
 
 	var schemasWorkflowTypes  = {
 		"aichiTarget"            : { name : "publishReferenceRecord", version : undefined },
@@ -41,21 +43,21 @@
 					var info = success.data;
 
 					if (expectedSchema && info.type!=expectedSchema)
-						throw { data: { error: "Invalid schema type" }, status:"badSchema"}
+						throw { data: { error: "Invalid schema type" }, status:"badSchema"};
 
 					var hasDraft = !!info.workingDocumentCreatedOn;
-					var securityPromise = hasDraft
-						? storage.drafts.security.canUpdate(info.identifier, info.type)
-						: storage.drafts.security.canCreate(info.identifier, info.type);
+					var securityPromise = hasDraft ?
+                                          storage.drafts.security.canUpdate(info.identifier, info.type) :
+                                          storage.drafts.security.canCreate(info.identifier, info.type);
 
 					return securityPromise.then(
 						function(isAllowed) {
 							if (!isAllowed)
 								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
 
-							var documentPromise = hasDraft
-								? storage.drafts.get(identifier)
-								: storage.documents.get(identifier);
+							var documentPromise = hasDraft ?
+                                                  storage.drafts.get(identifier) :
+                                                  storage.documents.get(identifier);
 
 							return documentPromise.then(
 								function(success) {
@@ -70,11 +72,11 @@
 		//==================================
 		draftExists: function(identifier) {
 
-			return storage.drafts.get(identifier, { info: "" }).then(function(success) {
+			return storage.drafts.get(identifier, { info: "" }).then(function() {
 				return true;
 			},function(error) {
 				if (error.status == 404)
-					return false
+					return false;
 				throw error;
 			});
 		},
@@ -85,7 +87,6 @@
 		saveDraft: function(document) {
 
 			var identifier = document.header.identifier;
-			var schema     = document.header.schema;
 			var metadata   = {};
 
 			if (document.government)
@@ -94,9 +95,9 @@
 			return _self.draftExists(identifier).then(
 				function(hasDraft) {
 
-					var securityPromise = hasDraft
-						? storage.drafts.security.canUpdate(identifier, document.header.schema, metadata)
-						: storage.drafts.security.canCreate(identifier, document.header.schema, metadata);
+					var securityPromise = hasDraft ?
+                                          storage.drafts.security.canUpdate(identifier, document.header.schema, metadata) :
+                                          storage.drafts.security.canCreate(identifier, document.header.schema, metadata);
 
 					return securityPromise.then(
 						function(isAllowed) {
@@ -113,11 +114,11 @@
 		//==================================
 		documentExists: function(identifier) {
 
-			return storage.documents.get(identifier, { info: "" }).then(function(success) {
+			return storage.documents.get(identifier, { info: "" }).then(function() {
 				return true;
 			},function(error) {
 				if (error.status == 404)
-					return false
+					return false;
 				throw error;
 			});
 		},
@@ -140,9 +141,8 @@
 
 				// Check user security on document
 
-				var qCanWrite = exists
-							  ? storage.documents.security.canUpdate(identifier, schema, metadata)
-							  : storage.documents.security.canCreate(identifier, schema, metadata);
+				var qCanWrite = exists ? storage.documents.security.canUpdate(identifier, schema, metadata) :
+                                         storage.documents.security.canCreate(identifier, schema, metadata);
 
 				return qCanWrite;
 
@@ -158,7 +158,7 @@
 
 				//update workflow if user is a approver and has come from task list page to edit the document before publishing.
 				if($route.current.params.worflowId){
-					workflows.updateActivity($route.current.params.worflowId, 'publishRecord', { action : 'approve' })
+					workflows.updateActivity($route.current.params.worflowId, 'publishRecord', { action : 'approve' });
 				}
 
 				return document;
@@ -183,11 +183,11 @@
 
 				// Check user security on drafts
 
-				var qCanWrite = exists
-						? storage.drafts.security.canUpdate(identifier, schema, metadata)
-						: storage.drafts.security.canCreate(identifier, schema, metadata);
+				var qCanWrite = exists ?
+                                storage.drafts.security.canUpdate(identifier, schema, metadata) :
+                                storage.drafts.security.canCreate(identifier, schema, metadata);
 
-				return qCanWrite
+				return qCanWrite;
 
 			}).then(function(canWrite) {
 
@@ -216,8 +216,10 @@
 				return workflows.create(type.name, type.version, workflowData); // return workflow info
 			});
 		}
-	}
+	};
 
 	return _self;
 
-}])
+}]);
+
+});

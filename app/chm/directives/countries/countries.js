@@ -4,7 +4,7 @@
         priority: 0,
         restrict: 'EC',
         templateUrl: '/app/chm/directives/countries/countries.partial.html?v' + (new Date()).getTime(),
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', 'underscore', function ($scope, _) {
 
             $scope.countries = $http.get('/api/v2013/countries/').then(function (response) {
                 return _.map(response.data, function (country) {

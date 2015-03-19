@@ -1,0 +1,75 @@
+<h1>Meeting Document</h1>
+<h2>{{document.symbol}}</h2>
+<h3>{{document.languages.en.title}}</h3>
+
+<form role="form"  ng-submit='save()'>
+
+    <div class="row">
+
+        <div class="col-md-3 form-group">
+            <label for="serie">Document Type</label>
+            <select id="serie" class="form-control" ng-options='o.code as o.title for o in options.series' ng-model="document.serie">
+            </select>
+        </div>
+
+        <div class="col-md-7 col-sm-8 form-group">
+            <label for="symbol">Symbol</label>
+            <div>
+                <input  ng-model="document.symbol" class="form-control" id="symbol" type="text">
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-4  form-group">
+            <label for="component">Add Component</label>
+            <div>
+                <select ng-model="component" ng-show="options.components[document.serie]" class="form-control" ng-options="o as o.title for o in options.components[document.serie]" id="component" ></select>
+            </div>
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-default">Save</button>
+
+
+    <div class="row" ng-repeat="lang in options.languages">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{lang.title}}</div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input id="title" type="text" ng-model="document.languages[lang.code].title" class="form-control">
+                            </div>
+
+                            <table class="table table-striped, table-condensed" ng-show="document.languages[lang.code].files">
+                                <tr><th colspan="3">Files</th></tr>
+                                <tr ng-repeat="(type, file) in document.languages[lang.code].files">
+                                    <td>{{type}}</td>
+                                    <td><a target="_blank" ng-href="{{file.url}}">{{file.url}}</a></td>
+                                    <td><button class='btn btn-danger btn-sm' ng-click="askDeleteFile(lang.code, type, file)"><i class="fa fa-times"></i></button></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-md-4" ng-show="document._id">
+
+                            <div class="panel panel-default">
+                                  <div class="panel-body">
+                                    <i class="fa fa-cloud-upload fa-3"></i> Drop new file(s) here...
+                                  </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <pre>{{document}}</pre>
+
+</form>

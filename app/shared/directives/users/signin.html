@@ -1,8 +1,8 @@
 <div>
 	<div ng-cloak class="col-lg-4 col-md-4 col-sm-4">
-		
+
 		<form class="form-horizontal" ng-submit="signIn()">
-		
+
 			<div ng-hide="isAuthenticated()">
 
 				<div class="alert alert-warning" ng-show="isForbidden">
@@ -38,7 +38,7 @@
 	    			<button type="submit" class="btn btn-primary">Sign in</button>
 	    			 <a class="forgot" style="float:right" href="https://accounts.cbd.int/password/reset">Forgot password?</a>
 	  			</div>
-				<!--<div class="form-group">				
+				<!--<div class="form-group">
 	      			<div class="checkbox">
 		        		<label>
 		          			<input type="checkbox" ng-model="rememberMe" ng-change="onRememberMeChange()"> Remember me
@@ -67,6 +67,6 @@
         <p>
             <h3> <a href="#" ng-click="actionSignup()" class="btn btn-primary" ng-disabled="waiting" >Sign up</a> </h3>
         </p>
-        
+
     </div>
 </div>

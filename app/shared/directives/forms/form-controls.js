@@ -1,10 +1,10 @@
-angular.module('formControls',[])
+define(['app', 'angular', 'underscore', 'authentication'], function(app, angular, _) { 'use strict';
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmNotes',  function ($http, $filter) {
+	app.directive('kmNotes',  function ($http, $filter) {
 	    return {
 	        restrict: 'EAC',
 	        templateUrl: '/app/shared/directives/forms/km-notes.html',
@@ -45,7 +45,7 @@ angular.module('formControls',[])
 
 	                    $scope.texts = [];
 
-	                    angular.forEach(oBinding, function (text, i) {
+	                    angular.forEach(oBinding, function (text) {
 	                        $scope.texts.push({ value: text });
 	                    });
 	                };
@@ -66,13 +66,13 @@ angular.module('formControls',[])
 	                    var oNewBinding = [];
 	                    var oText = $scope.texts;
 
-	                    angular.forEach(oText, function (text, i) {
-	                        if ($.trim(text.value) != "")
+	                    angular.forEach(oText, function (text) {
+	                        if ($.trim(text.value) != "") // jshint ignore:line
 	                            oNewBinding.push($.trim(text.value));
 	                    });
 
 	                    if ($scope.newtext) {
-	                        if ($.trim($scope.newtext) != "") {
+	                        if ($.trim($scope.newtext) != "") { // jshint ignore:line
 	                            var timestamp = $filter('date')(Date.now(), 'medium');
 	                            oNewBinding.push("[ " + $scope.user.name + " | " + timestamp + " ] - " + $.trim($scope.newtext));
 	                        }
@@ -86,12 +86,11 @@ angular.module('formControls',[])
 	                //
 	                //==============================
 	                $scope.isRequired = function () {
-	                    return $scope.required != undefined
-                            && $.isEmptyObject($scope.binding);
-	                }
+	                    return $scope.required != undefined && $.isEmptyObject($scope.binding); // jshint ignore:line
+	                };
 	            }]
-	        }
-	    })
+	        };
+	    });
 
 
 
@@ -100,7 +99,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmTextboxMl', function ($http)
+	app.directive('kmTextboxMl', function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -118,7 +117,7 @@ angular.module('formControls',[])
 			},
 			link: function ($scope, element, attrs, ngModelController)
 			{
-				$scope.text = {}
+				$scope.text = {};
 				$scope.$watch('locales', $scope.watchLocales);
 				$scope.$watch('binding', $scope.watchBinding);
 				$scope.$watch('binding', function() {
@@ -137,9 +136,9 @@ angular.module('formControls',[])
 					var oBinding = $scope.binding || {};
 					var oText    = $scope.text;
 
-					angular.forEach(oLocales, function(locale, i) {
+					angular.forEach(oLocales, function(locale) {
 						oText[locale] = oBinding[locale] || oText[locale]; });
-				}
+				};
 
 				//==============================
 				//Remove value of not selected languages/empty languages
@@ -150,9 +149,9 @@ angular.module('formControls',[])
 					var oBinding = $scope.binding || {};
 					var oText    = $scope.text;
 
-					angular.forEach(oLocales, function(locale, i) {
+					angular.forEach(oLocales, function(locale) {
 						oText[locale] = oBinding[locale]; });
-				}
+				};
 
 				//==============================
 				//Remove value of not selected languages/empty languages
@@ -163,41 +162,40 @@ angular.module('formControls',[])
 					var oText       = $scope.text    || {};
 					var oNewBinding = {};
 
-					angular.forEach(oLocales, function(locale, i)
+					angular.forEach(oLocales, function(locale)
 					{
-						if($.trim(oText[locale])!="")
+						if($.trim(oText[locale])!="")// jshint ignore:line
 							oNewBinding[locale] = oText[locale];
 					});
 
 					$scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
 					$scope.ngChange();
-				}
+				};
 
 				//==============================
 				//
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined
-						&& $.isEmptyObject($scope.binding);
-				}
+					return $scope.required!=undefined && $.isEmptyObject($scope.binding); // jshint ignore:line
+				};
 
 				//==============================
 				//
 				//==============================
 				$scope.isShowLocale = function()
 				{
-					return $scope.locales && $scope.locales.length>1
-				}
+					return $scope.locales && $scope.locales.length>1;
+				};
 			}]
-		}
-	})
+		};
+	});
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmInputtextList', function ($http)
+	app.directive('kmInputtextList', function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -236,7 +234,7 @@ angular.module('formControls',[])
 
 					$scope.texts = [];
 
-					angular.forEach(oBinding, function(text, i)
+					angular.forEach(oBinding, function(text)
 					{
 						$scope.texts.push({value : text});
 					});
@@ -260,9 +258,9 @@ angular.module('formControls',[])
 					var oNewBinding = [];
 					var oText       = $scope.texts;
 
-					angular.forEach(oText, function(text, i)
+					angular.forEach(oText, function(text)
 					{
-						if($.trim(text.value)!="")
+						if($.trim(text.value)!="")// jshint ignore:line
 							oNewBinding.push($.trim(text.value));
 					});
 
@@ -275,13 +273,13 @@ angular.module('formControls',[])
 				//==============================
 				$scope.getTexts = function ()
 				{
-					if($scope.texts.length==0)
+					if($scope.texts.length==0)// jshint ignore:line
 						$scope.texts.push({value : ""});
 
 					var sLastValue = $scope.texts[$scope.texts.length-1].value;
 
 					//NOTE: IE can set value to 'undefined' for a moment
-					if(sLastValue && sLastValue!="")
+					if(sLastValue && sLastValue!="")// jshint ignore:line
 						$scope.texts.push({value : ""});
 
 					return $scope.texts;
@@ -292,18 +290,17 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined
-						&& $.isEmptyObject($scope.binding);
-				}
+					return $scope.required!=undefined && $.isEmptyObject($scope.binding);// jshint ignore:line
+				};
 			}]
-		}
-	})
+		};
+	});
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmTerms', function ($http)
+	app.directive('kmTerms', function ($http)
 	{
 		return {
 			restrict: 'EAC',
@@ -313,12 +310,12 @@ angular.module('formControls',[])
 			scope: {
 				binding : '=ngModel',
 			},
-			link: function ($scope, element, attrs, controller)
+			link: function ($scope)
 			{
 				$scope.terms = [];
 				$scope.$watch('binding', $scope.load);
 			},
-			controller: ["$scope", "$q", "underscore", function ($scope, $q, _)
+			controller: ["$scope", "$q", function ($scope, $q)
 			{
 				//==============================
 				//
@@ -336,7 +333,7 @@ angular.module('formControls',[])
 					if(oBinding) {
 						var qTerms = [];
 
-						angular.forEach(oBinding, function(value, key) {
+						angular.forEach(oBinding, function(value) {
 							if(value.name)
 								qTerms.push(value);
 							else {
@@ -358,16 +355,16 @@ angular.module('formControls',[])
 							$scope.terms = terms;
 						});
 					}
-				}
+				};
 			}]
-		}
-	})
+		};
+	});
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmTermCheck', function ($http) {
+	app.directive('kmTermCheck', function () {
 		return {
 			restrict: 'EAC',
 			templateUrl: '/app/shared/directives/forms/km-terms-check.html',
@@ -411,7 +408,7 @@ angular.module('formControls',[])
 
 					var qData = $scope.termsFn();
 
-					if(qData==undefined)
+					if(qData==undefined)// jshint ignore:line
 						$timeout($scope.init, 250); // MEGA UGLY PATCH
 
 					$q.when(qData,
@@ -422,7 +419,7 @@ angular.module('formControls',[])
 							$scope.__loading = false;
 							$scope.setError(error);
 						});
-				}
+				};
 
 				//==============================
 				//
@@ -452,7 +449,7 @@ angular.module('formControls',[])
 
 					if(!angular.equals(oNewIdentifiers, $scope.identifiers))
 						$scope.identifiers = oNewIdentifiers;
-				}
+				};
 
 				//==============================
 				//
@@ -464,9 +461,9 @@ angular.module('formControls',[])
 
 					var oNewBinding = [];
 
-					angular.forEach($scope.terms, function(term, i)
+					angular.forEach($scope.terms, function(term)
 					{
-						if(term==undefined) return //IE8 BUG
+						if(term===undefined) return; //IE8 BUG
 
 						if($scope.identifiers[term.identifier])
 						{
@@ -481,16 +478,15 @@ angular.module('formControls',[])
 
 					if(!angular.equals(oNewBinding, $scope.binding))
 						$scope.binding = oNewBinding;
-				}
+				};
 
 				//==============================
 				//
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined
-						&& $.isEmptyObject($scope.binding);
-				}
+					return $scope.required!=undefined && $.isEmptyObject($scope.binding); // jshint ignore:line
+				};
 
 				//==============================
 				//
@@ -508,7 +504,7 @@ angular.module('formControls',[])
 					}
 
 					$scope.load();
-				}
+				};
 
 				//==============================
 				//
@@ -521,16 +517,16 @@ angular.module('formControls',[])
 
 					if (error.status == 404) $scope.error = "Terms not found";
 					else                     $scope.error = error.data || "unkown error";
-				}
+				};
 			}]
-		}
-	})
+		};
+	});
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmTermRadio', function ($http) {
+	app.directive('kmTermRadio', function () {
 		return {
 			restrict: 'EAC',
 			templateUrl: '/app/shared/directives/forms/km-terms-radio.html',
@@ -580,7 +576,7 @@ angular.module('formControls',[])
 							$scope.__loading = false;
 							$scope.setError(error);
 						});
-				}
+				};
 
 				//==============================
 				//
@@ -607,7 +603,7 @@ angular.module('formControls',[])
 
 					if(!angular.equals(oNewSelection, $scope.selection))
 						$scope.selection = oNewSelection;
-				}
+				};
 
 				//==============================
 				//
@@ -631,16 +627,15 @@ angular.module('formControls',[])
 
 					if($.isEmptyObject($scope.binding))
 						$scope.binding = undefined;
-				}
+				};
 
 				//==============================
 				//
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined
-						&& $.isEmptyObject($scope.binding);
-				}
+					return $scope.required!=undefined && $.isEmptyObject($scope.binding);// jshint ignore:line
+				};
 
 				//==============================
 				//
@@ -658,7 +653,7 @@ angular.module('formControls',[])
 					}
 
 					$scope.load();
-				}
+				};
 
 				//==============================
 				//
@@ -671,16 +666,16 @@ angular.module('formControls',[])
 
 					if (error.status == 404) $scope.error = "Terms not found";
 					else                     $scope.error = error.data || "unkown error";
-				}
+				};
 			}]
-		}
-	})
+		};
+	});
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmLink', function ($http)
+	app.directive('kmLink', function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -767,8 +762,8 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.isAllowLink   = function() { return $scope.allowLink!="false"; }
-				$scope.isAllowFile   = function() { return $scope.allowFile!="false"; }
+				$scope.isAllowLink   = function() { return $scope.allowLink!="false"; };
+				$scope.isAllowFile   = function() { return $scope.allowFile!="false"; };
 
 				//==============================
 				//
@@ -777,7 +772,7 @@ angular.module('formControls',[])
 				{
 					var oNewLinks = [];
 
-					angular.forEach($scope.binding || [], function(link, i)
+					angular.forEach($scope.binding || [], function(link)
 					{
 						oNewLinks.push({
 							url  : link.url,
@@ -787,7 +782,7 @@ angular.module('formControls',[])
 					});
 
 					$scope.links = oNewLinks;
-				}
+				};
 
 				//==============================
 				//
@@ -796,30 +791,29 @@ angular.module('formControls',[])
 				{
 					var oNewBinding = [];
 
-					angular.forEach($scope.links, function(link, i)
+					angular.forEach($scope.links, function(link)
 					{
 						var oNewLink = { url : $.trim(link.url) };
 
-						if(link.name && $.trim(link.name)!="")
+						if(link.name && $.trim(link.name||"")!=="")
 							oNewLink.name = $.trim(link.name);
 
-						if(link.tag && $.trim(link.tag)!="")
+						if(link.tag && $.trim(link.tag||"")!=="")
 							oNewLink.tag = $.trim(link.tag);
 
 						oNewBinding.push(oNewLink);
 					});
 
 					$scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
-				}
+				};
 
 				//==============================
 				//
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined
-						&& $.isEmptyObject($scope.binding);
-				}
+					return $scope.required!=undefined && $.isEmptyObject($scope.binding);// jshint ignore:line
+				};
 
 				//==============================
 				//
@@ -830,7 +824,7 @@ angular.module('formControls',[])
 						return;
 
 					$scope.editor.editLink(null);
-				}
+				};
 
 				//==============================
 				//
@@ -844,7 +838,7 @@ angular.module('formControls',[])
 						throw "identifier not specified";
 
 					$scope.editor.editFile(null);
-				}
+				};
 
 				//==============================
 				//
@@ -853,7 +847,7 @@ angular.module('formControls',[])
 				{
 					$scope.links.splice($scope.links.indexOf(link), 1);
 					$scope.save();
-				}
+				};
 
 				//==============================
 				//
@@ -869,14 +863,14 @@ angular.module('formControls',[])
 					$scope.editor.name    = link.name;
 					$scope.editor.type    = "link";
 					$scope.editor.visible = true;
-				}
+				};
 				//==============================
 				//
 				//==============================
 				$scope.editor.editFile = function(link)
 				{
-					if(link!=null)
-						throw "Only new file is allowed"
+					if(link!=null)// jshint ignore:line
+						throw "Only new file is allowed";
 
 					link = link || {url:"", name:"", tag:""};
 
@@ -890,8 +884,8 @@ angular.module('formControls',[])
 
 					$scope.editor.startUploadProcess(function() {
 						$scope.editor.visible = true;
-					})
-				}
+					});
+				};
 
 				//==============================
 				//
@@ -905,7 +899,7 @@ angular.module('formControls',[])
 					$scope.editor.type    = null;
 					$scope.editor.visible = false;
 					$scope.editor.tag     = null;
-				}
+				};
 
 				//==============================
 				//
@@ -914,9 +908,10 @@ angular.module('formControls',[])
 				{
 					var oLink = { url:  $scope.editor.url };
 
-					if($.trim($scope.editor.name||"")!="")
+					if($.trim($scope.editor.name||"")!=="")
 						oLink.name = $scope.editor.name;
-					if($.trim($scope.editor.tag||"")!="")
+
+					if($.trim($scope.editor.tag||"")!=="")
 						oLink.tag = $scope.editor.tag;
 
 					var iIndex = $scope.links.indexOf($scope.editor.link);
@@ -926,7 +921,7 @@ angular.module('formControls',[])
 
 					$scope.editor.close();
 					$scope.save();
-				}
+				};
 
 				//==============================
 				//
@@ -956,20 +951,20 @@ angular.module('formControls',[])
 
 							$scope.editor.link = link;
 
-							if ($scope.editor.name == "" && file.name != "")
+							if ($scope.editor.name == "" && file.name != "")// jshint ignore:line
 								$scope.editor.name = file.name;
 
 							if ($scope.editor.mimeTypes.indexOf(type) < 0) {
 								$scope.editor.onUploadError(link, "File type not supported: " + type);
 								return;
-							};
+							}
 
 							$scope.editor.progress = {
 								style: "active",
 								position: 0,
 								percent:100,
 								size: file.size
-							}
+							};
 
 							storage.attachments.put($scope.identifier, file).then(
 								function(result) { //success
@@ -987,7 +982,7 @@ angular.module('formControls',[])
 					});
 
 					qHtmlInputFile.click();
-				}
+				};
 
 
 				//==============================
@@ -999,16 +994,15 @@ angular.module('formControls',[])
 					if( $scope.editor.progress.style!="active") return;
 					if( $scope.editor.link !=link)              return;
 
-					console.log('xhr.upload progress: ' + (progress*100) + "%")
+					console.log('xhr.upload progress: ' + (progress*100) + "%");
 
-					$scope.editor.progress.position = position;
 					$scope.editor.progress.percent  = Math.round(progress*100);
-				}
+				};
 
 				//==============================
 				//
 				//==============================
-				$scope.editor.onUploadSuccess = function(link, message)
+				$scope.editor.onUploadSuccess = function(link)
 				{
 					if($scope.editor.link!=link)
 						return;
@@ -1017,13 +1011,13 @@ angular.module('formControls',[])
 					$scope.editor.progress.percent = 100;
 					$scope.editor.progress.style   = "complete";
 
-					if(link.name && $scope.editor.name!="")
+					if(link.name && $scope.editor.name!="")// jshint ignore:line
 						$scope.editor.name = link.name;
 
 					$scope.editor.progress = null;
 
 					//$scope.editor.save();
-				}
+				};
 
 				//==============================
 				//
@@ -1033,13 +1027,13 @@ angular.module('formControls',[])
 					if($scope.editor.link!=link)
 						return;
 
-					console.log('xhr.upload error: ' + message)
+					console.log('xhr.upload error: ' + message);
 
 					$scope.editor.error = message;
 
 					if($scope.editor.progress)
 						$scope.editor.progress.style   = "error";
-				}
+				};
 
 				//====================
 				//
@@ -1058,14 +1052,14 @@ angular.module('formControls',[])
 				};
 
 			}]
-		}
-	})
+		};
+	});
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmReference', function ($http)
+	app.directive('kmReference', function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -1101,7 +1095,7 @@ angular.module('formControls',[])
 					if(_new!=_old && !_new) $element.find("#editReference").modal("hide");
 				});
 			},
-			controller: ["$scope", "authHttp", "underscore", function ($scope, $http, _)
+			controller: ["$scope", function ($scope)
 			{
 				$scope.editor = {};
 
@@ -1127,8 +1121,8 @@ angular.module('formControls',[])
 							$scope.references[index].__binding = binding;
 
 							$scope.loaderFn({ identifier : binding.identifier })
-								  .then(function(data)  { $scope.load_onSuccess(index, data) },
-										function(error) { $scope.load_onError  (index, error.data, error.status) });
+								  .then(function(data)  { $scope.load_onSuccess(index, data); },
+										function(error) { $scope.load_onError  (index, error.data, error.status); });
 						});
 					}
 				};
@@ -1146,7 +1140,7 @@ angular.module('formControls',[])
 					$scope.references[index].__hasError  = false;
 					$scope.references[index].__error     = undefined;
 					$scope.references[index].__errorCode = undefined;
-				}
+				};
 
 				//====================
 				//
@@ -1156,7 +1150,7 @@ angular.module('formControls',[])
 					$scope.references[index].__error = error || "unknown error";
 					$scope.references[index].__errorCode = status;
 					$scope.references[index].__loading = false;
-				}
+				};
 
 				//====================
 				//
@@ -1165,7 +1159,7 @@ angular.module('formControls',[])
 				{
 					var oNewBinding = [];
 
-					angular.forEach($scope.references, function(ref, index)
+					angular.forEach($scope.references, function(ref)
 					{
 						if(ref.__binding)
 							oNewBinding.push(ref.__binding);
@@ -1177,7 +1171,7 @@ angular.module('formControls',[])
 					if (oNewBinding && !$scope.multiple)
 						oNewBinding = oNewBinding[0];
 
-					$scope.binding = oNewBinding
+					$scope.binding = oNewBinding;
 				};
 
 				//====================
@@ -1220,7 +1214,7 @@ angular.module('formControls',[])
 				$scope.clone = function(data)
 				{
 					return angular.fromJson(angular.toJson(data)); //clone;
-				}
+				};
 
 				//====================
 				//
@@ -1258,7 +1252,7 @@ angular.module('formControls',[])
 					});
 
 					$scope.editor.close();
-				}
+				};
 
 				//====================
 				//
@@ -1271,7 +1265,7 @@ angular.module('formControls',[])
 					angular.forEach($scope.editor.references, function(value) {
 						value.__checked = false;
 					});
-				}
+				};
 
 				//====================
 				//
@@ -1280,7 +1274,7 @@ angular.module('formControls',[])
 				{
 					$scope.editor.search  = null;
 					$scope.editor.visible = false;
-				}
+				};
 
 				//====================
 				//
@@ -1288,7 +1282,7 @@ angular.module('formControls',[])
 				$scope.editor.filterExcludeSelected = function(ref)
 				{
 					return !_.findWhere($scope.references, { identifier: ref.identifier });
-				}
+				};
 
 				//====================
 				//
@@ -1297,10 +1291,10 @@ angular.module('formControls',[])
 				{
 					if($scope.orderByFn)
 						return $scope.orderByFn({reference : ref});
-				}
+				};
 			}]
 		};
-	})
+	});
 
 
 
@@ -1308,7 +1302,7 @@ angular.module('formControls',[])
 	//
 	//
 	//============================================================
-	.directive('kmSelect', ["underscore", "htmlUtility", function (_, html)
+	app.directive('kmSelect', ["htmlUtility", function (html)
 	{
 		return {
 			restrict: 'EAC',
@@ -1352,7 +1346,7 @@ angular.module('formControls',[])
 					});
 
 				$element.find('.dropdown-menu').click(function(event) {
-					if ($scope.multiple && $scope.getSelectedItems().length!=0)
+					if ($scope.multiple && $scope.getSelectedItems().length!=0)// jshint ignore:line
 						event.stopPropagation();
 				});
 
@@ -1363,7 +1357,7 @@ angular.module('formControls',[])
 						placement:"top",
 						content: function() {
 							var oNames = _.map($scope.getTitles(), function(o) {
-								return html.encode(o)
+								return html.encode(o);
 							});
 
 							if (!oNames || !oNames.length)
@@ -1373,7 +1367,7 @@ angular.module('formControls',[])
 						}
 					});
 			},
-			controller: ["$scope", "$q","$filter", "$timeout", "underscore", function ($scope, $q, $filter, $timeout, _)
+			controller: ["$scope", "$q","$filter", "$timeout", function ($scope, $q, $filter, $timeout)
 			{
 				//==============================
 				//
@@ -1387,7 +1381,7 @@ angular.module('formControls',[])
 								title: d.title || d.name,
 								children: transform(d.children || d.narrowerTerms),
 								selected: false
-							}
+							};
 						});
 					}
 
@@ -1425,7 +1419,7 @@ angular.module('formControls',[])
 					if ($scope.isInit) {
 						$timeout(function() {
 							if ($scope.allItems)
-								deferred.resolve()
+								deferred.resolve();
 							else
 								deferred.reject("Data not loaded");
 						});
@@ -1450,7 +1444,7 @@ angular.module('formControls',[])
 					}
 
 					return deferred.promise;
-				}
+				};
 
 				//==============================
 				//
@@ -1471,13 +1465,13 @@ angular.module('formControls',[])
 						});
 					}
 
-					if (oNames.length == 0)
+					if (oNames.length == 0)// jshint ignore:line
 						return $scope.placeholder || "Nothing selected...";
 					else if (maxCount<0 || oNames.length <= maxCount)
 						return oNames.join(', ');
 
 					return "" + oNames.length + " of "+$scope.allItems.length+" selected";
-				}
+				};
 
 				//==============================
 				//
@@ -1487,7 +1481,7 @@ angular.module('formControls',[])
 					return _.map($scope.getSelectedItems(), function(o) {
 						return $filter("lstring")(o.title || o.name, $scope.locale);
 					});
-				}
+				};
 
 				//==============================
 				//
@@ -1500,7 +1494,7 @@ angular.module('formControls',[])
 						value = 0;
 
 					return Math.max(value, 0);
-				}
+				};
 
 				//==============================
 				//
@@ -1513,21 +1507,21 @@ angular.module('formControls',[])
 						value = 2147483647;
 
 					return Math.min(value, 2147483647);
-				}
+				};
 
 				//==============================
 				// in tree order /deep first
 				//==============================
 				$scope.getSelectedItems = function() {
 					return _.where($scope.allItems||[], { selected : true });
-				}
+				};
 
 				//==============================
 				//
 				//==============================
-				$scope.hasSelectedItems = function(subItems) {
+				$scope.hasSelectedItems = function() {
 					return _.findWhere($scope.allItems||[], { selected : true })!==undefined;
-				}
+				};
 
 				//==============================
 				//
@@ -1543,16 +1537,16 @@ angular.module('formControls',[])
 						oBinding = [oBinding];
 
 					if (!_.isArray(oBinding))
-						throw "Value must be array"
+						throw "Value must be array";
 
 					oBinding = _.map(oBinding, function(item) {
 						return _.isString(item) ? { identifier: item } : item;
 					});
 
 					angular.forEach($scope.allItems, function(item) {
-						item.selected = _.find(oBinding, function(o) { return o.identifier == item.identifier })!==undefined;
+						item.selected = _.find(oBinding, function(o) { return o.identifier == item.identifier; })!==undefined;
 					});
-				}
+				};
 
 				//==============================
 				//
@@ -1566,7 +1560,7 @@ angular.module('formControls',[])
 						return {
 							identifier: o.identifier,
 							customValue : o.customValue
-						}
+						};
 					});
 
 					if ($scope.bindingType == "string" || $scope.bindingType == "string[]")
@@ -1586,8 +1580,8 @@ angular.module('formControls',[])
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined;
-				}
+					return $scope.required!=undefined;// jshint ignore:line
+				};
 
 				//==============================
 				//
@@ -1600,14 +1594,14 @@ angular.module('formControls',[])
 
 					if (error.status == 404) $scope.error = "Items not found";
 					else                     $scope.error = error.data || "unkown error";
-				}
+				};
 
 				//==============================
 				//
 				//==============================
 				$scope.chooseOther = function() {
 					alert("todo");
-				}
+				};
 
 				//==============================
 				//
@@ -1618,7 +1612,7 @@ angular.module('formControls',[])
 					});
 
 					$scope.save();
-				}
+				};
 
 				//==============================
 				//
@@ -1629,7 +1623,7 @@ angular.module('formControls',[])
 					});
 
 					$scope.save();
-				}
+				};
 
 				//==============================
 				//
@@ -1637,14 +1631,14 @@ angular.module('formControls',[])
 				$scope.itemEnabled = function(item) {
 
 					if ( $scope.getMinimum() > 0 && $scope.getSelectedItems().length <= $scope.getMinimum())
-						if (item == null || $scope.getSelectedItems().indexOf(item) >= 0)
+						if (item == null || $scope.getSelectedItems().indexOf(item) >= 0)// jshint ignore:line
 							return false;
 
 					if ($scope.getMaximum() < $scope.allItems.length && $scope.getSelectedItems().length >= $scope.getMaximum())
-						if (item != null && $scope.getSelectedItems().indexOf(item) < 0)
+						if (item != null && $scope.getSelectedItems().indexOf(item) < 0)// jshint ignore:line
 							return false;
 					return true;
-				}
+				};
 
 				//==============================
 				//
@@ -1664,17 +1658,17 @@ angular.module('formControls',[])
 					}
 
 					$scope.save();
-				}
+				};
 			}]
-		}
-	}])
+		};
+	}]);
 
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmYesNo', [function ()
+	app.directive('kmYesNo', [function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -1686,13 +1680,13 @@ angular.module('formControls',[])
 				ngDisabledFn : '&ngDisabled'
 			}
 		};
-	}])
+	}]);
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmDate', [function ()
+	app.directive('kmDate', [function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -1704,7 +1698,7 @@ angular.module('formControls',[])
 				placeholder  : '@',
 				ngDisabledFn : '&ngDisabled'
 			},
-			link: function($scope, $element, $attr) {
+			link: function($scope, $element) {
 				$scope.date = null;
 				$scope.hasFocus = false;
 				$scope.$watch("binding", $scope.load);
@@ -1715,13 +1709,11 @@ angular.module('formControls',[])
 			},
 			controller: ["$scope", function ($scope)
 			{
-				var _self = this;
-
 				//==============================
 				//
 				//==============================
 				$scope.save = function(date) {
-					var oBinding = undefined;
+					var oBinding;
 
 					if (!!date && typeof (date) == "object") {
 						var qParts = [date.getUTCFullYear().toString(), (date.getUTCMonth() + 1).toString(), date.getUTCDate().toString()];
@@ -1734,7 +1726,7 @@ angular.module('formControls',[])
 
 					if ($scope.binding != oBinding)
 						$scope.binding = oBinding;
-				}
+				};
 
 				//==============================
 				//
@@ -1744,29 +1736,29 @@ angular.module('formControls',[])
 					if ($scope.hasFocus)
 						return;
 
-					var oDate = undefined;
+					var oDate;
 
 					if (typeof (date) == "string") {
 						var qParts = date.split("-");
 
-						qParts[0] = new Number(qParts[0])+0;
-						qParts[1] = new Number(qParts[1])-1;
-						qParts[2] = new Number(qParts[2])+0;
+						qParts[0] = new Number(qParts[0])+0;// jshint ignore:line
+						qParts[1] = new Number(qParts[1])-1;// jshint ignore:line
+						qParts[2] = new Number(qParts[2])+0;// jshint ignore:line
 
 						oDate = new Date(qParts[0], qParts[1], qParts[2]);
 					}
 
 					$scope.date = oDate;
-				}
+				};
 			}]
 		};
-	}])
+	}]);
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmFormStdButtons', ["$q", function ($q)
+	app.directive('kmFormStdButtons', ["$q", function ($q)
 	{
 		return {
 			restrict: 'EAC',
@@ -1810,12 +1802,12 @@ angular.module('formControls',[])
 
 					var defered = $q.defer();
 
-					$scope.saveDialogDefered.push(defered)
+					$scope.saveDialogDefered.push(defered);
 
 					qSaveDialog.modal(visible ? "show" : "hide");
 
 					return defered.promise;
-				}
+				};
 
 				$scope.showCancelDialog = function(visible) {
 
@@ -1826,12 +1818,12 @@ angular.module('formControls',[])
 
 					var defered = $q.defer();
 
-					$scope.cancelDialogDefered.push(defered)
+					$scope.cancelDialogDefered.push(defered);
 
 					qCancelDialog.modal(visible ? "show" : "hide");
 
 					return defered.promise;
-				}
+				};
 
 				qSaveDialog.on('shown.bs.modal' ,function() {
 
@@ -1908,27 +1900,27 @@ angular.module('formControls',[])
 
 						storage.documents.exists(identifier).then(function(exist){
 
-							var q = exist
-								  ? storage.documents.security.canUpdate(document.header.identifier, schema)
-								  : storage.documents.security.canCreate(document.header.identifier, schema);
+							var q = exist ?
+									storage.documents.security.canUpdate(document.header.identifier, schema) :
+									storage.documents.security.canCreate(document.header.identifier, schema);
 
 							q.then(function(allowed) {
-								$scope.security.canSave = allowed
+								$scope.security.canSave = allowed;
 							});
-						})
+						});
 
 						storage.drafts.exists(identifier).then(function(exist){
 
-							var q = exist
-								  ? storage.drafts.security.canUpdate(document.header.identifier, schema)
-								  : storage.drafts.security.canCreate(document.header.identifier, schema);
+							var q = exist ?
+									storage.drafts.security.canUpdate(document.header.identifier, schema) :
+									storage.drafts.security.canCreate(document.header.identifier, schema);
 
 							q.then(function(allowed) {
-								$scope.security.canSaveDraft = allowed
+								$scope.security.canSaveDraft = allowed;
 							});
-						})
+						});
 					});
-				}
+				};
 
 				//====================
 				//
@@ -2059,7 +2051,7 @@ angular.module('formControls',[])
 				{
 					$scope.errors = "";
 
-					if($scope.errors.trim()=="")
+					if($scope.errors.trim()=="")// jshint ignore:line
 						$scope.errors = null;
 				};
 
@@ -2081,13 +2073,13 @@ angular.module('formControls',[])
 				};
 			}]
 		};
-	}])
+	}]);
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmFormLanguages', ["$q", function ($q)
+	app.directive('kmFormLanguages', [function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -2097,7 +2089,7 @@ angular.module('formControls',[])
 			scope: {
 				binding : '=ngModel',
 			},
-			controller: ["$scope", "IStorage", "editFormUtility", function ($scope, storage, editFormUtility) {
+			controller: ["$scope", function ($scope) {
 
 				$scope.locales = [
 					{identifier:"ar", name:"Arabic"  },
@@ -2110,16 +2102,16 @@ angular.module('formControls',[])
 
 				$scope.isVisible = function() {
 					return $scope.binding!==undefined && $scope.binding!==null;
-				}
+				};
 			}]
 		};
-	}])
+	}]);
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmDocumentValidation', ["$timeout", function ($timeout)
+	app.directive('kmDocumentValidation', ["$timeout", function ($timeout)
 	{
 		return {
 			restrict: 'EAC',
@@ -2129,7 +2121,7 @@ angular.module('formControls',[])
 			scope: {
 				report : '=ngModel',
 			},
-			link: function ($scope, $element, $attr) {
+			link: function ($scope, $element) {
 
 				//====================
 				//
@@ -2148,7 +2140,7 @@ angular.module('formControls',[])
 							qBody.stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
 						});
 					}
-				}
+				};
 
 				//====================
 				//
@@ -2157,11 +2149,11 @@ angular.module('formControls',[])
 
 					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
 
-					if (qLabel.size() != 0)
+					if (qLabel.size() != 0)// jshint ignore:line
 						return qLabel.text();
 
 					return field;
-				}
+				};
 
 			},
 			controller: ["$scope", function ($scope)
@@ -2170,21 +2162,21 @@ angular.module('formControls',[])
 				//
 				//====================
 				$scope.isValid = function() {
-					return $scope.report && (!$scope.report.errors || $scope.report.errors.length == 0);
-				}
+					return $scope.report && (!$scope.report.errors || $scope.report.errors.length == 0);// jshint ignore:line
+				};
 
 				//====================
 				//
 				//====================
 				$scope.hasErrors = function() {
-					return $scope.report && $scope.report.errors && $scope.report.errors.length != 0;
-				}
+					return $scope.report && $scope.report.errors && $scope.report.errors.length != 0;// jshint ignore:line
+				};
 
 				//====================
 				//
 				//====================
-				$scope.getTranslation = function(code, property, param) {
-					if (code==null || code==""            ) return "Unknown error";
+				$scope.getTranslation = function(code) {
+					if (code==null || code==""            ) return "Unknown error"; // jshint ignore:line
 					if (code == "Error.Mandatory"         ) return "Field is mandatory";
 					if (code == "Error.InvalidValue"      ) return "The value specified is invalid";
 					if (code == "Error.InvalidProperty"   ) return "This value cannot be specified";
@@ -2192,17 +2184,17 @@ angular.module('formControls',[])
 					if (code == "Error.UnexpectedTerm"    ) return "A specified term cannot be used";
 					if (code == "Error.InvalidType"       ) return "The fields type is invalid";
 					return code;
-				}
+				};
 			}]
 		};
-	}])
+	}]);
 
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmTab', ["$timeout", function ($timeout)
+	app.directive('kmTab', ["$timeout", function ($timeout)
 	{
 		return {
 			restrict: 'A',
@@ -2211,7 +2203,7 @@ angular.module('formControls',[])
 				//==============================
 				//
 				//==============================
-				$scope.$watch("tab", function tab(tab){
+				$scope.$watch("tab", function (tab){
 
 					var isCurrentTab = $attr.kmTab==tab;
 
@@ -2230,16 +2222,16 @@ angular.module('formControls',[])
 							});
 						}
 					}
-				})
+				});
 			}
-		}
-	}])
+		};
+	}]);
 
 	//============================================================
 	//
 	//
 	//============================================================
-	.directive('kmControlGroup', function ()
+	app.directive('kmControlGroup', function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -2255,45 +2247,44 @@ angular.module('formControls',[])
 			link: function ($scope, $element, $attr)
 			{
 				if ($attr.isValid) {
-					$scope.hasError = function() { return false; }
+					$scope.hasError = function() { return false; };
 					$scope.hasWarning = function() {
 						return !$scope.isValidFn({ "name": $scope.name });
-					}
+					};
 				}
 				else if ($scope.$parent.isFieldValid) {
-					$scope.hasError = function() { return false; }
+					$scope.hasError = function() { return false; };
 					$scope.hasWarning = function() {
 						return !$scope.$parent.isFieldValid($scope.name);
-					}
+					};
 				}
 			},
-			controller: ["$scope", "underscore", function ($scope, _)
+			controller: ["$scope", function ($scope)
 			{
 				$scope.hasWarning = function() {  //default behavior
 
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.warnings) {
 
-						return !!_.findWhere($scope.$parent.validationReport.warnings, { property : $scope.name })
+						return !!_.findWhere($scope.$parent.validationReport.warnings, { property : $scope.name });
 					}
 
 					return false; //default behavior
-				}
+				};
 
 				$scope.hasError = function() {  //default behavior
 
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.errors) {
 
-						return !!_.findWhere($scope.$parent.validationReport.errors, { property : $scope.name })
+						return !!_.findWhere($scope.$parent.validationReport.errors, { property : $scope.name });
 					}
 
 					return false;
-				}
+				};
 
 				$scope.isRequired = function() {
 					return $scope.required !== undefined && $scope.required!="false";
-				}
+				};
 			}]
 		};
-	})
-
-;
+	});
+});

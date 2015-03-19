@@ -9,46 +9,14 @@
 
     <link rel="stylesheet" type="text/css" href="/app/css/cbdMenu.css">
     <link rel="stylesheet" type="text/css" href="/app/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/app/css/register.css">
     <link rel="stylesheet" type="text/css" href="/app/js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.css">
     <link rel="stylesheet" type="text/css" href="/app/css/chm.css">
-    <link rel="stylesheet" type="text/css" href="/app/css/font-awesome.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/app/libs/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/app/css/km.css">
-    <!-- <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/ab363dc0-d9f9-4148-a52d-4dca15df47ba.css"> -->
+    <link rel="stylesheet" type="text/css" href="/app/libs/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="/app/libs/ngprogress/ngProgress.css"></script>
 
-    <link href="/app/css/register.css" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="/app/js/libs/leaflet/0.7-dev/leaflet.css">
-
-    <script src="/app/js/libs/jquery.min.js"></script>
-    <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/app/js/libs/angular.patched.js"></script>
-    <script src="/app/libs/angular-i18n/angular-locale_en-iso.js"></script>
-    <script src="/app/libs/angular-route/angular-route.min.js"></script>
-    <script src="/app/libs/angular-sanitize/angular-sanitize.min.js"></script>
-
-    <script src="/app/libs/uri/src/URI.js"></script>
-    <script src="/app/libs/underscore/underscore.js"></script>
-    <script src="/app/libs/moment/min/moment.min.js"></script>
-    <script src="/app/libs/scrollup/dist/jquery.scrollUp.min.js"></script>
-
-    <script src="/app/libs/ngprogress/build/ngProgress.min.js"></script>
-    <link rel="stylesheet" type="textécss" href="/app/libs/ngprogress/ngProgress.css"></script>
-
-    <script src="/app/js/libs/linq.js/2.2.0.2/linq.js"></script>
-    <script src="/app/js/libs/angularStrap/0.7.4/angular-strap.min.js"></script>
-    <script src="/app/js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker.js"></script>
-    <script src="/app/js/libs/leaflet/0.7-dev/leaflet.js"></script>
-    <script src="/app/js/libs/leaflet/angular-leaflet-directive.js"></script>
-
-    <script src="/app/js/app-chm.js?v1"></script>
-    <script src="/app/js/support.js"></script>
-    <script src="/app/js/utilities/km-utilities.js"></script>
-    <script src="/app/js/utilities/km-authentication.js"></script>
-    <script src="/app/js/utilities/km-storage.js"></script>
-    <script src="/app/js/utilities/km-workflows.js"></script>
-    <script src="/app/chm/services/editFormUtility.js"></script>
-    <script src="/app/shared/directives/forms/form-controls.js"></script>
      <style>
         [ng\:cloak], [ng-cloak], .ng-cloak {
             display: none !important;
@@ -106,7 +74,7 @@
 
 
 
-<body ng-app='kmApp' ng-controller="PageController" ng-class="{'home-page':homePage}">
+<body ng-controller="TemplateController" ng-class="{'home-page':homePage}">
 
     <iframe id="authenticationFrame" src="https://accounts.cbd.int/app/authorize.html" style="display:none"></iframe>
     <div class="alert alert-info alert-dismissable" ng-hide="hideDisclaimer" style="margin-bottom: 0px; text-align: center">
@@ -697,14 +665,7 @@
                                                     </li>
                                         </ul>
                                    </div>
-                                   <script type="text/javascript">
-
-                                    $("#ctl06_menuSubcbd").mouseover(function () { $("#ctl06_menuTopcbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcbd").removeClass("hover"); });
-                                    $("#ctl06_menuSubcpb").mouseover(function () { $("#ctl06_menuTopcpb").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcpb").removeClass("hover"); });
-                                    $("#ctl06_menuSubprog").mouseover(function () { $("#ctl06_menuTopprog").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopprog").removeClass("hover"); });
-                                    $("#t-masterNavi *").removeClass('t-navSelected');$("#ctl06_menuSubinfo").mouseover(function () { $("#ctl06_menuTopinfo").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopinfo").removeClass("hover"); });
-                                    $("#ctl06_menuSubscbd").mouseover(function () { $("#ctl06_menuTopscbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopscbd").removeClass("hover"); });
-                                    </script>
+                                   <!-- script moved to index.html.js -->
                             </div>
                         </div>
                     </div>
@@ -758,7 +719,10 @@
                    <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs historyBar pull-left">
                             <img src="//www.cbd.int/styles/ui/templates/cbd2011/images/ic-cbdhome.gif" alt="cbd"  style="position: relative;">
                             > <a ng-href="#" ng-click="goHome()">CHM  </a>
-                            <span ng-hide="homePage">> {{navigationTree.mainMenu}} > {{navigationTree.subMenu}}</span>
+                            <span ng-hide="homePage" ng-cloak>
+                                <span ng-show="navigationTree.mainMenu"> &gt; {{navigationTree.mainMenu}}</span>
+                                <span ng-show="navigationTree.subMenu" > &gt; {{navigationTree.subMenu}}</span>
+                            </span>
                     </div>
                 </div> -->
 
@@ -768,7 +732,7 @@
                         <a ng-href="http://www.cbd.int" class="color-green">CBD  </a>
                         <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>
                         <a ng-href="#" ng-click="goHome()" class="color-grey"> CHM  </a>
-                        <span ng-hide="homePage" class="color-grey"> <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>  {{navigationTree.mainMenu}} <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span> {{navigationTree.subMenu}} </span>
+                        <span ng-hide="homePage" class="color-grey" ng-cloak> <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span>  {{navigationTree.mainMenu}} <span class="color-litegrey"> <i class="fa fa-angle-right"></i> </span> {{navigationTree.subMenu}} </span>
                     </div>
                 </div>
 
@@ -873,10 +837,9 @@
                 </div>
 
 
-        <script>            //mercuryPackages = { all: {javascripts: 'jquery-1.7.js,mercury.min.js,mercury_dialogs.js', stylesheets: 'mercury.bundle.css'} };
-            //jQuery.browser = { webkit: true };
-        </script>
-        <!--script src="/app/libs/mercury/0.9.0/mercury_loader.js?pack=bundled&src=/app/libs/mercury/0.9.0"></script-->
+      <!-- Boot the app -->
+      <script src="/app/libs/requirejs/require.js" data-main="/app/js/boot.js"></script>
+
     </div>
 </body>
 </html>

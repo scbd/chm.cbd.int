@@ -1,5 +1,6 @@
-angular.module('kmApp').compileProvider // lazy
-.directive('searchFilterCountries', function ($http) {
+define(['app', 'underscore'], function(app, _) { 'use strict';
+
+    app.directive('searchFilterCountries', function ($http) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-countries.partial.html?'+(new Date().getTime()),
@@ -10,12 +11,10 @@ angular.module('kmApp').compileProvider // lazy
               field: '@field',
               query: '=query',
         },
-        link: function ($scope, element, attrs, ngModelController)
-        {
-        },
         controller : ['$scope', '$element', '$location', function ($scope, $element, $location)
         {
-            $scope.alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+            $scope.alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+                               'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
             $scope.expanded = false;
             $scope.selectedItems = [];
@@ -68,26 +67,26 @@ angular.module('kmApp').compileProvider // lazy
                 return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
             };
 
-            $scope.onclick = function (scope, evt) {
+            $scope.onclick = function (scope) {
                 scope.item.selected = !scope.item.selected;
                 buildQuery();
-            }
+            };
 
             function buildQuery () {
                 var conditions = [];
                 buildConditions(conditions, $scope.terms);
 
-                if(conditions.length==0) $scope.query = '*:*';
+                if(conditions.length===0) $scope.query = '*:*';
                 else {
                     var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; });
+                    conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
                     query += ' )';
                     $scope.query = query;
                 }
             }
 
             function buildConditions (conditions, items) {
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     if(item.selected)
                         conditions.push($scope.field+':'+item.identifier);
                 });
@@ -95,7 +94,7 @@ angular.module('kmApp').compileProvider // lazy
 
             function dictionarize(items) {
                 var dictionary = [];
-                items.forEach(function (item) { 
+                items.forEach(function (item) {
                     item.selected = false;
                     dictionary[item.identifier] = item;
                 });
@@ -121,5 +120,6 @@ angular.module('kmApp').compileProvider // lazy
 
             $scope.refresh = buildQuery;
         }]
-    }
+    };
+});
 });

@@ -5,7 +5,7 @@ require("console-stamp")(console, "HH:MM:ss.l");
 
 // LOG UNHANDLED EXCEPTION AND EXIT
 process.on('uncaughtException', function (err) {
-  console.error((new Date()).toUTCString() + ' uncaughtException:', err.message);
+  console.error('uncaughtException:', err.message);
   console.error(err.stack);
   process.exit(1);
 });
@@ -52,7 +52,7 @@ app.listen(app.get('port'), function () {
 // LOG PROXY ERROR & RETURN http:500
 
 proxy.on('error', function (e, req, res) {
-    console.error(new Date().toUTCString() + ' error proxying: '+req.url);
+    console.error('error proxying: '+req.url);
     console.error('proxy error:', e);
     res.send( { code: 500, source:'chm/proxy', message : 'proxy error', proxyError: e }, 500);
 });

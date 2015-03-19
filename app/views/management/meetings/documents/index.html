@@ -1,0 +1,40 @@
+<h1>Meeting Documents</h1>
+
+<a ng-href='/management/meetings/{{meetingId}}/documents/NEW' type="button" class="btn btn-default pull-right">Add +</i></a>
+
+<ul class="pagination" ng-show="pages">
+  <li ng-class="{disabled:currentPage<=0}"><a href="#" ng-click="setPage(currentPage-1)">&laquo;</a></li>
+  <li ng-repeat="page in pages" ng-class="{active:page==currentPage}">
+      <a href="#" ng-click="setPage(page)">{{page+1}}</a>
+  </li>
+  <li ng-class="{ disabled:currentPage>=pages.length-1}"><a href="#" ng-click="setPage(currentPage+1)">&raquo;</a></li>
+</ul>
+
+
+<table class="table table-striped">
+    <tr>
+        <th>#</th>
+        <th>Code</th>
+        <th>Title</th>
+        <th>Type</th>
+        <th></th>
+    </tr>
+    <tr ng-repeat="document in documents">
+        <td>{{currentPage*pageSize+$index+1}}</td>
+        <td style="white-space:nowrap">{{document.symbol}}</td>
+        <td>{{document.languages.en.title || 'NO TITLE'}}</td>
+        <td style="white-space:nowrap">{{document.serie}}</td>
+        <td>
+            <a ng-href='/management/meetings/{{meetingId}}/documents/{{document._id}}' type="button" class="btn btn-default"><i class="fa fa-file-o"></i></a>
+        </td>
+    </tr>
+</table>
+
+
+<ul class="pagination" ng-show="pages">
+  <li ng-class="{disabled:currentPage<=0}"><a href="#" ng-click="setPage(currentPage-1)">&laquo;</a></li>
+  <li ng-repeat="page in pages" ng-class="{active:page==currentPage}">
+      <a href="#" ng-click="setPage(page)">{{page+1}}</a>
+  </li>
+  <li ng-class="{ disabled:currentPage>=pages.length-1}"><a href="#" ng-click="setPage(currentPage+1)">&raquo;</a></li>
+</ul>

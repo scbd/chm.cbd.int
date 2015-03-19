@@ -1,4 +1,6 @@
-angular.module('kmApp').compileProvider.directive('searchFilterKeywords', function ($http) {
+define(['app'], function(app) { 'use strict';
+
+    app.directive('searchFilterKeywords', function () {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/search/search-filter-keywords.partial.html?'+(new Date().getTime()),
@@ -14,8 +16,6 @@ angular.module('kmApp').compileProvider.directive('searchFilterKeywords', functi
             // rows       : '=',
             // required   : "@"
         },
-        link: function ($scope, element, attrs, ngModelController) {
-        },
         controller: ["$scope", function ($scope) {
 
             $scope.value = $scope.value||'';
@@ -25,8 +25,9 @@ angular.module('kmApp').compileProvider.directive('searchFilterKeywords', functi
             };
 
             $scope.$watch('value', function () {
-                $scope.query = $scope.value == '' ? '*:*' : '(title_t:"' + $scope.value + '*" OR description_t:"' + $scope.value + '*" OR text_EN_txt:"' + $scope.value + '*")';
+                $scope.query = $scope.value == '' ? '*:*' : '(title_t:"' + $scope.value + '*" OR description_t:"' + $scope.value + '*" OR text_EN_txt:"' + $scope.value + '*")';// jshint ignore:line
             });
         }]
-    }
-})
+    };
+    });
+});

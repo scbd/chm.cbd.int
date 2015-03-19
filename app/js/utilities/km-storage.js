@@ -1,9 +1,11 @@
-﻿angular.module('kmStorage', [])
-.factory('IStorage', ["authHttp", "$q", "authentication", "underscore", "realm", function($http, $q, authentication, _, defaultRealm) {
+define(['app', 'underscore', 'authentication'], function(app, _) { 'use strict';
 
-	return new function()
+console.log("LOADED km-storage");
+
+app.factory('IStorage', ["authHttp", "$q", "authentication", "realm", function($http, $q, authentication, defaultRealm) {
+
+	function IStorage()
 	{
-		var self        = this;
 		var serviceUrls = { // Add Https if not .local
 			documentQueryUrl   : function() { return "/api/v2013/documents/"; },
 			documentUrl        : function() { return "/api/v2013/documents/:identifier"; },
@@ -13,9 +15,8 @@
 			securityUrl        : function() { return "/api/v2013/documents/:identifier/securities/:operation"; },
 			draftSecurityUrl   : function() { return "/api/v2013/documents/:identifier/versions/draft/securities/:operation"; },
 			draftLockUrl       : function() { return "/api/v2013/documents/:identifier/versions/draft/locks/:lockID"; },
-
-			documentFacetsQueryUrl  : function() { return "/api/v2013/documents/query/facets"; },
-		}
+			documentFacetsQueryUrl : function() { return "/api/v2013/documents/query/facets"; },
+		};
 
 		//==================================================
 		//
@@ -31,7 +32,7 @@
 			{
 				params            = _.extend({}, params||{});
 				params.collection = collection;
-				params["$filter"] = query;
+				params.$filter    = query;
 
 				if (query && !collection)
 					params.collection = "my";
@@ -81,7 +82,7 @@
 
 				var oTrans = transformPath(serviceUrls.documentUrl(), params);
 
-				return $http.head(oTrans.url, { params : oTrans.params, cache:useCache }).then(function(data) {
+				return $http.head(oTrans.url, { params : oTrans.params, cache:useCache }).then(function() {
 
 					return true;
 
@@ -158,7 +159,7 @@
 					return canDo(serviceUrls.securityUrl(), "delete", identifier, schema, metadata);
 				}
 			}
-		}
+		};
 
 		//==================================================
 		//
@@ -174,7 +175,7 @@
 			{
 				params            = clone(params||{});
 				params.collection = "mydraft";
-				params["$filter"] = query;
+				params.$filter    = query;
 
 				var useCache = !!params.cache;
 
@@ -221,7 +222,7 @@
 
 				var oTrans = transformPath(serviceUrls.draftUrl(), params);
 
-				return $http.head(oTrans.url, {  params : oTrans.params, cache:useCache }).then(function(data) {
+				return $http.head(oTrans.url, {  params : oTrans.params, cache:useCache }).then(function() {
 
 					return true;
 
@@ -305,7 +306,7 @@
 					});
 				}
 			}
-		}
+		};
 
 		this.attachments = {
 
@@ -343,7 +344,7 @@
 			{
 				return getMimeTypes(file.name, file.type || "application/octet-stream");
 			}
-		}
+		};
 
 		//==================================================
 		//
@@ -394,7 +395,7 @@
 			}
 
 			return sMimeType;
-		}
+		};
 
 		//==================================================
 		//
@@ -409,7 +410,7 @@
 				return undefined;
 
 			return angular.fromJson(angular.toJson(obj));
-		}
+		};
 
 		//===========================
 		//
@@ -421,7 +422,7 @@
 		{
 			var oRegex     = /\:\w+/g;
 			var oMatch     = null;
-			var qMatches   = []
+			var qMatches   = [];
 			var oNewParams = {};
 
 			while ((oMatch = oRegex.exec(url)) != null) {
@@ -430,27 +431,27 @@
 				qMatches.splice(0, 0, oMatch);
 			}
 
-			for(key in params||{}) {
+			for(var key in params||{}) {
 				var bExist = false;
 
-				for(i in qMatches) {
-					if (qMatches[i].key != key)
+				for(var k in qMatches) {
+					if (qMatches[k].key != key)
 						continue;
 
 					bExist = true;
-					qMatches[i].value = params[key].toString();
+					qMatches[k].value = params[key].toString();
 				}
 
 				if(!bExist)
 					oNewParams[key] = params[key];
 			}
 
-			for (i in qMatches) {
-				url = replaceAt(url, qMatches[i].index, qMatches[i][0].length, encodeURIComponent(qMatches[i].value))
+			for (var j in qMatches) {
+				url = replaceAt(url, qMatches[j].index, qMatches[j][0].length, encodeURIComponent(qMatches[j].value));
 			}
 
-			return { "url" : url, "params" : oNewParams }
-		}
+			return { "url" : url, "params" : oNewParams };
+		};
 
 		//===========================
 		//
@@ -479,7 +480,7 @@
 				function(res) {
 					return res.data.isAllowed;
 				});
-		}
+		};
 
 		//===========================
 		//
@@ -489,8 +490,11 @@
 		//===========================
 		var replaceAt = function(str, index, len, newText) {
 			return str.substring(0, index) + newText + str.substring(index+len);
-		}
+		};
 
 		return this;
-	}();
-}])
+	}
+
+    return new IStorage();
+}]);
+});

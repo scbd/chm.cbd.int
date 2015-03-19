@@ -1,6 +1,8 @@
-﻿angular.module('kmUtilities', [])
+define(['app', 'underscore', 'linqjs', 'URIjs/URI'], function(app, _, Enumerable, URI) { 'use strict';
 
-.filter("lstring", function() {
+console.log("LOADED km-utilities");
+
+app.filter("lstring", function() {
 	return function(ltext, locale) {
 
 		if(!ltext)
@@ -9,43 +11,55 @@
 		if(angular.isString(ltext))
 			return ltext;
 
-		var sText = undefined;
+		var sText;
 
 		if(!sText && locale)
 			sText = ltext[locale];
 
 		if(!sText)
-			sText = ltext["en"];
+			sText = ltext.en;
 
 		if(!sText) {
-			for(key in ltext) {
-				sText = ltext[key]
+			for(var key in ltext) {
+				sText = ltext[key];
 				if(sText)
 					break;
 			}
 		}
 
 		return sText||"";
-	}
-})
+	};
+});
 
-.filter("orderPromiseBy", ["$q", "$filter", function($q, $filter) {
+app.filter('integer', function () {
+    return function (number, base, length) {
+
+        var text = Number(number).toString(base || 10);
+
+        if (text.length < (length || 0))
+            text = '00000000000000000000000000000000'.substr(0, length - text.length) + text;
+
+        return text;
+    };
+});
+
+app.filter("orderPromiseBy", ["$q", "$filter", function($q, $filter) {
 	return function(promise, expression, reverse) {
 		return $q.when(promise).then(function(collection){
 			return $filter("orderBy")(collection, expression, reverse);
 		});
-	}
-}])
+	};
+}]);
 
-.filter("markdown", ["$window", "htmlUtility", function($window, html) {
+app.filter("markdown", ["$window", "htmlUtility", function($window, html) {
 	return function(srcText) {
 		if (!$window.marked)//if markdown is not install then return escaped html! to be safe!
 			return '<div style="word-break: break-all; word-wrap: break-word; white-space: pre-wrap;">'+html.encode(srcText)+'</div>';
 		return $window.marked(srcText, { sanitize: true });
-	}
-}])
+	};
+}]);
 
-.filter("truncate", function() {
+app.filter("truncate", function() {
 	return function(text, maxSize, suffix) {
 
 		if (!maxSize)
@@ -61,39 +75,39 @@
 			text = text.substr(0, maxSize) + suffix;
 
 		return text;
-	}
-})
+	};
+});
 
-.factory("htmlUtility", function() {
+app.factory("htmlUtility", function() {
 	return {
 		encode: function(srcText) {
 			return $('<div/>').text(srcText).html();
 		}
 	};
-})
+});
 
-.factory('guid', function() {
+app.factory('guid', function() {
 	function S4() {
 		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 	}
 	return function() {
 		return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4()).toUpperCase();
-	}
-})
+	};
+});
 
-.factory('underscore', ["$window", function($window) {
-	return $window._;
-}])
+app.factory('underscore', [function() {
+	return _;
+}]);
 
-.factory('Enumerable', ["$window", function($window) {
-	return $window.Enumerable;
-}])
+app.factory('Enumerable', [function() {
+	return Enumerable;
+}]);
 
-.factory('URI', ["$window", function($window) {
-	return $window.URI;
-}])
+app.factory('URI', [function() {
+	return URI;
+}]);
 
-.factory('Thesaurus', ["Enumerable", function() {
+app.factory('Thesaurus', ["Enumerable", function() {
 	return {
 		buildTree : function(terms) {
 			var oTerms    = [];
@@ -103,7 +117,7 @@
 				var oTerm = {
 					identifier : value.identifier,
 					name       : value.name
-				}
+				};
 
 				oTerms.push(oTerm);
 				oTermsMap[oTerm.identifier] = oTerm;
@@ -131,9 +145,9 @@
 			return Enumerable.From(oTerms).Where("o=>!o.broaderTerms").ToArray();
 		}
 	}
-}])
+}]);
 
-.factory('localization', ["$browser", function($browser) {
+app.factory('localization', ["$browser", function($browser) {
 	return {
 		locale: function(newLocale) {
 
@@ -164,5 +178,7 @@
 			return sLocale;
 		}
 	}
-}])
-;
+}]);
+
+
+});

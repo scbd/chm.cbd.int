@@ -1,8 +1,7 @@
 /* globals escape */
 /* jshint sub:true */
 
-define(['app'], function (app) {
-	'use strict';
+define(['app'], function (app) { 'use strict';
 
 	app.factory('authentication', ["$http", "$browser", "$rootScope", function($http, $browser, $rootScope) {
 

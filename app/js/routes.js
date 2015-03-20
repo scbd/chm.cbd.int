@@ -1,5 +1,4 @@
-define(['app', 'extended-route-provider', 'support'], function(app) {
-    'use strict';
+define(['app', 'providers/extended-route', 'js/support'], function(app) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 

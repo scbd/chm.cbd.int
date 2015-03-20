@@ -65,12 +65,12 @@
 	  	<td>
 	  		<span ng-switch="workflow.state">
 	  			<span ng-switch-when="running">
-					<span ng-show="hasOpenActivities(workflow.activities)"><i class="glyphicon glyphicon-time"></i> Awaiting for user action</span>	  				
-					<span ng-hide="hasOpenActivities(workflow.activities)"><i class="glyphicon glyphicon-cog"></i> Processing</span>
+					<span ng-show="hasOpenActivities(workflow.activities)"><i class="fa fa-times"></i> Awaiting for user action</span>	  				
+					<span ng-hide="hasOpenActivities(workflow.activities)"><i class="fa fa-cog"></i> Processing</span>
 	  			</span>
 	  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
-	  			<span ng-switch-when="canceled"><i class="glyphicon glyphicon-remove-circle"></i> Canceled on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
-	  			<span ng-switch-when=""><i class="glyphicon glyphicon-exclamation-sign"></i> Failed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+	  			<span ng-switch-when="canceled"><i class="fa fa-remove-circle"></i> Canceled on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+	  			<span ng-switch-when=""><i class="fa fa-exclamation"></i> Failed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
 	  			<span ng-switch-default>*{{workflow.state|uppercase}}</span>
 		</td>
 	  </tr>
@@ -106,11 +106,11 @@
 			<div ng-show="activity.completedOn">
 
 				<span ng-show="activity" ng-switch="activity.result.action">
-					<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
-					<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+					<span ng-switch-when="approve"><i class="fa fa-check"></i> Approved</span>
+					<span ng-switch-when="reject"><i class="fa fa-remove"></i> Rejected</span>
 				</span>
 
-				<span ng-hide="activity"><i class="glyphicon glyphicon-ok"></i> Completed</span>
+				<span ng-hide="activity"><i class="fa fa-check"></i> Completed</span>
 
 				on {{activity.completedOn|date:'short'}} by {{activity.completedBy_info.firstName}} {{activity.completedBy_info.lastName}}
 			</div>

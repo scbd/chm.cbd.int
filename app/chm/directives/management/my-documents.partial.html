@@ -46,7 +46,7 @@
 				</div>
 				<div class="col-xs-6">
 					<div class="input-group">
-						<span class="input-group-addon"><i class="icon-search"></i></span>
+						<span class="input-group-addon"><i class="fa fa-search"></i></span>
 						<input type="text" class="form-control" ng-model="freetext" placeholder="keyword">
 					</div>
 				</div>
@@ -111,14 +111,14 @@
 				</td>
 				<td ng-switch="document.workingDocumentUpdatedOn" style="white-space:nowrap">
 					<div ng-switch-when="null" class="color-published">
-						<i class="icon-ok"></i>
+						<i class="fa fa-check"></i>
 						<b>Published</b>
 					</div>
 					<div ng-switch-default>
 						<div ng-switch="document.workingDocumentLock">
 							<div ng-switch-when="null">
 								<div>
-									<i class="icon-edit"></i>
+									<i class="fa fa-edit"></i>
 									<b>Under Editing</b>
 								</div>
 								<div>by <em>{{document.workingDocumentUpdatedBy.email}}</em></div>
@@ -126,7 +126,7 @@
 
 							<div ng-switch-default>
 								<div>
-									<i class="icon-lock"></i>
+									<i class="fa fa-lock"></i>
 									<b>Locked</b>
 								</div>
 								<div>by <em>{{document.workingDocumentLock.lockedBy.email}}</em></div>
@@ -140,8 +140,8 @@
 				</td>
 				<td style="text-align:end;width:100px">
 					<div class="btn-group">
-						<button class="btn btn-default"  ng-click="edit(document);"  type="button" title="Edit"   ng-disabled="document.workingDocumentLock"><i class="icon-edit"></i></button>
-						<button class="btn btn-default"  ng-click="erase(document);" type="button" title="Delete" ng-disabled="document.workingDocumentLock || document.workingDocumentCreatedOn"><i class=" icon-trash"></i></button>
+						<button class="btn btn-default"  ng-click="edit(document);"  type="button" title="Edit"   ng-disabled="document.workingDocumentLock"><i class="fa fa-edit"></i></button>
+						<button class="btn btn-default"  ng-click="erase(document);" type="button" title="Delete" ng-disabled="document.workingDocumentLock || document.workingDocumentCreatedOn"><i class="fa fa-trash-o"></i></button>
 					</div>
 				</td>
 			</tr>

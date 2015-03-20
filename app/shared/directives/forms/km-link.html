@@ -7,13 +7,13 @@
 					<span ng-show="link.tag">({{link.tag}})</span>
 				</td>
 				<td style="text-align:end;white-space:nowrap">
-					<a title="Remove" class="btn btn-default" ng-click="remove(link)"><i class="icon-trash"></i></a>
+					<a title="Remove" class="btn btn-default" ng-click="remove(link)"><i class="fa fa-trash-o"></i></a>
 				</td>
 			</tr>
 		</table>
 
-		<button type="button" class="btn btn-default" ng-click="addLink()" ng-show="isAllowLink()"><i class="icon-globe"></i> Add link</button>
-		<button type="button" class="btn btn-default" ng-click="addFile()" ng-show="isAllowFile()" ng-disabled="!identifier"><i class="icon-file"></i> Add file</button>
+		<button type="button" class="btn btn-default" ng-click="addLink()" ng-show="isAllowLink()"><i class="fa fa-globe"></i> Add link</button>
+		<button type="button" class="btn btn-default" ng-click="addFile()" ng-show="isAllowFile()" ng-disabled="!identifier"><i class="fa fa-file-o"></i> Add file</button>
 	</div>
 
     <!--Link Editor-->

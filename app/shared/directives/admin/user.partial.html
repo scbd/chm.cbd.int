@@ -195,10 +195,10 @@
 							<div class="form-group">
 								<label>Phone numbers</label>
 								<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
-									<span class="input-group-addon"><i class="icon-phone icon"></i></span>
+									<span class="input-group-addon"><i class="fa fa-phone icon"></i></span>
 									<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-pattern=/[\u0030-\u0039]+/g />
 									<span class="input-group-btn" ng-if="!$last">
-								    	<button class="btn btn-default" ng-click="removePhone($index)" style="height:36px"><i class="icon-trash icon"></i></button>
+								    	<button class="btn btn-default" ng-click="removePhone($index)" style="height:36px"><i class="fa fa-trash-o icon"></i></button>
 								    </span>
 								</div>
 							</div>
@@ -207,10 +207,10 @@
 							<div class="form-group">
 								<label>Fax numbers</label>
 								<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getFaxes()">
-									<span class="input-group-addon"><i class="icon-phone icon"></i></span>
+									<span class="input-group-addon"><i class="fa fa-phone icon"></i></span>
 									<input type="fax" class="form-control" ng-model="fax.value" ng-change="saveFaxes()" placeholder="fax" ng-pattern=/[\u0030-\u0039]+/g />
 									<span class="input-group-btn" ng-if="!$last">
-								    	<button class="btn btn-default" ng-click="removeFax($index)" style="height:36px"><i class="icon-trash icon"></i></button>
+								    	<button class="btn btn-default" ng-click="removeFax($index)" style="height:36px"><i class="fa fa-trash-o icon"></i></button>
 								    </span>
 								</div>
 							</div>
@@ -221,7 +221,7 @@
 							<div class="form-group">
 								<label>Email</label>
 								<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
-									<span class="input-group-addon"><i class="icon-envelope icon"></i></span>
+									<span class="input-group-addon"><i class="fa fa-envelope icon"></i></span>
 									<input type="email" class="form-control" ng-model="document.Email"> <!-- ng-disabled="document.UserID==null" -->
 								</div>
 							</div>
@@ -230,10 +230,10 @@
 							<div class="form-group">
 								<label>Alternate email addresses</label>
 								<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getEmails()">
-									<span class="input-group-addon"><i class="icon-envelope icon"></i></span>
+									<span class="input-group-addon"><i class="fa fa-envelope icon"></i></span>
 									<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="email" ng-required="isRequired()"/>
 									<span class="input-group-btn" ng-if="!$last">
-								    	<button class="btn btn-default" ng-click="removeEmail($index)" style="height:36px"><i class="icon-trash icon"></i></button>
+								    	<button class="btn btn-default" ng-click="removeEmail($index)" style="height:36px"><i class="fa fa-trash-o icon"></i></button>
 								    </span>
 								</div>
 							</div>

@@ -14,7 +14,7 @@
 		<div ng-hide="hideButtons=='true'" style="float:right">
 		
 			<span ng-show="internalDocumentInfo.workingDocumentLock">
-				<i class="icon-lock"></i>
+				<i class="fa fa-lock"></i>
 				Document is locked
 			</span>
 			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
@@ -53,7 +53,7 @@
 			<div class="alert alert-success alert-dismissable">
 				<table width="100%">
 					<tr>
-						<td><i class="glyphicon glyphicon-ok"></i> <strong>Published!</strong> Your record has been saved. </td>
+						<td><i class="fa fa-check"></i> <strong>Published!</strong> Your record has been saved. </td>
 						<td style="text-align:right"><a class="btn btn-success" href="/management/national-reporting?country={{internalDocument.government.identifier|uppercase}}">Continue to National Reporting &raquo;</a></td>
 					</tr>
 				</table>

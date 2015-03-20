@@ -10,17 +10,17 @@
 	<div style="font-size:13px;margin:2px 0">{{description}}</div>
 	<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{description2}}</div>
 	<div ng-if="false">
-		<i style="color:#ccc" class="icon-map-marker"></i> <span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span>
+		<i style="color:#ccc" class="fa fa-map-marker"></i> <span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span>
 		&nbsp; &nbsp; 
-		<i style="color:#ccc" class="icon-microphone"></i> <span style="font-size:12px;color:#444">Mr. Braulio Ferreira de Souza Dias, CBD Executive Secretary</span>
+		<i style="color:#ccc" class="fa fa-microphone"></i> <span style="font-size:12px;color:#444">Mr. Braulio Ferreira de Souza Dias, CBD Executive Secretary</span>
 	</div>
 	<div ng-if="dates">
-		<i style="color:#ccc" class="icon-calendar-empty"></i> <span style="font-size:12px;color:#444">{{dates}}</span>
+		<i style="color:#ccc" class="fa fa-calendar-o"></i> <span style="font-size:12px;color:#444">{{dates}}</span>
 		&nbsp; &nbsp; 
-		<i style="color:#ccc" class="icon-map-marker"></i> <span style="font-size:12px;color:#444">{{venue}}</span>
+		<i style="color:#ccc" class="fa fa-map-marker"></i> <span style="font-size:12px;color:#444">{{venue}}</span>
 	</div>
 	<div ng-if="false">
-		<i style="color:#ccc" class="icon-file"></i> <span style="font-size:12px;color:#444">
+		<i style="color:#ccc" class="fa fa-file-o"></i> <span style="font-size:12px;color:#444">
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
@@ -28,7 +28,7 @@
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
 		<a style="color:#428bca;padding:0 3px">ZH</a>
 		&nbsp; &nbsp;
-		<i style="color:#ccc" class="icon-file"></i> <span style="font-size:12px;color:#444">
+		<i style="color:#ccc" class="fa fa-file-o"></i> <span style="font-size:12px;color:#444">
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
@@ -40,7 +40,7 @@
 		<a ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a>
 	</div>
 	<div ng-if="{'meetingDocument':true}[schema_s]">
-		<i class="icon-tag"></i>
+		<i class="fa fa-tag"></i>
 		<span ng-repeat="meeting in document.meeting_ss" class="label label-info" style="margin-right:4px">{{meeting}}</span>
 	</div>
 	<div class="clearfix"></div>

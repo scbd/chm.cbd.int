@@ -404,7 +404,7 @@ img.thumb {
         border-color: #cccccc;
     }
 
-    .navbar .navbar-header .btn span.icon-bar {
+    .navbar .navbar-header .btn span.fa fa-bars {
         background-color: #385774;
         -webkit-box-shadow: none;
         box-shadow: none;

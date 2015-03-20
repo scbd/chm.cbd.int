@@ -59,10 +59,10 @@
 			  	<td>Status</td>
 			  	<td>
 			  		<span ng-switch="workflow.state">
-			  			<span ng-switch-when="running"><i class="glyphicon glyphicon-cog"></i> Pending</span>
+			  			<span ng-switch-when="running"><i class="fa fa-cog"></i> Pending</span>
 			  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'short'}}</span>
-			  			<span ng-switch-when="canceled"><i class="glyphicon glyphicon-remove-circle"></i> Canceled on {{workflow.closedOn|date:'short'}}</span>
-			  			<span ng-switch-when=""><i class="glyphicon glyphicon-exclamation-sign"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
+			  			<span ng-switch-when="canceled"><i class="fa fa-remove-circle"></i> Canceled on {{workflow.closedOn|date:'short'}}</span>
+			  			<span ng-switch-when=""><i class="fa fa-exclamation"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
 			  			<span ng-switch-default>*{{workflow.state|uppercase}}</span>
 					</span>
 				</td>
@@ -82,13 +82,13 @@
 					<span ng-hide="activity.closedOn">
 
 						<div ng-show="isAssignedToMe(activity)">
-							<button type="button" class="btn btn-primary" ng-click="updateActivity({ action : 'approve' })"><i class="glyphicon glyphicon-ok"></i> Approve</button>
-							<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="glyphicon glyphicon-remove"></i> Request Changes / Reject </button>
+							<button type="button" class="btn btn-primary" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
+							<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="fa fa-remove"></i> Request Changes / Reject </button>
                             <a type="button" class="btn btn-success" ng-href="/management/edit/{{workflow.data.metadata.schema}}?uid={{workflow.data.identifier}}&worflowId={{workflow._id}}"
-                            ><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                            ><i class="fa fa-edit"></i> Edit</a>
 						</div>
 						<span ng-hide="isAssignedToMe(activity)">
-							<i class="glyphicon glyphicon-time"></i>
+							<i class="fa fa-times"></i>
 							Waiting for <em>{{activity.assignedTo_info[0].firstName}} {{activity.assignedTo_info[0].lastName}}</em> to approve or reject this request.
 						</span>
 					</span>
@@ -99,11 +99,11 @@
 			<div ng-show="activity.completedOn">
 
 				<span ng-show="activity" ng-switch="activity.result.action">
-					<span ng-switch-when="approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
-					<span ng-switch-when="reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+					<span ng-switch-when="approve"><i class="fa fa-check"></i> Approved</span>
+					<span ng-switch-when="reject"><i class="fa fa-remove"></i> Rejected</span>
 				</span>
 
-				<span ng-hide="activity"><i class="glyphicon glyphicon-ok"></i> Completed</span>
+				<span ng-hide="activity"><i class="fa fa-check"></i> Completed</span>
 
 				on {{activity.completedOn|date:'short'}} by {{activity.completedBy_info.firstName}} {{activity.completedBy_info.lastName}}
 			</div>
@@ -143,7 +143,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			<button type="button" class="btn btn-warning" data-dismiss="modal" ng-disabled="rejectForm.reason.$error.required" ng-click="updateActivity({ action : 'reject', reason: rejectReason })"><i class="glyphicon glyphicon-remove"></i> Request Changes / Reject </button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal" ng-disabled="rejectForm.reason.$error.required" ng-click="updateActivity({ action : 'reject', reason: rejectReason })"><i class="fa fa-remove"></i> Request Changes / Reject </button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

@@ -35,16 +35,16 @@
 
 					<div ng-show="isOpen(activity)">
 						<div ng-switch="activity.name">
-							<span ng-switch-when="publishRecord"><i class="glyphicon glyphicon-time"></i> Awaiting Approval</span>
+							<span ng-switch-when="publishRecord"><i class="fa fa-times"></i> Awaiting Approval</span>
 							<span ng-switch-default>{{activity.name}}*</span>
 						</div>
 					</div>
 
 					<div ng-hide="isOpen(activity)">
 						<div ng-switch="activity.name+'-'+activity.result.action">
-							<span ng-switch-when="publishRecord-approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
-							<span ng-switch-when="publishRecord-reject"> <i class="glyphicon glyphicon-remove"></i> Rejected</span>
-							<span ng-switch-when="null-null"> <i class="glyphicon glyphicon-cog"></i> Pending</span>
+							<span ng-switch-when="publishRecord-approve"><i class="fa fa-check"></i> Approved</span>
+							<span ng-switch-when="publishRecord-reject"> <i class="fa fa-remove"></i> Rejected</span>
+							<span ng-switch-when="null-null"> <i class="fa fa-cog"></i> Pending</span>
 							<span ng-switch-default>*{{activity.name+'-'+activity.result.action}}*</span>
 						</div>
 					</div>

@@ -1,15 +1,15 @@
 <div class="home-bottom" style="position:relative" ng-controller="TaskIdController">
     <div >
       	<div class="row top">
-	    	
-	    	<h1>Task</h1>  
-	        
+
+	    	<h1>Task</h1>
+
 			<table class="table table-striped">
 			  <tr>
 				  <th colspan="2">
 				  	Request information and status
-				  </th>	
-			  </tr>	
+				  </th>
+			  </tr>
 			  <tr>
 			  	<td style="width:40%">Request ID</td>
 			  	<td style="text-transform:uppercase;white-space:nowrap;">
@@ -47,10 +47,10 @@
 			  	<td>Status</td>
 			  	<td>
 			  		<span ng-switch="workflow.state">
-			  			<span ng-switch-when="running"><i class="glyphicon glyphicon-cog"></i> Pending</span>	  				
+			  			<span ng-switch-when="running"><i class="fa fa-cog"></i> Pending</span>
 			  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'short'}}</span>
-			  			<span ng-switch-when="canceled"><i class="glyphicon glyphicon-remove-circle"></i> Canceled on {{workflow.closedOn|date:'short'}}</span>
-			  			<span ng-switch-when=""><i class="glyphicon glyphicon-exclamation-sign"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
+			  			<span ng-switch-when="canceled"><i class="fa fa-remove-circle"></i> Canceled on {{workflow.closedOn|date:'short'}}</span>
+			  			<span ng-switch-when=""><i class="fa fa-exclamation"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
 			  			<span ng-switch-default>*{{workflow.state|uppercase}}</span>
 					</span>
 				</td>
@@ -87,7 +87,7 @@
 						<span ng-switch-default>{{activity.name}}*</span>
 					</span>
 
-					 
+
 
 					<span ng-show="activity.assignedToRule">
 						by {{activity.assignedToRule}}
@@ -104,12 +104,12 @@
 						</span>
 					</span>
 
-					
+
 
 			  	</td>
 
 			  	<td class="text-right">
-					<a ng-show="isAssignedToMe(activity)" class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}/{{activity.name}}"  type="button"><i class="icon-edit icon-white"></i></button>
+					<a ng-show="isAssignedToMe(activity)" class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}/{{activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
 			  	</td>
 
 			  </tr>
@@ -135,8 +135,8 @@
 					<div ng-show="activity.completedOn">
 
 						<span ng-switch="activity.name+'-'+activity.result.action">
-							<span ng-switch-when="publishRecord-approve"><i class="glyphicon glyphicon-ok"></i> Approved</span>
-							<span ng-switch-when="publishRecord-reject"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+							<span ng-switch-when="publishRecord-approve"><i class="fa fa-check"></i> Approved</span>
+							<span ng-switch-when="publishRecord-reject"><i class="fa fa-remove"></i> Rejected</span>
 							<span ng-switch-default>{{activity.name+'-'+activity.result.action}}*</span>
 						</span>
 
@@ -153,11 +153,11 @@
 
 			  	</td>
 			  </tr>
-			</table>			
+			</table>
 
 			<div ng-show="document" class="t-document">
 				<div class="cbd-View-Form-Loader" document="document" hide-buttons="true" link-target="_self"></div>
-			</div>	
+			</div>
 
   		</div>
 	</div>

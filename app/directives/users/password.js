@@ -3,7 +3,7 @@ angular.module('kmApp').compileProvider // lazy
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/shared/directives/users/password.html',
+        templateUrl: '/app/directives/users/password.html',
         replace: true,
         transclude: false,
         scope: false,

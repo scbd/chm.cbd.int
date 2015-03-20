@@ -1,42 +1,55 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('myProfile', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
+.directive('user', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/shared/directives/users/my-profile.partial.html',
+        templateUrl: '/app/directives/admin/user.partial.html?v'+new Date().getTime(),
         replace: true,
         transclude: false,
         scope: false,
         link: function ($scope, $element, $attr, $ctrl) {
             $scope.init();
         },
-        controller: ['$scope' , '$filter', '$location', function ($scope, $filter, $location) {
+        controller: ['$scope' , '$filter', '$location', '$route', '$q', function ($scope, $filter, $location, $route, $q) {
 
             $scope.options  = {
                 countries                   : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
             };
 
+            $http.get("/api/v2013/roles", { cache: true }).then(function(response) {
+                $scope.roleList = $filter('orderBy')(response.data, 'name');
+            });
+
             //==================================
             //
             //==================================
             $scope.init = function() {
-                $http.get('/api/v2013/users/'+$scope.user.userID).
-                success(function (data, status, headers, config) {
-                    $scope.document = data;
-                    $scope.loadPhones();
-                    $scope.loadFaxes();
-                    $scope.loadEmails();
-                    //debugger;
-                }).
-                    error(function (data, status, headers, config) {
-                    // ...
-                });
-            }
+
+                if($route.current.params.id=='new') {
+                    $scope.initialRoles = [];
+                } else {
+                    $http.get('/api/v2013/users/'+$route.current.params.id).success(function (data, status, headers, config) {
+                        $scope.document = data;
+                        $scope.loadPhones();
+                        $scope.loadFaxes();
+                        $scope.loadEmails();
+                    }).error(function (data, status, headers, config) {
+                        alert('ERROR\r\n----------------\r\n'+data);
+                    });
+
+                    $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data, status, headers, config) {
+                        $scope.roles = data;
+                        $scope.initialRoles = data.slice(0); // clone array
+                    }).error(function (data, status, headers, config) {
+                        alert('ERROR\r\n----------------\r\n'+data);
+                    });
+                }
+            };
 
             //==============================
             //
             //==============================
-            $scope.getPhones = function () 
+            $scope.getPhones = function ()
             {
                 if($scope.phones==undefined)
                 {
@@ -46,9 +59,9 @@ angular.module('kmApp').compileProvider // lazy
                 if($scope.phones.length==0)
                     $scope.phones.push({value : "", type: ""});
 
-                var sLastValue = $scope.phones[$scope.phones.length-1].value; 
-                var sLastType  = $scope.phones[$scope.phones.length-1].type; 
-                var sLastExt   = $scope.phones[$scope.phones.length-1].ext; 
+                var sLastValue = $scope.phones[$scope.phones.length-1].value;
+                var sLastType  = $scope.phones[$scope.phones.length-1].type;
+                var sLastExt   = $scope.phones[$scope.phones.length-1].ext;
 
                 //NOTE: IE can set value to 'undefined' for a moment
                 if((sLastValue && sLastValue!="") ||
@@ -95,7 +108,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             //
             //==============================
-            $scope.removePhone = function(index) 
+            $scope.removePhone = function(index)
             {
                 $scope.phones.splice(index, 1);
                 $scope.savePhones();
@@ -104,7 +117,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             //
             //==============================
-            $scope.getFaxes = function () 
+            $scope.getFaxes = function ()
             {
                 if($scope.faxes==undefined)
                 {
@@ -114,8 +127,8 @@ angular.module('kmApp').compileProvider // lazy
                 if($scope.faxes.length==0)
                     $scope.faxes.push({value : "", type: ""});
 
-                var sLastValue = $scope.faxes[$scope.faxes.length-1].value; 
-                var sLastExt = $scope.faxes[$scope.faxes.length-1].ext; 
+                var sLastValue = $scope.faxes[$scope.faxes.length-1].value;
+                var sLastExt = $scope.faxes[$scope.faxes.length-1].ext;
 
                 //NOTE: IE can set value to 'undefined' for a moment
                 if((sLastValue && sLastValue!="") ||
@@ -161,7 +174,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             //
             //==============================
-            $scope.removeFaxe = function(index) 
+            $scope.removeFaxe = function(index)
             {
                 $scope.faxes.splice(index, 1);
                 $scope.saveFaxes();
@@ -170,7 +183,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             //
             //==============================
-            $scope.getEmails = function () 
+            $scope.getEmails = function ()
             {
                 if($scope.EmailsCc==undefined)
                 {
@@ -225,7 +238,7 @@ angular.module('kmApp').compileProvider // lazy
             //==============================
             //
             //==============================
-            $scope.removeEmail = function(index) 
+            $scope.removeEmail = function(index)
             {
                 $scope.EmailsCc.splice(index, 1);
                 $scope.saveEmails();
@@ -235,16 +248,78 @@ angular.module('kmApp').compileProvider // lazy
             //
             //==================================
             $scope.onPostSave = function(data) {
-                $http.put('/api/v2013/users/'+$scope.user.userID, angular.toJson($scope.document))
-                .success(function (data, status, headers, config) {
-                    //debugger;
-                })
-                .error(function (data, status, headers, config) {
-                    $scope.error = data;
-                    //debugger;
-                });
+
+                if($route.current.params.id=='new') {
+
+                    authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
+                        $scope.actionUpdateRoles();
+
+                    }).error(function (data, status, headers, config) {
+                        $scope.error = data;
+                    });
+
+                } else {
+
+                    authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function (data, status, headers, config) {
+                        $scope.actionUpdateRoles();
+                    }).error(function (data, status, headers, config) {
+                        $scope.error = data;
+                    });
+                }
             };
+
+            //==================================
+            //
+            //==================================
+            $scope.actionUpdateRoles = function(data) {
+
+                var rolesToGrant  = _.difference($scope.roles, $scope.initialRoles);
+                var rolesToRevoke = _.difference($scope.initialRoles, $scope.roles);
+
+                var tasks = [];
+
+                rolesToGrant.forEach(function grantRole (role) {
+                    tasks.push(authHttp.put('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
+                });
+
+                rolesToRevoke.forEach(function grantRole (role) {
+                    tasks.push(authHttp.delete('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
+                });
+
+                $q.all(tasks).then(function done () {
+                    $location.path('/admin/users');
+                });
+            }
 
         }]
     }
+}]);
+
+angular.module('kmApp').compileProvider.directive('duallistbox', ["$timeout", function ($timeout) {
+    return {
+        priority: 0,
+        restrict: 'AC',
+        scope: false,
+        link: function ($scope, $element, $attr, $ctrl) {
+            var box = $element.bootstrapDualListbox({
+                nonselectedlistlabel: 'Non-selected',
+                selectedlistlabel: 'Selected',
+                preserveselectiononmove: 'moved',
+                moveonselect: false
+            });
+
+            var syncing;
+            $element.bind("DOMSubtreeModified", function () { console.log('syncing');
+                if(!syncing) {
+                    syncing = true;
+                    $timeout(function () {
+                        box.trigger('bootstrapduallistbox.refresh');
+                        syncing = false;
+                    }, 250);
+                }
+            });
+        },
+        controller: ['$scope', function ($scope) {
+        }]
+    };
 }]);

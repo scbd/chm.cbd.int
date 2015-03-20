@@ -6,7 +6,7 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/shared/directives/users/signin.html',
+        templateUrl: '/app/directives/users/signin.html',
         replace: true,
         transclude: false,
         scope: false,

@@ -1,6 +1,6 @@
 /* global escape */
 
-define(['app', 'angular', 'authentication', '/app/shared/directives/users/signin.html.js'], function() { 'use strict';
+define(['app', 'angular', 'authentication', 'directives/users/signin.html'], function() { 'use strict';
 
 	return ['$scope', '$rootScope', '$route', '$browser', '$location', '$window', 'user', 'authentication', function ($scope, $rootScope, $route, $browser, $location, $window, user, authentication) {
 

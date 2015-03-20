@@ -1,50 +1,37 @@
 angular.module('kmApp').compileProvider // lazy
-.directive('user', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
+.directive('myProfile', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/shared/directives/admin/user.partial.html?v'+new Date().getTime(),
+        templateUrl: '/app/directives/users/my-profile.partial.html',
         replace: true,
         transclude: false,
         scope: false,
         link: function ($scope, $element, $attr, $ctrl) {
             $scope.init();
         },
-        controller: ['$scope' , '$filter', '$location', '$route', '$q', function ($scope, $filter, $location, $route, $q) {
+        controller: ['$scope' , '$filter', '$location', function ($scope, $filter, $location) {
 
             $scope.options  = {
                 countries                   : function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
             };
 
-            $http.get("/api/v2013/roles", { cache: true }).then(function(response) { 
-                $scope.roleList = $filter('orderBy')(response.data, 'name');
-            });
-
             //==================================
             //
             //==================================
             $scope.init = function() {
-
-                if($route.current.params.id=='new') {
-                    $scope.initialRoles = [];
-                } else {
-                    $http.get('/api/v2013/users/'+$route.current.params.id).success(function (data, status, headers, config) {
-                        $scope.document = data;
-                        $scope.loadPhones();
-                        $scope.loadFaxes();
-                        $scope.loadEmails();
-                    }).error(function (data, status, headers, config) {
-                        alert('ERROR\r\n----------------\r\n'+data);
-                    });
-
-                    $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data, status, headers, config) {
-                        $scope.roles = data;
-                        $scope.initialRoles = data.slice(0); // clone array
-                    }).error(function (data, status, headers, config) {
-                        alert('ERROR\r\n----------------\r\n'+data);
-                    });
-                }
-            };
+                $http.get('/api/v2013/users/'+$scope.user.userID).
+                success(function (data, status, headers, config) {
+                    $scope.document = data;
+                    $scope.loadPhones();
+                    $scope.loadFaxes();
+                    $scope.loadEmails();
+                    //debugger;
+                }).
+                    error(function (data, status, headers, config) {
+                    // ...
+                });
+            }
 
             //==============================
             //
@@ -248,78 +235,16 @@ angular.module('kmApp').compileProvider // lazy
             //
             //==================================
             $scope.onPostSave = function(data) {
-                
-                if($route.current.params.id=='new') {
-
-                    authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
-                        $scope.actionUpdateRoles();
-                        
-                    }).error(function (data, status, headers, config) {
-                        $scope.error = data;
-                    });
-
-                } else {
-                   
-                    authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function (data, status, headers, config) {
-                        $scope.actionUpdateRoles();
-                    }).error(function (data, status, headers, config) {
-                        $scope.error = data;
-                    });
-                }
+                $http.put('/api/v2013/users/'+$scope.user.userID, angular.toJson($scope.document))
+                .success(function (data, status, headers, config) {
+                    //debugger;
+                })
+                .error(function (data, status, headers, config) {
+                    $scope.error = data;
+                    //debugger;
+                });
             };
-
-            //==================================
-            //
-            //==================================
-            $scope.actionUpdateRoles = function(data) {
-
-                var rolesToGrant  = _.difference($scope.roles, $scope.initialRoles);
-                var rolesToRevoke = _.difference($scope.initialRoles, $scope.roles);
-
-                var tasks = [];
-
-                rolesToGrant.forEach(function grantRole (role) {
-                    tasks.push(authHttp.put('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
-                });
-
-                rolesToRevoke.forEach(function grantRole (role) {
-                    tasks.push(authHttp.delete('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
-                });
-
-                $q.all(tasks).then(function done () {
-                    $location.path('/admin/users');
-                });
-            }
 
         }]
     }
-}]);
-
-angular.module('kmApp').compileProvider.directive('duallistbox', ["$timeout", function ($timeout) {
-    return {
-        priority: 0,
-        restrict: 'AC',
-        scope: false,
-        link: function ($scope, $element, $attr, $ctrl) {
-            var box = $element.bootstrapDualListbox({
-                nonselectedlistlabel: 'Non-selected',
-                selectedlistlabel: 'Selected',
-                preserveselectiononmove: 'moved',
-                moveonselect: false
-            });
-
-            var syncing;
-            $element.bind("DOMSubtreeModified", function () { console.log('syncing');
-                if(!syncing) {
-                    syncing = true;
-                    $timeout(function () { 
-                        box.trigger('bootstrapduallistbox.refresh');
-                        syncing = false;
-                    }, 250);
-                }
-            });
-        },
-        controller: ['$scope', function ($scope) {
-        }]
-    };
 }]);

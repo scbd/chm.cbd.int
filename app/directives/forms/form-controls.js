@@ -7,7 +7,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	app.directive('kmNotes',  function ($http, $filter) {
 	    return {
 	        restrict: 'EAC',
-	        templateUrl: '/app/shared/directives/forms/km-notes.html',
+	        templateUrl: '/app/directives/forms/km-notes.html',
 	        replace: true,
 	        transclude: false,
 	        require: "?ngModel",
@@ -103,7 +103,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-inputtext-ml.html',
+			templateUrl: '/app/directives/forms/km-inputtext-ml.html',
 			replace: true,
 			require : "?ngModel",
 			scope: {
@@ -199,7 +199,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-inputtext-list.html',
+			templateUrl: '/app/directives/forms/km-inputtext-list.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -304,7 +304,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-//			templateUrl: '/app/shared/directives/forms/km-terms.html',
+//			templateUrl: '/app/directives/forms/km-terms.html',
 			replace: false,
 //			transclude: true,
 			scope: {
@@ -367,7 +367,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	app.directive('kmTermCheck', function () {
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-terms-check.html',
+			templateUrl: '/app/directives/forms/km-terms-check.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -529,7 +529,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	app.directive('kmTermRadio', function () {
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-terms-radio.html',
+			templateUrl: '/app/directives/forms/km-terms-radio.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -679,7 +679,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-link.html',
+			templateUrl: '/app/directives/forms/km-link.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -1063,7 +1063,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-reference.html',
+			templateUrl: '/app/directives/forms/km-reference.html',
 			replace: false,
 			transclude: true,
 			require : "?ngModel",
@@ -1306,7 +1306,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-select.html',
+			templateUrl: '/app/directives/forms/km-select.html',
 			replace: true,
 			transclude: false,
 			require : "?ngModel",
@@ -1672,7 +1672,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-yes-no.html',
+			templateUrl: '/app/directives/forms/km-yes-no.html',
 			replace: true,
 			transclude: false,
 			scope: {
@@ -1690,7 +1690,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-date.html',
+			templateUrl: '/app/directives/forms/km-date.html',
 			replace: true,
 			transclude: false,
 			scope: {
@@ -1762,7 +1762,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-form-std-buttons.html',
+			templateUrl: '/app/directives/forms/km-form-std-buttons.html',
 			replace: true,
 			transclude: true,
 			scope: {
@@ -2115,7 +2115,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-document-validation.html',
+			templateUrl: '/app/directives/forms/km-document-validation.html',
 			replace: true,
 			transclude: true,
 			scope: {
@@ -2235,7 +2235,7 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	{
 		return {
 			restrict: 'EAC',
-			templateUrl: '/app/shared/directives/forms/km-control-group.html',
+			templateUrl: '/app/directives/forms/km-control-group.html',
 			replace: true,
 			transclude: true,
 			scope: {

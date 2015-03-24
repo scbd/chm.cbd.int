@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("editImplementationActivity", [function () {
     return {
         restrict: 'EAC',

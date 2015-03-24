@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("registerFacets", [function () {
     return {
         priority: 0,

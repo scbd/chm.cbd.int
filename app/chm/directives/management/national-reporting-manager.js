@@ -1,5 +1,5 @@
 ﻿/* jshint quotmark: false */
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('nationalReportingManager', ["$timeout", "$q", "$location", "authentication", function ($timeout, $q, $location, authentication) {
 	return {
 		restrict: 'EAC',

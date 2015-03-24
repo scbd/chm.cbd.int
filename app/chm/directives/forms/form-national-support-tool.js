@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("editNationalSupportTool", ["$filter", "Thesaurus", function ($filter, thesaurus) {
     return {
         restrict: 'EAC',

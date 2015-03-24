@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('editResourceMobilisation', ['authHttp', "$filter", "guid", "underscore", function ($http, $filter, guid, _) {
 	return {
 		restrict   : 'EAC',

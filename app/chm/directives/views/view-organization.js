@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('viewOrganization', [function () {
 	return {
 		restrict   : 'EAC',
@@ -77,7 +77,7 @@ angular.module('kmApp').compileProvider // lazy
 	}
 }]);
 
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('viewOrganizationReference', [function () {
 	return {
 		restrict: 'EAC',

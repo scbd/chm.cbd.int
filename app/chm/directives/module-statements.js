@@ -1,4 +1,4 @@
-﻿angular.module('kmApp').compileProvider // lazy
+﻿angular.module('kmApp') // lazy
 .directive('statements', ['authHttp', function ($http) {
     return {
         priority: 0,

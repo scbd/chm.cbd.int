@@ -3,7 +3,7 @@
 // My Pending Tasks
 //
 //==================================================
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("myPendingTasks", [function () {
 	return {
 		priority: 0,

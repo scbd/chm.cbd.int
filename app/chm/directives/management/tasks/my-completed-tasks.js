@@ -3,7 +3,7 @@
 // My Completed Tasks
 //
 //==================================================
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("myCompletedTasks", [function () {
 	return {
 		priority: 0,

@@ -1,4 +1,4 @@
-﻿angular.module('kmApp').compileProvider // lazy
+﻿angular.module('kmApp') // lazy
 .directive('meetings', ['authHttp', function ($http) {
     return {
         priority: 0,
@@ -18,7 +18,7 @@
         },
         controller: ['$scope', 'authHttp', 'underscore', function ($scope, $http, _) {
             console.log($scope.cmsParamsFn().theme);
-            $http.get('/api/v2013/index/', 
+            $http.get('/api/v2013/index/',
                 {
                     params: {
                            q: "schema_s:meeting and theme_ss:" + ($scope.cmsParamsFn().theme || "*"),

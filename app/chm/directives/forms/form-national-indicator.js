@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("editNationalIndicator", [function () {
     return {
         restrict: 'EAC',

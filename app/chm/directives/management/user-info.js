@@ -1,5 +1,5 @@
 ﻿/* jshint quotmark: false */
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("userInfo", [function () {
 	return {
 		restrict: 'EAC',

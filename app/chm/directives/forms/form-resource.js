@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('editResource', ['authHttp', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
 	return {
 		restrict   : 'EAC',

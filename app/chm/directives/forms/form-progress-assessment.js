@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive("editProgressAssessment", ['authHttp', "$filter", "underscore", function ($http, $filter, _) {
     return {
         restrict: 'EAC',

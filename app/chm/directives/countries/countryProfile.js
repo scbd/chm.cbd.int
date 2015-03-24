@@ -1,4 +1,4 @@
-﻿angular.module('kmApp').compileProvider // lazy
+﻿angular.module('kmApp') // lazy
 .directive('countryProfile', ['authHttp', '$location', function ($http, $location) {
     return {
         priority: 0,

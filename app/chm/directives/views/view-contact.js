@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('viewContact', [function () {
 	return {
 		restrict: 'EAC',
@@ -16,7 +16,7 @@ angular.module('kmApp').compileProvider // lazy
 }]);
 
 
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('viewContactReference', [function () {
 	return {
 		restrict: 'EAC',

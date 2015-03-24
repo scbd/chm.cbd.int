@@ -1,4 +1,4 @@
-angular.module('kmApp').compileProvider // lazy
+angular.module('kmApp') // lazy
 .directive('editStrategicPlanIndicator', ['authHttp', "$filter", "$q", "guid", "$timeout", function ($http, $filter, $q, guid, $timeout) {
 	return {
 		restrict   : 'EAC',

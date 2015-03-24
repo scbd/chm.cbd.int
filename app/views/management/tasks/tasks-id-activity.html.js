@@ -1,4 +1,4 @@
-﻿angular.module('kmApp').controllerProvider.register("TaskIdActivityController",
+﻿angular.module('kmApp').controller("TaskIdActivityController",
 [ "$scope", "$timeout", "authHttp", "$route", "$location", "IStorage", "IWorkflows", "authentication", "underscore",
 function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication, _)
 {

@@ -295,7 +295,7 @@ angular.module('kmApp').compileProvider // lazy
     }
 }]);
 
-angular.module('kmApp').compileProvider.directive('duallistbox', ["$timeout", function ($timeout) {
+angular.module('kmApp').directive('duallistbox', ["$timeout", function ($timeout) {
     return {
         priority: 0,
         restrict: 'AC',

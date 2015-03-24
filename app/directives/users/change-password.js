@@ -27,7 +27,7 @@ angular.module('kmApp').compileProvider // lazy
                             $scope.error = "";
 
                             alert("Thank you!\r\n\r\nYour password has been updated.")
-                            
+
                             //$window.location = 'https://chm.cbd.int/';
 
                         }).error(function (data, status, headers, config) {
@@ -68,7 +68,7 @@ angular.module('kmApp').compileProvider // lazy
     }
 }]);
 
-angular.module('kmApp').compileProvider.directive('validLength', [function() {
+angular.module('kmApp').directive('validLength', [function() {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
@@ -82,7 +82,7 @@ angular.module('kmApp').compileProvider.directive('validLength', [function() {
     };
 }]);
 
-angular.module('kmApp').compileProvider.directive('validPassword', [function() {
+angular.module('kmApp').directive('validPassword', [function() {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {

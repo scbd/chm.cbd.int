@@ -7,7 +7,9 @@ define(['app'], function (app) { 'use strict';
 
 		var currentUser = null;
 		var LEGACY_currentUser  = anonymous();
+
 		var authenticationFrame = $document.find('#authenticationFrame')[0];
+		var tokenReady          = $q.defer();
 
 		//============================================================
 	    //
@@ -26,9 +28,11 @@ define(['app'], function (app) { 'use strict';
 			if(currentUser)
 				return $q.when(currentUser);
 
-			var promise = $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + $browser.cookies().authenticationToken } });
+			return tokenReady.promise.then(function() {
 
-			return promise.then(function(response) {
+				return $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + $browser.cookies().authenticationToken } });
+
+			}).then(function(response) {
 
 				return setUser(response.data);
 
@@ -147,21 +151,27 @@ define(['app'], function (app) { 'use strict';
                 event.source.postMessage('{"type":"getAuthenticationToken"}', event.origin);
 
             if(message.type=='authenticationToken') {
-                if(message.authenticationToken && message.authenticationToken!=$browser.cookies().authenticationToken) {
 
+                if(message.authenticationToken && message.authenticationToken!=$browser.cookies().authenticationToken) {
 					setToken(message.authenticationToken, undefined, false);
-					$window.location.href = $window.location.href;
                 }
+
                 if(!message.authenticationToken && $browser.cookies().authenticationToken) {
 
 					setToken(null);
 					$window.location.href = $window.location.href;
                 }
+
+				tokenReady.resolve();
             }
         }, false);
 
-		if(authenticationFrame)
+		if(authenticationFrame) {
 			authenticationFrame.contentWindow.postMessage('{"type":"getAuthenticationToken"}', 'https://accounts.cbd.int');
+		}
+		else {
+			tokenReady.resolve();
+		}
 
 		return {
 			getUser: getUser,

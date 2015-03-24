@@ -20,29 +20,29 @@
 							<td style="width:360px" valign="top">
 								<h4>News &amp; Announcements</h4>
 								<div class="checkbox" ng-repeat="item in outreachRecords" ng-switch on="!!item.title">
-									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh()">{{item.title}} ({{item.count}})</label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none">
 								</div>
 								<h4 style="margin-top:20px">CBD Records</h4>
 								<div class="checkbox" ng-repeat="item in copRecords" ng-switch on="!!item.title">
-									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh()">{{item.title}} ({{item.count}})</label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none">
 								</div>
 								<h4 style="margin-top:20px">Reference Records</h4>
 								<div class="checkbox" ng-repeat="item in referenceRecords" ng-switch on="!!item.title">
-									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh()">{{item.title}} ({{item.count}})</label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none">
 								</div>
 							</td>
 							<td style="width:360px" valign="top">
 								<h4>CBD Meetings &amp; Outcomes</h4>
 								<div class="checkbox" ng-repeat="item in meetingRecords" ng-switch on="!!item.title">
-									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh()">{{item.title}} ({{item.count}})</label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none">
 								</div>
 								<h4 style="margin-top:20px">National Records</h4>
 								<div class="checkbox" ng-repeat="item in nationalRecords" ng-switch on="!!item.title">
-									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh()">{{item.title}} ({{item.count}})</label>
+									<label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh()">{{item.title}} ({{item.count}})</label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none">
 								</div>
 							</td>

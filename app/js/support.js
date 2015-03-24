@@ -56,4 +56,35 @@ define(['app'], function(app) { 'use strict';
             return (schema || "") + "*";
         };
     });
+
+    app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authentication", "siteMapUrls", function ($q, $location, $timeout, _, authentication, siteMapUrls) {
+
+        return {
+            securize: function (roles) {
+                return authentication.getUser().then(function (user) {
+
+                    if (!user.isAuthenticated) {
+
+                        console.log("securize: force sign in");
+
+                        if (!$location.search().returnUrl)
+                            $location.search({ returnUrl: $location.url() });
+
+                        $location.path(siteMapUrls.user.signIn);
+
+                    }
+                    else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
+
+                        console.log("securize: not authorized");
+
+                        $location.search({ path: $location.url() });
+                        $location.path(siteMapUrls.errors.notAuthorized);
+                    }
+
+                    return user;
+                });
+            }
+        };
+    }]);
+    
 });

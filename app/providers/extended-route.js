@@ -1,4 +1,4 @@
-define(['app', 'angular', 'authentication'], function(app, angular) { 'use strict';
+define(['app', 'angular', 'ngRoute', 'authentication'], function(app, angular) { 'use strict';
 
     app.provider('extendedRoute', ["$routeProvider", function($routeProvider) {
 
@@ -51,8 +51,8 @@ define(['app', 'angular', 'authentication'], function(app, angular) { 'use stric
         //
         //============================================================
         function resolveUser() {
-            return ['$rootScope', 'authentication', function($rootScope, authentication) {
-                return authentication.getUser().then(function (user) {
+            return ['$q', '$rootScope', 'authentication', function($q, $rootScope, authentication) {
+                return $q.when(authentication.getUser()).then(function (user) {
                     $rootScope.user = user;
                     return user;
                 });

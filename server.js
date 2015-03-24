@@ -27,12 +27,12 @@ app.use(require('morgan')('dev'));
 app.use(require('compression')());
 
 app.set('port', process.env.PORT || 2000);
-app.use('/app',         require('serve-static')(__dirname + '/app'));
 app.use('/favicon.ico', require('serve-static')(__dirname + '/favicon.ico', { maxAge:    oneDay }));
 
-// Configure routes
+app.use('/app',         require('serve-static')(__dirname + '/app'));
+app.all('/app/*',       function(req, res) { res.status(404).send(); } );
 
-app.all   ('/app/*', function(req, res) { res.status(404).send(); } );
+// Configure routes
 
 app.get   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );
 app.put   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false } ); } );

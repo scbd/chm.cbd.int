@@ -3,41 +3,48 @@
 
 define(['app'], function (app) { 'use strict';
 
-	app.factory('authentication', ["$http", "$browser", "$rootScope", function($http, $browser, $rootScope) {
+	app.factory('authentication', ["$http", "$browser", "$rootScope", "$q", function($http, $browser, $rootScope, $q) {
 
 		var currentUser = null;
-		var LEGACY_currentUser = null;
+		var LEGACY_currentUser = anonymous();
 
 		//============================================================
 	    //
 	    //
 	    //============================================================
-		function getUser () {
+		function anonymous() {
+			return { userID: 1, name: 'anonymous', email: 'anonymous@domain', government: null, userGroups: null, isAuthenticated: false, isOffline: true, roles: [] };
+		}
+
+		//============================================================
+	    //
+	    //
+	    //============================================================
+		function getUser() {
 
 			if(currentUser)
-				return currentUser;
+				return $q.when(currentUser);
 
-			currentUser = $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + $browser.cookies().authenticationToken } }).then(function onsuccess (response) {
+			var promise = $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + $browser.cookies().authenticationToken } });
 
-				LEGACY_currentUser = response.data;
+			return promise.then(function(response) {
 
-				return LEGACY_currentUser;
+				return setUser(response.data);
 
-			}, function onerror () {
+			}).catch(function onerror () {
 
-				LEGACY_currentUser = { userID: 1, name: 'anonymous', email: 'anonymous@domain', government: null, userGroups: null, isAuthenticated: false, isOffline: true, roles: [] };
+				return setUser(anonymous());
 
-				return LEGACY_currentUser;
 			});
-
-			return currentUser;
 		}
 
 		//==============================
 		//
 		//==============================
 		function LEGACY_user() {
-            console.log("authentication.user() is DEPRECATED. Use: getUser()");
+
+		    console.warn("authentication.user() is DEPRECATED. Use: getUser()");
+
 			return $rootScope.user;
 		}
 
@@ -47,26 +54,32 @@ define(['app'], function (app) { 'use strict';
 	    //============================================================
 		function signIn(email, password) {
 
-			signOut();
+			return $q.when(signOut()).then(function() {
 
-			return $http.post("/api/v2013/authentication/token", { "email": email, "password": password }).then(function(success) {
+				return $http.post("/api/v2013/authentication/token", { "email": email, "password": password });
+
+			}).then(function(success) {
 
 				var token  = success.data;
 
-				return $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + token.authenticationToken } }).then(
-					function(success) {
-						var user = success.data;
+				return $q.all([token, $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + token.authenticationToken } })]);
 
-						setToken(token.authenticationToken);
+			}).then(function(success) {
 
-						return user;
-					},
-					function(error) {
-						throw { error:error.data, errorCode : error.status };
-					});
-			},
-			function(error) {
+				var token = success[0];
+				var user  = success[1].data;
+
+				setToken(token.authenticationToken);
+				setUser (user);
+
+				$rootScope.$broadcast('signIn', user);
+
+				return user;
+
+			}).catch(function(error) {
+
 				throw { error:error.data, errorCode : error.status };
+
 			});
 		}
 
@@ -77,7 +90,14 @@ define(['app'], function (app) { 'use strict';
 		function signOut () {
 
 			setToken(null);
-			reset();
+
+			var oldUser = currentUser;
+			var newUser = setUser(null);
+
+			if(oldUser && oldUser.isAuthenticated)
+				$rootScope.$broadcast('signOut', newUser);
+
+			return newUser;
 		}
 
 		//============================================================
@@ -96,17 +116,24 @@ define(['app'], function (app) { 'use strict';
 	    //
 	    //
 	    //============================================================
-		function reset () {
+		function setUser(user) {
 
-			currentUser = undefined;
+			currentUser        = user || undefined;
+			LEGACY_currentUser = user || anonymous();
+
+			if(!user)
+				$rootScope.user = user || anonymous();
+
+			return LEGACY_currentUser;
 		}
 
 		return {
 			getUser: getUser,
-			user: LEGACY_user,
+			user:    LEGACY_user,
 			signIn:  signIn,
 			signOut: signOut,
-			reset:   reset };
+			reset:   function() { setUser(null); }
+		};
 
 	}]);
 
@@ -133,6 +160,7 @@ define(['app'], function (app) { 'use strict';
 		authHttp["head"  ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "HEAD"  , 'url' : url })); };
 		authHttp["delete"] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "DELETE", 'url' : url })); };
 		authHttp["jsonp" ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "JSONP" , 'url' : url })); };
+		authHttp["patch" ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "PATCH" , 'url' : url, 'data' : data })); };
 		authHttp["post"  ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "POST"  , 'url' : url, 'data' : data })); };
 		authHttp["put"   ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "PUT"   , 'url' : url, 'data' : data })); };
 

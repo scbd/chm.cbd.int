@@ -3,10 +3,11 @@
 
 define(['app'], function (app) { 'use strict';
 
-	app.factory('authentication', ["$http", "$browser", "$rootScope", "$q", function($http, $browser, $rootScope, $q) {
+	app.factory('authentication', ["$http", "$browser", "$rootScope", "$q", "$window", "$document", function($http, $browser, $rootScope, $q, $window, $document) {
 
 		var currentUser = null;
-		var LEGACY_currentUser = anonymous();
+		var LEGACY_currentUser  = anonymous();
+		var authenticationFrame = $document.find('#authenticationFrame')[0];
 
 		//============================================================
 	    //
@@ -69,7 +70,7 @@ define(['app'], function (app) { 'use strict';
 				var token = success[0];
 				var user  = success[1].data;
 
-				setToken(token.authenticationToken);
+				setToken(token.authenticationToken, email);
 				setUser (user);
 
 				$rootScope.$broadcast('signIn', user);
@@ -90,24 +91,28 @@ define(['app'], function (app) { 'use strict';
 		function signOut () {
 
 			setToken(null);
-
-			var oldUser = currentUser;
-			var newUser = setUser(null);
-
-			if(oldUser && oldUser.isAuthenticated)
-				$rootScope.$broadcast('signOut', newUser);
-
-			return newUser;
+			return setUser(null);
 		}
 
 		//============================================================
 	    //
 	    //
 	    //============================================================
-		function setToken(token) {
+		function setToken(token, email, remoteUpdate) { // remoteUpdate:=true
 
-			if (token) document.cookie = "authenticationToken=" + escape(token) + "; path=/";
-			else       document.cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+			if (token) $document[0].cookie = "authenticationToken=" + escape(token) + "; path=/";
+			else       $document[0].cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+
+			if(authenticationFrame && remoteUpdate!==false) {
+
+				var msg = {
+					type : "setAuthenticationToken",
+					authenticationToken : token,
+					authenticationEmail : email
+				};
+
+				authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), 'https://accounts.cbd.int');
+			}
 
 			return $browser.cookies().authenticationToken;
 		}
@@ -126,6 +131,37 @@ define(['app'], function (app) { 'use strict';
 
 			return LEGACY_currentUser;
 		}
+
+		//============================================================
+        //
+        //
+        //============================================================
+        $window.addEventListener('message', function receiveMessage(event)
+        {
+            if(event.origin!='https://accounts.cbd.int')
+                return;
+
+            var message = JSON.parse(event.data);
+
+            if(message.type=='ready')
+                event.source.postMessage('{"type":"getAuthenticationToken"}', event.origin);
+
+            if(message.type=='authenticationToken') {
+                if(message.authenticationToken && message.authenticationToken!=$browser.cookies().authenticationToken) {
+
+					setToken(message.authenticationToken, undefined, false);
+					$window.location.href = $window.location.href;
+                }
+                if(!message.authenticationToken && $browser.cookies().authenticationToken) {
+
+					setToken(null);
+					$window.location.href = $window.location.href;
+                }
+            }
+        }, false);
+
+		if(authenticationFrame)
+			authenticationFrame.contentWindow.postMessage('{"type":"getAuthenticationToken"}', 'https://accounts.cbd.int');
 
 		return {
 			getUser: getUser,

@@ -54,7 +54,7 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
                     });
             };
 
-            $scope.actionSignup = function () { 
+            $scope.actionSignup = function () {
                   $window.location.href = 'https://accounts.cbd.int/signup';
               };
 

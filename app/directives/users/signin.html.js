@@ -39,9 +39,9 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
                         $scope.setCookie("lastLoginEmail", $scope.rememberMe ? sEmail : undefined, 365, '/');
 
                         if ($location.search().returnUrl)
-                            $window.location.href = $location.search().returnUrl;
+                            $location.url($location.search().returnUrl);
                         else
-                            $window.location.href = '/management';
+                            $location.url('/management');
                     },
                     function (error) { // Error
                         $scope.password = "";

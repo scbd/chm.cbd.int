@@ -38,6 +38,7 @@ define(['app', 'authentication', 'scrollUp'], function(app) {
         //============================================================
         $scope.signOut = function () {
             authentication.signOut();
+            $location.url('/');
         };
 
         //========================================
@@ -57,27 +58,6 @@ define(['app', 'authentication', 'scrollUp'], function(app) {
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////
-
-
-        //============================================================
-        //
-        //
-        //============================================================
-        $scope.actionSignin = function () {
-            var client_id    = $window.encodeURIComponent('55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd');
-            var redirect_uri = $window.encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/oauth2/callback');
-            $window.location.href = 'https://accounts.cbd.int/oauth2/authorize?client_id='+client_id+'&redirect_uri='+redirect_uri+'&scope=all';
-        };
-
-        //============================================================
-        //
-        //
-        //============================================================
-        $scope.actionSignOut = function () {
-            authentication.signOut();
-            var redirect_uri = $window.encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/');
-            $window.location.href = 'https://accounts.cbd.int/signout?redirect_uri='+redirect_uri;
-        };
 
         //============================================================
         //

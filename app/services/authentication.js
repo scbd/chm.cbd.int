@@ -148,6 +148,9 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 	            if(message.type=='authenticationToken') {
 					defer.resolve(message.authenticationToken || null);
+
+					if(message.authenticationEmail)
+						$rootScope.lastLoginEmail = message.authenticationEmail;
 	            }
 				else {
 					defer.reject('unsupported message type');
@@ -200,6 +203,10 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 				};
 
 				authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), 'https://accounts.cbd.int');
+			}
+
+			if(email){
+				$rootScope.lastLoginEmail = email;
 			}
 		}
 

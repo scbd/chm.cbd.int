@@ -9,5 +9,5 @@
     "devel"    : true,
     "smarttabs": true,
     "trailing" : true,
-    "predef"   : [ "angular", "define", "require"]
+    "predef"   : ["define", "require"]
 }

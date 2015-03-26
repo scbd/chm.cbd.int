@@ -1,5 +1,3 @@
-/* global escape */
-
 define(['app', 'angular', 'authentication', 'utilities/km-utilities'], function() { 'use strict';
 
 	return ['$scope', '$rootScope', '$route', '$browser', '$location', '$window', 'user', 'authentication', function ($scope, $rootScope, $route, $browser, $location, $window, user, authentication) {
@@ -9,8 +7,7 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities'], function(
         $rootScope.navigation = [];
         $rootScope.navigationTree = [];
 
-        $scope.email = $browser.cookies().lastLoginEmail || "";
-        $scope.rememberMe = !!$browser.cookies().lastLoginEmail;
+        $scope.email = $rootScope.lastLoginEmail || "";
 
         //========================================
         //
@@ -22,7 +19,6 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities'], function(
 
             authentication.signIn(sEmail, sPassword).then(function () { // Success
                 $scope.password = "";
-                $scope.setCookie("lastLoginEmail", $scope.rememberMe ? sEmail : undefined, 365, '/');
                 authentication.getUser().then(function () { $location.path("/management"); });
             },
             function (error) { // Error
@@ -34,29 +30,6 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities'], function(
                 $scope.error = error.error;
                 throw error;
             });
-        };
-
-        //========================================
-        //
-        //========================================
-        $scope.setCookie = function (name, value, days, path) {
-            var sCookieString = escape(name) + "=";
-
-            if (value) sCookieString += escape(value);
-            else days = -1;
-
-            if (path)
-                sCookieString += "; path=" + path;
-
-            if (days || days === 0) {
-                var oExpire = new Date();
-
-                oExpire.setDate(oExpire.getDate() + days);
-
-                sCookieString += "; expires=" + oExpire.toUTCString();
-            }
-
-            $window.document.cookie = sCookieString;
         };
     }];
 });

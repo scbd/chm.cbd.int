@@ -28,6 +28,14 @@ define(['app', 'authentication', 'scrollUp'], function(app) {
         //
         //
         //============================================================
+        $scope.$on('signOut', function(){
+            $location.url('/');
+        });
+
+        //============================================================
+        //
+        //
+        //============================================================
         $scope.signIn = function () {
             $location.url('/management/signin');
         };
@@ -38,7 +46,6 @@ define(['app', 'authentication', 'scrollUp'], function(app) {
         //============================================================
         $scope.signOut = function () {
             authentication.signOut();
-            $location.url('/');
         };
 
         //========================================

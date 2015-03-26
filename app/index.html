@@ -147,12 +147,12 @@
                                     <a class="signin" href="/management/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
                                 </li>
                                 <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
-                                    <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size: 15px"></i>&nbsp; {{user.name}}</a>
+                                    <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size: 15px"></i> {{user.name}}</a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li ><a href="/management/"><i class="fa fa-folder-open" style="font-size: 15px"></i>&nbsp; My Dashboard</a></li>
-                                        <li class="disabled"><a href="#"><i class="fa fa-cog" style="font-size: 15px"></i>&nbsp; Settings</a></li>
-                                        <li class="disabled"><a href="#"><i class="fa fa-user" style="font-size: 15px"></i>&nbsp; Profile</a></li>
-                                        <li><a href="#" ng-click="signOut()"><i class="fa fa-sign-out" style="font-size: 15px"></i>&nbsp; Sign-out</a></li>
+                                        <li><a href="/management/"><i class="fa fa-folder-open" style="font-size: 15px"></i> My Dashboard</a></li>
+                                        <li class="disabled"><a href="#"><i class="fa fa-cog" style="font-size: 15px"></i> Settings</a></li>
+                                        <li><a ng-click="actionProfile()" href="#"><i class="fa fa-user" style="font-size: 15px"></i> Profile</a></li>
+                                        <li><a href="#" ng-click="signOut()"><i class="fa fa-sign-out" style="font-size: 15px"></i> Sign-out</a></li>
                                     </ul>
                                 </li>
                             </ul>

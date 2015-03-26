@@ -1,8 +1,6 @@
-/* global escape */
 define(['app', 'angular', 'authentication'], function(app) { 'use strict';
 
-
-    app.directive('signin', ["$rootScope", "$http", "authHttp", "$browser", '$window', "authentication", function ($rootScope, $http, authHttp, $browser, $window, authentication) {
+    app.directive('signin', ["$rootScope", '$location', "authentication", function ($rootScope, $location, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -11,24 +9,16 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
         transclude: false,
         scope: false,
         link: function ($scope) {
-            $scope.password = "";
-            $scope.email = $browser.cookies().lastLoginEmail || "";
-            $scope.rememberMe = !!$browser.cookies().lastLoginEmail;
 
-            //init sevice location
-
-            $scope.clearErrors();
-
-
-        },
-        controller: ['$scope', '$location', function ($scope, $location) {
+            $scope.password   = "";
+            $scope.email      = $rootScope.lastLoginEmail || "";
 
             //==============================
             //
             //==============================
             $scope.signIn = function () {
 
-                $scope.clearErrors();
+                clearErrors();
                 $scope.isLoading = true;
 
                 var sEmail = $scope.email;
@@ -36,8 +26,6 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
 
                 authentication.signIn(sEmail, sPassword).then(
                     function () { // Success
-                        $scope.setCookie("lastLoginEmail", $scope.rememberMe ? sEmail : undefined, 365, '/');
-
                         if ($location.search().returnUrl)
                             $location.url($location.search().returnUrl);
                         else
@@ -55,7 +43,7 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
             };
 
             $scope.actionSignup = function () {
-                  $window.location.href = 'https://accounts.cbd.int/signup';
+                $location.url('https://accounts.cbd.int/signup');
               };
 
             //==============================
@@ -63,26 +51,17 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
             //==============================
             $scope.signOut = function () {
                 authentication.signOut();
-                $window.location.reload();
             };
 
             //==============================
             //
             //==============================
-            $scope.clearErrors = function () {
+            function clearErrors() {
                 $scope.isForbidden = false;
                 $scope.isNoService = false;
                 $scope.isError = false;
                 $scope.error = null;
-            };
-
-            //==============================
-            //
-            //==============================
-            $scope.onRememberMeChange = function () {
-                if (!$scope.rememberMe)
-                    $scope.setCookie("lastLoginEmail", undefined);
-            };
+            }
 
             //==============================
             //
@@ -90,35 +69,16 @@ define(['app', 'angular', 'authentication'], function(app) { 'use strict';
             var user = null;
             $scope.isAuthenticated = function () {
 
-                if(!user)
-                    user = authentication.getUser().then(function (u){ user = u});
+                if(!user) {
+
+                    user = authentication.getUser().then(function (u){
+                        user = u;
+                    });
+                }
 
                 return user.isAuthenticated;
             };
-
-            //==============================
-            //
-            //==============================
-            $scope.setCookie = function (name, value, days, path) {
-                var sCookieString = escape(name) + "=";
-
-                if (value) sCookieString += escape(value);
-                else days = -1;
-
-                if (path)
-                    sCookieString += "; path=" + path;
-
-                if (days || days === 0) {
-                    var oExpire = new Date();
-
-                    oExpire.setDate(oExpire.getDate() + days);
-
-                    sCookieString += "; expires=" + oExpire.toUTCString();
-                }
-
-                document.cookie = sCookieString;
-            };
-        }]
+        }
     };
 }]);
 });

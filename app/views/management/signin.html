@@ -1,8 +1,25 @@
 <div class="home-bottom" style="position:relative">
-   	<div class="main" id="main" style="padding-top:6px">
-      	<div class="row top">
-            <h1>Sign-In</h1>
-            <div class="signin"></div>
-  	    </div>
+
+    <div class="container" style="margin-top:20px">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <h1>Sign-In</h1>
+                <div class="signin"></div>
+            </div>
+
+
+            <div ng-hide="user.isAuthenticated" class="col-lg-1 col-md-1 col-sm-1"></div>
+
+            <div ng-hide="user.isAuthenticated" class="col-lg-5 col-md-5 col-sm-5" style="border-left:3px solid #ccc;">
+                <div style="padding:1px 10px 15px 10px; margin:0;">
+                    <h1>No account?</h1>
+                    <h2>Get started. Create your CHM account.</h2>
+                    <p>
+                        <a href="#" ng-click="actionSignup()" class="btn btn-primary" ng-disabled="waiting" >Sign up</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>

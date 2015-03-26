@@ -1,72 +1,48 @@
 <div>
-	<div ng-cloak class="col-lg-4 col-md-4 col-sm-4">
 
-		<form class="form-horizontal" ng-submit="signIn()">
+	<form ng-submit="signIn()">
 
-			<div ng-hide="isAuthenticated()">
+		<div ng-hide="isAuthenticated()">
 
-				<div class="alert alert-warning" ng-show="isForbidden">
-					<strong>Login Failed!</strong>
-					You entered an invalid email address or password.
-				</div>
-
-				<div class="alert alert-danger" ng-show="isNoService">
-					<strong>Login Failed!</strong>
-					The service is not available.
-				</div>
-
-				<div class="alert alert-danger" ng-show="isError">
-					<strong>Login Failed!</strong>
-					An error has occured: {{error}}
-				</div>
-
-				<div class="form-group">
-					<label for="inputEmail">Email</label>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-						<input type="text" class="form-control" id="inputEmail" required ng-model="email" placeholder="registered email address">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="inputPassword">Password</label>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-						<input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password">
-					</div>
-				</div>
-				<div class="form-group">
-	    			<button type="submit" class="btn btn-primary">Sign in</button>
-	    			 <a class="forgot" style="float:right" href="https://accounts.cbd.int/password/reset">Forgot password?</a>
-	  			</div>
-				<!--<div class="form-group">
-	      			<div class="checkbox">
-		        		<label>
-		          			<input type="checkbox" ng-model="rememberMe" ng-change="onRememberMeChange()"> Remember me
-		        		</label>
-	                    <span class="separator">·</span>
-	                    <a class="forgot" href="https://accounts.cbd.int/password/reset">Forgot password?</a>
-	    			</div>
-	  			</div>
-	  			<div class="form-group">
-	    			<button type="submit" class="btn btn-primary">Sign in</button>
-	  			</div>-->
+			<div class="alert alert-warning" ng-show="isForbidden">
+				<strong>Login Failed!</strong>
+				You entered an invalid email address or password.
 			</div>
 
-		</form>
+			<div class="alert alert-danger" ng-show="isNoService">
+				<strong>Login Failed!</strong>
+				The service is not available.
+			</div>
 
-		<div ng-show="isAuthenticated()">
-			<button type="button" class="btn btn-info" ng-click="signOut()">Sign out</button>
+			<div class="alert alert-danger" ng-show="isError">
+				<strong>Login Failed!</strong>
+				An error has occured: {{error}}
+			</div>
+
+			<div class="form-group">
+				<label for="inputEmail">Email</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+					<input type="text" class="form-control" id="inputEmail" required ng-model="email" placeholder="registered email address">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword">Password</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+					<input type="password" class="form-control" id="inputPassword" ng-model="password" placeholder="password">
+				</div>
+			</div>
+			<div class="form-group">
+    			<button type="submit" class="btn btn-primary">Sign in</button>
+    			 <a class="forgot" style="float:right" href="https://accounts.cbd.int/password/reset">Forgot password?</a>
+  			</div>
 		</div>
 
-	</div>
-	<div class="col-lg-1 col-md-1 col-sm-1">
-	</div>
-    <div  ng-hide="isAuthenticated()" ng-cloak class="col-lg-5 col-md-5 col-sm-5" style="border-left:3px solid #ccc;height:180px">
-        <div style="padding:1px 10px 15px 10px; margin:0;">
-        <h1>No account? <h2>Get started. Create your CHM account.</h2></h1>
-        <p>
-            <h3> <a href="#" ng-click="actionSignup()" class="btn btn-primary" ng-disabled="waiting" >Sign up</a> </h3>
-        </p>
+	</form>
 
-    </div>
+	<div ng-show="isAuthenticated()">
+		<button type="button" class="btn btn-info" ng-click="signOut()">Sign out</button>
+	</div>
+
 </div>

@@ -1,15 +1,11 @@
-/* globals escape */
 /* jshint sub:true */
 
-define(['app'], function (app) { 'use strict';
+define(['app', 'angular'], function (app, ng) { 'use strict';
 
-	app.factory('authentication', ["$http", "$browser", "$rootScope", "$q", "$window", "$document", function($http, $browser, $rootScope, $q, $window, $document) {
+	app.factory('authentication', ["$http", "$rootScope", "$q", "$window", "$document", function($http, $rootScope, $q, $window, $document) {
 
+		var pToken;
 		var currentUser = null;
-		var LEGACY_currentUser  = anonymous();
-
-		var authenticationFrame = $document.find('#authenticationFrame')[0];
-		var tokenReady          = $q.defer();
 
 		//============================================================
 	    //
@@ -28,18 +24,25 @@ define(['app'], function (app) { 'use strict';
 			if(currentUser)
 				return $q.when(currentUser);
 
-			return tokenReady.promise.then(function() {
+			return $q.when(getToken()).then(function(token) {
 
-				return $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + $browser.cookies().authenticationToken } });
+				if(!token) {
+					return anonymous();
+				}
 
-			}).then(function(response) {
+				return $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + token } }).then(function(r){
+					return r.data;
+				});
 
-				return setUser(response.data);
+			}).catch(function() {
 
-			}).catch(function onerror () {
+				return anonymous();
 
-				return setUser(anonymous());
+			}).then(function(user){
 
+				setUser(user);
+
+				return user;
 			});
 		}
 
@@ -59,22 +62,23 @@ define(['app'], function (app) { 'use strict';
 	    //============================================================
 		function signIn(email, password) {
 
-			return $q.when(signOut()).then(function() {
+			return $http.post("/api/v2013/authentication/token", {
 
-				return $http.post("/api/v2013/authentication/token", { "email": email, "password": password });
+				"email": email,
+				"password": password
 
-			}).then(function(success) {
+			}).then(function(res) {
 
-				var token  = success.data;
+				var token  = res.data;
 
 				return $q.all([token, $http.get('/api/v2013/authentication/user', { headers: { Authorization: "Ticket " + token.authenticationToken } })]);
 
-			}).then(function(success) {
+			}).then(function(res) {
 
-				var token = success[0];
-				var user  = success[1].data;
+				var token = res[0];
+				var user  = res[1].data;
 
-				setToken(token.authenticationToken, email);
+				setToken(token.authenticationToken, (email||"").toLowerCase());
 				setUser (user);
 
 				$rootScope.$broadcast('signIn', user);
@@ -95,19 +99,99 @@ define(['app'], function (app) { 'use strict';
 		function signOut () {
 
 			setToken(null);
-			return setUser(null);
+			setUser (null);
+
+			return $q.when(getUser()).then(function(user) {
+
+				$rootScope.$broadcast('signOut', user);
+
+				return user;
+			});
 		}
 
 		//============================================================
 	    //
 	    //
 	    //============================================================
-		function setToken(token, email, remoteUpdate) { // remoteUpdate:=true
+		function setUser(user) {
 
-			if (token) $document[0].cookie = "authenticationToken=" + escape(token) + "; path=/";
-			else       $document[0].cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+			currentUser     = user || undefined;
+			$rootScope.user = user || anonymous();
+		}
 
-			if(authenticationFrame && remoteUpdate!==false) {
+		//============================================================
+        //
+        //
+        //============================================================
+		function getToken() {
+
+			var authenticationFrame = $document.find('#authenticationFrame')[0];
+
+			if(!authenticationFrame) {
+				pToken = pToken || null;
+			}
+
+			if(pToken!==undefined) {
+				return $q.when(pToken || null);
+			}
+
+			pToken = null;
+
+			var defer = $q.defer();
+
+			var receiveMessage = function(event)
+	        {
+	            if(event.origin!='https://accounts.cbd.int')
+	                return;
+
+	            var message = JSON.parse(event.data);
+
+	            if(message.type=='authenticationToken') {
+					defer.resolve(message.authenticationToken || null);
+	            }
+				else {
+					defer.reject('unsupported message type');
+				}
+	        };
+
+			$window.addEventListener('message', receiveMessage);
+
+			pToken = defer.promise.then(function(t){
+
+				pToken = t;
+
+				return t;
+
+			}).catch(function(error){
+
+				pToken = null;
+
+				console.error(error);
+
+				throw error;
+
+			}).finally(function(){
+
+				$window.removeEventListener('message', receiveMessage);
+
+			});
+
+			authenticationFrame.contentWindow.postMessage(JSON.stringify({ type : 'getAuthenticationToken' }), 'https://accounts.cbd.int');
+
+			return pToken;
+		}
+
+		//============================================================
+	    //
+	    //
+	    //============================================================
+		function setToken(token, email) { // remoteUpdate:=true
+
+			pToken = token || undefined;
+
+			var authenticationFrame = $document.find('#authenticationFrame')[0];
+
+			if(authenticationFrame) {
 
 				var msg = {
 					type : "setAuthenticationToken",
@@ -117,99 +201,80 @@ define(['app'], function (app) { 'use strict';
 
 				authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), 'https://accounts.cbd.int');
 			}
-
-			return $browser.cookies().authenticationToken;
 		}
 
-		//============================================================
-	    //
-	    //
-	    //============================================================
-		function setUser(user) {
 
-			currentUser        = user || undefined;
-			LEGACY_currentUser = user || anonymous();
-
-			if(!user)
-				$rootScope.user = user || anonymous();
-
-			return LEGACY_currentUser;
-		}
-
-		//============================================================
-        //
-        //
-        //============================================================
-        $window.addEventListener('message', function receiveMessage(event)
-        {
-            if(event.origin!='https://accounts.cbd.int')
-                return;
-
-            var message = JSON.parse(event.data);
-
-            if(message.type=='ready')
-                event.source.postMessage('{"type":"getAuthenticationToken"}', event.origin);
-
-            if(message.type=='authenticationToken') {
-
-                if(message.authenticationToken && message.authenticationToken!=$browser.cookies().authenticationToken) {
-					setToken(message.authenticationToken, undefined, false);
-                }
-
-                if(!message.authenticationToken && $browser.cookies().authenticationToken) {
-
-					setToken(null);
-					$window.location.href = $window.location.href;
-                }
-
-				tokenReady.resolve();
-            }
-        }, false);
-
-		if(authenticationFrame) {
-			authenticationFrame.contentWindow.postMessage('{"type":"getAuthenticationToken"}', 'https://accounts.cbd.int');
-		}
-		else {
-			tokenReady.resolve();
-		}
 
 		return {
-			getUser: getUser,
-			user:    LEGACY_user,
-			signIn:  signIn,
-			signOut: signOut,
-			reset:   function() { setUser(null); }
+			getUser  : getUser,
+			getToken : getToken,
+			signIn   : signIn,
+			signOut  : signOut,
+			user     : LEGACY_user,
 		};
 
 	}]);
 
-	app.factory('authHttp', ["$http", "$browser", "realm", function($http, $browser, realm) {
+	app.factory('authHttp', ["$http", "$q", "authentication", "realm", function($http, $q, authentication, realm) {
 
-		function addAuthentication(config) {
-
-			if(!config)         config         = {};
-			if(!config.headers) config.headers = {};
-			if(!config.headers.realm) config.headers.realm = realm;
-
-
-			if($browser.cookies().authenticationToken) config.headers.Authorization = "Ticket "+$browser.cookies().authenticationToken;
-			else                                       config.headers.Authorization = undefined;
-
-			return config;
-		}
-
+		//==================================================
+		//
+		// $http wrapper which add Authorization-Ticket to request headers
+		//
+		//==================================================
 		function authHttp(config) {
-			return $http(addAuthentication(config));
+
+			config               = config               || {};
+			config.headers       = config.headers       || {};
+			config.headers.realm = config.headers.realm || realm;
+
+			return wrap$http($q.when(authentication.getToken()).then(function(token) {
+
+				if(token) config.headers.Authorization = "Ticket " + token;
+				else      config.headers.Authorization = undefined;
+
+				return config;
+
+			}).then(function(c){
+
+				return $http(c);
+
+			}));
 		}
 
-		authHttp["get"   ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "GET"   , 'url' : url })); };
-		authHttp["head"  ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "HEAD"  , 'url' : url })); };
-		authHttp["delete"] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "DELETE", 'url' : url })); };
-		authHttp["jsonp" ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "JSONP" , 'url' : url })); };
-		authHttp["patch" ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "PATCH" , 'url' : url, 'data' : data })); };
-		authHttp["post"  ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "POST"  , 'url' : url, 'data' : data })); };
-		authHttp["put"   ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "PUT"   , 'url' : url, 'data' : data })); };
+		authHttp["get"   ] = function(url,       config) { return authHttp(ng.extend(config || {}, { method : "GET"   , url : url })); };
+		authHttp["head"  ] = function(url,       config) { return authHttp(ng.extend(config || {}, { method : "HEAD"  , url : url })); };
+		authHttp["delete"] = function(url,       config) { return authHttp(ng.extend(config || {}, { method : "DELETE", url : url })); };
+		authHttp["jsonp" ] = function(url,       config) { return authHttp(ng.extend(config || {}, { method : "JSONP" , url : url })); };
+		authHttp["patch" ] = function(url, data, config) { return authHttp(ng.extend(config || {}, { method : "PATCH" , url : url, data : data })); };
+		authHttp["post"  ] = function(url, data, config) { return authHttp(ng.extend(config || {}, { method : "POST"  , url : url, data : data })); };
+		authHttp["put"   ] = function(url, data, config) { return authHttp(ng.extend(config || {}, { method : "PUT"   , url : url, data : data })); };
 
 		return authHttp;
+
+		//==================================================
+		//
+		// Add .success && .error to clone $http
+		//
+		//==================================================
+		function wrap$http(p)
+		{
+			return ng.extend(p, {
+
+				success : function(fn) { //fn(data, status, headers, config) { ... }
+					return wrap$http(p.then(function(r) {
+						fn(r.data, r.status, r.headers, r.config);
+						return r;
+					}));
+				},
+				error : function(fn) { //fn(data, status, headers, config) { ... }
+					return wrap$http(p.catch(function(r) {
+						fn(r.data, r.status, r.headers, r.config);
+						return r;
+					}));
+				}
+			});
+		}
+
 	}]);
 });

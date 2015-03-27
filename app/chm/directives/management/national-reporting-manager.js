@@ -1,6 +1,7 @@
 ﻿/* jshint quotmark: false */
 angular.module('kmApp') // lazy
-.directive('nationalReportingManager', ["$timeout", "$q", "$location", "authentication", function ($timeout, $q, $location, authentication) {
+.directive('nationalReportingManager', ["$timeout", "$q", "$location", "authentication","$rootScope",
+ function ($timeout, $q, $location, authentication, $rootScope) {
 	return {
 		restrict: 'EAC',
 		templateUrl: '/app/chm/directives/management/national-reporting-manager.partial.html',
@@ -68,7 +69,7 @@ angular.module('kmApp') // lazy
 			$scope.showLinkTargetDialog = function(display)   { return showModal(qLinkTargetDialog, display); };
 
 
-			if(!authentication.user().isAuthenticated) {
+			if(!$rootScope.user.isAuthenticated) {
 				$timeout.cancel(qTimeout);
 
 				if(!$location.search().returnUrl)
@@ -79,7 +80,8 @@ angular.module('kmApp') // lazy
 			}
 
 		},
-		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter", function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
+		controller: ['$rootScope', '$scope', "$routeParams", '$q', 'authHttp', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter",
+		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
 
 			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
 
@@ -87,7 +89,7 @@ angular.module('kmApp') // lazy
 			// 	$location.path("/management/national-reporting/"+userGovernment());
 			// 	return;
 			// }
-			console.log($rootScope.government);
+
 			$scope.government  = userGovernment();// || $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear()-1;
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
@@ -169,12 +171,11 @@ angular.module('kmApp') // lazy
 				// }
 
 				if(authentication.user().government)
-					$scope.government =authentication.user().government;
+					$scope.government =$rootScope.user.government;
 
-				if(authentication.user().IsAdministrator() )
-						$scope.government =authentication.user().government;
+				// if(authentication.user().IsAdministrator() )
+				// 		$scope.government =authentication.user().government;
 
-				console.log("government", gov, prev);
 
 				$scope.governmentName = null;
 				$scope.nationalReports = [];
@@ -235,8 +236,8 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			function userGovernment() {
-				if(authentication.user().government)
-					return authentication.user().government.toUpperCase();
+				if($rootScope.user)
+					return $rootScope.user.government.toUpperCase();
 			}
 
 			$scope.setLastSection = function(name) {
@@ -331,9 +332,7 @@ angular.module('kmApp') // lazy
 				if ($scope.government) {
 
 					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government.toUpperCase(), { cache:true }).then(function (response) {
-						console.log(response.data);
-
-							return response.data.name.en;
+						return response.data.name.en;
 					}).catch(function() {
 						navigation.notFound();
 					});

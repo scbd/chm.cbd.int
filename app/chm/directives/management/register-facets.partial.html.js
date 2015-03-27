@@ -17,7 +17,7 @@ angular.module('kmApp') // lazy
                 { identifier: 'nationalReport',        title: 'National Reports',                                      type:'nationalReports' , schema:"nationalReport"  ,editType:"nr" },
                 { identifier: 'otherReport',   title: 'Other Reports',                                               type:'nationalReports' , schema:"nationalReport" ,editType:"other"  },
 
-                { identifier: 'progressAssessment',     title: 'Aichi Biodiversity Targets' ,           type:'Progress'  },
+                { identifier: 'aichiTarget',     title: 'Aichi Biodiversity Targets' ,           type:'Progress'  },
                 { identifier: 'nationalTarget',         title: 'National Targets' ,                     type:'Progress'  },
                 { identifier: 'nationalIndicator',      title: 'National Indicators' ,                  type:'Progress'  },
 
@@ -31,7 +31,7 @@ angular.module('kmApp') // lazy
 
                 { identifier: 'caseStudy',              title: 'Case Studies'  ,                                                 type:'SCBD'  },
                 { identifier: 'marineEbsa',             title: 'Marine Ecologically or Biologically Significant Areas (EBSA)'  , type:'SCBD'  },
-                { identifier: 'aichiTarget',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
+                { identifier: 'progressAssessment',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
                 { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators' ,                                    type:'SCBD'  },
 
                 // { identifier: 'database',               title: 'National Database'  ,                   type:'SCBD'  },

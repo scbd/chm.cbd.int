@@ -9,6 +9,7 @@ require.config({
       'angular'          : 'libs/angular-flex/angular-flex',
       'ngRoute'          : 'libs/angular-route/angular-route.min',
       'domReady'         : 'libs/requirejs-domready/domReady',
+      'text'             : 'libs/requirejs-text/text',
       'bootstrap'        : 'libs/bootstrap/dist/js/bootstrap.min',
       'underscore'       : 'libs/underscore/underscore',
       'URIjs'            : 'libs/uri.js/src',

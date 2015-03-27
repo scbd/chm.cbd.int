@@ -1,10 +1,10 @@
-define(['app', 'angular', 'authentication'], function(app) { 'use strict';
+define(['text!./signin.html', 'app', 'angular', 'authentication'], function(template, app) { 'use strict';
 
     app.directive('signin', ["$rootScope", '$location', "authentication", function ($rootScope, $location, authentication) {
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/directives/users/signin.html',
+        template: template,
         replace: true,
         transclude: false,
         scope: false,

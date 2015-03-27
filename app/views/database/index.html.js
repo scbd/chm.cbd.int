@@ -1,2 +1,2 @@
-define(['app', 'chm/directives/search/search'], function() { 'use strict';
+define(['app', 'directives/search/search'], function() { 'use strict';
 });

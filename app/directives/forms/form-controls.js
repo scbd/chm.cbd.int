@@ -300,63 +300,20 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 	//
 	//
 	//============================================================
-	app.directive('kmTerms', function ($http)
+	app.directive('kmTerms', function ()
 	{
 		return {
 			restrict: 'EAC',
-//			templateUrl: '/app/directives/forms/km-terms.html',
-			replace: false,
-//			transclude: true,
+			template: '<div style="border:solid 3px red;padding:5px"><b>KM-TERMS HAS BEEN PHASED OUT: binding: {{binding}}</b><div>',
+			replace: true,
 			scope: {
-				binding : '=ngModel',
+				binding : '@ngModel'
 			},
-			link: function ($scope)
-			{
-				$scope.terms = [];
-				$scope.$watch('binding', $scope.load);
-			},
-			controller: ["$scope", "$q", function ($scope, $q)
-			{
-				//==============================
-				//
-				//==============================
-				$scope.load = function()
-				{
-					$scope.terms = [];
-					var oBinding = null;
+			link: function(scope, element, attr){
 
-					     if($scope.binding && angular.isArray ($scope.binding)) oBinding =  $scope.binding;
-					else if($scope.binding && angular.isObject($scope.binding)) oBinding = [$scope.binding];
-					else if($scope.binding && angular.isString($scope.binding)) oBinding = [$scope.binding];
+				console.warn("KM-TERMS HAS BEEN PHASED OUT: binding:", attr.ngModel);
 
-
-					if(oBinding) {
-						var qTerms = [];
-
-						angular.forEach(oBinding, function(value) {
-							if(value.name)
-								qTerms.push(value);
-							else {
-
-								var identifier = null;
-
-								if(angular.isString(value))
-									identifier = value;
-								else
-									identifier = value.identifier;
-
-								qTerms.push($http.get("/api/v2013/thesaurus/terms/"+encodeURI(identifier),  {cache:true}).then(function(o) {
-									return _.extend(_.clone(o.data),  _.omit(value, "identifier", "title"));
-								}));
-							}
-						});
-
-						$q.all(qTerms).then(function(terms) {
-							$scope.terms = terms;
-						});
-					}
-				};
-			}]
+			}
 		};
 	});
 

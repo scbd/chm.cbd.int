@@ -1,14 +1,12 @@
 define(['app', 'underscore', 'linqjs', 'URIjs/URI'], function(app, _, Enumerable, URI) { 'use strict';
 
-console.log("LOADED km-utilities");
-
 app.filter("lstring", function() {
 	return function(ltext, locale) {
 
 		if(!ltext)
 			return "";
 
-		if(angular.isString(ltext))
+		if(_.isString(ltext))
 			return ltext;
 
 		var sText;
@@ -128,7 +126,7 @@ app.factory('Thesaurus', ["Enumerable", function() {
 				var oBroader = oTerms[i];
 
 				if (oRefTerm.narrowerTerms && oRefTerm.narrowerTerms.length > 0) {
-					angular.forEach(oRefTerm.narrowerTerms, function(identifier) {
+					_.each(oRefTerm.narrowerTerms, function(identifier) {
 						var oNarrower = oTermsMap[identifier];
 
 						if (oNarrower) {
@@ -138,14 +136,52 @@ app.factory('Thesaurus', ["Enumerable", function() {
 							oBroader.narrowerTerms.push(oNarrower);
 							oNarrower.broaderTerms.push(oBroader);
 						}
-					});
+					}); //jshint ignore:line
 				}
 			}
 
 			return Enumerable.From(oTerms).Where("o=>!o.broaderTerms").ToArray();
 		}
-	}
+	};
 }]);
+
+app.filter("term", ["$http","$filter", function($http, $filter) {
+
+	var termsCache = {};
+
+	return function(term, locale) {
+
+		if(!term)
+			return "";
+
+		if(term.customValue)
+			return $filter('lstring')(term.customValue, locale);
+
+		var identifier = _.isString(term) ? term : term.identifier;
+
+		if(!termsCache[identifier]) {
+
+			return (termsCache[identifier] = $http.get('/api/v2013/thesaurus/terms/'+encodeURI(identifier), { cache:true }).then(function(res) {
+
+				termsCache[identifier] = res.data.title;
+
+				return $filter('lstring')(res.data.title, locale);
+
+			}).catch(function(){
+
+				termsCache[identifier] = identifier;
+
+				return identifier;
+			}));
+		}
+
+		if(termsCache[identifier] && termsCache[identifier].then)
+			return "";
+
+		return $filter('lstring')(termsCache[identifier] || identifier || "", locale);
+	};
+}]);
+
 
 app.factory('localization', ["$browser", function($browser) {
 	return {
@@ -160,15 +196,15 @@ app.factory('localization', ["$browser", function($browser) {
 
 				oExpire.setFullYear(oExpire.getFullYear() + 1);
 
-				document.cookie = "Preferences=Locale=" + escape(newLocale) + "; path=/; expires="+oExpire.toGMTString();
-			}
+				document.cookie = "Preferences=Locale=" + escape(newLocale) + "; path=/; expires="+oExpire.toGMTString(); //jshint ignore:line
+			};
 
 			if (newLocale)
 				internal_SetLocale(newLocale);
 
 			var sPreferences = $browser.cookies().Preferences;
 			var sLocale      = "en";
-			var oLocaleRegex = /;?Locale=([a-z]{2,3});?/
+			var oLocaleRegex = /;?Locale=([a-z]{2,3});?/;
 
 			if (sPreferences && oLocaleRegex.test(sPreferences))
 				sLocale = $browser.cookies().Preferences.replace(oLocaleRegex, "$1");
@@ -177,7 +213,7 @@ app.factory('localization', ["$browser", function($browser) {
 
 			return sLocale;
 		}
-	}
+	};
 }]);
 
 

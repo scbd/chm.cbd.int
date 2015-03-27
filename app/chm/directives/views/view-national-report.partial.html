@@ -5,15 +5,15 @@
 
 		<div ng-show="document.government">
 			<label>Country</label>
-			<ul class="km-value" km-terms ng-model="document.government">
-				<li ng-repeat="term in terms">{{term.name | lstring:locale}} </li>
+			<ul class="km-value">
+				<li>{{document.government | term:locale}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.reportType">
 			<label>Type of Document</label>
-			<ul class="km-value km-terms" ng-model="document.reportType">
-				<li ng-repeat="term in terms">{{term.name | lstring:locale}} </li>
+			<ul class="km-value">
+				<li>{{document.reportType | term:locale}} </li>
 			</ul>
 		</div>
 
@@ -21,11 +21,11 @@
 			<label class="control-label" required for="summary">Summary</label>
 			<div class="km-value km-pre">{{document.summary | lstring:locale}}</div>
 		</div>
-		
+
 		<div ng-show="document.jurisdiction">
 			<label class="control-label" for="jurisdiction">Level of application</label>
-			<ul class="km-value km-terms" ng-model="document.jurisdiction">
-				<li ng-repeat="term in terms">{{term.name | lstring:locale}} </li>
+			<ul class="km-value">
+				<li>{{document.jurisdiction | term:locale}} </li>
 			</ul>
 		</div>
 
@@ -41,8 +41,8 @@
 		<legend>Status</legend>
 		<div ng-show="document.status">
 			<label class="control-label" required for="status">Status</label>
-			<ul class="km-value" km-terms ng-model="document.status">
-				<li ng-repeat="term in terms">{{term.name | lstring:locale}} </li>
+			<ul class="km-value">
+				<li>{{document.status | term:locale}} </li>
 			</ul>
 		</div>
 
@@ -53,15 +53,15 @@
 
 		<div ng-show="document.approvedStatus">
 			<label>Status of approved document</label>
-			<ul class="km-value" km-terms ng-model="document.approvedStatus">
-				<li ng-repeat="term in terms">{{term.name | lstring:locale}} </li>
+			<ul class="km-value">
+				<li>{{document.approvedStatus | term:locale}} </li>
 			</ul>
 		</div>
 
 		<div ng-show="document.approvingBody">
 			<label class="control-label" for="approvingBody">Approving body</label>
-			<ul class="km-value" km-terms ng-model="document.approvingBody">
-				<li ng-repeat="term in terms">{{term.name | lstring:locale}} </li>
+			<ul class="km-value">
+				<li>{{document.approvingBody | term:locale}} </li>
 			</ul>
 		</div>
 
@@ -86,7 +86,7 @@
 			</div>
 		</div>
 	</div>
-   
+
 
 
 	<div ng-show="document.documentText||document.documentLinks">

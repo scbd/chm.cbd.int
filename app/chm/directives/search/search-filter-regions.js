@@ -1,9 +1,8 @@
-define(['app', 'underscore'], function(app, _) { 'use strict';
-
-    app.directive('searchFilterRegions', function ($http) {
+define(['text!./search-filter-regions.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
+    app.directive('searchFilterRegions', ['$http', '$location', 'Thesaurus', function ($http, $location, thesaurus) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-regions.partial.html?v'+(new Date()).getTime(),
+        template: template,
         replace: true,
         scope: {
               title: '@title',
@@ -11,13 +10,9 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
               field: '@field',
               query: '=query',
         },
-        link: function ($scope, element, attrs, ngModelController)
+        link: function ($scope, $element)
         {
-        },
-        controller : ['$scope', '$element', '$location', 'Thesaurus', function ($scope, $element, $location, thesaurus)
-        {
-            var self = this;
-            self.termsMap = [];
+            var termsMap = [];
 
             $scope.expanded = false;
             $scope.selectedItems = [];
@@ -52,19 +47,19 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                 return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
             };
 
-            $scope.onclick = function (scope, evt) {
+            $scope.onclick = function (scope) {
                 scope.item.selected = !scope.item.selected;
                 buildQuery();
-            }
+            };
 
             function buildQuery () {
                 var conditions = [];
-                buildConditions(conditions, self.termsMap);
+                buildConditions(conditions, termsMap);
 
-                if(conditions.length==0) $scope.query = '*:*';
+                if(conditions.length===0) $scope.query = '*:*';
                 else {
                     var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; });
+                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; }); // jshint ignore:line
                     query += ' )';
                     $scope.query = query;
                 }
@@ -75,15 +70,6 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                     if(item.selected)
                         conditions.push($scope.field+':'+item.identifier);
                 });
-            }
-
-            function dictionarize(items) {
-                var dictionary = [];
-                (items||[]).forEach(function (item) {
-                    item.selected = false;
-                    dictionary[item.identifier] = item;
-                });
-                return dictionary;
             }
 
             function flatten(items, collection) {
@@ -101,10 +87,10 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                 $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
 
                     var termsTree = thesaurus.buildTree(response.data);
-                    self.termsMap = flatten(termsTree, {});
-                    var classes   = _.filter(termsTree, function where (o) { return !!o.narrowerTerms && o.identifier!='1796f3f3-13ae-4c71-a5d2-0df261e4f218'});
+                    termsMap = flatten(termsTree, {});
+                    var classes   = _.filter(termsTree, function where (o) { return !!o.narrowerTerms && o.identifier!='1796f3f3-13ae-4c71-a5d2-0df261e4f218'; });
 
-                    _.values(self.termsMap).forEach(function (term) {
+                    _.values(termsMap).forEach(function (term) {
                         term.name = term.name.replace('CBD Regional Groups - ', '');
                         term.name = term.name.replace('Inland water ecosystems - ', '');
                         term.name = term.name.replace('Large marine ecosystems - ', '');
@@ -132,11 +118,11 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                         term.count = 0;
                     });
 
-                    $scope.allTerms = _.values(self.termsMap);
+                    $scope.allTerms = _.values(termsMap);
 
                     ($scope.items||[]).forEach(function (item) {
-                        if(_.has(self.termsMap, item.symbol))
-                            self.termsMap[item.symbol].count = item.count;
+                        if(_.has(termsMap, item.symbol))
+                        termsMap[item.symbol].count = item.count;
                     });
 
                     $scope.terms = classes;
@@ -144,15 +130,8 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                 });
             });
 
-            function onWatch_items(values) {
-                (values||[]).forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
-                });
-            }
-
             $scope.refresh = buildQuery;
-        }]
-    }
-});
+        }
+    };
+}]);
 });

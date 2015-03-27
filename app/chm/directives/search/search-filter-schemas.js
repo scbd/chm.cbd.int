@@ -1,9 +1,9 @@
-define(['app', 'underscore'], function(app, _) { 'use strict';
+define(['text!./search-filter-schemas.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
 
     app.directive('searchFilterSchemas', function () {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-schemas.partial.html?'+(new Date().getTime()),
+        template: template,
         replace: true,
         scope: {
               title: '@title',

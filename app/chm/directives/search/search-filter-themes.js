@@ -1,4 +1,4 @@
-define(['app', 'underscore'], function(app, _) { 'use strict';
+define(['text!./search-filter-themes.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
 
 	//==============================================
 	//
@@ -7,19 +7,13 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
 	app.directive('searchFilterThemes', function ($http) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-themes.partial.html?'+(new Date().getTime()),
+        template: template,
         replace: true,
-        // require : "?ngModel",
         scope: {
-              // placeholder: '@',
-              // ngDisabledFn : '&ngDisabled',
               title: '@title',
               items: '=ngModel',
               field: '@field',
               query: '=query',
-              // locales    : '=',
-              // rows       : '=',
-              // required   : "@"
         },
         controller : ['$scope', '$element', '$location', 'Thesaurus', function ($scope, $element, $location, thesaurus)
         {
@@ -66,24 +60,7 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
                 console.log($scope.items2);
                 console.log($scope.items3);
 
-
                 $element.find("#dialogSelect").modal("show");
-
-
-
-
-
-
-
-
-
-
-
-
-                //if(!$scope.expanded)
-                    //$scope.$parent.$broadcast('onExpand', $scope);
-
-                //$scope.expanded = !$scope.expanded;
             };
 
             $scope.$on('onExpand', function(scope) {
@@ -135,21 +112,6 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
 
                     setBroaders(term.broaderTerms, selected);
                 });
-
-
-                // if(term.indeterminate) {
-                //     term.state = term.selected;
-                //     term.selected = false;
-                // }
-
-                // if(!term.indeterminate) {
-                //     term.selected = term.state;
-                //     term.state = null;
-                // }
-
-                // term.indeterminate = selected;
-
-
             }
 
             function setNarrowers(narrowerTerms, selected) {
@@ -164,15 +126,6 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
 
                     setNarrowers(term.narrowerTerms, selected);
                 });
-
-
-                //
-
-                //
-
-                // term.indeterminate = selected;
-
-
             }
 
             $scope.onclick = function (scope, evt) {
@@ -188,23 +141,6 @@ define(['app', 'underscore'], function(app, _) { 'use strict';
 
                 setBroaders(term.broaderTerms, term.selected);
                 setNarrowers(term.narrowerTerms, term.selected);
-
-                //if(scope.item.indeterminate)
-                  //  scope.item.indeterminate = scope.item.indeterminate = false;
-
-                //if(scope.item.selected==true) unselect(scope.item);
-                //else
-         //       if(scope.item.selected) { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(select); }
-           //     else                    { if(scope.item.narrowerTerms) scope.item.narrowerTerms.forEach(unselect); }
-
-                //var cb = evt.target;
-
-                //if (cb.readOnly) cb.checked=cb.readOnly=false;
-                //else if (!cb.checked) cb.readOnly=cb.indeterminate=true;
-
-                //$scope.actionSelect(scope.item);
-
-
 
                 buildQuery();
             };

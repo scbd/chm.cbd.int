@@ -1,9 +1,9 @@
-define(['app', 'underscore'], function(app, _) { 'use strict';
+define(['text!./search-filter-facets.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
 
     app.directive('searchFilterFacets', function ($http) {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-facets.partial.html?'+(new Date().getTime()),
+        template: template,
         replace: true,
         scope: {
               title: '@title',

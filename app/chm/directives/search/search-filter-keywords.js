@@ -1,9 +1,9 @@
-define(['app'], function(app) { 'use strict';
+define(['text!./search-filter-keywords.html', 'app'], function(template, app) { 'use strict';
 
     app.directive('searchFilterKeywords', function () {
     return {
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/search/search-filter-keywords.partial.html?'+(new Date().getTime()),
+        template: template,
         replace: true,
         // require : "?ngModel",
         scope: {

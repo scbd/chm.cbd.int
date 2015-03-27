@@ -1,6 +1,6 @@
 define(['angular'], function(angular) { 'use strict';
 
-    var deps = ['ngRoute', 'leaflet-directive', '$strap.directives'];
+    var deps = ['ngRoute', 'ngSanitize', 'leaflet-directive', '$strap.directives'];
 
     angular.defineModules(deps);
 

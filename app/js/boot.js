@@ -20,6 +20,7 @@ require.config({
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
       'angular-strap'    : 'js/libs/angularStrap/0.7.4/angular-strap.min',
+      'angular-sanitize' : 'libs/angular-sanitize/angular-sanitize.min',
     },
     shim: {
       'libs/angular/angular.min' : { deps: ['jquery'] },
@@ -30,12 +31,13 @@ require.config({
       'bootstrap'                : { deps: ['jquery'] },
       'scrollUp'                 : { deps: ['jquery'] },
       'linqjs'                   : { deps: [], exports : 'Enumerable' },
+      'angular-sanitize'         : { deps: ['angular'] }
     },
 });
 
 // BOOT
 
-require(['angular', 'domReady!', 'bootstrap', 'app', 'js/routes', 'index.html'], function(ng, doc){
+require(['angular', 'domReady!', 'angular-sanitize', 'bootstrap', 'app', 'js/routes', 'index.html'], function(ng, doc){
 
     ng.bootstrap(doc, ['kmApp']);
     ng.resumeBootstrap();

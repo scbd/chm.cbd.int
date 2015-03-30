@@ -29,6 +29,7 @@ app.use(require('compression')());
 app.set('port', process.env.PORT || 2000);
 app.use('/favicon.ico', require('serve-static')(__dirname + '/favicon.ico', { maxAge:    oneDay }));
 
+app.use('/app',         require('serve-static')(__dirname + '/app_build'));
 app.use('/app',         require('serve-static')(__dirname + '/app'));
 app.all('/app/*',       function(req, res) { res.status(404).send(); } );
 

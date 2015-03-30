@@ -10,9 +10,8 @@
 			{{document.city | lstring:locale}}<span ng-show="document.city">, </span>
 			{{document.state | lstring:locale}}<br ng-show="document.city || document.state" />
 			{{document.postalCode | lstring:locale}}<span ng-show="document.postalCode">, </span>
-			<b km-terms ng-model="document.country">
-				<span ng-repeat="term in terms">{{term.name}}</span>
-			</b>
+			<b>{{document.country | term:locale}}</b>
+
 		</address>
 	</div>
 
@@ -52,29 +51,29 @@
 		<legend>Detailed information</legend>
 		<div ng-show="document.libraries">
 			<label>Relevant libraries</label>
-			<ul class="km-value" km-terms ng-model="document.libraries">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.libraries">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.thematicAreas">
 			<label>CBD Thematic areas</label>
-			<ul class="km-value" km-terms ng-model="document.thematicAreas">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.thematicAreas">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.absThematicAreas">
 			<label>ABS Thematic areas</label>
-			<ul class="km-value" km-terms ng-model="document.absThematicAreas">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.absThematicAreas">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.organizationType">
 			<label>Type of organization</label>
-			<div class="km-value" km-terms ng-model="document.organizationType">
-				<span ng-repeat="term in terms">{{term.name}}</span>
+			<div class="km-value">
+				{{document.organizationType | term:locale}}
 			</div>
 		</div>
 

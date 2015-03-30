@@ -4,9 +4,7 @@
 	<div ng-show="document.government">
 		<label>Country</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.government">
-				<span ng-repeat="term in terms">{{term.name}} </span>
-			</span>
+			{{document.government | term:locale}}
 		</div>
 	</div>
 
@@ -17,14 +15,12 @@
 
 
 	<div ng-show="document.jurisdiction||document.jurisdictionInfo">
-		
+
 		<legend>Level of application</legend>
 
 		<div ng-show="document.jurisdiction">
 			<div class="km-value">
-				<span km-terms ng-model="document.jurisdiction">
-					<span ng-repeat="term in terms">{{term.title | lstring:locale}} </span>
-				</span>
+				{{document.jurisdiction | term:locale}}
 			</div>
 		</div>
 
@@ -41,12 +37,12 @@
 
 		<div ng-show="document.aichiTargets">
 			<label>Main related Aichi Targets</label>
-			<div class="km-value" ng-repeat="item in aichiTargets">{{item.title|lstring:locale}}</div>
+			<div class="km-value" ng-repeat="term in document.aichiTargets">{{term | term:locale}}</div>
 		</div>
 
 		<div ng-show="document.otherAichiTargets">
 			<label>Other related Aichi Targets</label>
-			<div class="km-value" ng-repeat="item in otherAichiTargets">{{item.title|lstring:locale}}</div>
+			<div class="km-value" ng-repeat="term in document.otherAichiTargets">{{term | term:locale}}</div>
 		</div>
 
 		<div ng-show="document.meansOfAssessment">
@@ -56,12 +52,12 @@
 
 		<div ng-show="document.higherLevelNationalTarget">
 			<label>If this National Target is a sub-target, please indicate the higher level National Target.</label>
-			<div class="km-value" ng-repeat="item in higherLevelNationalTarget">{{item.title|lstring:locale}}</div>
+			<div class="km-value" ng-repeat="term in higherLevelNationalTarget">{{term | term:locale}}</div>
 		</div>
 
 		<div ng-show="nationalIndicators">
 			<label>National Indicators</label>
-			<div class="km-value" ng-repeat="item in nationalIndicators">{{item.title|lstring:locale}}</div>
+			<div class="km-value" ng-repeat="term in nationalIndicators">{{term | term:locale}}</div>
 		</div>
 
 	</div>

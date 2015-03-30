@@ -34,33 +34,25 @@
 	<div ng-show="document.sensitivity">
 		<label for="sensitivity">Sensitivity (can it be used to make assessment by 2015?)</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.sensitivity">
-				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
-			</span>
+			<span>{{document.sensitivity | term:locale}} </span>
 		</div>
 	</div>
 	<div ng-show="document.scales">
 		<label for="scales">Scale</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.scales">
-				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
-			</span>
+			<span ng-repeat="term in document.scales">{{term | term:locale}} </span>
 		</div>
 	</div>
 	<div ng-show="document.scientificValidity">
 		<label for="scientificValidity">Scientific Validity</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.scientificValidity">
-				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
-			</span>
+			<span>{{document.scientificValidity | term:locale}} </span>
 		</div>
 	</div>
 	<div ng-show="document.communicationLevel">
 		<label for="communicationLevel">How easy can it be communicated?</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.communicationLevel">
-				<span ng-repeat="term in terms">{{term.name | lstring:locale}} </span>
-			</span>
+			<span>{{document.communicationLevel | term:locale}} </span>
 		</div>
 	</div>
 
@@ -111,5 +103,4 @@
 			</div>
 		</div>
 	</div>
-
 </div>

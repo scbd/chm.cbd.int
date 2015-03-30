@@ -9,8 +9,8 @@
 
 	<div ng-show="document.libraries">
 		<label>Relevant CBD libraries</label>
-		<ul class="km-value" km-terms ng-model="document.libraries">
-			<li ng-repeat="term in terms">{{term.name}}</li>
+		<ul class="km-value">
+			<li ng-repeat="term in document.libraries">{{term | term:locale}} </li>
 		</ul>
 	</div>
 
@@ -26,8 +26,8 @@
 
 	<div ng-show="document.languages">
 		<label>Language(s)</label>
-		<div class="km-value" km-terms ng-model="document.languages">
-			<span ng-repeat="term in terms | orderBy:'name'">{{term.name}}<span ng-hide="$last">, </span></span>
+		<div class="km-value">
+			<span ng-repeat="term in document.languages"><span>{{term | term:locale}}<span ng-hide="$last">, </span></span>
 		</div>
 	</div>
 
@@ -62,8 +62,9 @@
 
 		<div ng-show="document.resourceTypes">
 			<label>Type of resource</label>
-			<ul class="km-value" km-terms ng-model="document.resourceTypes">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+
+			<ul class="km-value">
+				<li ng-repeat="resourceType in document.resourceTypes">{{resourceType | term:locale}}</li>
 			</ul>
 		</div>
 
@@ -91,8 +92,8 @@
 			<legend>Resource references</legend>
 
 			<label>Country(ies), Regional or Economic group(s) related to the resource</label>
-			<ul class="km-value" km-terms ng-model="document.regions">
-				<li ng-repeat="term in terms | orderBy:name">{{term.name}}</li>
+			<ul class="km-value">
+				<li ng-repeat="term in document.regions | orderBy:name">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
@@ -121,16 +122,16 @@
 
 		<div ng-show="document.cbdSubjects">
 			<label>Related CBD Subject area(s)</label>
-			<ul class="km-value" km-terms ng-model="document.cbdSubjects">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+				<li ng-repeat="term in document.cbdSubjects">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
 		<div ng-show="document.aichiTargets">
 			<div ng-show="document.aichiTargets">
 				<label>Related Aichi target(s)</label>
-				<ul class="km-value" km-terms ng-model="document.aichiTargets">
-					<li ng-repeat="term in terms">{{term.name}}</li>
+				<ul class="km-value">
+					<li ng-repeat="term in document.aichiTargets">{{term | term:locale}}</li>
 				</ul>
 			</div>
 		</div>
@@ -140,8 +141,8 @@
 		<legend>Access and Benefit Sharing Clearing-House (ABS-CH)</legend>
 
 		<label>Thematic areas(s)</label>
-		<ul class="km-value" km-terms ng-model="document.absSubjects">
-			<li ng-repeat="term in terms">{{term.name}}</li>
+		<ul class="km-value">
+			<li ng-repeat="term in document.absSubjects">{{term | term:locale}}</li>
 		</ul>
 
 	</div>
@@ -154,8 +155,8 @@
 
 		<div ng-show="document.bchSubjects">
 			<label>Thematic areas(s)</label>
-			<ul class="km-value" km-terms ng-model="document.bchSubjects">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+				<li ng-repeat="term in document.bchSubjects">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
@@ -166,8 +167,8 @@
 			<legend>Background material to the “Guidance on risk assessment of living modified organisms” </legend>
 
 			<label>Relevant section(s) of the “Guidance” background material</label>
-			<ul class="km-value" km-terms ng-model="document.bchRaSubjects">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+				<li ng-repeat="term in document.bchRaSubjects">{{term | term:locale}}</li>
 			</ul>
 
 			<div ng-show="document.bchRaOrganisms">

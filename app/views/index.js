@@ -1,4 +1,4 @@
-define(['app', 'angular', 'authentication', 'utilities/km-utilities'], function() { 'use strict';
+define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directives/news', 'directives/meetings'], function() { 'use strict';
 
 	return ['$scope', '$rootScope', '$route', '$browser', '$location', '$window', 'user', 'authentication', function ($scope, $rootScope, $route, $browser, $location, $window, user, authentication) {
 

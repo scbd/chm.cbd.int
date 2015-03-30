@@ -1,9 +1,10 @@
-﻿angular.module('kmApp') // lazy
-.directive('news', ['authHttp', function ($http) {
+define(['text!./news.html','app', 'authentication'], function(template, app) { 'use strict';
+
+﻿app.directive('news', ['authHttp', function($http){
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/module-news.partial.html',
+        template: template,
         replace: true,
         transclude: false,
         scope: {
@@ -16,9 +17,6 @@
             $scope.showPager   = $scope.cmsParamsFn().showPager  || false;
             $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
 
-        },
-        controller: ['$scope', 'authHttp', function ($scope, $http) {
-            
             $http.get('/api/v2013/index/', {
                 params: {
                     q: "schema_s:news and theme_ss:" + $scope.cmsParamsFn().theme || "*",
@@ -33,24 +31,25 @@
 
             $scope.numberOfPages = function () {
                 return Math.ceil($scope.docs.length / $scope.pageSize);
-            }
+            };
 
             $scope.isPagerVisible = function () {
                 return $scope.showPager === true && $scope.docs.length > $scope.pageSize;
-            }
+            };
 
             $scope.hasRecords = function () {
                 return $scope.docs.length;
-            }
+            };
 
 
             $scope.disablePrevious = function () {
-                return $scope.currentPage == 0;
-            }
+                return $scope.currentPage === 0;
+            };
 
             $scope.disableNext = function () {
-                return $scope.currentPage >= $scope.docs.length / $scope.pageSize - 1
-            }
-        }]
-    }
+                return $scope.currentPage >= $scope.docs.length / ($scope.pageSize - 1);
+            };
+        }
+    };
 }]);
+});

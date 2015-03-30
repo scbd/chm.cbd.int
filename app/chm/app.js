@@ -1,4 +1,4 @@
-define(['angular'], function(angular) { 'use strict';
+define(['angular', 'ngSanitize'], function(angular) { 'use strict';
 
     var deps = ['ngRoute', 'ngSanitize', 'leaflet-directive', '$strap.directives'];
 

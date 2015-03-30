@@ -4,10 +4,11 @@ require.config({
     waitSeconds: 120,
     baseUrl : '/app',
     paths: {
-      'app'              : 'js/app',
+      'app'              : 'chm/app',
       'authentication'   : 'services/authentication',
       'angular'          : 'libs/angular-flex/angular-flex',
       'ngRoute'          : 'libs/angular-route/angular-route.min',
+      'ngSanitize'       : 'libs/angular-sanitize/angular-sanitize.min',
       'domReady'         : 'libs/requirejs-domready/domReady',
       'text'             : 'libs/requirejs-text/text',
       'bootstrap'        : 'libs/bootstrap/dist/js/bootstrap.min',
@@ -20,24 +21,23 @@ require.config({
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
       'angular-strap'    : 'js/libs/angularStrap/0.7.4/angular-strap.min',
-      'angular-sanitize' : 'libs/angular-sanitize/angular-sanitize.min',
     },
     shim: {
       'libs/angular/angular.min' : { deps: ['jquery'] },
       'angular'                  : { deps: ['libs/angular/angular.min'] },
       'ngRoute'                  : { deps: ['angular'] },
+      'ngSanitize'               : { deps: ['angular'] },
       '$strap.directives'        : { deps: ['angular', 'js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker'] },
       'leaflet-directive'        : { deps: ['angular', 'leaflet'] },
       'bootstrap'                : { deps: ['jquery'] },
       'scrollUp'                 : { deps: ['jquery'] },
       'linqjs'                   : { deps: [], exports : 'Enumerable' },
-      'angular-sanitize'         : { deps: ['angular'] }
     },
 });
 
 // BOOT
 
-require(['angular', 'domReady!', 'angular-sanitize', 'bootstrap', 'app', 'js/routes', 'index.html'], function(ng, doc){
+require(['angular', 'domReady!', 'bootstrap', 'app', 'chm/routes', 'index.html'], function(ng, doc){
 
     ng.bootstrap(doc, ['kmApp']);
     ng.resumeBootstrap();

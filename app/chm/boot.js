@@ -16,7 +16,7 @@ require.config({
       'URIjs'            : 'libs/uri.js/src',
       'linqjs'           : 'libs/linqjs/linq.min',
       'leaflet'          : 'libs/leaflet/dist/leaflet',
-      'jquery'           : 'libs/jquery/jquery.min',
+      'jquery'           : 'libs/jquery/dist/jquery.min',
       'scrollUp'         : 'libs/scrollup/dist/jquery.scrollUp.min',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
@@ -37,7 +37,7 @@ require.config({
 
 // BOOT
 
-require(['angular', 'domReady!', 'bootstrap', 'app', 'chm/routes', 'index.html'], function(ng, doc){
+require(['angular', 'domReady!', 'bootstrap', 'app', 'chm/routes', 'index'], function(ng, doc){
 
     ng.bootstrap(doc, ['kmApp']);
     ng.resumeBootstrap();

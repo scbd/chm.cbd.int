@@ -20,6 +20,7 @@
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
     "scrollup": "https://github.com/markgoodyear/scrollup.git",
     "angular-flex": "git://github.com/scbd/angular-flex.git",
-    "angular-sanitize": "1.2.28"
+    "angular-sanitize": "1.2.28",
+    "jquery": "~2.1.3"
   }
 }

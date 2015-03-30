@@ -20,7 +20,7 @@ require.config({
       'scrollUp'         : 'libs/scrollup/dist/jquery.scrollUp.min',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
-      'angular-strap'    : 'js/libs/angularStrap/0.7.4/angular-strap.min',
+      '$strap.directives': 'js/libs/angularStrap/0.7.4/angular-strap.min',
     },
     shim: {
       'libs/angular/angular.min' : { deps: ['jquery'] },

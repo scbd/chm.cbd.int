@@ -484,7 +484,7 @@
                         <h4 class="modal-title">Select a target to be linked to:</h4>
                         <div ng-show="linkTargetData.aichiTarget">
                             <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{linkTargetData.aichiTarget.title|lstring}}">
-                                <img class="aichi-icon" ng-src="/app/images/targets/{{linkTargetData.aichiTarget.number}}.png" />
+                                <img class="aichi-icon" ng-src="/app/images/targets/{{linkTargetData.aichiTarget.number||11}}.png" />
                             </a>
                             {{linkTargetData.aichiTarget.title}}</div>
                         <div ng-show="linkTargetData.nationalIndicator">Indicator: {{linkTargetData.nationalIndicator.title}}</div>

@@ -89,6 +89,8 @@ angular.module('kmApp') // lazy
 			// 	$location.path("/management/national-reporting/"+userGovernment());
 			// 	return;
 			// }
+            if($routeParams.schema)
+                $scope.schema = $routeParams.schema;
 
 			$scope.government  = userGovernment();// || $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear()-1;
@@ -109,7 +111,7 @@ angular.module('kmApp') // lazy
 										 "272B0A17-5569-429D-ADF5-2A55C588F7A7", // NR4
 										 "DA7E04F1-D2EA-491E-9503-F7923B1FD7D4", // NR3
 										 "A49393CA-2950-4EFD-8BCC-33266D69232F", // NR2
-										 "F27DBC9B-FF25-471B-B624-C0F73E76C8B"]; // NR1
+										 "F27DBC9B-FF25-471B-B624-C0F73E76C8B3"]; // NR1
 
 			$scope.orderList = true;
 			$scope.sortTerm = 'title';
@@ -164,54 +166,54 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			$scope.$watch("government", function(gov, prev) {
-				// if($scope.government!=$routeParams.country) {
-				// 	$location.path("/management/national-reporting/"+$scope.government);
-				// 	return;
-				// }
-
-				if(authentication.user().government)
-					$scope.government =$rootScope.user.government;
-
-				// if(authentication.user().IsAdministrator() )
-				// 		$scope.government =authentication.user().government;
-
-
-				$scope.governmentName = null;
-				$scope.nationalReports = [];
-				$scope.nationalStrategicPlans = [];
-				$scope.otherNationalReports = [];
-				$scope.aichiTargets = [];
-				$scope.nationalIndicators = [];
-				$scope.nationalTargets = [];
-				$scope.implementationActivities = [];
-				$scope.nationalSupportTools = [];
-
-				load();
-			});
+			// $scope.$watch("government", function(gov, prev) {
+			// 	// if($scope.government!=$routeParams.country) {
+			// 	// 	$location.path("/management/national-reporting/"+$scope.government);
+			// 	// 	return;
+			// 	// }
+            //
+			// 	if(authentication.user().government)
+			// 		$scope.government =$rootScope.user.government;
+            //
+			// 	// if(authentication.user().IsAdministrator() )
+			// 	// 		$scope.government =authentication.user().government;
+            //
+            //
+			// 	$scope.governmentName = null;
+			// 	$scope.nationalReports = [];
+			// 	$scope.nationalStrategicPlans = [];
+			// 	$scope.otherNationalReports = [];
+			// 	$scope.aichiTargets = [];
+			// 	$scope.nationalIndicators = [];
+			// 	$scope.nationalTargets = [];
+			// 	$scope.implementationActivities = [];
+			// 	$scope.nationalSupportTools = [];
+            //
+			// 	load();
+			// });
 
 			//==================================
 			//
 			//==================================
-			$scope.$watch("schema", function() {
-
-				if($routeParams.schema)
-					$scope.schema = $routeParams.schema;
-				else
-					$scope.schema = "nationalStrategicPlans";
-
-				$scope.governmentName = null;
-				$scope.nationalReports = [];
-				$scope.nationalStrategicPlans = [];
-				$scope.otherNationalReports = [];
-				$scope.aichiTargets = [];
-				$scope.nationalIndicators = [];
-				$scope.nationalTargets = [];
-				$scope.implementationActivities = [];
-				$scope.nationalSupportTools = [];
-
-				load();
-			});
+			// $scope.$watch("schema", function() {
+            //
+			// 	if($routeParams.schema)
+			// 		$scope.schema = $routeParams.schema;
+			// 	else
+			// 		$scope.schema = "nationalStrategicPlans";
+            //
+			// 	$scope.governmentName = null;
+			// 	$scope.nationalReports = [];
+			// 	$scope.nationalStrategicPlans = [];
+			// 	$scope.otherNationalReports = [];
+			// 	$scope.aichiTargets = [];
+			// 	$scope.nationalIndicators = [];
+			// 	$scope.nationalTargets = [];
+			// 	$scope.implementationActivities = [];
+			// 	$scope.nationalSupportTools = [];
+            //
+			// 	load();
+			// });
 
 
 			//==================================
@@ -339,22 +341,29 @@ angular.module('kmApp') // lazy
 
 					var government = $scope.government.toLowerCase();
 
-					var req = [
-						loadNationalReports(government),
-						loadAssessments(government),
-					];
+					var req ='';
+                    if( $scope.schema=='nationalReport' ||  $scope.schema=='nationalStrategicPlan' ||  $scope.schema=='otherReport')
+                        req = loadNationalReports(government);
+                    else
+                        req = loadAssessments(government);
 
-					$q.all(req).then(function(res) {
-
-						$scope.nationalReports          = res[0].nationalReports;
-						$scope.nationalStrategicPlans   = res[0].nationalStrategicPlans;
-						$scope.otherNationalReports     = res[0].otherNationalReports;
-
-						$scope.aichiTargets             = res[1].aichiTargets;
-						$scope.nationalIndicators       = res[1].nationalIndicators;
-						$scope.nationalTargets          = res[1].nationalTargets;
-						$scope.implementationActivities = res[1].implementationActivities;
-						$scope.nationalSupportTools     = res[1].nationalSupportTools;
+					$q.when(req).then(function(res) {
+                        if($scope.schema=='nationalReport'){
+						   $scope.nationalReports          = res.nationalReports;
+                        }
+                        else if($scope.schema=='nationalStrategicPlan'){
+						   $scope.nationalStrategicPlans   = res.nationalStrategicPlans;
+                        }
+                        else if($scope.schema=='otherReport'){
+                            $scope.otherNationalReports     = res.otherNationalReports;
+                        }
+                        else{
+    						$scope.aichiTargets             = res.aichiTargets;
+    						$scope.nationalIndicators       = res.nationalIndicators;
+    						$scope.nationalTargets          = res.nationalTargets;
+    						$scope.implementationActivities = res.implementationActivities;
+    						$scope.nationalSupportTools     = res.nationalSupportTools;
+                        }
 					}).then(function(){
 
 						if(!autoRefresh)
@@ -368,9 +377,21 @@ angular.module('kmApp') // lazy
 			//==================================
 			function loadNationalReports(government) {
 
+                var query = ' reportType_s:'
+                if($scope.schema=='nationalReport'){
+                   query += $scope.cbdNationalReports.join(' OR reportType_s:')
+                }
+                else if($scope.schema=='nationalStrategicPlan'){
+                    query += $scope.cbdNBSAPs.join(' OR reportType_s:')
+                }
+                else if($scope.schema=='otherReport'){
+                    var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
+                    query = ' NOT reportType_s:' + others.join(' AND NOT reportType_s:')
+                }
+
 				var nrQuery = {
-					q: 'schema_s:("nationalReport") AND government_s:"' + government + '"',
-					fl: 'schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_CEN_s,year_is,version_s',
+					q: 'schema_s:("nationalReport") AND government_s:"' + government + '" AND (' + query + ')',
+					fl: 'schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_EN_t,reportType_CEN_s,year_is,version_s',
 					rows: 99999999
 				};
 
@@ -382,7 +403,9 @@ angular.module('kmApp') // lazy
 
 					var qqNationalReports = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNationalReports, o.reportType_s); });
 					var qqNBSAPs          = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNBSAPs,          o.reportType_s); });
-					var qqOthers          = _.filter(qRecords, function(o) { return !(_.contains($scope.cbdNationalReports, o.reportType_s) || _.contains($scope.cbdNBSAPs, o.reportType_s)); });
+					//var qqOthers          = _.filter(qRecords, function(o) { return !(_.contains($scope.cbdNationalReports, o.reportType_s) || _.contains($scope.cbdNBSAPs, o.reportType_s)); });
+                    var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
+                    var qqOthers          = _.filter(qRecords, function(o) { return  !_.contains(others, o.reportType_s); });
 
 					return {
 						nationalReports:        map_reports(qqNationalReports),
@@ -783,7 +806,7 @@ angular.module('kmApp') // lazy
 						});
 
 			};
-
+            load();
 		}]
 	};
 }]);

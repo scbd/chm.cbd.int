@@ -171,7 +171,7 @@ angular.module('kmApp') // lazy
                                          "272B0A17-5569-429D-ADF5-2A55C588F7A7", // NR4
                                          "DA7E04F1-D2EA-491E-9503-F7923B1FD7D4", // NR3
                                          "A49393CA-2950-4EFD-8BCC-33266D69232F", // NR2
-                                         "F27DBC9B-FF25-471B-B624-C0F73E76C8B"]; // NR1
+                                         "F27DBC9B-FF25-471B-B624-C0F73E76C8B3"]; // NR1
 
 
             //==============================
@@ -194,16 +194,13 @@ angular.module('kmApp') // lazy
                     $q.all([publisehdReportQuery,draftReportQuery]).then(function(result){
 
                         var pivotResult = result[0].data.facet_counts.facet_pivot['schema_s,reportType_s'];
+
                         if(pivotResult.length>0 && pivotResult[0].pivot){
-                            calculateFacet(pivotResult[0].pivot, 'publishCount');
-                            calculateFacet(pivotResult[0].pivot, 'publishCount');
                             calculateFacet(pivotResult[0].pivot, 'publishCount');
                         }
 
                         var pivotDraftResult = result[1].data.facet_counts.facet_pivot['schema_s,reportType_s'];
                         if(pivotDraftResult.length>0 && pivotDraftResult[0].pivot){
-                            calculateFacet(pivotDraftResult[0].pivot, 'draftCount');
-                            calculateFacet(pivotDraftResult[0].pivot, 'draftCount');
                             calculateFacet(pivotDraftResult[0].pivot, 'draftCount');
                         }
                     });
@@ -306,15 +303,16 @@ angular.module('kmApp') // lazy
             };
 
             function calculateFacet(list, type){
-
                 var qqNationalReports = _.filter(list, function(o) { return   _.contains($scope.cbdNationalReports, o.value); });
                 var qqNBSAPs          = _.filter(list, function(o) { return   _.contains($scope.cbdNBSAPs,          o.value); });
-                var qqOthers          = _.filter(list, function(o) { return  !(_.contains($scope.cbdNationalReports, o.value) || _.contains($scope.cbdNBSAPs, o.value)); });
+
+                var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
+                var qqOthers          = _.filter(list, function(o) { return  !_.contains(others, o.value); });
 
                 //summmation
                 var publishNPCount      = _.reduce(qqNationalReports, function(memo,item){ return memo + item.count;},0)
                 var publishNBSAPCount   = _.reduce(qqNBSAPs, function(memo,item){ return memo + item.count;},0)
-                var publishOtherCount      = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0)
+                var publishOtherCount   = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0)
 
                 _.where($scope.schemasList, {'identifier':'nationalReport'})[0][type] = publishNPCount;
                 _.where($scope.schemasList, {'identifier':'nationalStrategicPlan'})[0][type] = publishNBSAPCount;

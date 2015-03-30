@@ -1,9 +1,10 @@
-﻿angular.module('kmApp') // lazy
-.directive('meetings', ['authHttp', function ($http) {
+define(['text!./meetings.html','app', 'underscore', 'authentication'], function(template, app, _) { 'use strict';
+
+app.directive('meetings', ['authHttp', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',
-        templateUrl: '/app/chm/directives/module-meetings.partial.html',
+        template: template,
         replace: true,
         transclude: false,
         scope: {
@@ -15,9 +16,7 @@
             $scope.pageSize = $scope.cmsParamsFn().pageSize || 20;
             $scope.showPager = $scope.cmsParamsFn().showPager || false;
             $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
-        },
-        controller: ['$scope', 'authHttp', 'underscore', function ($scope, $http, _) {
-            console.log($scope.cmsParamsFn().theme);
+
             $http.get('/api/v2013/index/',
                 {
                     params: {
@@ -28,7 +27,6 @@
                         fl  : ""
                     }
                 }).success(function (data) {
-                    console.log (eval(data.response.docs));
                     $scope.meetings = data.response.docs;
                 });
 
@@ -39,34 +37,35 @@
 
             $scope.getCountryName = function (code) {
                 if ($scope.countries) {
-                    var oCountry = _.find($scope.countries, function (t) { return t.identifier == code });
+                    var oCountry = _.find($scope.countries, function (t) { return t.identifier == code; });
 
                     if (oCountry)
                         return oCountry.title || oCountry.name;
                 }
 
                 return code;
-            }
+            };
 
             $scope.numberOfPages = function () {
                 return Math.ceil($scope.meetings.length / $scope.pageSize);
-            }
+            };
 
             $scope.isPagerVisible = function () {
                 return ($scope.showPager === true) && ($scope.meetings.length > $scope.pageSize);
-            }
+            };
 
             $scope.hasRecords = function () {
                 return $scope.meetings.length > 0;
-            }
+            };
 
             $scope.disablePrevious = function () {
-                return $scope.currentPage == 0;
-            }
+                return $scope.currentPage === 0;
+            };
 
             $scope.disableNext = function () {
-                return $scope.currentPage >= $scope.meetings.length / $scope.pageSize - 1
-            }
-        }]
-    }
+                return $scope.currentPage >= $scope.meetings.length / ($scope.pageSize - 1);
+            };
+        }
+    };
 }]);
+});

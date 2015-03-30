@@ -6,9 +6,7 @@
 	<div ng-show="document.government">
 
 		<div class="km-value">
-			<span km-terms ng-model="document.government">
-				<span ng-repeat="term in terms">{{term.name}} </span>
-			</span>
+			{{document.government | term:locale}}
 		</div>
 	</div>
 
@@ -21,18 +19,14 @@
 	<div ng-show="document.status">
 		<label>Status</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.status">
-				<span ng-repeat="term in terms">{{term.title | lstring:locale}} </span>
-			</span>
+			{{document.status | term:locale}}
 		</div>
 	</div>
 
 	<div ng-show="document.jurisdiction">
 		<label>Level of implementation</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.jurisdiction">
-				<span ng-repeat="term in terms">{{term.title | lstring:locale}} </span>
-			</span>
+			{{document.jurisdiction | term:locale}}
 		</div>
 	</div>
 
@@ -58,19 +52,17 @@
 
 		<div ng-show="document.thematicAreas">
 			<label>Link to CBD thematic areas</label>
-			<div km-terms ng-model="document.thematicAreas">
-				<div class="km-value" ng-repeat="term in terms">{{term.title | lstring:locale}} </div>
+			<div class="km-value">
+			    <div ng-repeat="term in document.thematicAreas">{{term | term:locale}} </div>
 			</div>
 		</div>
 
 		<div ng-show="document.supportTools">
 			<label>Link to CBD support tools</label>
-			<div km-terms ng-model="document.supportTools">
-				<div class="km-value" ng-repeat="term in terms">{{term.title | lstring:locale}} </div>
+			<div class="km-value">
+			    <div ng-repeat="term in document.supportTools">{{term | term:locale}} </div>
 			</div>
 		</div>
-
-
 
 
 		<div ng-show="document.documentText">

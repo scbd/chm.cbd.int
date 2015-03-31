@@ -3,7 +3,7 @@ define(['text!./news.html','app', 'authentication'], function(template, app) { '
 app.directive('news', ['$http', function($http) {
     return {
         priority: 0,
-        restrict: 'EAC',
+        restrict: 'E',
         template: template,
         replace: true,
         transclude: false,
@@ -11,15 +11,12 @@ app.directive('news', ['$http', function($http) {
             pageSize: "@",
             showPager: "@",
             fullListUrl: "@",
-
             theme: "@",
             sortOrder: "@",
-            maxItems: "@",
+            maxItems: "@"
         },
         link: function ($scope) {
             $scope.docs        = [];
-            $scope.currentPage = 0;
-
             $scope.currentPage = 0;
             $scope.pageSize    = parseInt($scope.pageSize || 20);
             $scope.showPager   = $scope.showPager == "true";

@@ -11,10 +11,9 @@ app.directive('meetings', ['$http', function ($http) {
             pageSize: "@",
             showPager: "@",
             fullListUrl: "@",
-
             theme: "@",
             sortOrder: "@",
-            maxItems: "@",
+            maxItems: "@"
         },
         link: function ($scope) {
             $scope.meetings = [];

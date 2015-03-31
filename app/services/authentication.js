@@ -1,8 +1,8 @@
 /* jshint sub:true */
 
-define(['app', 'angular'], function (app, ng) { 'use strict';
+define(['app', 'angular', 'jquery'], function (app, ng, $) { 'use strict';
 
-	app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", function($q, $rootScope, $window, $document) {
+	app.factory('apiToken', ["$q", "$rootScope", "$window", function($q, $rootScope, $window) {
 
 		var pToken;
 
@@ -12,7 +12,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 		//============================================================
 		function getToken() {
 
-			var authenticationFrame = $document.find('#authenticationFrame')[0];
+			var authenticationFrame = $('#authenticationFrame')[0];
 
 			if(!authenticationFrame) {
 				pToken = pToken || null;
@@ -79,7 +79,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 			pToken = token || undefined;
 
-			var authenticationFrame = $document.find('#authenticationFrame')[0];
+			var authenticationFrame = $('#authenticationFrame')[0];
 
 			if(authenticationFrame) {
 

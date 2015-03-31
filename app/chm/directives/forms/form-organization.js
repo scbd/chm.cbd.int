@@ -24,7 +24,7 @@ angular.module('kmApp') // lazy
 				typeOfGeneticResources		: function () { return $http.get("/api/v2013/thesaurus/domains/20945FA8-C24C-4AF6-B3D9-367592AFDF48/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 				originOfGeneticResources	: function () { return $http.get("/api/v2013/thesaurus/domains/545CD54C-CFF3-41E8-A003-FDD278426A3A/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
 				userOfGeneticResources      : function () { return $http.get("/api/v2013/thesaurus/domains/034C8D3F-EF8B-4144-8CA4-3839C466F96E/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
-					
+
 			};
 
 			//==================================
@@ -38,7 +38,7 @@ angular.module('kmApp') // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls)
 		{
 			//==================================
 			//
@@ -105,7 +105,7 @@ angular.module('kmApp') // lazy
 					function(doc) {
 						$scope.status = "ready";
 						$scope.document = doc;
-					}).then(null, 
+					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status)
 						throw err;
@@ -191,7 +191,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url('/management/list/organization');
 			};
 
 			//==================================
@@ -206,9 +206,9 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
-					$location.url(siteMapUrls.management.home);
+					$location.url('/management/list/organization');
 			};
 
 			//==================================
@@ -235,7 +235,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -264,7 +264,7 @@ angular.module('kmApp') // lazy
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
+				return $q.all([storage.documents.query(sQuery, null, { cache: true }),
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
 						var qResult = Enumerable.From (results[0].data.Items)

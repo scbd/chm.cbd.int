@@ -9,7 +9,7 @@ angular.module('kmApp') // lazy
         link: function ($scope, $element) {
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid)
 		{
             $scope.status = "";
             $scope.error = null;
@@ -65,7 +65,7 @@ angular.module('kmApp') // lazy
 				promise.then(function(doc) {
 
 					if(!$scope.options) {
-			         
+
 			            $scope.options = {
 			                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
 			            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError)
@@ -129,12 +129,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -204,7 +204,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostPublish = function(data) {
 				$scope.$root.showAcknowledgement = true;
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url("/management/national-reporting/nationalIndicator");
 			};
 
 			//==================================
@@ -224,8 +224,8 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			function gotoManager() { 
-				$location.url("/management/national-reporting" + ($scope.document.government ? "?country=" + $scope.document.government.identifier.toUpperCase() : ""));
+			function gotoManager() {
+				$location.url("/management/national-reporting/nationalIndicator");
 			}
 
 			//==================================

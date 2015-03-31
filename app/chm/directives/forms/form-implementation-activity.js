@@ -9,7 +9,7 @@ angular.module('kmApp') // lazy
         link: function ($scope, $element) {
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid)
 		{
             $scope.status = "";
             $scope.error = null;
@@ -24,7 +24,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.init = function() {
-				
+
 				if ($scope.document)
 					return;
 
@@ -89,17 +89,17 @@ angular.module('kmApp') // lazy
 
 				});
 			}
-			
+
 			//==================================
 			//
 			//==================================
             $scope.$watch("document.government", function(term) {
 
-            	$scope.options.nationalIndicators = [];
-            	$scope.options.nationalTargets = [];
 
             	if (term) {
 
+                    $scope.options.nationalIndicators = [];
+                    $scope.options.nationalTargets = [];
             		var buidQueryFn = function(schema) {
             			return {
             				q: "schema_s:" + schema + " AND government_s:" + term.identifier,
@@ -121,7 +121,7 @@ angular.module('kmApp') // lazy
             		$scope.options.nationalIndicators = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
             		$scope.options.nationalTargets    = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
             	}
-            });			
+            });
 
 			//==================================
 			//
@@ -193,7 +193,7 @@ angular.module('kmApp') // lazy
 				}
 			}
 
-			
+
 			//======================================================================
 			//======================================================================
 			//======================================================================
@@ -218,12 +218,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -293,7 +293,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url("/management/national-reporting/implementationActivity");
 			};
 
 			//==================================
@@ -313,8 +313,8 @@ angular.module('kmApp') // lazy
  			//==================================
  			//
  			//==================================
-			function gotoManager() { 
-				$location.url("/management/national-reporting" + ($scope.document.government ? "/" + $scope.document.government.identifier.toUpperCase() : ""));
+			function gotoManager() {
+				$location.url("/management/national-reporting/implementationActivity");
 			}
 
 			//==================================

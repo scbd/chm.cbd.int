@@ -169,7 +169,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url("/management/list/caseStudy");
 			};
 
 			//==================================
@@ -183,7 +183,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$location.url("/management");
+				$location.url("/management/list/caseStudy");
 			};
 
 			//==================================

@@ -34,7 +34,7 @@ angular.module('kmApp') // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls)
 		{
 			//==================================
 			//
@@ -78,7 +78,7 @@ angular.module('kmApp') // lazy
 					function(doc) {
 						$scope.status = "ready";
 						$scope.document = doc;
-					}).then(null, 
+					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status)
 						throw err;
@@ -170,7 +170,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url('management/list/strategicPlanIndicator');
 			};
 
 			//==================================
@@ -185,9 +185,9 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
-					$location.url(siteMapUrls.management.home);
+					$location.url('management/list/strategicPlanIndicator');
 			};
 
 			//==================================
@@ -214,7 +214,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -243,7 +243,7 @@ angular.module('kmApp') // lazy
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
+				return $q.all([storage.documents.query(sQuery, null, { cache: true }),
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
 						var qResult = Enumerable.From (results[0].data.Items)

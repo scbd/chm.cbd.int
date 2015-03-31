@@ -1,9 +1,7 @@
 ﻿<div>
 
     <h1 ng-show="document.reportType">
-    	<span km-terms ng-model="document.reportType">
-    		<span ng-repeat="term in terms">{{term.title | lstring}} </span>
-    	</span>
+		<span>{{document.reportType | term}} </span>
     </h1>
     <h1 ng-hide="document.reportType">
     	<span ng-switch="qs.type">
@@ -21,7 +19,7 @@
 
 
 	<div class="row" ng-show="status=='loading'">Loading...</div>
-	
+
 	<div ng-hide="status=='hidden'||status=='loading'">
 
 		<div class="row">
@@ -38,7 +36,7 @@
 					<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
 					<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
 					<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-				</ul>	
+				</ul>
 			</div>
 
 			<div class="col-sm-4 hidden-xs" style="text-align:right">
@@ -100,7 +98,7 @@
 						</div>
 					</div>
 				</div>
-			
+
 				<legend>Implementation Period</legend>
 				<div class="row bottom-spacing">
 					<div class="col-md-4">
@@ -205,9 +203,9 @@
 				</div>
 			</div>
         </form>
-        
+
 		<div km-tab="review">
-			
+
 			<div km-document-validation ng-model="validationReport"></div>
 
 			<div class="btn-group" ng-show="document.header.languages.length>1">
@@ -216,7 +214,7 @@
 
 			<div class="viewNationalReport" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
 		</div>
-				
+
 		<div class="row">
 			<div class="col-sm-9 col-xs-12">
 				<ul class="pagination">
@@ -224,7 +222,7 @@
 					<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
 					<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
 					<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-				</ul>	
+				</ul>
 			</div>
 
 			<div class="col-sm-3 hidden-xs" style="text-align:right">

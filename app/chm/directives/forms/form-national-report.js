@@ -9,7 +9,7 @@ angular.module('kmApp') // lazy
         link: function ($scope, $element) {
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid)
 		{
             $scope.status = "";
             $scope.error = null;
@@ -67,9 +67,9 @@ angular.module('kmApp') // lazy
 				}
 
 				promise.then(function(doc) {
-					
+
 					if(!$scope.options) {
-							
+
 			            $scope.options = {
 			                countries:		$http.get("/api/v2013/thesaurus/domains/countries/terms",								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
 			                jurisdictions:	$http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms",	{ cache: true }).then(function (o) { return o.data; }),
@@ -239,12 +239,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -314,7 +314,11 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostPublish = function(data) {
 				$scope.$root.showAcknowledgement = true;
-				$location.url("/database/record?documentID=" + data.documentID);
+                var schema = '';
+                if($scope.qs.type=="nbsap") schema='nationalStrategicPlan'
+                else if($scope.qs.type=="nr")schema='nationalReport'
+                else if($scope.qs.type=="other")schema='otherReport'
+				$location.url("/management/national-reporting/" + schema);
 			};
 
 			//==================================
@@ -334,8 +338,13 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			function gotoManager() { 
-				$location.url("/management/national-reporting" + ($scope.document.government ? "/" + $scope.document.government.identifier.toUpperCase() : ""));
+			function gotoManager() {
+                var schema = '';
+                if($scope.qs.type=="nbsap") schema='nationalStrategicPlan'
+                else if($scope.qs.type=="nr")schema='nationalReport'
+                else if($scope.qs.type=="other")schema='otherReport'
+
+				$location.url("/management/national-reporting/" + schema);
 			}
 
 			//==================================

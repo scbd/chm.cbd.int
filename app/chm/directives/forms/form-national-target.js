@@ -59,12 +59,12 @@ angular.module('kmApp') // lazy
 					var nationalIndicator = $location.search().nationalIndicator;
 
 					if(aichiTarget) {
-						
+
 						doc.aichiTargets = doc.aichiTargets || [];
 						doc.aichiTargets.push({ identifier : aichiTarget });
-					}   
-					
-					if(nationalIndicator) { 
+					}
+
+					if(nationalIndicator) {
 
 						doc.nationalIndicators = doc.nationalIndicators||[];
 						doc.nationalIndicators.push({ identifier : nationalIndicator });
@@ -93,12 +93,12 @@ angular.module('kmApp') // lazy
 			        return doc;
 
 				}).then(function(doc) {
-					
+
 					$scope.document = doc;
 					$scope.status  = "ready";
 
 				}).catch(function(err) {
-					
+
 					$scope.onError(err.data, err.status)
 					throw err;
 
@@ -315,7 +315,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostPublish = function(data) {
 				$scope.$root.showAcknowledgement = true;
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url("/management/national-reporting/nationalTarget");
 			};
 
 			//==================================
@@ -335,8 +335,8 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			function gotoManager() { 
-				$location.url("/management/national-reporting" + ($scope.document.government ? "?country=" + $scope.document.government.identifier.toUpperCase() : ""));
+			function gotoManager() {
+				$location.url("/management/national-reporting/nationalTarget");
 			}
 
 			//==================================

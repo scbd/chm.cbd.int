@@ -10,7 +10,7 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -62,7 +62,7 @@ angular.module('kmApp') // lazy
 				}
 
 				return promise.then(function(doc) {
-			
+
 					if(!$scope.options)	{
 						$scope.options  = {
 							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
@@ -92,7 +92,7 @@ angular.module('kmApp') // lazy
 					throw err;
 
 				});
-			}			
+			}
 
 			//==================================
 			//
@@ -127,12 +127,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -205,7 +205,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostPublish = function(data) {
-				$location.url("/database/record?documentID=" + data.documentID);
+				$location.url('/management/list/marineEbsa');
 			};
 
 			//==================================
@@ -220,11 +220,11 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
-					$location.url(siteMapUrls.management.home);
+					$location.url('/management/list/marineEbsa');
 			};
-			
+
 			//==================================
 			//
 			//==================================
@@ -249,7 +249,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -297,7 +297,7 @@ angular.module('kmApp') // lazy
 			$scope.$watch("binding", $scope.load);
 			$scope.$watch(function(){ return angular.toJson($scope.assessments);}, $scope.save);
 		},
-		controller : ['$scope', "Enumerable", function ($scope, Enumerable) 
+		controller : ['$scope', "Enumerable", function ($scope, Enumerable)
 		{
 			//==================================
 			//
@@ -344,4 +344,3 @@ angular.module('kmApp') // lazy
 		}]
 	}
 }])
-

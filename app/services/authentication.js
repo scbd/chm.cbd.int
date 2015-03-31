@@ -241,7 +241,10 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 						      /^https:\/\/localhost[:\/]/i.test(config.url) ||
 							  /^\/\w+/i                   .test(config.url);
 
-				if(!trusted || config.headers.Authorization) // no need to alter config
+				var hasAuthorization = (config.headers||{}).hasOwnProperty('Authorization') ||
+							  		   (config.headers||{}).hasOwnProperty('authorization');
+
+				if(!trusted || hasAuthorization) // no need to alter config
 					return config;
 
 				//Add token to http headers

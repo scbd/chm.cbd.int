@@ -10,7 +10,7 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -60,7 +60,7 @@ angular.module('kmApp') // lazy
 				}
 
 				promise.then(function(doc) {
-				
+
 					if(!$scope.options) {
 						$scope.options  = {
 							countries         : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
@@ -71,7 +71,7 @@ angular.module('kmApp') // lazy
 					return doc;
 
 				}).then(function(doc) {
-				
+
 					$scope.status = "ready";
 					$scope.document = doc;
 
@@ -110,12 +110,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -174,7 +174,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
 					$location.url(siteMapUrls.management.home);
 			};

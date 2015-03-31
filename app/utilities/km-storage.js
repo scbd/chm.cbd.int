@@ -2,7 +2,7 @@ define(['app', 'underscore', 'authentication'], function(app, _) { 'use strict';
 
 console.log("LOADED km-storage");
 
-app.factory('IStorage', ["authHttp", "$q", "authentication", "realm", function($http, $q, authentication, defaultRealm) {
+app.factory('IStorage', ["$http", "$q", "authentication", "realm", function($http, $q, authentication, defaultRealm) {
 
 	function IStorage()
 	{

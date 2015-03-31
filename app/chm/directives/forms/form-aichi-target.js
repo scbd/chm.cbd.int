@@ -10,7 +10,8 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls)
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls)
+
 		{
 			$scope.status   = "";
 			$scope.error    = null;

@@ -1,5 +1,5 @@
 angular.module('kmApp') // lazy
-.directive('editResource', ['authHttp', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
+.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource.partial.html',

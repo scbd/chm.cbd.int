@@ -1,5 +1,5 @@
 angular.module('kmApp') // lazy
-.directive('editStrategicPlanIndicator', ['authHttp', "$filter", "$q", "guid", "$timeout", function ($http, $filter, $q, guid, $timeout) {
+.directive('editStrategicPlanIndicator', ['$http', "$filter", "$q", "guid", "$timeout", function ($http, $filter, $q, guid, $timeout) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-strategic-plan-indicator.partial.html',

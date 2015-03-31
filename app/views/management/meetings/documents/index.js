@@ -1,6 +1,6 @@
 define(['underscore', 'app', 'authentication'], function(_) { 'use strict';
 
-    return ['$scope', '$route', 'authHttp', function($scope, $route, $http) {
+    return ['$scope', '$route', '$http', function($scope, $route, $http) {
 
         $scope.meetingId   = $route.current.params.meetingId;
         $scope.pages       = [];

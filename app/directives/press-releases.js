@@ -1,6 +1,6 @@
-define(['text!./news.html','app', 'authentication'], function(template, app) { 'use strict';
+define(['text!./press-releases.html', 'app'], function(template, app) { 'use strict';
 
-app.directive('news', ['$http', function($http) {
+app.directive('pressReleases', ['$http', function($http) {
     return {
         priority: 0,
         restrict: 'E',
@@ -21,16 +21,17 @@ app.directive('news', ['$http', function($http) {
             $scope.pageSize    = parseInt($scope.pageSize || 20);
             $scope.showPager   = $scope.showPager == "true";
 
-            $http.get('/api/v2013/index/', {
-                params: {
-                    q: "schema_s:news and theme_ss:" + $scope.theme || "*",
-                    sort: $scope.sortOrder   || undefined,
-                    rows: parseInt($scope.maxItems || 1000),
-                    fl: "id,date_dt,title_t,url_ss,thumbnail_s"
-                }
-            }).success(function (data) {
-                $scope.docs = data.response.docs;
-            });
+            $http.get('/api/v2013/index/',
+                {
+                    params: {
+                        q: "schema_s:pressRelease AND theme_ss:" + $scope.theme || "*",
+                        sort: $scope.sortOrder || "date_dt desc",
+                        rows: parseInt($scope.maxItems || 1000),
+                        fl: ""
+                    }
+                }).success(function (data) {
+                    $scope.docs = data.response.docs;
+                });
 
             $scope.numberOfPages = function () {
                 return Math.ceil($scope.docs.length / $scope.pageSize);
@@ -41,16 +42,15 @@ app.directive('news', ['$http', function($http) {
             };
 
             $scope.hasRecords = function () {
-                return $scope.docs.length;
+                return $scope.docs.length > 0;
             };
-
 
             $scope.disablePrevious = function () {
                 return $scope.currentPage === 0;
             };
 
             $scope.disableNext = function () {
-                return $scope.currentPage >= $scope.docs.length / ($scope.pageSize - 1);
+                return $scope.currentPage >= $scope.docs.length / $scope.pageSize - 1;
             };
         }
     };

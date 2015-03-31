@@ -1,5 +1,5 @@
 angular.module('kmApp') // lazy
-.directive("editProgressAssessment", ['authHttp', "$filter", "underscore", function ($http, $filter, _) {
+.directive("editProgressAssessment", ['$http', "$filter", "underscore", function ($http, $filter, _) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-progress-assessment.partial.html',

@@ -1,6 +1,6 @@
-define(['text!./news.html','app', 'authentication'], function(template, app) { 'use strict';
+define(['text!./notifications.html', 'app'], function(template, app) { 'use strict';
 
-app.directive('news', ['$http', function($http) {
+app.directive('notifications', ['$http', function($http) {
     return {
         priority: 0,
         restrict: 'E',
@@ -23,10 +23,10 @@ app.directive('news', ['$http', function($http) {
 
             $http.get('/api/v2013/index/', {
                 params: {
-                    q: "schema_s:news and theme_ss:" + $scope.theme || "*",
-                    sort: $scope.sortOrder   || undefined,
+                    q: "schema_s:notification",
+                    sort: $scope.sortOrder || "symbol_s desc",
                     rows: parseInt($scope.maxItems || 1000),
-                    fl: "id,date_dt,title_t,url_ss,thumbnail_s"
+                    fl: "id,symbol_s,reference_s,title_t,url_ss,thumbnail_s"
                 }
             }).success(function (data) {
                 $scope.docs = data.response.docs;
@@ -41,16 +41,15 @@ app.directive('news', ['$http', function($http) {
             };
 
             $scope.hasRecords = function () {
-                return $scope.docs.length;
+                return $scope.docs.length > 0;
             };
-
 
             $scope.disablePrevious = function () {
                 return $scope.currentPage === 0;
             };
 
             $scope.disableNext = function () {
-                return $scope.currentPage >= $scope.docs.length / ($scope.pageSize - 1);
+                return $scope.currentPage >= $scope.docs.length / $scope.pageSize - 1;
             };
         }
     };

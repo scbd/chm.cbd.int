@@ -1,5 +1,5 @@
 angular.module('kmApp') // lazy
-.directive('editResourceMobilisation', ['authHttp', "$filter", "guid", "underscore", function ($http, $filter, guid, _) {
+.directive('editResourceMobilisation', ['$http', "$filter", "guid", "underscore", function ($http, $filter, guid, _) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource-mobilisation.partial.html',
@@ -11,7 +11,7 @@ angular.module('kmApp') // lazy
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
-			$scope.tab      = 'general';	
+			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
 				countries:		function () { return $http.get("/api/v2013/thesaurus/domains/countries/terms",								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }); },
@@ -27,7 +27,7 @@ angular.module('kmApp') // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation)
 		{
 			watchResource('financialResources');
 			watchResource('countryFinancialResources');
@@ -113,9 +113,9 @@ angular.module('kmApp') // lazy
 			//==============================
 			function watchResource(member) {
 
-				$scope.$watch(function() { 
+				$scope.$watch(function() {
 
-					return !$scope.document || angular.toJson($scope.document[member]); 
+					return !$scope.document || angular.toJson($scope.document[member]);
 
 				}, function() {
 
@@ -203,7 +203,7 @@ angular.module('kmApp') // lazy
 
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
-					
+
 				}).catch(function(error) {
 
 					$scope.onError(error.data);
@@ -287,7 +287,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
 					$location.url(siteMapUrls.management.home);
 			};
@@ -316,7 +316,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -345,7 +345,7 @@ angular.module('kmApp') // lazy
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
+				return $q.all([storage.documents.query(sQuery, null, { cache: true }),
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
 						var qResult = Enumerable.From (results[0].data.Items)
@@ -375,7 +375,7 @@ angular.module('kmApp') // lazy
 					return o.amount||0;
 				});
 
-				return values.length 
+				return values.length
 					 ? _.reduce(values, function(res, val) { return res+val })
 					 : 0;
 			}

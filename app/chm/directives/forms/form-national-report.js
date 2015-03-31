@@ -9,7 +9,7 @@ angular.module('kmApp') // lazy
         link: function ($scope, $element) {
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid)
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid)
 		{
             $scope.status = "";
             $scope.error = null;
@@ -345,6 +345,7 @@ angular.module('kmApp') // lazy
                 else if($scope.qs.type=="other")schema='otherReport'
 
 				$location.url("/management/national-reporting/" + schema);
+
 			}
 
 			//==================================

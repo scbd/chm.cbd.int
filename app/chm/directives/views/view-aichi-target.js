@@ -11,7 +11,7 @@ angular.module('kmApp') // lazy
 			allowDrafts : "@",
 			target : "@linkTarget"
 		},
-		controller: ['$scope', "authHttp", "underscore", 'IStorage', function ($scope, $http, _, storage) {
+		controller: ['$scope', "$http", "underscore", 'IStorage', function ($scope, $http, _, storage) {
 			//====================
 			//
 			//====================

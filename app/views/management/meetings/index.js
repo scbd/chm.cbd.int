@@ -1,6 +1,6 @@
 define(['underscore', 'app', 'authentication'], function(_) { 'use strict';
 
-    return ['$scope', 'authHttp', function($scope, $http) {
+    return ['$scope', '$http', function($scope, $http) {
 
         $scope.pages       = [];
         $scope.pageSize    = 50;

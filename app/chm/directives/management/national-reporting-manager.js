@@ -91,7 +91,9 @@ angular.module('kmApp') // lazy
 			// }
             if($routeParams.schema)
                 $scope.schema = $routeParams.schema;
-
+            else
+                $scope.schema = "nationalStrategicPlan";
+            $scope.loading = false;
 			$scope.government  = userGovernment();// || $routeParams.country;
 			$scope.currentYear = new Date().getUTCFullYear()-1;
 			$scope.globalYears = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
@@ -105,7 +107,7 @@ angular.module('kmApp') // lazy
 
 				return $scope.countries = response.data;
 			});
-			$scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
+			$http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { $scope.nationalReportTypes = response.data; });
 			$scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
 			$scope.cbdNationalReports = ["B3079A36-32A3-41E2-BDE0-65E4E3A51601", // NR5
 										 "272B0A17-5569-429D-ADF5-2A55C588F7A7", // NR4
@@ -238,8 +240,10 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			function userGovernment() {
-				if($rootScope.user)
+				if($rootScope.user && $rootScope.user.government)
 					return $rootScope.user.government.toUpperCase();
+
+                return '';
 			}
 
 			$scope.setLastSection = function(name) {
@@ -308,8 +312,11 @@ angular.module('kmApp') // lazy
 				var d1 = $scope.showLinkTargetDialog(false);
 
 				$q.all([d1]).then(function() {
-
-					$location.path("/management/edit/national-reporting/"+schema);
+                    var params=schema;
+                    if(schema=='nationalReport' || schema=='nationalStrategicPlan' || schema=='otherReport'){
+                        params = 'nationalReport';
+                    }
+					$location.path("/management/edit/"+params);
 					$location.search(option||{});
 				});
 			};
@@ -332,9 +339,9 @@ angular.module('kmApp') // lazy
 					$timeout.cancel(autoRefresh);
 
 				if ($scope.government) {
-
-					$scope.governmentName = $http.get('/api/v2013/countries/' + $scope.government.toUpperCase(), { cache:true }).then(function (response) {
-						return response.data.name.en;
+                    $scope.loading = true;
+					$http.get('/api/v2013/countries/' + $scope.government.toUpperCase(), { cache:true }).then(function (response) {
+                        $scope.governmentName =  response.data.name.en;
 					}).catch(function() {
 						navigation.notFound();
 					});
@@ -368,7 +375,9 @@ angular.module('kmApp') // lazy
 
 						if(!autoRefresh)
 							autoRefresh = $timeout(load, 5000);
-					});
+					}).finally(function(){
+                        $scope.loading = false;
+                    });
 				}
 			}
 

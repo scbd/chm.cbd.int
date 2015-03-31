@@ -1,5 +1,4 @@
 <div>
-    {{schema}}
     <!--
     //================
     // National Biodiversity Strategies and Action Plans (NBSAPS)
@@ -20,7 +19,7 @@
             </span>
             <button class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {reportType:cbdNBSAPs[0], type:'nbsap', government:government })"><i class="fa fa-plus-square"></i> add new </button>
         </div>
-        <div ng-hide="nationalStrategicPlans">
+        <div ng-show="(nationalStrategicPlans||[]).length==0 && !loading">
             <!-- no records -->
             <p class="alert alert-warning">
                 No National Biodiversity Strategies and Action Plans exists.
@@ -41,7 +40,7 @@
                     <a ng-show="strategicPlan.url" ng-href="{{strategicPlan.url}}">more &raquo;</a>
                 </p>
                 <div class="text-right">
-                    <button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {uid:strategicPlan.identifier})">edit &raquo;</button>
+                    <button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {uid:strategicPlan.identifier,type:'nbsap'})">edit &raquo;</button>
                 </div>
             </div>
         </div>
@@ -69,7 +68,7 @@
                     <p>
                         <em>Please submit the report.</em>
                     </p>
-                    <button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalReport', {reportType:nrType, government : government})">add +</button>
+                    <button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalReport', {reportType:nrType, government : government,type:'nr'})">add +</button>
                 </div>
 
                 <div ng-repeat="nationalReport in filteredReports = (nationalReports | filter:{ reportType : nrType })">
@@ -80,7 +79,7 @@
                     </p>
                     <span ng-show="isPublic(nationalReport)" class="label label-info pull-right label-spacing">published</span>
                     <span ng-show="isDraft(nationalReport)" class="label label-warning pull-right label-spacing">not published</span>
-                    <button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:nationalReport.identifier})">edit &raquo;</button>
+                    <button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:nationalReport.identifier,type:'nr'})">edit &raquo;</button>
                 </div>
             </div>
         </div>
@@ -118,7 +117,7 @@
                 </p>
                 <span ng-show="isPublic(otherReport)" class="label label-info pull-right label-spacing">published</span>
                 <span ng-show="isDraft(otherReport)" class="label label-warning pull-right label-spacing">not published</span>
-                <button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {uid:otherReport.identifier})">edit &raquo;</button>
+                <button type="button" class="btn btn-default btn-xs btn-edit" ng-click="edit('nationalReport', {type:'other',uid:otherReport.identifier})">edit &raquo;</button>
             </div>
         </div>
 

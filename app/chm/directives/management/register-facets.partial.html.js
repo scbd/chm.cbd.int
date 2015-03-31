@@ -31,7 +31,7 @@ angular.module('kmApp') // lazy
 
                 { identifier: 'caseStudy',              title: 'Case Studies'  ,                                                 type:'SCBD'  },
                 { identifier: 'marineEbsa',             title: 'Marine Ecologically or Biologically Significant Areas (EBSA)'  , type:'SCBD'  },
-                { identifier: 'progressAssessment',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
+                //{ identifier: 'progressAssessment',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
                 { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators' ,                                    type:'SCBD'  },
 
                 // { identifier: 'database',               title: 'National Database'  ,                   type:'SCBD'  },
@@ -162,6 +162,7 @@ angular.module('kmApp') // lazy
                     $scope.showNational = true;
                     return authentication.user().government.toLowerCase();
                 }
+                return '';
             }
 
             $scope.countries          = $http.get('/api/v2013/countries').then(function(response) { return response.data; });

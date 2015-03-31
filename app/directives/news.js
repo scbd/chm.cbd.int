@@ -1,6 +1,6 @@
 define(['text!./news.html','app', 'authentication'], function(template, app) { 'use strict';
 
-﻿app.directive('news', ['$http', function($http){
+app.directive('news', ['$http', function($http) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -8,21 +8,27 @@ define(['text!./news.html','app', 'authentication'], function(template, app) { '
         replace: true,
         transclude: false,
         scope: {
-            cmsParamsFn: "&cmsParams"
+            pageSize: "@",
+            showPager: "@",
+            fullListUrl: "@",
+
+            theme: "@",
+            sortOrder: "@",
+            maxItems: "@",
         },
         link: function ($scope) {
             $scope.docs        = [];
             $scope.currentPage = 0;
-            $scope.pageSize    = $scope.cmsParamsFn().pageSize   || 20;
-            $scope.showPager   = $scope.cmsParamsFn().showPager  || false;
-            $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
+
+            $scope.currentPage = 0;
+            $scope.pageSize    = parseInt($scope.pageSize || 20);
+            $scope.showPager   = $scope.showPager == "true";
 
             $http.get('/api/v2013/index/', {
                 params: {
-                    q: "schema_s:news and theme_ss:" + $scope.cmsParamsFn().theme || "*",
-                    fq: $scope.cmsParamsFn().filterQuery || "",
-                    sort: $scope.cmsParamsFn().sortOrder || "",
-                    rows: $scope.cmsParamsFn().maxItems || 1000,
+                    q: "schema_s:news and theme_ss:" + $scope.theme || "*",
+                    sort: $scope.sortOrder   || undefined,
+                    rows: parseInt($scope.maxItems || 1000),
                     fl: "id,date_dt,title_t,url_ss,thumbnail_s"
                 }
             }).success(function (data) {

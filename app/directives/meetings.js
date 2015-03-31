@@ -1,29 +1,33 @@
-define(['text!./meetings.html','app', 'underscore', 'authentication'], function(template, app, _) { 'use strict';
+define(['text!./meetings.html','app', 'underscore'], function(template, app, _) { 'use strict';
 
 app.directive('meetings', ['$http', function ($http) {
     return {
         priority: 0,
-        restrict: 'EAC',
+        restrict: 'E',
         template: template,
         replace: true,
         transclude: false,
         scope: {
-            cmsParamsFn: "&cmsParams"
+            pageSize: "@",
+            showPager: "@",
+            fullListUrl: "@",
+
+            theme: "@",
+            sortOrder: "@",
+            maxItems: "@",
         },
         link: function ($scope) {
             $scope.meetings = [];
             $scope.currentPage = 0;
-            $scope.pageSize = $scope.cmsParamsFn().pageSize || 20;
-            $scope.showPager = $scope.cmsParamsFn().showPager || false;
-            $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
+            $scope.pageSize    = parseInt($scope.pageSize || 20);
+            $scope.showPager   = $scope.showPager == "true";
 
             $http.get('/api/v2013/index/',
                 {
                     params: {
-                           q: "schema_s:meeting and theme_ss:" + ($scope.cmsParamsFn().theme || "*"),
-                          //fq: $scope.cmsParamsFn().filterQuery || "",
-                        sort: $scope.cmsParamsFn().sortOrder || "",
-                        rows: $scope.cmsParamsFn().maxItems || 1000,
+                        q   : "schema_s:meeting and theme_ss:" + ($scope.theme || "*"),
+                        sort: $scope.sortOrder   || undefined,
+                        rows: parseInt($scope.maxItems || 1000),
                         fl  : ""
                     }
                 }).success(function (data) {

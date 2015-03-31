@@ -8,10 +8,10 @@
     <link rel="shortcut icon" href="/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/app/libs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/app/libs/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/app/css/cbdMenu.css">
     <link rel="stylesheet" type="text/css" href="/app/css/register.css">
     <link rel="stylesheet" type="text/css" href="/app/css/chm.css">
-    <link rel="stylesheet" type="text/css" href="/app/libs/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/app/css/km.css">
     <link rel="stylesheet" type="text/css" href="/app/libs/leaflet/dist/leaflet.css">
     <link rel="stylesheet" type="text/css" href="/app/libs/bootstrap-datepicker/css/datepicker3.css">
@@ -751,13 +751,14 @@
                     <div ng-view>
                     </div>
                     <div ng-hide="routeLoaded" class="booting">
-                        <h1><i class="fa fa-cog fa-spin"></i> The CHM</h1>
+                        <h1>The CHM</h1>
                     </div>
                 </div>
 
             </div>
         </div>
 
+            <div ng-cloak ng-show="routeLoaded">
                 <div id="footerMain" style="padding-right:-80px!important;">
 
                     <footer class="footer">
@@ -847,6 +848,7 @@
                     </div>
 
                 </div>
+            </div>
 
 
       <!-- Boot the app -->

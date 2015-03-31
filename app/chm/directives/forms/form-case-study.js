@@ -10,7 +10,7 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls, Thesaurus, guid) 
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -75,7 +75,7 @@ angular.module('kmApp') // lazy
 					      	countries		: $http.get("/api/v2013/thesaurus/domains/countries/terms", 								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); })
 						};
 					}
-					
+
 					return doc;
 
 				}).then(function(doc) {
@@ -119,12 +119,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -208,7 +208,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -216,14 +216,14 @@ angular.module('kmApp') // lazy
 
 				if (identifier) { //lookup single record
 
-					return storage.drafts.get(identifier, { info : "", cache:true }).then(function(r) { 
+					return storage.drafts.get(identifier, { info : "", cache:true }).then(function(r) {
 						return r.data;
 					}).catch(function(e) {
 
 						if (!e || !e.status || e.status != 404)
 							throw e;
 
-						return storage.documents.get(identifier, { info : "", cache:true }).then(function(r) { 
+						return storage.documents.get(identifier, { info : "", cache:true }).then(function(r) {
 							return r.data;
 						});
 					});

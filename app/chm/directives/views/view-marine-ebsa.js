@@ -12,7 +12,7 @@ angular.module('kmApp') // lazy
 			allowDrafts : "@",
 			target : "@linkTarget"
 		},
-		controller: ['$scope', 'authHttp', '$q', "IStorage", function ($scope, $http, $q, storage)
+		controller: ['$scope', '$http', '$q', "IStorage", function ($scope, $http, $q, storage)
 		{
    			$scope.fixDate = function(date) {
 
@@ -68,7 +68,7 @@ angular.module('kmApp') // lazy
 
 			});
 
-			
+
 			//===============
 			//
 			//===============

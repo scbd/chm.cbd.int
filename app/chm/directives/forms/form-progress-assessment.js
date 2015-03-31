@@ -1,5 +1,5 @@
 angular.module('kmApp') // lazy
-.directive("editProgressAssessment", ['authHttp', "$filter", "underscore", function ($http, $filter, _) {
+.directive("editProgressAssessment", ['$http', "$filter", "underscore", function ($http, $filter, _) {
     return {
         restrict: 'EAC',
         templateUrl: '/app/chm/directives/forms/form-progress-assessment.partial.html',
@@ -19,7 +19,7 @@ angular.module('kmApp') // lazy
             	confidences:             $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms", { cache: true }).then(function (o) { return o.data; }),
             	aichiTargets:            $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
             	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t } })}).then(null, $scope.onError),
-            	implementationActivities: [],																																																																									  
+            	implementationActivities: [],
             	nationalIndicators: [],
                 nationalTargets:    []
             };
@@ -107,7 +107,7 @@ angular.module('kmApp') // lazy
 					function(doc) {
 						$scope.status = "ready";
 						$scope.document = doc;
-					}).then(null, 
+					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status)
 						throw err;
@@ -318,7 +318,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			function gotoManager() { 
+			function gotoManager() {
 				$location.url("/management/national-reporting" + ($scope.document.government ? "?country=" + $scope.document.government.identifier.toUpperCase() : ""));
 			}
 

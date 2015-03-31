@@ -1,6 +1,6 @@
 define(['text!./meetings.html','app', 'underscore', 'authentication'], function(template, app, _) { 'use strict';
 
-app.directive('meetings', ['authHttp', function ($http) {
+app.directive('meetings', ['$http', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',

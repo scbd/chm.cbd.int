@@ -1,6 +1,6 @@
 define(['text!./news.html','app', 'authentication'], function(template, app) { 'use strict';
 
-﻿app.directive('news', ['authHttp', function($http){
+﻿app.directive('news', ['$http', function($http){
     return {
         priority: 0,
         restrict: 'EAC',

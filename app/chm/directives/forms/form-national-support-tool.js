@@ -9,7 +9,7 @@ angular.module('kmApp') // lazy
         link: function ($scope, $element) {
             $scope.init();
         },
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) 
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) 
 		{
             $scope.status = "";
             $scope.error = null;
@@ -64,9 +64,9 @@ angular.module('kmApp') // lazy
 
 
 				promise.then(function(doc) { //process
-					
+
 					if(!$scope.options) {
-							
+
 			            $scope.options = {
 			                countries:		 $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
 			                status:			 $http.get("/api/v2013/thesaurus/domains/B91693BB-648B-4601-9C4E-5B6ABE160D35/terms", { cache: true }).then(function (o) { return o.data }),
@@ -219,12 +219,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -300,7 +300,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				gotoManager();	
+				gotoManager();
 			};
 
 			//==================================
@@ -313,7 +313,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			function gotoManager() { 
+			function gotoManager() {
 				$location.url("/management/national-reporting" + ($scope.document.government ? "/" + $scope.document.government.identifier.toUpperCase() : ""));
 			}
 

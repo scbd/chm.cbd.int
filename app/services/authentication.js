@@ -232,14 +232,6 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 	}]);
 
-	app.factory('authHttp', ["$http", function($http) {
-
-		console.warn("DEPRECATED: 'authHttp'. Authentication has been implemented through $httpProvider.intercepters. Please use $http directly");
-
-		return $http;
-
-	}]);
-
 	app.factory('authenticationHttpIntercepter', ["$q", "apiToken", function($q, apiToken) {
 
 		return {

@@ -2,7 +2,7 @@ define(['app', 'authentication'], function(app) { 'use strict';
 
 console.log("LOADED km-workflows");
 
-app.factory('IWorkflows', ["authHttp", function($http) {
+app.factory('IWorkflows', ["$http", function($http) {
 
     function IWorkflows()
 	{

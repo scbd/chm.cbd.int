@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp') // lazy
-.directive('statements', ['authHttp', function ($http) {
+.directive('statements', ['$http', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -16,8 +16,8 @@
             $scope.showPager = $scope.cmsParamsFn().showPager || false;
             $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
         },
-        controller: ['$scope', 'authHttp', function ($scope, $http) {
-            $http.get('/api/v2013/index/', 
+        controller: ['$scope', function ($scope) {
+            $http.get('/api/v2013/index/',
                 {
                     params: {
                         q: "schema_s:statement AND theme_ss:" + $scope.cmsParamsFn().theme.code || "*",

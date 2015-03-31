@@ -8,7 +8,7 @@
 		transclude: false,
 		scope : true,
 		link : function($scope) {},
-		controller: [ "$scope", "authHttp", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication, _) 
+		controller: [ "$scope", "$http", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication, _) 
 		{
 			load();
 			//==================================================

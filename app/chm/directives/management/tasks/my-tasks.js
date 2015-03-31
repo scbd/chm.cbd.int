@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp') // lazy
-.directive("myTasks", ['authHttp', function ($http) {
+.directive("myTasks", ['$http', function ($http) {
 	return {
 		priority: 0,
 		restrict: 'EAC',
@@ -7,15 +7,15 @@
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, IWorkflows, authentication, _) 
+		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, IWorkflows, authentication, _)
 		{
 			var nextLoad  = null
 			var myUserID = authentication.user().userID;
-			var query    = { 
+			var query    = {
 				$and : [
-					{ "activities.assignedTo" : myUserID }, 
-					{ closedOn : { $exists : false } } 
-				] 
+					{ "activities.assignedTo" : myUserID },
+					{ closedOn : { $exists : false } }
+				]
 			};
 
 			$scope.tasks = null;
@@ -24,13 +24,13 @@
 			//
 			//==============================
 			function load() {
-				
+
 				IWorkflows.query(query).then(function(workflows){
 
 					var tasks  = [];
 
 					workflows.forEach(function(workflow) {
-						
+
 						workflow.activities.forEach(function(activity){
 
 							if(isAssignedToMe(activity)) {
@@ -46,7 +46,7 @@
 			}
 
 			load();
-			
+
 			//==============================
 			//
 			//==============================
@@ -54,7 +54,7 @@
 
 				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
 			}
-		
+
 			//==============================
 			//
 			//==============================

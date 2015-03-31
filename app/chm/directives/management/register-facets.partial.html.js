@@ -38,7 +38,7 @@ angular.module('kmApp') // lazy
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
         },
-        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','authHttp','authentication','$q',"realm","IWorkflows",
+        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","IWorkflows",
          function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows)
         {
 

@@ -1,5 +1,5 @@
 angular.module('kmApp') // lazy
-.directive('editResource', ['authHttp', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
+.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
 	return {
 		restrict   : 'EAC',
 		templateUrl: '/app/chm/directives/forms/form-resource.partial.html',
@@ -25,7 +25,7 @@ angular.module('kmApp') // lazy
 				bchSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/043C7F0D-2226-4E54-A56F-EE0B74CCC984/terms", { cache: true }).then(function(o){ return o.data; }); },
 				bchRaSubjects : function() { return $http.get("/api/v2013/thesaurus/domains/69B43BB5-693B-4ED9-8FE0-95895E144142/terms", { cache: true }).then(function(o){ return o.data; }); },
 				ebsaSubjects  : function() { return []; },
-				regions       : function() { return $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }), 
+				regions       : function() { return $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }),
 														    $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true })]).then(function(o) {
 														    	return Enumerable.From($filter('orderBy')(o[0].data, 'name')).Union(
 																	   Enumerable.From($filter('orderBy')(o[1].data, 'name'))).ToArray();
@@ -51,7 +51,7 @@ angular.module('kmApp') // lazy
 
 			$scope.init();
 		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) 
+		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls)
 		{
 			//==================================
 			//
@@ -204,7 +204,7 @@ angular.module('kmApp') // lazy
 					function(doc) {
 						$scope.status = "ready";
 						$scope.document = doc;
-					}).then(null, 
+					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status)
 						throw err;
@@ -255,7 +255,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
 					$location.url(siteMapUrls.management.home);
 			};
@@ -358,7 +358,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -387,7 +387,7 @@ angular.module('kmApp') // lazy
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
+				return $q.all([storage.documents.query(sQuery, null, { cache: true }),
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
 						var qResult = Enumerable.From (results[0].data.Items)

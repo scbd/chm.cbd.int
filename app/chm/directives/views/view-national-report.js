@@ -10,9 +10,6 @@ angular.module('kmApp') // lazy
 			locale: "=",
 			target: "@linkTarget",
 			allowDrafts: "@"
-		},
-		controller: ['$scope', 'authHttp', '$q', function ($scope, $http, $q)
-		{
-		}]
-	}
+		}
+	};
 }]);

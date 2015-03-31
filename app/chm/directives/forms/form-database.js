@@ -10,7 +10,7 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) 
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -80,7 +80,7 @@ angular.module('kmApp') // lazy
 					$scope.document = doc;
 
 				}).catch(function(err) {
-					
+
 					$scope.onError(err.data, err.status)
 					throw err;
 
@@ -134,12 +134,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -198,7 +198,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
 					$location.url(siteMapUrls.management.home);
 			};
@@ -227,7 +227,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -256,7 +256,7 @@ angular.module('kmApp') // lazy
 
 				var sQuery = "type eq '" + encodeURI(schema) + "'";
 
-				return $q.all([storage.documents.query(sQuery, null, { cache: true }), 
+				return $q.all([storage.documents.query(sQuery, null, { cache: true }),
 							   storage.drafts   .query(sQuery, null, { cache: true })])
 					.then(function(results) {
 						var qResult = Enumerable.From (results[0].data.Items)

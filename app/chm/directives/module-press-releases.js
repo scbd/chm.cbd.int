@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp') // lazy
-.directive('pressreleases', ['authHttp', function ($http) {
+.directive('pressreleases', ['$http', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -16,7 +16,7 @@
             $scope.showPager   = $scope.cmsParamsFn().showPager || false;
             $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
         },
-        controller: ['$scope', 'authHttp', function ($scope, $http) {
+        controller: ['$scope', function ($scope) {
             $http.get('/api/v2013/index/',
                 {
                     params: {

@@ -1,6 +1,6 @@
 define(['underscore', 'jquery', 'app', 'authentication'], function(_, $) { 'use strict';
 
-    return ['$scope', '$route', 'authHttp', '$q', '$location', function($scope, $route, $http, $q, $location) {
+    return ['$scope', '$route', '$http', '$q', '$location', function($scope, $route, $http, $q, $location) {
 
         var symbolsDB;
         var meeting;

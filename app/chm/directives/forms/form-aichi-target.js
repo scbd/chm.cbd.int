@@ -10,7 +10,7 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "authHttp", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls) 
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls) 
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -49,7 +49,7 @@ angular.module('kmApp') // lazy
 			            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s, title_t",  sort:"title_t ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title:o.title_t }; } ); } ),
 							strategicGoals:			 $http.get("/api/v2013/thesaurus/domains/aichiTargetGoals/terms",			{ cache: true }).then(function (o) { return o.data; }),
 							linkResourcesCategories: $http.get("/api/v2013/thesaurus/domains/aichiTartgetResourceTypes/terms",	{ cache: true }).then(function (o) { return o.data; }),
-							targetChampionsRegions:	 $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms",			{ cache: true }), 
+							targetChampionsRegions:	 $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms",			{ cache: true }),
 															 $http.get("/api/v2013/thesaurus/domains/regions/terms",            { cache: true })]).then(function(o) {
 								return _.union(_.sortBy(o[0].data, function(o){ return o.name }),
 											   _.sortBy(o[1].data, function(o){ return o.name }));
@@ -62,7 +62,7 @@ angular.module('kmApp') // lazy
 
 					$scope.status = "ready";
 					$scope.document = doc;
-					
+
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status)
@@ -126,12 +126,12 @@ angular.module('kmApp') // lazy
 				var oDocument = $scope.reviewDocument = $scope.getCleanDocument();
 
 				return storage.documents.validate(oDocument).then(function(success) {
-				
+
 					$scope.validationReport = success.data;
 					return !!(success.data && success.data.errors && success.data.errors.length);
 
 				}).catch(function(error) {
-					
+
 					$scope.onError(error.data);
 					return true;
 
@@ -189,7 +189,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPostClose = function() {
 				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);	
+					$location.url($location.search().returnUrl);
 				else
 					$location.url(siteMapUrls.management.home);
 			};
@@ -222,7 +222,7 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			}
-			
+
 			//==================================
 			//
 			//==================================
@@ -230,14 +230,14 @@ angular.module('kmApp') // lazy
 
 				if (identifier) { //lookup single record
 
-					return storage.drafts.get(identifier, { info : "", cache:true }).then(function(r) { 
+					return storage.drafts.get(identifier, { info : "", cache:true }).then(function(r) {
 						return r.data;
 					}).catch(function(e) {
 
 						if (!e || !e.status || e.status != 404)
 							throw e;
 
-						return storage.documents.get(identifier, { info : "", cache:true }).then(function(r) { 
+						return storage.documents.get(identifier, { info : "", cache:true }).then(function(r) {
 							return r.data;
 						});
 					});

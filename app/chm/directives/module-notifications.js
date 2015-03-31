@@ -1,5 +1,5 @@
 ﻿angular.module('kmApp') // lazy
-.directive('notifications', ['authHttp', function ($http) {
+.directive('notifications', ['$http', function ($http) {
     return {
         priority: 0,
         restrict: 'EAC',
@@ -16,7 +16,7 @@
             $scope.showPager   = $scope.cmsParamsFn().showPager || false;
             $scope.fullListUrl = $scope.cmsParamsFn().fullListUrl;
         },
-        controller: ['$scope', 'authHttp', function ($scope, $http) {
+        controller: ['$scope', function ($scope) {
             $http.get('/api/v2013/index/', {
                 params: {
                     q: "schema_s:notification",  // AND theme_ss:" +  $scope.cmsParamsFn().theme || "*",
@@ -32,7 +32,7 @@
             $scope.numberOfPages = function () {
                 return Math.ceil($scope.docs.length / $scope.pageSize);
             }
-            
+
             $scope.isPagerVisible = function () {
                 return $scope.showPager === true && $scope.docs.length > $scope.pageSize;
             }

@@ -150,6 +150,7 @@ define(['app', 'underscore', 'providers/extended-route', 'js/support'], function
             mainMenu: 'Finding Information', subMenu: subMenu   // use ng-breadcrumbs instead
         };
     }
+    LEGACY_InnerPageController.$inject = ['$rootScope', '$scope', '$route', '$location', 'user'];
 
 
     //============================================================
@@ -157,9 +158,6 @@ define(['app', 'underscore', 'providers/extended-route', 'js/support'], function
     //
     //============================================================
     function LEGACY_ManagementPageController($rootScope, $scope, $route, $location, siteMapUrls, navigation, user) {
-
-        if ($route.current.originalPath != siteMapUrls.user.signIn)
-            navigation.securize();
 
         $rootScope.homePage = false;
         $rootScope.userGovernment = user.government;
@@ -197,4 +195,5 @@ define(['app', 'underscore', 'providers/extended-route', 'js/support'], function
             mainMenu: 'Registering Information', subMenu: subMenu  // use ng-breadcrumbs instead
         };
     }
+    LEGACY_ManagementPageController.$inject = ['$rootScope', '$scope', '$route', '$location', 'siteMapUrls', 'navigation', 'user'];
 });

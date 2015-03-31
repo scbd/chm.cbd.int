@@ -1,4 +1,4 @@
-define(['app', 'underscore', 'authentication'], function(app, _) { 'use strict';
+define(['app', 'angular', 'underscore', 'authentication'], function(app, angular, _) { 'use strict';
 
 console.log("LOADED km-storage");
 

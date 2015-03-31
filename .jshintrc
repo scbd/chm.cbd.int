@@ -5,7 +5,7 @@
     "strict"   : false,
     "browser"  : true,
     "debug"    : true,
-    "jquery"   : true,
+    "jquery"   : false,
     "devel"    : true,
     "smarttabs": true,
     "trailing" : true,

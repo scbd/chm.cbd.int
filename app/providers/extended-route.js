@@ -40,8 +40,6 @@ define(['require', 'app', 'angular', 'ngRoute', 'authentication'], function(requ
             return __when(path, angular.extend(route, ext));
         }
 
-        return angular.extend($routeProvider, { when: new_when });
-
         //********************************************************************************
         //********************************************************************************
         //********************************************************************************
@@ -100,5 +98,7 @@ define(['require', 'app', 'angular', 'ngRoute', 'authentication'], function(requ
                 return deferred.promise;
             }];
         }
+
+        return angular.extend($routeProvider, { when: new_when });
     }]);
 });

@@ -4,7 +4,7 @@ define(['text!./search-filter-themes.html', 'app', 'underscore'], function(templ
 	//
 	//
 	//==============================================
-	app.directive('searchFilterThemes', function ($http) {
+	app.directive('searchFilterThemes', ["$http", function ($http) {
     return {
         restrict: 'EAC',
         template: template,
@@ -204,7 +204,7 @@ define(['text!./search-filter-themes.html', 'app', 'underscore'], function(templ
             });
         }]
     };
-    });
+}]);
 
     //============================================================
     //

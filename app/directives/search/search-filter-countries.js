@@ -1,6 +1,6 @@
 define(['text!./search-filter-countries.html','app', 'underscore'], function(template, app, _) { 'use strict';
 
-    app.directive('searchFilterCountries', function ($http) {
+    app.directive('searchFilterCountries', ["$http", function ($http) {
     return {
         restrict: 'EAC',
         template: template,
@@ -121,5 +121,5 @@ define(['text!./search-filter-countries.html','app', 'underscore'], function(tem
             $scope.refresh = buildQuery;
         }]
     };
-});
+}]);
 });

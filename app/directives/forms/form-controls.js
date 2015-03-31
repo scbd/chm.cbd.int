@@ -4,7 +4,7 @@ define(['app', 'angular', 'underscore', 'authentication', 'bootstrap-datepicker'
 	//
 	//
 	//============================================================
-	app.directive('kmNotes',  function ($http, $filter) {
+	app.directive('kmNotes',  ["$http", "$filter", function ($http, $filter) {
 	    return {
 	        restrict: 'EAC',
 	        templateUrl: '/app/directives/forms/km-notes.html',
@@ -90,7 +90,7 @@ define(['app', 'angular', 'underscore', 'authentication', 'bootstrap-datepicker'
 	                };
 	            }]
 	        };
-	    });
+	    }]);
 
 
 

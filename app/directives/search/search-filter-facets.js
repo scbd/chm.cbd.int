@@ -1,6 +1,6 @@
 define(['text!./search-filter-facets.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
 
-    app.directive('searchFilterFacets', function ($http) {
+    app.directive('searchFilterFacets', ["$http", function ($http) {
     return {
         restrict: 'EAC',
         template: template,
@@ -192,5 +192,5 @@ define(['text!./search-filter-facets.html', 'app', 'underscore'], function(templ
             });
         }]
     };
-    });
+}]);
 });

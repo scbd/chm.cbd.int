@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'authentication'], function(app, angular, _) { 'use strict';
+define(['app', 'angular', 'underscore', 'authentication', 'bootstrap-datepicker'], function(app, angular, _) { 'use strict';
 
 	//============================================================
 	//
@@ -1655,61 +1655,19 @@ define(['app', 'angular', 'underscore', 'authentication'], function(app, angular
 				placeholder  : '@',
 				ngDisabledFn : '&ngDisabled'
 			},
-			link: function($scope, $element) {
-				$scope.date = null;
-				$scope.hasFocus = false;
-				$scope.$watch("binding", $scope.load);
-				$scope.$watch("date", $scope.save);
-
-				$element.children("input").on('focus', function() { $scope.hasFocus = true; });
-				$element.children("input").on('blur',  function() { $scope.hasFocus = false; });
+			link: function($scope, $element, $attr) {
+				// $element.datepicker({
+				// 	format: "yyyy-mm-dd",
+				// 	autoclose: true
+				// }).on('changeDate', function(event) {
+				// 	$element.find('input').focus();
+				// });
 			},
 			controller: ["$scope", function ($scope)
 			{
-				//==============================
-				//
-				//==============================
-				$scope.save = function(date) {
-					var oBinding;
-
-					if (!!date && typeof (date) == "object") {
-						var qParts = [date.getUTCFullYear().toString(), (date.getUTCMonth() + 1).toString(), date.getUTCDate().toString()];
-
-						if (qParts[1].length == 1) qParts[1] = "0" + qParts[1];
-						if (qParts[2].length == 1) qParts[2] = "0" + qParts[2];
-
-						oBinding = qParts.join("-");
-					}
-
-					if ($scope.binding != oBinding)
-						$scope.binding = oBinding;
-				};
-
-				//==============================
-				//
-				//==============================
-				$scope.load = function(date) {
-
-					if ($scope.hasFocus)
-						return;
-
-					var oDate;
-
-					if (typeof (date) == "string") {
-						var qParts = date.split("-");
-
-						qParts[0] = new Number(qParts[0])+0;// jshint ignore:line
-						qParts[1] = new Number(qParts[1])-1;// jshint ignore:line
-						qParts[2] = new Number(qParts[2])+0;// jshint ignore:line
-
-						oDate = new Date(qParts[0], qParts[1], qParts[2]);
-					}
-
-					$scope.date = oDate;
-				};
 			}]
 		};
-	}]);
+	}])
 
 	//============================================================
 	//

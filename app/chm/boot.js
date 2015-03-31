@@ -20,18 +20,18 @@ require.config({
       'scrollUp'         : 'libs/scrollup/dist/jquery.scrollUp.min',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
-      '$strap.directives': 'js/libs/angularStrap/0.7.4/angular-strap.min',
+      'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
     },
     shim: {
       'libs/angular/angular.min' : { deps: ['jquery'] },
       'angular'                  : { deps: ['libs/angular/angular.min'] },
       'ngRoute'                  : { deps: ['angular'] },
       'ngSanitize'               : { deps: ['angular'] },
-      '$strap.directives'        : { deps: ['angular', 'js/libs/angularStrap/0.7.4/datepicker/bootstrap-datepicker'] },
       'leaflet-directive'        : { deps: ['angular', 'leaflet'] },
       'bootstrap'                : { deps: ['jquery'] },
       'scrollUp'                 : { deps: ['jquery'] },
       'linqjs'                   : { deps: [], exports : 'Enumerable' },
+      'bootstrap-datepicker'     : { deps: ['bootstrap'] },
     },
 });
 

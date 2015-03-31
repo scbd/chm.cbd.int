@@ -22,7 +22,11 @@ define(['app', 'authentication', 'scrollUp'], function(app) {
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
 
-        $scope.$root.pageTitle = { text: "not set" };
+        $scope.$root.pageTitle = { text: "" };
+
+        $scope.$on("$routeChangeSuccess", function(){
+            $scope.routeLoaded = true;
+        });
 
         //============================================================
         //

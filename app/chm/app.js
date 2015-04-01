@@ -8,6 +8,7 @@ define(['angular', 'ngSanitize'], function(angular) { 'use strict';
 
     app.config(['$httpProvider', function($httpProvider){
 
+        $httpProvider.useApplyAsync(true);
         $httpProvider.interceptors.push('authenticationHttpIntercepter');
         $httpProvider.interceptors.push('realmHttpIntercepter');
 

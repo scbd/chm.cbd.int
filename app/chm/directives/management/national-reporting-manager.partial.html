@@ -142,7 +142,7 @@
                 </th>
                 <th ng-repeat="year in globalYears" ng-class="{ muted : currentYear<year }">{{year}}</th>
             </tr>
-            <tr ng-repeat="aichiTarget in aichiTargets| orderBy:number">
+            <tr ng-repeat="aichiTarget in aichiTargets| orderBy:'number'">
                 <!-- aichi target icon -->
                 <td style="width:42px;text-align:center">
                     <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}">

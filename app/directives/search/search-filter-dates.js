@@ -1,4 +1,4 @@
-define(['text!./search-filter-dates.html', 'app'], function(template, app) { 'use strict';
+define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], function(template, app) { 'use strict';
 
     app.directive('searchFilterDates', function () {
         return {

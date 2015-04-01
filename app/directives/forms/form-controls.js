@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'authentication', 'bootstrap-datepicker'], function(app, angular, _) { 'use strict';
+define(['app', 'angular', 'underscore', 'authentication', './km-date'], function(app, angular, _) { 'use strict';
 
 	//============================================================
 	//
@@ -1294,7 +1294,6 @@ define(['app', 'angular', 'underscore', 'authentication', 'bootstrap-datepicker'
 					ngModelController.$setViewValue($scope.binding);
 					if (newBinding)
 						$scope.autoInit().then($scope.load);
-				});
 
 				if ($scope.watchItems)
 					$scope.$watch($scope.itemsFn, function(items) {
@@ -1638,36 +1637,6 @@ define(['app', 'angular', 'underscore', 'authentication', 'bootstrap-datepicker'
 			}
 		};
 	}]);
-
-	//============================================================
-	//
-	//
-	//============================================================
-	app.directive('kmDate', [function ()
-	{
-		return {
-			restrict: 'EAC',
-			templateUrl: '/app/directives/forms/km-date.html',
-			replace: true,
-			transclude: false,
-			scope: {
-				binding      : '=ngModel',
-				placeholder  : '@',
-				ngDisabledFn : '&ngDisabled'
-			},
-			link: function($scope, $element, $attr) {
-				// $element.datepicker({
-				// 	format: "yyyy-mm-dd",
-				// 	autoclose: true
-				// }).on('changeDate', function(event) {
-				// 	$element.find('input').focus();
-				// });
-			},
-			controller: ["$scope", function ($scope)
-			{
-			}]
-		};
-	}])
 
 	//============================================================
 	//

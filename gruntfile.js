@@ -32,7 +32,7 @@ module.exports = function(grunt) { 'use strict';
                 }] ,
                 inlineText : true,
                 optimize : "uglify2",
-
+                optimizeCss : "standard"
             }
           }
         }

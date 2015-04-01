@@ -20,12 +20,12 @@ div.viewForm a {
 }
 
 div.km-pre
-{ 
-	word-break: break-all; word-wrap: break-word; white-space: pre-wrap; 
+{
+	word-break: break-all; word-wrap: break-word; white-space: pre-wrap;
 }
 
-address.km-value, 
-div.km-value, 
+address.km-value,
+div.km-value,
 span.km-value,
 ul.km-value > li,
 ol.km-value > li
@@ -94,28 +94,4 @@ ul.km-value
 .dropdown-menu > .disabled > i
 {
 	color: #999999;
-}
-
-#scrollUp {
-    bottom: 0;
-    right: 30px;
-    width: 100px;
-    height: 60px;
-    margin-bottom: -10px;
-    padding: 10px 5px;
-    font-family: sans-serif;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: black;
-    background-color: gray;
-    -webkit-transition: margin-bottom 150ms linear;
-    -moz-transition: margin-bottom 150ms linear;
-    transition: margin-bottom 150ms linear;
-}
-#scrollUp:hover {
-    margin-bottom: 0px;
 }

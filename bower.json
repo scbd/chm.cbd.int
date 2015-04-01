@@ -17,7 +17,6 @@
     "linqjs": "https://github.com/madington/linq.git#~2.2.0",
     "mapsicon": "https://github.com/djaiss/mapsicon.git",
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
-    "scrollup": "https://github.com/markgoodyear/scrollup.git",
     "angular-flex": "git://github.com/scbd/angular-flex.git",
     "jquery": "~2.1.3",
     "bootstrap-datepicker": "~1.3.0"

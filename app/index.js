@@ -10,12 +10,8 @@ require(['jquery'], function($) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 
-define(['app', 'authentication', 'scrollUp'], function(app) {
+define(['app', 'authentication'], function(app) {
     'use strict';
-
-    $(function () {
-        $.scrollUp({ scrollText: 'scroll to top' });
-    });
 
     app.controller('TemplateController', ['$scope', '$window', '$browser', '$document', '$location', 'authentication', function($scope, $window, $browser, $document, $location, authentication) {
 

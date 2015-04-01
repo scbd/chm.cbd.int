@@ -12,25 +12,28 @@ define(['require', 'app', 'angular', 'ngRoute', 'authentication'], function(requ
         //============================================================
         function new_when(path, route) {
 
-            var templateUrl      = route.templateUrl;
-            var controllerModule;
+            var templateUrl = route.templateUrl;
+            var templateModule;
 
             if(templateUrl) {
 
                 if(templateUrl.indexOf('/')!==0) {
                     route.templateUrl = baseUrl + templateUrl;
-                    controllerModule  = changeExtension(templateUrl, '');
+                    templateModule  = changeExtension(templateUrl, '');
                 }
                 else {
-                    controllerModule = changeExtension(templateUrl, '.js');
+                    templateModule = changeExtension(templateUrl, '.js');
                 }
             }
 
             var ext = { resolve: route.resolve || {} };
 
-            if(route.resolveController) {
+            if(!route.controller && route.resolveController && typeof(route.resolveController)=="string")
+                templateModule = route.resolveController;
+
+            if(!route.controller && route.resolveController) {
                 ext.controller         = proxy;
-                ext.resolve.controller = resolveController(controllerModule);
+                ext.resolve.controller = resolveController(templateModule);
             }
 
             if(route.resolveUser) {

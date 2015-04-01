@@ -12,7 +12,7 @@
 			<label>Introduction of the area</label>
 			<div class="km-value km-pre">{{document.areaIntroducion | lstring:local}}</div>
 		</div>
-	</div>	
+	</div>
 
 	<div ng-show="document.gisFiles">
 		<legend>Location</legend>
@@ -52,9 +52,10 @@
 		</div>
 		<div ng-show="document.countries">
 			<label>Related countries</label>
-			<ul class="km-value" km-terms km-terms ng-model="document.countries">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.countries">{{term | term:locale}} </li>
 			</ul>
+
 		</div>
 		<div ng-show="document.beyondNationalJurisdiction">
 			<label>Is this marine areas beyond national jurisdiction?</label>
@@ -96,7 +97,7 @@
 					<div ng-show="document.approvedByCopDecision">
 						<label>COP Decision</label>
 						<ul class="km-value">
-							<li>{{approvedByCopDecision.title | lstring:locale}}</li>
+							<li>{{approvedByCopDecision.title}}</li>
 						</ul>
 					</div>
 
@@ -104,16 +105,14 @@
 
 						<div class="col-md-8" ng-show="document.approvedByGovernment">
 							<label>Approved by a Party or other Government through national process (national jurisdiction only)</label>
-							<ul class="km-value" km-terms ng-model="document.approvedByGovernment">
-								<li  ng-repeat="term in terms">{{term.name}} </li>
-							</ul>
+							<span class="km-value">{{document.approvedByGovernment | term:locale}} </span>
 						</div>
 
 						<div class="col-md-4" ng-show="fixDate(document.approvedByGovernmentOn)">
 							<label>Date</label>
 							<div class="km-value">{{fixDate(document.approvedByGovernmentOn)}}</div>
 						</div>
-						
+
 					</div>
 
 
@@ -131,16 +130,14 @@
 
 						<div class="col-md-8" ng-show="document.recommendedToCopByGovernment">
 							<label>Ongoing official national process (within national jurisdiction only)</label>
-							<ul class="km-value" km-terms ng-model="document.recommendedToCopByGovernment">
-								<li class="km-value" ng-repeat="term in terms">{{term.name}} </li>
-							</ul>
+							<span class="km-value">{{document.recommendedToCopByGovernment | term:locale}} </span>
 						</div>
 
 						<div class="col-md-4" ng-show="fixDate(document.recommendedToCopByGovernmentOn)">
 							<label>Date</label>
 							<div class="km-value">{{fixDate(document.recommendedToCopByGovernmentOn)}}</div>
 						</div>
-						
+
 					</div>
 
 				</div>
@@ -163,10 +160,7 @@
 
 					<div ng-show="document.recommendedToSbsttaByWorkshop">
 						<label>CBD Workshop</label>
-						<ul class="km-value" km-terms ng-model="document.recommendedToSbsttaByWorkshop">
-							<li class="km-value" ng-repeat="term in terms">{{term.name}} </li>
-						</ul>
-
+						<span class="km-value">{{document.recommendedToSbsttaByWorkshop | term:locale}} </span>
 					</div>
 
 				</div>
@@ -191,15 +185,16 @@
 
 					<div ng-show="document.recommendedToWorkshopByGovernments">
 						<label>Government(s)</label>
-						<ul class="km-value" km-terms ng-model="document.recommendedToWorkshopByGovernments">
-							<li class="km-value" ng-repeat="term in terms">{{term.name}} </span>
+
+						<ul class="km-value">
+						    <li ng-repeat="term in document.recommendedToWorkshopByGovernments">{{term | term:locale}} </li>
 						</ul>
 					</div>
 					<div ng-show="document.recommendedToWorkshopByOrganizations">
 						<label>Organization(s)</label>
 						<ul class="km-value">
 							<li ng-repeat="organization in recommendedToWorkshopByOrganizations">
-								<div view-organization-reference ng-model="organization" locale="locale"></div>	
+								<div view-organization-reference ng-model="organization" locale="locale"></div>
 							</li>
 						</ul>
 					</div>
@@ -230,16 +225,16 @@
 
 					<div ng-show="document.recommendedToAnyByGovernments">
 						<label>Government(s)</label>
-						<ul class="km-value" km-terms ng-model="document.recommendedToAnyByGovernments">
-							<li ng-repeat="term in terms">{{term.name}} </li>
-						</li>
+						<ul class="km-value">
+						    <li ng-repeat="term in document.recommendedToAnyByGovernments">{{term | term:locale}} </li>
+						</ul>
 					</div>
 
 					<div ng-show="document.recommendedToAnyByOrganizations">
 						<label>Organization(s)</label>
 						<ul class="km-value">
 							<li ng-repeat="organization in recommendedToAnyByOrganizations">
-								<div view-organization-reference ng-model="organization" locale="locale"></div>	
+								<div view-organization-reference ng-model="organization" locale="locale"></div>
 							</li>
 						</ul>
 					</div>
@@ -286,7 +281,7 @@
 
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
 		<legend>Additional Information</legend>
-		
+
 		<div ng-show="document.relevantInformation">
 			<label>Additional Information</label>
 			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>

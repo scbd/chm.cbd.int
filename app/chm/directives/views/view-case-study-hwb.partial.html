@@ -6,42 +6,43 @@
 		<legend>General information</legend>
 		<div ng-show="document.subjects">
 			<label>Related CBD Subject area(s)</label>
-			<ul class="km-value" km-terms ng-model="document.subjects">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.subjects">{{term | term:locale}} </li>
 			</ul>
 		</div>
 		<div ng-show="document.aichiTargets">
 			<label>Main related Aichi Targets</label>
-			<ul class="km-value" km-terms ng-model="document.aichiTargets">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.aichiTargets">{{term | term:locale}} </li>
 			</ul>
 		</div>
 
 		<div ng-show="document.regions">
 			<label>Related Region(s) / Economic group(s)</label>
-			<ul class="km-value" km-terms ng-model="document.regions">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.regions">{{term | term:locale}} </li>
 			</ul>
+
 		</div>
 
 		<div ng-show="document.countries">
 			<label>Related Country(ies)</label>
-			<ul class="km-value" km-terms ng-model="document.countries">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.countries">{{term | term:locale}} </li>
 			</ul>
-		</div>		
+		</div>
 
 		<div ng-show="document.languages">
 			<label>Language(s)</label>
-			<ul class="km-value" km-terms ng-model="document.languages">
-				<li ng-repeat="term in terms">{{term.name}}</li>
+			<ul class="km-value">
+			    <li ng-repeat="term in document.languages">{{term | term:locale}} </li>
 			</ul>
 		</div>
 	</div>
 
 
 	<div class="row" ng-show="document.startDate || document.endDate">
-		
+
 		<div class="col-md-3 col-sm-4" ng-show="document.startDate">
 			<label>Time period from</label>
 			<div class="km-value km-pre">{{document.startDate}}</div>
@@ -62,17 +63,17 @@
 	<div ng-show="organizations">
 		<label>Organization(s) involved</label>
 		<div class="km-value" ng-repeat="organization in organizations">
-			<div view-organization-reference ng-model="organization" locale="locale"></div>	
+			<div view-organization-reference ng-model="organization" locale="locale"></div>
 		</div>
 	</div>
 
 	<div ng-show="contact">
 		<label>Contact person</label>
 		<div class="km-value">
-			<div view-contact-reference ng-model="contact" locale="locale"></div>	
+			<div view-contact-reference ng-model="contact" locale="locale"></div>
 		</div>
 	</div>
-	
+
 	<div ng-show="document.summary || document.description ||
 		document.scale || document.status || resources ||
 		document.images">
@@ -89,16 +90,12 @@
 
 		<div ng-show="document.scale">
 			<label>Scale</label>
-			<ul class="km-value" km-terms ng-model="document.scale">
-				<li ng-repeat="term in terms">{{term.name}}</li>
-			</ul>
+			<span class="km-value">{{document.scale | term:locale}} </span>
 		</div>
 
 		<div ng-show="document.status">
 			<label>Status</label>
-			<ul class="km-value" km-terms ng-model="document.status">
-				<li ng-repeat="term in terms">{{term.name}}</li>
-			</ul>
+			<span class="km-value">{{document.status | term:locale}} </span>
 		</div>
 		<div ng-show="resources">
 			<label>Resources</label>

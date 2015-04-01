@@ -11,7 +11,8 @@ angular.module('kmApp') // lazy
 			allowDrafts : "@",
 			target : "@linkTarget"
 		},
-		controller: ['$scope', "$http", "underscore", 'IStorage', function ($scope, $http, _, storage) {
+		controller: ['$scope', "$http", "underscore", 'IStorage', '$q', function ($scope, $http, _, storage, $q) {
+
 			//====================
 			//
 			//====================
@@ -42,16 +43,25 @@ angular.module('kmApp') // lazy
 			//
 			//====================
 			$scope.$watch("document.strategicPlanIndicators", function (indicators) {
-				$scope.strategicPlanIndicators = indicators ? loadFromIndex(indicators)	: undefined;
+				if(indicators){
+
+					$q.when(loadFromIndex(indicators)).then(function(result) {
+						$scope.strategicPlanIndicators = result;
+					});
+				}
 			});
 
 			//====================
 			//
 			//====================
 			$scope.$watch("document.otherStrategicPlanIndicators", function (indicators) {
-				$scope.otherStrategicPlanIndicators = indicators ? loadFromIndex(indicators) : undefined;
-			});
+				if(indicators){
 
+					$q.when(loadFromIndex(indicators)).then(function(result) {
+						$scope.otherStrategicPlanIndicators = result;
+					});
+				}
+			});
 
 			//====================
 			//

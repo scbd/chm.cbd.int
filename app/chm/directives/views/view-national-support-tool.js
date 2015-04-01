@@ -11,27 +11,39 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage) 
+		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
 		{
 			//===============
 			//
 			//===============
 			$scope.$watch("document.aichiTargets", function (refs) {
-				$scope.aichiTargets = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.aichiTargets = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.otherAichiTargets", function (refs) {
-				$scope.otherAichiTargets = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.otherAichiTargets = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.nationalTargets", function (refs) {
-				$scope.nationalTargets = loadReferences(refs, { info: true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.nationalTargets = result;
+					});
+				}
 			});
 
 

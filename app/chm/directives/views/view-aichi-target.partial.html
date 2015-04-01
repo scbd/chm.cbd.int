@@ -9,9 +9,7 @@
 
 	<div ng-show="document.strategicGoal">
 		<label>Strategic Goal</label>
-		<ul  class="km-value" km-terms ng-model="document.strategicGoal">
-			<li ng-repeat="term in terms">{{term.name}} </li>
-		</ul>
+		<span class="km-value">{{document.strategicGoal | term:locale}} </span>
 	</div>
 
 	<div ng-show="document.guide">
@@ -22,9 +20,10 @@
 	<div ng-show="document.strategicPlanIndicators">
 		<label>Most Relevant Indicator(s)</label>
 		<ul class="km-value">
-			<li ng-repeat="doc in strategicPlanIndicators">{{doc.title_t | lstring:locale}} </li>
+			<li ng-repeat="doc in strategicPlanIndicators">{{doc.title_t | lstring}} </li>
 		</ul>
 	</div>
+
 	<div ng-show="document.otherStrategicPlanIndicators">
 		<label>Other Relevant Indicator(s)</label>
 		<ul class="km-value">
@@ -58,8 +57,8 @@
 
 					<div ng-show="champion.countries">
 						<label>Target Champions (regions)</label>
-						<ul class="km-value" km-terms ng-model="champion.countries">
-								<li ng-repeat="term in terms">{{term.name}} </li>
+						<ul class="km-value">
+						    <li ng-repeat="term in champion.countries">{{term | term:locale}} </li>
 						</ul>
 					</div>
 
@@ -67,7 +66,7 @@
 						<label>Linked organizations</label>
 						<ul class="km-value" >
 							<li ng-repeat="organization in champion.organizations">
-								<div view-organization-reference ng-model="organization.document" locale="locale"></div>	
+								<div view-organization-reference ng-model="organization.document" locale="locale"></div>
 							</li>
 						</ul>
 					</div>
@@ -105,7 +104,7 @@
 								<div class="km-pre">{{reference.document.summary|lstring:locale}}</div>
 							</li>
 						</ul>
-					</div>					
+					</div>
 
 					<div ng-show="resource.links">
 						<label>Link to resources (link)</label>
@@ -119,10 +118,8 @@
 
 					<div ng-show="resource.categories">
 						<label>Link to resources (categories)</label>
-						<ul class="km-value" km-terms ng-model="resource.categories">
-							<li ng-repeat="item in terms">
-								{{item.name|lstring:locale}}
-							</li>
+						<ul class="km-value">
+						    <li ng-repeat="term in resource.categories">{{term | term:locale}} </li>
 						</ul>
 					</div>
 				</td>

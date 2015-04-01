@@ -4,9 +4,7 @@
 
 	<div ng-show="document.government">
 		<label>Country</label>
-		<ul class="km-value" km-terms ng-model="document.government">
-			<li ng-repeat="term in terms">{{term.name}} </li>
-		</ul>
+		<span class="km-value">{{document.government | term:locale}} </span>
 	</div>
 
 	<div ng-show="document.description">
@@ -26,11 +24,9 @@
 
 	<div ng-show="false">
 		<legend>Clearing-Houses</legend>
-		<div class="km-value">
-			<ul class="km-terms" ng-model="document.libraries">
-				<li ng-repeat="term in terms">{{term.name}}</li>
-			</ul>
-		</div>
+		<ul class="km-value">
+		    <li ng-repeat="term in document.libraries">{{term | term:locale}} </li>
+		</ul>
 	</div>
 
 	<div ng-show="document.relevantInformation||document.relevantDocuments">

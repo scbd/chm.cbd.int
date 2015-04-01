@@ -34,15 +34,15 @@
 	<div ng-show="document.aichiTargets || document.otherAichiTargets || document.meansOfAssessment || document.nationalIndicators || document.higherLevelNationalTarget">
 
 		<legend>Targets and Indicators</legend>
-
+		
 		<div ng-show="document.aichiTargets">
 			<label>Main related Aichi Targets</label>
-			<div class="km-value" ng-repeat="term in document.aichiTargets">{{term | term:locale}}</div>
+			<div class="km-value" ng-repeat="item in      aichiTargets">{{item.title | lstring:locale}}</div>
 		</div>
 
 		<div ng-show="document.otherAichiTargets">
 			<label>Other related Aichi Targets</label>
-			<div class="km-value" ng-repeat="term in document.otherAichiTargets">{{term | term:locale}}</div>
+			<div class="km-value" ng-repeat="item in otherAichiTargets">{{item.title | lstring:locale}}</div>
 		</div>
 
 		<div ng-show="document.meansOfAssessment">
@@ -52,7 +52,7 @@
 
 		<div ng-show="document.higherLevelNationalTarget">
 			<label>If this National Target is a sub-target, please indicate the higher level National Target.</label>
-			<div class="km-value" ng-repeat="term in higherLevelNationalTarget">{{term | term:locale}}</div>
+			<div class="km-value" ng-repeat="item in higherLevelNationalTarget">{{item.title | lstring:locale}}</div>
 		</div>
 
 		<div ng-show="nationalIndicators">

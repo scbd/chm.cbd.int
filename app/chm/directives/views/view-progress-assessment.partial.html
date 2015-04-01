@@ -18,14 +18,16 @@
 		<legend>Targets and Indicators</legend>
 		<div ng-show="document.aichiTarget">
 			<label>Aichi Targets</label>
-			<span class="km-value">
-				<span>{{document.aichiTarget | term:locale}} </span>
-			</span>
+			<ul class="km-value">
+			    <li ng-repeat="item in aichiTarget">{{item.title | lstring:locale}}</li>
+			</ul>
 		</div>
 
 		<div ng-show="document.nationalTarget">
 			<label>National Targets</label>
-			<span class="km-value">{{document.nationalTarget | term:locale}} </span>
+			<ul class="km-value">
+			    <li ng-repeat="item in nationalTarget">{{item.title | lstring:locale}} </li>
+			</ul>
 		</div>
 	</div>
 
@@ -95,21 +97,21 @@
 		<div ng-show="document.nationalIndicators">
 			<label>Link to National indicator(s) used in this assessment</label>
 			<ul class="km-value">
-			    <li ng-repeat="term in document.nationalIndicators">{{term | term:locale}} </li>
+			    <li ng-repeat="item in nationalIndicators">{{item.title | lstring:locale}} </li>
 			</ul>
 		</div>
 
 		<div ng-show="document.strategicPlanIndicators">
 			<label>Link to Indicator(s) used in this assessment</label>
 			<ul class="km-value">
-			    <li ng-repeat="term in document.strategicPlanIndicators">{{term | term:locale}} </li>
+			    <li ng-repeat="item in strategicPlanIndicators">{{item.title | lstring:locale}} </li>
 			</ul>
 		</div>
 
 		<div ng-show="document.implementationActivities">
 			<label>Link to National Activity(ies) related to this assessment</label>
 			<ul class="km-value">
-			    <li ng-repeat="term in document.implementationActivities">{{term | term:locale}} </li>
+			    <li ng-repeat="item in document.implementationActivities">{{item.title | lstring:locale}} </li>
 			</ul>
 		</div>
 	</div>

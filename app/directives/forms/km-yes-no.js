@@ -1,6 +1,6 @@
-define(['app', 'text!./km-date.html', 'bootstrap-datepicker'], function(app, template) { 'use strict';
+define(['app', 'text!./km-yes-no.html'], function(app, template) { 'use strict';
 
-	app.directive('kmDate', [function ()
+	app.directive('kmYesNo', [function ()
 	{
 		return {
 			restrict: 'EAC',
@@ -9,7 +9,6 @@ define(['app', 'text!./km-date.html', 'bootstrap-datepicker'], function(app, tem
 			transclude: false,
 			scope: {
 				binding      : '=ngModel',
-				placeholder  : '@',
 				ngDisabledFn : '&ngDisabled'
 			}
 		};

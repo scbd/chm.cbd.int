@@ -11,13 +11,18 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage) 
+		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
 		{
 			//===============
 			//
 			//===============
 			$scope.$watch("document.strategicPlanIndicators", function(refs) {
-				$scope.strategicPlanIndicators = loadReferences(refs);
+
+				if(refs){
+					$q.when(loadReferences(refs)).then(function(result){
+						$scope.strategicPlanIndicators = result;
+					});
+				}
 			});
 
 			//===============

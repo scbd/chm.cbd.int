@@ -48,18 +48,17 @@ angular.module('kmApp') // lazy
 
 				if(approvedByCopDecision) {
 
-					$scope.approvedByCopDecision = $http.get("/api/v2013/index/select", { params : { q : 'schema_s:decision AND decision_s:'+approvedByCopDecision.identifier, fl : "decision_s,title_t" } }, { cache: true }).then(function(res) {
+					$q.when($http.get("/api/v2013/index/select", { params : { q : 'schema_s:decision AND decision_s:'+approvedByCopDecision.identifier, fl : "decision_s,title_t" } }, { cache: true })).then(function(res) {
 
 						var count = res.data.response.numFound;
 						var docs = res.data.response.docs;
-
 						if(count)
-					 		return {
+						$scope.approvedByCopDecision = {
 					 			identifier: docs[0].decision_s,
 					 			title: (docs[0].decision_s + " - " + docs[0].title_t)
 					 		}
 					 	else
-					 		return {
+						$scope.approvedByCopDecision = {
 					 			identifier: approvedByCopDecision.identifier,
 					 			title: approvedByCopDecision.identifier
 					 		}

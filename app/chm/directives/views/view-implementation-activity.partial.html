@@ -3,11 +3,7 @@
 
 	<div ng-show="document.government">
 		<label>Country</label>
-		<div class="km-value">
-			<span km-terms ng-model="document.government">
-				<span ng-repeat="term in terms">{{term.name}} </span>
-			</span>
-		</div>
+		<span class="km-value">{{document.government | term:locale}} </span>
 	</div>
 
 	<div ng-show="document.description">
@@ -16,26 +12,17 @@
 	</div>
 
 	<div ng-show="document.status">
-		
+
 		<legend>Status</legend>
-		
-		<div class="km-value">
-			<span km-terms ng-model="document.status">
-				<span ng-repeat="term in terms">{{term.name}} </span>
-			</span>
-		</div>
+		<span class="km-value">{{document.status | term:locale}} </span>
 	</div>
 
 	<div ng-show="document.jurisdiction||document.jurisdictionInfo">
-		
+
 		<legend>Level of implementation</legend>
 
 		<div ng-show="document.jurisdiction">
-			<div class="km-value">
-				<span km-terms ng-model="document.jurisdiction">
-					<span ng-repeat="term in terms">{{term.title | lstring:locale}} </span>
-				</span>
-			</div>
+			<span class="km-value">{{document.jurisdiction | term:locale}} </span>
 		</div>
 
 		<div ng-show="document.jurisdictionInfo">
@@ -69,7 +56,7 @@
 		<legend>Partners</legend>
 
 		<div class="km-value" ng-repeat="partner in partners">
-			<div view-organization-reference ng-model="partner.document" locale="locale"></div>	
+			<div view-organization-reference ng-model="partner.document" locale="locale"></div>
 		</div>
 	</div>
 

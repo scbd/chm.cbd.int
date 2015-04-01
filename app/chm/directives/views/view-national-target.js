@@ -11,41 +11,61 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage) 
+		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
 		{
 			//===============
 			//
 			//===============
 			$scope.$watch("document.aichiTargets", function(refs) {
-				$scope.aichiTargets = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.aichiTargets = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.otherAichiTargets", function(refs) {
-				$scope.otherAichiTargets = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.otherAichiTargets = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.higherLevelNationalTarget", function(refs) {
-				$scope.higherLevelNationalTarget = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.higherLevelNationalTarget = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.nationalIndicators", function(refs) {
-				$scope.nationalIndicators = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.nationalIndicators = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.partners", function(refs) {
-				$scope.partners = loadReferences(refs);
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.partners = result;
+					});
+				}
 			});
 
 			//===============

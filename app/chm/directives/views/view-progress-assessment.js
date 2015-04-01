@@ -11,34 +11,51 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage) 
+		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
 		{
 			//===============
 			//
 			//===============
-			$scope.$watch("document.aichiTargets", function(refs) {
-				$scope.aichiTargets = loadReferences(refs, { info : true });
+			$scope.$watch("document.aichiTarget", function(refs) {
+				if(refs){
+					$q.when(loadReferences([refs], { info : true })).then(function(result){
+						console.log(result);
+						$scope.aichiTarget = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
 			$scope.$watch("document.nationalIndicators", function(refs) {
-				$scope.nationalIndicators = loadReferences(refs, { info : true });
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.nationalIndicators = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
-			$scope.$watch("document.nationalTargets", function(refs) {
-				$scope.nationalTargets = loadReferences(refs, { info : true });
+			$scope.$watch("document.nationalTarget", function(refs) {
+				if(refs){
+					$q.when(loadReferences([refs], { info : true })).then(function(result){
+						$scope.nationalTarget = result;
+					});
+				}
 			});
 
 			//===============
 			//
 			//===============
-			$scope.$watch("document.partners", function(refs) {
-				$scope.partners = loadReferences(refs);
+			$scope.$watch("document.strategicPlanIndicators", function(refs) {
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.strategicPlanIndicators = result;
+					});
+				}
 			});
 
 			//===============
@@ -59,5 +76,5 @@ angular.module('kmApp') // lazy
 				}));
 			}
 		}]
-	}
-}])
+	};
+}]);

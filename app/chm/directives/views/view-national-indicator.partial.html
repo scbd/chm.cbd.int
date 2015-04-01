@@ -4,9 +4,7 @@
 	<div ng-show="document.government">
 		<label>Country</label>
 		<div class="km-value">
-			<span km-terms ng-model="document.government">
-				<span ng-repeat="term in terms">{{term.name}} </span>
-			</span>
+			<span class="km-value">{{document.government | term:locale}} </span>
 		</div>
 	</div>
 

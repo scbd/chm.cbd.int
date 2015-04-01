@@ -1,5 +1,5 @@
 ﻿<div>
-    <table class="table">
+    <table class="table table-striped">
         <tr ng-repeat="doc in docs | limitTo:pageSize">
             <td>
                 <div class="time-ago" title="{{doc.date_dt}}">{{doc.date_dt|truncate:10}}</div>

@@ -25,7 +25,7 @@ define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index
             when('/management/tasks/:id',                     { templateUrl: 'views/management/tasks/tasks-id.html',                controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/management/tasks/:id/:activity',           { templateUrl: 'views/management/tasks/tasks-id-activity.html',       controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['utilities/km-utilities']) } }).
 
-            when('/management/signin',                        { templateUrl: '/app/views/management/signin.html',                 resolveController: true, resolveUser: true }).
+            when('/management/signin',                        { templateUrl: 'views/management/signin.html',                 resolveController: true, resolveUser: true }).
 
         //  when('/management/meetings',                          { templateUrl: 'views/management/meetings/index.html',                 resolveController: true, resolveUser: true }).
         //  when('/management/meetings/:meetingId/documents',     { templateUrl: 'views/management/meetings/documents/index.html',       resolveController: true, resolveUser: true }).

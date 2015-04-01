@@ -87,9 +87,9 @@ angular.module('kmApp') // lazy
             //
             //==============================
             $scope.isAdmin = function(){
-                for(var i=0; i < authentication.user().roles.length; i++)
+                for(var i=0; i < $rootScope.user.roles.length; i++)
                 {
-                    if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'ChmAdministrator')
+                    if($rootScope.user.roles[i] == 'Administrator' || $rootScope.user.roles[i] == 'ChmAdministrator')
                     {
                         return true;
                     }
@@ -101,12 +101,12 @@ angular.module('kmApp') // lazy
             //
             //==============================
             $scope.isNationalUser = function(){
-                for(var i=0; i < authentication.user().roles.length; i++)
+                for(var i=0; i < $rootScope.user.roles.length; i++)
                 {
-                    if(authentication.user().roles[i] == 'ChmNationalFocalPoint'
-                        || authentication.user().roles[i] == 'ChmNationalAuthorizedUser'
-                        || authentication.user().roles[i] == 'Administrator'
-                        || authentication.user().roles[i] == 'ChmAdministrator' && authentication.user().government)
+                    if($rootScope.user.roles[i] == 'ChmNationalFocalPoint'
+                        || $rootScope.user.roles[i] == 'ChmNationalAuthorizedUser'
+                        || $rootScope.user.roles[i] == 'Administrator'
+                        || $rootScope.user.roles[i] == 'ChmAdministrator' && $rootScope.user.government)
                     {
                         return true;
                     }
@@ -117,9 +117,9 @@ angular.module('kmApp') // lazy
             //
             //==============================
             $scope.isReferenceUser = function(){
-                for(var i=0; i < authentication.user().roles.length; i++)
+                for(var i=0; i < $rootScope.user.roles.length; i++)
                 {
-                    if(authentication.user().roles[i] == 'User' )
+                    if($rootScope.user.roles[i] == 'User' )
                     {
                         return true;
                     }
@@ -130,9 +130,9 @@ angular.module('kmApp') // lazy
             //
             //==============================
             $scope.isSCBDUser = function(){
-                for(var i=0; i < authentication.user().roles.length; i++)
+                for(var i=0; i < $rootScope.user.roles.length; i++)
                 {
-                    if(authentication.user().roles[i] == 'ScbdStaff' )
+                    if($rootScope.user.roles[i] == 'ScbdStaff' )
                     {
                         return true;
                     }
@@ -158,9 +158,9 @@ angular.module('kmApp') // lazy
                 // if($scope.isAdmin() && $scope.government)
                 //      return $scope.government.toLowerCase();
 
-                if(authentication.user().government){
+                if($rootScope.user.government){
                     $scope.showNational = true;
-                    return authentication.user().government.toLowerCase();
+                    return $rootScope.user.government.toLowerCase();
                 }
                 return '';
             }
@@ -281,7 +281,7 @@ angular.module('kmApp') // lazy
             }
 
             $scope.loadRequestsCount = function(){
-                var myUserID = authentication.user().userID;
+                var myUserID = $rootScope.user.userID;
                 var query    = {
                     $and : [
                 { "activities.assignedTo" : myUserID },

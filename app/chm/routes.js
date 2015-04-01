@@ -1,4 +1,4 @@
-define(['app', 'underscore', 'providers/extended-route', 'js/support'], function(app, _) { 'use strict';
+define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index.html',  'providers/extended-route', 'js/support'], function(app, _, rootTemplate, searchTemplate) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
@@ -6,8 +6,8 @@ define(['app', 'underscore', 'providers/extended-route', 'js/support'], function
         $locationProvider.hashPrefix('!');
 
         $routeProvider.
-            when('/',                                         { templateUrl: 'views/index.html',                             resolveController: true,                                 resolveUser: true }).
-            when('/database/',                                { templateUrl: 'views/database/index.html',                    resolveController: true,                                 resolveUser: true }).
+            when('/',                                         { template:    rootTemplate,                                   resolveController: 'views/index',                        resolveUser: true }).
+            when('/database/',                                { template:    searchTemplate,                                 resolveController: 'views/database/index',               resolveUser: true }).
             when('/database/countries/',                      { templateUrl: 'views/database/countries.html',                       controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                         controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/database/record',                          { templateUrl: 'views/database/record.html',                          controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'directives/forms/form-controls', 'leaflet-directive']) } }).

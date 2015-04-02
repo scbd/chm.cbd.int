@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewNationalIndicator', [function () {
+define(['app', 'angular', 'underscore', 'text!./national-indicator.html', 'utilities/km-storage'], function(app, angular, _, template){
+
+app.directive('viewNationalIndicator',  ["$q", "IStorage", function ($q, storage) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-national-indicator.partial.html',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,7 +12,7 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
+		link : function ($scope)
 		{
 			//===============
 			//
@@ -40,6 +41,7 @@ angular.module('kmApp') // lazy
 						});
 				}));
 			}
-		}]
-	}
-}])
+		}
+	};
+}]);
+});

@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewNationalSupportTool', [function () {
+define(['app', 'text!./national-target.html', 'underscore', 'utilities/km-storage'], function(app, template, _){
+
+app.directive('viewNationalTarget', ["$q", "IStorage", function ($q, storage) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-national-support-tool.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,12 +12,12 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
+		link : function ($scope)
 		{
 			//===============
 			//
 			//===============
-			$scope.$watch("document.aichiTargets", function (refs) {
+			$scope.$watch("document.aichiTargets", function(refs) {
 				if(refs){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
 						$scope.aichiTargets = result;
@@ -27,7 +28,7 @@ angular.module('kmApp') // lazy
 			//===============
 			//
 			//===============
-			$scope.$watch("document.otherAichiTargets", function (refs) {
+			$scope.$watch("document.otherAichiTargets", function(refs) {
 				if(refs){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
 						$scope.otherAichiTargets = result;
@@ -38,14 +39,35 @@ angular.module('kmApp') // lazy
 			//===============
 			//
 			//===============
-			$scope.$watch("document.nationalTargets", function (refs) {
+			$scope.$watch("document.higherLevelNationalTarget", function(refs) {
 				if(refs){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.nationalTargets = result;
+						$scope.higherLevelNationalTarget = result;
 					});
 				}
 			});
 
+			//===============
+			//
+			//===============
+			$scope.$watch("document.nationalIndicators", function(refs) {
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.nationalIndicators = result;
+					});
+				}
+			});
+
+			//===============
+			//
+			//===============
+			$scope.$watch("document.partners", function(refs) {
+				if(refs){
+					$q.when(loadReferences(refs, { info : true })).then(function(result){
+						$scope.partners = result;
+					});
+				}
+			});
 
 			//===============
 			//
@@ -64,6 +86,7 @@ angular.module('kmApp') // lazy
 						});
 				}));
 			}
-		}]
-	}
-}])
+		}
+	};
+}]);
+});

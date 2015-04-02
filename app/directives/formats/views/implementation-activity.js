@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewImplementationActivity', [function () {
+define(['app', 'angular', 'text!./implementation-activity.html', 'utilities/km-storage'], function(app, angular, template){
+
+app.directive('viewImplementationActivity', ["$q", "underscore", "IStorage", function ($q, _, storage)  {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-implementation-activity.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,14 +12,14 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage) 
+		link : function ($scope)
 		{
 			//===============
 			//
 			//===============
-			$scope.$watch("document.aichiTargets", function(refs) {
+			$scope.$watch("document.aichiTargets", function() {
 				if ($scope.document) {
-					$scope.aichiTargets = angular.fromJson(angular.toJson($scope.document.aichiTargets))
+					$scope.aichiTargets = angular.fromJson(angular.toJson($scope.document.aichiTargets));
 
 					if ($scope.aichiTargets)
 					{
@@ -30,9 +31,9 @@ angular.module('kmApp') // lazy
 			//===============
 			//
 			//===============
-			$scope.$watch("document.nationalIndicators", function(refs) {
+			$scope.$watch("document.nationalIndicators", function() {
 				if ($scope.document) {
-					$scope.nationalIndicators = angular.fromJson(angular.toJson($scope.document.nationalIndicators))
+					$scope.nationalIndicators = angular.fromJson(angular.toJson($scope.document.nationalIndicators));
 
 					if ($scope.nationalIndicators)
 					{
@@ -44,9 +45,9 @@ angular.module('kmApp') // lazy
 			//===============
 			//
 			//===============
-			$scope.$watch("document.nationalTargets", function(refs) {
+			$scope.$watch("document.nationalTargets", function() {
 				if ($scope.document) {
-					$scope.nationalTargets = angular.fromJson(angular.toJson($scope.document.nationalTargets))
+					$scope.nationalTargets = angular.fromJson(angular.toJson($scope.document.nationalTargets));
 
 					if ($scope.nationalTargets)
 					{
@@ -58,9 +59,9 @@ angular.module('kmApp') // lazy
 			//====================
 			//
 			//====================
-			$scope.$watch("document.partners", function (_new) {
+			$scope.$watch("document.partners", function () {
 				if ($scope.document) {
-					$scope.partners = angular.fromJson(angular.toJson($scope.document.partners))
+					$scope.partners = angular.fromJson(angular.toJson($scope.document.partners));
 
 					if ($scope.partners)
 					{
@@ -92,7 +93,7 @@ angular.module('kmApp') // lazy
 									.success(function (data) {
 										ref.document = data;
 									})
-									.error(function (draftError, draftCode) {
+									.error(function () {
 										ref.document = undefined;
 										ref.error = error;
 										ref.errorCode = code;
@@ -105,9 +106,8 @@ angular.module('kmApp') // lazy
 
 						});
 				});
-			}
-
-
-		}]
-	}
-}])
+			};
+		}
+	};
+}]);
+});

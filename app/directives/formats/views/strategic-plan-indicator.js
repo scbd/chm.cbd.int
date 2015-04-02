@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewStrategicPlanIndicator', [function () {
+define(['app', 'angular', 'text!./strategic-plan-indicator.html', 'jquery', 'utilities/km-storage'], function(app, angular, template, $){
+
+app.directive('viewStrategicPlanIndicator', ['IStorage', function (storage) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-strategic-plan-indicator.partial.html',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,23 +12,19 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller: ['$scope', 'IStorage', function ($scope, storage) {
-
-
+		link : function ($scope) {
 
 			//====================
 			//
 			//====================
-			$scope.$watch("document.organizations", function (_new) {
+			$scope.$watch("document.organizations", function () {
 				if ($scope.document) {
-					$scope.organizations = angular.fromJson(angular.toJson($scope.document.organizations))
+					$scope.organizations = angular.fromJson(angular.toJson($scope.document.organizations));
 
 					if ($scope.organizations)
 						$scope.loadReference($scope.organizations);
 				}
 			});
-
-
 
 			//====================
 			//
@@ -45,7 +42,7 @@ angular.module('kmApp') // lazy
 								.success(function (data) {
 									ref.document = data;
 								})
-								.error(function (draftError, draftCode) {
+								.error(function () {
 									ref.document = undefined;
 									ref.error = error;
 									ref.errorCode = code;
@@ -57,15 +54,16 @@ angular.module('kmApp') // lazy
 						ref.errorCode = code;
 
 					});
-			}
+			};
 
 			//====================
 			//
 			//====================
 			$scope.canShowIcon = function () {
-				return $scope.document!=undefined && !jQuery.isEmptyObject($scope.icon);
+				return $scope.document!==undefined && !$.isEmptyObject($scope.icon);
 			};
 
-		}]
-	}
+		}
+	};
 }]);
+});

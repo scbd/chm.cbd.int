@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewCaseStudy', [function () {
+define(['app', 'angular', 'underscore', 'text!./case-study-hwb.html', 'utilities/km-storage'], function(app, angular, _, template){
+
+app.directive('viewCaseStudy', ['IStorage', function (storage) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-case-study-hwb.partial.html',
+		template : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,14 +12,14 @@ angular.module('kmApp') // lazy
 			allowDrafts : "@",
 			target : "@linkTarget"
 		},
-		controller: ['$scope', 'IStorage', "underscore", function ($scope, storage, _) {
+		link : function ($scope) {
 
 			//====================
 			//
 			//====================
 			$scope.$watch("document.contact", function (ref) {
 
-				$scope.contact = !ref ? undefined : loadReference(ref.identifier)
+				$scope.contact = !ref ? undefined : loadReference(ref.identifier);
 
 			});
 
@@ -37,7 +38,7 @@ angular.module('kmApp') // lazy
 			//
 			//====================
 			$scope.$watch("document.resources", function (refs) {
-				
+
 				$scope.resources = !refs ? undefined : _.map(refs, function(o) {
 					return loadReference(o.identifier, true);
 				});
@@ -50,7 +51,7 @@ angular.module('kmApp') // lazy
 			function loadReference(identifier, infoOnly) {
 
 				var qPromise = null;
-				var options  = { cache: true }
+				var options  = { cache: true };
 
 				if(infoOnly)
 					options.info = "";
@@ -61,8 +62,8 @@ angular.module('kmApp') // lazy
 
 						return success.data;
 
-					}).catch(function(error) {
-						
+					}).catch(function() {
+
 						return storage.documents.get(identifier, options).then(function(success) {
 							return success.data;
 						});
@@ -85,7 +86,7 @@ angular.module('kmApp') // lazy
 					};
 				});
 			}
-
-		}]
-	}
+		}
+	};
 }]);
+});

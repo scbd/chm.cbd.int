@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewNationalTarget', [function () {
+define(['app', 'angular', 'underscore', 'text!./national-support-tool.html', 'utilities/km-storage'], function(app, angular, _, template){
+
+app.directive('viewNationalSupportTool', ["$q", "IStorage", function ($q, storage) {
 	return {
 		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-national-target.partial.html',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,12 +12,12 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
+		link : function ($scope)
 		{
 			//===============
 			//
 			//===============
-			$scope.$watch("document.aichiTargets", function(refs) {
+			$scope.$watch("document.aichiTargets", function (refs) {
 				if(refs){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
 						$scope.aichiTargets = result;
@@ -27,7 +28,7 @@ angular.module('kmApp') // lazy
 			//===============
 			//
 			//===============
-			$scope.$watch("document.otherAichiTargets", function(refs) {
+			$scope.$watch("document.otherAichiTargets", function (refs) {
 				if(refs){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
 						$scope.otherAichiTargets = result;
@@ -38,35 +39,14 @@ angular.module('kmApp') // lazy
 			//===============
 			//
 			//===============
-			$scope.$watch("document.higherLevelNationalTarget", function(refs) {
+			$scope.$watch("document.nationalTargets", function (refs) {
 				if(refs){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.higherLevelNationalTarget = result;
+						$scope.nationalTargets = result;
 					});
 				}
 			});
 
-			//===============
-			//
-			//===============
-			$scope.$watch("document.nationalIndicators", function(refs) {
-				if(refs){
-					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.nationalIndicators = result;
-					});
-				}
-			});
-
-			//===============
-			//
-			//===============
-			$scope.$watch("document.partners", function(refs) {
-				if(refs){
-					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.partners = result;
-					});
-				}
-			});
 
 			//===============
 			//
@@ -85,6 +65,7 @@ angular.module('kmApp') // lazy
 						});
 				}));
 			}
-		}]
-	}
-}])
+		}
+	};
+}]);
+});

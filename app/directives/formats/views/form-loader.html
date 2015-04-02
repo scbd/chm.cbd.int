@@ -1,0 +1,39 @@
+﻿<div ng-cloak>
+	<div ng-show="errorNotFound">
+    	<h1 style="font-size:60px;font-weight:bold">Oops...</h1>
+        <h1>Looks like the record you we're looking for doesn't exist anymore. Sorry about that.</h1>
+	</div>
+
+	<div class="alert alert-danger" ng-show="!errorNotFound && error">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div ng-show="!error && internalDocument">
+
+		<div ng-hide="hideButtons=='true'" style="float:right">
+
+			<span ng-show="internalDocumentInfo.workingDocumentLock">
+				<i class="fa fa-lock"></i>
+				Document is locked
+			</span>
+			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
+			<button type="button" class="btn btn-default" ng-click="delete()" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="{{deleteTooltip}}">Delete &raquo;</button>
+		</div>
+
+		<h1>{{internalDocument.header.schema | schemaName}}</h1>
+
+		<div ng-show="showAcknowledgement">
+			<div class="alert alert-success alert-dismissable">
+				<table width="100%">
+					<tr>
+						<td><i class="fa fa-check"></i> <strong>Published!</strong> Your record has been saved. </td>
+						<td style="text-align:right"><a class="btn btn-success" href="/management/national-reporting?country={{internalDocument.government.identifier|uppercase}}">Continue to National Reporting &raquo;</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div id="form-placeholder"></div>
+	</div>
+</div>

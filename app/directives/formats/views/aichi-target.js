@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewAichiTarget', [function () {
+define(['app', 'angular', 'underscore', 'text!./aichi-target.html', 'utilities/km-storage'], function(app, angular, _, template){
+
+app.directive('viewAichiTarget', ["$http", 'IStorage', '$q', function ($http, storage, $q) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-aichi-target.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,7 +12,7 @@ angular.module('kmApp') // lazy
 			allowDrafts : "@",
 			target : "@linkTarget"
 		},
-		controller: ['$scope', "$http", "underscore", 'IStorage', '$q', function ($scope, $http, _, storage, $q) {
+		link : function ($scope) {
 
 			//====================
 			//
@@ -105,7 +106,7 @@ angular.module('kmApp') // lazy
 									.success(function (data) {
 										ref.document = data;
 									})
-									.error(function (draftError, draftCode) {
+									.error(function () {
 										ref.document = undefined;
 										ref.error = error;
 										ref.errorCode = code;
@@ -119,6 +120,7 @@ angular.module('kmApp') // lazy
 						});
 				});
 			}
-		}]
-	}
+		}
+	};
 }]);
+});

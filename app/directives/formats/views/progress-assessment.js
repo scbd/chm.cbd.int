@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewProgressAssessment', [function () {
+define(['app', 'text!./progress-assessment.html', "underscore"], function(app, template, _){
+
+app.directive('viewProgressAssessment', ["$q", "IStorage", function ($q, storage) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-progress-assessment.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,7 +12,7 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller : ['$scope', "$q", "underscore", "IStorage", function ($scope, $q, _, storage)
+		link : function ($scope)
 		{
 			//===============
 			//
@@ -75,6 +76,7 @@ angular.module('kmApp') // lazy
 						});
 				}));
 			}
-		}]
+		}
 	};
 }]);
+});

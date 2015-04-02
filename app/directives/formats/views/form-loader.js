@@ -1,8 +1,9 @@
-﻿angular.module('kmApp') // lazy
-.directive('cbdViewFormLoader', [function () {
+define(['require', 'app', 'text!./form-loader.html', 'authentication', 'utilities/km-storage', 'utilities/km-utilities'], function(require, app, template){
+
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", "$compile", function ($rootScope,    storage,   authentication,   localization,   $q,   $location,   $compile) {
 	return {
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/views/view-form-loader.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		scope: {
@@ -11,16 +12,32 @@
 			document: "=",
 			locale  : "="
 		},
-		link: function($scope) {
+		link: function($scope, $element) {
+
+			var formHolder = $element.find("#form-placeholder:first");
 
 			$scope.internalDocument     = undefined;
 			$scope.internalDocumentInfo = undefined;
 
 			$scope.$watch("document", function(_new) { $scope.error=null; $scope.internalDocument = _new; });
+			$scope.$watch("internalDocument", function(doc) {
 
-			$scope.init();
-		},
-		controller: ['$scope', "$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", function ($scope, $rootScope, storage, authentication, localization, $q, $location) {
+				formHolder.empty();
+
+				if(doc)
+				{
+					var name = snake_case(doc.header.schema);
+
+					require(['./'+name], function(){
+
+						var directiveHtml = '<DIRECTIVE ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></DIRECTIVE>'.replace(/DIRECTIVE/g, 'view-' + name);
+
+						$scope.$apply(function(){
+							formHolder.append($compile(directiveHtml)($scope));
+						});
+					});
+				}
+			});
 
 			if($rootScope.showAcknowledgement)
 			    $scope.showAcknowledgement = true;
@@ -43,14 +60,14 @@
 					$scope.load(oQsParams.documentID || oQsParams.documentid);
 				else
 					$scope.error = "documentID not specified";
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.getLocale = function () {
 				return $scope.locale || localization.locale();
-			}
+			};
 
 			//==================================
 			//
@@ -59,8 +76,8 @@
 
 				$scope.error = undefined;
 
-				var qDocument     = storage.documents.get(identifier)                .then(function(result) { return result.data || result });
-				var qDocumentInfo = storage.documents.get(identifier, { info: true }).then(function(result) { return result.data || result });
+				var qDocument     = storage.documents.get(identifier)                .then(function(result) { return result.data || result; });
+				var qDocumentInfo = storage.documents.get(identifier, { info: true }).then(function(result) { return result.data || result; });
 
 				$q.all([qDocument, qDocumentInfo]).then(function(results) {
 
@@ -68,10 +85,10 @@
 					$scope.internalDocumentInfo = results[1];
 				}).then(null, function(error) {
 
-					$scope.errorNotFound = error && error.status==404
+					$scope.errorNotFound = error && error.status==404;
 
-					$scope.error = error.Message || error || "Http Error: " + errorCode;
-				})
+					$scope.error = (error||{}).Message || error || ("Http Error: " + error.status);
+				});
 			};
 
 			//==================================
@@ -93,7 +110,7 @@
 
 				$location.search({ uid: identifier, returnUrl : $location.url() });
 				$location.path("/management/edit/" + schema);
-			}
+			};
 
 			//==================================
 			//
@@ -105,7 +122,7 @@
 
 				var identifier    = $scope.internalDocumentInfo.identifier;
 				var schema        = $scope.internalDocumentInfo.type;
-				var qDocumentInfo = storage.documents.get(identifier, { info: true }).then(function(result) { return result.data || result });
+				var qDocumentInfo = storage.documents.get(identifier, { info: true }).then(function(result) { return result.data || result; });
 				var qCanDelete    = storage.documents.security.canDelete(identifier, schema);
 
 				return $q.all([qDocumentInfo, qCanDelete]).then(function(results) {
@@ -114,7 +131,7 @@
 					var canDelete    = results[1];
 
 					if (documentInfo.workingDocumentCreatedOn) {
-						alert("There is a pending drafts. Cannot delete.")
+						alert("There is a pending drafts. Cannot delete.");
 						return;
 					}
 
@@ -124,8 +141,8 @@
 					}
 
 					if (confirm("Delete the document?")) {
-						return storage.documents.delete(identifier).then(function(success) {
-							
+						return storage.documents.delete(identifier).then(function() {
+
 							$location.url("/database");
 						});
 					}
@@ -154,15 +171,15 @@
 					var identifier =   $scope.internalDocumentInfo.identifier;
 					var schema     =   $scope.internalDocumentInfo.type;
 
-					var qCanEdit = hasDraft
-							     ? storage.drafts.security.canUpdate(identifier, schema)  // has draft
-								 : storage.drafts.security.canCreate(identifier, schema); // has no draft
+					var qCanEdit = hasDraft ?
+							       storage.drafts.security.canUpdate(identifier, schema): // has draft
+								   storage.drafts.security.canCreate(identifier, schema); // has no draft
 
 					qCanEdit.then(function(isAllowed) {
-						
+
 						$scope.internalCanEdit = isAllowed || false;
 
-					}).then(null, function(error) {
+					}).then(null, function() {
 
 						$scope.internalCanEdit = false;
 					});
@@ -175,7 +192,7 @@
 			//
 			//==================================
 			$scope.canDelete = function() {
-				
+
 				$scope.deleteTooltip = undefined;
 
 				if (!$scope.user().isAuthenticated)
@@ -199,10 +216,10 @@
 					var qCanDelete = storage.documents.security.canDelete(identifier, schema);
 
 					qCanDelete.then(function(isAllowed) {
-						
+
 						$scope.internalCanDelete = isAllowed || false;
 
-					}).then(null, function(error) {
+					}).then(null, function() {
 
 						$scope.internalCanDelete = false;
 					});
@@ -210,6 +227,19 @@
 
 				return $scope.internalCanDelete===true;
 			};
-		}]
-	}
+
+			//==================================
+			//
+			//==================================
+			function snake_case(name, separator) {
+			  separator = separator || '-';
+			  return name.replace(/[A-Z]/g, function(letter, pos) {
+			    return (pos ? separator : '') + letter.toLowerCase();
+			  });
+			}
+
+			$scope.init();
+		}
+	};
 }]);
+});

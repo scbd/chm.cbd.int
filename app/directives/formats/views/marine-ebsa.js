@@ -1,32 +1,30 @@
-angular.module('kmApp') // lazy
-.directive('viewMarineEbsa', [function () {
+define(['app', 'angular', 'underscore', 'text!./marine-ebsa.html', 'utilities/km-storage', 'leaflet-directive'], function(app, angular, _, template){
+
+app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q, storage) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-marine-ebsa.partial.html',
-		//ERD : This is the only solution I've found to make sure the leaflet displays properly
-		//replace    : true,
-		//transclude : false,
+		restrict : 'E',
+		template : template,
 		scope: {
 			document: "=ngModel",
 			locale: "=",
 			allowDrafts : "@",
 			target : "@linkTarget"
 		},
-		controller: ['$scope', '$http', '$q', "IStorage", function ($scope, $http, $q, storage)
-		{
+		link : function ($scope) {
+
    			$scope.fixDate = function(date) {
 
-   				if(date && date.indexOf('0001')==0)
+   				if(date && date.indexOf('0001')===0)
    					date = undefined;
 
    				return date;
-   			}
+   			};
 
 			$scope.gisMapLayers = null;
 			$scope.gisMapCenter = null;
 
 			$scope.$watch("document.gisMapCenter", function(gisMapCenter) {
-				$scope.gisMapCenter = angular.fromJson(angular.toJson(gisMapCenter))
+				$scope.gisMapCenter = angular.fromJson(angular.toJson(gisMapCenter));
 			});
 
 			$scope.$watch("document.gisFiles", function(gisFiles) {
@@ -34,12 +32,12 @@ angular.module('kmApp') // lazy
 				var qGis = [];
 
 				angular.forEach(qLinks, function(link) {
-					qGis.push($http.get(link.url).then(function (res) { return L.geoJson(res.data) }));
+					qGis.push($http.get(link.url).then(function (res) { return L.geoJson(res.data); })); // jshint ignore:line
 				});
 
 				$q.all(qGis).then(function (layers) {
 					$scope.gisMapLayers = layers;
-				})
+				});
 			});
 
 			$scope.$watch("document.approvedByCopDecision", function(approvedByCopDecision) {
@@ -56,12 +54,12 @@ angular.module('kmApp') // lazy
 						$scope.approvedByCopDecision = {
 					 			identifier: docs[0].decision_s,
 					 			title: (docs[0].decision_s + " - " + docs[0].title_t)
-					 		}
+					 		};
 					 	else
 						$scope.approvedByCopDecision = {
 					 			identifier: approvedByCopDecision.identifier,
 					 			title: approvedByCopDecision.identifier
-					 		}
+					 		};
 					 });
 				}
 
@@ -106,6 +104,7 @@ angular.module('kmApp') // lazy
 						});
 				}));
 			}
-		}]
-	}
+		}
+	};
 }]);
+});

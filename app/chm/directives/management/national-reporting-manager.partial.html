@@ -56,19 +56,19 @@
 
     <div ng-show="schema == 'nationalReport'">
         <h1 class="page-header">National Reports</h1>
-        <!-- <div class="filters">
+        <div class="filters">
             FILTERS:
             <span class="label label-default bg-black label-spacing"> show all
-                <span class="badge bg-white">{{(cbdNationalReports|filter:isPublic).length + (nationalStrategicPlans|filter:isDraft).length}}</span>
+                <span class="badge bg-white">{{(nationalReports | filter:{ reportType : nrType }|filter:isPublic).length + (nationalReports | filter:{ reportType : nrType }|filter:isDraft).length}}</span>
             </span>
             <span class="label bg-published label-spacing"> published
-                <span class="badge  bg-white">{{(cbdNationalReports|filter:isPublic).length}}</span>
+                <span class="badge  bg-white">{{(nationalReports | filter:{ reportType : nrType }|filter:isPublic).length}}</span>
             </span>
             <span class="label bg-draft label-warning label-spacing"> drafts
-                <span class="badge  bg-white">{{(cbdNationalReports|filter:isDraft).length}}</span>
+                <span class="badge  bg-white">{{(nationalReports | filter:{ reportType : nrType }|filter:isDraft).length}}</span>
             </span>
             <button class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {reportType:nrType, government : government,type:'nr'})"><i class="fa fa-plus-square"></i> add new </button>
-        </div> -->
+        </div>
         <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="nrType in cbdNationalReports" style="padding-bottom:10px">
             <div class="boxed">
                 <h4>
@@ -121,7 +121,7 @@
             </span>
             <button class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {type:'other', government : government})"><i class="fa fa-plus-square"></i> add new </button>
         </div>
-        <div ng-hide="otherNationalReports && otherNationalReports.length>0">
+        <div ng-show="(otherNationalReports||[]).length==0 && !loading">
             <!-- no records -->
             <p>
                 No other report exists.

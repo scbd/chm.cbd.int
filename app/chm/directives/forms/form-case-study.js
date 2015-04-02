@@ -10,7 +10,7 @@ angular.module('kmApp') // lazy
 		{
 			$scope.init();
 		},
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls, Thesaurus, guid) 
+		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls, Thesaurus, guid)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -174,7 +174,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				$location.url(siteMapUrls.management.drafts);
+				$location.url("/management/list/caseStudy");
 			};
 
 			//==================================

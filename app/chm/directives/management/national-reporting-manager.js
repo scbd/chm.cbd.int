@@ -402,12 +402,11 @@ angular.module('kmApp') // lazy
 					fl: 'schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_EN_t,reportType_CEN_s,year_is,version_s',
 					rows: 99999999
 				};
-console.log(nrQuery.q);
+
 				var qResults = $http.get('/api/v2013/index', { params: nrQuery });
 
 				return $q.when(qResults)
                 .then(function(response) {
-                    console.log(response.data.response.docs);
 					return mergeWithDrafts(response.data.response.docs);
 				}).then(function(qRecords) {
 					var qqNationalReports = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNationalReports, o.reportType_s); });

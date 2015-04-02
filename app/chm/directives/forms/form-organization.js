@@ -198,7 +198,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPostSaveDraft = function(data) {
-				$location.url(siteMapUrls.management.drafts);
+				$location.url('/management/list/organization');
 			};
 
 			//==================================

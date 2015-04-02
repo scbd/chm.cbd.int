@@ -83,8 +83,8 @@ angular.module('kmApp') // lazy
 		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter",
 		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
 
-			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
-
+			 navigation.securize();
+//["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]
 			// if(userGovernment() && userGovernment()!=$routeParams.country) {
 			// 	$location.path("/management/national-reporting/"+userGovernment());
 			// 	return;
@@ -388,10 +388,10 @@ angular.module('kmApp') // lazy
 
                 var query = ' reportType_s:'
                 if($scope.schema=='nationalReport'){
-                   query += $scope.cbdNationalReports.join(' OR reportType_s:')
+                   query += '(' + $scope.cbdNationalReports.join(' OR reportType_s:') + ')'
                 }
                 else if($scope.schema=='nationalStrategicPlan'){
-                    query += $scope.cbdNBSAPs.join(' OR reportType_s:')
+                    query += '(' + $scope.cbdNBSAPs.join(' OR reportType_s:') + ')'
                 }
                 else if($scope.schema=='otherReport'){
                     var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);

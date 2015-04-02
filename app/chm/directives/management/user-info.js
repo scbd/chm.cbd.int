@@ -8,8 +8,8 @@ angular.module('kmApp') // lazy
 		transclude: false,
 		scope: {},
 		link: {},
-		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter",
-		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
+		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter","$window",
+		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter,$window) {
 
 			navigation.securize();
 
@@ -28,6 +28,20 @@ angular.module('kmApp') // lazy
 				}
 				return false;
 			}
+
+			$scope.actionPassword = function () {
+				var redirect_uri = $window.encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/');
+				$window.location.href = 'https://accounts.cbd.int/password?redirect_uri='+redirect_uri;
+			};
+
+			//============================================================
+			//
+			//
+			//============================================================
+			$scope.actionProfile = function () {
+				var redirect_uri = $window.encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/');
+				$window.location.href = 'https://accounts.cbd.int/profile?redirect_uri='+redirect_uri;
+			};
 
 		}]
 	};

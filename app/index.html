@@ -132,7 +132,7 @@
                                             </ul>
                                         </li>
                                         <li ng-cloak ng-show="user && !user.isAuthenticated">
-                                            <a title="Sign In" class="fa-power-off" href="/management/signin" style="color: black"></a>
+                                            <a title="Sign In" class="fa-power-off" href="/signin" style="color: black"></a>
                                         </li>
                                         <li ng-cloak ng-show="user && user.isAuthenticated" class="dropdown" style="border-right: none; padding-right: 0">
                                             <a title="Sign out"href="#" ng-click="signOut()"><i class="fa fa-sign-out" style="font-size: 15px"></i></a>
@@ -152,7 +152,7 @@
                             </ul>
                             <ul class="header-actions pull-right" ng-show="user" style="list-style:none;">
                                 <li ng-cloak ng-hide="user.isAuthenticated" style="border-right: none; padding-right: 0">
-                                    <a class="signin" href="/management/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
+                                    <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size: 15px"></i>&nbsp; Sign In</a>
                                 </li>
                                 <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right: none; padding-right: 0">
                                     <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size: 15px"></i> {{user.name}}</a>

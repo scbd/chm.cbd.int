@@ -38,7 +38,7 @@ define(['app', 'authentication', 'ng-breadcrumbs'], function(app) {
         //
         //============================================================
         $scope.signIn = function () {
-            $location.url('/management/signin');
+            $location.url('/signin');
         };
 
         //============================================================

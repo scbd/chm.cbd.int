@@ -75,7 +75,7 @@ angular.module('kmApp') // lazy
 				if(!$location.search().returnUrl)
 					$location.search({returnUrl : $location.url() });
 
-				$location.path('/management/signin');
+				$location.path('/signin');
 				return;
 			}
 

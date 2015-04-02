@@ -18,7 +18,7 @@ define(['app'], function(app) { 'use strict';
         },
 
         user: {
-            signIn: "/management/signin",
+            signIn: "/signin",
             signUp: "/user/sign-up",
             account: "/user/my-account"
         }
@@ -86,5 +86,5 @@ define(['app'], function(app) { 'use strict';
             }
         };
     }]);
-    
+
 });

@@ -15,7 +15,7 @@
 		<tr ng-repeat="workflow in workflows|orderBy:'createdOn'">
 
 			<td> <!-- ID -->
-				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
 				<div ng-switch="workflow.type.name">
 					<em ng-switch-when="publishNationalRecord">Publishing request</em>
 					<em ng-switch-when="publishReferenceRecord">Publishing request</em>

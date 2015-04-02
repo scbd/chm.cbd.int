@@ -19,6 +19,7 @@ require.config({
       'jquery'           : 'libs/jquery/dist/jquery',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
+      'ng-breadcrumbs'   : 'libs/ng-breadcrumbs/dist/ng-breadcrumbs',
       'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
     },
     shim: {
@@ -27,6 +28,7 @@ require.config({
       'ngRoute'                  : { deps: ['angular'] },
       'ngSanitize'               : { deps: ['angular'] },
       'leaflet-directive'        : { deps: ['angular', 'leaflet'] },
+      'ng-breadcrumbs'           : { deps: ['angular'] },
       'bootstrap'                : { deps: ['jquery'] },
       'linqjs'                   : { deps: [], exports : 'Enumerable' },
       'bootstrap-datepicker'     : { deps: ['bootstrap'] },

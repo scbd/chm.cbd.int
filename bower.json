@@ -19,6 +19,7 @@
     "flag-icon-css": "https://github.com/lipis/flag-icon-css.git#~0.6.0",
     "angular-flex": "git://github.com/scbd/angular-flex.git",
     "jquery": "~2.1.3",
-    "bootstrap-datepicker": "~1.3.0"
+    "bootstrap-datepicker": "~1.3.0",
+    "ng-breadcrumbs": "~0.4.1"
   }
 }

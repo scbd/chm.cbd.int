@@ -16,7 +16,7 @@
 		<tr ng-repeat="task in tasks|orderBy:'activity.createdOn'">
 
 			<td> <!-- ID -->
-				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{task.workflow._id}}/{{task.activity.name}}"  type="button">{{formatWID(task.workflow._id)}}</a>
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{task.workflow._id}}/{{task.activity.name}}"  type="button">{{formatWID(task.workflow._id)}}</a>
 				<div ng-switch="task.workflow.type.name">
 					<em ng-switch-when="publishNationalRecord">Publishing request</em>
 					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
@@ -44,7 +44,7 @@
 			</td>
 
 			<td style="text-align:end">
-				<a class="btn btn-info" ng-href="/management/tasks/{{task.workflow._id}}/{{task.activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
+				<a class="btn btn-info" ng-href="/management/requests/{{task.workflow._id}}/{{task.activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
 			</td>
 		</tr>
 

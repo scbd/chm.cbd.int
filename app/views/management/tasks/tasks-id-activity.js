@@ -40,7 +40,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 
 		IWorkflows.updateActivity($scope.workflow._id, $scope.activity.name, resultData).then(function(){
 
-			$location.path("/management/tasks/"+$scope.workflow._id)
+			$location.path("/management/requests/"+$scope.workflow._id)
 
 		}).catch(function(error) {
 			alert(error);

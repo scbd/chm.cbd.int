@@ -1,8 +1,13 @@
 <div class="home-bottom" style="position:relative" ng-controller="TaskIdController">
-    <div >
-      	<div class="row top">
+    <div class="col-xs-3">
+        <div class="register-facets"></div>
+        <script src="/app/chm/directives/management/register-facets.partial.html.js"></script>
+        <script src="/app/chm/directives/management/facet-bar.partial.html.js"></script>
+    </div>
+    <div class="col-xs-9 my_well my_well-white">
+        <div class="top">
 
-	    	<h1>Task</h1>
+	    	<h1>Request status</h1>
 
 			<table class="table table-striped">
 			  <tr>
@@ -109,7 +114,7 @@
 			  	</td>
 
 			  	<td class="text-right">
-					<a ng-show="isAssignedToMe(activity)" class="btn btn-info" ng-href="/management/tasks/{{workflow._id}}/{{activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
+					<a ng-show="isAssignedToMe(activity)" class="btn btn-info" ng-href="/management/requests/{{workflow._id}}/{{activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
 			  	</td>
 
 			  </tr>
@@ -187,7 +192,7 @@
 }
 </style>
 
-<script src="/app/views/management/tasks/tasks-id.html.js"></script>
+<script src="/app/views/management/tasks/tasks-id.js"></script>
 <script src="/app/chm/directives/views/view-form-loader.js"></script>
 <script src="/app/chm/directives/views/view-aichi-target.js"></script>
 <script src="/app/chm/directives/views/view-case-study.js"></script>

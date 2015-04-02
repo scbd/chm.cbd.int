@@ -83,8 +83,8 @@ angular.module('kmApp') // lazy
 		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter",
 		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
 
-			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
-
+			 navigation.securize();
+//["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]
 			// if(userGovernment() && userGovernment()!=$routeParams.country) {
 			// 	$location.path("/management/national-reporting/"+userGovernment());
 			// 	return;
@@ -388,28 +388,28 @@ angular.module('kmApp') // lazy
 
                 var query = ' reportType_s:'
                 if($scope.schema=='nationalReport'){
-                   query += $scope.cbdNationalReports.join(' OR reportType_s:')
+                   query += '(' + $scope.cbdNationalReports.join(' OR reportType_s:') + ')'
                 }
                 else if($scope.schema=='nationalStrategicPlan'){
-                    query += $scope.cbdNBSAPs.join(' OR reportType_s:')
+                    query += '(' + $scope.cbdNBSAPs.join(' OR reportType_s:') + ')'
                 }
                 else if($scope.schema=='otherReport'){
                     var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
                     query = ' NOT reportType_s:' + others.join(' AND NOT reportType_s:')
                 }
-
 				var nrQuery = {
-					q: 'schema_s:("nationalReport") AND government_s:"' + government + '" AND (' + query + ')',
+					q: 'schema_s:("nationalReport") AND government_s:"' + government + '" AND ' + query ,
 					fl: 'schema_s,url_ss,identifier_s,title_t,summary_t,reportType_s,reportType_EN_t,reportType_CEN_s,year_is,version_s',
 					rows: 99999999
 				};
+console.log(nrQuery.q);
+				var qResults = $http.get('/api/v2013/index', { params: nrQuery });
 
-				var qResults = $http.get('/api/v2013/index', { params: nrQuery }).then(function(response) {
+				return $q.when(qResults)
+                .then(function(response) {
+                    console.log(response.data.response.docs);
 					return mergeWithDrafts(response.data.response.docs);
-				});
-
-				return $q.all(qResults).then(function(qRecords) {
-
+				}).then(function(qRecords) {
 					var qqNationalReports = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNationalReports, o.reportType_s); });
 					var qqNBSAPs          = _.filter(qRecords, function(o) { return   _.contains($scope.cbdNBSAPs,          o.reportType_s); });
 					//var qqOthers          = _.filter(qRecords, function(o) { return !(_.contains($scope.cbdNationalReports, o.reportType_s) || _.contains($scope.cbdNBSAPs, o.reportType_s)); });
@@ -692,7 +692,6 @@ angular.module('kmApp') // lazy
 			//
 			//===============
 			function mergeWithDrafts(docsAndDrafts) {
-
 				var qIdentifiers = _.union(_.pluck(docsAndDrafts, "identifier_s"));
 
 				return _.map(qIdentifiers, function(uid){

@@ -11,7 +11,7 @@ angular.module('kmApp') // lazy
 		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter",
 		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
 
-			navigation.securize(["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]);
+			navigation.securize();
 
 			$scope.user = authentication.user();
 

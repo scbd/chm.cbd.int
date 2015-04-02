@@ -11,9 +11,9 @@
 		</tr>
 
 		<tr ng-repeat="workflow in workflows|orderBy:'-closedOn'">
-			
+
 			<td>
-				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/tasks/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
+				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
 				<div ng-switch="workflow.type.name">
 					<em ng-switch-when="publishNationalRecord">Publishing request</em>
 					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
@@ -40,9 +40,9 @@
 						</span>
 						<span> on {{activity.completedOn|date:'short'}} </span>
 					</div>
-					
+
 					<div ng-show="activity.canceledOn">
-						Canceled on {{activity.canceledOn|date:'short'}} 
+						Canceled on {{activity.canceledOn|date:'short'}}
 					</div>
 
 					<div ng-show="activity.failedOn">
@@ -52,13 +52,13 @@
 				</div>
 
 				<div ng-hide="workflow.activities">
-					
+
 					<div ng-show="workflow.completedOn">
 						Compledted on {{activity.completedOn|date:'short'}}
 					</div>
-					
+
 					<div ng-show="workflow.canceledOn">
-						Canceled on {{activity.canceledOn|date:'short'}} 
+						Canceled on {{activity.canceledOn|date:'short'}}
 					</div>
 
 					<div ng-show="workflow.failedOn">

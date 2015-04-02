@@ -259,15 +259,16 @@ angular.module('kmApp') // lazy
                 //   console.log(results)
                   _.each(results, function(facets){
                       _.each(facets.data, function(count, format){
-                          console.log(format);
-                            var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
-                            if(schemaTypeFacet.length>0){
-                                if(index==0)
-                                      schemaTypeFacet[0].publishCount = count;
-                                else if(index==1)
-                                      schemaTypeFacet[0].draftCount = count;
-                                else if(index==2)
-                                    schemaTypeFacet[0].requestCount = count;
+                          if(_.indexOf(["resource","organization","caseStudy","marineEbsa","aichiTarget","strategicPlanIndicator"],format)>0){
+                                var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
+                                if(schemaTypeFacet.length>0){
+                                    if(index==0)
+                                          schemaTypeFacet[0].publishCount = count;
+                                    else if(index==1)
+                                          schemaTypeFacet[0].draftCount = count;
+                                    else if(index==2)
+                                        schemaTypeFacet[0].requestCount = count;
+                                }
                             }
                       })
                     index++;
@@ -306,7 +307,8 @@ angular.module('kmApp') // lazy
             };
 
             function calculateFacet(list, type){
-                var qqNationalReports = _.filter(list, function(o) { return   _.contains($scope.cbdNationalReports, o.value); });
+                console.log(list)
+                var qqNationalReports = _.filter(list, function(o) { console.log(_.contains($scope.cbdNationalReports, o.value),o.value); return   _.contains($scope.cbdNationalReports, o.value); });
                 var qqNBSAPs          = _.filter(list, function(o) { return   _.contains($scope.cbdNBSAPs,          o.value); });
 
                 var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
@@ -316,12 +318,12 @@ angular.module('kmApp') // lazy
                 var publishNPCount      = _.reduce(qqNationalReports, function(memo,item){ return memo + item.count;},0)
                 var publishNBSAPCount   = _.reduce(qqNBSAPs, function(memo,item){ return memo + item.count;},0)
                 var publishOtherCount   = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0)
-
+console.log(publishNPCount);
                 _.where($scope.schemasList, {'identifier':'nationalReport'})[0][type] = publishNPCount;
                 _.where($scope.schemasList, {'identifier':'nationalStrategicPlan'})[0][type] = publishNBSAPCount;
                 _.where($scope.schemasList, {'identifier':'otherReport'})[0][type] = publishOtherCount;
 
-                console.log($scope.schemasList)
+                //console.log($scope.schemasList)
             }
 
             $scope.load();

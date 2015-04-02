@@ -56,6 +56,19 @@
 
     <div ng-show="schema == 'nationalReport'">
         <h1 class="page-header">National Reports</h1>
+        <!-- <div class="filters">
+            FILTERS:
+            <span class="label label-default bg-black label-spacing"> show all
+                <span class="badge bg-white">{{(cbdNationalReports|filter:isPublic).length + (nationalStrategicPlans|filter:isDraft).length}}</span>
+            </span>
+            <span class="label bg-published label-spacing"> published
+                <span class="badge  bg-white">{{(cbdNationalReports|filter:isPublic).length}}</span>
+            </span>
+            <span class="label bg-draft label-warning label-spacing"> drafts
+                <span class="badge  bg-white">{{(cbdNationalReports|filter:isDraft).length}}</span>
+            </span>
+            <button class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {reportType:nrType, government : government,type:'nr'})"><i class="fa fa-plus-square"></i> add new </button>
+        </div> -->
         <div class="col-lg-4 col-md-4 col-sm-6" ng-repeat="nrType in cbdNationalReports" style="padding-bottom:10px">
             <div class="boxed">
                 <h4>
@@ -95,7 +108,20 @@
 -->
     <div ng-show="schema == 'otherReport'">
         <h1 class="page-header">Other Reports</h1>
-        <div ng-hide="otherNationalReports">
+        <div class="filters">
+            FILTERS:
+            <span class="label label-default bg-black label-spacing"> show all
+                <span class="badge bg-white">{{(otherNationalReports|filter:isPublic).length + (otherNationalReports|filter:isDraft).length}}</span>
+            </span>
+            <span class="label bg-published label-spacing"> published
+                <span class="badge  bg-white">{{(otherNationalReports|filter:isPublic).length}}</span>
+            </span>
+            <span class="label bg-draft label-warning label-spacing"> drafts
+                <span class="badge  bg-white">{{(otherNationalReports|filter:isDraft).length}}</span>
+            </span>
+            <button class="btn btn-info btn-xs pull-right btn-add" ng-click="edit('nationalReport', {type:'other', government : government})"><i class="fa fa-plus-square"></i> add new </button>
+        </div>
+        <div ng-hide="otherNationalReports && otherNationalReports.length>0">
             <!-- no records -->
             <p>
                 No other report exists.

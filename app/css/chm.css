@@ -485,9 +485,6 @@ img.thumb {
         background-color: #fff;
         /*margin-left: 5px;*/
     }
- /*#t-header div{
-    padding: 0px;
- }*/
     #t-headerLogo {
         display: block;
         float: left;
@@ -521,9 +518,6 @@ img.thumb {
     /*margin-left: -5px;*/
 }
 
-#main-nav  {
-    padding: 15px;
-}
 
 /*    #MainNav ul li {
         padding-right: 20px;

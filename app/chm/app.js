@@ -1,6 +1,6 @@
 define(['angular', 'ngSanitize'], function(angular) { 'use strict';
 
-    var deps = ['ngRoute', 'ngSanitize', 'leaflet-directive'];
+    var deps = ['ngRoute', 'ngSanitize', 'leaflet-directive', 'ng-breadcrumbs'];
 
     angular.defineModules(deps);
 

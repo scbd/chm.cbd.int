@@ -1,32 +1,46 @@
-<div class="row">
 
-    <div class="col-xs-3">
-        <div class="register-facets"></div>
-        <script src="/app/chm/directives/management/register-facets.partial.html.js"></script><script src="/app/chm/directives/management/facet-bar.partial.html.js"></script>
-    </div>
+<script src="/app/chm/directives/management/register-facets.partial.html.js"></script><script src="/app/chm/directives/management/facet-bar.partial.html.js"></script>
 
-    <div class="col-xs-9 my_well my_well-white">
-
-        <h1>Requests</h1>
-
-        <div class="row row-same-height bg-litegrey" style="margin-bottom:20px;padding-top:10px;padding-bottom:10px;">
-            <div class="col-xs-12">
-                Information about this page.
-            </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div register-facets />
         </div>
 
-        <h2 style="margin-top:30px;border:0;">Items requiring your attention</h2>
-        <div class="my-tasks"></div>
 
-        <h2 style="margin-top:30px;border:0;">Pending requests</h2>
-        <div class="my-pending-tasks"></div>
+        <div class="col-xs-9 my_well my_well-white">
 
-        <h2 style="margin-top:30px;border:0;">Completed requests</h2>
-        <div class="my-completed-tasks"></div>
+            <h1 class="page-header">Dashboard</h1>
 
+            <div class="user-info"></div>
+            <script src="/app/chm/directives/management/user-info.js"></script>
+
+
+
+            <h2 class="sub-header" style="border:0;" >All Records</h2>
+
+            <div role="tabpanel">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#published" aria-controls="published" role="tab" data-toggle="tab"><span class="sub-header">Published Records</span></a></li>
+                    <li role="presentation"><a href="#draft" aria-controls="draft" role="tab" data-toggle="tab"><span class="sub-header">Draft Records</span></a></li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="published">
+                        <div class="my-documents"></div>
+                        <script src="/app/chm/directives/management/my-documents.js"></script>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="draft">
+                        <div class="my-drafts"></div>
+                        <script src="/app/chm/directives/management/my-drafts.js"></script>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-    <script src="/app/chm/directives/management/tasks/my-tasks.js"></script>
-    <script src="/app/chm/directives/management/tasks/my-pending-tasks.js"></script>
-    <script src="/app/chm/directives/management/tasks/my-completed-tasks.js"></script>
-</div>

@@ -10,14 +10,15 @@ require(['jquery'], function($) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 
-define(['app', 'authentication'], function(app) {
+define(['app', 'authentication', 'ng-breadcrumbs'], function(app) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$window', '$browser', '$document', '$location', 'authentication', function($scope, $window, $browser, $document, $location, authentication) {
+    app.controller('TemplateController', ['$scope', '$window', '$location', 'authentication', 'breadcrumbs', function($scope, $window, $location, authentication, breadcrumbs) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
 
+        $scope.breadcrumbs     = breadcrumbs;
         $scope.$root.pageTitle = { text: "" };
 
         $scope.$on("$routeChangeSuccess", function(){

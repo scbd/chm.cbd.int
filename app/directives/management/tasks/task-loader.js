@@ -1,16 +1,15 @@
-﻿angular.module('kmApp') // lazy
-.directive("taskLoader", [function () {
+define(['text!./task-loader.html', 'app', 'underscore', 'authentication', 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(template, app, _) { 'use strict';
+
+app.directive("taskLoader", [ "$scope", "$http", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication) {
 	return {
 		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/tasks/task-loader.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		scope : true,
-		link : function($scope) {},
-		controller: [ "$scope", "$http", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication, _) 
-		{
-			load();
+		link : function($scope) {
+
 			//==================================================
 			//
 			//
@@ -57,7 +56,7 @@
 			//==================================================
 			$scope.isOpen = function(element) {
 				return !element.closedOn;
-			}
+			};
 
 			//==================================================
 			//
@@ -65,8 +64,11 @@
 			//==================================================
 			$scope.hasOpenActivities = function(activities) {
 				return !_.isEmpty(_.filter(activities, $scope.isOpen));
-			}
+			};
 
-		}]
-	}
-}])
+			load();
+
+		}
+	};
+}]);
+});

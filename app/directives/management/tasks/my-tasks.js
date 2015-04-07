@@ -1,15 +1,16 @@
-﻿angular.module('kmApp') // lazy
-.directive("myTasks", ['$http', function ($http) {
+define(['text!./my-tasks.html', 'app', 'underscore', 'authentication', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app, _) { 'use strict';
+
+app.directive("myTasks", ['$http', "$timeout", "IWorkflows", "authentication", function ($http, $timeout, IWorkflows, authentication) {
 	return {
 		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/tasks/my-tasks.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", "underscore", function ($scope, $timeout, IWorkflows, authentication, _)
+		link: function ($scope)
 		{
-			var nextLoad  = null
+			var nextLoad  = null;
 			var myUserID = authentication.user().userID;
 			var query    = {
 				$and : [
@@ -74,8 +75,7 @@
 				if(nextLoad)
 					$timeout.cancel(nextLoad);
 			});
-		}]
-	}
-}])
-
-;
+		}
+	};
+}]);
+});

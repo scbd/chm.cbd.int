@@ -22,30 +22,7 @@
 	  <tr>
 	  	<td>Summary</td>
 	  	<td>
-			<span ng-switch="workflow.data.metadata.schema">
-				<span ng-switch-when="focalPoint">National Focal Point</span>
-				<span ng-switch-when="authority">Competent National Authority</span>
-				<span ng-switch-when="caseStudy">Case Study</span>
-				<span ng-switch-when="contact">Contact</span>
-				<span ng-switch-when="database">National Database</span>
-				<span ng-switch-when="resource">Virtual Library Resource</span>
-				<span ng-switch-when="organization">Organization</span>
-				<span ng-switch-when="measure">National Regulation</span>
-				<span ng-switch-when="marineEbsa">Ecologically or Biologically Significant Areas (EBSAs)</span>
-				<span ng-switch-when="aichiTarget">Aichi Target</span>
-				<span ng-switch-when="strategicPlanIndicator">Strategic Plan Indicator</span>
-				<span ng-switch-when="nationalIndicator">National Indicator</span>
-				<span ng-switch-when="nationalTarget">National Target</span>
-				<span ng-switch-when="progressAssessment">Progress Assessment</span>
-				<span ng-switch-when="nationalReport">National Report</span>
-				<span ng-switch-when="implementationActivity">Implementation Activity</span>
-				<span ng-switch-when="nationalSupportTool">Guidance and Support Tools</span>
-				<span ng-switch-when="resourceMobilisation">Resource Mobilisation</span>
-				<span ng-switch-when="absCheckpoint">Checkpoint</span>
-				<span ng-switch-when="absCheckpointCommunique">Checkpoint Communiqué</span>
-				<span ng-switch-when="absPermit">Permit</span>
-				<span ng-switch-default>{{document.type}}*</span>
-			</span>
+			<span>{{workflow.data.metadata.schema || schemaName}}<span>
 			<span>{{workflow.data.title | lstring}}</span>
 
 		</td>
@@ -65,7 +42,7 @@
 	  	<td>
 	  		<span ng-switch="workflow.state">
 	  			<span ng-switch-when="running">
-					<span ng-show="hasOpenActivities(workflow.activities)"><i class="fa fa-times"></i> Awaiting for user action</span>	  				
+					<span ng-show="hasOpenActivities(workflow.activities)"><i class="fa fa-times"></i> Awaiting for user action</span>
 					<span ng-hide="hasOpenActivities(workflow.activities)"><i class="fa fa-cog"></i> Processing</span>
 	  			</span>
 	  			<span ng-switch-when="completed">Completed on {{workflow.closedOn|date:'yyyy-MM-dd HH:mm:ss'}}</span>
@@ -136,7 +113,7 @@
 	    <h3 class="panel-title">Document to approve</h3>
 	  </div>
 	  <div class="panel-body">
-		<div class="cbd-View-Form-Loader" document="document" hide-buttons="true" link-target="_self"></div>
+		<view-form-loader document="document" hide-buttons="true" link-target="_self"></view-form-loader>
 	  </div>
 	</div>
 

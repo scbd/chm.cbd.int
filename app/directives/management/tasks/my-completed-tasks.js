@@ -1,33 +1,29 @@
-﻿//==================================================
-//
-// My Completed Tasks
-//
-//==================================================
-angular.module('kmApp') // lazy
-.directive("myCompletedTasks", [function () {
+define(['text!./my-completed-tasks.html', 'app', 'authentication', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app) { 'use strict';
+
+app.directive("myCompletedTasks", [ "$timeout", "IWorkflows", "authentication", function ($timeout, IWorkflows, authentication) {
 	return {
 		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/tasks/my-completed-tasks.partial.html',
+		restrict: 'E',
+		template : template,
 		replace: true,
 		transclude: false,
 		scope : true,
-		controller: [ "$scope", "$timeout", "IWorkflows", "authentication", function ($scope, $timeout, IWorkflows, authentication) 
+		link : function ($scope)
 		{
 			var nextLoad = null;
 			var myUserID = authentication.user().userID;
-			var query    = {  
+			var query    = {
 				$and : [
-					{ "createdBy" : myUserID }, 
-					{ closedOn : { $exists : true } } 
-				] 
+					{ "createdBy" : myUserID },
+					{ closedOn : { $exists : true } }
+				]
 			};
 
 			//==============================
 			//
 			//==============================
 			function load() {
-				
+
 				IWorkflows.query(query).then(function(workflows){
 
 					$scope.workflows = workflows;
@@ -57,7 +53,7 @@ angular.module('kmApp') // lazy
 				if(nextLoad)
 					$timeout.cancel(nextLoad);
 			});
-		}]
-	}
-}])
-;
+		}
+	};
+}]);
+});

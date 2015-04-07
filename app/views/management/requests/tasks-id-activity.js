@@ -1,8 +1,11 @@
-define(['underscore', 'directives/management/register-facets', 'authentication', "directives/formats/views/form-loader", 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(_) { 'use strict';
-
-return [ "$scope", "$timeout", "$http", "$route", "$location", "IStorage", "IWorkflows", "authentication",
-function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication)
+﻿angular.module('kmApp').controller("TaskIdActivityController",
+[ "$scope", "$timeout", "$http", "$route", "$location", "IStorage", "IWorkflows", "authentication", "underscore",
+function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication, _)
 {
+	//==================================================
+	//
+	//
+	//==================================================
 	function load() {
 
 		var workflowID   = $route.current.params.id;
@@ -23,9 +26,11 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 			}
 
 			$scope.workflow = workflow;
-			$scope.activity = activity;
+			$scope.activity = activity
 		});
 	}
+
+	load();
 
 	//==================================================
 	//
@@ -35,7 +40,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 
 		IWorkflows.updateActivity($scope.workflow._id, $scope.activity.name, resultData).then(function(){
 
-			$location.url("/management/requests/"+$scope.workflow._id);
+			$location.path("/management/requests/"+$scope.workflow._id)
 
 		}).catch(function(error) {
 			alert(error);
@@ -57,7 +62,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 	//==================================================
 	$scope.isOpen = function(element) {
 		return !element.closedOn;
-	};
+	}
 
 	//==============================
 	//
@@ -68,7 +73,4 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 		return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
 	};
 
-	load();
-
-}];
-});
+}]);

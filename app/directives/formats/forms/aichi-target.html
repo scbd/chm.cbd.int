@@ -243,7 +243,7 @@
 					  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
 					</div>
 
-					<div class="view-aichi-target" ng-model="reviewDocument" allow-drafts="true" locale="review.locale" link-target="_blank"></div>
+					<view-aichi-target ng-model="reviewDocument" allow-drafts="true" locale="review.locale" link-target="_blank"></view-aichi-target>
 
 				</div>
 

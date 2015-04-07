@@ -27,10 +27,11 @@ require.config({
       'angular'                  : { deps: ['libs/angular/angular'] },
       'ngRoute'                  : { deps: ['angular'] },
       'ngSanitize'               : { deps: ['angular'] },
-      'leaflet-directive'        : { deps: ['angular', 'leaflet'] },
+      'leaflet-directive'        : { deps: ['angular', 'leaflet'], exports : 'L' },
       'ng-breadcrumbs'           : { deps: ['angular'] },
       'bootstrap'                : { deps: ['jquery'] },
       'linqjs'                   : { deps: [], exports : 'Enumerable' },
+      'leaflet'                  : { deps: [], exports : 'L' },
       'bootstrap-datepicker'     : { deps: ['bootstrap'] },
     },
 });

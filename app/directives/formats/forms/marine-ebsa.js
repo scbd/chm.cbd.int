@@ -1,16 +1,13 @@
-angular.module('kmApp') // lazy
-.directive('editMarineEbsa', [function () {
+define(['text!./marine-ebsa.html', 'app', 'angular', 'underscore', 'leaflet-directive', 'linqjs', 'jquery', 'authentication', '../views/marine-ebsa', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L, Enumerable, $) { 'use strict';
+
+app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-marine-ebsa.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
-		{
-			$scope.init();
-		},
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid)
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -73,10 +70,10 @@ angular.module('kmApp') // lazy
 												 		return {
 												 			identifier: o.decision_s,
 												 			title: (o.decision_s + " - " + o.title_t)
-												 		}
+												 		};
 												 	});
 												 })
-						}
+						};
 					}
 
 			        return doc;
@@ -88,11 +85,11 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -101,26 +98,26 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
-				if (document.approvedByGovernmentOn && document.approvedByGovernmentOn.indexOf('0001') == 0)
+				if (document.approvedByGovernmentOn && document.approvedByGovernmentOn.indexOf('0001') === 0)
 					document.approvedByGovernmentOn = undefined;
 
-				if (document.recommendedToCopByGovernmentOn && document.recommendedToCopByGovernmentOn.indexOf('0001') == 0)
+				if (document.recommendedToCopByGovernmentOn && document.recommendedToCopByGovernmentOn.indexOf('0001') === 0)
 					document.recommendedToCopByGovernmentOn = undefined;
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return document
+				return document;
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.validate = function(clone) {
+			$scope.validate = function() {
 
 				$scope.validationReport = null;
 
@@ -137,7 +134,7 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -151,12 +148,12 @@ angular.module('kmApp') // lazy
 					qLinks = $scope.document.gisFiles || [];
 
 				angular.forEach(qLinks, function(link){
-					qGis.push($http.get(link.url).then(function(res) { return L.geoJson(res.data) }));
+					qGis.push($http.get(link.url).then(function(res) { return L.geoJson(res.data); }));
 				});
 
 				$q.all(qGis).then(function(layers) {
 					$scope.gisLayer = layers;
-				})
+				});
 			});
 
 			//==================================
@@ -167,10 +164,10 @@ angular.module('kmApp') // lazy
 				if(!tab)
 					return;
 
-				if(tab == "general"   ) { $scope.prevTab = "general";    $scope.nextTab = "status" }
-				if(tab == "status"    ) { $scope.prevTab = "general";    $scope.nextTab = "assessment" }
-				if(tab == "assessment") { $scope.prevTab = "status";     $scope.nextTab = "review" }
-				if(tab == "review"    ) { $scope.prevTab = "assessment"; $scope.nextTab = "review" }
+				if(tab == "general"   ) { $scope.prevTab = "general";    $scope.nextTab = "status"; }
+				if(tab == "status"    ) { $scope.prevTab = "general";    $scope.nextTab = "assessment"; }
+				if(tab == "assessment") { $scope.prevTab = "status";     $scope.nextTab = "review"; }
+				if(tab == "review"    ) { $scope.prevTab = "assessment"; $scope.nextTab = "review"; }
 
 				if (tab == 'review')
 					$scope.validate();
@@ -181,7 +178,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -192,26 +189,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$location.url('/management/list/marineEbsa');
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url('/management/list/marineEbsa');
 			};
 
@@ -245,10 +242,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -267,12 +264,14 @@ angular.module('kmApp') // lazy
 									    .then(function(res) {
 									    	return res.data.Items;
 									    });
-			}
-		}]
-	}
-}])
+			};
 
-.directive('marineEbsaAssessment', [ function () {
+			$scope.init();
+		}
+	};
+}]);
+
+app.directive('marineEbsaAssessment', [ function () {
 	return {
 		restrict   : 'EAC',
 		templateUrl: "marine-ebsa-assessment.html",
@@ -282,7 +281,7 @@ angular.module('kmApp') // lazy
 			binding : "=ngModel",
 			locales : "="
 		},
-		link : function($scope, $element)
+		link : function($scope)
 		{
 			$scope.assessments = [
 				{ selected: false, code: "criteria1", title: "C1: Uniqueness or rarity" },
@@ -296,17 +295,15 @@ angular.module('kmApp') // lazy
 
 			$scope.$watch("binding", $scope.load);
 			$scope.$watch(function(){ return angular.toJson($scope.assessments);}, $scope.save);
-		},
-		controller : ['$scope', "Enumerable", function ($scope, Enumerable)
-		{
+
 			//==================================
 			//
 			//==================================
 			$scope.load = function() {
 				var qBinding = Enumerable.From($scope.binding || []);
 
-				angular.forEach($scope.assessments, function(criteria, key) {
-					var oBindingCriteria = qBinding.FirstOrDefault(undefined, function(o) { return o.identifier == criteria.code });
+				angular.forEach($scope.assessments, function(criteria) {
+					var oBindingCriteria = qBinding.FirstOrDefault(undefined, function(o) { return o.identifier == criteria.code; });
 
 					var oSelected      = !!oBindingCriteria;
 					var oLevel         = (oBindingCriteria || {}).level;
@@ -316,7 +313,7 @@ angular.module('kmApp') // lazy
 					if (!angular.equals(criteria.level,         oLevel))         criteria.level         = oLevel;
 					if (!angular.equals(criteria.justification, oJustification)) criteria.justification = oJustification;
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -324,7 +321,7 @@ angular.module('kmApp') // lazy
 			$scope.save = function() {
 				var oBinding = [];
 
-				angular.forEach($scope.assessments, function(criteria, key) {
+				angular.forEach($scope.assessments, function(criteria) {
 
 					if (!criteria.selected)
 						return;
@@ -333,14 +330,16 @@ angular.module('kmApp') // lazy
 						identifier    : criteria.code,
 						level         : criteria.level,
 						justification : criteria.justification
-					})
+					});
 				});
 
-				if (jQuery.isEmptyObject(oBinding))
+				if ($.isEmptyObject(oBinding))
 					oBinding = undefined;
 
 				$scope.binding = oBinding;
-			}
-		}]
-	}
-}])
+			};
+
+		}
+	};
+}]);
+});

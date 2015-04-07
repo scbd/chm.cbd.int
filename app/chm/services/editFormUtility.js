@@ -1,7 +1,5 @@
 define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(app) { 'use strict';
 
-console.log("LOADED editFormUtility");
-
 app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route", function(storage, workflows, $q, realm, $route) {
 
 	var schemasWorkflowTypes  = {

@@ -43,13 +43,8 @@ define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index
             when('/management/edit/resourceMobilisation',     { templateUrl: 'views/management/edit/resource-mobilisation.html',    label : 'Edit Resource Mobilisation',   controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['chm/services/editFormUtility', 'directives/forms/form-controls']) } }).
             when('/management/edit/strategicPlanIndicator',   { templateUrl: 'views/management/edit/strategic-plan-indicator.html', label : 'Edit Indicator',               controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['chm/services/editFormUtility', 'directives/forms/form-controls']) } }).
 
-            when('/about',                                    { templateUrl: 'views/about.html',       label : 'About',      controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-            when('/network',                                  { templateUrl: 'views/404.html',         label : 'Network',    controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-            when('/resources',                                { templateUrl: 'views/404.html',         label : 'Resources',  controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-
             when('/help/404',                                 { templateUrl: 'views/404.html',         label : 'Not found',  controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
             when('/help/403',                                 { templateUrl: 'views/403.html',         label : 'Forbidden',  controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-
             otherwise({ redirectTo: '/help/404' });
 
 

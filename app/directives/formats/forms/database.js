@@ -1,16 +1,13 @@
-angular.module('kmApp') // lazy
-.directive('editDatabase', [function () {
+define(['text!./database.html', 'app', 'angular', 'underscore', 'jquery', 'linqjs', 'authentication', '../views/database', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _, $, Enumerable) { 'use strict';
+
+app.directive('editDatabase', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-database.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
-		{
-			$scope.init();
-		},
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid)
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -81,11 +78,11 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -101,7 +98,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
@@ -121,7 +118,7 @@ angular.module('kmApp') // lazy
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
-				return document
+				return document;
 			};
 
 			//==================================
@@ -144,7 +141,7 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -158,7 +155,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -169,26 +166,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$location.url('/management/list/database');
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url('/management/list/database');
 			};
 
@@ -223,10 +220,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -242,11 +239,11 @@ angular.module('kmApp') // lazy
 						}, function(e) {
 							if (e.status == 404) {
 								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
+									.then(function(r) { deferred.resolve(r.data);},
+										  function(e) { deferred.reject (e);});
 							}
 							else {
-								deferred.reject (e)
+								deferred.reject (e);
 							}
 						});
 					return deferred.promise;
@@ -263,7 +260,10 @@ angular.module('kmApp') // lazy
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});
-			}
-		}]
-	}
+			};
+
+			$scope.init();
+		}
+	};
 }]);
+});

@@ -7,11 +7,11 @@
 	</div>
 
 	<div ng-show="status=='loading'"><em>Loading...</em></div>
-	
+
 	<div ng-hide="status=='hidden'||status=='loading'">
 
 		<div style="position:relative">
-			
+
 			<div class="row">
 
 				<div class="col-xs-12 visible-xs">
@@ -46,7 +46,7 @@
 
 						<legend>General information</legend>
 						<div  class="row">
-							<div class="col-md-12"> 
+							<div class="col-md-12">
 								<div class="km-control-group" required name="title" caption="Title">
 									<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
 								</div>
@@ -67,18 +67,18 @@
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-4"> 
+							<div class="col-md-4">
 								<div class="km-control-group" required name="regions" caption="Related Region(s) / Economic group(s)">
 									<div km-select name="regions" multiple ng-model="document.regions" placeholder="" watch-items items="options.regions"></div>
 								</div>
 							</div>
 							<div class="col-md-2"><em>OR</em></div>
-							<div class="col-md-4"> 
+							<div class="col-md-4">
 								<div class="km-control-group" required name="countries" caption="Related Country(ies)">
 									<div km-select name="countries" multiple ng-model="document.countries" placeholder="" watch-items items="options.countries"></div>
 								</div>
 							</div>
-						</div>						
+						</div>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" required name="languages" caption="Language(s)">
@@ -99,7 +99,7 @@
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-12"> 
+							<div class="col-md-12">
 								<div class="km-control-group" required name="source" caption="Source">
 									<div km-textbox-ml rows=6 name="source" ng-model="document.source" locales="document.header.languages"></div>
 								</div>
@@ -131,14 +131,14 @@
 
 						<legend>Case Study Details</legend>
 						<div  class="row">
-							<div class="col-md-12"> 
+							<div class="col-md-12">
 								<div class="km-control-group" required name="summary" caption="Summary, abstract or table of contents">
 									<div km-textbox-ml rows=6 name="summary" ng-model="document.summary" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 						<div  class="row">
-							<div class="col-md-12"> 
+							<div class="col-md-12">
 								<div class="km-control-group" name="description" caption="Case Study Description">
 									<span class="help-block">E.g. Background/Problem; Methodology/ Implementation; Results/Impact; Lessons learned.</span>
 									<div km-textbox-ml rows=6 name="description" ng-model="document.description" locales="document.header.languages"></div>
@@ -220,7 +220,7 @@
 					  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
 					</div>
 
-					<div class="view-case-study" ng-model="reviewDocument" locale="review.locale" allow-drafts="true" link-target="_blank"></div>
+					<view-case-study ng-model="reviewDocument" locale="review.locale" allow-drafts="true" link-target="_blank"></view-case-study>
 
 				</div>
 

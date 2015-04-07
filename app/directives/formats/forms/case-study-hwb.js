@@ -1,17 +1,15 @@
-angular.module('kmApp') // lazy
-.directive('editCaseStudyHwb', [function () {
+define(['text!./case-study-hwb.html', 'app', 'angular', 'jquery', 'underscore', 'authentication', '../views/case-study', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $, _) { 'use strict';
+
+app.directive('editCaseStudyHwb', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-case-study-hwb.partial.html?v' + new Date(),
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
+		link : function($scope)
 		{
-			$scope.init();
-		},
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls, Thesaurus, guid)
-		{
+
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
@@ -66,7 +64,7 @@ angular.module('kmApp') // lazy
 					if(!$scope.options) {
 
 						$scope.options  = {
-			            	aichiTargets	: $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+			            	aichiTargets	: $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows:999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t }; });}).then(null, $scope.onError),
 							subjects		: $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",								{ cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }),
 							docLanguages	: $http.get("/api/v2013/thesaurus/domains/ISO639-2/terms",									{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							scales			: $http.get("/api/v2013/thesaurus/domains/96FCD864-D388-4148-94DB-28B484047BA5/terms",      { cache: true }).then(function(o){ return o.data; }),
@@ -85,13 +83,13 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				}).finally(function() {
 
 				});
-			}
+			};
 
 
 			//==================================
@@ -101,7 +99,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
@@ -131,7 +129,7 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -145,7 +143,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -156,26 +154,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url("/management");
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$location.url("/management/list/caseStudy");
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url("/management/list/caseStudy");
 			};
 
@@ -206,10 +204,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -244,11 +242,14 @@ angular.module('kmApp') // lazy
 					var oDrafts    = results[1].data.Items;
 					var oDraftUIDs = _.pluck(oDrafts, "identifier");
 
-					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier)});
+					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier);});
 
 					return _.union(oDocs, oDrafts);
 				});
-			}
-		}]
-	}
+			};
+
+			$scope.init();
+		}
+	};
 }]);
+});

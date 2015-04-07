@@ -1,9 +1,10 @@
-angular.module('kmApp') // lazy
-.directive("facetBar", [function () {
+define(['text!./facet-bar.html', 'app', 'authentication'], function(template, app) { 'use strict';
+
+app.directive('facetBar', ['$rootScope', 'authentication', '$location', function ($rootScope, authentication, $location) {
     return {
         priority: 0,
-        restrict: 'EAC',
-        templateUrl: '/app/views/management/facet-bar.partial.html',
+        restrict: 'E',
+        template: template,
         replace: true,
         transclude: false,
         scope: {
@@ -13,45 +14,28 @@ angular.module('kmApp') // lazy
             editUrl:'@'
         },
         link: function($scope) {
-        },
-        controller : ['$scope','$rootScope', 'authentication', '$location',
-         function ($scope, $rootScope, authentication, $location)
-        {
 
-            //==============================
-            //
-            //==============================
-            function userGovernment() {
-
-                // if($scope.isAdmin() && $scope.government)
-                //      return $scope.government.toLowerCase();
-
-                if(authentication.user().government){
-                    $scope.showNational = true;
-                    return authentication.user().government.toLowerCase();
-                }
-            }
             //==============================
             //
             //==============================
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';
-            }
+            };
             $scope.nationalProgressFilter = function(entity){
                 return entity && entity.type=='Progress';
-            }
+            };
             $scope.nationalActivitiesFilter = function(entity){
                 return entity && entity.type=='Activities';
-            }
+            };
             $scope.nationalReferenceFilter = function(entity){
                 return entity && entity.type=='Reference';
-            }
+            };
             $scope.nationalSCBDFilter = function(entity){
                 return entity && entity.type=='SCBD';
-            }
+            };
             $scope.nationalFinanceFilter = function(entity){
                 return entity && entity.type=='Finance';
-            }
+            };
 
             $scope.getURL = function(schema){
                 if(schema)
@@ -62,23 +46,24 @@ angular.module('kmApp') // lazy
                     else
                         return $scope.editUrl + '/' + schema.identifier;
 
-            }
+            };
 
             $scope.isActiveMenu = function(schema){
                 if(schema && $location)
                     if(schema.type=='nationalReports'){
-                        var qType = $location.search().type
+                        var qType = $location.search().type;
                         if(qType){
                             return ($location.url().indexOf("/" + schema.identifier) >= 0) && qType == schema.type;
                         }
                         else
-                            return $location.url().indexOf("/" + schema.identifier) >= 0
+                            return $location.url().indexOf("/" + schema.identifier) >= 0;
                     }
                     else
-                        return $location.url().indexOf("/" + schema.identifier) >= 0
+                        return $location.url().indexOf("/" + schema.identifier) >= 0;
 
-            }
+            };
 
-        }]
-    }
+        }
+    };
 }]);
+});

@@ -1,9 +1,11 @@
-angular.module('kmApp') // lazy
-.directive("registerFacets", [function () {
+define(['text!./register-facets.html', 'app', 'underscore', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', './facet-bar'], function(template, app, _) { 'use strict';
+
+app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","IWorkflows",
+                        function ($rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows) {
     return {
         priority: 0,
-        restrict: 'EAC',
-        templateUrl: '/app/views/management/register-facets.partial.html',
+        restrict: 'E',
+        template: template,
         replace: true,
         transclude: false,
         scope: {
@@ -37,47 +39,43 @@ angular.module('kmApp') // lazy
                 // { identifier: 'database',               title: 'National Database'  ,                   type:'SCBD'  },
                 // { identifier: 'contact',                title: 'Contacts' },
             ];
-        },
-        controller : ['$scope','$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","IWorkflows",
-         function ($scope, $rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows)
-        {
 
             $rootScope.government = userGovernment();
 
 
             if($route.current.params.schema) {
 
-                $scope.hideFilters = true
+                $scope.hideFilters = true;
                 $scope.selectedSchemasList = [$route.current.params.schema];
             }
 
             $scope.loadScheduled = null;
 
             //open section based on url
-            if($location.url().indexOf("/nationalStrategicPlan") >= 0
-                || $location.url().indexOf("/nationalReport") >= 0
-                || $location.url().indexOf("/otherReport") >= 0
-                || $location.url().indexOf("/progressAssessment") >= 0
-                || $location.url().indexOf("/nationalTarget") >= 0
-                || $location.url().indexOf("/nationalIndicator") >= 0
-                || $location.url().indexOf("/nationalSupportTool") >= 0
-                || $location.url().indexOf("/implementationActivity") >= 0
-                || $location.url().indexOf("/resourceMobilisation") >= 0
+            if($location.url().indexOf("/nationalStrategicPlan") >= 0 ||
+               $location.url().indexOf("/nationalReport") >= 0 ||
+               $location.url().indexOf("/otherReport") >= 0 ||
+               $location.url().indexOf("/progressAssessment") >= 0 ||
+               $location.url().indexOf("/nationalTarget") >= 0 ||
+               $location.url().indexOf("/nationalIndicator") >= 0 ||
+               $location.url().indexOf("/nationalSupportTool") >= 0 ||
+               $location.url().indexOf("/implementationActivity") >= 0 ||
+               $location.url().indexOf("/resourceMobilisation") >= 0
             ){
                 $scope.showNational = true;
             }
             //open section based on url
-            if($location.url().indexOf("/resource") >= 0
-                || $location.url().indexOf("/organization") >= 0 ){
+            if($location.url().indexOf("/resource") >= 0 ||
+               $location.url().indexOf("/organization") >= 0 ){
                 $scope.showReference = true;
             }
 
             //open section based on url
-            if(    $location.url().indexOf("/marineEbsa") >= 0
-                || $location.url().indexOf("/caseStudy") >= 0
-                || $location.url().indexOf("/caseStudyHwb") >= 0
-                || $location.url().indexOf("/aichiTarget") >= 0
-                || $location.url().indexOf("/strategicPlanIndicator") >= 0
+            if($location.url().indexOf("/marineEbsa") >= 0 ||
+               $location.url().indexOf("/caseStudy") >= 0 ||
+               $location.url().indexOf("/caseStudyHwb") >= 0 ||
+               $location.url().indexOf("/aichiTarget") >= 0 ||
+               $location.url().indexOf("/strategicPlanIndicator") >= 0
                 ){
                 $scope.showSCBD = true;
             }
@@ -95,7 +93,7 @@ angular.module('kmApp') // lazy
                     }
                 }
                 return false;
-            }
+            };
 
             //==============================
             //
@@ -103,16 +101,16 @@ angular.module('kmApp') // lazy
             $scope.isNationalUser = function(){
                 for(var i=0; i < $rootScope.user.roles.length; i++)
                 {
-                    if($rootScope.user.roles[i] == 'ChmNationalFocalPoint'
-                        || $rootScope.user.roles[i] == 'ChmNationalAuthorizedUser'
-                        || $rootScope.user.roles[i] == 'Administrator'
-                        || $rootScope.user.roles[i] == 'ChmAdministrator' && $rootScope.user.government)
+                    if( $rootScope.user.roles[i] == 'ChmNationalFocalPoint' ||
+                        $rootScope.user.roles[i] == 'ChmNationalAuthorizedUser' ||
+                        $rootScope.user.roles[i] == 'Administrator' ||
+                        $rootScope.user.roles[i] == 'ChmAdministrator' && $rootScope.user.government)
                     {
                         return true;
                     }
                 }
                 return false;
-            }
+            };
             //==============================
             //
             //==============================
@@ -125,7 +123,7 @@ angular.module('kmApp') // lazy
                     }
                 }
                 return false;
-            }
+            };
             //==============================
             //
             //==============================
@@ -138,7 +136,7 @@ angular.module('kmApp') // lazy
                     }
                 }
                 return false;
-            }
+            };
 
             //==============================
             //
@@ -148,7 +146,7 @@ angular.module('kmApp') // lazy
                     $timeout.cancel($scope.loadScheduled);
 
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
-            }
+            };
 
             //==============================
             //
@@ -210,7 +208,7 @@ angular.module('kmApp') // lazy
                     // All other schema
                     ////////////////
                     var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation'];
-                    var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")"
+                    var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
                     var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&fq=(realm_ss:chm '+
                                         'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase()) + qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');
                     var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&q=(realm_ss:chm '+
@@ -227,23 +225,23 @@ angular.module('kmApp') // lazy
                                 if(schemaTypeFacet.length>0){
                                     if(schemaTypeFacet[0].type=='SCBD' || schemaTypeFacet[0].type=='Reference' || schemaTypeFacet[0].type=='nationalReports')
                                         return;
-                                    if(index==0)
+                                    if(index===0)
                                           schemaTypeFacet[0].publishCount = facet.count;
                                     else if(index==1)
                                           schemaTypeFacet[0].draftCount = facet.count;
                                     // else if(index==2)
                                     //     schemaTypeFacet[0].requestCount = count;
                                 }
-                          })
+                          });
                         index++;
                       });
 
                     }).then(null, function(error) {
                        console.log(error );
-                    })
+                   });
                 }
 
-            }
+            };
 
 
             $scope.loadVLRFacets = function(){
@@ -260,7 +258,7 @@ angular.module('kmApp') // lazy
                           if(_.indexOf(["resource","organization","caseStudy","marineEbsa","aichiTarget","strategicPlanIndicator"],format)>=0){
                                 var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
                                 if(schemaTypeFacet.length>0){
-                                    if(index==0)
+                                    if(index===0)
                                           schemaTypeFacet[0].publishCount = count;
                                     else if(index==1)
                                           schemaTypeFacet[0].draftCount = count;
@@ -268,30 +266,31 @@ angular.module('kmApp') // lazy
                                         schemaTypeFacet[0].requestCount = count;
                                 }
                             }
-                      })
+                      });
                     index++;
                   });
                   //
 
                 }).then(null, function(error) {
                    console.log(error );
-                })
+               });
 
-            }
+            };
 
             $scope.loadRequestsCount = function(){
                 var myUserID = $rootScope.user.userID;
                 var query    = {
                     $and : [
-                { "activities.assignedTo" : myUserID },
-                { closedOn : { $exists : false } },
-                { "data.realm" : realm.value }
-                ]
+                        { "activities.assignedTo" : myUserID },
+                        { closedOn : { $exists : false } },
+                        { "data.realm" : realm.value }
+                    ]
+                };
+
+                IWorkflows.query(query).then(function(workflows){
+                    $scope.requestCount = workflows.length;
+                });
             };
-            IWorkflows.query(query).then(function(workflows){
-                $scope.requestCount = workflows.length;
-            });
-            }
 
             function readFacets2(solrArray) {
                 var facets = [];
@@ -302,7 +301,7 @@ angular.module('kmApp') // lazy
                     }
                 }
                 return facets;
-            };
+            }
 
             function calculateFacet(list, type){
 
@@ -313,9 +312,9 @@ angular.module('kmApp') // lazy
                 var qqOthers          = _.filter(list, function(o) { return  !_.contains(others, o.value); });
 
                 //summmation
-                var publishNPCount      = _.reduce(qqNationalReports, function(memo,item){ return memo + item.count;},0)
-                var publishNBSAPCount   = _.reduce(qqNBSAPs, function(memo,item){ return memo + item.count;},0)
-                var publishOtherCount   = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0)
+                var publishNPCount      = _.reduce(qqNationalReports, function(memo,item){ return memo + item.count;},0);
+                var publishNBSAPCount   = _.reduce(qqNBSAPs, function(memo,item){ return memo + item.count;},0);
+                var publishOtherCount   = _.reduce(qqOthers, function(memo,item){ return memo + item.count;},0);
 
                 _.where($scope.schemasList, {'identifier':'nationalReport'})[0][type] = publishNPCount;
                 _.where($scope.schemasList, {'identifier':'nationalStrategicPlan'})[0][type] = publishNBSAPCount;
@@ -330,44 +329,23 @@ angular.module('kmApp') // lazy
 
             $scope.nationalReportsFilter = function(entity){
                 return entity && entity.type=='nationalReports';
-            }
+            };
             $scope.nationalProgressFilter = function(entity){
                 return entity && entity.type=='Progress';
-            }
+            };
             $scope.nationalActivitiesFilter = function(entity){
                 return entity && entity.type=='Activities';
-            }
+            };
             $scope.nationalReferenceFilter = function(entity){
                 return entity && entity.type=='Reference';
-            }
+            };
             $scope.nationalSCBDFilter = function(entity){
                 return entity && entity.type=='SCBD';
-            }
+            };
             $scope.nationalFinanceFilter = function(entity){
                 return entity && entity.type=='Finance';
-            }
-
-
-
-
-            // $scope.$watch('government', function(newVal, oldVal){
-            //     if(newVal && newVal!=oldVal){
-            //         _.each($scope.schemasList, function(schema){
-            //             if(schema.type=='SCBD' || schema.type=='Reference')
-            //                 return;
-            //
-            //             if(schema.publishCount)
-            //                 schema.publishCount = undefined;
-            //             if(schema.draftCount)
-            //                 schema.draftCount = undefined;
-            //             if(schema.requestCount)
-            //                 schema.requestCount = undefined;
-            //         })
-            //         $scope.load();
-            //     }
-            // })
-
-        }]
-    }
+            };
+        }
+    };
 }]);
-;
+});

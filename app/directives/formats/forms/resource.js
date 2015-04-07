@@ -1,14 +1,13 @@
-angular.module('kmApp') // lazy
-.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
+define(['text!./resource.html', 'app', 'angular', 'authentication', '../views/resource', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
+
+app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-resource.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
-		scope: {
-			cmsParams : "&"
-		},
-		link : function($scope, $element)
+		scope: {},
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -16,9 +15,9 @@ angular.module('kmApp') // lazy
 			$scope.tab      = 'general';
 			$scope.review   = { locale: "en" };
 			$scope.options  = {
-				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();})},
+				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();});},
 				languages     : function() { return $http.get("/api/v2013/thesaurus/domains/52AFC0EE-7A02-4EFA-9277-8B6C327CE21F/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				resourceTypes : function() { return $http.get("/api/v2013/thesaurus/domains/83BA4728-A843-442B-9664-705F55A8EC52/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data) }); },
+				resourceTypes : function() { return $http.get("/api/v2013/thesaurus/domains/83BA4728-A843-442B-9664-705F55A8EC52/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data); }); },
 				cbdSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",                         { cache: true }).then(function(o){ return o.data; }); },
 				aichiTargets  : function() { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",                        { cache: true }).then(function(o){ return o.data; }); },
 				absSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms", { cache: true }).then(function(o){ return o.data; }); },
@@ -29,7 +28,7 @@ angular.module('kmApp') // lazy
 														    $http.get("/api/v2013/thesaurus/domains/regions/terms",   { cache: true })]).then(function(o) {
 														    	return Enumerable.From($filter('orderBy')(o[0].data, 'name')).Union(
 																	   Enumerable.From($filter('orderBy')(o[1].data, 'name'))).ToArray();
-														   }) }
+														   }); }
 			};
 
 			$scope.$watch("document.libraries", $scope.refreshTabs);
@@ -82,7 +81,7 @@ angular.module('kmApp') // lazy
 				else if($scope.tab=='ebsa-disabled') {
 					$scope.tab = 'review';
 				}
-			}
+			};
 
 			//==================================
 			//
@@ -113,7 +112,7 @@ angular.module('kmApp') // lazy
 				else if($scope.tab=='chm') {
 					$scope.tab = 'general';
 				}
-			}
+			};
 
 			//==================================
 			//
@@ -126,13 +125,13 @@ angular.module('kmApp') // lazy
 
 				var qLibraries = Enumerable.From(document.libraries);
 
-				if(name=="chm"  ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:chm"    });
-				if(name=="absch") return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:abs-ch" });
-				if(name=="bch"  ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:bch"    });
-				if(name=="ebsa" ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:ebsa"   });
+				if(name=="chm"  ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:chm"    ;});
+				if(name=="absch") return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:abs-ch" ;});
+				if(name=="bch"  ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:bch"    ;});
+				if(name=="ebsa" ) return qLibraries.Any(function(o){ return o.identifier == "cbdLibrary:ebsa"   ;});
 
 				return false;
-			}
+			};
 
 			//==================================
 			//
@@ -146,24 +145,24 @@ angular.module('kmApp') // lazy
 				var qLibraries = Enumerable.From(document.bchSubjects);
 
 				return qLibraries.Any(function(o) {
-					return o.identifier == "FBAF958B-14BF-45DD-BC6D-D34A9953BCEF"  //Risk assessment
-					    || o.identifier == "6F28D3FB-7CCE-4FD0-8C29-FB0306C52BD0"; //Risk assessment and risk management
+					return o.identifier == "FBAF958B-14BF-45DD-BC6D-D34A9953BCEF"  || //Risk assessment
+					       o.identifier == "6F28D3FB-7CCE-4FD0-8C29-FB0306C52BD0";    //Risk assessment and risk management
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.isLoading = function() {
 				return $scope.status=="loading";
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.hasError = function() {
-				return $scope.error!=null;
-			}
+				return !!$scope.error;
+			};
 
 			//==================================
 			//
@@ -193,10 +192,6 @@ angular.module('kmApp') // lazy
 							schema   : "resource",
 							languages: ["en"]
 						}
-					}).then(function(doc){
-						if ($scope.cmsParams() && $scope.cmsParams().defaultLibrary)
-							doc.libraries = [{ identifier: $scope.cmsParams().defaultLibrary }];
-						return doc;
 					});
 
 
@@ -206,17 +201,17 @@ angular.module('kmApp') // lazy
 						$scope.document = doc;
 					}).then(null,
 					function(err) {
-						$scope.onError(err.data, err.status)
+						$scope.onError(err.data, err.status);
 						throw err;
 					});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
-			}
+			};
 
 			//==================================
 			//
@@ -227,26 +222,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$location.url('/management/list/resource');
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url('/management/list/resource');
 			};
 
@@ -322,17 +317,17 @@ angular.module('kmApp') // lazy
 						}
 					);
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
+					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field;});
 
 				return true;
-			}
+			};
 
 			//==================================
 			//
@@ -354,10 +349,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -373,11 +368,11 @@ angular.module('kmApp') // lazy
 						}, function(e) {
 							if (e.status == 404) {
 								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
+									.then(function(r) { deferred.resolve(r.data);},
+										  function(e) { deferred.reject (e);});
 							}
 							else {
-								deferred.reject (e)
+								deferred.reject (e);
 							}
 						});
 					return deferred.promise;
@@ -394,7 +389,8 @@ angular.module('kmApp') // lazy
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});
-			}
+			};
 		}]
-	}
+	};
 }]);
+});

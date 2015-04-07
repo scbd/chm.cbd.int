@@ -1,5 +1,5 @@
 // FROM https://github.com/angular/angular.js/blob/v1.1.4/src/ng/directive/ngView.js
-define(['app'], function(app) { 'use strict';
+define(['app', 'underscore'], function(app, _) { 'use strict';
 
     app.value("realm", "CHM");
     app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"]);
@@ -57,7 +57,7 @@ define(['app'], function(app) { 'use strict';
         };
     });
 
-    app.service("navigation", ["$q", "$location", "$timeout", "underscore", "authentication", "siteMapUrls", function ($q, $location, $timeout, _, authentication, siteMapUrls) {
+    app.service("navigation", ["$q", "$location", "$timeout", "authentication", "siteMapUrls", function ($q, $location, $timeout, authentication, siteMapUrls) {
 
         return {
             securize: function (roles) {

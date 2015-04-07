@@ -28,7 +28,7 @@
 						<li ng-class="{ active  : tab=='ebsa'    }"><a href="" ng-click="tab='ebsa'"  ng-show="isInLibrary('ebsa-disabled')"	>EBSA</a></li>
 						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'"										>Review</a></li>
 						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()"										>&raquo;</a></li>
-					</ul>	
+					</ul>
 				</div>
 
 				<div class="col-sm-4 hidden-xs" style="text-align:right">
@@ -384,7 +384,7 @@
 					<div class="btn-group" ng-show="document.header.languages.length>1">
 						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
-					<div class="view-resource" ng-model="document" locale="review.locale" link-target="_blank"></div>
+					<view-resource ng-model="document" locale="review.locale" link-target="_blank"></view-resource>
 				</div>
 
 				<div class="row">
@@ -399,7 +399,7 @@
 							<li ng-class="{ active  : tab=='ebsa'    }"><a href="" ng-click="tab='ebsa'"  ng-show="isInLibrary('ebsa-disabled')"	>EBSA</a></li>
 							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'"										>Review</a></li>
 							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'"										>&raquo;</a></li>
-						</ul>	
+						</ul>
 					</div>
 
 					<div class="col-sm-3 hidden-xs" style="text-align:right">

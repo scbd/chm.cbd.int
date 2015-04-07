@@ -1,9 +1,11 @@
-﻿angular.module('kmApp') // lazy
-.directive('myDrafts', [function () {
+define(['text!./my-drafts.html', 'app', 'authentication', 'utilities/km-storage', 'utilities/km-utilities'], function(template, app) { 'use strict';
+
+app.directive("myDrafts", ["$location", "IStorage", "schemaTypes", '$timeout', '$route', 'authentication', function ($location, storage, schemaTypes, $timeout, $route, authentication) {
+
 	return {
 		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/my-drafts.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		link : function($scope) {
@@ -25,19 +27,14 @@
                 { identifier: 'organization', title: { en: 'Biodiversity Related Organizations' } },
                 { identifier: 'contact', title: { en: 'Contacts' } },
         	].sort(function(a,b){
-			  var aName = a['title']['en'].toLowerCase();
-			  var bName = b['title']['en'].toLowerCase();
+			  var aName = a.title.en.toLowerCase();
+			  var bName = b.title.en.toLowerCase();
 			  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
           	});
-			$scope.load();
-		},
-		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', "authentication",'$route',
-		 function ($scope, $location, storage, schemaTypes, $timeout, authentication, $route)
-		{
 
 			if($route.current.params.schema) {
 
-				$scope.hideFilters = true
+				$scope.hideFilters = true;
 				$scope.selectedSchemasList = [$route.current.params.schema];
 			}
 
@@ -51,7 +48,7 @@
                     $timeout.cancel($scope.loadScheduled);
 
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
-            }
+            };
 
 			//==============================
 			//
@@ -64,11 +61,11 @@
 				var qAnd = [];
 
 				if (schemaTypes) {
-					qAnd.push("(type eq '" + schemaTypes.join("' or type eq '") + "')")
+					qAnd.push("(type eq '" + schemaTypes.join("' or type eq '") + "')");
 				}
 
 				if ($scope.selectedSchemasList) {
-					qAnd.push("(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')")
+					qAnd.push("(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')");
 				}
 
 				if($scope.freetext) {
@@ -97,7 +94,7 @@
 					$scope.__loading = false;
 
 				});
-			}
+			};
 
 			//==============================
 			//
@@ -123,7 +120,7 @@
 							return;
 
 						storage.drafts.delete(draft.identifier).then(
-							function(success) {
+							function() {
 								$scope.drafts.splice($scope.drafts.indexOf(draft), 1);
 							},
 							function(error) {
@@ -137,19 +134,23 @@
 			//==============================
 			$scope.unlock = function(draft)
 			{
-				if(draft.workingDocumentLock && authentication.user() && (authentication.user().roles.indexOf("administrator") || authentication.user().userID == draft.workingDocumentLock.lockedBy.userID))
-				{
-					if (!confirm("WARNING: Unlocking draft can break workflows. \n Unlock the draft?"))
-						return;
+				authentication.getUser().then(function(user){
 
-					storage.drafts.locks.delete(draft.identifier, draft.workingDocumentLock.lockID).then(function(success) {
-						$scope.load();
+					if(draft.workingDocumentLock && user && (user.roles.indexOf("administrator") || user.userID == draft.workingDocumentLock.lockedBy.userID))
+					{
+						if (!confirm("WARNING: Unlocking draft can break workflows. \n Unlock the draft?"))
+							return;
 
-					}).catch(function(error) {
+						storage.drafts.locks.delete(draft.identifier, draft.workingDocumentLock.lockID).then(function() {
+							$scope.load();
 
-						alert("Error: " + error);
-					});
-				};
+						}).catch(function(error) {
+
+							alert("Error: " + error);
+						});
+					}
+
+				});
 			};
 
 			//==============================
@@ -157,7 +158,7 @@
 			//==============================
 			function setPage (page) {
 				$scope.currentPage = Math.max(0, Math.min($scope.pageCount-1, page|0));
-			};
+			}
 
 		    $scope.pageCount = 4;
 			$scope.currentPage = 0;
@@ -169,6 +170,9 @@
 			$scope.$watch('freetext', $scope.search);
 			$scope.$watch('selectedSchemasList', $scope.search);
 			$scope.$watch('currentPage', $scope.search);
-		}]
-	}
+
+			$scope.load();
+		}
+	};
 }]);
+});

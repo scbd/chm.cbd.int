@@ -1,20 +1,14 @@
 
-<script src="/app/chm/directives/management/register-facets.partial.html.js"></script><script src="/app/chm/directives/management/facet-bar.partial.html.js"></script>
-
     <div class="row">
         <div class="col-md-3">
-            <div register-facets />
+            <register-facets></register-facets>
         </div>
-
 
         <div class="col-xs-9 my_well my_well-white">
 
             <h1 class="page-header">Dashboard</h1>
 
-            <div class="user-info"></div>
-            <script src="/app/chm/directives/management/user-info.js"></script>
-
-
+            <user-info></user-info>
 
             <h2 class="sub-header" style="border:0;" >All Records</h2>
 
@@ -30,12 +24,10 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="published">
-                        <div class="my-documents"></div>
-                        <script src="/app/chm/directives/management/my-documents.js"></script>
+                        <my-documents></my-documents>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="draft">
-                        <div class="my-drafts"></div>
-                        <script src="/app/chm/directives/management/my-drafts.js"></script>
+                        <my-drafts></my-drafts>
                     </div>
 
                 </div>

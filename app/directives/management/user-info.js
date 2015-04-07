@@ -1,33 +1,37 @@
-﻿/* jshint quotmark: false */
-angular.module('kmApp') // lazy
-.directive("userInfo", [function () {
+define(['text!./user-info.html', 'app', 'authentication', 'services/navigation'], function(template, app) { 'use strict';
+
+app.directive("userInfo", ['navigation', 'authentication', '$location', '$window', function (navigation, authentication, $location, $window) {
 	return {
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/user-info.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		scope: {},
-		link: {},
-		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter","$window",
-		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter,$window) {
+		link: function ($scope) {
 
 			navigation.securize();
 
-			$scope.user = authentication.user();
+			authentication.getUser().then(function(u){
+				$scope.user = u;
+			});
 
 			//==============================
 			//
 			//==============================
 			$scope.isAdmin = function(){
-				for(var i=0; i < authentication.user().roles.length; i++)
+
+				if(!$scope.user || !$scope.user.roles)
+					return false;
+
+				for(var i=0; i < $scope.user.roles.length; i++)
 				{
-					if(authentication.user().roles[i] == 'Administrator' || authentication.user().roles[i] == 'ChmAdministrator')
+					if(authentication.user().roles[i] == 'Administrator' || $scope.user.roles[i] == 'ChmAdministrator')
 					{
 						return true;
 					}
 				}
 				return false;
-			}
+			};
 
 			$scope.actionPassword = function () {
 				var redirect_uri = $window.encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/');
@@ -43,6 +47,7 @@ angular.module('kmApp') // lazy
 				$window.location.href = 'https://accounts.cbd.int/profile?redirect_uri='+redirect_uri;
 			};
 
-		}]
+		}
 	};
 }]);
+});

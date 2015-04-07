@@ -55,15 +55,15 @@
             <div ng-show="showNational">
                 <h3 class="color-blue">Online Reporting</h3>
                 <h4>National Reports, NBSAPs and Other Reports</h4>
-                <div facet-bar schema-list="schemasList" schema-filter="nationalReportsFilter"  list-url="/management/national-reporting" edit-url="/management/edit"></div>
+                <facet-bar schema-list="schemasList" schema-filter="nationalReportsFilter"  list-url="/management/national-reporting" edit-url="/management/edit"></facet-bar>
 
                 <h4>Progress towards implementation of national and Aichi Biodiversity Targets</h4>
-                <div facet-bar schema-list="schemasList" schema-filter="nationalProgressFilter"  list-url="/management/national-reporting" edit-url="/management/edit"></div>
+                <facet-bar schema-list="schemasList" schema-filter="nationalProgressFilter"  list-url="/management/national-reporting" edit-url="/management/edit"></facet-bar>
                 <h4>Activities, Guidance and Support Tools</h4>
-                <div facet-bar schema-list="schemasList" schema-filter="nationalActivitiesFilter"  list-url="/management/national-reporting" edit-url="/management/edit"></div>
+                <facet-bar schema-list="schemasList" schema-filter="nationalActivitiesFilter"  list-url="/management/national-reporting" edit-url="/management/edit"></facet-bar>
                 <h3  class="color-blue">Financial Resource Mobilisation </h3>
                 <h4>Implementation of the Strategy for Resource Mobilization</h4>
-                <div facet-bar schema-list="schemasList" schema-filter="nationalFinanceFilter"  list-url="/management/list" edit-url="/management/edit"></div>
+                <facet-bar schema-list="schemasList" schema-filter="nationalFinanceFilter"  list-url="/management/list" edit-url="/management/edit"></facet-bar>
                 <!-- <div class="btn-schema">
                     <table>
                         <tr>
@@ -90,7 +90,7 @@
             <i class="fa fa-chevron-circle-up" ng-show="showReference"></i>
             <i class="fa fa-chevron-circle-down" ng-show="!showReference"></i> Reference Records <div class="small">Submitted by any registered user and validated by the CBD Secretariat prior to publication</div></h2>
         <div ng-show="showReference">
-            <div facet-bar schema-list="schemasList" schema-filter="nationalReferenceFilter"  list-url="/management/list" edit-url="/management/edit"></div>
+            <facet-bar schema-list="schemasList" schema-filter="nationalReferenceFilter"  list-url="/management/list" edit-url="/management/edit"></facet-bar>
         </div>
     </div>
 
@@ -99,7 +99,7 @@
             <i class="fa fa-chevron-circle-up" ng-show="showSCBD"></i>
             <i class="fa fa-chevron-circle-down" ng-show="!showSCBD"></i> SCBD Records <div class="small">Managed by the CBD Secretariat</div></h2>
         <div ng-show="showSCBD">
-            <div  facet-bar schema-list="schemasList" schema-filter="nationalSCBDFilter" list-url="/management/list" edit-url="/management/edit"></div>
+            <facet-bar schema-list="schemasList" schema-filter="nationalSCBDFilter" list-url="/management/list" edit-url="/management/edit"></facet-bar>
             <!-- <div class="btn-schema">Marine Ecologically or Biologically Significant Areas (EBSA)</div>
             <div class="btn-schema">Strategic Plan Indicators</div>
             <div class="btn-schema">Case Studies</div>

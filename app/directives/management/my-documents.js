@@ -1,9 +1,10 @@
-﻿angular.module('kmApp') // lazy
-.directive("myDocuments", [function () {
+define(['text!./my-documents.html', 'app', 'utilities/km-storage', 'utilities/km-utilities'], function(template, app) { 'use strict';
+
+app.directive("myDocuments", ["$location", "IStorage", "schemaTypes", '$timeout', '$route', function ($location, storage, schemaTypes, $timeout, $route) {
 	return {
 		priority: 0,
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/my-documents.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		scope: {
@@ -27,17 +28,14 @@
                 { identifier: 'organization', title: { en: 'Biodiversity Related Organizations' } },
                 { identifier: 'contact', title: { en: 'Contacts' } },
         	].sort(function(a,b){
-			  var aName = a['title']['en'].toLowerCase();
-			  var bName = b['title']['en'].toLowerCase();
+			  var aName = a.title.en.toLowerCase();
+			  var bName = b.title.en.toLowerCase();
 			  return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
           	});
-		},
-		controller : ['$scope', "$location", "IStorage", "schemaTypes", '$timeout', '$route', function ($scope, $location, storage, schemaTypes, $timeout, $route)
-		{
 
 			if($route.current.params.schema) {
 
-				$scope.hideFilters = true
+				$scope.hideFilters = true;
 				$scope.selectedSchemasList = [$route.current.params.schema];
 			}
 
@@ -51,7 +49,7 @@
                     $timeout.cancel($scope.loadScheduled);
 
                 $scope.loadScheduled = $timeout(function () { $scope.load(); }, 200);
-            }
+            };
 
 			//==============================
 			//
@@ -64,11 +62,11 @@
 				var qAnd = [];
 
 				if (schemaTypes) {
-					qAnd.push("(type eq '" + schemaTypes.join("' or type eq '") + "')")
+					qAnd.push("(type eq '" + schemaTypes.join("' or type eq '") + "')");
 				}
 
 				if ($scope.selectedSchemasList) {
-					qAnd.push("(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')")
+					qAnd.push("(type eq '" + $scope.selectedSchemasList.join("' or type eq '") + "')");
 				}
 
 				if($scope.freetext) {
@@ -97,7 +95,7 @@
 					$scope.__loading = false;
 
 				});
-			}
+			};
 
 			//==============================
 			//
@@ -114,7 +112,7 @@
 			{
 				if(document.workingDocumentUpdatedOn)
 				{
-					alert("There is a pending documents. Cannot delete.")
+					alert("There is a pending documents. Cannot delete.");
 					return;
 				}
 
@@ -129,7 +127,7 @@
 							return;
 
 						storage.documents.delete(document.identifier).then(
-							function(success) {
+							function() {
 								$scope.documents.splice($scope.documents.indexOf(document), 1);
 							},
 							function(error) {
@@ -143,7 +141,7 @@
 			//==============================
 			function setPage (page) {
 				$scope.currentPage = Math.max(0, Math.min($scope.pageCount-1, page|0));
-			};
+			}
 
 		    $scope.pageCount = 4;
 			$scope.currentPage = 0;
@@ -155,7 +153,7 @@
 			$scope.$watch('freetext', $scope.search);
 			$scope.$watch('selectedSchemasList', $scope.search);
 			$scope.$watch('currentPage', $scope.search);
-		}]
-	}
+		}
+	};
 }]);
-;
+});

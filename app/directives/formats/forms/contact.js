@@ -1,16 +1,15 @@
+define(['text!./contact.html', 'app', 'angular', 'authentication', '../views/contact', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
+
+
 angular.module('kmApp') // lazy
-.directive('editContact', [function ($http, guid, $filter) {
+.directive('editContact', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-contact.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
-		{
-			$scope.init();
-		},
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid)
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -76,10 +75,10 @@ angular.module('kmApp') // lazy
 					$scope.document = doc;
 
 				}).catch(function(err) {
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -88,7 +87,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
@@ -120,7 +119,7 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -134,7 +133,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -145,12 +144,12 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
@@ -164,7 +163,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url(siteMapUrls.management.drafts);
 			};
 
@@ -199,10 +198,13 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
-		}]
-	}
+			};
+
+			$scope.init();
+		}
+	};
 }]);
+});

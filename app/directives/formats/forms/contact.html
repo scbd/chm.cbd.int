@@ -7,7 +7,7 @@
 	</div>
 
 	<div ng-show="status=='loading'"><em>Loading...</em></div>
-	
+
 	<div ng-hide="status=='hidden'||status=='loading'">
 
 		<div class="row">
@@ -219,11 +219,11 @@
 			  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
 			</div>
 
-			<div class="view-contact" ng-model="reviewDocument" locale="review.locale" link-target="_blank"></div>
+			<view-contact ng-model="reviewDocument" locale="review.locale" link-target="_blank"></view-contact>
 
 		</div>
 
-		
+
 		<div class="row">
 
 			<div class="col-sm-9 col-xs-12">

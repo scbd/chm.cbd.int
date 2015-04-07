@@ -1,16 +1,14 @@
-angular.module('kmApp') // lazy
-.directive("editNationalReport", [function () {
+define(['text!./national-report.html', 'app', 'angular', 'underscore', 'authentication', '../views/national-report', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+
+app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) {
     return {
-        restrict: 'EAC',
-        templateUrl: '/app/chm/directives/forms/form-national-report.partial.html',
+        restrict: 'E',
+        template : template,
         replace: true,
         transclude: false,
         scope: {},
-        link: function ($scope, $element) {
-            $scope.init();
-        },
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid)
-		{
+        link: function ($scope) {
+
             $scope.status = "";
             $scope.error = null;
             $scope.tab = "general";
@@ -33,8 +31,6 @@ angular.module('kmApp') // lazy
 
 				var qs = $scope.qs;
 				var schema  = "nationalReport";
-				var identifier  = qs.uid;
-				var year        = qs.year;
 				var reportType  = qs.reportType;
 				var promise = null;
 
@@ -62,7 +58,7 @@ angular.module('kmApp') // lazy
 							},
 							government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
 							reportType: reportType ? { identifier: reportType } : undefined
-						}
+						};
 					});
 				}
 
@@ -88,11 +84,11 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -104,7 +100,7 @@ angular.module('kmApp') // lazy
 				return !!document && !!document.status && (
 					document.status.identifier == "1C37E358-5295-46EB-816C-0A7EF2437EC9" ||
 					document.status.identifier == "851B10ED-AE62-4F28-B178-6D40389CC8DB");
-			}
+			};
 
 			//==================================
 			//
@@ -114,7 +110,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				return !!document && !!document.status && document.status.identifier == "851B10ED-AE62-4F28-B178-6D40389CC8DB";
-			}
+			};
 
 			//==================================
 			//
@@ -127,7 +123,7 @@ angular.module('kmApp') // lazy
 					document.approvingBody.identifier == "D3A4624E-21D9-4E49-953F-529734538E56" ||
 					document.approvingBody.identifier == "E7398F2B-FA36-4F42-85C2-5D0044440476" ||
 					document.approvingBody.identifier == "905C1F7F-C2F4-4DCE-A94E-BE6D6CE6E78F");
-			}
+			};
 
 			//==================================
 			//
@@ -137,7 +133,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
-			}
+			};
 
 			//==================================
 			//
@@ -146,7 +142,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
@@ -183,7 +179,7 @@ angular.module('kmApp') // lazy
 
 					return storage.documents.get(identifier, { info: "" })
 						.then(function(r) {
-							return r.data
+							return r.data;
 						})
 						//otherwise
 						.then(null, function(e) {
@@ -192,7 +188,7 @@ angular.module('kmApp') // lazy
 
 							return storage.drafts.get(identifier, { info: "" })
 								.then(function(r) {
-									deferred.resolve(r.data)
+									return r.data;
 								});
 						});
 				}
@@ -212,7 +208,7 @@ angular.module('kmApp') // lazy
 							}));
 						});
 				}
-			}
+			};
 
 
 			//======================================================================
@@ -249,21 +245,21 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
             //
             //==================================
             $scope.isLoading = function () {
                 return $scope.status == "loading";
-            }
+            };
 
 			//==================================
 			//
 			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			$scope.hasError = function() {
+				return !!$scope.error;
+			};
 
 			//==================================
 			//
@@ -279,7 +275,7 @@ angular.module('kmApp') // lazy
 				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
-					qsGovernment = qsGovernment.toLowerCase()
+					qsGovernment = qsGovernment.toLowerCase();
 
 				return $scope.userGovernment() || qsGovernment;
 			};
@@ -289,7 +285,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -300,31 +296,31 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
                 var schema = '';
-                if($scope.qs.type=="nbsap") schema='nationalStrategicPlan'
-                else if($scope.qs.type=="nr")schema='nationalReport'
-                else if($scope.qs.type=="other")schema='otherReport'
+                     if($scope.qs.type=="nbsap") schema='nationalStrategicPlan';
+                else if($scope.qs.type=="nr")    schema='nationalReport';
+                else if($scope.qs.type=="other") schema='otherReport';
 				$location.url("/management/national-reporting/" + schema);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				gotoManager();
 			};
 
@@ -340,9 +336,10 @@ angular.module('kmApp') // lazy
 			//==================================
 			function gotoManager() {
                 var schema = '';
-                if($scope.qs.type=="nbsap") schema='nationalStrategicPlan'
-                else if($scope.qs.type=="nr")schema='nationalReport'
-                else if($scope.qs.type=="other")schema='otherReport'
+
+                     if($scope.qs.type=="nbsap") schema='nationalStrategicPlan';
+                else if($scope.qs.type=="nr")    schema='nationalReport';
+                else if($scope.qs.type=="other") schema='otherReport';
 
 				$location.url("/management/national-reporting/" + schema);
 
@@ -368,10 +365,14 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
-        }]
-    }
-}])
+			};
+
+            $scope.init();
+
+        }
+    };
+}]);
+});

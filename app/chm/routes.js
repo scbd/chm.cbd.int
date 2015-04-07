@@ -6,18 +6,18 @@ define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index
         $locationProvider.hashPrefix('!');
 
         $routeProvider.
-            when('/',                                         { template:    rootTemplate,                                   label :'CHM',                resolveController: 'views/index',                        resolveUser: true }).
-            when('/database',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index',               resolveUser: true, reloadOnSearch : false }).
-            when('/database/countries',                       { templateUrl: 'views/database/countries.html',                label :'Countries',          resolveController: true,                                 resolveUser: true  }).
-            when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true,                                 resolveUser: true  }).
-            when('/database/record',                          { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true,                                 resolveUser: true  }).
+            when('/',                                         { template:    rootTemplate,                                   label :'CHM',                resolveController: 'views/index',          resolveUser: true }).
+            when('/database',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index', resolveUser: true, reloadOnSearch : false }).
+            when('/database/countries',                       { templateUrl: 'views/database/countries.html',                label :'Countries',          resolveController: true }).
+            when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).
+            when('/database/record',                          { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
 
-            when('/management',                               { templateUrl: 'views/management/index.html',                  label : 'Management Centre', resolveController: true,                                 resolveUser: true, resolve : { securized : securize() } }).
-            when('/management/national-reporting/:schema?',   { templateUrl: 'views/management/national-reporting.html',     label : 'National Reporting',resolveController: true,                                 resolveUser: true, resolve : { securized : securize() } }).
-            when('/management/list/:schema?',                 { templateUrl: 'views/management/record-list.html',            label : 'My Records',        resolveController: true,                                 resolveUser: true, resolve : { securized : securize() } }).
-            when('/management/requests',                      { templateUrl: 'views/management/tasks/index.html',            label : 'Requests',          resolveController: true,                                 resolveUser: true, resolve : { securized : securize() } }).
-            when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'Request',           resolveController: true,                                 resolveUser: true, resolve : { securized : securize() } }).
-            when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true,                                 resolveUser: true, resolve : { securized : securize() } }).
+            when('/management',                               { templateUrl: 'views/management/index.html',                  label : 'Management Centre', resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/national-reporting/:schema?',   { templateUrl: 'views/management/national-reporting.html',     label : 'National Reporting',resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/list/:schema?',                 { templateUrl: 'views/management/record-list.html',            label : 'My Records',        resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/requests',                      { templateUrl: 'views/management/tasks/index.html',            label : 'Requests',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'Request',           resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/management/register',                      { redirectTo:  '/management/' }).
 
             when('/signin',                                   { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
@@ -43,8 +43,8 @@ define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index
             when('/management/edit/resourceMobilisation',     { templateUrl: 'views/management/edit/resource-mobilisation.html',    label : 'Edit Resource Mobilisation',   controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['chm/services/editFormUtility', 'directives/forms/form-controls']) } }).
             when('/management/edit/strategicPlanIndicator',   { templateUrl: 'views/management/edit/strategic-plan-indicator.html', label : 'Edit Indicator',               controller: LEGACY_ManagementPageController,      resolveUser: true, resolve : { securized : securize(), dependencies : legacyResolver(['chm/services/editFormUtility', 'directives/forms/form-controls']) } }).
 
-            when('/help/404',                                 { templateUrl: 'views/404.html',         label : 'Not found',  controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
-            when('/help/403',                                 { templateUrl: 'views/403.html',         label : 'Forbidden',  controller: LEGACY_InnerPageController,           resolveUser: true, resolve : { dependencies : legacyResolver(['utilities/km-utilities']) } }).
+            when('/help/404',                                 { templateUrl: 'views/404.html',  label : 'Not found',  controller: [function(){}], resolveUser: true }).
+            when('/help/403',                                 { templateUrl: 'views/403.html',  label : 'Forbidden',  controller: [function(){}], resolveUser: true }).
             otherwise({ redirectTo: '/help/404' });
 
 
@@ -107,41 +107,6 @@ define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
-
-
-    //============================================================
-    //
-    //
-    //============================================================
-    function LEGACY_InnerPageController($rootScope, $scope, $route, $location, user) {
-
-        $rootScope.homePage = false;
-        $rootScope.userGovernment = user.government;
-        $rootScope.portal = 'database';
-        $rootScope.navigation = [
-            { url: '/database/', title: 'Search' },
-            { url: '/database/countries/', title: 'Parties and Country Profiles' }
-        ];
-
-        var subMenu = '';   // use ng-breadcrumbs instead
-        switch ($location.path()) {
-            case '/database/': {
-                subMenu = 'Search';  // use ng-breadcrumbs instead
-                break;
-            }
-            case '/database/countries/': {
-                subMenu = 'Parties and Country Profiles';  // use ng-breadcrumbs instead
-                break;
-            }
-            default: subMenu = '';  // use ng-breadcrumbs instead
-        }
-
-        $rootScope.navigationTree = {
-            mainMenu: 'Finding Information', subMenu: subMenu   // use ng-breadcrumbs instead
-        };
-    }
-    LEGACY_InnerPageController.$inject = ['$rootScope', '$scope', '$route', '$location', 'user'];
-
 
     //============================================================
     //

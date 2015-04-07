@@ -1,17 +1,14 @@
-angular.module('kmApp') // lazy
-.directive('editAichiTarget', [function () {
+define(['text!./aichi-target.html', 'app', 'angular', 'jquery', 'authentication', '../views/resource', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $) { 'use strict';
+
+
+app.directive('editAichiTarget', ["$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-aichi-target.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
-		{
-			$scope.init();
-		},
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls)
-
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -38,7 +35,7 @@ angular.module('kmApp') // lazy
 				if(identifier)
 					promise = editFormUtility.load(identifier, "aichiTarget");
 				else
-					promise = $q.when({}).then(function(doc) {
+					promise = $q.when({}).then(function() {
 						throw { error: { data: "Forbidden"}, status : "cannotCreate"};
 					});
 
@@ -52,8 +49,8 @@ angular.module('kmApp') // lazy
 							linkResourcesCategories: $http.get("/api/v2013/thesaurus/domains/aichiTartgetResourceTypes/terms",	{ cache: true }).then(function (o) { return o.data; }),
 							targetChampionsRegions:	 $q.all([$http.get("/api/v2013/thesaurus/domains/countries/terms",			{ cache: true }),
 															 $http.get("/api/v2013/thesaurus/domains/regions/terms",            { cache: true })]).then(function(o) {
-								return _.union(_.sortBy(o[0].data, function(o){ return o.name }),
-											   _.sortBy(o[1].data, function(o){ return o.name }));
+								return _.union(_.sortBy(o[0].data, function(o){ return o.name; }),
+											   _.sortBy(o[1].data, function(o){ return o.name; }));
 							})
 						};
 					}
@@ -66,11 +63,11 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -79,7 +76,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
@@ -87,12 +84,12 @@ angular.module('kmApp') // lazy
 
 					for (var i = 0; i < document.champions.length; i++) {
 						var champion = document.champions[i];
-						if (jQuery.isEmptyObject(champion)) {
+						if ($.isEmptyObject(champion)) {
 							$scope.removeChampion(document.champions, champion);
 						}
 					}
 
-					if (document.champions.length == 0) {
+					if (document.champions.length === 0) {
 						document.champions = undefined;
 					}
 				}
@@ -101,12 +98,12 @@ angular.module('kmApp') // lazy
 
 					for (var i = 0; i < document.resources.length; i++) {
 						var resource = document.resources[i];
-						if (jQuery.isEmptyObject(resource)) {
+						if ($.isEmptyObject(resource)) {
 							$scope.removeResource(document.resources, resource);
 						}
 					}
 
-					if (document.resources.length == 0) {
+					if (document.resources.length === 0) {
 						document.resources = undefined;
 					}
 				}
@@ -120,7 +117,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			$scope.validate = function(clone) {
+			$scope.validate = function() {
 
 				$scope.validationReport = null;
 
@@ -137,7 +134,7 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -151,7 +148,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -162,26 +159,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$location.url('management/list/aichiTarget');
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url('management/list/aichiTarget');
 			};
 
@@ -219,10 +216,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -257,11 +254,11 @@ angular.module('kmApp') // lazy
 					var oDrafts    = results[1].data.Items;
 					var oDraftUIDs = _.pluck(oDrafts, "identifier");
 
-					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier)});
+					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier);});
 
 					return _.union(oDocs, oDrafts);
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -274,7 +271,7 @@ angular.module('kmApp') // lazy
 					$scope.document.champions = [];
 
 				$scope.document.champions.push({});
-			}
+			};
 
 			//====================
 			//
@@ -302,8 +299,8 @@ angular.module('kmApp') // lazy
 				if (!$scope.document.resources)
 					$scope.document.resources = [];
 
-				$scope.document.resources.push(new Object());
-			}
+				$scope.document.resources.push({});
+			};
 
 			//====================
 			//
@@ -319,6 +316,9 @@ angular.module('kmApp') // lazy
 					resources.splice(index, 1);
 
 			};
-		}]
-	}
+
+			$scope.init();
+		}
+	};
 }]);
+});

@@ -1,15 +1,14 @@
-﻿/* jshint quotmark: false */
-angular.module('kmApp') // lazy
-.directive('nationalReportingManager', ["$timeout", "$q", "$location", "authentication","$rootScope",
- function ($timeout, $q, $location, authentication, $rootScope) {
+define(['text!./national-reporting-manager.html', 'app', 'underscore', 'angular', 'URIjs/uri', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app, _, angular, URI) { 'use strict';
+
+app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '$http', "navigation", "$location", "authentication", "IStorage", "$filter",'$timeout',
+ function ($rootScope, $routeParams, $q, $http, navigation, $location, authentication, storage, $filter, $timeout) {
 	return {
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/management/national-reporting-manager.partial.html',
+		restrict: 'E',
+		template: template,
 		replace: true,
 		transclude: false,
 		scope: {},
 		link: function($scope, $elm) {
-
 
 			var qTimeout = $timeout(function(){
 				var qElement = null;
@@ -79,10 +78,6 @@ angular.module('kmApp') // lazy
 				return;
 			}
 
-		},
-		controller: ['$rootScope', '$scope', "$routeParams", '$q', '$http', "navigation", "underscore", "$location", "URI", "authentication", "IStorage", "$filter",
-		function ($rootScope, $scope, $routeParams, $q, $http, navigation, _, $location, URI, authentication, storage, $filter) {
-
 			 navigation.securize();
 //["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]
 			// if(userGovernment() && userGovernment()!=$routeParams.country) {
@@ -105,7 +100,7 @@ angular.module('kmApp') // lazy
 				if(eur && !eu ) response.data.push(_.extend(_.clone(eur), { code: "EU"  }));
 				if(eu  && !eur) response.data.push(_.extend(_.clone(eu ), { code: "EUR" }));
 
-				return $scope.countries = response.data;
+				return ($scope.countries = response.data);
 			});
 			$http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { $scope.nationalReportTypes = response.data; });
 			$scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
@@ -386,16 +381,16 @@ angular.module('kmApp') // lazy
 			//==================================
 			function loadNationalReports(government) {
 
-                var query = ' reportType_s:'
+                var query = ' reportType_s:';
                 if($scope.schema=='nationalReport'){
-                   query += '(' + $scope.cbdNationalReports.join(' OR reportType_s:') + ')'
+                   query += '(' + $scope.cbdNationalReports.join(' OR reportType_s:') + ')';
                 }
                 else if($scope.schema=='nationalStrategicPlan'){
-                    query += '(' + $scope.cbdNBSAPs.join(' OR reportType_s:') + ')'
+                    query += '(' + $scope.cbdNBSAPs.join(' OR reportType_s:') + ')';
                 }
                 else if($scope.schema=='otherReport'){
                     var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
-                    query = ' NOT reportType_s:' + others.join(' AND NOT reportType_s:')
+                    query = ' NOT reportType_s:' + others.join(' AND NOT reportType_s:');
                 }
 				var nrQuery = {
 					q: 'schema_s:("nationalReport") AND government_s:"' + government + '" AND ' + query ,
@@ -759,7 +754,7 @@ angular.module('kmApp') // lazy
 				$scope.deleting = identifier;
 				storage.drafts.get(identifier, { info: "true" }).then(function(document){
 
-					if(document.workingDocumentLock || document.workingDocumentCreatedOn!=null){
+					if(document.workingDocumentLock || document.workingDocumentCreatedOn){
 						alert("You are not authorized to delete this draft. \n Document is in workflow mode.");
 						return;
 					}
@@ -775,7 +770,7 @@ angular.module('kmApp') // lazy
 								return;
 
 							storage.drafts.delete(identifier).then(
-								function(success) {
+								function() {
 							 		sourceCollection.splice(sourceCollection.indexOf(draft), 1);
 								},
 								function(error) {
@@ -803,7 +798,7 @@ angular.module('kmApp') // lazy
 								return;
 
 							storage.documents.delete(identifier).then(
-								function(success) {
+								function() {
 							 		sourceCollection.splice(sourceCollection.indexOf(draft), 1);
 										$scope.deleting = false;
 								},
@@ -813,7 +808,9 @@ angular.module('kmApp') // lazy
 						});
 
 			};
+
             load();
-		}]
+		}
 	};
 }]);
+});

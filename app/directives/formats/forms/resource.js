@@ -1,6 +1,6 @@
 define(['text!./resource.html', 'app', 'angular', 'authentication', '../views/resource', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
 
-app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$timeout", "Thesaurus", function ($http, Enumerable, $filter, $q, guid, $timeout, thesaurus) {
+app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", 'authentication', 'editFormUtility', 'siteMapUrls', 'IStorage', function ($http, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, siteMapUrls, storage) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -48,10 +48,7 @@ app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "
 
 			});
 
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls)
-		{
+
 			//==================================
 			//
 			//==================================
@@ -390,7 +387,9 @@ app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "
 						return qResult.ToArray();
 					});
 			};
-		}]
+
+			$scope.init();
+		}
 	};
 }]);
 });

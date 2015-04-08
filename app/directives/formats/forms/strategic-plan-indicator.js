@@ -1,12 +1,13 @@
-angular.module('kmApp') // lazy
-.directive('editStrategicPlanIndicator', ['$http', "$filter", "$q", "guid", "$timeout", function ($http, $filter, $q, guid, $timeout) {
+define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'underscore', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+
+app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'underscore', 'editFormUtility', 'authentication', 'siteMapUrls', function ($http, $filter, $q, guid, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-strategic-plan-indicator.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -32,23 +33,20 @@ angular.module('kmApp') // lazy
 					$scope.validate();
 			});
 
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls)
-		{
+
 			//==================================
 			//
 			//==================================
 			$scope.isLoading = function() {
 				return $scope.status=="loading";
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			$scope.hasError = function() {
+				return !!$scope.error;
+			};
 
 			//==================================
 			//
@@ -80,10 +78,10 @@ angular.module('kmApp') // lazy
 						$scope.document = doc;
 					}).then(null,
 					function(err) {
-						$scope.onError(err.data, err.status)
+						$scope.onError(err.data, err.status);
 						throw err;
 					});
-			}
+			};
 
 
 			//==================================
@@ -114,7 +112,7 @@ angular.module('kmApp') // lazy
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
 
-				$scope.reviewDocument = oDocument
+				$scope.reviewDocument = oDocument;
 
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
@@ -128,17 +126,17 @@ angular.module('kmApp') // lazy
 						}
 					);
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
+					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field;});
 
 				return true;
-			}
+			};
 
 
 			//==================================
@@ -146,7 +144,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
-			}
+			};
 
 			//==================================
 			//
@@ -157,26 +155,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$location.url('management/list/strategicPlanIndicator');
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url('management/list/strategicPlanIndicator');
 			};
 
@@ -210,10 +208,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -225,15 +223,15 @@ angular.module('kmApp') // lazy
 
 					storage.documents.get(identifier, { info: "" })
 						.then(function(r) {
-							deferred.resolve(r.data);
+							return r.data;
 						}, function(e) {
 							if (e.status == 404) {
 								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
+									.then(function(r) { deferred.resolve(r.data);},
+										  function(e) { deferred.reject (e);});
 							}
 							else {
-								deferred.reject (e)
+								deferred.reject (e);
 							}
 						});
 					return deferred.promise;
@@ -250,9 +248,11 @@ angular.module('kmApp') // lazy
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});
-			}
+			};
 
+			$scope.init();
 
-		}]
-	}
+        }
+    };
 }]);
+});

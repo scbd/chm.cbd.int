@@ -1,16 +1,14 @@
-angular.module('kmApp') // lazy
-.directive("editNationalSupportTool", ["$filter", "Thesaurus", function ($filter, thesaurus) {
+define(['text!./national-support-tool.html', 'app', 'angular', 'underscore', 'authentication', '../views/national-support-tool', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+
+app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) {
     return {
-        restrict: 'EAC',
-        templateUrl: '/app/chm/directives/forms/form-national-support-tool.partial.html',
+        restrict: 'E',
+        template: template,
         replace: true,
         transclude: false,
         scope: {},
-        link: function ($scope, $element) {
-            $scope.init();
-        },
-		controller : ['$scope', "$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($scope, $http, $q, $location, $filter, storage, _, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid)
-		{
+        link: function ($scope) {
+
             $scope.status = "";
             $scope.error = null;
             $scope.tab = "general";
@@ -58,7 +56,7 @@ angular.module('kmApp') // lazy
 								languages: ["en"]
 							},
 							government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
-						}
+						};
 					});
 				}
 
@@ -69,12 +67,12 @@ angular.module('kmApp') // lazy
 
 			            $scope.options = {
 			                countries:		 $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
-			                status:			 $http.get("/api/v2013/thesaurus/domains/B91693BB-648B-4601-9C4E-5B6ABE160D35/terms", { cache: true }).then(function (o) { return o.data }),
+			                status:			 $http.get("/api/v2013/thesaurus/domains/B91693BB-648B-4601-9C4E-5B6ABE160D35/terms", { cache: true }).then(function (o) { return o.data; }),
 			            	jurisdictions:	 $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
 							thematicAreas:	 $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",						  { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }),
 							//supportTools:	 function() { return $http.get("/api/v2013/thesaurus/domains/B63B9640-1CB8-4868-89DA-3D0571638870/terms", { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }) },
 							supportTools:	 $http.get("/api/v2013/thesaurus/domains/B63B9640-1CB8-4868-89DA-3D0571638870/terms", { cache: true }).then(function (o) { return thesaurus.buildTree(o.data); }),
-			            	aichiTargets:	 $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",		sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t } })}).then(null, $scope.onError),
+			            	aichiTargets:	 $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",		sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t }; });}).then(null, $scope.onError),
 			            	nationalTargets: []
 			            };
 			        }
@@ -87,11 +85,11 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
-			}
+			};
 
 			//==================================
 			//
@@ -119,7 +117,7 @@ angular.module('kmApp') // lazy
         				return {
         					identifier: o.identifier_s,
         					title: o.title_t
-        				}
+        				};
         			});
         		}).catch($scope.onError);
             });
@@ -132,7 +130,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
-			}
+			};
 
 			//==================================
 			//
@@ -141,7 +139,7 @@ angular.module('kmApp') // lazy
 				document = document || $scope.document;
 
 				if (!document)
-					return undefined
+					return;
 
 				document = angular.fromJson(angular.toJson(document));
 
@@ -163,7 +161,7 @@ angular.module('kmApp') // lazy
 
 					return storage.documents.get(identifier, { info: "" })
 						.then(function(r) {
-							return r.data
+							return r.data;
 						})
 						//otherwise
 						.then(null, function(e) {
@@ -172,7 +170,7 @@ angular.module('kmApp') // lazy
 
 							return storage.drafts.get(identifier, { info: "" })
 								.then(function(r) {
-									deferred.resolve(r.data)
+									return r.data;
 								});
 						});
 				}
@@ -192,7 +190,7 @@ angular.module('kmApp') // lazy
 							}));
 						});
 				}
-			}
+			};
 
 
 			//======================================================================
@@ -229,21 +227,21 @@ angular.module('kmApp') // lazy
 					return true;
 
 				});
-			}
+			};
 
 			//==================================
             //
             //==================================
             $scope.isLoading = function () {
                 return $scope.status == "loading";
-            }
+            };
 
 			//==================================
 			//
 			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			$scope.hasError = function() {
+				return !!$scope.error;
+			};
 
 			//==================================
 			//
@@ -259,7 +257,7 @@ angular.module('kmApp') // lazy
 				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
-					qsGovernment = qsGovernment.toLowerCase()
+					qsGovernment = qsGovernment.toLowerCase();
 
 				return $scope.userGovernment() || qsGovernment;
 			};
@@ -268,7 +266,7 @@ angular.module('kmApp') // lazy
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -279,19 +277,19 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
+			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
 				$location.url("/management/national-reporting/nationalSupportTool");
 			};
@@ -299,7 +297,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				gotoManager();
 			};
 
@@ -337,10 +335,14 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
-        }]
-    }
-}])
+			};
+
+            $scope.init();
+
+        }
+    };
+}]);
+});

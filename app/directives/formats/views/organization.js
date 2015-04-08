@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewOrganization', [function () {
+define(['app', 'angular', 'underscore', 'text!./organization.html', 'utilities/km-storage'], function(app, angular, _, template){
+
+app.directive('viewOrganization', ["IStorage", function (storage) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-organization.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -15,15 +16,13 @@ angular.module('kmApp') // lazy
 		{
 			$scope.contacts      = undefined;
 			$scope.organizations = undefined;
-		},
-		controller : ['$scope', "IStorage", function ($scope, storage) 
-		{
+
 			//====================
 			//
 			//====================
-			$scope.$watch("document.contacts", function(_new)
+			$scope.$watch("document.contacts", function()
 			{
-				$scope.contacts = angular.fromJson(angular.toJson($scope.document.contacts))
+				$scope.contacts = angular.fromJson(angular.toJson($scope.document.contacts));
 
 				if($scope.contacts)
 					$scope.loadReferences($scope.contacts);
@@ -33,9 +32,9 @@ angular.module('kmApp') // lazy
 			//====================
 			//
 			//====================
-			$scope.$watch("document.linkedOrganizations", function(_new)
+			$scope.$watch("document.linkedOrganizations", function()
 			{
-				$scope.linkedOrganizations = angular.fromJson(angular.toJson($scope.document.linkedOrganizations))
+				$scope.linkedOrganizations = angular.fromJson(angular.toJson($scope.document.linkedOrganizations));
 
 				if($scope.linkedOrganizations)
 					$scope.loadReferences($scope.linkedOrganizations);
@@ -72,25 +71,8 @@ angular.module('kmApp') // lazy
 
 						});
 				});
-			}
-		}]
-	}
+			};
+		}
+	};
 }]);
-
-angular.module('kmApp') // lazy
-.directive('viewOrganizationReference', [function () {
-	return {
-		restrict: 'EAC',
-		templateUrl: '/app/chm/directives/views/view-organization-reference.partial.html',
-		replace: true,
-		transclude: false,
-		scope: {
-			document: "=ngModel",
-			locale: "=",
-			target: "@linkTarget"
-		},
-		controller: ['$scope', function ($scope) {
-		}]
-	}
-}]);
-
+});

@@ -1,12 +1,15 @@
-angular.module('kmApp') // lazy
-.directive('editStrategicPlanIndicator', ['$http', "$filter", "$q", "guid", "$timeout", function ($http, $filter, $q, guid, $timeout) {
+define(['text!./organization.html', 'app', 'angular', 'underscore', 'authentication', '../views/organization', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+
+app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($http, guid, $filter, Thesaurus, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-strategic-plan-indicator.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
-		scope      : {},
-		link : function($scope, $element)
+		scope: {
+			cmsParams : "&"
+		},
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -14,10 +17,15 @@ angular.module('kmApp') // lazy
 			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
-				sensitivity:			function () { return $http.get("/api/v2013/thesaurus/domains/9BDB8DAD-C87E-4D4D-BA0B-B405EBB4F51D/terms", { cache: true }).then(function (o) { return o.data; }); },
-				scales:					function () { return $http.get("/api/v2013/thesaurus/domains/AC5C283E-6D16-46A0-B7F5-4DB2973BC45F/terms", { cache: true }).then(function (o) { return o.data; }); },
-				scientificValidity:		function () { return $http.get("/api/v2013/thesaurus/domains/9BDB8DAD-C87E-4D4D-BA0B-B405EBB4F51D/terms", { cache: true }).then(function (o) { return o.data; }); },
-				easyCommunicated:		function () { return $http.get("/api/v2013/thesaurus/domains/9BDB8DAD-C87E-4D4D-BA0B-B405EBB4F51D/terms", { cache: true }).then(function (o) { return o.data; }); },
+				countries					: function() { return $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
+				organizationTypes			: function() { return $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
+				cbdSubjects					: function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
+				absThematicAreas			: function() { return $http.get("/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms",         { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
+				libraries					: function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();});},
+				typeOfGeneticResources		: function () { return $http.get("/api/v2013/thesaurus/domains/20945FA8-C24C-4AF6-B3D9-367592AFDF48/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
+				originOfGeneticResources	: function () { return $http.get("/api/v2013/thesaurus/domains/545CD54C-CFF3-41E8-A003-FDD278426A3A/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
+				userOfGeneticResources      : function () { return $http.get("/api/v2013/thesaurus/domains/034C8D3F-EF8B-4144-8CA4-3839C466F96E/terms", { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }); },
+
 			};
 
 			//==================================
@@ -25,30 +33,42 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.$watch('tab', function(tab) {
 
-				if(!tab)
-					return;
-
 				if (tab == 'review')
 					$scope.validate();
 			});
 
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($scope, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls)
-		{
+			//==================================
+			//
+			//==================================
+			$scope.isInLibrary = function (name, document) {
+				document = document || $scope.document;
+
+				if (!document || !document.libraries)
+					return false;
+
+				var qLibraries = Enumerable.From(document.libraries);
+
+				if (name == "chm") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:chm"; });
+				if (name == "absch") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:abs-ch"; });
+				if (name == "bch") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:bch"; });
+				if (name == "ebsa") return qLibraries.Any(function (o) { return o.identifier == "cbdLibrary:ebsa"; });
+
+				return false;
+			};
+
 			//==================================
 			//
 			//==================================
 			$scope.isLoading = function() {
 				return $scope.status=="loading";
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			$scope.hasError = function() {
+				return !!$scope.error;
+			};
 
 			//==================================
 			//
@@ -63,14 +83,18 @@ angular.module('kmApp') // lazy
 				var promise = null;
 
 				if(identifier)
-					promise = editFormUtility.load(identifier, "strategicPlanIndicator");
+					promise = editFormUtility.load(identifier, "organization");
 				else
 					promise = $q.when({
 						header: {
 							identifier: guid(),
-							schema: "strategicPlanIndicator",
+							schema   : "organization",
 							languages: ["en"]
 						}
+					}).then(function(doc){
+						if ($scope.cmsParams() && $scope.cmsParams().defaultLibrary)
+							doc.libraries = [{ identifier: $scope.cmsParams().defaultLibrary }];
+						return doc;
 					});
 
 
@@ -80,11 +104,10 @@ angular.module('kmApp') // lazy
 						$scope.document = doc;
 					}).then(null,
 					function(err) {
-						$scope.onError(err.data, err.status)
+						$scope.onError(err.data, err.status);
 						throw err;
 					});
-			}
-
+			};
 
 			//==================================
 			//
@@ -94,7 +117,6 @@ angular.module('kmApp') // lazy
 
 				if (!document)
 					return $q.when(true);
-
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
@@ -114,8 +136,6 @@ angular.module('kmApp') // lazy
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
 
-				$scope.reviewDocument = oDocument
-
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {
@@ -128,25 +148,24 @@ angular.module('kmApp') // lazy
 						}
 					);
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
+					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field;});
 
 				return true;
-			}
-
+			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
 				return $scope.cleanUp();
-			}
+			};
 
 			//==================================
 			//
@@ -157,27 +176,26 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
-
+			};
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function(data) {
-				$location.url('management/list/strategicPlanIndicator');
+			$scope.onPostPublish = function() {
+				$location.url('/management/list/organization');
 			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
-				$location.url('management/list/strategicPlanIndicator');
+			$scope.onPostSaveDraft = function() {
+				$location.url('/management/list/organization');
 			};
 
 			//==================================
@@ -187,7 +205,7 @@ angular.module('kmApp') // lazy
 				if($location.search().returnUrl)
 					$location.url($location.search().returnUrl);
 				else
-					$location.url('management/list/strategicPlanIndicator');
+					$location.url('/management/list/organization');
 			};
 
 			//==================================
@@ -210,10 +228,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -229,11 +247,11 @@ angular.module('kmApp') // lazy
 						}, function(e) {
 							if (e.status == 404) {
 								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
+									.then(function(r) { deferred.resolve(r.data);},
+										  function(e) { deferred.reject (e);});
 							}
 							else {
-								deferred.reject (e)
+								deferred.reject (e);
 							}
 						});
 					return deferred.promise;
@@ -250,9 +268,10 @@ angular.module('kmApp') // lazy
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});
-			}
+			};
+			$scope.init();
 
-
-		}]
-	}
+        }
+    };
 }]);
+});

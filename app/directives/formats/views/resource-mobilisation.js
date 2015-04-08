@@ -1,8 +1,9 @@
-angular.module('kmApp') // lazy
-.directive('viewResourceMobilisation', [function () {
+define(['app', 'text!./resource-mobilisation.html', "underscore"], function(app, template, _){
+
+app.directive('viewResourceMobilisation', [function () {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/views/view-resource-mobilisation.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope: {
@@ -11,8 +12,8 @@ angular.module('kmApp') // lazy
 			target  : "@linkTarget",
 			allowDrafts : "@"
 		},
-		controller: ['$scope', 'IStorage', "underscore", function ($scope, storage, _) {
-
+		link : function ($scope)
+		{
 			$scope.directlyRelated             = "4BE226BA-E72F-4A8A-939E-6FCF0FA76CE4";
 			$scope.indirectlyRelated           = "4B931A40-8032-41BD-BBD7-B16905E41DF2";
 			$scope.direclyAndIndirectlyRelated = "2BBC9278-A50C-4B3C-AF2C-BBC103405DE4";
@@ -32,10 +33,8 @@ angular.module('kmApp') // lazy
 					return o.amount||0;
 				});
 
-				return values.length 
-					 ? _.reduce(values, function(res, val) { return res+val })
-					 : 0;
-			}
+				return values.length ? _.reduce(values, function(res, val) { return res+val; }) : 0;
+			};
 
 			//==================================
 			//
@@ -48,7 +47,7 @@ angular.module('kmApp') // lazy
 					if (resource && resource.confidence && resource.confidence.identifier == "42526EE6-68F3-4E8A-BC2B-3BE60DA2EB32") return 2; //medium
 					if (resource && resource.confidence && resource.confidence.identifier == "6FBEDE59-88DB-45FB-AACB-13C68406BD67") return 1; //low
 
-					return 0
+					return 0;
 				}));
 
 				var value = 0;
@@ -60,9 +59,10 @@ angular.module('kmApp') // lazy
 				if ( value == 3) return "High";
 				if ( value == 2) return "Medium";
 				if ( value == 1) return "Low";
-				
+
 				return "No value selected";
-			}
-		}]
-	}
+			};
+		}
+	};
 }]);
+});

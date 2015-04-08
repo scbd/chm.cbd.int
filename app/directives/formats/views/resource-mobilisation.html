@@ -28,7 +28,7 @@
 			document.respondentOrganization || document.respondentDepartment ||
 			document.respondentPhones || document.respondentEmails" >
 			<legend>Contact details of the respondent</legend>
-			
+
 			<div ng-show="document.respondentName">
 				<label>Name</label>
 				<div class="km-value">{{document.respondentName}}</div>
@@ -38,7 +38,7 @@
 				<label>Title</label>
 				<div class="km-value">{{document.respondentDesignation | lstring:locale}}</div>
 			</div>
-	
+
 			<div ng-show="document.respondentOrganization">
 				<label>Organization</label>
 				<div class="km-value">{{document.respondentOrganization | lstring:locale}}</div>
@@ -86,7 +86,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="resource in document.financialResources">
+						<tr ng-repeat="resource in document.financialResources track by $i">
 							<td>
 								<div km-terms ng-model="resource.year">
 									<div ng-repeat="term in terms">{{term.identifier}}</div>

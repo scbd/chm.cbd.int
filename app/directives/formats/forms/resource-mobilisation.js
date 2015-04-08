@@ -1,12 +1,13 @@
-angular.module('kmApp') // lazy
-.directive('editResourceMobilisation', ['$http', "$filter", "guid", "underscore", function ($http, $filter, guid, _) {
+define(['text!./resource-mobilisation.html', 'app', 'angular', 'underscore', 'authentication', '../views/resource-mobilisation', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+
+app.directive('editResourceMobilisation', ["$http", "$filter", "guid", "underscore", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", function ($http, $filter, guid, _, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation) {
 	return {
-		restrict   : 'EAC',
-		templateUrl: '/app/chm/directives/forms/form-resource-mobilisation.partial.html',
+		restrict   : 'E',
+		template   : template,
 		replace    : true,
 		transclude : false,
 		scope      : {},
-		link : function($scope, $element)
+		link : function($scope)
 		{
 			$scope.status   = "";
 			$scope.error    = null;
@@ -18,17 +19,26 @@ angular.module('kmApp') // lazy
 				confidence:		function () { return $http.get("/api/v2013/thesaurus/domains/AB782477-9942-4C6B-B9F0-79A82915A069/terms",	{ cache: true }).then(function (o) { return o.data; }); },
 				ownerBehalf:	function () { return $http.get("/api/v2013/thesaurus/domains/1FBEF0A8-EE94-4E6B-8547-8EDFCB1E2301/terms",	{ cache: true }).then(function (o) { return o.data; }); },
 				currencies:     function () { return $http.get("/api/v2013/thesaurus/domains/ISO-4217/terms",	                            { cache: true }).then(function (o) { return o.data; }); },
-				types:          $http.get("/api/v2013/thesaurus/domains/33D62DA5-D4A9-48A6-AAE0-3EEAA23D5EB0/terms", { cache: true }).then(function (o) { return o.data; }),
-				sources:		$http.get("/api/v2013/thesaurus/domains/09A1F957-C1B8-4419-90A3-168DE3CD1676/terms", { cache: true }).then(function (o) { return o.data; }),
-				categories:		$http.get("/api/v2013/thesaurus/domains/A9AB3215-353C-4077-8E8C-AF1BF0A89645/terms", { cache: true }).then(function (o) { return o.data; }),
-				confidences:	$http.get("/api/v2013/thesaurus/domains/AB782477-9942-4C6B-B9F0-79A82915A069/terms", { cache: true }).then(function (o) { return o.data; }),
+
 				years: [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
 			};
 
-			$scope.init();
-		},
-		controller : ['$scope', "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", function ($scope, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation)
-		{
+			$q.when($http.get("/api/v2013/thesaurus/domains/33D62DA5-D4A9-48A6-AAE0-3EEAA23D5EB0/terms", { cache: true }).then(function (o) { return o.data; })).then(function(result){
+				$scope.options.types = result;
+			});
+
+			$q.when($http.get("/api/v2013/thesaurus/domains/09A1F957-C1B8-4419-90A3-168DE3CD1676/terms", { cache: true }).then(function (o) { return o.data; })).then(function(result){
+				$scope.options.sources = result;
+			});
+
+			$q.when($http.get("/api/v2013/thesaurus/domains/A9AB3215-353C-4077-8E8C-AF1BF0A89645/terms", { cache: true }).then(function (o) { return o.data; })).then(function(result){
+				$scope.options.categories = result;
+			});
+
+			$q.when($http.get("/api/v2013/thesaurus/domains/AB782477-9942-4C6B-B9F0-79A82915A069/terms", { cache: true }).then(function (o) { return o.data; })).then(function(result){
+				$scope.options.confidences = result;
+			});
+
 			watchResource('financialResources');
 			watchResource('countryFinancialResources');
 			watchResource('financialMechanisms');
@@ -39,14 +49,14 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.isLoading = function() {
 				return $scope.status=="loading";
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.hasError = function(field) {
-				return $scope.error!=null;
-			}
+			$scope.hasError = function() {
+				return !!$scope.error;
+			};
 
 			//==================================
 			//
@@ -102,11 +112,11 @@ angular.module('kmApp') // lazy
 
 				}).catch(function(err) {
 
-					$scope.onError(err.data, err.status)
+					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
-			}
+			};
 
 			//==============================
 			//
@@ -156,36 +166,36 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.getCleanDocument = function(document) {
 
-				document = document || $scope.document
+				document = document || $scope.document;
 				document = angular.fromJson(angular.toJson(document));
 
 				if (document)
 				{
 					if(document.financialResources) {
-						document.financialResources = _.filter(document.financialResources, function(o) { return !_.isEmpty(o) });
-						document.financialResources = document.financialResources.length!=0 ? document.financialResources : undefined;
+						document.financialResources = _.filter(document.financialResources, function(o) { return !_.isEmpty(o); });
+						document.financialResources = document.financialResources.length!==0 ? document.financialResources : undefined;
 					}
 
 					if(document.countryFinancialResources) {
-						document.countryFinancialResources = _.filter(document.countryFinancialResources, function(o) { return !_.isEmpty(o) });
-						document.countryFinancialResources = document.countryFinancialResources.length!=0 ? document.countryFinancialResources : undefined;
+						document.countryFinancialResources = _.filter(document.countryFinancialResources, function(o) { return !_.isEmpty(o); });
+						document.countryFinancialResources = document.countryFinancialResources.length!==0 ? document.countryFinancialResources : undefined;
 					}
 
 					if(document.financialMechanisms) {
-						document.financialMechanisms = _.filter(document.financialMechanisms, function(o) { return !_.isEmpty(o) });
-						document.financialMechanisms = document.financialMechanisms.length!=0 ? document.financialMechanisms : undefined;
+						document.financialMechanisms = _.filter(document.financialMechanisms, function(o) { return !_.isEmpty(o); });
+						document.financialMechanisms = document.financialMechanisms.length!==0 ? document.financialMechanisms : undefined;
 					}
 
 					if(document.resourceIntiatives) {
-						document.resourceIntiatives = _.filter(document.resourceIntiatives, function(o) { return !_.isEmpty(o) });
-						document.resourceIntiatives = document.resourceIntiatives.length!=0 ? document.resourceIntiatives : undefined;
+						document.resourceIntiatives = _.filter(document.resourceIntiatives, function(o) { return !_.isEmpty(o); });
+						document.resourceIntiatives = document.resourceIntiatives.length!==0 ? document.resourceIntiatives : undefined;
 					}
 
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
 				}
 
-				return document
+				return document;
 			};
 
 			//==================================
@@ -197,7 +207,7 @@ angular.module('kmApp') // lazy
 
 				var oDocument = $scope.getCleanDocument();
 
-				$scope.reviewDocument = angular.fromJson(angular.toJson(oDocument));;
+				$scope.reviewDocument = angular.fromJson(angular.toJson(oDocument));
 
 				return storage.documents.validate(oDocument).then(function(success) {
 
@@ -219,14 +229,14 @@ angular.module('kmApp') // lazy
 				if(!tab)
 					return;
 
-				if(tab == "general"   )     { $scope.prevTab = "general";        $scope.nextTab = "identification" }
-				if(tab == "identification") { $scope.prevTab = "general";        $scope.nextTab = "section1" }
-				if(tab == "section1"  )     { $scope.prevTab = "identification"; $scope.nextTab = "section2" }
-				if(tab == "section2"  )     { $scope.prevTab = "section1";       $scope.nextTab = "section3" }
-				if(tab == "section3"  )     { $scope.prevTab = "section2";       $scope.nextTab = "section4" }
-				if(tab == "section4"  )     { $scope.prevTab = "section3";       $scope.nextTab = "section5" }
-				if(tab == "section5"  )     { $scope.prevTab = "section4";       $scope.nextTab = "review" }
-				if(tab == "review"    )     { $scope.prevTab = "section5";       $scope.nextTab = "review" }
+				if(tab == "general"   )     { $scope.prevTab = "general";        $scope.nextTab = "identification"; }
+				if(tab == "identification") { $scope.prevTab = "general";        $scope.nextTab = "section1";}
+				if(tab == "section1"  )     { $scope.prevTab = "identification"; $scope.nextTab = "section2";}
+				if(tab == "section2"  )     { $scope.prevTab = "section1";       $scope.nextTab = "section3";}
+				if(tab == "section3"  )     { $scope.prevTab = "section2";       $scope.nextTab = "section4";}
+				if(tab == "section4"  )     { $scope.prevTab = "section3";       $scope.nextTab = "section5";}
+				if(tab == "section5"  )     { $scope.prevTab = "section4";       $scope.nextTab = "review"; }
+				if(tab == "review"    )     { $scope.prevTab = "section5";       $scope.nextTab = "review"; }
 
 				if (tab == 'review')
 					$scope.validate();
@@ -238,17 +248,17 @@ angular.module('kmApp') // lazy
 			//==================================
 			$scope.isFieldValid = function(field) {
 				if (field && $scope.validationReport && $scope.validationReport.errors)
-					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field})
+					return !Enumerable.From($scope.validationReport.errors).Any(function(x){return x.property==field;});
 
 				return true;
-			}
+			};
 
 
 			//==================================
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-			}
+			};
 
 			//==================================
 			//
@@ -259,12 +269,12 @@ angular.module('kmApp') // lazy
 						$scope.tab = "review";
 					return hasError;
 				});
-			}
+			};
 
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function(data) {
+			$scope.onPostWorkflow = function() {
 				$location.url(siteMapUrls.management.workflows);
 			};
 
@@ -278,7 +288,7 @@ angular.module('kmApp') // lazy
 			//==================================
 			//
 			//==================================
-			$scope.onPostSaveDraft = function(data) {
+			$scope.onPostSaveDraft = function() {
 				$location.url(siteMapUrls.management.drafts);
 			};
 
@@ -312,10 +322,10 @@ angular.module('kmApp') // lazy
 					$scope.error  = "Record type is invalid.";
 				}
 				else if (error.Message)
-					$scope.error = error.Message
+					$scope.error = error.Message;
 				else
 					$scope.error = error;
-			}
+			};
 
 			//==================================
 			//
@@ -327,15 +337,15 @@ angular.module('kmApp') // lazy
 
 					storage.documents.get(identifier, { info: "" })
 						.then(function(r) {
-							deferred.resolve(r.data);
+							return r.data;
 						}, function(e) {
 							if (e.status == 404) {
 								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data)},
-										  function(e) { deferred.reject (e)});
+									.then(function(r) { deferred.resolve(r.data);},
+										  function(e) { deferred.reject (e);});
 							}
 							else {
-								deferred.reject (e)
+								deferred.reject (e);
 							}
 						});
 					return deferred.promise;
@@ -352,7 +362,7 @@ angular.module('kmApp') // lazy
 												.Union(results[1].data.Items, "$.identifier");
 						return qResult.ToArray();
 					});
-			}
+			};
 
 
 			$scope.directlyRelated             = "4BE226BA-E72F-4A8A-939E-6FCF0FA76CE4";
@@ -375,10 +385,8 @@ angular.module('kmApp') // lazy
 					return o.amount||0;
 				});
 
-				return values.length
-					 ? _.reduce(values, function(res, val) { return res+val })
-					 : 0;
-			}
+				return values.length ? _.reduce(values, function(res, val) { return res+val; }) : 0;
+			};
 
 			//==================================
 			//
@@ -391,7 +399,7 @@ angular.module('kmApp') // lazy
 					if (resource && resource.confidence && resource.confidence.identifier == "42526EE6-68F3-4E8A-BC2B-3BE60DA2EB32") return 2; //medium
 					if (resource && resource.confidence && resource.confidence.identifier == "6FBEDE59-88DB-45FB-AACB-13C68406BD67") return 1; //low
 
-					return 0
+					return 0;
 				}));
 
 				var value = 0;
@@ -405,7 +413,10 @@ angular.module('kmApp') // lazy
 				if ( value == 1) return "Low";
 
 				return "No value selected";
-			}
-		}]
-	}
-}])
+			};
+			$scope.init();
+
+        }
+    };
+}]);
+});

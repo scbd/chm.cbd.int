@@ -23,6 +23,7 @@ module.exports = function(grunt) { 'use strict';
                     include: [
                         'chm/services/editFormUtility',
                         'directives/forms/form-controls',
+                        'directives/formats/views/form-loader',
                         'utilities/km-utilities',
                         'utilities/km-workflows',
                         'utilities/km-storage',

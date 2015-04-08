@@ -14,4 +14,4 @@ define([
 	'./km-terms-check',
 	'./km-terms-radio',
 	'./km-yes-no'
-]);
+], {});

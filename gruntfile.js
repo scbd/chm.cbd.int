@@ -17,11 +17,11 @@ module.exports = function(grunt) { 'use strict';
                 appDir: "./app",
                 baseUrl: ".",
                 dir: "app_build",
-                mainConfigFile: "app/chm/boot.js",
+                mainConfigFile: "app/boot.js",
                 modules: [ {
-                    name : "chm/boot",
+                    name : "boot",
                     include: [
-                        'chm/services/editFormUtility',
+                        'services/editFormUtility',
                         'directives/forms/form-controls',
                         'directives/formats/views/form-loader',
                         'utilities/km-utilities',

@@ -1,4 +1,4 @@
-define(['text!./implementation-activity.html', 'app', 'angular', 'underscore', 'authentication', '../views/implementation-activity', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _) { 'use strict';
+define(['text!./implementation-activity.html', 'app', 'angular', 'underscore', 'authentication', '../views/implementation-activity', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _) { 'use strict';
 
 app.directive("editImplementationActivity", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
     return {

@@ -1,4 +1,4 @@
-define(['text!./organization.html', 'app', 'angular', 'underscore', 'authentication', '../views/organization', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./organization.html', 'app', 'angular', 'underscore', 'authentication', '../views/organization', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
 app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q", "$location", 'IStorage', "Enumerable", "underscore", "editFormUtility", "authentication", "siteMapUrls", function ($http, guid, $filter, Thesaurus, $q, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) {
 	return {

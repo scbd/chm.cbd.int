@@ -1,4 +1,4 @@
-define(['text!./resource-mobilisation.html', 'app', 'angular', 'underscore', 'authentication', '../views/resource-mobilisation', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./resource-mobilisation.html', 'app', 'angular', 'underscore', 'authentication', '../views/resource-mobilisation', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
 app.directive('editResourceMobilisation', ["$http", "$filter", "guid", "underscore", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", function ($http, $filter, guid, _, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation) {
 	return {

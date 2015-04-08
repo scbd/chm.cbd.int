@@ -1,4 +1,4 @@
-define(['text!./contact.html', 'app', 'angular', 'authentication', '../views/contact', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
+define(['text!./contact.html', 'app', 'angular', 'authentication', '../views/contact', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
 
 
 angular.module('kmApp') // lazy

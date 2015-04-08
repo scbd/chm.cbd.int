@@ -4,7 +4,6 @@ require.config({
     waitSeconds: 120,
     baseUrl : '/app',
     paths: {
-      'app'              : 'chm/app',
       'authentication'   : 'services/authentication',
       'angular'          : 'libs/angular-flex/angular-flex',
       'ngRoute'          : 'libs/angular-route/angular-route',
@@ -38,7 +37,7 @@ require.config({
 
 // BOOT
 
-require(['angular', 'domReady!', 'bootstrap', 'app', 'chm/routes', 'index'], function(ng, doc){
+require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'index'], function(ng, doc){
 
     ng.bootstrap(doc, ['kmApp']);
     ng.resumeBootstrap();

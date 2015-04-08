@@ -1,4 +1,4 @@
-define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'underscore', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'chm/services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'underscore', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
 app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'underscore', 'editFormUtility', 'authentication', 'siteMapUrls', function ($http, $filter, $q, guid, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) {
 	return {

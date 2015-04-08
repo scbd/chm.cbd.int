@@ -1,4 +1,4 @@
-define(['app', 'angular', 'jquery', 'text!./km-inputtext-ml.html'], function(app, angular, $, template) { 'use strict';
+define(['app', 'angular', 'jquery', 'underscore', 'text!./km-inputtext-ml.html'], function(app, ng, $, _, template) { 'use strict';
 
 	app.directive('kmTextboxMl', [function ()
 	{
@@ -18,57 +18,36 @@ define(['app', 'angular', 'jquery', 'text!./km-inputtext-ml.html'], function(app
 			},
 			link: function ($scope, element, attrs, ngModelController)
 			{
-				$scope.text = {};
-				$scope.$watch('locales', $scope.watchLocales);
-				$scope.$watch('binding', $scope.watchBinding);
-				$scope.$watch('binding', function() {
-					try { ngModelController.$setViewValue($scope.binding); } catch(e) {}
-				});
+				//==============================
+				//
+				//==============================
+				$scope.$watch('binding', function(text) {
+					$scope.text = ng.extend($scope.text||{}, text);
+				}, true);
 
 				//==============================
-				//Remove value of not selected languages/empty languages
+				//
 				//==============================
-				$scope.watchLocales = function()
-				{
-					var oLocales = $scope.locales || [];
-					var oBinding = $scope.binding || {};
-					var oText    = $scope.text;
-
-					angular.forEach(oLocales, function(locale) {
-						oText[locale] = oBinding[locale] || oText[locale]; });
-				};
+				$scope.$watch('text',    updateText, true);
+				$scope.$watch('locales', updateText, true);
 
 				//==============================
-				//Remove value of not selected languages/empty languages
+				//
 				//==============================
-				$scope.watchBinding = function()
-				{
-					var oLocales = $scope.locales || [];
-					var oBinding = $scope.binding || {};
-					var oText    = $scope.text;
+				function updateText(){
 
-					angular.forEach(oLocales, function(locale) {
-						oText[locale] = oBinding[locale]; });
-				};
+					var text = _(ng.extend($scope.binding || {}, $scope.text || {})).pick($scope.locales||[]);
 
-				//==============================
-				//Remove value of not selected languages/empty languages
-				//==============================
-				$scope.onchange = function()
-				{
-					var oLocales    = $scope.locales || [];
-					var oText       = $scope.text    || {};
-					var oNewBinding = {};
-
-					angular.forEach(oLocales, function(locale)
-					{
-						if($.trim(oText[locale])!="")// jshint ignore:line
-							oNewBinding[locale] = oText[locale];
+					_(text).each(function(value, key, text){
+						if(!value)
+							delete text[key];
 					});
 
-					$scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
-					$scope.ngChange();
-				};
+					if(_.isEmpty(text))
+						text = undefined;
+
+					try { ngModelController.$setViewValue(text); } catch(e) {}
+				}
 
 				//==============================
 				//

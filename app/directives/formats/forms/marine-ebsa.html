@@ -139,7 +139,7 @@
 
 					<div class="col-md-4 col-md-offset1">
 						<div class="form-group">
-							<label class="control-label" for="beyondNationalJurisdiction">Is this marine areas beyond national jurisdiction?</label>><br/>
+							<label class="control-label" for="beyondNationalJurisdiction">Is this marine areas beyond national jurisdiction?</label><br/>
 							<div class="km-yes-no" ng-model="document.beyondNationalJurisdiction"></div>
 						</div>
 					</div>
@@ -471,7 +471,7 @@
 				<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 			</div>
 
-			<div class="view-marine-ebsa" ng-model="reviewDocument" locale="review.locale"></div>
+			<view-marine-ebsa ng-model="reviewDocument" locale="review.locale"></view-marine-ebsa>
 		</div>
 
 		<div class="row">

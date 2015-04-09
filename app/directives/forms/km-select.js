@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'jquery', 'text!./km-select.html'], function(app, angular, _, $, template) { 'use strict';
+define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function(app, angular, _, $, template) { 'use strict';
 
 	app.directive('kmSelect', ["htmlUtility", function (html)
 	{

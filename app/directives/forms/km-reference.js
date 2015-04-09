@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'jquery', 'text!./km-reference.html'], function(app, angular, _, $, template) { 'use strict';
+define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], function(app, angular, _, $, template) { 'use strict';
 
 	app.directive('kmReference', [function ()
 	{

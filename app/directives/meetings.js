@@ -1,4 +1,4 @@
-define(['text!./meetings.html','app', 'underscore'], function(template, app, _) { 'use strict';
+define(['text!./meetings.html','app', 'lodash'], function(template, app, _) { 'use strict';
 
 app.directive('meetings', ['$http', function ($http) {
     return {

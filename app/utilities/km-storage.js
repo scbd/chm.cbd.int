@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'authentication'], function(app, angular, _) { 'use strict';
+define(['app', 'angular', 'lodash', 'authentication'], function(app, angular, _) { 'use strict';
 
 app.factory('IStorage', ["$http", "$q", "authentication", "realm", function($http, $q, authentication, defaultRealm) {
 

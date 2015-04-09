@@ -1,4 +1,4 @@
-define(['underscore', 'directives/management/register-facets', 'authentication', "directives/formats/views/form-loader", 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(_) { 'use strict';
+define(['lodash', 'directives/management/register-facets', 'authentication', "directives/formats/views/form-loader", 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(_) { 'use strict';
 
 return [ "$scope", "$timeout", "$http", "$route", "$location", "IStorage", "IWorkflows", "authentication",
 function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication)

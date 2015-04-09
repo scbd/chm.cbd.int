@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'text!./case-study-hwb.html', 'utilities/km-storage'], function(app, angular, _, template){
+define(['app', 'angular', 'lodash', 'text!./case-study-hwb.html', 'utilities/km-storage'], function(app, angular, _, template){
 
 app.directive('viewCaseStudyHwb', ['IStorage', function (storage) {
 	return {

@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'text!./national-support-tool.html', 'utilities/km-storage'], function(app, angular, _, template){
+define(['app', 'angular', 'lodash', 'text!./national-support-tool.html', 'utilities/km-storage'], function(app, angular, _, template){
 
 app.directive('viewNationalSupportTool', ["$q", "IStorage", function ($q, storage) {
 	return {

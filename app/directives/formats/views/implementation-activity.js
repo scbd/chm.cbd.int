@@ -1,6 +1,6 @@
 define(['app', 'angular', 'text!./implementation-activity.html', 'utilities/km-storage'], function(app, angular, template){
 
-app.directive('viewImplementationActivity', ["$q", "underscore", "IStorage", function ($q, _, storage)  {
+app.directive('viewImplementationActivity', ["$q", "IStorage", function ($q, storage)  {
 	return {
 		restrict   : 'E',
 		template   : template,

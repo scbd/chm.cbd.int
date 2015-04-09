@@ -11,7 +11,7 @@ require.config({
       'domReady'         : 'libs/requirejs-domready/domReady',
       'text'             : 'libs/requirejs-text/text',
       'bootstrap'        : 'libs/bootstrap/dist/js/bootstrap',
-      'underscore'       : 'libs/underscore/underscore',
+      'lodash'           : 'libs/lodash/lodash',
       'URIjs'            : 'libs/uri.js/src',
       'linqjs'           : 'libs/linqjs/linq',
       'leaflet'          : 'libs/leaflet/dist/leaflet',

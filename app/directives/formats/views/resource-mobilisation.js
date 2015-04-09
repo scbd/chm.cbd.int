@@ -1,4 +1,4 @@
-define(['app', 'text!./resource-mobilisation.html', "underscore"], function(app, template, _){
+define(['app', 'text!./resource-mobilisation.html', "lodash"], function(app, template, _){
 
 app.directive('viewResourceMobilisation', [function () {
 	return {

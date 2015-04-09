@@ -1,4 +1,4 @@
-define(['underscore', 'jquery', 'app', 'authentication'], function(_, $) { 'use strict';
+define(['lodash', 'jquery', 'app', 'authentication'], function(_, $) { 'use strict';
 
     return ['$scope', '$route', '$http', '$q', '$location', function($scope, $route, $http, $q, $location) {
 

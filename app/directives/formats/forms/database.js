@@ -1,4 +1,4 @@
-define(['text!./database.html', 'app', 'angular', 'underscore', 'jquery', 'linqjs', 'authentication', '../views/database', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _, $, Enumerable) { 'use strict';
+define(['text!./database.html', 'app', 'angular', 'lodash', 'jquery', 'linqjs', 'authentication', '../views/database', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _, $, Enumerable) { 'use strict';
 
 app.directive('editDatabase', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
 	return {

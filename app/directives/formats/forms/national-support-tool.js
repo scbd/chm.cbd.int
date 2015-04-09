@@ -1,4 +1,4 @@
-define(['text!./national-support-tool.html', 'app', 'angular', 'underscore', 'authentication', '../views/national-support-tool', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./national-support-tool.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-support-tool', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) {
     return {

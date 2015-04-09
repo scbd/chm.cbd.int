@@ -1,4 +1,4 @@
-define(['app', 'underscore', 'linqjs', 'URIjs/URI'], function(app, _, Enumerable, URI) { 'use strict';
+define(['app', 'lodash', 'linqjs', 'URIjs/URI'], function(app, _, Enumerable, URI) { 'use strict';
 
 app.filter("lstring", function() {
 	return function(ltext, locale) {
@@ -92,10 +92,6 @@ app.factory('guid', function() {
 		return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4()).toUpperCase();
 	};
 });
-
-app.factory('underscore', [function() {
-	return _;
-}]);
 
 app.factory('Enumerable', [function() {
 	return Enumerable;

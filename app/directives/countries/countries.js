@@ -1,4 +1,4 @@
-define(['text!./countries.html','app', 'underscore'], function(template, app, _) { 'use strict';
+define(['text!./countries.html','app', 'lodash'], function(template, app, _) { 'use strict';
 
 app.directive('countries', ['$http', function ($http) {
     return {

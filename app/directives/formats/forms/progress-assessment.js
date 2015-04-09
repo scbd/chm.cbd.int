@@ -1,4 +1,4 @@
-define(['text!./progress-assessment.html', 'app', 'angular', 'underscore', 'authentication', '../views/progress-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./progress-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/progress-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
 app.directive("editProgressAssessment", ['$http', "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', function ($http, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls) {
     return {

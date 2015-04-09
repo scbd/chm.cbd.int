@@ -1,6 +1,6 @@
-define(['text!./task-loader.html', 'app', 'underscore', 'authentication', 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(template, app, _) { 'use strict';
+define(['text!./task-loader.html', 'app', 'lodash', 'authentication', 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(template, app, _) { 'use strict';
 
-app.directive("taskLoader", [ "$scope", "$http", "$route", "IStorage", "IWorkflows", "authentication", "underscore", function ($scope, $http, $route, IStorage, IWorkflows, authentication) {
+app.directive("taskLoader", [ "$scope", "$http", "$route", "IStorage", "IWorkflows", "authentication", function ($scope, $http, $route, IStorage, IWorkflows, authentication) {
 	return {
 		priority: 0,
 		restrict: 'E',

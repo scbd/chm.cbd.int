@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'text!./organization-reference.html', 'utilities/km-storage'], function(app, angular, template){
+define(['app', 'angular', 'lodash', 'text!./organization-reference.html', 'utilities/km-storage'], function(app, angular, template){
 
 app.directive('viewOrganizationReference', [function () {
 	return {

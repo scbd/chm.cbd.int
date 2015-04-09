@@ -1,4 +1,4 @@
-define(['text!./search-filter-facets.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
+define(['text!./search-filter-facets.html', 'app', 'lodash'], function(template, app, _) { 'use strict';
 
     app.directive('searchFilterFacets', ["$http", function ($http) {
     return {

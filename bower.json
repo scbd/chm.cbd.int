@@ -11,7 +11,7 @@
     "requirejs-domready": "latest",
     "requirejs-text": "latest",
     "requirejs-plugins": "latest",
-    "underscore": "latest",
+    "lodash": "~3.6.0",
     "uri.js": "1.13.x",
     "moment": "latest",
     "linqjs": "https://github.com/madington/linq.git#~2.2.0",

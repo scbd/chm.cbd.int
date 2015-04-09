@@ -1,7 +1,7 @@
-define(['text!./aichi-target.html', 'app', 'angular', 'jquery', 'authentication', '../views/aichi-target', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $) { 'use strict';
+define(['text!./aichi-target.html', 'app', 'angular', 'lodash', 'jquery', 'authentication', '../views/aichi-target', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _, $) { 'use strict';
 
 
-app.directive('editAichiTarget', ["$http", "$q", "$location", "$filter", 'IStorage', "underscore",  "editFormUtility", "navigation", "siteMapUrls", function ($http, $q, $location, $filter, storage, _, editFormUtility, navigation, siteMapUrls) {
+app.directive('editAichiTarget', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls) {
 	return {
 		restrict   : 'E',
 		template   : template,

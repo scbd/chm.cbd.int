@@ -1,4 +1,4 @@
-define(['text!./search-filter-themes.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
+define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template, app, _) { 'use strict';
 
 	//==============================================
 	//

@@ -1,4 +1,4 @@
-define(['text!./my-tasks.html', 'app', 'underscore', 'authentication', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app, _) { 'use strict';
+define(['text!./my-tasks.html', 'app', 'lodash', 'authentication', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app, _) { 'use strict';
 
 app.directive("myTasks", ['$http', "$timeout", "IWorkflows", "authentication", function ($http, $timeout, IWorkflows, authentication) {
 	return {

@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'text!./aichi-target.html', 'utilities/km-storage'], function(app, angular, _, template){
+define(['app', 'angular', 'lodash', 'text!./aichi-target.html', 'utilities/km-storage'], function(app, angular, _, template){
 
 app.directive('viewAichiTarget', ["$http", 'IStorage', '$q', function ($http, storage, $q) {
 	return {

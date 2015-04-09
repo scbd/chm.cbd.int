@@ -1,4 +1,4 @@
-define(['text!./case-study.html', 'app', 'angular', 'jquery', 'underscore', 'authentication', '../views/case-study', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $, _) { 'use strict';
+define(['text!./case-study.html', 'app', 'angular', 'jquery', 'lodash', 'authentication', '../views/case-study', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $, _) { 'use strict';
 
 app.directive('editCaseStudy', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid) {
 	return {

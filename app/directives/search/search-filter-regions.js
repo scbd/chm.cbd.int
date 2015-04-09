@@ -1,4 +1,4 @@
-define(['text!./search-filter-regions.html', 'app', 'underscore'], function(template, app, _) { 'use strict';
+define(['text!./search-filter-regions.html', 'app', 'lodash'], function(template, app, _) { 'use strict';
     app.directive('searchFilterRegions', ['$http', '$location', 'Thesaurus', function ($http, $location, thesaurus) {
     return {
         restrict: 'EAC',

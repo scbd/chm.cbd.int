@@ -1,4 +1,4 @@
-define(['app', 'angular', 'jquery', 'underscore', 'text!./km-inputtext-ml.html'], function(app, ng, $, _, template) { 'use strict';
+define(['app', 'angular', 'jquery', 'lodash', 'text!./km-inputtext-ml.html'], function(app, ng, $, _, template) { 'use strict';
 
 	app.directive('kmTextboxMl', [function ()
 	{
@@ -36,12 +36,10 @@ define(['app', 'angular', 'jquery', 'underscore', 'text!./km-inputtext-ml.html']
 				//==============================
 				function updateText(){
 
-					var text = _(ng.extend($scope.binding || {}, $scope.text || {})).pick($scope.locales||[]);
-
-					_(text).each(function(value, key, text){
+					var text = _(ng.extend($scope.binding || {}, $scope.text || {})).pick($scope.locales||[]).forEach(function(value, key, text){
 						if(!value)
 							delete text[key];
-					});
+					}).value();
 
 					if(_.isEmpty(text))
 						text = undefined;

@@ -1,4 +1,4 @@
-define(['text!./national-reporting-manager.html', 'app', 'underscore', 'angular', 'URIjs/uri', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app, _, angular, URI) { 'use strict';
+define(['text!./national-reporting-manager.html', 'app', 'lodash', 'angular', 'URIjs/uri', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', 'utilities/km-utilities'], function(template, app, _, angular, URI) { 'use strict';
 
 app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '$http', "navigation", "$location", "authentication", "IStorage", "$filter",'$timeout',
  function ($rootScope, $routeParams, $q, $http, navigation, $location, authentication, storage, $filter, $timeout) {

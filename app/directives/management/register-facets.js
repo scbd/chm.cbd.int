@@ -1,4 +1,4 @@
-define(['text!./register-facets.html', 'app', 'underscore', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', './facet-bar'], function(template, app, _) { 'use strict';
+define(['text!./register-facets.html', 'app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', './facet-bar'], function(template, app, _) { 'use strict';
 
 app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","IWorkflows",
                         function ($rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows) {

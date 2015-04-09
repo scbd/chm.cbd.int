@@ -1,4 +1,4 @@
-define(['app', 'underscore', 'text!views/index.html', 'text!views/database/index.html',  'providers/extended-route', 'services/navigation'], function(app, _, rootTemplate, searchTemplate) { 'use strict';
+define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.html',  'providers/extended-route', 'services/navigation'], function(app, _, rootTemplate, searchTemplate) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 

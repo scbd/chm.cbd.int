@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'text!./national-indicator.html', 'utilities/km-storage'], function(app, angular, _, template){
+define(['app', 'angular', 'lodash', 'text!./national-indicator.html', 'utilities/km-storage'], function(app, angular, _, template){
 
 app.directive('viewNationalIndicator',  ["$q", "IStorage", function ($q, storage) {
 	return {

@@ -1,6 +1,6 @@
-define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'underscore', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular) { 'use strict';
 
-app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'underscore', 'editFormUtility', 'authentication', 'siteMapUrls', function ($http, $filter, $q, guid, $location, storage, Enumerable, _, editFormUtility, authentication, siteMapUrls) {
+app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'editFormUtility', 'authentication', 'siteMapUrls', function ($http, $filter, $q, guid, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls) {
 	return {
 		restrict   : 'E',
 		template   : template,

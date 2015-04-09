@@ -1,4 +1,4 @@
-define(['app', 'angular', 'underscore', 'text!./organization.html', 'utilities/km-storage'], function(app, angular, _, template){
+define(['app', 'angular', 'lodash', 'text!./organization.html', 'utilities/km-storage'], function(app, angular, _, template){
 
 app.directive('viewOrganization', ["IStorage", function (storage) {
 	return {

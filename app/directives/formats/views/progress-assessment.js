@@ -1,4 +1,4 @@
-define(['app', 'text!./progress-assessment.html', "underscore"], function(app, template, _){
+define(['app', 'text!./progress-assessment.html', "lodash"], function(app, template, _){
 
 app.directive('viewProgressAssessment', ["$q", "IStorage", function ($q, storage) {
 	return {

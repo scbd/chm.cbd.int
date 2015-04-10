@@ -22,7 +22,17 @@ define(['app', 'angular', 'jquery', 'lodash', 'text!./km-inputtext-ml.html'], fu
 				//
 				//==============================
 				$scope.$watch('binding', function(text) {
-					$scope.text = ng.extend($scope.text||{}, text);
+
+					text = text || {};
+
+					_.forEach($scope.locales || _.keys(text), function(l){
+						text[l] = text[l] || "";
+					});
+
+					$scope.text = _.defaults(text, $scope.text||{});
+
+					updateText();
+
 				}, true);
 
 				//==============================

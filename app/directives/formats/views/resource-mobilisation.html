@@ -1,5 +1,5 @@
 ﻿<div class="viewForm">
-	<h2>{{document.title | lstring:locale}} </h2>
+	<!-- <h2>{{document.title | lstring:locale}} </h2> -->
 
 	<div ng-show="document.government || document.ownerBehalf ||
 		document.respondentName || document.respondentDesignation ||
@@ -8,20 +8,12 @@
 		<legend>Identification of respondent</legend>
 		<div ng-show="document.government">
 			<label>Country</label>
-			<div class="km-value">
-				<span km-terms ng-model="document.government">
-					<span ng-repeat="term in terms">{{term.name}} </span>
-				</span>
-			</div>
+			<span class="km-value">{{document.government | term:locale}} </span>
 		</div>
 
 		<div ng-show="document.ownerBehalf">
 			<label>Please indicate on whose behalf this information is being completed</label>
-			<div>
-				<span km-terms ng-model="document.ownerBehalf">
-					<span ng-repeat="term in terms">{{term.name}} </span>
-				</span>
-			</div>
+			<span class="km-value">{{document.ownerBehalf | term:locale}} </span>
 		</div>
 
 		<div ng-show="document.respondentName || document.respondentDesignation ||
@@ -69,333 +61,524 @@
 		</div>
 	</div>
 
-	<div ng-show="document.financialResources  || document.financialDescription">
-		<legend>1. Information on international flows of financial resources</legend>
+    <div ng-show="document.internationalResources">
+		<legend>1. International financial resource flows</legend>
+		<div ng-show="document.internationalResources.baselineData">
+			<label>1.1.1	Baseline information</label>
 
-		<div ng-show="document.financialResources">
-			<label>Information on international flows of financial resources</label>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered">
+			<div ng-show="document.internationalResources.currency && !isEmpty(document.internationalResources.currency)" >
+				<label>Currency:</label>
+				<span class="km-value">{{document.internationalResources.currency | term}}</span>
+			</div>
+
+			<div ng-show="document.internationalResources.multiplier" >
+				<label>All values are :</label>
+				<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.internationalResources.multiplier}">{{term.title | lstring:locale}} </span>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.baselineFlows" class="table-responsive">
+				<table class="table table-hover table-bordered table-condensed">
 					<thead>
-						<tr>
+						<tr class="active">
 							<th>Year</th>
-							<th>Type of financial flows</th>
-							<th>Category</th>
-							<th style="text-align: center">Amount</th>
-							<th>Confidence</th>
+							<th>ODA</th>
+							<th>OOF</th>
+							<th>Other flows</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="resource in document.financialResources track by $i">
-							<td>
-								<div km-terms ng-model="resource.year">
-									<div ng-repeat="term in terms">{{term.identifier}}</div>
-								</div>
-								{{resource.year}}
-							</td>
-							<td>
-								<div km-terms ng-model="resource.type">
-									<div ng-repeat="term in terms">{{term.name}}</div>
-								</div>
-							</td>
-							<td>
-								<div km-terms ng-model="resource.category">
-									<div ng-repeat="term in terms">{{term.name}}</div>
-								</div>
-							</td>
-							<td style="text-align: right">
-								{{resource.amount | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span>
-							</td>
-							<td>
-								<div km-terms ng-model="resource.confidence">
-									<div ng-repeat="term in terms">{{term.name}}</div>
-								</div>
-							</td>
+						<tr ng-repeat="flow in document.internationalResources.baselineData.baselineFlows|orderBy:'year' track by $index" >
+							<td>{{flow.year}}</td>
+							<td>{{flow.odaAmount}}</td>
+							<td>{{flow.oofAmount}}</td>
+							<td>{{flow.otherAmount}}</td>
+							<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount}}</td>
+						</tr>
+						<tr class="active">
+							<td><strong>Average (baseline)</strong></td>
+							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'odaAmount')}}</strong></td>
+							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'oofAmount')}}</strong></td>
+							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'otherAmount')}}</strong></td>
+							<td><strong>{{totalAverageAmount()}}</strong></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div ng-show="document.internationalResources.baselineData.odaCategories || document.internationalResources.baselineData.odaOofType ||
+						  document.internationalResources.baselineData.odaoofActions || document.internationalResources.baselineData.otherActions ||
+						  document.internationalResources.baselineData.methodologyUsed || document.internationalResources.baselineData.coefficient ||
+						  document.internationalResources.baselineData.odaConfidenceLevel || document.internationalResources.baselineData.oofConfidenceLevel ||
+						  document.internationalResources.baselineData.otherConfidenceLevel || document.internationalResources.baselineData.methodologicalComments">
+				<label>Methodological information:</label>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.odaCategories">
+				<label>ODA includes: </label>
+				<ul class="km-value">
+				    <li ng-repeat="term in document.internationalResources.baselineData.odaCategories">{{term | term:locale}} </li>
+				</ul>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.odaOofType">
+				<label>ODA/OOF includes: </label>
+				<span class="km-value">{{document.internationalResources.baselineData.odaOofType | term:locale}} </span>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.odaoofActions">
+				<label>ODA/OOF includes: </label>
+				<ul class="km-value">
+				    <li ng-repeat="term in document.internationalResources.baselineData.odaoofActions">{{term | term:locale}} </li>
+				</ul>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.otherActions">
+				<label>Other flows include:</label>
+				<ul class="km-value">
+				    <li ng-repeat="term in document.internationalResources.baselineData.otherActions">{{term | term:locale}} </li>
+				</ul>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.methodologyUsed">
+				<label>As applicable, methodology used to identify official resource flows:</label>
+				<div ng-show="document.internationalResources.baselineData.methodologyUsed!='other'">
+					<span class="km-value" ng-repeat="term in options.methodology | filter:{identifier:document.internationalResources.baselineData.methodologyUsed}">{{term.title | lstring:locale}} </span>
+				</div>
+				<div ng-show="document.internationalResources.baselineData.methodologyUsedComments" class="km-value km-pre">{{document.internationalResources.baselineData.methodologyUsedComments | lstring:locale}}</div>
+			</div>
+			<div ng-show="document.internationalResources.baselineData.coefficient" >
+				<label>As applicable, coefficient used for resource flows indirectly related to biodiversity, when calculating total numbers:</label>
+				<div class="km-value km-pre">{{document.internationalResources.baselineData.coefficient}}%</div>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.odaConfidenceLevel || document.internationalResources.baselineData.oofConfidenceLevel || document.internationalResources.baselineData.otherConfidenceLevel">
+				<label>Average confidence levels</lable>
+			</div>
+			<div ng-show="document.internationalResources.baselineData.odaConfidenceLevel" >
+				<label>ODA:</label>
+				<span class="km-value">{{document.internationalResources.baselineData.odaConfidenceLevel | term:locale}} </span>
+			</div>
+			<div ng-show="document.internationalResources.baselineData.oofConfidenceLevel" >
+				<label>OOF:</label>
+				<span class="km-value">{{document.internationalResources.baselineData.oofConfidenceLevel | term:locale}} </span>
+			</div>
+			<div ng-show="document.internationalResources.baselineData.otherConfidenceLevel" >
+				<label>Other flows:</label>
+				<span class="km-value">{{document.internationalResources.baselineData.otherConfidenceLevel | term:locale}} </span>
+			</div>
+
+			<div ng-show="document.internationalResources.baselineData.methodologicalComments">
+				<label>Other methodological observations/comments, including sources of data:</label>
+				<div class="km-value">{{document.internationalResources.baselineData.methodologicalComments | lstring:locale}}</div>
+			</div>
+		</div>
+
+		<div ng-show="document.internationalResources.progressData.progressFlows || document.internationalResources.progressData.odaConfidenceLevel ||
+					  document.internationalResources.progressData.oofConfidenceLevel || document.internationalResources.progressData.otherConfidenceLevel ||
+					  document.internationalResources.hasPrivateSectorMeasures">
+			<div ng-show="document.internationalResources.progressData.progressFlows" class="table-responsive">
+				<label>1.1.2 Monitoring progress in mobilizing international financial flows For the purposes of monitoring progress, please provide data for years after 2010</label>
+				<table class="table table-hover table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>Year</th>
+							<th>ODA</th>
+							<th>OOF</th>
+							<th>Other flows</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="flow in document.internationalResources.progressData.progressFlows|orderBy:'year' track by $index" >
+							<td>{{flow.year}}</td>
+							<td>{{flow.odaAmount}}</td>
+							<td>{{flow.oofAmount}}</td>
+							<td>{{flow.otherAmount}}</td>
+							<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
-			<table class="table table-striped table-responsive table-bordered" style="width: auto">
+			<div ng-show="document.internationalResources.progressData.odaConfidenceLevel || document.internationalResources.progressData.oofConfidenceLevel || document.internationalResources.progressData.otherConfidenceLevel">
+				<div><strong>Methodological information:</strong></div>
+				<label>Average confidence levels</label>
+				<div ng-show="document.internationalResources.progressData.odaConfidenceLevel" >
+					<label>ODA:</label>
+					<span class="km-value">{{document.internationalResources.progressData.odaConfidenceLevel | term:locale}} </span>
+				</div>
+				<div ng-show="document.internationalResources.progressData.oofConfidenceLevel" >
+					<label>OOF:</label>
+					<span class="km-value">{{document.internationalResources.progressData.oofConfidenceLevel | term:locale}} </span>
+				</div>
+				<div ng-show="document.internationalResources.progressData.otherConfidenceLevel" >
+					<label>Other flows:</label>
+					<span class="km-value">{{document.internationalResources.progressData.otherConfidenceLevel | term:locale}} </span>
+				</div>
+			</div>
+
+			<div ng-show="document.internationalResources.hasPrivateSectorMeasures">
+				<label>1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?</label>
+				<ul class="km-value">
+					<li ng-repeat="term in options.measures | filter:{identifier:document.internationalResources.hasPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
+				</ul>
+				<div ng-show="document.internationalResources.hasPrivateSectorMeasuresComments">
+					<label>Please provide additional information below:</label>
+					<div class="km-value km-pre">{{document.internationalResources.hasPrivateSectorMeasuresComments | lstring:locale}}</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div ng-show="document.hasNationalBiodiversityInclusion">
+		<legend>2. Inclusion of biodiversity in priorities and plans</legend>
+		<div><label>Has your country included biodiversity in national priorities or development plans?</label></div>
+		<span class="km-value" ng-repeat="term in options.inclusions | filter:{identifier:document.hasNationalBiodiversityInclusion}">{{term.title | lstring:locale}}</span>
+		<div ng-show="document.hasNationalBiodiversityInclusionComments">
+			<label>Please provide additional information below:</label>
+			<div class="km-value km-pre">{{document.hasNationalBiodiversityInclusionComments | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.hasBiodiversityAssessment">
+		<legend>3. Assessment and/or evaluation of values</legend>
+		<div><label>Has your country assessed and/or evaluated the intrinsic, ecological, genetic, socioeconomic, scientific, educational, cultural, recreational and aesthetic values of biological diversity and its components?</label></div>
+		<ul class="km-value">
+			<li ng-repeat="term in options.assessments | filter:{identifier:document.hasBiodiversityAssessment}">{{term.title | lstring:locale}}</li>
+		</ul>
+		<div ng-show="document.hasBiodiversityAssessmentComments">
+			<label>Please provide additional information below:</label>
+			<div class="km-value km-pre">{{document.hasBiodiversityAssessmentComments | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.domesticExpendituresData">
+		<legend>4.Reporting current domestic biodiversity expenditures</legend>
+		<div><label>4.1 Please indicate the annual financial support provided to domestic biodiversity-related activities in your country.</label></div>
+
+		<div ng-show="document.domesticExpendituresData.currency" >
+			<label>Currency:</label>
+			<span class="km-value">{{document.domesticExpendituresData.currency | term:locale}} </span>
+		</div>
+		<div ng-show="document.domesticExpendituresData.multiplier" >
+			<label>All values are:</label>
+			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.domesticExpendituresData.multiplier}">{{term.title | lstring:locale}} </span>
+		</div>
+		<table ng-show="document.domesticExpendituresData.expenditures" class="table table-hover table-condensed">
+			<thead>
 				<tr>
-					<th style="text-align: left">Total  Directly related:</th>
-					<td style="text-align: right">{{getSum(document.financialResources, directlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+					<th>Year</th>
+					<th>Domestic expenditures</th>
+					<th>Overall confidence</th>
 				</tr>
-				<tr>
-					<th style="text-align: left">Total  Indirectly related:</th>
-					<td style="text-align: right">{{getSum(document.financialResources, indirectlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+			</thead>
+			<tbody>
+				<tr ng-repeat="expenditure in document.domesticExpendituresData.expenditures|orderBy:'year' track by $index">
+					<td>{{expenditure.year}}</td>
+					<td>{{expenditure.amount}}</td>
+					<td>{{expenditure.confidenceLevel | term:locale}}</td>
 				</tr>
-				<tr>
-					<th style="text-align: left">Total  (Directly + Indirectly related):</th>
-					<td style="text-align: right">{{getSum(document.financialResources, direclyAndIndirectlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
+				<tr class="active">
+					<td><strong>Average</strong></td>
+					<td>{{typeAverageAmount(document.domesticExpendituresData.expenditures,'amount')}}</td>
+					<td>{{confidenceAverage(document.domesticExpendituresData.expenditures)}}</td>
 				</tr>
-				<tr>
-					<th style="text-align: left">Overall total:</th>
-					<td style="text-align: right"><b>{{getSum(document.financialResources) | number:2}}</b> <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-				</tr>
-				<tr>
-					<th style="text-align: left">Overall average confidence:</th>
-					<td style="text-align: right">{{confidenceAverage(document.financialResources)}}</td>
-				</tr>
+			</tbody>
+		</table>
+
+		<div ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated) || hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated) ||
+					  hasValue(document.domesticExpendituresData.provincialDirectlyRelated) || hasValue(document.domesticExpendituresData.provincialIndirectlyRelated) ||
+					  hasValue(document.domesticExpendituresData.municipalDirectlyRelated)  || hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)  ||
+				      hasValue(document.domesticExpendituresData.extraDirectlyRelated)      || hasValue(document.domesticExpendituresData.extraIndirectlyRelated)      ||
+					  hasValue(document.domesticExpendituresData.privateDirectlyRelated)    || hasValue(document.domesticExpendituresData.privateIndirectlyRelated)    ||
+					  hasValue(document.domesticExpendituresData.otherDirectlyRelated)      || hasValue(document.domesticExpendituresData.otherIndirectlyRelated)      ||
+					  hasValue(document.domesticExpendituresData.ilcDirectlyRelated)        || hasValue(document.domesticExpendituresData.ilcIndirectlyRelated)">
+
+			<label>4.2 Information on sources and categories</label>
+
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th>Numbers above cover</th>
+						<th>Expenditures directly related to biodiversity</th>
+						<th>Expenditures indirectly related to biodiversity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated) || hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated)">
+						<td>Government budgets – central</td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.govCentralDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.govCentralIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+					<tr ng-show="hasValue(document.domesticExpendituresData.provincialDirectlyRelated) || hasValue(document.domesticExpendituresData.provincialIndirectlyRelated)">
+						<td>Government budgets – state/provincial</td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.provincialDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.provincialDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.provincialIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.provincialIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+					<tr ng-show="hasValue(document.domesticExpendituresData.municipalDirectlyRelated) || hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)">
+						<td>Government budgets – local/municipal</td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.municipalDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.municipalDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.municipalIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+					<tr ng-show="hasValue(document.domesticExpendituresData.extraDirectlyRelated) || hasValue(document.domesticExpendituresData.extraIndirectlyRelated)">
+						<td>Extra-budgetary </td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.extraDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.extraDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.extraIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.extraIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+					<tr ng-show="hasValue(document.domesticExpendituresData.privateDirectlyRelated) || hasValue(document.domesticExpendituresData.privateIndirectlyRelated)">
+						<td>Private/market</td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.privateDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.privateDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.privateIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.privateIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+					<tr ng-show="hasValue(document.domesticExpendituresData.otherDirectlyRelated) || hasValue(document.domesticExpendituresData.otherIndirectlyRelated)">
+						<td>Other (NGO, foundations, academia)</td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.otherDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.otherDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.otherIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.otherIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+					<tr ng-show="hasValue(document.domesticExpendituresData.ilcDirectlyRelated) || hasValue(document.domesticExpendituresData.ilcIndirectlyRelated)">
+						<td>Collective action of indigenous and local communities</td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.ilcDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.ilcDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+						<td><div ng-show="hasValue(document.domesticExpendituresData.ilcIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.ilcIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 
-		<div ng-show="document.financialDescription">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.financialDescription | lstring:locale}}</div>
-		</div>
-	</div>
+		<div ng-show="document.domesticExpendituresData.domesticCollectiveAction">
+			<label>4.3. Role of collective action and non-market approaches</label>
+			<div><label>4.3.1 Has your country assessed the role of collective action, including by indigenous and local communities, and non-market approaches for mobilizing resources for achieving the objectives of the Convention?</label></div>
 
-	<div ng-show="document.countryFinancialResources || document.countryFinancialDescription">
+			<span class="km-value km-pre" ng-repeat="term in options.assessments | filter:{identifier:document.domesticExpendituresData.domesticCollectiveAction}">{{term.title | lstring:locale}}</span>
 
-		<legend>2. Information on the availability of financial resources in each country</legend>
+			<div ng-hide="document.domesticExpendituresData.domesticCollectiveAction=='notnecessary' || document.domesticExpendituresData.domesticCollectiveAction=='notyet'">
 
-		<div ng-show="document.countryFinancialResources">
-			<label>Information on the availability of financial resources in each country</label>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered">
+				<div ng-show="document.domesticExpendituresData.measurementUnit || document.domesticExpendituresData.contributions ||
+							  document.domesticExpendituresData.domesticCollectiveActionMethodology || document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+					<label>4.3.2 Please provide additional information on your assessment of the role of collective action undertaken by your country. Please provide also an assessment of your confidence in the estimation (high, medium low; alternatively provide a range of estimates). If possible, provide data for several years.</label>
+				</div>
+
+				<div ng-show="document.domesticExpendituresData.measurementUnit" >
+					<label>Measurement Unit</label>
+					<div class="km-value km-pre">{{document.domesticExpendituresData.measurementUnit}}</div>
+				</div>
+
+				<table ng-show="document.domesticExpendituresData.contributions" class="table table-hover table-condensed">
 					<thead>
 						<tr>
 							<th>Year</th>
-							<th>Type of financial flows</th>
-							<th>Category</th>
-							<th style="text-align: center">Amount</th>
-							<th>Confidence</th>
+							<th>Contribution</th>
+							<th>Overall confidence</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="resource in document.countryFinancialResources">
-							<td>
-								{{resource.year}}
-							</td>
-							<td>
-								<div km-terms ng-model="resource.source">
-									<div ng-repeat="term in terms">{{term.name}}</div>
-								</div>
-							</td>
-							<td>
-								<div km-terms ng-model="resource.category">
-									<div ng-repeat="term in terms">{{term.name}}</div>
-								</div>
-							</td>
-							<td style="text-align: right">
-								{{resource.amount | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span>
-							</td>
-							<td>
-								<div km-terms ng-model="resource.confidence">
-									<div ng-repeat="term in terms">{{term.name}}</div>
-								</div>
-							</td>
+						<tr ng-repeat="contribution in document.domesticExpendituresData.contributions|orderBy:'year' track by $index">
+							<td>{{contribution.year}}</td>
+							<td>{{contribution.amount}}</td>
+							<td>{{contribution.confidenceLevel | term:locale}}</td>
+						</tr>
+						<tr class="active">
+							<td><strong>Average</strong></td>
+							<td>{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount')}}</td>
+							<td>{{confidenceAverage(document.domesticExpendituresData.contributions)}}</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>
 
-			<table class="table table-striped table-responsive table-bordered" style="width: auto">
-				<tr>
-					<th style="text-align: left">Total Directly related:</th>
-					<td style="text-align: right">{{getSum(document.countryFinancialResources, directlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-				</tr>
-				<tr>
-					<th style="text-align: left">Total Indirectly related:</th>
-					<td style="text-align: right">{{getSum(document.countryFinancialResources, indirectlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-				</tr>
-				<tr>
-					<th style="text-align: left">Total (Directly + Indirectly related):</th>
-					<td style="text-align: right">{{getSum(document.countryFinancialResources, direclyAndIndirectlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-				</tr>
-				<tr>
-					<th style="text-align: left">Overall total:</th>
-					<td style="text-align: right"><b>{{getSum(document.countryFinancialResources) | number:2}}</b> <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-				</tr>
-				<tr>
-					<th style="text-align: left">Overall average confidence:</th>
-					<td style="text-align: right">{{confidenceAverage(document.countryFinancialResources)}}</td>
-				</tr>
-				<table />
-		</div>
+				<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodology || document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+					<div><strong>Methodological information:</strong></div>
+					<label>As applicable, methodology used to assess the role of collective action and non-market approaches</label>
 
-		<div ng-show="document.countryFinancialDescription">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.countryFinancialDescription | lstring:locale}}</div>
-		</div>
-	</div>
+					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodology!='other'">
+						<ul class="km-value">
+							<li ng-repeat="term in domesticMethodology | filter:{identifier:document.domesticExpendituresData.domesticCollectiveActionMethodology}">{{term.title | lstring:locale}}</li>
+						</ul>
+					</div>
+					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyOther" class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyOther | lstring:locale}}</div>
 
-	<div ng-show="document.biodiversityAssessment || document.fundingNeeds ||
-			document.developementFunding || document.integratedConsideration ||
-			document.countryIntegratedConsideration || document.initiativeDescription">
-		<legend>3. Information on the steps being taken to implement the strategy for resource mobilization</legend>
-		<legend>Steps and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
-		<div ng-show="document.biodiversityAssessment">
-			<label>Assessment of values of biodiversity</label>
-			<div class="km-value km-pre">{{document.biodiversityAssessment | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.fundingNeeds">
-			<label>Identification and reporting funding needs, funding gaps and funding priorities</label>
-			<div class="km-value km-pre">{{document.fundingNeeds | lstring:locale}}</div>
-		</div>
-
-		<div ng-show="document.developementFunding">
-			<label>Development of national financial plans for biodiversity</label>
-			<div class="km-value km-pre">{{document.developementFunding | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.integratedConsideration">
-			<label>Integrated consideration of biodiversity and ecosystem services in development plans and strategies</label>
-			<div class="km-value km-pre">{{document.integratedConsideration | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.countryIntegratedConsideration">
-			<label>Country integrated consideration of biodiversity and ecosystem services in national budgets</label>
-			<div class="km-value km-pre">{{document.countryIntegratedConsideration | lstring:locale}}</div>
-		</div>
-
-		<div ng-show"document.initiativeDescription" >
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.initiativeDescription | lstring:locale}}</div>
-		</div>
-	</div>
-
-	<div ng-show="document.northSouthProvidedDeveloped || document.southSouthTriangularDeveloped ||
-			document.descriptionDeveloped">
-		<legend>4. Information on specific issues related to resource availability</legend>
-		<legend>4.1: Technical cooperation, capacity‑building and South-South cooperation</legend>
-		<legend>Type and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
-		<div ng-show="document.northSouthProvidedDeveloped">
-			<label>4.1.1 North-South technical cooperation and capacity building provided</label>
-			<div class="km-value km-pre">{{document.northSouthProvidedDeveloped | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.southSouthTriangularDeveloped">
-			<label>4.1.2 Support to South-South technical cooperation & capacity building  through triangular cooperation</label>
-			<div class="km-value km-pre">{{document.southSouthTriangularDeveloped | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.descriptionDeveloped">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.descriptionDeveloped | lstring:locale}}</div>
-		</div>
-	</div>
-
-	<div ng-show="document.northSouthReceivedDeveloping || document.southSouthReceivedDeveloping ||
-		document.southSouthProvidedDeveloping || document.descriptionDeveloping">
-		<legend>Type and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
-		<div ng-show="document.northSouthReceivedDeveloping">
-			<label>4.1.3 North-South technical cooperation and capacity building received</label>
-			<div class="km-value km-pre">{{document.northSouthReceivedDeveloping | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.southSouthReceivedDeveloping">
-			<label>4.1.4 South-South technical cooperation & capacity building  received from other developing countries</label>
-			<div class="km-value km-pre">{{document.southSouthReceivedDeveloping | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.southSouthProvidedDeveloping">
-			<label>4.1.5 South-South technical cooperation and capacity building - Provided</label>
-			<div class="km-value km-pre">{{document.southSouthProvidedDeveloping | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.descriptionDeveloping">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.descriptionDeveloping | lstring:locale}}</div>
-		</div>
-	</div>
-
-	<div ng-show="document.incentivesRemoved || document.incentivesIntroduced ||
-		document.incentivesDescription">
-		<legend>4.2: Resources raised through reform of incentives and subsidies</legend>
-		<legend>Incentives and description of the initiative (including how the intrinsic and all other values of biodiversity have been reflected)</legend>
-		<div ng-show="document.incentivesRemoved">
-			<label>4.2.1 Removed, reformed or phased-out</label>
-			<div class="km-value km-pre">{{document.incentivesRemoved | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.incentivesIntroduced">
-			<label>4.2.2 Positive incentives introduced</label>
-			<div class="km-value km-pre">{{document.incentivesIntroduced | lstring:locale}}</div>
-		</div>
-		<div ng-show="document.incentivesDescription">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.incentivesDescription | lstring:locale}}</div>
-		</div>
-	</div>
-
-	<div ng-show="document.financialMechanismsDescription || document.financialMechanisms">
-		<legend>4.3 New and innovative financial mechanism</legend>
-		<div ng-show="document.financialMechanisms">
-			<label>New and innovative financial mechanism</label>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Type of Initiative</th>
-							<th>Resources generated (If known)</th>
-							<th>Description (including how the intrinsic and all other values of biodiversity have been reflected)</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="resource in document.financialMechanisms">
-							<td>
-								{{resource.type | lstring:locale}}
-							</td>
-							<td>
-								{{resource.resourceGenerated | lstring:locale}}
-							</td>
-							<td>
-								{{resource.description | lstring:locale}}
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<br />
-		<div ng-show="document.financialMechanismsDescription">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.financialMechanismsDescription | lstring:locale}}</div>
-		</div>
-	</div>
-
-	<div ng-show="document.resourceIntiatives || document.resourceIntiativesDescription">
-		<legend>4.4 Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</legend>
-		<div ng-show="document.resourceIntiatives">
-			<label>Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</label>
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered">
-					<thead>
-						<tr>
-							<th>Initiative</th>
-							<th>Description (including how resource mobilization is enhanced)</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="resource in document.resourceIntiatives">
-							<td>
-								{{resource.initiative | lstring:locale}}
-							</td>
-							<td>
-								{{resource.description | lstring:locale}}
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<br />
-		<div ng-show="document.resourceIntiativesDescription">
-			<label>Description</label>
-			<div class="km-value km-pre">{{document.resourceIntiativesDescription | lstring:locale}}</div>
-		</div>
-	</div>
-	<div ng-show="document.activityClassificationDirectly || document.activityClassificationInDirectly">
-		<legend>5. Activity classification</legend>
-		<div ng-show="document.activityClassificationDirectly">
-			<div class="col-md-12">
-				<div class="km-control-group" name="activityClassificationDirectly" caption="Activity classification-Directly related to biodiversity">
-					<div class="km-value km-pre">{{document.activityClassificationDirectly | lstring:locale}}</div>
+					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+						<label>Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data:</label>
+						<div class="km-value">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyComments | lstring:locale}}</div>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div ng-show="document.activityClassificationInDirectly">
-			<div class="col-md-12">
-				<div class="km-control-group" name="activityClassificationInDirectly" caption="Activity classification-Indirectly related to biodiversity">
-					<div class="km-value km-pre">{{document.activityClassificationInDirectly | lstring:locale}}</div>
-				</div>
+	<div ng-show="document.fundingNeedsData">
+		<legend>5. Reporting funding needs, gaps, and priorities</legend>
+		<div>
+			<p>Please indicate your annual estimated funding need (for instance, based on your revised NBSAP) and calculate the estimated funding gap by subtracting estimated available resources. Indicate actions for priority funding.</p>
+			<p>Please start with the year which is most appropriate for your own planning purposes.</p>
+		</div>
+
+		<div ng-show="document.fundingNeedsData.currency" >
+			<label>Currency:</label>
+			<span class="km-value">{{document.fundingNeedsData.currency | term:locale}} </span>
+		</div>
+		<div ng-show="document.fundingNeedsData.multiplier" >
+			<label>All values are :</label>
+			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.fundingNeedsData.multiplier}">{{term.title | lstring:locale}} </span>
+		</div>
+
+		<table ng-show="document.fundingNeedsData.annualEstimates" class="table table-hover table-condensed">
+			<thead>
+				<tr>
+					<th>Year</th>
+					<th>Funding need</th>
+					<th>Estimated available resources</th>
+					<th>Estimated funding gap</th>
+					<th>Action for priority funding</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="estimate in document.fundingNeedsData.annualEstimates|orderBy:'year' track by $index">
+					<td>{{estimate.year}}</td>
+					<td>{{estimate.fundingNeedAmount}}</td>
+					<td>{{estimate.availableResourcesAmount}}</td>
+					<td>{{estimate.fundingGapAmount}}</td>
+					<td>{{estimate.action | lstring:locale}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-show="document.fundingNeedsData.additionalComments">
+			<label>Additional methodological observations/comments, including sources of data:</label>
+			<div class="km-value">{{document.fundingNeedsData.additionalComments | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.nationalPlansData">
+		<legend>6. National finance plans</legend>
+		<div>
+			Please provide a brief synthesis of your finance plan, by indicating, in the table below, your planned resource mobilization, by source, and their respective planned contributions towards your identified finance gap.
+		</div>
+
+		<div ng-show="document.fundingNeedsData.currency " >
+			<label>Currency:</label>
+			<span class="km-value" disabled>{{document.fundingNeedsData.currency | term:locale}} </span>
+		</div>
+		<div ng-show="document.fundingNeedsData.multiplier" >
+			<label>All values are in:</label>
+			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.fundingNeedsData.multiplier}">{{term.title | lstring:locale}} </span>
+		</div>
+		<table ng-show="document.fundingNeedsData.annualEstimates" class="table table-hover table-condensed">
+			<thead>
+				<tr>
+					<th></th>
+					<th>2014</th>
+					<th>2015</th>
+					<th>2016</th>
+					<th>2017</th>
+					<th>2018</th>
+					<th>2019</th>
+					<th>2020</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="active">
+					<td><strong>Expected funding gap</strong></td>
+					<td><strong>{{getFundingGapYear(2014)}}<strong></td>
+					<td><strong>{{getFundingGapYear(2015)}}<strong></td></td>
+					<td><strong>{{getFundingGapYear(2016)}}<strong></td></td>
+					<td><strong>{{getFundingGapYear(2017)}}<strong></td></td>
+					<td><strong>{{getFundingGapYear(2018)}}<strong></td></td>
+					<td><strong>{{getFundingGapYear(2019)}}<strong></td></td>
+					<td><strong>{{getFundingGapYear(2020)}}<strong></td></td>
+				</tr>
+				<tr class="active">
+					<td><strong>Domestic sources (total)<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2014)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2015)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2016)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2017)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2018)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2019)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2020)}}<strong></td>
+				</tr>
+
+				<tr ng-repeat="source in document.nationalPlansData.domesticSources|orderBy:'name' track by $index">
+					<td>{{source.name | lstring:locale}}</td>
+					<td>{{source.amount2014}}</td>
+					<td>{{source.amount2015}}</td>
+					<td>{{source.amount2016}}</td>
+					<td>{{source.amount2017}}</td>
+					<td>{{source.amount2018}}</td>
+					<td>{{source.amount2019}}</td>
+					<td>{{source.amount2020}}</td>
+				</tr>
+				<tr class="active">
+					<td><strong>Domestic sources (total)<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2014)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2015)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2016)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2017)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2018)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2019)}}<strong></td>
+					<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2020)}}<strong></td>
+				</tr>
+				<tr ng-repeat="source in document.nationalPlansData.internationalSources|orderBy:'name' track by $index">
+					<td>{{source.name | lstring:locale}}</td>
+					<td>{{source.amount2014}}</td>
+					<td>{{source.amount2015}}</td>
+					<td>{{source.amount2016}}</td>
+					<td>{{source.amount2017}}</td>
+					<td>{{source.amount2018}}</td>
+					<td>{{source.amount2019}}</td>
+					<td>{{source.amount2020}}</td>
+				<tr class="active">
+					<td><strong>Remaining gap<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2014)}}<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2015)}}<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2016)}}<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2017)}}<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2018)}}<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2019)}}<strong></td>
+					<td><strong>{{getNationalPlansRemainingGapByYear(2020)}}<strong></td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-show="document.nationalPlansData.additionalComments">
+			<label>Additional methodological observations/comments, including sources of data:</label>
+			<div class="km-value">{{document.nationalPlansData.additionalComments | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.hasDomesticPrivateSectorMeasures">
+		<div><label>7. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?</label></div>
+		<ul class="km-value">
+			<li ng-repeat="term in measures | filter:{identifier:document.hasDomesticPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
+		</ul>
+		<div ng-show="document.hasDomesticPrivateSectorMeasuresComments">
+			<label>Please provide additional information below:</label>
+			<div class="km-value km-pre">{{document.hasDomesticPrivateSectorMeasuresComments | lstring:locale}}</div>
+		</div>
+	</div>
+
+	<div ng-show="document.financialAvailabilityData">
+		<legend>8. Availability of financial resources for achieving targets</legend>
+		<div><label>Did your country have adequate financial resources:</label></div>
+
+		<div>
+			<label>(1)	to report domestic biodiversity expenditures?</label>
+			<div ng-show="hasValue(document.financialAvailabilityData.reportDomesticExpenditures)">
+				<span class="km-value"ng-repeat="term in options.yesNo | filter:{identifier:document.financialAvailabilityData.reportDomesticExpenditures}">{{term.title | lstring:locale}}</span>
 			</div>
 		</div>
+
+		<div>
+			<label>(2)	to report funding needs, gaps and priorities?</label>
+			<div ng-show="hasValue(document.financialAvailabilityData.reportFundingNeeds)">
+				<span class="km-value"ng-repeat="term in options.yesNo | filter:{identifier:document.financialAvailabilityData.reportFundingNeeds}">{{term.title | lstring:locale}}</span>
+			</div>
+		</div>
+
+		<div>
+			<label>(3)	to prepare national finance plans for biodiversity? </label>
+			<div ng-show="hasValue(document.financialAvailabilityData.prepareFinancePlans)">
+				<span class="km-value"ng-repeat="term in options.yesNo | filter:{identifier:document.financialAvailabilityData.prepareFinancePlans}">{{term.title | lstring:locale}}</span>
+			</div>
+		</div>
+
 	</div>
 
 	<div ng-show="document.relevantInformation||document.relevantDocuments">

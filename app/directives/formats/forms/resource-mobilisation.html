@@ -1,6 +1,7 @@
 ﻿<div>
-	<h1 style="margin-bottom: 5px">Implementation of the Strategy for Resource Mobilization</h1>
-	<h2 style="margin-top: 5px; border-bottom: none">Preliminary Reporting Framework</h2>
+<style type="text/css">.popover {font-weight: normal; max-width: 400px;} </style>
+	<h1 style="margin-bottom: 5px">Financial Reporting Framework</h1>
+	<h2 style="margin-top: 5px; border-bottom: none">Reporting on baseline and progress towards 2015</h2>
 	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -22,16 +23,15 @@
 
 				<div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
 					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
-						<li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'">Introduction</a></li>
-						<li ng-class="{ active  : tab=='identification' }"><a href="" ng-click="tab='identification'">Identification</a></li>
-						<li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
-						<li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
-						<li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>
-						<li ng-class="{ active  : tab=='section4' }"><a href="" ng-click="tab='section4'">Section 4</a></li>
-						<li ng-class="{ active  : tab=='section5' }"><a href="" ng-click="tab='section5'">Section 5</a></li>
-						<li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'">Review   </a></li>
-						<li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab">&raquo;  </a></li>
+						<li ng-class="{ disabled: tab=='part1'}"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
+						<li ng-class="{ active  : tab=='part1'}"><a href="" ng-click="tab='part1'">Part 1</a></li>
+						<li ng-class="{ active  : tab=='part2'}"><a href="" ng-click="tab='part2'">Part 2</a></li>
+						<li ng-class="{ active  : tab=='part3'}"><a href="" ng-click="tab='part3'">Part 3</a></li>
+						<li ng-class="{ active  : tab=='part4'}"><a href="" ng-click="tab='part4'">Part 4</a></li>
+						<li ng-class="{ active  : tab=='part5'}"><a href="" ng-click="tab='part5'">Part 5</a></li>
+						<li ng-class="{ active  : tab=='part6'}"><a href="" ng-click="tab='part6'">Part 6</a></li>
+						<li ng-class="{ active  : tab=='review'}"><a href="" ng-click="tab='review'" >Review</a></li>
+						<li ng-class="{ disabled: tab=='review'}"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
 					</ul>
 				</div>
 
@@ -43,50 +43,22 @@
 				</div>
 			</div>
 
-
-			<div km-tab="general">
-				<legend>I. INTRODUCTION</legend>
-				<span class="km-help-block">The Preliminary Reporting Framework is intended for use by Parties for providing data on resource mobilization according to the indicators adopted in decision X/3. Data provided for the 2006-2010 will be used for the calculation of a baseline while data provided after 2010 will be used to monitor progress. The relationship between each of the indicators agreed in decision X/3 and the data fields contained in the Framework is provided in Appendix 1.</span>
-				<br />
-				<br />
-				<legend>II. OVERVIEW OF THE PRELIMINARY REPORTING FRAMEWORK</legend>
-				<span class="km-help-block">The indicators in decision X/3, as well as the strategy for resource mobilization and Aichi Target 20 require certain types of information:<br />
-					<ol type="a">
-						<li>Data, in monetary units, on flows of financial resources for biodiversity from developed to developing countries;</li>
-						<li>Data, in monetary units, on financial resources available for biodiversity;</li>
-						<li>Information on the steps countries are taking to implement the strategy for resource mobilization; and</li>
-						<li>Information (both qualitative and quantitative, including in monetary terms) on the role of specific initiatives including those relating to technical cooperation, and innovative financial mechanisms.<sup><a href="#1">[1]</a></sup></li>
-					</ol>
-					The Preliminary Reporting Framework has been structured to correspond with these categories. Further the framework contains a fifth section which addresses the scope of biodiversity funding. Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation) where a wider range of funding sources is typical. In addition, economy-wide and society-wide measures that address the underlying causes of biodiversity-loss are relevant, even if they are not traditionally regarded as biodiversity finance. With this in mind, the reporting framework has been developed to distinguish two general types of biodiversity funding. Funding related to activities which are intended to directly affect biodiversity and activities which focus on other issues but which have an indirect positive effect on biodiversity. In order to facilitate comparison, ideally Parties would provide funding information according to these two categories. In order to facilitate the classification of activities, in section five, Parties have the opportunity to fine-tune this categorization according to their own needs. However the Preliminary Reporting Framework also allows respondents to provide overall totals.<br />
-					<br />
-					<i>Notes:</i>
-					<br />
-					<br />
-					<a name="1"></a>
-					<sup>[1]</sup> The indicators requiring this type of information should be completed at the discretion of Parties. Some of the data used to calculate the information required for (1) and (2) may be used to provide information for this type of indicators as well.</span>
-				<br />
-				<br />
-				<legend>III. GUIDANCE FOR THE USE OF THE PRELIMINARY REPORTING FRAMEWORK</legend>
-				<span class="km-help-block">For those sections which ask for monetary figures (1, 2, and 4):<br />
-					<ol type="a">
-						<li>For the calculation of the baseline, please provide data for 2010 or the most recent year prior to that. If data is available for more than one year please reproduce the table and provide the information for each year. If possible, provide data for the period 2006 to 2010 and other years that may be available. If specific annual data is not available you may provide the best estimate of an average figure for a range of years (e.g. 2006-2010). For the purposes of monitoring progress please provide data for years after 2010;</li>
-						<li>If your financial year does not correspond to the calendar year, please indicate the calendar year in which the financial year begins; (For example if the financial year is 1 April 2010 until 30 March 2011, please record the year as “2010”.);</li>
-						<li>In order to facilitate compilation of data, please provide either: the figures in 2010 US dollars (preferred), or ensure that the currency and the relevant year are indicated;</li>
-						<li>Please provide the best estimate of the data and also indicate the confidence level of your estimate (“high”: data mostly derived from published sources; “medium”: data represents expert judgment based on good information; or “low”: data is a best but risky estimate with very incomplete data). As an alternative to indicating the confidence level, you may provide a range of estimates.</li>
-					</ol>
-					In completing the reporting framework Parties are encouraged to interact with their respective statistical offices or other relevant departments when gathering information. Some of the information needed for this process is likely already available and it should be used where possible in order to reduce the reporting burden and the duplication of efforts. At the end of each question a comments field is provided where respondents can provide additional information to further substantiate responses, highlight any assumptions or qualifications linked to the data, or to raise any other related issues.<br />
-					When completing the preliminary reporting framework respondents are encouraged to provide information for as many of the data fields as possible. However, recognizing that it may be difficult for Parties to provide some of the information, there is no need to complete all of the data fields before submitting information to the Secretariat. Further, where precise information is not available, respondents are encouraged to use their best estimates.	</span>
-			</div>
-
 			<form name="editForm">
-			<div km-tab="identification">
+
+			<div km-tab="part1">
+				<div class="row">
+					<div class="col-xs-12">
+						<legend>Introduction</legend>
+						<p  class="help-block">This framework is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20.</p>
+						<p  class="help-block">In completing the reporting framework, Parties are encouraged to interact with their respective statistical offices or other relevant departments when gathering information. Some of the information needed for this process is likely already available and it should be used where possible in order to reduce the reporting burden and the duplication of efforts.  Where precise information is not available, respondents are encouraged to use their best estimates.</p>
+					</div>
+				</div>
 
 				<legend>Identification of respondent</legend>
-
 				<div class="row">
 					<div class="col-md-6">
 						<div class="km-control-group" name="government" required caption="Country">
-							<div class="alert alert-info" ng-show="userGovernment()"><i class="fa fa-hand-o-right"></i>You cannot change this value.</div>
+							<div class="alert alert-info" ng-show="userGovernment()"><i class="icon-hand-right"></i>You cannot change this value.</div>
 							<div km-select required name="government" ng-disabled="userGovernment()" ng-model="document.government" items="options.countries()" placeholder="Please select a country..."></div>
 						</div>
 					</div>
@@ -98,45 +70,45 @@
 					</div>
 				</div>
 
-				<div class="col-md-12">
+				<!-- <div class="col-md-12">
 					<div class="km-control-group" name="title" caption="Name of the strategy">
 						<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
 					</div>
-				</div>
+				</div> -->
 
 				<legend>Contact details of the respondent</legend>
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="km-control-group" required name="respondentName" caption="Name">
-							<input type="text" required class="form-control" style="width: 100%" name="respondentName" ng-model="document.respondentName" required />
+							<input type="text" required class="form-control" style="width: 100%" name="respondentName" ng-model="document.respondentName" />
 						</div>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="km-control-group" name="respondentDesignation" caption="Title">
 							<div km-textbox-ml name="respondentDesignation" ng-model="document.respondentDesignation" locales="document.header.languages"></div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="km-control-group" required name="respondentOrganization" caption="Organization">
 							<div km-textbox-ml name="respondentOrganization" required ng-model="document.respondentOrganization" locales="document.header.languages"></div>
 						</div>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="km-control-group" name="respondentDepartment" caption="Department">
 							<div km-textbox-ml name="respondentDepartment" ng-model="document.respondentDepartment" locales="document.header.languages"></div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="km-control-group" name="respondentPhones" required caption="Phone numbers">
 							<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
 							<div km-inputtext-list name="respondentPhones" ng-model="document.respondentPhones" required placeholder="example: +1 514.288.2220"></div>
 						</div>
 					</div>
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="km-control-group" name="respondentEmails" caption="Emails">
 							<div km-inputtext-list name="respondentEmails" type="respondentEmails" ng-model="document.respondentEmails" pattern="email" placeholder="example: secretariat@cbd.int"></div>
 						</div>
@@ -150,12 +122,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				 <div class="row">
 					<div class="col-md-12">
 						<div class="km-control-group" name="relevantInformation" caption="Additional Information">
 							<span class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.
 							</span>
-							<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+							<div km-textbox-ml rows=5 name="relevantInformation"  ng-model="document.relevantInformation" locales="document.header.languages"></div>
 						</div>
 					</div>
 				</div>
@@ -163,7 +135,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
-							<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+							<div km-link name="relevantDocuments" allow-link="true" allow-file="true" ng-model="document.relevantDocuments" locales="document.header.identifier"></div>
 						</div>
 					</div>
 				</div>
@@ -181,612 +153,957 @@
 					</div>
 				</div>
 			</div>
-			<div km-tab="section1">
-				<legend>1. Information on international flows of financial resources</legend>
-				<span class="help-block">This section of the Framework relates to the flows of financial resources from all sources to developing countries.<br />
-					<br />
-					For <b><i>developed countries</b></i> (members of OECD-DAC): Please indicate the amount of resources provided in support of biodiversity in developing countries through ODA, other public funds, private/market mechanisms and through not-for profit organizations.
-						<br />
-					<br />
-					For <b><i>developing countries</b></i> (countries, not members of OECD -DAC): Please indicate the amount of resources received from external sources through ODA, other public funds, private/market mechanisms and through not-for profit organizations.<br />
-					<br />
-					For each of the expenditure sources listed please indicate the total amount of financial resources spent as well as an assessment of your confidence in the estimated amount (high, medium low; alternatively provide a range of estimates). Please take care to avoid double counting; expenditure included in one row of the table should not also be included in another. You may indicate expenditures according to the two categories (directly or indirectly related), or provide an estimate of the total in the case where the details are not available. A list of indicative activities for each of the categories is provided in section 5.  Please provide data for multiple years if possible (duplicate the table as necessary).
-				</span>
-				<br />
+
+			<div km-tab="part2">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="km-control-group" name="financialCurrency" caption="Currency">
-							<div km-select name="financialCurrency" ng-model="document.financialCurrency" items="options.currencies()" binding-type="string" ng-required="isRequired()" />
+						<legend>1. International financial resource flows</legend>
+						<p><strong>1.1 Please indicate the amount of resources provided by your country in support of biodiversity in developing countries, in particular least developed countries and small island developing States, as well as countries with economies in transition.</strong></p>
+						<p class="help-block">Please indicate, as appropriate, the amount of financial resources provided by source as well as the total amount. Please also indicate your degree of confidence in the estimated amount or, alternatively, provide a range of estimates.</p>
+				</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<p><strong>1.1.1 Baseline information</strong></p>
+								<p class="help-block">For the calculation of the baseline, please provide data for 2010 or the most recent year prior to that. If possible, provide data for the period 2006 to 2010. If specific annual data is not available, you may provide the best estimate of an average figure for 2006 to 2010.</p>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="km-control-group" name="internationalResources.currency" caption="Currency" required="{{isRequired('baselineFlows')}}">
+											<div km-select name="internationalResources.currency" ng-model="document.internationalResources.currency.identifier" items="options.currencies()" binding-type="string"></div>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="km-control-group " name="internationalResources.multiplier" caption="All values are :">
+											<select class="form-control btn-info" ng-model="document.internationalResources.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="internationalResources.multiplier"></select>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="table-responsive">
+									<table id="transactionTable" class="table table-hover table-responsive">
+										<thead>
+											<tr>
+												<th class="col-md-2 text-left">Year {{isRequired()}}</th>
+												<th class="col-md-2 text-left">ODA <a rm-popover data-content="Official Development Assistance (ODA) refers to flows of official financing administered with the purpose of promoting economic development and welfare of developing countries as the main objective, and which are concessional in character with a grant element of at least 25 per cent (using a fixed 10 per cent rate of discount).Where resources are provided or received for general budget support rather than for specific activities, an estimate of resources provided/received for biodiversity may be calculated from the proportion of the recipient country’s budget devoted to such activities." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+												<th class="col-md-2 text-left">OOF <a rm-popover data-content="Other official flows (OOF) refers to transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance or Official Aid, either because they are not primarily aimed at development, or because they have a grant element of less than 25 per cent non-ODA public funding, that is, transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance. <br /><br />For the purpose of this reporting framework, information on resources provided by other, “non-donor” countries, i.e. through “South-South Cooperation”, would also be included in this column, as appropriate." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+												<th class="col-md-2 text-left">Other flows <a rm-popover data-content="Other flows refer to resources mobilized by the private sector as well as non-governmental organizations, foundations, and academia. If you do not have reliable data, please leave this row empty. See also question 1.2." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+												<th class="col-md-2 text-left">Total</th>
+												<th class="col-md-1 text-left"></th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="flow in document.internationalResources.baselineData.baselineFlows track by $index">
+												<td>
+													<div class="input-group"  ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) }">
+														<select class="form-control" ng-model="flow.year" ng-change="refreshYears('baselineFlowsYears', document.internationalResources.baselineData.baselineFlows)">
+															<option ng-repeat="year in options.baselineYears" ng-disabled="isSelectedYear('baselineFlowsYears', year)">{{year}}</option>
+														</select>
+													</div>
+												</td>
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.odaAmount &&  !isValidNumber(flow.odaAmount) }">
+														<input type="text" class="form-control text-right" ng-model="flow.odaAmount">
+													</div>
+												</td>
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.oofAmount && !isValidNumber(flow.oofAmount) }">
+														<input type="text" class="form-control text-right" ng-model="flow.oofAmount">
+													</div>
+												</td>
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.otherAmount && !isValidNumber(flow.otherAmount) }">
+														<input type="text" class="form-control text-right" ng-model="flow.otherAmount">
+													</div>
+												</td>
+
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.totalAmount && !isValidNumber(flow.totalAmount) }">
+														<input type="text" disabled class="form-control text-right" value="{{totalFlowAmount(flow)}}">
+													</div>
+												</td>
+												<td>
+													<span class="btn btn-default" ng-click="document.internationalResources.baselineData.baselineFlows.splice($index, 1); removeYear('baselineFlowsYears', flow.year)" ng-show="!$last || isNotEmpty(flow)"><i class="glyphicon glyphicon-trash"></i></span>
+												</td>
+											</tr>
+											<tr class="active">
+												<td><strong>Average (baseline)</strong></td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right" style="margin-bottom: 0px;font-weight:bolder;" value="{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'odaAmount')}}">
+													</div>
+												</td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right" style="margin-bottom: 0px;font-weight:bolder;" value="{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'oofAmount')}}">
+													</div>
+												</td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right" style="margin-bottom: 0px;font-weight:bolder;" value="{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'otherAmount')}}">
+													</div>
+												</td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right" style="margin-bottom: 0px;font-weight:bolder;" value="{{totalAverageAmount()}}">
+													</div>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<strong>Methodological information:</strong>
+							</div>
+						</div>
+						<div class="well well-sm">
+
+							<div class="row">
+								<div class="col-md-6">
+									<km-control-group name="baselineOda" caption="ODA includes:">
+										<a rm-popover data-original-title="" data-content="ODA can be bilateral or multilateral. Bilateral ODA refers to contributions of donor government agencies, at all levels, to developing countries. Multilateral ODA refers to funds provided through international financial institutions such as the Global Environment Facility, the World Bank and United Nations funds and programmes. Please include both categories as feasible. Please tick the appropriate box if ODA numbers provided include bilateral and/or multilateral ODA related to biodiversity. If the numbers include both categories, tick both boxes." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+										<km-term-check ng-model="document.internationalResources.baselineData.odaCategories" terms="options.categories()" binding-type="term[]"></km-term-check>
+									</km-control-group>
+
+									<km-control-group name="baselineOdaOof" caption="ODA/OOF includes:">
+										<a rm-popover data-original-title="" data-content="You may report on either ODA/OOF commitments or actual disbursements, but please apply the same category for all years, including when reporting progress." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+										<div km-term-radio name="baselineOdaOof"  ng-model="document.internationalResources.baselineData.odaOofType"  terms="options.types()" description="true" binding-type="term"></div>
+									</km-control-group>
+
+									<km-control-group name="baselineOof" caption="ODA/OOF includes:">
+										<a rm-popover data-original-title="" data-content="Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation). See section 5 below for a compilation of descriptions of activities that relate to biodiversity as provided in different methodological frameworks. Please tick the appropriate box if numbers provided include resources directly related or indirectly related to biodiversity." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+										<km-term-check ng-model="document.internationalResources.baselineData.odaoofActions" terms="options.actions()" binding-type="term[]"></km-term-check>
+									</km-control-group>
+
+									<km-control-group name="baselineOther" caption="Other flows include:">
+										<km-term-check name="baselineOther" ng-model="document.internationalResources.baselineData.otherActions" terms="options.actions()" binding-type="term[]"></km-term-check>
+									</km-control-group>
+								</div>
+
+								<div class="col-md-6">
+									<km-control-group name="baselineMethodologyUsed" caption="As applicable, methodology used to identify official resource flows: ">
+										<div><a rm-popover data-original-title="" data-content="In past reporting under the preliminary reporting framework, many Parties that are members of the OECD DAC used the ‘Rio markers methodology’ under the OECD CRS database, to report on ODA directly related to biodiversity (‘principal’ marker) and indirectly related to biodiversity (‘significant’ marker). Please indicate if you did apply this methodology and, if not, please provide a brief explanation on the methodology you applied." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></div>
+											<div km-select name="baselineMethodologyUsed" ng-model="document.internationalResources.baselineData.methodologyUsed" items="options.methodology" binding-type="string"></div>
+										<div ng-show="showOtherMethodologyUsed(document.internationalResources.baselineData.methodologyUsed)">
+											<span class="help-block">Please specify:</span>
+											<div km-textbox-ml rows=1 name="methodologyUsedComments" ng-model="document.internationalResources.baselineData.methodologyUsedComments" locales="document.header.languages" placeholder=""></div>
+										</div>
+									</km-control-group>
+
+									<km-control-group name="baselineData.cient" caption="As applicable, coefficient used for resource flows indirectly related to biodiversity, when calculating total numbers: ">
+										<div><a rm-popover data-original-title="" data-content="If you provided a total amount that includes resources indirectly related to biodiversity, indicate the coefficient used to aggregate amounts directly and indirectly related to biodiversity. Please use the same coefficient for all years, including when reporting progress." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></div>
+										<div class="input-group col-xs-4"  ng-class="{ 'has-error': document.internationalResources.baselineData.coefficient && !isValidNumber(document.internationalResources.baselineData.coefficient) }" name="internationalResources.coefficient">
+											<input type="text" name="internationalResources.coefficient" class="form-control text-right" ng-model="document.internationalResources.baselineData.coefficient">
+											<span class="input-group-addon">%</span>
+										</div>
+									</km-control-group>
+
+									<km-control-group name="" caption="Average confidence levels:">
+										<div><a rm-popover data-content="Please provide (average) confidence levels (high, medium, low)" data-original-title="" data-placement="top">Additional explanations <sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></div>
+										<km-control-group name="baselineoData.odaConfidenceLevel" caption="ODA:">
+											<div km-select name="baselineoData.odaConfidenceLevel" ng-model="document.internationalResources.baselineData.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+
+										<km-control-group name="baselineoData.oofConfidenceLevel" caption="OOF:">
+											<div km-select name="baselineoData.oofConfidenceLevel" ng-model="document.internationalResources.baselineData.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+
+										<km-control-group name="baselineoData.otherConfidenceLevel" caption="Other flows:">
+											<div km-select name="baselineoData.otherConfidenceLevel" ng-model="document.internationalResources.baselineData.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+									</km-control-group>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="km-control-group" name="baselineDataMethodologicalComments" caption="Other methodological observations/comments, including sources of data:">
+										<a rm-popover data-original-title="" data-content="You may provide any other methodological observations or comments here." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+										<div km-textbox-ml rows=4 name="baselineDataMethodologicalComments" ng-model="document.internationalResources.baselineData.methodologicalComments" locales="document.header.languages" placeholder=""></div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="financialResources" caption="Information on international flows of financial resources">
-
-							<div class="table-responsive">
-
-								<table id="transactionTable" class="table table-hover">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<p><strong>1.1.2 Monitoring progress in mobilizing international financial flows For the purposes of monitoring progress, please provide data for years after 2010</strong></p>
+								<table id="transactionTable" class="table table-hover table-responsive">
 									<thead>
 										<tr>
-											<th style="text-align: left">Year</th>
-											<th style="text-align: left">Type of financial flows <sup><a href="#2">[2]</a></sup></th>
-											<th style="text-align: left">Category <sup><a href="#3">[3]</a></sup></th>
-											<th style="text-align: left">Amount</th>
-											<th style="text-align: left">Confidence</th>
-											<th style="text-align: left"></th>
+											<th class="col-md-2 text-left">Year</th>
+											<th class="col-md-2 text-left">ODA <a rm-popover data-content="Official Development Assistance (ODA) refers to flows of official financing administered with the purpose of promoting economic development and welfare of developing countries as the main objective, and which are concessional in character with a grant element of at least 25 per cent (using a fixed 10 per cent rate of discount).Where resources are provided or received for general budget support rather than for specific activities, an estimate of resources provided/received for biodiversity may be calculated from the proportion of the recipient country’s budget devoted to such activities." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th class="col-md-2 text-left">OOF <a rm-popover data-content="Other official flows (OOF) refers to transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance or Official Aid, either because they are not primarily aimed at development, or because they have a grant element of less than 25 per cent non-ODA public funding, that is, transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance. <br /><br />For the purpose of this reporting framework, information on resources provided by other, “non-donor” countries, i.e. through “South-South Cooperation”, would also be included in this column, as appropriate." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th class="col-md-2 text-left">Other flows <a rm-popover data-content="Other flows refer to resources mobilized by the private sector as well as non-governmental organizations, foundations, and academia. If you do not have reliable data, please leave this row empty. See also question 1.2." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th class="col-md-2 text-left">Total</th>
+											<th class="col-md-1 text-left"></th>
 										</tr>
 									</thead>
-
 									<tbody>
-										<tr ng-repeat="resource in document.financialResources track by $index">
+										<tr ng-repeat="flow in document.internationalResources.progressData.progressFlows track by $index">
 											<td>
-												<select class="form-control" ng-model="resource.year" ng-options="year for year in options.years">
-													<option value=""></option>
-												</select>
+												<div class="input-group" ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) }" >
+													<select class="form-control" ng-model="flow.year" ng-change="refreshYears('progressFlowsYears', document.internationalResources.progressData.progressFlows)">
+														<option ng-repeat="year in options.progressYears" ng-disabled="isSelectedYear('progressFlowsYears', year)">{{year}}</option>
+													</select>
+												</div>
 											</td>
 											<td>
-												<select class="form-control" ng-model="resource.type.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.types">
-													<option value=""></option>
-												</select>
+												<div class="input-group" ng-class="{ 'has-error': flow.odaAmount && !isValidNumber(flow.odaAmount) }">
+													<input type="text" class="form-control" ng-model="flow.odaAmount" style="text-align: right; margin-bottom: 0px;">
+												</div>
 											</td>
 											<td>
-												<select class="form-control" ng-model="resource.category.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.categories">
-													<option value=""></option>
-												</select>
+												<div class="input-group" ng-class="{ 'has-error': flow.oofAmount && !isValidNumber(flow.oofAmount) }">
+													<input type="text" class="form-control" ng-model="flow.oofAmount" style="text-align: right; margin-bottom: 0px;" >
+												</div>
 											</td>
 											<td>
 
-												<div class="input-group" style="width: 225px" ng-class="{ 'has-error': resource.amount && !isValidNumber(resource.amount) }">
-													<input type="text" pattern="[0-9]*" class="form-control" ng-model="resource.amount" style="text-align: right; margin-bottom: 0px;">
-													<span class="input-group-addon">.00 <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></span>
+												<div class="input-group" ng-class="{ 'has-error': flow.otherAmount && !isValidNumber(flow.otherAmount) }">
+													<input type="text" class="form-control" ng-model="flow.otherAmount" style="text-align: right; margin-bottom: 0px;">
 												</div>
 											</td>
 
 											<td>
-												<select class="form-control" ng-model="resource.confidence.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.confidences">
+												<div class="input-group" ng-class="{ 'has-error': flow.totalAmount && !isValidNumber(flow.totalAmount) }">
+													<input type="text" disabled class="form-control" style="text-align: right; margin-bottom: 0px;" value="{{totalFlowAmount(flow)}}">
+												</div>
+											</td>
+											<td>
+												<span class="btn btn-default" ng-click="document.internationalResources.progressData.progressFlows.splice($index, 1); removeYear('progressFlowsYears', flow.year)" ng-show="!$last || isNotEmpty(flow)"><i class="glyphicon glyphicon-trash"></i></span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="well well-sm">
+							<div class="row">
+								<div class="col-lg-12">
+									<km-control-group name="progressConfidenceLevels" caption="Average confidence levels">
+										<div><a rm-popover data-content="Please provide (average) confidence levels (high, medium, low)" data-original-title="" data-placement="top">Additional explanations <sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></div>
+										<km-control-group name="progressOdaConfidenceLevel" caption="ODA">
+											<div km-select name="progressOdaConfidenceLevel" ng-model="document.internationalResources.progressData.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+
+										<km-control-group name="progressOofConfidenceLevel" caption="OOF">
+											<div km-select name="progressOofConfidenceLevel" ng-model="document.internationalResources.progressData.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+
+										<km-control-group name="progressOtherConfidenceLevel" caption="Other flows">
+											<div km-select name="progressOtherConfidenceLevel" ng-model="document.internationalResources.progressData.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+									</km-control-group>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="km-control-group" name="internationalPrivateSector" caption="1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
+							<div km-select ng-model="document.internationalResources.hasPrivateSectorMeasures" binding-type="string" placeholder="Nothing selected..." items="options.measures" name="internationalPrivateSector" ></div>
+						</div>
+						<div class="km-control-group" name="internationalPrivateSectorComments" caption="">
+							<div ng-show="showInternationalPrivateSectorComments(document.internationalResources.hasPrivateSectorMeasures)">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines, or to your report on progress in achieving Aichi Biodiversity Targets 1, 2, 3, 4, 16, 18, and 19, under question 10 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 name="internationalPrivateSectorComments" ng-model="document.internationalResources.hasPrivateSectorMeasuresComments" locales="document.header.languages" placeholder=""></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div km-tab="part3">
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>2. Inclusion of biodiversity in priorities and plans</legend>
+						<div class="km-control-group" name="nationalBiodiversityInclusion" caption="Has your country included biodiversity in national priorities or development plans?">
+							<div km-select ng-model="document.hasNationalBiodiversityInclusion" binding-type="string" placeholder="Select..." items="options.inclusions" name="nationalBiodiversityInclusion"></div>
+						</div>
+						<div class="km-control-group" name="nationalBiodiversityInclusionComments" caption="">
+							<div ng-show="showInclusionComments(document.hasNationalBiodiversityInclusion)">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 ng-model="document.hasNationalBiodiversityInclusionComments" locales="document.header.languages" placeholder="" name="nationalBiodiversityInclusionComments"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>3. Assessment and/or evaluation of values</legend>
+						<div class="km-control-group" name="biodiversityAssessment" caption="Has your country assessed and/or evaluated the intrinsic, ecological, genetic, socioeconomic, scientific, educational, cultural, recreational and aesthetic values of biological diversity and its components?">
+							<div km-select ng-model="document.hasBiodiversityAssessment" binding-type="string" placeholder="Select..." items="options.assessments" name="biodiversityAssessment"></div>
+						</div>
+						<div class="km-control-group" name="biodiversityAssessmentComments" caption="">
+							<div ng-show="showBiodiversityAssessmentComments(document.hasBiodiversityAssessment)">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines, or on your report in achieving Aichi Biodiversity Target 2, under question 10 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 name="" ng-model="document.hasBiodiversityAssessmentComments" locales="document.header.languages" placeholder="" name="biodiversityAssessmentComments"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div km-tab="part4">
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>4. Reporting current domestic biodiversity expenditures</legend>
+						<div class="km-control-group" name="domesticExpenditures" caption="4.1 Please indicate the annual financial support provided to domestic biodiversity-related activities in your country."></div>
+
+						<div><span class="help-block">Please indicate the total amount of financial resources <u>spent currently or in the recent past, before additional resource mobilization activities were undertaken</u>. Please provide also an assessment of your confidence in the estimated amount (high, medium low; alternatively provide a range of estimates). Please cover as many sources as possible but provide at least central government budget outlays directly related to biodiversity. Use table 4.2 below to indicate which sources and expenditure categories were covered.</span></div>
+						<div><span class="help-block">If possible, provide data for several years. If specific annual data is not available, you may provide the best estimate of an average figure for several years.</span></div>
+						<div><span class="help-block">If your financial year does not correspond to the calendar year, please use the calendar year in which the financial year begins.</span></div>
+						<div><span class="help-block">As this question specifically relates to domestic expenditures, please do not include any funding provided to other countries but please <u>include expenditures that were financed by international sources</u>.</span></div>
+					</div>
+			    </div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="km-control-group" name="domesticExpendituresData.currency" caption="Please select currency" required={{isRequired('expenditures')}}>
+									<div km-select name="domesticExpendituresData.currency" ng-model="document.domesticExpendituresData.currency.identifier" items="options.currencies()" binding-type="string" ng-change="domesticCurrencyChange()"></div>
+								</div>
+							</div>
+
+							<div class="col-md-2">
+								<div class="km-control-group" name="domesticExpendituresData.multiplier" caption="All values are :" required>
+									<select class="form-control btn-info" ng-model="document.domesticExpendituresData.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="domesticExpendituresData.multiplier"></select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-8">
+							    <table class="table table-hover table-condensed">
+									<thead>
+										<tr>
+											<th class="col-lg-2 text-left">Year</th>
+											<th class="col-lg-3 text-left">Domestic expenditures</th>
+											<th class="col-lg-3 text-left">Overall confidence</th>
+											<th class="col-xs-1 text-left"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="expenditure in document.domesticExpendituresData.expenditures track by $index">
+											<td>
+												<div class="input-group" ng-class="{ 'has-error': expenditure.year && !isValidNumber(expenditure.year)}">
+													<select class="form-control" ng-model="expenditure.year" ng-change="refreshYears('expendituresYears', document.domesticExpendituresData.expenditures)">
+														<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('expendituresYears', year)">{{year}}</option>
+													</select>
+												</div>
+											</td>
+											<td>
+												<div class="input-group" ng-class="{ 'has-error': expenditure.amount && !isValidNumber(expenditure.amount) }">
+													<input type="text" class="form-control" ng-model="expenditure.amount" style="text-align: right; margin-bottom: 0px;" >
+												</div>
+											</td>
+											<td>
+												<select class="form-control" ng-model="expenditure.confidenceLevel.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.confidences">
 													<option value=""></option>
 												</select>
 											</td>
 											<td>
-												<span class="btn btn-default" ng-click="document.financialResources.splice($index, 1)" ng-show="!$last"><i class="fa fa-trash-o icon"></i></span>
+												<span class="btn btn-default" ng-click="document.domesticExpendituresData.expenditures.splice($index, 1); removeYear('expendituresYears', expenditure.year)" ng-show="!$last || isNotEmpty(expenditure)"><i class="glyphicon glyphicon-trash"></i></span>
+											</td>
+										</tr>
+										<tr class="active">
+											<td style="vertical-align:middle; font-weight: bold">Average</td>
+											<td>
+												<div class="input-group">
+													<input type="text" disabled class="form-control"  style="text-align: right; margin-bottom: 0px;font-weight: bold;" value="{{typeAverageAmount(document.domesticExpendituresData.expenditures,'amount')}}">
+												</div>
+											</td>
+											<td style="vertical-align:middle;font-weight: bold">
+												{{confidenceAverage(document.domesticExpendituresData.expenditures)}}
+											</td>
+											<td></td>
+										</tr>
+
+									</tbody>
+
+							    </table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-10">
+								<div class="km-control-group" name="domesticSources" caption="4.2 Information on sources and categories"></div>
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="col-md-4 text-left">Numbers above cover</th>
+											<th class="col-md-4 text-left">Expenditures directly related to biodiversity <a rm-popover data-original-title="" data-content="Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation). Please tick the appropriate box if numbers provided include resources directly related or indirectly related to biodiversity." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></th>
+											<th class="col-md-4 text-left">Expenditures indirectly related to biodiversity <a rm-popover data-original-title="" data-content="Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation). Please tick the appropriate box if numbers provided include resources directly related or indirectly related to biodiversity." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Government budgets – central <a rm-popover data-original-title="" data-content="Government budgets include public money spent by government or government agencies to address domestic biodiversity issues. You are encouraged to include information from all relevant levels of government but provide central budget information at a minimum. When providing information relating to different government levels, please ensure that funds transferred between the different levels of government are only counted once. <br />As the focus is on expenditures, budgetary support received by international flows should be included." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></td>
+											<td>
+												<div class="km-control-group" name="govCentralDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.govCentralDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="govCentralIndirectlyRelated"  caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.govCentralIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>Government budgets – state/provincial <a rm-popover data-original-title="" data-content="Government budgets include public money spent by government or government agencies to address domestic biodiversity issues. You are encouraged to include information from all relevant levels of government but provide central budget information at a minimum. When providing information relating to different government levels, please ensure that funds transferred between the different levels of government are only counted once. <br />As the focus is on expenditures, budgetary support received by international flows should be included." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a></td>
+											<td>
+												<div class="km-control-group" name="provincialDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.provincialDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="provincialIndirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.provincialIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Government budgets – local/municipal <a rm-popover data-original-title="" data-content="Government budgets include public money spent by government or government agencies to address domestic biodiversity issues. You are encouraged to include information from all relevant levels of government but provide central budget information at a minimum. When providing information relating to different government levels, please ensure that funds transferred between the different levels of government are only counted once. <br />As the focus is on expenditures, budgetary support received by international flows should be included." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+											</td>
+											<td>
+												<div class="km-control-group" name="municipalDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.municipalDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="municipalIndirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.municipalIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Extra-budgetary <a rm-popover data-original-title="" data-content="Extra-budgetary expenditures include project-related expenditures funded by ODA or OOF." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+											</td>
+											<td>
+												<div class="km-control-group" name="extraDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.extraDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="extraIndirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.extraIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Private/market <a rm-popover data-original-title="" data-content="The private sector comprises private companies." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+											</td>
+											<td>
+												<div class="km-control-group" name="privateDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.privateDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="privateIndirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.privateIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Other (NGO, foundations, academia) <a rm-popover data-original-title="" data-content="Other represents funding that is neither public sector nor private companies. Non-governmental organizations include non-profit organizations representing major groups and that are legally constituted organizations that operate independently from government. Foundations are non-profit organizations that typically either donate funds, provide support to other organizations, and/or directly provide funding for their own charitable purposes. Academia refers to all institutions aimed at advancing knowledge development, including educational and research institutions. The unifying factor between these three types of organizations is their not for profit status." data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+											</td>
+											<td>
+												<div class="km-control-group" name="otherDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.otherDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="otherIndirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.otherIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												Collective action of indigenous and local communities <a rm-popover data-content="The contribution of collective action of indigenous and local communities towards biodiversity conservation and customary sustainable use, insofar as it can be appropriately measured and expressed in monetary terms, can be reported here. For instance, the Conceptual and Methodological Framework for Evaluating the Contribution of Collective Action to Biodiversity Conservation suggests performing a conversion of the total land area conserved by local communities to the equivalent in public funds spent on conserving an equivalent area within the government’s protected areas. See also question 4.3 below." data-original-title="" data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+											</td>
+											<td>
+												<div class="km-control-group" name="ilcDirectlyRelated" caption="">
+													<div km-yes-no ng-model="document.domesticExpendituresData.ilcDirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+											<td>
+												<div class="km-control-group" name="ilcDirectlyRelated" caption="">
+													<div km-yes-no name="ilcIndirectlyRelated" ng-model="document.domesticExpendituresData.ilcIndirectlyRelated" locales="document.header.languages"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="3">
+												Additional methodological information, including sources of data <a rm-popover data-content="Please provide information on the methodologies applied to estimate these numbers, in particular those on expenditures indirectly related to biodiversity and those outside of central government budgets. The Biodiversity Finance (BIOFIN) Workbook provides methodological guidance. In past reporting under the preliminary reporting framework, Parties made reference to public expenditure review methodologies, and also pointed to the environmental protection expenditure accounts, under their environmental economic accounting (EEA) system. One methodology for estimating subnational expenditures consists in calculating the ratio of biodiversity-related expenditures of a select sub-set of provincial governments or municipalities, and subsequent application of this ratio to total sub-national government budgets." data-original-title="" data-placement="top"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>:
+												<div class="row">
+												    <div class="col-md-10">
+														<div km-textbox-ml rows=4 name="" ng-model="document.domesticExpendituresData.sourcesAdditionalComments" locales="document.header.languages" placeholder=""></div>
+												    </div>
+												</div>
 											</td>
 										</tr>
 									</tbody>
-
 								</table>
 							</div>
-
 						</div>
 					</div>
 				</div>
-				<hr>
-				<table class="table table-striped table-responsive table-bordered" style="width: auto">
-					<tr>
-						<th style="text-align: left">Total  Directly related:</th>
-						<td style="text-align: right">{{getSum(document.financialResources, directlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Total  Indirectly related:</th>
-						<td style="text-align: right">{{getSum(document.financialResources, indirectlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Total  (Directly + Indirectly related):</th>
-						<td style="text-align: right">{{getSum(document.financialResources, direclyAndIndirectlyRelated) | number:2}} <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Overall total:</th>
-						<td style="text-align: right"><b>{{getSum(document.financialResources) | number:2}}</b> <span km-terms ng-model="document.financialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Overall average confidence:</th>
-						<td style="text-align: right">{{confidenceAverage(document.financialResources)}}</td>
-					</tr>
-				</table>
-
 				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="financialDescription" caption="Comment">
-							<div km-textbox-ml rows=6 name="financialDescription" ng-model="document.financialDescription" placeholder="<You may add here your comments>" locales="document.header.languages"></div>
+				    <div class="col-lg-12">
+						<legend>4.3. Role of collective action and non-market approaches</legend>
+						<div class="km-control-group" name="domesticCollectiveAction" caption="4.3.1 Has your country assessed the role of collective action, including by indigenous and local communities, and non-market approaches for mobilizing resources for achieving the objectives of the Convention?">
+							<div km-select ng-model="document.domesticExpendituresData.domesticCollectiveAction" binding-type="string" placeholder="Select..." items="options.assessments"></div>
 						</div>
-						<span class="km-help-block"><i>Notes:</i>
-							<br />
-							<br />
-							<a name="2"></a>
-							<sup>[2]</sup> Type of financial flows:
-								<br />
-							<ul>
-								<li><b>Official Development Assistance (ODA)</b> refers to flows of official financing administered with the purpose of promoting economic development and welfare of developing countries as the main objective, and which are concessional in character with a grant element of at least 25 per cent (using a fixed 10 per cent rate of discount). ODA can be bilateral or multilateral. Where resources are provided or received for general budget support rather than for specific activities, an estimate of resources provided/received for biodiversity may be calculated from the proportion of the recipient country’s budget devoted to such activities.</li>
-								<li><b>Bilateral ODA</b> refers to contributions of donor government agencies, at all levels, to developing countries</li>
-								<li><b>Multilateral ODA</b> refers to funds provided through international financial institutions such as the Global Environment Facility, the World Bank and United Nations funds and programmes.</li>
-								<li><b>Other public funds</b> includes non-ODA public funding, also called “other official flows” (OOFs), which refers to transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance. The category also includes resources provided from other “non-donor” countries i.e. through “South-South Cooperation”.</li>
-								<li><b>The private sector</b> comprises private corporations or transaction mediated through a market.</li>
-							</ul>
-							<a name="3"></a>
-							<sup>[3]</sup> Category: See section 5 of the reporting framework for a description of the categories.
-								<br />
-							<br />
-						</span>
-					</div>
-				</div>
-			</div>
-			<div km-tab="section2">
-				<legend>2. Information on the availability of financial resources in each country</legend>
-				<span class="help-block">This section of the Framework relates to the financial resources available to implement the Convention and its Strategic Plan in your country. It relates specifically to the end use of financial resources regardless of whether the source of the funds is domestic	or external.<br />
-					Please indicate the financial support to domestic activities intended to achieve the objectives of this Convention from all sources. For each of the expenditure sources listed please indicate the total amount of financial resources spent as well as an assessment of your confidence in the estimated amount (high, medium low; alternatively provide a range of estimates). You may indicate expenditures according to the two categories (directly or indirectly related), or provide an estimate of the total in the case where the details are not available. A list of indicative activities for each of the categories is provided in section 5.  Please provide data for multiple years if possible (duplicate the 	table as necessary).<br />
-					Please take care to avoid double counting; expenditure included in one row of the table should not also be included in another. As this question specifically relates to domestic expenditures <i><b>if you are representing a developed country</i></b> (members of OECD-DAC) please do not include any funding provided to other countries. However, <i><b>if you are representing a developing country</i></b> (not a members of OECD -DAC) please include the money received from other countries.
-				</span>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="countryFinancialCurrency" caption="Currency">
-							<div km-select name="countryFinancialCurrency" ng-model="document.countryFinancialCurrency" items="options.currencies()" binding-type="string" ng-required="isRequired()" />
-						</div>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="countryFinancialResources" caption="Information on the availability of financial resources in each country">
+						<div ng-show="isContributionTableVisible(document.domesticExpendituresData.domesticCollectiveAction)">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="km-control-group" name="" caption="4.3.2 Please provide additional information on your assessment of the role of collective action undertaken by your country. Please provide also an assessment of your confidence in the estimation (high, medium low; alternatively provide a range of estimates). If possible, provide data for several years."></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-8">
+													<div class="km-control-group" required name="measurementUnit" caption="Measurement Unit">
+														<a rm-popover data-original-title="" data-content="Please provide the selected measurement unit under your methodology. For instance, the Conceptual and Methodological Framework for Evaluating the Contribution of Collective Action to Biodiversity Conservation suggests using, amongst others, as a quantitative indicator, the total land area conserved by collective action within indigenous and local communities." data-placement="top">Additional explanations <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+														<input type="text" required class="form-control" style="width: 100%" name="measurementUnit" ng-model="document.domesticExpendituresData.measurementUnit" />
+													</div>
 
-							<table id="transactionCountryTable" class="table table-hover">
-								<thead>
-									<tr>
-										<th style="text-align: left">Year</th>
-										<th style="text-align: left">Source <sup><a href="#4">[4]</a></sup></th>
-										<th style="text-align: left">Category <sup><a href="#5">[5]</a></sup></th>
-										<th style="text-align: left">Amount</th>
-										<th style="text-align: left">Confidence</th>
-										<th style="text-align: left"></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="resource in document.countryFinancialResources track by $index">
-										<td>
-											<select class="form-control" ng-model="resource.year" ng-options="year for year in options.years">
-												<option value=""></option>
-											</select>
-										</td>
-										<td>
-											<select class="form-control" ng-model="resource.source.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.sources">
-												<option value=""></option>
-											</select>
-										</td>
-										<td>
-											<select class="form-control" ng-model="resource.category.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.categories">
-												<option value=""></option>
-											</select>
-										</td>
-										<td>
-											<div class="input-group" style="width: 225px" ng-class="{ 'has-error': resource.amount && !isValidNumber(resource.amount) }">
-												<input type="text" pattern="[0-9]*" class="form-control" ng-model="resource.amount" style="text-align: right; margin-bottom: 0px;">
-												<span class="input-group-addon">.00 <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.title|lstring}}">{{term.shortTitle|lstring}}</span></span></span>
+
+													<table class="table table-hover table-condensed">
+														<thead>
+															<tr>
+																<th class="col-md-2 text-left">Year</th>
+																<th class="col-md-3 text-left">Contribution</th>
+																<th class="col-md-3 text-left">Overall confidence</th>
+																<th class="text-left"></th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="contribution in document.domesticExpendituresData.contributions track by $index">
+																<td>
+																	<div class="input-group" ng-class="{ 'has-error': contribution.year && !isValidNumber(contribution.year) }">
+																		<select class="form-control" ng-model="contribution.year" ng-change="refreshYears('contributionsYears', document.domesticExpendituresData.contributions)">
+																			<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('contributionsYears', year)">{{year}}</option>
+																		</select>
+																	</div>
+																</td>
+																<td>
+																	<div class="input-group" ng-class="{ 'has-error': contribution.amount && !isValidNumber(contribution.amount) }">
+																		<input type="text" class="form-control" ng-model="contribution.amount" style="text-align: right; margin-bottom: 0px;" >
+																	</div>
+																</td>
+																<td>
+																	<select class="form-control" ng-model="contribution.confidenceLevel.identifier" ng-options="o.identifier as (o.title | lstring) for o in options.confidences">
+																		<option value=""></option>
+																	</select>
+																</td>
+																<td>
+																	<span class="btn btn-default" ng-click="document.domesticExpendituresData.contributions.splice($index, 1); removeYear('contributionsYears', contribution.year)" ng-show="!$last || isNotEmpty(contribution)"><i class="glyphicon glyphicon-trash"></i></span>
+																</td>
+															</tr>
+															<tr class="active">
+																<td style="vertical-align:middle; font-weight: bold">Average</td>
+																<td>
+																	<div class="input-group">
+																		<input type="text" disabled class="form-control"  style="text-align: right; margin-bottom: 0px;font-weight: bold;" value="{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount')}}">
+																	</div>
+																</td>
+																<td style="vertical-align:middle;font-weight: bold">
+																	{{confidenceAverage(document.domesticExpendituresData.contributions)}}
+																</td>
+																<td></td>
+															</tr>
+														</tbody>
+
+													</table>
+
+												</div>
 											</div>
-										</td>
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="row">
+														<div class="col-sm-12">
+															<strong>Methodological information:</strong>
+														</div>
+													</div>
+													<div class="well well-sm">
+														<div class="km-control-group" name="domesticCollectiveActionMethodology" caption="As applicable, methodology used to assess the role of collective action and non-market approaches">
+															<div km-select name="domesticCollectiveActionMethodology" ng-model="document.domesticExpendituresData.domesticCollectiveActionMethodology" items="options.domesticMethodology" binding-type="string"></div>
+														</div>
+														<div ng-show="showOtherDomesticMethodology(document.domesticExpendituresData.domesticCollectiveActionMethodology)">
+															<span class="help-block">Please specify:</span>
+															<div class="km-control-group" name="" caption="">
+																<div km-textbox-ml rows=2 name="" ng-model="document.domesticExpendituresData.domesticCollectiveActionMethodologyOther" locales="document.header.languages" placeholder=""></div>
+															</div>
+														</div>
 
-										<td>
-											<select class="form-control" ng-model="resource.confidence.identifier" ng-options="o.identifier as (o.title|lstring) for o in options.confidences">
-												<option value=""></option>
-											</select>
-										</td>
-										<td>
-											<span class="btn btn-default" ng-click="document.countryFinancialResources.splice($index, 1)" ng-show="!$last"><i class="fa fa-trash-o icon"></i></span>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+														<div class="km-control-group" name="domesticCollectiveActionMethodologyComments" caption="Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data.">
+															<div km-textbox-ml rows=4 name="domesticCollectiveActionMethodologyComments" ng-model="document.domesticExpendituresData.domesticCollectiveActionMethodologyComments" locales="document.header.languages" placeholder=""></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+			    		</div>
+				    </div>
 				</div>
+			</div>
 
+			<div km-tab="part5">
 				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="countryFinancialResources" caption="Information on the availability of financial resources in each country">
-							<div resource-mobilisation-country-transaction-list name="countryFinancialResources" type="countryFinancialResources" ng-model="document.countryFinancialResources"></div>
-						</div>
+					<div class="col-lg-12">
+						<legend>5. Reporting funding needs, gaps, and priorities</legend>
+						<div><span class="help-block">Please indicate your annual estimated funding need (for instance, based on your revised NBSAP) and calculate the estimated funding gap by subtracting estimated available resources. Indicate actions for priority funding.</span></div>
+						<div><span class="help-block"><u>Please start with the year which is most appropriate for your own planning purposes</u>.</span></div>
 					</div>
-				</div>
+			    </div>
+				<div class="panel panel-default">
+					<div class="panel-body">
 
-				<table class="table table-striped table-responsive table-bordered" style="width: auto">
-					<tr>
-						<th style="text-align: left">Total Directly related:</th>
-						<td style="text-align: right">{{getSum(document.countryFinancialResources, directlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Total Indirectly related:</th>
-						<td style="text-align: right">{{getSum(document.countryFinancialResources, indirectlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Total (Directly + Indirectly related):</th>
-						<td style="text-align: right">{{getSum(document.countryFinancialResources, direclyAndIndirectlyRelated) | number:2}} <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Overall total:</th>
-						<td style="text-align: right"><b>{{getSum(document.countryFinancialResources) | number:2}}</b> <span km-terms ng-model="document.countryFinancialCurrency"><span ng-repeat="term in terms" title="{{term.shortTitle|lstring}}">{{term.shortTitle|lstring}}</span></span></td>
-					</tr>
-					<tr>
-						<th style="text-align: left">Overall average confidence:</th>
-						<td style="text-align: right">{{confidenceAverage(document.countryFinancialResources)}}</td>
-					</tr>
-					<table />
-					<span class="km-help-block"><i>Notes:</i>
-						<br />
-						<br />
-						<a name="4"></a>
-						<sup>[4]</sup> Sources:<br />
-						<ul>
-							<li><b>Government budgets</b> include public money spent by government or government agencies to address domestic biodiversity issues. Resources from the different levels of government: central (national, federal); state/provincial (if applicable); and local/municipal should be included. All countries should include estimates for “central” and for “local/municipal”. When providing information on government budgets Parties should ensure that funds transferred between the different levels of government are only counted once.</li>
-							<li><b>The private sector</b> comprises private corporations or transactions mediated through a market.</li>
-							<li><b>Other</b> represents funding that is neither public nor mediated through a market. Non-governmental organizations include non-profit organizations representing major groups and that are legally constituted organizations that operate independently from government. Foundations are non-profit organizations that typically either donate funds, provide support to other organizations, and/or directly provide funding for their own charitable purposes. Academia refers to all institutions aimed at advancing knowledge development, including educational and research institutions. The unifying factor between these three types of organizations is their not for profit status.</li>
-						</ul>
-						<a name="5"></a>
-						<sup>[5]</sup> Category: See section 5 of the reporting framework for a description of the categories.<br />
-						<br />
-					</span>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="km-control-group" name="countryFinancialDescription" caption="Comment">
-								<div km-textbox-ml rows=6 name="countryFinancialDescription" ng-model="document.countryFinancialDescription" placeholder="<You may add here your comments>" locales="document.header.languages"></div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="km-control-group" name="fundingNeedsData.currency" caption="Currency" required={{isRequired('annualEstimates')}}>
+									<div km-select name="fundingNeedsData.currency" ng-model="document.domesticExpendituresData.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+								</div>
+							</div>
+
+							<div class="col-md-3">
+								<div class="km-control-group" name="fundingNeedsMultiplier" caption="All values are :" required>
+									<select class="form-control btn-info" ng-model="document.fundingNeedsData.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="fundingNeedsData.multiplier"></select>
+								</div>
 							</div>
 						</div>
-					</div>
-			</div>
 
-			<div km-tab="section3">
-				<legend>3. Information on the steps being taken to implement the strategy for resource mobilization</legend>
-				<span class="help-block">This section of the Framework addresses initiatives which are important in enabling access to financial
-								resources for biodiversity activities. The information sought in this section does not require response in monetary units.<br />
-					Please indicate whether your country has undertaken any of the following steps to enable implementation of the strategy for
-								resource mobilization and provide additional information as appropriate.<br />
-					If your country has undertaken any of the activities below please indicate the results which have been achieved if possible.
-								If you are representing a developing country (not a member of the OECD -DAC) please also indicate whether external funding and/or
-								capacity building support was received by your country to undertake the initiatives (if applicable). Please also indicate the
-								results and year initiated and completed (where applicable).
-				</span>
-				<legend>Steps and description of the initiative (including support received, results achieved,  year initiated/completed)</legend>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="biodiversityAssessment" caption="3.1 Assessment of values of biodiversity">
-							<span class="help-block">Assessments of the values of biodiversity and ecosystem services comprise assessments at the national, local and/or project levels, which may be undertaken by national or international experts, to estimate the value of biodiversity.
-							</span>
-							<div km-textbox-ml rows=6 name="biodiversityAssessment" ng-model="document.biodiversityAssessment" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
+						<div class="row">
+							<div class="col-lg-12">
+								<label>Do you want to extrapolate the average value from question 4.1 and apply annual percentage increase to the table below?</label>
+								<span class="help-block">Note: the table below will be overwritten.</span>
+
+								<div class="km-control-group" name="isExtrapolated" caption="">
+									<div km-yes-no ng-model="isExtrapolated" locales="document.header.languages" ng-click="applyExtrapolation(isExtrapolated)"></div>
+
+
+									<div ng-show="isExtrapolated">
+										<div><label>Annual percentage increase: </label></div>
+
+										<div class="input-group col-xs-2"  ng-class="{ 'has-error': temp.annualPercentage && !isValidNumber(temp.annualPercentage) }">
+											<input type="text" name="annualPercentage" class="form-control text-right" ng-model="temp.annualPercentage" ng-change="applyPercentageIncrease(temp.annualPercentage)">
+											<span class="input-group-addon">%</span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="fundingNeeds" caption="3.2 Identification and reporting funding needs, funding gaps and funding priorities">
-							<span class="help-block">Funding needs, gaps and priorities are identified and reported at the national level, on the basis of the Convention and is often part of a national biodiversity strategy and action plan process.
-							</span>
-							<div km-textbox-ml rows=6 name="fundingNeeds" ng-model="document.fundingNeeds" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
+						<div class="row">
+						    <div class="col-lg-12">
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="developementFunding" caption="3.3 Development of national financial plans for biodiversity">
-							<span class="help-block">National financial plans for biodiversity refer to financial plans developed as part of national
-											biodiversity strategies and action plans.
-							</span>
-							<div km-textbox-ml rows=6 name="developementFunding" ng-model="document.developementFunding" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="integratedConsideration" caption="3.4 Integrated consideration of biodiversity and ecosystem services in development plans and strategies">
-							<span class="help-block">Development plans and strategies may take various forms in different countries, such as national
-											poverty reduction strategies or national sustainability strategies.
-							</span>
-							<div km-textbox-ml rows=6 name="integratedConsideration" ng-model="document.integratedConsideration" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="countryIntegratedConsideration" caption="3.5 Country integrated consideration of biodiversity and ecosystem services in national budgets">
-							<span class="help-block">A national budget which integrates biodiversity considerations would normally contain a
-											section or paragraph dealing with biodiversity.
-							</span>
-							<div km-textbox-ml rows=6 name="countryIntegratedConsideration" ng-model="document.countryIntegratedConsideration" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="initiativeDescription" caption="Comment">
-							<div km-textbox-ml rows=6 name="initiativeDescription" ng-model="document.initiativeDescription" locales="document.header.languages" placeholder="<You may add here your comments>"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div km-tab="section4">
-				<legend>4. Information on specific issues related to resource availability</legend>
-				<span class="help-block">This section of the Framework contains questions related to several specific issues including: technical
-								cooperation; South-South cooperation; innovative financial mechanisms; and access and benefit‑sharing.
-				</span>
-				<legend>4.1. Technical cooperation, capacity‑building and South-South cooperation</legend>
-				<span class="help-block">For <b><i>developed countries</b></i> (members of OECD -DAC): Please indicate if your country is participating in technical cooperation and capacity-building initiatives in support of biodiversity that are financed by your country or providing support to South-South cooperation through triangular cooperation. You may also provide a description of the types of initiatives supported.
-				</span>
-				<legend>Type and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="northSouthProvidedDeveloped" caption="4.1.1 North-South technical cooperation and capacity building provided">
-							<span class="help-block">Note that your response to section 2 would already include such resources within the totals provided; this question is intended to elucidate specific information for indicators (8) and (9) of decision X/3.
-							</span>
-							<div km-textbox-ml rows=6 name="northSouthProvidedDeveloped" ng-model="document.northSouthProvidedDeveloped" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="southSouthTriangularDeveloped" caption="4.1.2 Support to South-South technical cooperation & capacity building  through triangular cooperation">
-							<span class="help-block">North-south technical cooperation and capacity-building initiatives are those in which resources and/or expertise are provided by a developed country to a developing country.
-							</span>
-							<div km-textbox-ml rows=6 name="southSouthTriangularDeveloped" ng-model="document.southSouthTriangularDeveloped" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="descriptionDeveloped" caption="Comment">
-							<div km-textbox-ml rows=6 name="descriptionDeveloped" ng-model="document.descriptionDeveloped" locales="document.header.languages" placeholder="<You may add here your comments>"></div>
-						</div>
-					</div>
-				</div>
-				<span class="help-block">For <b><i>developing countries</b></i> (countries, not members of OECD -DAC): please indicate if your country is
-								participating in technical cooperation and capacity‑building initiatives that support biodiversity
-								from which you have received resources as well as if initiatives have been financed by your country
-								You may also provide a description of the types of initiatives.
-				</span>
-
-				<legend>Type and description of the initiative (including support received, results achieved,  year initiated/ completed)</legend>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="northSouthReceivedDeveloping" caption="4.1.3 North-South technical cooperation and capacity building received">
-							<div km-textbox-ml rows=6 name="northSouthReceivedDeveloping" ng-model="document.northSouthReceivedDeveloping" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="southSouthReceivedDeveloping" caption="4.1.4 South-South technical cooperation & capacity building  received from other developing countries">
-							<span class="help-block">While South-South cooperation and capacity building is by
-											definition between developing countries, in some instances developed countries may provide
-											resources and expertise which a play a catalytic role in such initiatives. This type of
-											support is commonly referred to as “triangular cooperation” and should be noted.
-							</span>
-							<div km-textbox-ml rows=6 name="southSouthReceivedDeveloping" ng-model="document.southSouthReceivedDeveloping" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="southSouthProvidedDeveloping" caption="4.1.5 South-South technical cooperation and capacity building - Provided">
-							<span class="help-block">South-South Cooperation describes the exchange of resources,
-											technology, and knowledge between developing countries. Developing countries participating
-											in these types of initiatives can be recipients and/or providers of resources. In this field
-											developing countries are asked to indicate separately the resources they have provided and
-											received through such initiatives.
-							</span>
-							<div km-textbox-ml rows=6 name="southSouthProvidedDeveloping" ng-model="document.southSouthProvidedDeveloping" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="descriptionDeveloping" caption="Comment">
-							<div km-textbox-ml rows=6 name="descriptionDeveloping" ng-model="document.descriptionDeveloping" locales="document.header.languages" placeholder="<You may add here your comments>"></div>
-						</div>
-					</div>
-				</div>
-
-				<legend>4.2. Resources raised through reform of incentives and subsidies</legend>
-				<span class="help-block">Please indicate if your country has removed, phased out or reformed incentives, including subsidies, harmful to biodiversity <sup><a href="#6">[6]</a></sup> and if positive incentives have been introduced.
-				</span>
-				<span class="km-help-block"><i>Notes:</i>
-					<br />
-					<br />
-					<a name="6"></a>
-					<sup>[6]</sup>  Incentives harmful to biodiversity emanate from policies or programmes that induce unsustainable behaviour harmful to biodiversity, often as unanticipated and unintended side effects of policies or programmes designed to achieve other objectives. Types of possibly harmful incentives include production subsidies and consumer subsidies while policies and laws governing resource use, such as land tenure systems and environmental resource management, can also have harmful effects.</span>
-				<br />
-				<br />
-				<legend>Incentives and description of the initiative (including how the intrinsic and all other values of biodiversity have been reflected)</legend>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="incentivesRemoved" caption="4.2.1 Removed, reformed or phased-out">
-							<div km-textbox-ml rows=6 name="incentivesRemoved" ng-model="document.incentivesRemoved" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="incentivesIntroduced" caption="4.2.2 Positive incentives introduced">
-							<span class="help-block">Positive incentive measures are economic, legal or institutional
-											measures designed to encourage beneficial activities.
-							</span>
-							<div km-textbox-ml rows=6 name="incentivesIntroduced" ng-model="document.incentivesIntroduced" locales="document.header.languages" placeholder="<Describe the initiative>"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="incentivesDescription" caption="Comment">
-							<div km-textbox-ml rows=6 name="incentivesDescription" ng-model="document.incentivesDescription" locales="document.header.languages" placeholder="<You may add here your comments>"></div>
-						</div>
-					</div>
-				</div>
-
-				<legend>4.3 New and innovative financial mechanism</legend>
-				<span class="km-help-block">Please identify the new and innovative financial mechanisms that have been implemented by your country or in which your country has participated.<br />
-					<br />
-					Please indicate the type of initiative and the amount of financial resources generated (where known; order of magnitude estimates are better than none). Please also indicate whether and how the intrinsic and all other values of biodiversity were considered and provide a brief description of the initiative, including the year of its establishment and operation.
-				</span>
-				<br />
-				<br />
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="incentivesIntroduced" caption="Financial mechanisms">
-
-							<div class="table-responsive">
-								<table id="financialMechanismsTable" class="table table-hover">
+						        <table class="table table-hover table-responsive">
 									<thead>
-										<tr>
-											<th style="text-align: left">Type of Initiative <sup><a href="#7">[7]</a></sup></th>
-											<th style="text-align: left">Resources generated (If known)</th>
-											<th style="text-align: left">Description (including how the intrinsic and all other values of biodiversity have been reflected)</th>
-											<th style="text-align: left"></th>
-										</tr>
+							        	<tr class="active">
+							        		<th class="col-md-2 text-left">Year</th>
+											<th class="col-md-2 text-left">Funding need <a rm-popover data-content="The funding need could be calculated based on the revised national biodiversity strategy and action plan (NBSAP). You may wish to further differentiate into one-time investments and recurrent expenditures, and calculate annual resource requirements accordingly." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th class="col-md-2 text-left">Estimated available resources <a rm-popover data-content="For estimating future resource availability, you may wish to extrapolate the average number provided under question 4.1 above. In undertaking this extrapolation, please do not include the additional resource mobilization activities that were already undertaken, or are planned to be undertaken, pursuant to your national finance plan." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th class="col-md-2 text-left">Estimated funding gap <a rm-popover data-content="Estimate the funding gap by subtracting (Estimated available resources) from (Funding need)." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th class="col-md-4 text-left">Actions for priority funding <a rm-popover data-content="Indicate actions, for instance from among those covered by the revised NBSAP, for priority funding." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></th>
+											<th></th>
+							        	</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="resource in document.financialMechanisms track by $index">
-											<td width="20%">
-												<div km-textbox-ml rows=1 name="type" ng-model="resource.type" placeholder="<Type of Initiative>" locales="document.header.languages"></div>
-											</td>
-											<td width="20%">
-												<div km-textbox-ml rows=1 name="resourceGenerated" ng-model="resource.resourceGenerated" placeholder="<Resources generated>" locales="document.header.languages"></div>
-											</td>
-											<td width="60%">
-												<div km-textbox-ml rows=1 name="description" ng-model="resource.description" placeholder="<Description>" locales="document.header.languages"></div>
+										<tr ng-repeat="estimate in document.fundingNeedsData.annualEstimates track by $index">
+											<td>
+												<div class="input-group"  ng-class="{ 'has-error': estimate.year && !isValidNumber(estimate.year)}">
+													<select class="form-control" ng-model="estimate.year" ng-change="refreshYears('fundingNeedsYears', document.fundingNeedsData.annualEstimates)">
+														<option ng-repeat="year in options.fundingNeedsYears" ng-disabled="isSelectedYear('fundingNeedsYears', year)">{{year}}</option>
+													</select>
+												</div>
 											</td>
 											<td>
-												<span class="btn btn-default" ng-click="document.financialMechanisms.splice($index, 1)" ng-show="!$last"><i class="fa fa-trash-o icon"></i></span>
+												<div class="input-group" ng-class="{ 'has-error': estimate.fundingNeedAmount &&  !isValidNumber(estimate.fundingNeedAmount) }">
+													<input type="text"  class="form-control" ng-model="estimate.fundingNeedAmount" style="text-align: right; margin-bottom: 0px;" ng-change="estimate.fundingGapAmount=getEstimatedFundingGap(estimate.availableResourcesAmount, estimate.fundingNeedAmount)">
+												</div>
+											</td>
+											<td>
+												<div class="input-group" ng-class="{ 'has-error': estimate.availableResourcesAmount &&  !isValidNumber(estimate.availableResourcesAmount) }">
+													<input type="text" class="form-control" ng-model="estimate.availableResourcesAmount" style="text-align: right; margin-bottom: 0px;" ng-change="estimate.fundingGapAmount=getEstimatedFundingGap(estimate.availableResourcesAmount, estimate.fundingNeedAmount)">
+												</div>
+											</td>
+											<td>
+												<div class="input-group">
+													<input type="text" disabled class="form-control" ng-model="estimate.fundingGapAmount"   style="text-align: right; margin-bottom: 0px;" name="">
+												</div>
+											</td>
+											<td>
+												<div km-textbox-ml rows=1  style="width: 100%" name="actionsForPriority" ng-model="estimate.action" locales="document.header.languages"></div>
+											</td>
+											<td>
+												<span class="btn btn-default" ng-click="document.fundingNeedsData.annualEstimates.splice($index, 1); removeYear('fundingNeedsYears', estimate.year)" ng-show="!$last || isNotEmpty(estimate)"><i class="glyphicon glyphicon-trash"></i></span>
 											</td>
 										</tr>
 									</tbody>
-								</table>
-							</div>
+						        </table>
+
+								<div class="row">
+									<div class="km-control-group col-lg-12" name="fundingNeedsAdditionalComments" caption="Additional methodological observations/comments, including sources of data:">
+										<div km-textbox-ml rows=4 name="fundingNeedsAdditionalComments" ng-model="document.fundingNeedsData.additionalComments" locales="document.header.languages" placeholder=""></div>
+									</div>
+								</div>
+						    </div>
 						</div>
 					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="financialMechanismsDescription" caption="Comment">
-							<div km-textbox-ml rows=6 name="financialMechanismsDescription" ng-model="document.financialMechanismsDescription" placeholder="<You may add here your comments>" locales="document.header.languages"></div>
-						</div>
-					</div>
-				</div>
-				<br />
-				<br />
-				<span class="km-help-block"><i>Notes:</i>
-					<br />
-					<br />
-					<a name="7"></a>
-					<sup>[7]</sup> <b>Types of initiatives</b> might include: payment for ecosystem services; biodiversity offset mechanisms; environmental fiscal reforms; markets for green products; business-biodiversity partnerships; new forms of charity; integrating biodiversity and ecosystem services in the development of new and innovative sources of international development finance and funding mechanisms for climate change which consider biodiversity and ecosystem services.</span>
-				<br />
-				<br />
-				<legend>4.4 Access and benefit sharing of genetic resources initiatives and mechanisms consistent with the Convention</legend>
-				<span class="help-block">Please indicate the number of access and benefit-sharing of genetic resources initiatives and mechanisms your country has undertaken that enhance resource mobilization:
-				</span>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="resourceIntiatives">
-
-							<div class="table-responsive">
-								<table id="resourceIntiativesTable" class="table table-hover">
-									<thead>
-										<tr>
-											<th style="text-align: left">Initiative</th>
-											<th style="text-align: left">Description (including how resource mobilization is enhanced)</th>
-											<th style="text-align: left"></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="resource in document.resourceIntiatives track by $index">
-											<td width="30%">
-												<div km-textbox-ml rows=1 name="initiative" ng-model="resource.initiative" placeholder="<Initiative>" locales="document.header.languages"></div>
-											</td>
-											<td width="70%">
-												<div km-textbox-ml rows=1 name="description" ng-model="resource.description" placeholder="<Description>" locales="document.header.languages"></div>
-											</td>
-											<td>
-												<span class="btn btn-default" ng-click="document.resourceIntiatives.splice($index, 1)" ng-show="!$last"><i class="fa fa-trash-o icon"></i></span>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="resourceIntiativesDescription" caption="Comment">
-							<div km-textbox-ml rows=6 name="resourceIntiativesDescription" ng-model="document.resourceIntiativesDescription" placeholder="<You may add here your comments>" locales="document.header.languages"></div>
-						</div>
-					</div>
-				</div>
 			</div>
-			<div km-tab="section5">
-				<legend>5. Activity classification</legend>
-				<span class="km-help-block">For the resource classification mentioned in sections 1 and 2 above a brief description of each of the categories as well as an indicative list of the actions that could be considered under each category is provided below. Please list any additional activities considered under each category.
-							<br />
-					<br />
-					<i>To ensure information comparability please add any additional activities not already included in the row above. Please also indicate if any of the above activities are included in different a category</i>
-				</span>
-				<br />
-				<br />
+
+			<div km-tab="part6">
 				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="activityClassificationDirectly" caption="Activity classification: Activities directly related to biodiversity">
-							<span class="km-help-block">Activities directly related to biodiversity broadly correspond to the activity categories A and B used in UNEP/CBD/WG-RI/4/6/Add.1.
-										<br />
-								<br />
-								Funding for activities directly related to biodiversity such as:
-										<ul>
-											<li>In situ/ex situ conservation</li>
-											<li>Protected areas</li>
-											<li>Maintaining genetic diversity</li>
-											<li>Addressing threats from invasive alien species (in situations where the primary purpose is to protected biodiversity)</li>
-											<li>Addressing threats to specific ecosystems and/or species</li>
-										</ul>
-								Also included within this category would be funding related to human resources, policy development and administration for these activities including the development of NBSAPs, frameworks, and CHM.<br />
-								Generally funding considered under this category would be provided by environmental agencies that directly and purposely consider biodiversity within their mandates.<br />
-								<br />
-							</span>
-							<div km-textbox-ml rows=6 name="activityClassificationDirectly" ng-model="document.activityClassificationDirectly" locales="document.header.languages" placeholder="<Additional activities>"></div>
+					<div class="col-lg-12">
+						<legend>6. National finance plans</legend>
+						Please provide a brief synthesis of your finance plan, by indicating, in the table below, your planned resource mobilization, by source, and their respective planned contributions towards your identified finance gap.</p>
+						<p>Please start with the year which is most appropriate for your own planning purposes.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="km-control-group" name="nationalPlansData.currency" caption="Currency" required={{isRequired('domesticSources')}}>
+							<div km-select name="nationalPlansData.currency"  ng-model="document.domesticExpendituresData.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="km-control-group" name="fundingNeedsMultiplier" caption="All values are :" required>
+							<select class="form-control btn-info" ng-model="document.fundingNeedsData.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="fundingNeedsData.multiplier"></select>
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-md-12">
-						<div class="km-control-group" name="activityClassificationInDirectly" caption="Activity classification: Activities indirectly related to biodiversity">
-							<span class="km-help-block">Actions which indirectly relate to biodiversity broadly correspond to the activity categories C and D used in UNEP/CBD/WG-RI/4/6/Add.1.
-										<br />
-								<br />
-								Funding for activities which have benefits for biodiversity but for which biodiversity conservation and sustainable use is not the main focus.<br />
-								<br />
-								<br />
-								Activities under this category would generally be led by agencies outside of the environmental sector or where responsibility lies with multiple sectors.<ul>
-									<li>Activities under this category would include:</li>
-									<li>Sectoral measures which benefit biodiversity conservation and sustainable use within productive sectors (agriculture, forestry, aquaculture, fisheries, etc)</li>
-									<li>Sectoral measures to conserve water and prevent pollution</li>
-									<li>Managing land use to mitigate climate change and increase resilience</li>
-									<li>Planning, fiscal and regularity measures to promote sustainable consumption and production</li>
-									<li>Broad scale public awareness and education measures</li>
-								</ul>
-								<br />
-								<br />
-							</span>
-							<div km-textbox-ml rows=6 name="activityClassificationInDirectly" ng-model="document.activityClassificationInDirectly" locales="document.header.languages" placeholder="<Additional activities>"></div>
+					<div class="col-lg-12">
+						<table class="table table-hover table-responsive">
+							<thead>
+								<tr>
+									<th class="col-sm-3 text-center"></th>
+									<th class="col-sm-1 text-center">2014</th>
+									<th class="col-sm-1 text-center">2015</th>
+									<th class="col-sm-1 text-center">2016</th>
+									<th class="col-sm-1 text-center">2017</th>
+									<th class="col-sm-1 text-center">2018</th>
+									<th class="col-sm-1 text-center">2019</th>
+									<th class="col-sm-1 text-center">2020</th>
+									<td class="col-xs-1 text-left"></th>
+								</tr>
+
+							</thead>
+							<tbody>
+								<tr class="active text-center">
+									<td class="text-left"><strong>Expected funding gap</strong> <a rm-popover data-content="The expected funding gap would be taken from column (3) under question 5." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></td>
+									<td><strong>{{getFundingGapYear(2014)}}<strong></td>
+									<td><strong>{{getFundingGapYear(2015)}}<strong></td></td>
+									<td><strong>{{getFundingGapYear(2016)}}<strong></td></td>
+									<td><strong>{{getFundingGapYear(2017)}}<strong></td></td>
+									<td><strong>{{getFundingGapYear(2018)}}<strong></td></td>
+									<td><strong>{{getFundingGapYear(2019)}}<strong></td></td>
+									<td><strong>{{getFundingGapYear(2020)}}<strong></td></td>
+									<td></td>
+								</tr>
+								<tr class="active text-center">
+									<td class="text-left"><strong>Domestic sources (total)<strong> <a rm-popover data-content="The planned contribution towards the identified funding gap by domestic sources. You may wish to further specify the planned sources that you wish to mobilize and their respective contribution. In this case, please replace the ‘placeholders’ and add more rows as needed. Possible domestic sources may include: (i) additional government allocations; (ii) earmarked funds from environmental fiscal reform, including new forms of environmental taxation or fee structures; (iii) earmarked funds from the elimination, phase out or reform of harmful incentives, including subsidies; (iv) various biodiversity funding mechanisms such as payments for ecosystem services, offsets, markets for green products, business-biodiversity partnerships, etc. (v); the mobilization of collective action by indigenous and local communities; etc." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2014)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2015)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2016)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2017)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2018)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2019)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2020)}}<strong></td>
+									<td></td>
+								</tr>
+								<tr ng-repeat="source in document.nationalPlansData.domesticSources track by $index">
+
+									<td>
+										<div km-textbox-ml rows=1  style="width: 100%" name="sourceName" placeholder="domestic source name" ng-model="source.name" locales="document.header.languages"></div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2014 && !isValidNumber(source.amount2014) }">
+											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2015 && !isValidNumber(source.amount2015) }">
+											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2016 && !isValidNumber(source.amount2016) }">
+											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2017 && !isValidNumber(source.amount2017) }">
+											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2018 && !isValidNumber(source.amount2018) }">
+											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2019 && !isValidNumber(source.amount2019) }">
+											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2020 && !isValidNumber(source.amount2020) }">
+											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<span class="btn btn-default" ng-click="document.nationalPlansData.domesticSources.splice($index, 1)" ng-show="!$last"><i class="glyphicon glyphicon-trash"></i></span>
+									</td>
+								</tr>
+								<tr class="active text-center">
+									<td class="text-left"><strong>international flows (total)<strong> <a rm-popover data-content="The planned contribution towards the identified finance gap by international sources. You may wish to further specify the sources and their respective expected contribution. In this case, please replace the ‘placeholders’ and add more rows as needed. Possible sources may include: (i) bi- and multilateral ODA/OOF; (ii) REDD+ or similar initiatives, including alternative policy approaches such as joint mitigation and adaptation approaches; (iii) ABS agreements, etc." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2014)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2015)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2016)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2017)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2018)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2019)}}<strong></td>
+									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2020)}}<strong></td>
+									<td></td>
+								</tr>
+
+								<tr ng-repeat="source in document.nationalPlansData.internationalSources track by $index">
+									<td>
+										<div km-textbox-ml rows=1  style="width: 100%" name="sourceName" placeholder="international source name" ng-model="source.name" locales="document.header.languages"></div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2014 && !isValidNumber(source.amount2014) }">
+											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2015 && !isValidNumber(source.amount2015) }">
+											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2016 && !isValidNumber(source.amount2016) }">
+											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2017 && !isValidNumber(source.amount2017) }">
+											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2018 && !isValidNumber(source.amount2018) }">
+											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2019 && !isValidNumber(source.amount2019) }">
+											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<div class="input-group" ng-class="{ 'has-error': source.amount2020 && !isValidNumber(source.amount2020) }">
+											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: right; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<span class="btn btn-default" ng-click="document.nationalPlansData.internationalSources.splice($index, 1)" ng-show="!$last"><i class="glyphicon glyphicon-trash"></i></span>
+									</td>
+								</tr>
+								<tr class="active text-center">
+									<td class="text-left"><strong>Remaining gap<strong> <a rm-popover data-content="The remaining gap is calculated by subtracting (3) and (2) from (1)." data-original-title="" data-placement="top"><sup><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></sup></a></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2014)}}<strong></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2015)}}<strong></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2016)}}<strong></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2017)}}<strong></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2018)}}<strong></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2019)}}<strong></td>
+									<td><strong>{{getNationalPlansRemainingGapByYear(2020)}}<strong></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="km-control-group" name="domesticPrivateSectorMeasures" caption="7. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
+							<div km-select ng-model="document.hasDomesticPrivateSectorMeasures" binding-type="string" placeholder="Nothing selected..." items="options.measures" name="domesticPrivateSectorMeasures"></div>
+						</div>
+						<div class="km-control-group" name="domesticPrivateSectorComments" caption="">
+							<div ng-show="showDomesticPrivateSectorComments(document.hasDomesticPrivateSectorMeasures)">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines, or to your report on progress in achieving Aichi Biodiversity Targets 1, 2, 3, 4, 16, 18, and 19, under question 10 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 name="domesticPrivateSectorComments" ng-model="document.hasDomesticPrivateSectorMeasuresComments" locales="document.header.languages" placeholder=""></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>8. Availability of financial resources for achieving targets</legend>
+						<div class="km-control-group" name="financialAvailabilityData" caption="Did your country have adequate financial resources?">
+							<div class="km-control-group" name="reportDomesticExpenditures"  caption="(1)	to report domestic biodiversity expenditures?">
+								<div km-yes-no name="reportDomesticExpenditures" ng-model="document.financialAvailabilityData.reportDomesticExpenditures" locales="document.header.languages"></div>
+							</div>
+							<div class="km-control-group" name="reportFundingNeeds"  caption="(2)	to report funding needs, gaps and priorities?">
+								<div km-yes-no name="reportFundingNeeds" ng-model="document.financialAvailabilityData.reportFundingNeeds" locales="document.header.languages"></div>
+							</div>
+							<div class="km-control-group" name="prepareFinancePlans"  caption="(3)	to prepare national finance plans for biodiversity?">
+								<div km-yes-no name="prepareFinancePlans" ng-model="document.financialAvailabilityData.prepareFinancePlans" locales="document.header.languages"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -809,16 +1126,15 @@
 
 				<div class="col-md-9 col-sm-8 col-xs-12">
 					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general'  }"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
-						<li ng-class="{ active  : tab=='general'  }"><a href="" ng-click="tab='general'">Introduction</a></li>
-						<li ng-class="{ active  : tab=='identification' }"><a href="" ng-click="tab='identification'">Identification</a></li>
-						<li ng-class="{ active  : tab=='section1' }"><a href="" ng-click="tab='section1'">Section 1</a></li>
-						<li ng-class="{ active  : tab=='section2' }"><a href="" ng-click="tab='section2'">Section 2</a></li>
-						<li ng-class="{ active  : tab=='section3' }"><a href="" ng-click="tab='section3'">Section 3</a></li>
-						<li ng-class="{ active  : tab=='section4' }"><a href="" ng-click="tab='section4'">Section 4</a></li>
-						<li ng-class="{ active  : tab=='section5' }"><a href="" ng-click="tab='section5'">Section 5</a></li>
-						<li ng-class="{ active  : tab=='review'   }"><a href="" ng-click="tab='review'">Review   </a></li>
-						<li ng-class="{ disabled: tab=='review'   }"><a href="" ng-click="tab=nextTab">&raquo;  </a></li>
+						<li ng-class="{ disabled: tab=='part1'}"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
+						<li ng-class="{ active  : tab=='part1'}"><a href="" ng-click="tab='part1'">Part 1</a></li>
+						<li ng-class="{ active  : tab=='part2'}"><a href="" ng-click="tab='part2'">Part 2</a></li>
+						<li ng-class="{ active  : tab=='part3'}"><a href="" ng-click="tab='part3'">Part 3</a></li>
+						<li ng-class="{ active  : tab=='part4'}"><a href="" ng-click="tab='part4'">Part 4</a></li>
+						<li ng-class="{ active  : tab=='part5'}"><a href="" ng-click="tab='part5'">Part 5</a></li>
+						<li ng-class="{ active  : tab=='part6'}"><a href="" ng-click="tab='part6'">Part 6</a></li>
+						<li ng-class="{ active  : tab=='review'}"><a href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'}"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
 					</ul>
 				</div>
 
@@ -834,7 +1150,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </div>

@@ -153,7 +153,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
                 { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' , count: 0 },
                 {},
-                { identifier: 'resourceMobilizationTool', title: 'Resource Mobilization Tools' , count: 0 }
+                { identifier: 'resourceMobilisation'    , title: 'Financial Reporting Framework'}
             ];
 
             $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords );

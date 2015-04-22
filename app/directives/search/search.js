@@ -53,7 +53,8 @@ define(['text!./search.html',
 	                'nationalIndicator'     : 'icon-signal',
 	                'progressAssessment'    : 'icon-eye-open',
 	                'implementationActivity': 'icon-retweet',
-	                'nationalSupportTool'   : 'icon-wrench'
+	                'nationalSupportTool'   : 'icon-wrench',
+					'resourceMobilisation'  : 'fa fa-university'
 	            };
 
 	            $scope.icon = function (schema) {

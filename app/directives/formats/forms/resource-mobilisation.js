@@ -350,7 +350,7 @@ app.directive('editResourceMobilisation', ["$http", "$filter", "guid", "$q", "$l
 											return currentValue;
 
 										if(key == 'fundingGapAmount')
-											return -currentValue;
+											return item.fundingNeedAmount-currentValue;
 
 										return val;
 									}); // jshint ignore:line

@@ -125,19 +125,21 @@ app.directive('viewResourceMobilisation', [function () {
 			$scope.getNationalPlansSourcesTotal = function(member, year){
 				if(!year || !member) return 0;
 
-				if($scope.document && $scope.document.nationalPlansData && $scope.document.nationalPlansData[member]){ // member = domesticSources or internationalSources
+				if($scope.document && $scope.document.nationalPlansData && $scope.document.nationalPlansData[member]){
 
 					var prop = "amount"+year;
-					var sources = angular.fromJson($scope.document.nationalPlansData[member]); //jshint ignore:line
+					var items;
 
-					if(_.initial(sources).length === 0)
-						return 0;
+					var sources = angular.fromJson($scope.document.nationalPlansData[member]);//jshint ignore:line
 
-					var amounts = _.pluck(sources, prop);
+					if(_.isEmpty(_.last(sources)))
+						items = _.initial(sources);
+
+					items = _.pluck(sources, prop);
 
 					var sum = 0;
-					_.map(_.compact(amounts), function(num){
-						sum = sum + parseInt(num);
+					_.map(_.compact(items), function(num){
+						sum = sum + parseInt(num)||0;
 					});
 
 					return sum;

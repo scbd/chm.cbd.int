@@ -1,5 +1,50 @@
 
+/*.nav > li > a {
+    font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
 
+.sec2 .body-content h2 {
+    font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
+
+h3 {
+    font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
+
+a.getstarted {
+    font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}*/
+
+.home-page .nav a {
+    color: #666666;
+}
+
+.dropdown li {
+    border-right: none;
+}
+
+.home-page {
+/*    background-color: #F6F6F6; */
+}
+
+/*.home-page .header-banner {
+    background-color: rgba(0,0,0,0.50);
+    border-bottom: 1px solid black;
+}*/
+#cbdMenu li a {
+    color: #009b48;
+    float: left;
+    font-size: 15px;
+/*       padding-left: 12px;*/
+}
+
+#cbdMenu li {
+    display: block;
+}
 
 /*blaise fonseca */
 .t-navWide ul, .t-navWide ol, .t-navWide li {

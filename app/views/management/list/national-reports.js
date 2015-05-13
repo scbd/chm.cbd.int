@@ -1,4 +1,4 @@
-define(['app', 'authentication'], function() { 'use strict';
+define(['app', 'authentication', 'directives/management/generic-record-list'], function() { 'use strict';
 
     return ['$scope', '$route', '$http', function($scope, $route, $http) {
 

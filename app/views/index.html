@@ -45,6 +45,16 @@
                 <h2 class="color-blue"> Sign in</h2>
                 <form ng-submit="signIn()">
 
+                    <div class="alert alert-danger" ng-show="isUnavailable">
+                        <strong>Operation failed.</strong>
+                        The service is not available. Please try again later.
+                    </div>
+
+                    <div class="alert alert-danger" ng-show="isForbidden">
+                        <strong>Login failed.</strong>
+                        The email address and password combination you entered is incorrect.
+                    </div>
+
                     <div class="input-group" style="margin-bottom:8px">
                         <span class="input-group-addon"><i class="fa fa-envelope" style="margin-right:-3px"></i></span>
                         <input type="text" class="form-control" id="inputEmail" required ng-model="email" placeholder="registered email address">

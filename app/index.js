@@ -13,7 +13,7 @@ require(['jquery'], function($) {
 define(['app', 'authentication', 'ng-breadcrumbs'], function(app) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$window', '$location', 'authentication', 'breadcrumbs', function($scope, $window, $location, authentication, breadcrumbs) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', function($scope, $rootScope, $window, $location, authentication, breadcrumbs) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";

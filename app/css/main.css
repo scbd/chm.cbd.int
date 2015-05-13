@@ -10,3 +10,30 @@
 @import url("../libs/leaflet/dist/leaflet.css");
 @import url("../libs/bootstrap-datepicker/css/datepicker3.css");
 [ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
+
+a:hover {text-decoration:none;}
+
+
+#submit .label{font-size: 96%;}
+#submit .box{
+    padding:10px;
+    margin-top:20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius:5px;
+    border-radius: 5px;
+}
+
+#submit .disabled  *{
+    color:#bbb!important;
+}
+.v-center {
+display: table-cell!important;
+vertical-align:middle;
+float:none;
+}
+
+.filterx li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+}

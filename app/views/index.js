@@ -19,7 +19,7 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
 
             authentication.signIn(sEmail, sPassword).then(function () { // Success
                 $scope.password = "";
-                authentication.getUser().then(function () { $location.path("/management"); });
+                authentication.getUser().then(function () { $location.path("/submit"); });
             },
             function (error) { // Error
                 $scope.password = "";

@@ -1,2 +1,2 @@
-define(['directives/formats/forms/strategic-plan-indicator', 'directives/management/register-facets'], function() { 'use strict';
+define(['directives/formats/forms/strategic-plan-indicator'], function() { 'use strict';
 });

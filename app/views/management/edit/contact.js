@@ -1,2 +1,2 @@
-define(['directives/formats/forms/contact', 'directives/management/register-facets'], function() { 'use strict';
+define(['directives/formats/forms/contact'], function() { 'use strict';
 });

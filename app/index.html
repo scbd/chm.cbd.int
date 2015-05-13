@@ -129,7 +129,7 @@
                     <a href="/" class="color-cbdgreen">
                         <h1 style="font-size:48px;padding:0;margin:0;position:relative;top:44px;">
                             <span class="color-blue">CHM</span>
-                            <span class="color-grey" style="text-transform:uppercase;font-size:20px;">
+                            <span class="color-grey hidden-xs hidden-sm" style="text-transform:uppercase;font-size:20px;">
                                 THE Clearing-House Mechanism of the Convention on Biological Diversity</span>
                         </h1>
                     </a>
@@ -151,7 +151,7 @@
                 <div style="display:inline">
                     <a href="/"><i class="fa fa-home" ></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="/database" ng-class="{'link-active' : getClass('/find')}"><i class="fa fa-search"></i> Search</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="/management/register" ng-class="{'link-active' : getClass('/register')}"><i class="fa fa-pencil-square-o"></i> Submit</a>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/submit" ng-class="{'link-active' : getClass('/register')}"><i class="fa fa-pencil-square-o"></i> Submit</a>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
 
                 <div class="navbar-right" style="display:inline;">
@@ -175,12 +175,19 @@
             <a href="http://www.cbd.int" class="margin-right-xs">CBD</a>
             <span ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }">
 
-                &nbsp;&nbsp;<i class="fa fa-chevron-right color-litegrey"></i>&nbsp;&nbsp;
 
-                <a ng-if="!$last" ng-href="{{ breadcrumb.path }}" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
-                <span ng-if="$last" ng-bind="breadcrumb.label"></span>
+                <span ng-show="!breadcrumb.param">
+                    &nbsp;&nbsp;<i class="fa fa-chevron-right color-litegrey"></i>&nbsp;&nbsp;
+                    <a ng-if="!$last" ng-href="{{ breadcrumb.path }}" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
+                    <span ng-if="$last" ng-bind="breadcrumb.label"></span>
+                </span>
+
+                <span ng-show="breadcrumb.param && breadcrumbParam">
+                    &nbsp;&nbsp;<i class="fa fa-chevron-right color-litegrey"></i>&nbsp;&nbsp;
+                    {{breadcrumbParam}}
+                </span>
+
             </span>
-
         </div>
     </nav>
 

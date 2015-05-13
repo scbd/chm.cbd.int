@@ -3,7 +3,7 @@
     <div class="container">
 
         <div class="row">
-                <h1>Online Reporting: Implementation Activities</h1>
+                <h1>Online Reporting: {{reportType}}</h1>
         </div>
 
         <div class="row" >
@@ -11,13 +11,17 @@
             <div style="display:inline;">
                 <div class="dropdown"  style="display:inline;">
                   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                      <strong>Implementation Activities</strong>
+                      <span ng-switch="reportType">
+                          <strong ng-switch-when="nbsap">National Biodiversity Strategies and Action Plans (NBSAPS)</strong>
+                          <strong ng-switch-when="nr"   >National Reports</strong>
+                          <strong ng-switch-when="other">Other Reports</strong>
+                      </span>
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> National Biodiversity Strategies and Action Plans (NBSAPS)</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> National Reports </a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Other Reports</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/submit/online_reporting/records/nbsaps"> National Biodiversity Strategies and Action Plans (NBSAPS)</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/submit/online_reporting/records/national_reports"> National Reports </a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/submit/online_reporting/records/other_reports"> Other Reports</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> National Targets</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> National Indicators</a></li>
                     <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Assessments</a></li>
@@ -44,7 +48,7 @@
             </div>
 
             <div style="display:inline;" class="pull-right">
-                <a class="btn btn-primary" href="/submit/online_reporting/new/implementation_activity"> Add New </a>
+                <a class="btn btn-primary" href="/submit/online_reporting/new/national_report"> Add New </a>
             </div>
 
         </div>

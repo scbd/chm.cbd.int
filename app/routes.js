@@ -12,6 +12,10 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).
             when('/database/record',                          { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
 
+
+            when('/search',    { templateUrl: 'views/search/search.html',  label :'Search',   resolveController: true}).
+
+
             when('/submit',                                                     { templateUrl: 'views/management/submit.html',                              label : 'Submit Information Dashboard',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online_reporting',                                    { templateUrl: 'views/management/select/online-reporting.html',             label : 'Online Reporting',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online_reporting/records',                            { templateUrl: 'views/management/list/online-reporting.html',               label : 'Records',                         resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

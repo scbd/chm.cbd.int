@@ -44,6 +44,8 @@ app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https:/
 
 app.get('/*', function (req, res) { res.sendfile(__dirname + '/app/index.html'); });
 
+
+
 // Start server
 
 app.listen(app.get('port'), function () {

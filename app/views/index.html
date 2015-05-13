@@ -4,8 +4,11 @@
 
         <div class="col-xs-12" ng-class="{'col-md-7':!user.isAuthenticated}">
                 <h2 style="font-size:260%;">
-                    Share knowledge to promote and facilitate technical and scientific cooperation
+                    <span class="color-blue">Our Objective:</span> Share knowledge to promote and facilitate technical and scientific cooperation
                 </h2>
+
+                <hr>
+                <h3 class="color-blue">Find Information</h3>
                 <form ng-submit="doSearch()" style="display:inline;" >
                         <div class="input-group" >
                             <input type="text" class="form-control" ng-model="searchQuery" placeholder="Search the CHM">
@@ -14,6 +17,25 @@
                             </div>
                         </div>
                 </form>
+
+                <hr>
+                <div ng-show="user.isAuthenticated">
+                    <h3 class="color-blue">Submit information</h3>
+
+                    <div class="row">
+                        <div class="col-md-3"><a href="" class="btn btn-sm btn-default" style="width:220px;">Online Reporting</a></div>
+                        <div class="col-md-3"><a href="" class="btn btn-sm btn-default" style="width:220px;">Financial Reporting</a></div>
+                        <div class="col-md-3"><a href="" class="btn btn-sm btn-default" style="width:220px;">ABS Information</a></div>
+                        <div class="col-md-3"><a href="" class="btn btn-sm btn-default" style="width:220px;">BCH Information</a></div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-3" style="margin-top:10px;"><a href="" class="btn btn-sm btn-default" style="width:220px;">Virtual Library Resources</a></div>
+                        <div class="col-md-3" style="margin-top:10px;"><a href="" class="btn btn-sm btn-default" style="width:220px;">Case Studies</a></div>
+                        <div class="col-md-3" style="margin-top:10px;"><a href="" class="btn btn-sm btn-default" style="width:220px;">Biodiversity Related Organizations</a></div>
+                        <div class="col-md-3" style="margin-top:10px;"><a href="" class="btn btn-sm btn-default" style="width:220px;">EBSAs</a></div>
+                    </div>
+
+                </div>
+
         </div>
 
         <div ng-hide="user.isAuthenticated">

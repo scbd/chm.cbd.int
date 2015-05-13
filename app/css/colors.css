@@ -93,6 +93,10 @@
     color:white!important;
 }
 
+.bg-liteblue{
+    background-color:#E1F1F9!important;
+}
+
 .bg-green{
     background-color:#1FA65D!important;
 }
@@ -115,16 +119,6 @@
 .bg-medgrey{
     background-color:#999!important;
 
-}
-
-.bg-texture-green{
-    background:#1FA65D url('../img/feature-bkg.png')!important;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
-}
-
-.bg-texture-litegrey{
-    background:#EEE url('../img/feature-bkg.png')!important;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);
 }
 
 .bg-published{

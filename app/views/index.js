@@ -18,17 +18,16 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
             var sPassword = $scope.password;
 
             authentication.signIn(sEmail, sPassword).then(function () { // Success
-                $scope.password = "";
+
+				$scope.isForbidden = false;
+				$scope.password = "";
                 authentication.getUser().then(function () { $location.path("/submit"); });
-            },
-            function (error) { // Error
-                $scope.password = "";
-                $scope.isLoading = false;
-                $scope.isForbidden = error.errorCode == 403;
-                $scope.isNoService = error.errorCode == 404;
-                $scope.isError = error.errorCode != 403 && error.errorCode != 404;
-                $scope.error = error.error;
-                throw error;
+
+			}).catch(function (error) { // Error
+
+				$scope.isUnavailable = error.errorCode != 403;
+				$scope.isForbidden = error.errorCode == 403;
+				$scope.password = "";
             });
         };
     }];

@@ -2,8 +2,6 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
 
     return ['$scope', '$route', '$http', '$location', 'user', function($scope, $route, $http, $location, user) {
 
-console.log("user", user);
-
         var pageSize = 15;
 
         var reportTypes = {

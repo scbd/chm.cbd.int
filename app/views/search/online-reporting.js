@@ -10,23 +10,26 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], fun
             };
         }
 
+        $scope.nationalRecords = [
+            { identifier: 'nationalReport'          , title: 'National Reports and NBSAPs'},
+            { identifier: 'nationalTarget'          , title: 'National Targets'           },
+            { identifier: 'nationalIndicator'       , title: 'National Indicators'        },
+            { identifier: 'progressAssessment'      , title: 'Progress Assessments'       },
+            { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
+            { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' },
+        ];
 
-        var self = this;
 
-        $scope.actionSetPage = function (pageNumber) {
-            $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
-        };
-
-        $scope.loaded          = false;
-        $scope.querySchema     = "( schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:progressAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
+        $scope.querySchema     = "(schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:progressAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
         $scope.queryGovernment = '*:*';
+        $scope.queryKeywords = '*:*';
 
 
         //================================================
         $scope.query = function () {
 
             // NOT version_s:* remove non-public records from resultset
-            var q = 'NOT version_s:* AND realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment ;
+            var q = 'NOT version_s:* AND realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryKeywords ;
 
             var queryParameters = {
                 'q': q,
@@ -34,11 +37,12 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], fun
                 'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
                 'wt': 'json',
                 'start': 0,
-                'rows': 100000,
+                'rows': 1000,
                 'cb': new Date().getTime(),
                 'group':true,
                 'group.field':'government_s',
-                'group.limit':1000
+                'group.limit':1000,
+                'group.sort': 'government_EN_t asc'
             };
 
             $http.get('/api/v2013/index/select', { params: queryParameters}).success(function (data) {
@@ -61,7 +65,17 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], fun
             search();
         });
 
-//http://localhost:2000/api/v2013/index/select?cb=1431627063564&fl=id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t&q=NOT+version_s:*+AND+realm_ss:chm+AND+schema_s:*+AND+(+schema_s:nationalReport+OR+schema_s:nationalTarget+OR+schema_s:nationalIndicator+OR+schema_s:progressAssessment+OR+schema_s:implementationActivity+OR+schema_s:nationalSupportTool+)++AND+*:*&rows=100000&sort=createdDate_dt+desc,+title_t+asc&start=0&wt=json&group=true&group.field=government_EN_t
+        //================================================
+        $scope.$watch('schema', function() {
+            $scope.querySchema = buildQuery($scope.schema, 'schema_s')
+            search();
+        });
+
+        // $scope.$watch('keyword', function () {
+        //     $scope.queryKeywords = $scope.keyword == '' ? '*:*' : '(title_t:"' + $scope.keyword + '*" OR government_EN_t:"' + $scope.keyword +  '*" OR description_t:"' + $scope.keyword + '*" OR text_EN_txt:"' + $scope.keyword + '*")';
+        //     search();
+        // });
+
 
         //================================================
         function buildQuery (fitler, field) {

@@ -67,7 +67,7 @@ app.filter("truncate", function() {
 			suffix = "";
 
 		if(!text)
-			return "".su;
+			return "";
 
 		if (text.length > maxSize)
 			text = text.substr(0, maxSize) + suffix;

@@ -3,25 +3,69 @@
     <div class="container" style="margin-top:20px;">
         <div class="row">
             <div class="col-sm-12 well">
-                <h1><i class="fa fa-search"></i> Online Reporting Search</h1>
-
-
-                
-
-
+                <h3 style="padding:0;margin:0;"><i class="fa fa-search"></i> Online Reporting Search</h3>
+                <div class="row " style="margin-top:20px;">
+                    <div class="col-md-4">
+                        <div km-select required name="government" multiple ng-model="government" placeholder="Select a country" watch-items items="options.countries"></div>
+                    </div>
+                    <div class="col-md-4">
+                        schema
+                    </div>
+                    <div class="col-md-4">Keyword</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <h3 class="container-fluid color-medgrey" style="border-top:1px solid #DDD;padding-top:0;margin-top:3px;"><i class="fa fa-chevron-circle-down"></i> COUNTRY NAME  </h3>
-    <div class="container">
-        <div class="row">
 
+    <div ng-repeat="group in documents">
+        <h3 class="container-fluid color-medgrey" style="border-top:1px solid #DDD;padding-top:0;margin-top:3px;"><i class="fa fa-chevron-circle-down"></i> {{group.doclist.docs[0].government_EN_t}} </h3>
+        <div class="container">
+            <div class="row" >
 
+                <!-- {{group.doclist.docs}} -->
 
+                <!-- <div ng-repeat="doc in group.doclist.docs">
+                    {{doc.schema_s}} <br>
+                </div>
 
+                <br><br> -->
+
+                <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'nationalReport'} | orderBy:'startDate_s':'asc'">
+                    <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:30px;" >National Reports</h4>
+                    <i class="fa fa-file-o"></i> {{doc.schema_EN_t}} - <a href="{{doc.url_ss}}" target="_new">{{doc.title_t}}</a>
+                </div>
+
+                <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'nationalTarget'} | orderBy:'startDate_s':'asc'">
+                    <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:30px;" >National Target</h4>
+                    <i class="fa fa-file-o"></i> {{doc.schema_EN_t}} - <a href="{{doc.url_ss}}" target="_new">{{doc.title_t}}</a>
+                </div>
+
+                <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'nationalIndicator'} | orderBy:'startDate_s':'asc'">
+                    <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:30px;" >National Indicator</h4>
+                    <i class="fa fa-file-o"></i> {{doc.schema_EN_t}} - <a href="{{doc.url_ss}}" target="_new">{{doc.title_t}}</a>
+                </div>
+
+                <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'progressAssessment'} | orderBy:'startDate_s':'asc'">
+                    <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:30px;" >Progess Assessment</h4>
+                    <i class="fa fa-file-o"></i> {{doc.schema_EN_t}} - <a href="{{doc.url_ss}}" target="_new">{{doc.title_t}}</a>
+                </div>
+
+                <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'nationalSupportTool'} | orderBy:'startDate_s':'asc'">
+                    <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:30px;" >Guidance and Support Tools</h4>
+                    <i class="fa fa-file-o"></i> {{doc.schema_EN_t}} - <a href="{{doc.url_ss}}" target="_new">{{doc.title_t}}</a>
+                </div>
+
+                <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'implementationActivity'} | orderBy:'startDate_s':'asc'">
+                    <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:30px;" >Implementation Activity</h4>
+                    <i class="fa fa-file-o"></i> {{doc.schema_EN_t}} - <a href="{{doc.url_ss}}" target="_new">{{doc.title_t}}</a>
+                </div>
+
+                <br><br>
+            </div>
         </div>
     </div>
+
 
 
 </div>

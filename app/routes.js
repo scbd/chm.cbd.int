@@ -58,6 +58,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/strategic_plan_indicators',     { templateUrl: 'views/management/list/generic.html',      schema : "strategicPlanIndicator",   label : 'Strategic PLan Indicators',  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/strategic_plan_indicators/new', { templateUrl: 'views/management/edit/strategic-plan-indicator.html',                          label : 'New',                        resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
+            when('/submit/:schema',                         { templateUrl: 'views/management/record-list.html', resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+
             // when('/management',                               { templateUrl: 'views/management/index.html',                  label : 'Management Centre', resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/national-reporting/:schema?',   { templateUrl: 'views/management/national-reporting.html',     label : 'National Reporting',resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/list/:schema?',                 { templateUrl: 'views/management/record-list.html',            label : 'My Records',        resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

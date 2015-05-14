@@ -22,10 +22,6 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/online-reporting',                            { templateUrl: 'views/management/select/online-reporting.html',         label: 'Online Reporting',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/:schema',                    { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             
-            when('/submit/online-reporting/nationalReport/nbsap',       { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/online-reporting/nationalReport/nr',          { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/online-reporting/nationalReport/other',       { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-
     //      when('/submit/online-reporting/:schema/:id',                <= final implementation goal
             when('/submit/online-reporting/nationalReport/:id',         { templateUrl: 'views/management/edit/national-report.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/nationalTarget/:id',         { templateUrl: 'views/management/edit/national-target.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

@@ -1,6 +1,6 @@
 define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/moment"], function(_) { 'use strict';
 
-    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', function($scope, $route, $http, $location, $q, solr, user) {
+    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', function($scope, $route, $http, $location, $q, solr, user, navigation) {
 
         var pageSize = 15;
 
@@ -254,15 +254,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
         //======================================================
         function edit(schema, id)
         {
-            var url = '/submit/';
-
-            if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'progressAssessment', 'nationalSupportTool', 'implementationActivity']).contains(schema)) {
-                url = '/submit/online-reporting/';
-            }
-
-            url += schema + '/' + (id || 'new');
-
-            $location.url(url);
+            $location.url(navigation.editUrl(schema, id));
         }
     }];
 });

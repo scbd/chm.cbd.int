@@ -1,6 +1,6 @@
 define(['require', 'app', 'text!./form-loader.html', 'authentication', 'utilities/km-storage', 'utilities/km-utilities'], function(require, app, template){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", "$compile", "$route", function ($rootScope,    storage,   authentication,   localization,   $q,   $location,   $compile, $route) {
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", "$compile", "$route", "navigation", function ($rootScope,    storage,   authentication,   localization,   $q,   $location,   $compile, $route, navigation) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -109,8 +109,8 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				var identifier = $scope.internalDocumentInfo.identifier;
 
 				$location.search({ returnUrl : $location.url() });
-				
-				$location.path('/submit/' + schema + '/' + identifier);
+
+				$location.path(navigation.editUrl(schema, identifier));
 			};
 
 			//==================================

@@ -108,8 +108,9 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				var schema     = $scope.internalDocumentInfo.type;
 				var identifier = $scope.internalDocumentInfo.identifier;
 
-				$location.search({ uid: identifier, returnUrl : $location.url() });
-				$location.path("/management/edit/" + schema);
+				$location.search({ returnUrl : $location.url() });
+				
+				$location.path('/submit/' + schema + '/' + identifier);
 			};
 
 			//==================================

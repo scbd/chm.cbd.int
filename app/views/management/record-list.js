@@ -1,28 +1,19 @@
 define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/moment"], function(_) { 'use strict';
 
-    return ['$scope', '$route', '$http', '$location', 'user', function($scope, $route, $http, $location, user) {
+    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', function($scope, $route, $http, $location, $q, solr, user) {
 
         var pageSize = 15;
 
-        var reportTypes = {
-            nbsap : [ 'B0EBAE91-9581-4BB2-9C02-52FCF9D82721' ], //NBSAP
-            nr    : [ 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',   //1st NR
-                      'A49393CA-2950-4EFD-8BCC-33266D69232F',   //2nd NR
-                      'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',   //3rd NR
-                      '272B0A17-5569-429D-ADF5-2A55C588F7A7',   //4th NR
-                      'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
-            ]
-        };
-
         $scope.schema      = _.camelCase($route.current.params.schema);
-        $scope.subType     = $location.search().type;
+        $scope.subSchema   = $route.current.params.type;
         $scope.facets      = {};
         $scope.records     = null;
         $scope.status      = "";
         $scope.currentPage = 0;
         $scope.pages       = [];
         $scope.onPage      = loadPage;
-        $scope.onText      = _.debounce(loadPage, 250);
+        $scope.onEdit      = edit;
+        $scope.onText      = _.debounce(loadPage, 500);
 
         refreshPager();
         loadPage();
@@ -43,19 +34,20 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
 
             delete $scope.error;
 
+            $scope.loading = true;
+
             // Execute query
 
             var qsParams =
             {
                 "q"  : buildQuery(),
-                "fl" : "identifier_s, schema_s, schema_EN_t, title_EN_t, summary_EN_t, description_EN_t, createdDate_dt, updatedDate_dt, reportType_EN_t, version_s",
+                "fl" : "identifier_s, schema_s, schema_EN_t, title_EN_t, summary_EN_t, description_EN_t, createdDate_dt, updatedDate_dt, reportType_EN_t, version_s, url_ss",
+                "sort"  : "updatedDate_dt desc",
                 "start" : pageIndex*pageSize,
                 "row"   : pageSize,
-                "facet" : true,
-                "facet.field" : "version_s",
             };
 
-            $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
+            var q1 = $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
 
                 $scope.recordCount = res.data.response.numFound;
                 $scope.records     = _.map(res.data.response.docs, function(v){
@@ -92,15 +84,12 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                             zh : v.reportType_ZH_t || v.reportType_EN_t,
                             ar : v.reportType_AR_t || v.reportType_EN_t,
                         },
-                        createdOn : new Date(v.createdDate_dt),
-                        updatedOn : new Date(v.updatedDate_dt),
                         isPublic : !v.version_s,
                         isDraft  :  v.version_s == "draft",
                         isLocked :  v.version_s == "draft-lock",
+                        url      : toLocalUrl(v.url_ss)
                     });
                 });
-
-                $scope.facets = _(res.data.facet_counts.facet_fields.version_s).chunk(2).zipObject().value();
 
                 refreshPager(pageIndex);
 
@@ -113,35 +102,108 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                 console.error($scope.error);
             });
 
+            // Execute facets query
+
+            var qsFacetParams =
+            {
+                "q"  : buildQuery({ status : "" }),
+                "row"   : 0,
+                "facet" : true,
+                "facet.field" : "version_s",
+            };
+
+            var q2 = $http.get("/api/v2013/index", { params : qsFacetParams }).then(function(res) {
+
+                var versions = _(res.data.facet_counts.facet_fields.version_s).chunk(2).zipObject().value();
+
+                versions = _.defaults(versions, {
+                    draft   : 0,
+                    request : 0,
+                });
+
+                $scope.facets = _.defaults(versions, {
+                    public  : res.data.response.numFound - versions.draft - versions.request,
+                });
+
+            }).catch(function(res){
+
+                $scope.records     = [];
+                $scope.recordCount = -1;
+                $scope.error       = res.data || res;
+
+                console.error($scope.error);
+            });
+
+            return $q.all([q1, q2]).finally(function(){
+                delete $scope.loading;
+            });
         }
 
         //======================================================
         //
         //
         //======================================================
-        function buildQuery() {
+        function toLocalUrl(urls) {
 
-            var query = "schema_s:" + solrEscape($scope.schema) + " AND realm_ss:chm";
+            var url = _.first(urls);
 
-            // Add subtype
+            if(_(url).startsWith("http://chm.cbd.int/" )) url = url.substr("http://chm.cbd.int" .length);
+            if(_(url).startsWith("https://chm.cbd.int/")) url = url.substr("https://chm.cbd.int".length);
 
-            if($scope.subType=="nr")    query += " AND     reportType_s:("+ _(reportTypes.nr   ).map(solrEscape).values().join(', ') +")";
-            if($scope.subType=="nbsap") query += " AND     reportType_s:("+ _(reportTypes.nbsap).map(solrEscape).values().join(', ') +")";
-            if($scope.subType=="other") query += " AND NOT reportType_s:("+ _(reportTypes.nbsap).union(reportTypes.nr).map(solrEscape).values().join(', ') +")";
+            if(_(url).startsWith('/') && _(url).endsWith('=null'))
+                return null;
+
+            return url;
+        }
+
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function buildQuery(options) {
+
+            options = _.defaults(options || {}, {
+                schema    : $scope.schema,
+                subSchema : $scope.subSchema,
+                status    : $scope.status,
+                freetext  : $scope.freetext
+            });
+
+            var query = "schema_s:" + solr.escape(options.schema) + " AND (realm_ss:chm OR (*:* NOT realm_ss:*))";
+
+            // Add subSchema
+
+            if(options.subSchema) {
+
+                var nbsap = [ 'B0EBAE91-9581-4BB2-9C02-52FCF9D82721' ]; //NBSAP
+                var nr    = [ 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',   //1st NR
+                              'A49393CA-2950-4EFD-8BCC-33266D69232F',   //2nd NR
+                              'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',   //3rd NR
+                              '272B0A17-5569-429D-ADF5-2A55C588F7A7',   //4th NR
+                              'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
+                ];
+
+                if(options.subSchema=="nr")    query += " AND     reportType_s:("+ _(nr   ).map(solr.escape).values().join(', ') +")";
+                if(options.subSchema=="nbsap") query += " AND     reportType_s:("+ _(nbsap).map(solr.escape).values().join(', ') +")";
+                if(options.subSchema=="other") query += " AND NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join(', ') +")";
+            }
 
             // filter
 
-            if($scope.status=="public")     query += " AND  (*:* NOT version_s:*)";
-            if($scope.status=="draft")      query += " AND  version_s:" + solrEscape("draft");
-            if($scope.status=="draft-lock") query += " AND  version_s:" + solrEscape("draft-lock");
+            if(options.status) {
+                if(options.status=="public")     query += " AND  (*:* NOT version_s:*)";
+                if(options.status=="draft")      query += " AND  version_s:" + solr.escape("draft");
+                if(options.status=="draft-lock") query += " AND  version_s:" + solr.escape("draft-lock");
+            }
 
             // freetext
 
-            if($scope.freetext)
+            if(options.freetext)
             {
-                var escapedWords = _.map($scope.freetext.split(' '), function(w){
-                    return solrEscape(w)+"*";
-                });
+                var escapedWords = _(_.words(options.freetext)).map(function(w){
+                    return solr.escape(w)+"*";
+                }).value();
 
                 var criterias = [
                     'title_t:('       +escapedWords.join(' AND ')+ ')',
@@ -159,7 +221,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
             var securityGroups = [ "(*:* NOT securityGroup_ss:*)"];
 
             _.each(user.userGroups, function(v) {
-                securityGroups.push("securityGroup_ss:" + solrEscape(v));
+                securityGroups.push("securityGroup_ss:" + solr.escape(v));
             });
 
             query += " AND ("+ securityGroups.join(" OR ") +")";
@@ -185,43 +247,22 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
             }
         }
 
+
         //======================================================
         //
         //
         //======================================================
-        function solrEscape(value) {
+        function edit(schema, id)
+        {
+            var url = '/submit/';
 
-            if(value===undefined) throw "Value is undefined";
-            if(value===null)      throw "Value is null";
-            if(value==="")        throw "Value is null";
+            if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'progressAssessment', 'nationalSupportTool', 'implementationActivity']).contains(schema)) {
+                url = '/submit/online-reporting/';
+            }
 
-            if(_.isNumber(value)) value = value.toString();
-            if(_.isDate  (value)) value = value.toISOString();
+            url += schema + '/' + (id || 'new');
 
-            //TODO add more types
-
-            value = value.toString();
-
-            value = value.replace(/\\/g,   '\\\\');
-            value = value.replace(/\+/g,   '\\+');
-            value = value.replace(/\-/g,   '\\-');
-            value = value.replace(/\&\&/g, '\\&&');
-            value = value.replace(/\|\|/g, '\\||');
-            value = value.replace(/\!/g,   '\\!');
-            value = value.replace(/\(/g,   '\\(');
-            value = value.replace(/\)/g,   '\\)');
-            value = value.replace(/\{/g,   '\\{');
-            value = value.replace(/\}/g,   '\\}');
-            value = value.replace(/\[/g,   '\\[');
-            value = value.replace(/\]/g,   '\\]');
-            value = value.replace(/\^/g,   '\\^');
-            value = value.replace(/\"/g,   '\\"');
-            value = value.replace(/\~/g,   '\\~');
-            value = value.replace(/\*/g,   '\\*');
-            value = value.replace(/\?/g,   '\\?');
-            value = value.replace(/\:/g,   '\\:');
-
-            return value;
+            $location.url(url);
         }
     }];
 });

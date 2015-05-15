@@ -1,6 +1,6 @@
 define(['text!./national-report.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) {
+app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template : template,
@@ -29,7 +29,7 @@ app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'ISt
 
 				$scope.status = "loading";
 
-				var qs = $scope.qs;
+				var qs = $route.current.params;
 				var schema  = "nationalReport";
 				var reportType  = qs.reportType;
 				var promise = null;

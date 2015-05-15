@@ -1,6 +1,6 @@
 define(['text!./organization.html', 'app', 'angular', 'authentication', '../views/organization', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular) { 'use strict';
 
-app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", function ($http, guid, $filter, Thesaurus, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls) {
+app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "$route", function ($http, guid, $filter, Thesaurus, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -79,7 +79,7 @@ app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q"
 
 				$scope.status = "loading";
 
-				var identifier = $location.search().uid;
+				var identifier = $route.current.params.uid;
 				var promise = null;
 
 				if(identifier)

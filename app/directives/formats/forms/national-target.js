@@ -1,6 +1,6 @@
 define(['text!./national-target.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-target', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", function ($filter, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation) {
+app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", function ($filter, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route) {
     return {
         restrict: 'E',
         template : template,
@@ -34,7 +34,7 @@ app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "auth
 
 				$scope.status = "loading";
 
-				var identifier = $location.search().uid;
+				var identifier = $route.current.params.uid;
 				var promise = null;
 
 				if(identifier)

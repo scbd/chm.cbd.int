@@ -2,8 +2,10 @@
 
     <div class="container">
 
-        <div class="row">
-                <h1>{{schema | schemaName}}</h1>
+        <div class="row" ng-switch="subSchema">
+            <h1 ng-switch-when="nbsap">NBSAP(s) <i ng-show="loading" class="fa fa-spinner fa-spin"></i></h1>
+            <h1 ng-switch-when="other">Other Reports<i ng-show="loading" class="fa fa-spinner fa-spin"></i></h1>
+            <h1 ng-switch-default>{{schema | schemaName}} <i ng-show="loading" class="fa fa-spinner fa-spin"></i></h1>
         </div>
 
         <div class="row" >
@@ -13,19 +15,19 @@
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"> PUBLISHED {{facets.public}} </a>
+                <a ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED {{facets.public}} </a>
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"> DRAFTS {{facets.draft}}</a>
+                <a ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS {{facets.draft}}</a>
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='draft-lock'; onPage(0)" class="btn btn-default bg-request"> REQUESTS {{facets.request}}</a>
+                <a ng-click="status='draft-lock'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS {{facets.request}}</a>
             </div>
 
             <div style="display:inline;" class="pull-right">
-                <a class="btn btn-primary" href="/submit/{{schema}}/new"> Add New </a>
+                <a class="btn btn-primary" ng-click="onEdit(schema)"> Add New </a>
             </div>
 
         </div>
@@ -72,11 +74,13 @@
                             <div>{{record.reportTypeName | lstring}}</div>
                         </td>
             			<td class="descr">
-                            <h5 class="title" style="margin-top:0">{{record.title | lstring}}</h5>
+                            <h5 class="title" style="margin-top:0">
+                                <a ng-href="{{record.url}}">{{(record.title || record.identifier_s) | lstring}}</a>
+                            </h5>
                             <div class="hidden-xs" >{{record.summary | lstring | truncate:350:'...'}}</div>
                             </td>
-            			<td class="createdby hidden-xs"> Matthew Dias TODO <br><span class="date">{{record.createdOn | fromNow}}</span></td>
-            			<td class="udpatedby"> Matthew Dias TODO <br><span class="date">{{record.updatedOn | fromNow}}</span></td>
+            			<td class="createdby hidden-xs"> Matthew Dias TODO <br><span class="date" title="{{record.createdDate_dt | datetime}}">{{record.createdDate_dt | fromNow}}</span></td>
+            			<td class="udpatedby"> Matthew Dias TODO <br><span class="date" title="{{record.updatedDate_dt | datetime}}">{{record.updatedDate_dt | fromNow}}</span></td>
             			<td class="status">
                             <span ng-show="record.isPublic" class="label label-default bg-published">PUBLISHED</span>
                             <span ng-show="record.isDraft"  class="label label-default bg-draft">DRAFT</span>
@@ -85,7 +89,7 @@
             			<td class="edit text-right">
             				<div class="btn-group btn-group-sm" >
             					<!-- <button title="Locked for edit" ng-show="isRequest(record) &amp;&amp; showAddButton()" type="button" class="btn btn-default ng-hide"><i class="glyphicon glyphicon-lock"></i></button> -->
-            					<a title="Edit" type="button" class="btn btn-default" href="/submit/online_reporting/nbsaps/edit"><i class="fa fa-edit"></i></a>
+            					<a title="Edit" type="button" class="btn btn-default" ng-click="onEdit(record.schema_s, record.identifier_s)"><i class="fa fa-edit"></i></a>
             					<button title="Delete" type="button" class="btn btn-default" ng-click="askDelete(record)"><i class="fa fa-trash-o"></i></button>
             				</div>
             			</td>

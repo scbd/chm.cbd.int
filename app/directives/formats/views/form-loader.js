@@ -1,6 +1,6 @@
 define(['require', 'app', 'text!./form-loader.html', 'authentication', 'utilities/km-storage', 'utilities/km-utilities'], function(require, app, template){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", "$compile", function ($rootScope,    storage,   authentication,   localization,   $q,   $location,   $compile) {
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", "$compile", "$route", "navigation", function ($rootScope,    storage,   authentication,   localization,   $q,   $location,   $compile, $route, navigation) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -54,10 +54,10 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				if ($scope.document || $scope.schema)
 					return;
 
-				var oQsParams = $location.search();
+				var documentID  = $route.current.params.documentid || $route.current.params.documentID;
 
-				if (oQsParams.documentID || oQsParams.documentid)
-					$scope.load(oQsParams.documentID || oQsParams.documentid);
+				if (documentID)
+					$scope.load(documentID);
 				else
 					$scope.error = "documentID not specified";
 			};
@@ -108,8 +108,9 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				var schema     = $scope.internalDocumentInfo.type;
 				var identifier = $scope.internalDocumentInfo.identifier;
 
-				$location.search({ uid: identifier, returnUrl : $location.url() });
-				$location.path("/management/edit/" + schema);
+				$location.search({ returnUrl : $location.url() });
+
+				$location.path(navigation.editUrl(schema, identifier));
 			};
 
 			//==================================

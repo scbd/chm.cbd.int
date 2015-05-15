@@ -1,6 +1,6 @@
 define(['text!./resource.html', 'app', 'angular', 'authentication', '../views/resource', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
 
-app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", 'authentication', 'editFormUtility', 'siteMapUrls', 'IStorage', function ($http, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, siteMapUrls, storage) {
+app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", 'authentication', 'editFormUtility', 'siteMapUrls', 'IStorage', '$route', function ($http, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, siteMapUrls, storage, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -177,7 +177,7 @@ app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "
 
 				$scope.status = "loading";
 
-				var identifier = $location.search().uid;
+				var identifier = $route.current.params.uid;
 				var promise = null;
 
 				if(identifier)

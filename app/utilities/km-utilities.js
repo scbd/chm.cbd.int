@@ -213,4 +213,45 @@ app.factory('localization', ["$browser", function($browser) {
 }]);
 
 
+app.factory('solr', [function() {
+	return {
+		escape: function(value) {
+
+			if(value===undefined) throw "Value is undefined";
+			if(value===null)      throw "Value is null";
+			if(value==="")        throw "Value is null";
+
+			if(_.isNumber(value)) value = value.toString();
+			if(_.isDate  (value)) value = value.toISOString();
+
+			//TODO add more types
+
+			value = value.toString();
+
+			value = value.replace(/\\/g,   '\\\\');
+			value = value.replace(/\+/g,   '\\+');
+			value = value.replace(/\-/g,   '\\-');
+			value = value.replace(/\&\&/g, '\\&&');
+			value = value.replace(/\|\|/g, '\\||');
+			value = value.replace(/\!/g,   '\\!');
+			value = value.replace(/\(/g,   '\\(');
+			value = value.replace(/\)/g,   '\\)');
+			value = value.replace(/\{/g,   '\\{');
+			value = value.replace(/\}/g,   '\\}');
+			value = value.replace(/\[/g,   '\\[');
+			value = value.replace(/\]/g,   '\\]');
+			value = value.replace(/\^/g,   '\\^');
+			value = value.replace(/\"/g,   '\\"');
+			value = value.replace(/\~/g,   '\\~');
+			value = value.replace(/\*/g,   '\\*');
+			value = value.replace(/\?/g,   '\\?');
+			value = value.replace(/\:/g,   '\\:');
+
+			return value;
+		}
+
+	};
+}]);
+
+
 });

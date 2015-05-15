@@ -4,8 +4,10 @@ define(['app', 'moment'], function(app, moment) { 'use strict';
     //============================================================
     //
     //============================================================
-    app.filter('moment', function () {
+    app.filter('datetime', function () {
         return function (date, format) {
+
+            format = format || "YYYY-MM-DD HH:MM";
 
             if(!date)
                 return "";

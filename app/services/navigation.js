@@ -83,6 +83,19 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
 
                     return user;
                 });
+            },
+
+            editUrl : function(schema, uid){
+
+                var url = '/submit/';
+
+                if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'progressAssessment', 'nationalSupportTool', 'implementationActivity']).contains(schema)) {
+                    url = '/submit/online-reporting/';
+                }
+
+                url += schema + '/' + (uid || 'new');
+
+                return url;
             }
         };
     }]);

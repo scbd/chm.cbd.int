@@ -1,6 +1,6 @@
 define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular) { 'use strict';
 
-app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'editFormUtility', 'authentication', 'siteMapUrls', function ($http, $filter, $q, guid, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls) {
+app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'editFormUtility', 'authentication', 'siteMapUrls', '$route', function ($http, $filter, $q, guid, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -57,7 +57,7 @@ app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '
 
 				$scope.status = "loading";
 
-				var identifier = $location.search().uid;
+				var identifier = $route.current.params.uid;
 				var promise = null;
 
 				if(identifier)

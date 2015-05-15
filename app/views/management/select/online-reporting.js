@@ -34,7 +34,7 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                     $rootScope.user.roles.indexOf('ChmAdministrator')) && $rootScope.user && $rootScope.user.government;
         };
 
-
+        $scope.government =  userGovernment();
         //==============================
         //
         //==============================
@@ -57,9 +57,9 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                 ////////////////
                 // All 3 National Reports
                 ////////////////
-                var publisehdReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&fq=(realm_ss:chm AND schema_s:nationalReport '+
+                var publisehdReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&facet.mincount=1&q=(realm_ss:chm AND schema_s:nationalReport '+
                 'AND government_s:' + userGovernment() + ')+AND+NOT+version_s:*&rows=0&wt=json');
-                var draftReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&fq=(realm_ss:chm AND schema_s:nationalReport '+
+                var draftReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&facet.mincount=1&q=(realm_ss:chm AND schema_s:nationalReport '+
                 'AND government_s:' + userGovernment() + ')+AND+version_s:*&rows=0&wt=json');
 
 
@@ -83,9 +83,9 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                 var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'];
                 var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
-                var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&fq=(realm_ss:chm '+
+                var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
                                     'AND government_s:' + userGovernment()+ qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');
-                var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&fq=(realm_ss:chm '+
+                var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
                                     'AND government_s:' + userGovernment() + qSchema + ')+AND+version_s:*&rows=0&wt=json');
 
                 $q.all([published, drafts]).then(function(results) {

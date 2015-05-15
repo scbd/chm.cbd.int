@@ -10,7 +10,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/database',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index', resolveUser: true, reloadOnSearch : false }).
             when('/database/countries',                       { templateUrl: 'views/database/countries.html',                label :'Countries',          resolveController: true }).
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).
-            when('/database/record',                          { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
+            when('/database/record/:documentid?',             { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
 
             when('/search',                                   { templateUrl: 'views/search/search.html',  label :'Search',   resolveController: true}).
             when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',  label :'Online Reporting',   resolveController: true}).

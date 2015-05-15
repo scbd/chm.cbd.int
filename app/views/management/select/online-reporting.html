@@ -1,4 +1,4 @@
-<div id="submit">
+<div id="submit" ng-show="government">
 
     <div class="container">
         <div class="row">
@@ -23,9 +23,9 @@
                 <div class="box bg-grey">
 
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('nationalStrategicPlan').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('nationalStrategicPlan').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('nationalStrategicPlan').requestCount}}</span>
                     </div>
 
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">National Biodiversity Strategies and Action Plans (NBSAPS) </h4></a>
@@ -43,9 +43,9 @@
                 <div class="box bg-grey">
 
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('nationalReport').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('nationalReport').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('nationalReport').requestCount}}</span>
                     </div>
 
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">National Reports </h4></a>
@@ -63,9 +63,9 @@
                 <div class="box bg-grey">
 
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('otherReport').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('otherReport').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('otherReport').requestCount}}</span>
                     </div>
 
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">Other Reports </h4></a>
@@ -90,9 +90,9 @@
                 <div class="box bg-grey">
 
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('nationalTarget').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('nationalTarget').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('nationalTarget').requestCount}}</span>
                     </div>
 
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">National Targets</h4></a>
@@ -108,9 +108,9 @@
             <div class="col-md-4">
                 <div class="box bg-grey">
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('nationalIndicator').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('nationalIndicator').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('nationalIndicator').requestCount}}</span>
                     </div>
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">National Indicators </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -124,9 +124,9 @@
             <div class="col-md-4">
                 <div class="box bg-grey">
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('progressAssessment').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('progressAssessment').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('progressAssessment').requestCount}}</span>
                     </div>
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">Assessments</h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -150,9 +150,9 @@
             <div class="col-md-4">
                 <div class="box bg-grey">
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('nationalSupportTool').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('nationalSupportTool').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('nationalSupportTool').requestCount}}</span>
                     </div>
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">Guidance and Support Tools </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -166,9 +166,9 @@
             <div class="col-md-4">
                 <div class="box bg-grey">
                     <div class="pull-right">
-                        <span class="badge bg-published">102</span>
-                        <span class="badge bg-draft">3</span>
-                        <span class="badge bg-request">19</span>
+                        <span class="badge bg-published">{{getFacet('implementationActivity').publishCount}}</span>
+                        <span class="badge bg-draft">{{getFacet('implementationActivity').draftCount}}</span>
+                        <span class="badge bg-request">{{getFacet('implementationActivity').requestCount}}</span>
                     </div>
                     <a href="list"><h4 style="padding-top:0;margin-top:0;">Implementation Activities </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>

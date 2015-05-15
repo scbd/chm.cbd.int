@@ -10,7 +10,7 @@ require(['jquery'], function($) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 
-define(['app', 'authentication', 'ng-breadcrumbs'], function(app) {
+define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app) {
     'use strict';
 
     app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', function($scope, $rootScope, $window, $location, authentication, breadcrumbs) {

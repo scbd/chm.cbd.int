@@ -1,6 +1,6 @@
 define(['text!./database.html', 'app', 'angular', 'lodash', 'jquery', 'linqjs', 'authentication', '../views/database', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _, $, Enumerable) { 'use strict';
 
-app.directive('editDatabase', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
+app.directive('editDatabase', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -30,7 +30,7 @@ app.directive('editDatabase', ["$http", "$q", "$location", "$filter", 'IStorage'
 
 				var promise = null;
 				var schema  = "database";
-				var qs = $location.search();
+				var qs = $route.current.params;
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);

@@ -1,7 +1,7 @@
 define(['text!./aichi-target.html', 'app', 'angular', 'lodash', 'jquery', 'authentication', '../views/aichi-target', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _, $) { 'use strict';
 
 
-app.directive('editAichiTarget', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls) {
+app.directive('editAichiTarget', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -29,7 +29,7 @@ app.directive('editAichiTarget', ["$http", "$q", "$location", "$filter", 'IStora
 
 				$scope.status = "loading";
 
-				var identifier = $location.search().uid;
+				var identifier = $route.current.params.uid;
 				var promise = null;
 
 				if(identifier)

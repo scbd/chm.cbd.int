@@ -1,6 +1,6 @@
 define(['text!./national-indicator.html', 'app', 'angular', 'lodash','authentication', '../views/national-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
+app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -30,7 +30,7 @@ app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", '
 
 				var promise = null;
 				var schema  = "nationalIndicator";
-				var qs = $location.search();
+				var qs = $route.current.params;
 
 
 				if(qs.uid) { // Load

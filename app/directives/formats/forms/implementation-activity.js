@@ -1,6 +1,6 @@
 define(['text!./implementation-activity.html', 'app', 'angular', 'lodash', 'authentication', '../views/implementation-activity', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editImplementationActivity", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
+app.directive("editImplementationActivity", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -30,7 +30,7 @@ app.directive("editImplementationActivity", ["$http", "$q", "$location", "$filte
 
 				var promise = null;
 				var schema  = "implementationActivity";
-				var qs = $location.search();
+				var qs = $route.current.params;
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);

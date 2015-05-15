@@ -1,6 +1,6 @@
 define(['text!./national-support-tool.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-support-tool', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid) {
+app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -32,7 +32,7 @@ app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter",
 
 				var promise = null;
 				var schema  = "nationalSupportTool";
-				var qs = $location.search();
+				var qs = $route.current.params;
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);

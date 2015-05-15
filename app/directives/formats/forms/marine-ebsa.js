@@ -1,6 +1,6 @@
 define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet-directive', 'linqjs', 'jquery', 'authentication', '../views/marine-ebsa', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L, Enumerable, $) { 'use strict';
 
-app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
+app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -30,7 +30,7 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 
 				var promise = null;
 				var schema  = "marineEbsa";
-				var qs      = $location.search();
+				var qs      = $route.current.params;
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);

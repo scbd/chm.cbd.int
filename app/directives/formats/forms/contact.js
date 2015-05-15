@@ -2,7 +2,7 @@ define(['text!./contact.html', 'app', 'angular', 'authentication', '../views/con
 
 
 angular.module('kmApp') // lazy
-.directive('editContact', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid) {
+.directive('editContact', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -31,7 +31,7 @@ angular.module('kmApp') // lazy
 
 				var promise = null;
 				var schema  = "contact";
-				var qs      = $location.search();
+				var qs      = $route.current.params;
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);

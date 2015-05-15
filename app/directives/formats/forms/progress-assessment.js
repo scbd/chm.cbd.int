@@ -1,6 +1,6 @@
 define(['text!./progress-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/progress-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editProgressAssessment", ['$http', "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', function ($http, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls) {
+app.directive("editProgressAssessment", ['$http', "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', function ($http, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -77,7 +77,7 @@ app.directive("editProgressAssessment", ['$http', "$filter", "$q", 'IStorage', "
 					return;
 
 				$scope.status = "loading";
-				var qs = $location.search();
+				var qs = $route.current.params;
 				var identifier  = qs.uid;
 				var year        = qs.year;
 				var aichiTarget = qs.aichiTarget;

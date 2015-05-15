@@ -1,6 +1,6 @@
 define(['text!./case-study.html', 'app', 'angular', 'jquery', 'lodash', 'authentication', '../views/case-study', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $, _) { 'use strict';
 
-app.directive('editCaseStudy', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid) {
+app.directive('editCaseStudy', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -30,7 +30,7 @@ app.directive('editCaseStudy', ["$http", "$q", "$location", "$filter", 'IStorage
 
 				var promise = null;
 				var schema  = "caseStudy";
-				var qs = $location.search();
+				var qs = $route.current.params;
 
 
 				if(qs.uid) { // Load

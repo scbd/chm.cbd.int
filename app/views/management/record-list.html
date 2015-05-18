@@ -9,21 +9,23 @@
         </div>
 
         <div class="row" >
-
+            
             <div style="display:inline;">
                 <input  type="text" ng-model="freetext" ng-change="onText()" class="btn btn-default bg-white" placeholder="keyword">
             </div>
-
             <div style="display:inline;">
-                <a ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED {{facets.public}} </a>
+                <a ng-click="status=''; onPage(0)" class="btn btn-default btn-info"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
+            </div>
+            <div style="display:inline;">
+                <a ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS {{facets.draft}}</a>
+                <a ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='draft-lock'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS {{facets.request}}</a>
+                <a ng-click="status='draft-lock'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.request}}</span></a>
             </div>
 
             <div style="display:inline;" class="pull-right">

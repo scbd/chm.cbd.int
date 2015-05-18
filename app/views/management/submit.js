@@ -32,6 +32,9 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
 
         $scope.loadFacets = function(){
 
+            ////////////////
+            // ABS Facets
+            ///////////////
             var absSchemas = [ "absPermit", "absCheckpoint", "absCheckpointCommunique", "authority", "measure", "database", "resource"]
 
             var publisehdReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=realm_ss&fl=&facet.mincount=1&q=(realm_ss:abs AND '+
@@ -46,12 +49,15 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
 
             });
 
+            ////////////////
+            // CHM Facets
+            ///////////////
 
             var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
             var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
-                                qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');
+                                qSchema + ')+AND+NOT+version_s:*+AND+NOT+workflow_s:*&rows=0&wt=json');
             var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
                                 qSchema + ')+AND+version_s:*+AND+NOT+workflow_s:*&rows=0&wt=json');
             var request    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
@@ -64,18 +70,19 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
               _.each(results, function(facets){
                   _.each(readFacets2(facets.data.facet_counts.facet_fields.schema_s), function(facet){
                         // add all schema's under national report
-                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'])>0){
-                          format = 'nationalReport'
+                        var schema = facet.schema;
+                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'],schema)>=0){
+                            schema = 'nationalReport'
                         }
-                        var schemaTypeFacet = _.where($scope.schemasList,{"identifier":facet.schema});
+                        var schemaTypeFacet = _.where($scope.schemasList,{"identifier":schema});
 
                         if(schemaTypeFacet.length>0){
                             if(index===0)
-                                  schemaTypeFacet[0].publishCount = facet.count;
+                                  schemaTypeFacet[0].publishCount += facet.count;
                             else if(index==1)
-                                  schemaTypeFacet[0].draftCount = facet.count;
+                                  schemaTypeFacet[0].draftCount += facet.count;
                             else if(index==2)
-                                schemaTypeFacet[0].requestCount = count;
+                                schemaTypeFacet[0].requestCount += count;
                         }
                   });
                 index++;

@@ -20,6 +20,7 @@
     "angular-flex": "git://github.com/scbd/angular-flex.git",
     "jquery": "~2.1.3",
     "bootstrap-datepicker": "~1.3.0",
-    "ng-breadcrumbs": "~0.4.1"
+    "ng-breadcrumbs": "~0.4.1",
+    "ionsound": "~3.0.0"
   }
 }

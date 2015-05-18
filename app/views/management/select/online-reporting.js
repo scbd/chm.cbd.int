@@ -5,21 +5,19 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
 
 
         $scope.schemasList = [
-                    { identifier: 'nationalStrategicPlan',  title: 'National Biodiversity Strategies and Action Plans (NBSAPS)'},
-                    { identifier: 'nationalReport',         title: 'National Reports',                                      },
-                    { identifier: 'otherReport',            title: 'Other Reports',                                         },
-
-                    { identifier: 'nationalTarget',         title: 'National Targets' ,                     },
-                    { identifier: 'nationalIndicator',      title: 'National Indicators' ,                  },
-                    { identifier: 'progressAssessment',     title: 'Aichi Biodiversity Targets--Assessments' ,           },
-
-                    { identifier: 'nationalSupportTool',    title: 'Guidance and Support Tools'  ,          },
-                    { identifier: 'implementationActivity', title: 'Implementation Activities'  ,           }
+                    { identifier: 'nationalStrategicPlan'   },
+                    { identifier: 'nationalReport',         },
+                    { identifier: 'otherReport',            },
+                    { identifier: 'nationalTarget',         },
+                    { identifier: 'nationalIndicator',      },
+                    { identifier: 'progressAssessment',     },
+                    { identifier: 'nationalSupportTool',    },
+                    { identifier: 'implementationActivity'  }
             ];
 
-        $scope.nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
-        $scope.cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
-        $scope.cbdNationalReports = ["B3079A36-32A3-41E2-BDE0-65E4E3A51601", // NR5
+        var nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
+        var cbdNBSAPs          = ["B0EBAE91-9581-4BB2-9C02-52FCF9D82721"];// NBSAP
+        var cbdNationalReports = ["B3079A36-32A3-41E2-BDE0-65E4E3A51601", // NR5
                                      "272B0A17-5569-429D-ADF5-2A55C588F7A7", // NR4
                                      "DA7E04F1-D2EA-491E-9503-F7923B1FD7D4", // NR3
                                      "A49393CA-2950-4EFD-8BCC-33266D69232F", // NR2
@@ -53,20 +51,21 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
         //==============================
         $scope.load = function() {
 
-            if(userGovernment() || $scope.government){
                 ////////////////
                 // All 3 National Reports
                 ////////////////
                 var publisehdReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&facet.mincount=1&q=(realm_ss:chm AND schema_s:nationalReport '+
-                'AND government_s:' + userGovernment() + ')+AND+NOT+version_s:*&rows=0&wt=json');
+                    ')+AND+NOT+version_s:*&rows=0&wt=json');
                 var draftReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&facet.mincount=1&q=(realm_ss:chm AND schema_s:nationalReport '+
-                'AND government_s:' + userGovernment() + ')+AND+version_s:*&rows=0&wt=json');
+                    ')+AND+version_s:*+AND+NOT+workflow_s:*&rows=0&wt=json');
+                var requestReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.pivot=schema_s,reportType_s&fl=&facet.mincount=1&q=(realm_ss:chm AND schema_s:nationalReport '+
+                    ')+AND+version_s:*+AND+workflow_s:*&rows=0&wt=json');
 
 
-                $q.all([publisehdReportQuery,draftReportQuery]).then(function(result){
+                $q.all([publisehdReportQuery, draftReportQuery, requestReportQuery])
+                  .then(function(result){
 
                     var pivotResult = result[0].data.facet_counts.facet_pivot['schema_s,reportType_s'];
-
                     if(pivotResult.length>0 && pivotResult[0].pivot){
                         calculateFacet(pivotResult[0].pivot, 'publishCount');
                     }
@@ -74,6 +73,11 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                     var pivotDraftResult = result[1].data.facet_counts.facet_pivot['schema_s,reportType_s'];
                     if(pivotDraftResult.length>0 && pivotDraftResult[0].pivot){
                         calculateFacet(pivotDraftResult[0].pivot, 'draftCount');
+                    }
+
+                    var pivotRequestResult = result[2].data.facet_counts.facet_pivot['schema_s,reportType_s'];
+                    if(pivotRequestResult.length>0 && pivotRequestResult[0].pivot){
+                        calculateFacet(pivotRequestResult[0].pivot, 'requestCount');
                     }
                 });
 
@@ -84,11 +88,13 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                 var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
                 var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
-                                    'AND government_s:' + userGovernment()+ qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');
+                                    qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');
                 var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
-                                    'AND government_s:' + userGovernment() + qSchema + ')+AND+version_s:*&rows=0&wt=json');
+                                    qSchema + ')+AND+version_s:*+AND+NOT+workflow_s:*&rows=0&wt=json');
+                var request    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
+                                    qSchema + ')+AND+version_s:*+AND+workflow_s:*&rows=0&wt=json');
 
-                $q.all([published, drafts]).then(function(results) {
+                $q.all([published, drafts, request]).then(function(results) {
 
                   var index=0;
                   _.each(results, function(facets){
@@ -101,8 +107,8 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                                       schemaTypeFacet[0].publishCount = facet.count;
                                 else if(index==1)
                                       schemaTypeFacet[0].draftCount = facet.count;
-                                // else if(index==2)
-                                //     schemaTypeFacet[0].requestCount = count;
+                                else if(index==2)
+                                    schemaTypeFacet[0].requestCount = count;
                             }
                       });
                     index++;
@@ -111,7 +117,6 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
                 }).then(null, function(error) {
                    console.log(error );
                });
-            }
 
         };
 
@@ -128,10 +133,10 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
 
         function calculateFacet(list, type){
 
-            var qqNationalReports = _.filter(list, function(o) { return   _.contains($scope.cbdNationalReports, o.value); });
-            var qqNBSAPs          = _.filter(list, function(o) { return   _.contains($scope.cbdNBSAPs,          o.value); });
+            var qqNationalReports = _.filter(list, function(o) { return   _.contains(cbdNationalReports, o.value); });
+            var qqNBSAPs          = _.filter(list, function(o) { return   _.contains(cbdNBSAPs,          o.value); });
 
-            var others= $scope.cbdNationalReports.concat($scope.cbdNBSAPs);
+            var others= cbdNationalReports.concat($scope.cbdNBSAPs);
             var qqOthers          = _.filter(list, function(o) { return  !_.contains(others, o.value); });
 
             //summmation

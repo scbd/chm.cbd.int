@@ -2,10 +2,10 @@
 
 
 <div class="home-bottom" style="position:relative">
-    <div class="col-xs-3">
+    <!-- <div class="col-xs-3">
         <register-facets></register-facets>
-    </div>
-    <div class="col-xs-9 my_well my_well-white">
+    </div> -->
+    <div class="col-xs-12 my_well my_well-white">
         <div>
 
 	    	<h1 ng-hide="activity">Action</h1>
@@ -82,7 +82,7 @@
 						<div ng-show="isAssignedToMe(activity)">
 							<button type="button" class="btn btn-primary" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
 							<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="fa fa-remove"></i> Request Changes / Reject </button>
-                            <a type="button" class="btn btn-success" ng-href="/management/edit/{{workflow.data.metadata.schema}}?uid={{workflow.data.identifier}}&worflowId={{workflow._id}}"
+                            <a type="button" class="btn btn-success" ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema}}/{{workflow.data.identifier}}?workflowId={{workflow._id}}"
                             ><i class="fa fa-edit"></i> Edit</a>
 						</div>
 						<span ng-hide="isAssignedToMe(activity)">

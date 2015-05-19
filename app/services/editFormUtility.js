@@ -151,15 +151,30 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 
 				//Save document
 
-				return storage.documents.put(identifier, document);	// return documentInfo
-			}).then(function(document){
-
-				//update workflow if user is a approver and has come from task list page to edit the document before publishing.
-				if($route.current.params.worflowId){
-					workflows.updateActivity($route.current.params.worflowId, 'publishRecord', { action : 'approve' });
+				var processRequest;
+				if($route.current.params.workflowId){
+					// if the user is editing a locked record, remove the lock, update draft,
+					// lock the draft and then update the workflow status.
+					var metadata = {};
+					processRequest =  	storage.drafts.locks.get(document.header.identifier,{lockID:''})
+										.then(function(lockInfo){
+											return storage.drafts.locks.delete(document.header.identifier, lockInfo.data[0].lockID)
+													.then(function(){
+														return storage.drafts.put(document.header.identifier, document);
+													})
+													.then(function(draftInfo){
+														return storage.drafts.locks.put(document.header.identifier, {lockID:lockInfo.data[0].lockID});
+													})
+										})
+										.then(function(data){
+											return workflows.updateActivity($route.current.params.workflowId, 'publishRecord', { action : 'approve' })
+										});
+				}
+				else{
+					processRequest = storage.documents.put(identifier, document);//editFormUtility.publish(document);
 				}
 
-				return document;
+				return $q.when(processRequest);
 			});
 		},
 

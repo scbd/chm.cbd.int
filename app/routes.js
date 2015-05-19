@@ -56,9 +56,9 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             // when('/management',                               { templateUrl: 'views/management/index.html',                  label : 'Management Centre', resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/national-reporting/:schema?',   { templateUrl: 'views/management/national-reporting.html',     label : 'National Reporting',resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/list/:schema?',                 { templateUrl: 'views/management/record-list.html',            label : 'My Records',        resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            // when('/management/requests',                      { templateUrl: 'views/management/tasks/index.html',            label : 'Requests',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            // when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'Request',           resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            // when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/requests',                      { templateUrl: 'views/management/tasks/index.html',            label : 'Requests',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'Request',           resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/register',                      { redirectTo:  '/management/' }).
 
             when('/signin',                                   { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).

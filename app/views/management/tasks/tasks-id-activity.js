@@ -70,5 +70,13 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 
 	load();
 
+
+	$scope.onlineReportingURL = function(schema){
+		console.log(schema);
+		if(_.indexOf(['nationalReport','progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'],schema)>=0)
+			return	 'online-reporting/';
+		else
+			return '';
+	}
 }];
 });

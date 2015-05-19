@@ -1,5 +1,5 @@
 define(['text!./notifications.html','app','lodash','utilities/km-user-notification-service',
-        'utilities/km-utilities','filters/moment'], function(template,app,_) {
+        'utilities/km-utilities','filters/moment','ionsound'], function(template,app,_) {
     app.directive('userNotifications', function() {
         return {
             restrict: 'EAC',
@@ -52,6 +52,9 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                                         _.each(data, function(message) {
                                             localNotifications.push(message);
                                         });
+
+                                        if(ion)
+                                            ion.sound.play("bell_ring");
                                     } else {
                                         localNotifications = data;
                                     }
@@ -118,13 +121,23 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                     });
 
                     $scope.getURL = function(notification){
-                        return '#';
+
                         if(notification.type=='documentNotification')
-                            return '/request/list/' + notification.data.workflowId;
+                            return '/management/requests/' + notification.data.workflowId + '/publishRecord';
                         else
-                            return '/mailbox/' + notification.id;
+                            return '#';//'/mailbox/' + notification.id;
                     }
 
+                    ion.sound({
+                        sounds: [
+                            {
+                                name: "bell_ring"
+                            }
+                        ],
+                        volume: 0.5,
+                        path: "/app/libs/ionsound/sounds/",
+                        preload: true
+                    });
                 }
             ]
 

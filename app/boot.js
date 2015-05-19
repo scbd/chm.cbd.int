@@ -20,6 +20,7 @@ require.config({
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
       'ng-breadcrumbs'   : 'libs/ng-breadcrumbs/dist/ng-breadcrumbs',
       'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
+      'ionsound'            : 'libs/ionsound/js/ion.sound'
     },
     shim: {
       'libs/angular/angular'     : { deps: ['jquery'] },

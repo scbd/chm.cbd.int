@@ -1,8 +1,8 @@
 <div class="home-bottom" style="position:relative">
-    <div class="col-xs-3">
+    <!-- <div class="col-xs-3">
         <register-facets></register-facets>
-    </div>
-    <div class="col-xs-9 my_well my_well-white">
+    </div> -->
+    <div class="col-xs-12 my_well my_well-white">
         <div class="top">
 
 	    	<h1>Request status</h1>
@@ -112,7 +112,9 @@
 			  	</td>
 
 			  	<td class="text-right">
-					<a ng-show="isAssignedToMe(activity)" class="btn btn-info" ng-href="/management/requests/{{workflow._id}}/{{activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
+					<a ng-show="isAssignedToMe(activity)" class="btn btn-info"
+                    ng-href="/management/requests/{{workflow._id}}/{{activity.name}}"  type="button">
+                    <i class="fa fa-edit"></i></button>
 			  	</td>
 
 			  </tr>

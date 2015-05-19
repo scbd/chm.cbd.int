@@ -9,7 +9,7 @@
         </div>
 
         <div class="row" >
-            
+
             <div style="display:inline;">
                 <input  type="text" ng-model="freetext" ng-change="onText()" class="btn btn-default bg-white" placeholder="keyword">
             </div>
@@ -25,7 +25,7 @@
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='draft-lock'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.request}}</span></a>
+                <a ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
             </div>
 
             <div style="display:inline;" class="pull-right">
@@ -79,19 +79,19 @@
                             <h5 class="title" style="margin-top:0">
                                 <a ng-href="{{record.url}}">{{(record.title || record.identifier_s) | lstring}}</a>
                             </h5>
-                            <div class="hidden-xs" >{{record.summary | lstring | truncate:350:'...'}}</div>
+                            <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
                             </td>
-            			<td class="createdby hidden-xs"> Matthew Dias TODO <br><span class="date" title="{{record.createdDate_dt | datetime}}">{{record.createdDate_dt | fromNow}}</span></td>
-            			<td class="udpatedby"> Matthew Dias TODO <br><span class="date" title="{{record.updatedDate_dt | datetime}}">{{record.updatedDate_dt | fromNow}}</span></td>
+            			<td class="createdby hidden-xs">{{record.createdBy_s}}<br><span class="date" title="{{record.createdDate_dt | datetime}}">{{record.createdDate_dt | fromNow}}</span></td>
+            			<td class="udpatedby">{{record.updatedBy_s}}<br><span class="date" title="{{record.updatedDate_dt | datetime}}">{{record.updatedDate_dt | fromNow}}</span></td>
             			<td class="status">
-                            <span ng-show="record.isPublic" class="label label-default bg-published">PUBLISHED</span>
-                            <span ng-show="record.isDraft"  class="label label-default bg-draft">DRAFT</span>
-                            <span ng-show="record.isLocked" class="label label-default bg-request">REQUEST</span>
+                            <span ng-show="record._state_s=='public' || record._revision_i>1" class="label label-default bg-published">PUBLISHED</span>
+                            <span ng-show="record._state_s=='draft'"    class="label label-default bg-draft">DRAFT</span>
+                            <span ng-show="record._state_s=='workflow'" class="label label-default bg-request">REQUEST</span>
                         </td>
             			<td class="edit text-right">
             				<div class="btn-group btn-group-sm" >
             					<!-- <button title="Locked for edit" ng-show="isRequest(record) &amp;&amp; showAddButton()" type="button" class="btn btn-default ng-hide"><i class="glyphicon glyphicon-lock"></i></button> -->
-            					<a title="Edit" type="button" class="btn btn-default" ng-click="onEdit(record.schema_s, record.identifier_s)"><i class="fa fa-edit"></i></a>
+            					<button title="Edit"   type="button" class="btn btn-default" ng-click="onEdit(record.schema_s, record.identifier_s)"><i class="fa fa-edit"></i></button>
             					<button title="Delete" type="button" class="btn btn-default" ng-click="askDelete(record)"><i class="fa fa-trash-o"></i></button>
             				</div>
             			</td>

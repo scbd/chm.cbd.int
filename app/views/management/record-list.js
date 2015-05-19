@@ -6,23 +6,25 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
 
         $scope.schema      = _.camelCase($route.current.params.schema);
         $scope.subSchema   = $route.current.params.type;
-        $scope.facets      = {};
+        $scope.facets      = undefined;
         $scope.records     = null;
         $scope.status      = "";
         $scope.currentPage = 0;
         $scope.pages       = [];
         $scope.onPage      = loadPage;
         $scope.onEdit      = edit;
-        $scope.onText      = _.debounce(loadPage, 500);
+        $scope.onText      = _.debounce(function(){
+            loadPage(0, true);
+        }, 500);
 
         refreshPager();
-        loadPage();
+        loadPage(0);
 
         //======================================================
         //
         //
         //======================================================
-        function loadPage(pageIndex) {
+        function loadPage(pageIndex, refreshFacets) {
 
             pageIndex = pageIndex || 0;
 
@@ -41,13 +43,13 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
             var qsParams =
             {
                 "q"  : buildQuery(),
-                "fl" : "identifier_s, schema_s, schema_EN_t, title_EN_t, summary_EN_t, description_EN_t, createdDate_dt, updatedDate_dt, reportType_EN_t, version_s, url_ss",
+                "fl" : "identifier_s, schema_s, schema_EN_t, title_EN_t, summary_EN_t, description_EN_t, createdBy_s, createdDate_dt, updatedBy_s, updatedDate_dt, reportType_EN_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : pageIndex*pageSize,
                 "row"   : pageSize,
             };
 
-            var q1 = $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
+            var qRecords = $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
 
                 $scope.recordCount = res.data.response.numFound;
                 $scope.records     = _.map(res.data.response.docs, function(v){
@@ -84,57 +86,53 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                             zh : v.reportType_ZH_t || v.reportType_EN_t,
                             ar : v.reportType_AR_t || v.reportType_EN_t,
                         },
-                        isPublic : !v.version_s,
-                        isDraft  :  v.version_s == "draft",
-                        isLocked :  v.version_s == "draft-lock",
+                        isPublic : v._state_s,
+                        isDraft  : v.version_s == "draft",
+                        isLocked : v.version_s == "draft-lock",
                         url      : toLocalUrl(v.url_ss)
                     });
                 });
 
                 refreshPager(pageIndex);
 
-            }).catch(function(res){
-
-                $scope.records     = [];
-                $scope.recordCount = -1;
-                $scope.error       = res.data || res;
-
-                console.error($scope.error);
             });
 
-            // Execute facets query
+            var qFacets;
 
-            var qsFacetParams =
+            if(!$scope.facets || refreshFacets)
             {
-                "q"  : buildQuery({ status : "" }),
-                "row"   : 0,
-                "facet" : true,
-                "facet.field" : "version_s",
-            };
+                // Execute facets query
+                var qsFacetParams =
+                {
+                    "q"  : buildQuery({ status : undefined, latest : undefined }),
+                    "row"   : 0,
+                    "facet" : true,
+                    "facet.field" : "_state_s",
+                };
 
-            var q2 = $http.get("/api/v2013/index", { params : qsFacetParams }).then(function(res) {
+                qFacets = $http.get("/api/v2013/index", { params : qsFacetParams }).then(function(res) {
 
-                var versions = _(res.data.facet_counts.facet_fields.version_s).chunk(2).zipObject().value();
+                    var documentState = _(res.data.facet_counts.facet_fields._state_s).chunk(2).zipObject().value();
 
-                versions = _.defaults(versions, {
-                    draft   : 0,
-                    request : 0,
+                    $scope.facets = _.defaults(documentState, {
+                        public   : 0,
+                        draft    : 0,
+                        workflow : 0,
+                        total    : res.data.response.numFound
+                    });
                 });
+            }
 
-                $scope.facets = _.defaults(versions, {
-                    public  : res.data.response.numFound - versions.draft - versions.request,
-                });
 
-            }).catch(function(res){
+            return $q.all([qRecords, qFacets]).catch(function(res){
 
                 $scope.records     = [];
                 $scope.recordCount = -1;
                 $scope.error       = res.data || res;
 
                 console.error($scope.error);
-            });
 
-            return $q.all([q1, q2]).finally(function(){
+            }).finally(function(){
                 delete $scope.loading;
             });
         }
@@ -163,16 +161,20 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
         //======================================================
         function buildQuery(options) {
 
-            options = _.defaults(options || {}, {
+            options = _.assign({
                 schema    : $scope.schema,
                 subSchema : $scope.subSchema,
                 status    : $scope.status,
+                latest    : true,
                 freetext  : $scope.freetext
-            });
+            }, options || {});
 
-            var query = "schema_s:" + solr.escape(options.schema) + " AND (realm_ss:chm OR (*:* NOT realm_ss:*))";
+            var query  = [];
 
-            // Add subSchema
+
+            // Add Schema
+
+            query.push("schema_s:" + solr.escape(options.schema));
 
             if(options.subSchema) {
 
@@ -184,17 +186,28 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                               'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
                 ];
 
-                if(options.subSchema=="nr")    query += " AND     reportType_s:("+ _(nr   ).map(solr.escape).values().join(', ') +")";
-                if(options.subSchema=="nbsap") query += " AND     reportType_s:("+ _(nbsap).map(solr.escape).values().join(', ') +")";
-                if(options.subSchema=="other") query += " AND NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join(', ') +")";
+                if(options.subSchema=="nr")    query.push("    reportType_s:("+ _(nr   ).map(solr.escape).values().join(', ') +")");
+                if(options.subSchema=="nbsap") query.push("    reportType_s:("+ _(nbsap).map(solr.escape).values().join(', ') +")");
+                if(options.subSchema=="other") query.push("NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join(', ') +")");
             }
 
-            // filter
+            // Apply ownership
+
+            query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
+
+            // Apply ownership
+
+            query.push(_.map(user.userGroups, function(v){
+                return "_ownership_s:"+solr.escape(v);
+            }));
+
+            // Status
 
             if(options.status) {
-                if(options.status=="public")     query += " AND  (*:* NOT version_s:*)";
-                if(options.status=="draft")      query += " AND  version_s:" + solr.escape("draft");
-                if(options.status=="draft-lock") query += " AND  version_s:" + solr.escape("draft-lock");
+                query.push("_state_s:" + solr.escape(options.status));
+            }
+            else if(options.latest!==undefined){
+                query.push("_latest_s:" + (options.latest ? "true" : "false"));
             }
 
             // freetext
@@ -205,28 +218,18 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                     return solr.escape(w)+"*";
                 }).value();
 
-                var criterias = [
+                query.push([
                     'title_t:('       +escapedWords.join(' AND ')+ ')',
                     'description_t:(' +escapedWords.join(' AND ')+ ')',
                     'text_EN_txt:('   +escapedWords.join(' AND ')+ ')',
                     'title_EN_t:('    +escapedWords.join(' AND ')+ ')',
                     'summary_EN_t:('  +escapedWords.join(' AND ')+ ')',
-                ];
-
-                query += " AND ("+ criterias.join(' OR ') +")";
+                ]);
             }
 
-            // Apply securirty groups
+            // AND / OR everything
 
-            var securityGroups = [ "(*:* NOT securityGroup_ss:*)"];
-
-            _.each(user.userGroups, function(v) {
-                securityGroups.push("securityGroup_ss:" + solr.escape(v));
-            });
-
-            query += " AND ("+ securityGroups.join(" OR ") +")";
-
-            return query;
+            return solr.andOr(query);
         }
 
         //======================================================

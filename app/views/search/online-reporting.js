@@ -1,7 +1,6 @@
-define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], function() { 'use strict';
+define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities', 'jqvmap', 'jqvmapworld',  ], function() { 'use strict';
 
     return ["$scope","$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", function ($scope, $http, $q, $location, $timeout, $filter,  thesaurus) {
-
 
 
         if(!$scope.options) {
@@ -20,16 +19,22 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], fun
         ];
 
 
-        $scope.querySchema     = "(schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:progressAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
+
+        $scope.filterSchema     = "nationalReport,nationalTarget,nationalIndicator,progressAssessment,implementationActivity,nationalSupportTool";
+        $scope.filterGovernment = 'ca,ar';
+        $scope.filterKeywords = '';
+
+
+
+        $scope.querySchema     = " ( schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:progressAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
         $scope.queryGovernment = '*:*';
         $scope.queryKeywords = '*:*';
-
 
         //================================================
         $scope.query = function () {
 
             // NOT version_s:* remove non-public records from resultset
-            var q = 'NOT version_s:* AND realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryKeywords ;
+            var q = 'NOT version_s:* AND realm_ss:chm AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryKeywords;
 
             var queryParameters = {
                 'q': q,
@@ -54,26 +59,43 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], fun
         };
 
         //================================================
-        function search() {
+        $scope.runSearch = function() {
+
+            //$scope.queryGovernment = buildQuery($scope.government, 'government_s');
+            //$scope.querySchema = buildQuery($scope.schema, 'schema_s');
+            //$scope.queryKeywords = $scope.keyword == '' ? '*:*' : '(title_t:"' + $scope.keyword + '*" OR government_EN_t:"' + $scope.keyword +  '*" OR description_t:"' + $scope.keyword + '*" OR text_EN_txt:"' + $scope.keyword + '*")';
+
             $scope.currentPage=0;
             $scope.query();
+        };
+
+        if(!$scope.documents) {
+            $scope.runSearch();
         }
 
-        //================================================
-        $scope.$watch('government', function() {
-            $scope.queryGovernment = buildQuery($scope.government, 'government_s')
-            search();
-        });
 
-        //================================================
-        $scope.$watch('schema', function() {
-            $scope.querySchema = buildQuery($scope.schema, 'schema_s')
-            search();
-        });
+        //$scope.query();
 
+        // //================================================
+        // $scope.$watch('government', function() {
+        //
+        //     //if($scope.government == null) $scope.documents = "";
+        //
+        //     //if($scope.government){
+        //         $scope.queryGovernment = buildQuery($scope.government, 'government_s')
+        //     //}
+        //
+        // });
+        //
+        // // //================================================
+        // $scope.$watch('schema', function() {
+        //     $scope.querySchema = buildQuery($scope.schema, 'schema_s');
+        //
+        // });
+        // // //================================================
         // $scope.$watch('keyword', function () {
         //     $scope.queryKeywords = $scope.keyword == '' ? '*:*' : '(title_t:"' + $scope.keyword + '*" OR government_EN_t:"' + $scope.keyword +  '*" OR description_t:"' + $scope.keyword + '*" OR text_EN_txt:"' + $scope.keyword + '*")';
-        //     search();
+        //
         // });
 
 
@@ -97,6 +119,36 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities'], fun
 
             return query;
         }
+
+
+
+        //================================================
+        //================================================
+        //================================================
+        //================================================
+        //================================================
+
+        function loadMap() {
+
+            jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                backgroundColor: null,
+                   color: '#ffffff',
+                   hoverOpacity: 0.7,
+                   selectedColor: '#666666',
+                   enableZoom: true,
+                   showTooltip: true,
+                   scaleColors: ['#C8EEFF', '#006491'],
+                   normalizeFunction: 'polynomial'
+            });
+            $('.jqvmap-zoomin').html('<i class="glyphicon glyphicon-plus"/>')
+            $('.jqvmap-zoomout').html('<i class="glyphicon glyphicon-minus"/>')
+        }
+
+        loadMap();
+
+        //================================================
+
 
 
 

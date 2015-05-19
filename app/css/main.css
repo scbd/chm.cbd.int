@@ -37,3 +37,28 @@ float:none;
     list-style-type: none;
     padding-right: 20px;
 }
+
+.km-value{
+    background-color:white;
+    border:1px solid #ddd;
+    padding:5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius:3px;
+    border-radius: 3px;}
+
+label{
+    margin-top:10px;
+}
+legend{
+    margin-top:30px;
+    padding:5px;
+    background-color:#ddd;
+    -webkit-border-radius: 3px;
+    -moz-border-radius:3px;
+    border-radius: 3px;
+
+}
+
+    .km-value li{
+        margin-left:20px;
+    }

@@ -20,7 +20,10 @@ require.config({
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
       'ng-breadcrumbs'   : 'libs/ng-breadcrumbs/dist/ng-breadcrumbs',
       'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
-      'ionsound'            : 'libs/ionsound/js/ion.sound'
+      'ionsound'            : 'libs/ionsound/js/ion.sound',
+      'jqvmap'                : 'libs/jqvmap/jqvmap/jquery.vmap.min',
+      'jqvmapworld'           : 'libs/jqvmap/jqvmap/maps/jquery.vmap.world',
+
     },
     shim: {
       'libs/angular/angular'     : { deps: ['jquery'] },
@@ -33,6 +36,8 @@ require.config({
       'linqjs'                   : { deps: [], exports : 'Enumerable' },
       'leaflet'                  : { deps: [], exports : 'L' },
       'bootstrap-datepicker'     : { deps: ['bootstrap'] },
+      'jqvmap'                   : { deps: ['jquery'] },
+      'jqvmapworld'              : { deps: ['jqvmap'] },
     },
 });
 

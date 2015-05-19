@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'linqjs', 'URIjs/URI'], function(app, _, Enumerable, URI) { 'use strict';
+define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery"], function(app, _, Enumerable, URI, $) { 'use strict';
 
 app.filter("lstring", function() {
 	return function(ltext, locale) {
@@ -214,43 +214,68 @@ app.factory('localization', ["$browser", function($browser) {
 
 
 app.factory('solr', [function() {
+
 	return {
-		escape: function(value) {
+		escape : escape,
+		andOr : andOr
+	};
 
-			if(value===undefined) throw "Value is undefined";
-			if(value===null)      throw "Value is null";
-			if(value==="")        throw "Value is null";
+	function escape(value) {
 
-			if(_.isNumber(value)) value = value.toString();
-			if(_.isDate  (value)) value = value.toISOString();
+		if(value===undefined) throw "Value is undefined";
+		if(value===null)      throw "Value is null";
+		if(value==="")        throw "Value is null";
 
-			//TODO add more types
+		if(_.isNumber(value)) value = value.toString();
+		if(_.isDate  (value)) value = value.toISOString();
 
-			value = value.toString();
+		//TODO add more types
 
-			value = value.replace(/\\/g,   '\\\\');
-			value = value.replace(/\+/g,   '\\+');
-			value = value.replace(/\-/g,   '\\-');
-			value = value.replace(/\&\&/g, '\\&&');
-			value = value.replace(/\|\|/g, '\\||');
-			value = value.replace(/\!/g,   '\\!');
-			value = value.replace(/\(/g,   '\\(');
-			value = value.replace(/\)/g,   '\\)');
-			value = value.replace(/\{/g,   '\\{');
-			value = value.replace(/\}/g,   '\\}');
-			value = value.replace(/\[/g,   '\\[');
-			value = value.replace(/\]/g,   '\\]');
-			value = value.replace(/\^/g,   '\\^');
-			value = value.replace(/\"/g,   '\\"');
-			value = value.replace(/\~/g,   '\\~');
-			value = value.replace(/\*/g,   '\\*');
-			value = value.replace(/\?/g,   '\\?');
-			value = value.replace(/\:/g,   '\\:');
+		value = value.toString();
 
-			return value;
+		value = value.replace(/\\/g,   '\\\\');
+		value = value.replace(/\+/g,   '\\+');
+		value = value.replace(/\-/g,   '\\-');
+		value = value.replace(/\&\&/g, '\\&&');
+		value = value.replace(/\|\|/g, '\\||');
+		value = value.replace(/\!/g,   '\\!');
+		value = value.replace(/\(/g,   '\\(');
+		value = value.replace(/\)/g,   '\\)');
+		value = value.replace(/\{/g,   '\\{');
+		value = value.replace(/\}/g,   '\\}');
+		value = value.replace(/\[/g,   '\\[');
+		value = value.replace(/\]/g,   '\\]');
+		value = value.replace(/\^/g,   '\\^');
+		value = value.replace(/\"/g,   '\\"');
+		value = value.replace(/\~/g,   '\\~');
+		value = value.replace(/\*/g,   '\\*');
+		value = value.replace(/\?/g,   '\\?');
+		value = value.replace(/\:/g,   '\\:');
+
+		return value;
+	}
+
+	function andOr(query, sep) {
+
+		sep = sep || 'AND';
+
+		if(_.isArray(query)) {
+
+			query = _.map(query, function(criteria){
+
+				if(_.isArray(criteria)) {
+					return andOr(criteria, sep=="AND" ? "OR" : "AND");
+				}
+
+				return criteria;
+			});
+
+			query = '(' + query.join(' ' + sep + ' ') + ')';
 		}
 
-	};
+		return query;
+	}
+
 }]);
 
 

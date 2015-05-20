@@ -109,7 +109,7 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
               $mdToast.simple()
                 .content(msg)
                 .action('OK')
-                .position('top right')
+                .position('right top')
                 .hideDelay(3000)
             );
         }

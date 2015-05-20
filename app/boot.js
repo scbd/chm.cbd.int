@@ -38,6 +38,7 @@ require.config({
       'bootstrap-datepicker'     : { deps: ['bootstrap'] },
       'jqvmap'                   : { deps: ['jquery'] },
       'jqvmapworld'              : { deps: ['jqvmap'] },
+      'ionsound'                 : { deps: ['jquery'] },
     },
 });
 

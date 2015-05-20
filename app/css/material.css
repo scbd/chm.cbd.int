@@ -1,0 +1,7 @@
+
+@import url("/app/libs/angular-material/angular-material.min.css");
+@import url("/app/libs/angular-material/modules/js/dialog/dialog.min.css");
+
+md-toast.md-default-theme .md-button.md-highlight {
+  color:inherit;
+}

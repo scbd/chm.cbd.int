@@ -29,7 +29,7 @@
             </div>
 
             <div style="display:inline;" class="pull-right">
-                <a class="btn btn-primary" ng-click="onEdit(schema)"> Add New </a>
+                <a class="btn btn-primary" ng-click="onAdd()"> Add New </a>
             </div>
 
         </div>
@@ -47,11 +47,11 @@
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li ng-repeat="pageIndex in pages" ng-class="{ active : currentPage==pageIndex }">
-                    <a href="#" ng-click="onPage(pageIndex)">{{pageIndex+1}}</a>
+                <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
+                    <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
                 </li>
                 <li>
-                  <a ng-disabled="currentPage>=pages.length-1" href="#"  ng-click="onPage(currentPage+1)" aria-label="Next">
+                  <a ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -77,22 +77,31 @@
                         </td>
             			<td class="descr">
                             <h5 class="title" style="margin-top:0">
-                                <a ng-href="{{record.url}}">{{(record.title || record.identifier_s) | lstring}}</a>
+                                <span ng-hide="record.url">{{(record.title || record.identifier_s) | lstring}}</span>
+                                <a    ng-show="record.url" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
+                                <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
                             </h5>
                             <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
                             </td>
-            			<td class="createdby hidden-xs">{{record.createdBy_s}}<br><span class="date" title="{{record.createdDate_dt | datetime}}">{{record.createdDate_dt | fromNow}}</span></td>
-            			<td class="udpatedby">{{record.updatedBy_s}}<br><span class="date" title="{{record.updatedDate_dt | datetime}}">{{record.updatedDate_dt | fromNow}}</span></td>
-            			<td class="status">
+            			<td class="createdby hidden-xs">
+                            <div title="{{record.createdByEmail_s}}">{{record.createdBy_s}}</div>
+                            <div title="{{record.createdDate_dt | datetime}}" class="date" >{{record.createdDate_dt | fromNow}}</div>
+                        </td>
+            			<td class="udpatedby">
+                            <div title="{{record.updatedByEmail_s}}">{{record.updatedBy_s}}</div>
+                            <div title="{{record.updatedDate_dt | datetime}}" class="date" >{{record.updatedDate_dt | fromNow}}</div>
+                            </td>
+            			<td class="status" style="text-align:center">
                             <span ng-show="record._state_s=='public' || record._revision_i>1" class="label label-default bg-published">PUBLISHED</span>
                             <span ng-show="record._state_s=='draft'"    class="label label-default bg-draft">DRAFT</span>
                             <span ng-show="record._state_s=='workflow'" class="label label-default bg-request">REQUEST</span>
+                            <div  ng-show="record._state_s=='workflow'" style="margin-top:5px"><a href="#" ng-click="onWorkflow(record)">{{formatWID(record._workflow_s)}}</a></div>
                         </td>
             			<td class="edit text-right">
             				<div class="btn-group btn-group-sm" >
-            					<!-- <button title="Locked for edit" ng-show="isRequest(record) &amp;&amp; showAddButton()" type="button" class="btn btn-default ng-hide"><i class="glyphicon glyphicon-lock"></i></button> -->
-            					<button title="Edit"   type="button" class="btn btn-default" ng-click="onEdit(record.schema_s, record.identifier_s)"><i class="fa fa-edit"></i></button>
-            					<button title="Delete" type="button" class="btn btn-default" ng-click="askDelete(record)"><i class="fa fa-trash-o"></i></button>
+            					<button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-edit"></i></button>
+            					<button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+            					<button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record)"><i class="fa fa-trash-o"></i></button>
             				</div>
             			</td>
             		</tr>

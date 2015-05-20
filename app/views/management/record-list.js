@@ -1,6 +1,6 @@
-define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/moment", "utilities/solr"], function(_) { 'use strict';
+define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment", "utilities/solr"], function(_) { 'use strict';
 
-    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', function($scope, $route, $http, $location, $q, solr, user, navigation) {
+    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', function($scope, $route, $http, $location, $q, solr, user, navigation, storage) {
 
         var pageSize = 15;
 
@@ -12,10 +12,18 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
         $scope.currentPage = 0;
         $scope.pages       = [];
         $scope.onPage      = loadPage;
+        $scope.onText      = _.debounce(function(){ loadPage(0, true); }, 500);
+        $scope.onDelete    = del;
         $scope.onEdit      = edit;
-        $scope.onText      = _.debounce(function(){
-            loadPage(0, true);
-        }, 500);
+        $scope.onWorkflow  = viewWorkflow;
+
+        $scope.onAdd       = function() {
+            edit({ schema_s : $scope.schema });
+        };
+
+        $scope.formatWID   = function (workflowID) {
+    		return workflowID ? workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2").toUpperCase() : "";
+    	};
 
         refreshPager();
         loadPage(0);
@@ -43,7 +51,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
             var qsParams =
             {
                 "q"  : buildQuery(),
-                "fl" : "identifier_s, schema_s, schema_*_t, title_*_t, summary_*_t, description_*_t, createdBy_s, createdDate_dt, updatedBy_s, updatedDate_dt, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
+                "fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : pageIndex*pageSize,
                 "row"   : pageSize,
@@ -58,7 +66,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                         title          : solr.lstring(v, "title_*_t",      "title_EN_t",      "title_t"),
                         summary        : solr.lstring(v, "summary_*_t",    "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
                         reportTypeName : solr.lstring(v, "reportType_*_t", "reportType_EN_t"),
-                        url            : toLocalUrl(v.url_ss)
+                        url            : toLocalUrl(v.url_ss),
                     });
                 });
 
@@ -114,7 +122,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
 
             var url = navigation.toLocalUrl(_.first(urls));
 
-            if(_(url).startsWith('/') && _(url).endsWith('=null'))
+            if(_(url).startsWith('/') && (_(url).endsWith('=null') || _(url).endsWith('=undefined')))
                 return null;
 
             return url;
@@ -206,23 +214,84 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
             currentPage = currentPage || 0;
 
             var pageCount = Math.ceil(Math.max($scope.recordCount||0, 0) / pageSize);
-
-            $scope.currentPage = currentPage;
-            $scope.pages       = [];
+            var pages     = [];
 
             for (var i = 0; i < pageCount; i++) {
-                $scope.pages.push(i);
+                pages.push({ index : i, text : i+1 });
             }
+
+            $scope.currentPage = currentPage;
+            $scope.pages       = pages;
+
         }
 
+        //======================================================
+        //
+        //
+        //======================================================
+        function edit(record)
+        {
+            $location.url(navigation.editUrl(record.schema_s, record.identifier_s));
+        }
 
         //======================================================
         //
         //
         //======================================================
-        function edit(schema, id)
+        function del(record)
         {
-            $location.url(navigation.editUrl(schema, id));
+
+            var repo = null;
+            var identifier = record.identifier_s;
+
+            $q.when(record).then(function(r) {
+
+                    if(r._state_s == "public")  repo = storage.documents;
+               else if(r._state_s == "draft")   repo = storage.drafts;
+               else                             throw new Alert("Cannot delete request");
+
+               return repo.exists(identifier);
+
+           }).then(function(exist) {
+
+                if(!exist)
+                    throw new Alert("Record not found.");
+
+                if(!confirm("Are you sure to delete...."))
+                    throw new Noop();
+
+                return repo.delete(identifier);
+
+            }).then(function() {
+
+                _.remove($scope.records, function(r){
+                    return r==record;
+                });
+
+            }).catch(function(e){
+
+                if(e instanceof Noop)
+                    return;
+
+                if(e instanceof Alert) {
+                    alert(e.message);
+                    return;
+                }
+
+                $scope.error = e;
+            });
+
+            function Alert(msg) { this.message = msg; }
+            function Noop()     { }
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function viewWorkflow(record)
+        {
+            $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, ""));
         }
     }];
 });

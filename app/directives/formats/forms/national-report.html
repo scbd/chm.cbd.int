@@ -10,6 +10,7 @@
     		<span ng-switch-when="other">Other report</span>
     		<span ng-switch-default="other">National Report, NBSAP or Other reports</span>
     	</span>
+        <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i>
     </h1>
 
 	<div class="alert alert-danger" ng-show="hasError()">

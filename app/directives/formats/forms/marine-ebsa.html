@@ -1,6 +1,6 @@
 ﻿<div class="edit-form">
 
-	<h1>Marine Ecologically or Biologically Significant Areas (EBSA)</h1>
+	<h1>Marine Ecologically or Biologically Significant Areas (EBSA)   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
 
 	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
 		<strong>Error as occured...</strong>
@@ -8,7 +8,7 @@
 	</div>
 
 	<div ng-show="status=='loading'"><em>Loading...</em></div>
-	
+
 	<div ng-hide="status=='hidden'||status=='loading'">
 
 		<div class="row">
@@ -27,7 +27,7 @@
 					<li ng-class="{ active  : tab=='assessment' }"><a href="" ng-click="tab='assessment'">Assessment</a></li>
 					<li ng-class="{ active  : tab=='review'     }"><a href="" ng-click="tab='review'">Review</a></li>
 					<li ng-class="{ disabled: tab=='review'     }"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
-				</ul>	
+				</ul>
 			</div>
 
 			<div class="col-sm-4 hidden-xs" style="text-align:right">
@@ -266,7 +266,7 @@
 									</label><br/>
 									<label class="control-label" for="preparedByORG">
 										<input type="radio" value="ORG" id="preparedByORG" name="recommendedToSbsttaBy" ng-model="document.recommendedToSbsttaBy" ng-disabled="document.status!='recommendedToSbstta'" />
-										Prepared by Competent Organizations through regional processes 
+										Prepared by Competent Organizations through regional processes
 									</label>
 								</div>
 							</div>
@@ -484,7 +484,7 @@
 					<li ng-class="{ active  : tab=='assessment' }"><a href="" ng-click="tab='assessment'">Assessment</a></li>
 					<li ng-class="{ active  : tab=='review'     }"><a href="" ng-click="tab='review'">Review</a></li>
 					<li ng-class="{ disabled: tab=='review'     }"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
-				</ul>	
+				</ul>
 			</div>
 
 			<div class="col-sm-3 hidden-xs" style="text-align:right">

@@ -1,5 +1,8 @@
 ﻿<div>
 
+
+	<h1>Organization   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -7,7 +10,7 @@
 
 	<div ng-show="status!='hidden'">
 
-		<h1>Organization</h1>
+
 		<div style="position: relative">
 
 			<div class="row">

@@ -13,7 +13,7 @@ require(['jquery'], function($) {
 define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', function($scope, $rootScope, $window, $location, authentication, breadcrumbs) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast' ,  function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
@@ -93,6 +93,27 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
             var redirect_uri = $window.encodeURIComponent($location.protocol()+'://'+$location.host()+':'+$location.port()+'/');
             $window.location.href = 'https://accounts.cbd.int/profile?redirect_uri='+redirect_uri;
         };
+
+
+        //======================================================
+        //
+        //
+        //======================================================
+        $rootScope.$on("onPostClose", function(evt, msg) {
+            $scope.showSimpleToast(msg);
+        });
+
+        $scope.showSimpleToast = function(msg)
+        {
+            $mdToast.show(
+              $mdToast.simple()
+                .content(msg)
+                .action('OK')
+                .position('top right')
+                .hideDelay(3000)
+            );
+        }
+
 
      }]);
 });

@@ -23,6 +23,10 @@ require.config({
       'ionsound'            : 'libs/ionsound/js/ion.sound',
       'jqvmap'                : 'libs/jqvmap/jqvmap/jquery.vmap.min',
       'jqvmapworld'           : 'libs/jqvmap/jqvmap/maps/jquery.vmap.world',
+      'ngAnimate'             : 'libs/angular-animate/angular-animate.min',
+      'ngAria'                : 'libs/angular-aria/angular-aria.min',
+      'ngMaterial'            : 'libs/angular-material/angular-material.min',
+
 
     },
     shim: {
@@ -39,6 +43,10 @@ require.config({
       'jqvmap'                   : { deps: ['jquery'] },
       'jqvmapworld'              : { deps: ['jqvmap'] },
       'ionsound'                 : { deps: ['jquery'] },
+      'ngAnimate'                : { deps: ['angular'] },
+      'ngAria'                   : { deps: ['angular'] },
+      'ngMaterial'               : { deps: ['angular', 'ngAnimate', 'ngAria'] },
+
     },
 });
 

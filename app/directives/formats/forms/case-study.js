@@ -1,6 +1,6 @@
 define(['text!./case-study.html', 'app', 'angular', 'jquery', 'lodash', 'authentication', '../views/case-study', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, $, _) { 'use strict';
 
-app.directive('editCaseStudy', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid, $route) {
+app.directive('editCaseStudy', ["$http","$rootScope","$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -157,28 +157,29 @@ app.directive('editCaseStudy', ["$http", "$q", "$location", "$filter", 'IStorage
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url("/management/list/caseStudy");
+				$location.url("/submit/caseStudy");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url("/management/list/caseStudy");
+				$location.url("/submit/caseStudy");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url("/management/list/caseStudy");
+				$location.url("/submit/caseStudy");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$location.url("/management/list/caseStudy");
+				$rootScope.$broadcast("onPostClose", "Case Study record closed without saving.");
+				$location.url("/submit/caseStudy");
 			};
 
 			//==================================

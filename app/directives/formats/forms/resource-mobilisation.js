@@ -816,28 +816,29 @@ app.directive('editResourceMobilisation', ["$http", "$filter", "guid", "$q", "$l
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url("/management/list/resourceMobilisation");
+				$location.url("/submit/resourceMobilisation");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url("/management/list/resourceMobilisation");
+				$location.url("/submit/resourceMobilisation");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url("/management/list/resourceMobilisation");
+				$location.url("/submit/resourceMobilisation");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$location.url("/management/list/resourceMobilisation");
+				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				$location.url("/submit/resourceMobilisation");
 			};
 
 			//==================================

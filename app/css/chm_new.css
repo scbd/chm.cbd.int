@@ -9,6 +9,8 @@
     font-style: normal;
 }
 
+
+
 .header-banner {
     background: url('/app/img/landscape-bar.jpg');
 }
@@ -73,27 +75,27 @@
     min-height:30px;
     margin-bottom:0;
     border:0;
-    z-index:100;
+    z-index:79;
 }
 
 .navbar-portal{
     min-height:100px;
     margin-bottom:0;
     border:0;
-    z-index:90;
+    z-index:78;
 }
 .navbar-links{
     min-height:30px;
     background-color:#666;
     margin-bottom:0;
     border:0;
-    z-index:80;
+    z-index:77;
 }
 
 .navbar-breadcrumbs{
     min-height:30px;
     background-color:#ddd;
-    z-index:70;
+    z-index:76;
     margin-bottom:0;
 }
 
@@ -197,7 +199,7 @@ body {
   margin-bottom: 260px;
 }
 .footer {
-  position: absolute;
+  /*position: absolute;*/
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */

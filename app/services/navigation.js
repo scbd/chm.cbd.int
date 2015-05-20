@@ -96,7 +96,20 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
                 url += schema + '/' + (uid || 'new');
 
                 return url;
+            },
+
+            //======================================================
+            //
+            //
+            //======================================================
+            toLocalUrl : function toLocalUrl(url) {
+                
+                if(_(url).startsWith("http://chm.cbd.int/" )) url = url.substr("http://chm.cbd.int" .length);
+                if(_(url).startsWith("https://chm.cbd.int/")) url = url.substr("https://chm.cbd.int".length);
+
+                return url;
             }
+
         };
     }]);
 

@@ -1,4 +1,4 @@
-define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/moment"], function(_) { 'use strict';
+define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/moment", "utilities/solr"], function(_) { 'use strict';
 
     return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', function($scope, $route, $http, $location, $q, solr, user, navigation) {
 
@@ -43,7 +43,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
             var qsParams =
             {
                 "q"  : buildQuery(),
-                "fl" : "identifier_s, schema_s, schema_EN_t, title_EN_t, summary_EN_t, description_EN_t, createdBy_s, createdDate_dt, updatedBy_s, updatedDate_dt, reportType_EN_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
+                "fl" : "identifier_s, schema_s, schema_*_t, title_*_t, summary_*_t, description_*_t, createdBy_s, createdDate_dt, updatedBy_s, updatedDate_dt, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : pageIndex*pageSize,
                 "row"   : pageSize,
@@ -54,42 +54,11 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
                 $scope.recordCount = res.data.response.numFound;
                 $scope.records     = _.map(res.data.response.docs, function(v){
                     return _.defaults(v, {
-                        schemaName : {
-                            en : v.schema_EN_t || v.schema_s,
-                            es : v.schema_ES_t || v.schema_EN_t || v.schema_s,
-                            fr : v.schema_FR_t || v.schema_EN_t || v.schema_s,
-                            ru : v.schema_RU_t || v.schema_EN_t || v.schema_s,
-                            zh : v.schema_ZH_t || v.schema_EN_t || v.schema_s,
-                            ar : v.schema_AR_t || v.schema_EN_t || v.schema_s,
-                        },
-                        title : {
-                            en : v.title_EN_t   || v.title_t,
-                            es : v.title_ES_t   || v.title_EN_t   || v.title_t,
-                            fr : v.title_FR_t   || v.title_EN_t   || v.title_t,
-                            ru : v.title_RU_t   || v.title_EN_t   || v.title_t,
-                            zh : v.title_ZH_t   || v.title_EN_t   || v.title_t,
-                            ar : v.title_AR_t   || v.title_EN_t   || v.title_t,
-                        },
-                        summary : {
-                            en : v.summary_EN_t || v.description_EN_t || v.summary_t    || v.description_t,
-                            es : v.summary_ES_t || v.description_ES_t || v.summary_EN_t || v.description_EN_t || v.summary_t || v.description_t,
-                            fr : v.summary_FR_t || v.description_FR_t || v.summary_EN_t || v.description_EN_t || v.summary_t || v.description_t,
-                            ru : v.summary_RU_t || v.description_RU_t || v.summary_EN_t || v.description_EN_t || v.summary_t || v.description_t,
-                            zh : v.summary_ZH_t || v.description_ZH_t || v.summary_EN_t || v.description_EN_t || v.summary_t || v.description_t,
-                            ar : v.summary_AR_t || v.description_AR_t || v.summary_EN_t || v.description_EN_t || v.summary_t || v.description_t,
-                        },
-                        reportTypeName : {
-                            en : v.reportType_EN_t,
-                            es : v.reportType_ES_t || v.reportType_EN_t,
-                            fr : v.reportType_FR_t || v.reportType_EN_t,
-                            ru : v.reportType_RU_t || v.reportType_EN_t,
-                            zh : v.reportType_ZH_t || v.reportType_EN_t,
-                            ar : v.reportType_AR_t || v.reportType_EN_t,
-                        },
-                        isPublic : v._state_s,
-                        isDraft  : v.version_s == "draft",
-                        isLocked : v.version_s == "draft-lock",
-                        url      : toLocalUrl(v.url_ss)
+                        schemaName     : solr.lstring(v, "schema_*_t",     "schema_EN_t",     "schema_s"),
+                        title          : solr.lstring(v, "title_*_t",      "title_EN_t",      "title_t"),
+                        summary        : solr.lstring(v, "summary_*_t",    "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
+                        reportTypeName : solr.lstring(v, "reportType_*_t", "reportType_EN_t"),
+                        url            : toLocalUrl(v.url_ss)
                     });
                 });
 
@@ -143,17 +112,13 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "filters/mo
         //======================================================
         function toLocalUrl(urls) {
 
-            var url = _.first(urls);
-
-            if(_(url).startsWith("http://chm.cbd.int/" )) url = url.substr("http://chm.cbd.int" .length);
-            if(_(url).startsWith("https://chm.cbd.int/")) url = url.substr("https://chm.cbd.int".length);
+            var url = navigation.toLocalUrl(_.first(urls));
 
             if(_(url).startsWith('/') && _(url).endsWith('=null'))
                 return null;
 
             return url;
         }
-
 
         //======================================================
         //

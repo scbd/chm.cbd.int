@@ -2,7 +2,7 @@
 
 define(['app', 'angular'], function (app, ng) { 'use strict';
 
-	app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", function($q, $rootScope, $window, $document) {
+	app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", "$timeout", function($q, $rootScope, $window, $document, $timeout) {
 
 		var pToken;
 
@@ -25,9 +25,14 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 			pToken = null;
 
 			var defer = $q.defer();
+			var unauthorizedTimeout = $timeout(function(){
+				defer.reject('accounts.cbd.int is not available / call is made from an unauthorized domain');
+			}, 1000);
 
 			var receiveMessage = function(event)
 			{
+				$timeout.cancel(unauthorizedTimeout);
+
 				if(event.origin!='https://accounts.cbd.int')
 					return;
 

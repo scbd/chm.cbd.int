@@ -39,5 +39,5 @@ module.exports = function(grunt) { 'use strict';
         }
     });
 
-    grunt.registerTask('default', ['bower', 'requirejs']);
+    grunt.registerTask('default', ['bower']);
 };

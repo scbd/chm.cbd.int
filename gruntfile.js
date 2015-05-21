@@ -8,7 +8,36 @@ module.exports = function(grunt) { 'use strict';
     grunt.initConfig({
 
         bower: {
-            install: { }//just run 'grunt bower:install' and you'll see files from your Bower packages in lib directory
+            install: {
+                options : {
+                    targetDir : "./app/libs",
+                    cleanTargetDir : true,
+                    install : true,
+                    copy : true,
+                    bowerOptions : {
+                        production : true
+                    }
+                }
+             }
+        },
+
+        copy : {
+            dist : {
+                files : [{ //for font-awesome
+                    expand: true,
+                    dot: true,
+                    cwd: 'bower_components/font-awesome/fonts/',
+                    src: ['*.*'],
+                    dest: 'app/libs/fonts'
+                },
+                { //for font-awesome
+                    expand: true,
+                    dot: true,
+                    cwd: 'bower_components/ionsound/sounds/',
+                    src: ['*.*'],
+                    dest: 'app/libs/ionsound/sounds'
+                }]
+            }
         },
 
         requirejs: {
@@ -31,6 +60,7 @@ module.exports = function(grunt) { 'use strict';
                         'views/database/index',
                     ]
                 }] ,
+                fileExclusionRegExp : /^intro/,
                 inlineText : true,
                 optimize : "uglify2",
                 optimizeCss : "standard"
@@ -39,5 +69,5 @@ module.exports = function(grunt) { 'use strict';
         }
     });
 
-    grunt.registerTask('default', ['bower']);
+    grunt.registerTask('default',    ['bower', 'copy']);
 };

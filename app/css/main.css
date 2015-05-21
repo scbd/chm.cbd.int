@@ -1,6 +1,6 @@
 
-@import url("../libs/bootstrap/dist/css/bootstrap.min.css");
-@import url("../libs/font-awesome/css/font-awesome.css");
+@import url("../libs/bootstrap/bootstrap.css");
+@import url("../libs/font-awesome/font-awesome.css");
 /*@import url("cbdMenu.css");
 @import url("register.css");*/
 @import url("chm_new.css");
@@ -8,8 +8,8 @@
 @import url("material.css");
 /*@import url("km.css");
 @import url("bootstrap.css");*/
-@import url("../libs/leaflet/dist/leaflet.css");
-@import url("../libs/bootstrap-datepicker/css/datepicker3.css");
+@import url("../libs/leaflet/leaflet.css");
+@import url("../libs/bootstrap-datepicker/datepicker3.css");
 [ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
 
 a:hover {text-decoration:none;}

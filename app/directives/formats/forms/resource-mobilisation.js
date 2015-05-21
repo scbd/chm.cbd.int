@@ -1,6 +1,6 @@
 define(['text!./resource-mobilisation.html', 'app', 'angular', 'lodash', 'jquery', 'authentication', '../views/resource-mobilisation', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, $) { 'use strict';
 
-app.directive('editResourceMobilisation', ["$http", "$filter", "guid", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", '$route', function ($http, $filter, guid, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation, $route) {
+app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "guid", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", '$route', function ($http, $rootScope, $filter, guid, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,

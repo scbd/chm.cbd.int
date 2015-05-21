@@ -1,27 +1,60 @@
-<div class="row">
+<div class="container">
+    <div class="row">
 
-    <!-- <div class="col-xs-3">
-        <register-facets></register-facets>
-    </div> -->
-
-    <div class="col-xs-12 my_well my_well-white">
-
+        <!-- <div class="col-xs-3">
+            <register-facets></register-facets>
+        </div> -->
         <h1>Requests</h1>
-
         <div class="row row-same-height bg-litegrey" style="margin-bottom:20px;padding-top:10px;padding-bottom:10px;">
             <div class="col-xs-12">
                 Information about this page.
             </div>
         </div>
 
-        <h2 style="margin-top:30px;border:0;">Items requiring your attention</h2>
-        <my-tasks></my-tasks>
+<md-content>
+   <md-tabs md-dynamic-height md-border-bottom>
+     <md-tab label="Items requiring your attention">
+       <md-content>
+         <h3>Items requiring your attention</h3>
+         <p><my-tasks></my-tasks></p>
+       </md-content>
+     </md-tab>
+     <md-tab label="Pending requests">
+       <md-content>
+         <h3>Pending requests</h3>
+         <p><my-pending-tasks></my-pending-tasks></p>
+       </md-content>
+     </md-tab>
+     <md-tab label="Completed requests">
+       <md-content>
+         <h3>Completed requests</h3>
+         <p><my-completed-tasks></my-completed-tasks></p>
+       </md-content>
+     </md-tab>
+   </md-tabs>
+ </md-content>
 
-        <h2 style="margin-top:30px;border:0;">Pending requests</h2>
-        <my-pending-tasks></my-pending-tasks>
 
-        <h2 style="margin-top:30px;border:0;">Completed requests</h2>
-        <my-completed-tasks></my-completed-tasks>
+<!--
+        <div class="col-xs-12 my_well my_well-white">
 
+            <h1>Requests</h1>
+
+            <div class="row row-same-height bg-litegrey" style="margin-bottom:20px;padding-top:10px;padding-bottom:10px;">
+                <div class="col-xs-12">
+                    Information about this page.
+                </div>
+            </div>
+
+            <h2 style="margin-top:30px;border:0;">Items requiring your attention</h2>
+            <my-tasks></my-tasks>
+
+            <h2 style="margin-top:30px;border:0;">Pending requests</h2>
+            <my-pending-tasks></my-pending-tasks>
+
+            <h2 style="margin-top:30px;border:0;">Completed requests</h2>
+            <my-completed-tasks></my-completed-tasks>
+
+        </div> -->
     </div>
 </div>

@@ -14,7 +14,7 @@ require.config({
       'lodash'           : 'libs/lodash/lodash',
       'URIjs'            : 'libs/uri.js',
       'linqjs'           : 'libs/linqjs/linq',
-      'leaflet'          : 'libs/leaflet/dist/leaflet',
+      'leaflet'          : 'libs/leaflet/leaflet',
       'jquery'           : 'libs/jquery/jquery',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',

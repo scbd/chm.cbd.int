@@ -26,7 +26,8 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 			var defer = $q.defer();
 			var unauthorizedTimeout = $timeout(function(){
-				defer.reject('accounts.cbd.int is not available / call is made from an unauthorized domain');
+				console.error('accounts.cbd.int is not available / call is made from an unauthorized domain');
+				defer.resolve(null);
 			}, 1000);
 
 			var receiveMessage = function(event)

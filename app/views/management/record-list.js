@@ -159,9 +159,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                               'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
                 ];
 
-                if(options.subSchema=="nr")    query.push("    reportType_s:("+ _(nr   ).map(solr.escape).values().join(', ') +")");
-                if(options.subSchema=="nbsap") query.push("    reportType_s:("+ _(nbsap).map(solr.escape).values().join(', ') +")");
-                if(options.subSchema=="other") query.push("NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join(', ') +")");
+                if(options.subSchema=="nr")    query.push("    reportType_s:("+ _(nr   ).map(solr.escape).values().join(' ') +")");
+                if(options.subSchema=="nbsap") query.push("    reportType_s:("+ _(nbsap).map(solr.escape).values().join(' ') +")");
+                if(options.subSchema=="other") query.push("NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join('  ') +")");
             }
 
             // Apply ownership

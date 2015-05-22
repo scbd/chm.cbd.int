@@ -6,8 +6,8 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN npm install
 
-# Disabled for dev. Re-enable is people complaints about load speed!
-# RUN ./node_modules/.bin/grunt requirejs
+# Minify + concat
+RUN ./node_modules/.bin/grunt requirejs
 
 ENV PORT 8000
 

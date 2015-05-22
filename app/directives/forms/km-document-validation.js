@@ -24,6 +24,7 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 						var qBody = $element.parents("body:last");
 
 						$scope.$parent.tab = sTab;
+						//$scope.$parent.selectedIndex = sTab;
 
 						$timeout(function jumpTo(){
 							qBody.stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
@@ -43,6 +44,7 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 
 					return field;
 				};
+
 
 				//====================
 				//

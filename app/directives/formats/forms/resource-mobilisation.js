@@ -9,6 +9,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 		scope      : {},
 		link : function($scope)
 		{
+			$scope.selectedIndex = 0;
 			$scope.status   = "";
 			$scope.error    = null;
 			$scope.document = null;
@@ -111,6 +112,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 
                 return false;
             };
+
 
 			//==================================
 			//
@@ -312,8 +314,11 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
 				}
+
 				return document;
 			};
+
+
 
 
 
@@ -742,6 +747,19 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					$scope.validate();
 			});
 
+
+
+			//==================================
+			//
+			//==================================
+			$scope.$watch('selectedIndex', function(selectedIndex) {
+
+				if(!selectedIndex) return;
+
+				if (selectedIndex == 6)
+					$scope.validate();
+
+			});
 			///////////////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////////////////
@@ -805,11 +823,12 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.onPrePublish = function() {
-				return $scope.validate().then(function(hasError) {
-					if (hasError)
-						$scope.tab = "review";
-					return hasError;
-				});
+
+				 return $scope.validate().then(function(hasError) {
+				 	if (hasError)
+					$scope.selectedIndex = 6;
+				 	return hasError;
+				 });
 			};
 
 			//==================================
@@ -823,6 +842,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.onPostPublish = function() {
+				$rootScope.$broadcast("onPostPublish", "Record published successfully.");
 				$location.url("/submit/resourceMobilisation");
 			};
 
@@ -830,7 +850,9 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url("/submit/resourceMobilisation");
+				//$location.url("/submit/resourceMobilisation");
+				$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+
 			};
 
 			//==================================

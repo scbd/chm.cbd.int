@@ -1,6 +1,10 @@
 
 @import url("../libs/angular-material/angular-material.css");
 
+md-toast{
+    position:fixed!important;
+}
+
 md-toast.md-default-theme .md-button.md-highlight {
   color:inherit;
 }

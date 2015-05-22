@@ -6,12 +6,14 @@
 
 	<div ng-show="report">
 		<div ng-show="isValid()" class="alert alert-success">
-			Your document is valid.
+			<h2>Your document is valid and can now be published</h2>
+			<h4 class="color-darkgrey"> Please review your document before publishing. All published document are made publically available.</h4>
 		</div>
 
 
 		<div ng-show="hasErrors()" class="alert alert-warning">
-			Your document contains errors.
+			<h2 class="color-red">Your document contains errors.</h2>
+			<h4 class="color-darkgrey"> All errors must be corrected before this document can be published.</h4>
 			<ul>
 				<li ng-repeat="error in report.errors" title="{{error.parameters}}">
 					{{getTranslation(error.code, error.property, error.parameters)}} / <a href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>

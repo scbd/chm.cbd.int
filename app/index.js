@@ -13,7 +13,7 @@ require(['jquery'], function($) {
 define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast' ,  function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast' ,'$timeout',  function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, $timeout) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
@@ -99,7 +99,17 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
         //
         //
         //======================================================
+
+        $rootScope.$on("onPostPublish", function(evt, msg) {
+            $scope.showSimpleToast(msg);
+        });
+
         $rootScope.$on("onPostClose", function(evt, msg) {
+            $scope.showSimpleToast(msg);
+        });
+
+        $rootScope.$on("onSaveDraft", function(evt, msg) {
+            $rootScope.$broadcast("DraftSaved");
             $scope.showSimpleToast(msg);
         });
 
@@ -109,7 +119,7 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
               $mdToast.simple()
                 .content(msg)
                 .action('OK')
-                .position('right top')
+                .position('top right')
                 .hideDelay(3000)
             );
         }

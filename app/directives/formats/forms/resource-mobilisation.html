@@ -1,6 +1,6 @@
 ﻿<div>
 <style type="text/css">.popover {font-weight: normal; max-width: 400px;} </style>
-	<h1 style="margin-bottom: 5px">Financial Reporting Framework  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+	<h1 style="margin-bottom: 5px">Financial Reporting Framework <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
 	<h2 style="margin-top: 5px; border-bottom: none">Reporting on baseline and progress towards 2015</h2>
 	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
 		<strong>Error as occured...</strong>
@@ -14,15 +14,15 @@
 		<div style="position: relative">
 
 			<div class="row">
-				<div class="col-xs-12 visible-xs">
+				<!-- <div class="col-xs-12 visible-xs">
 					<div class="">
 						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						<span km-form-material-buttons  document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
-				</div>
+				</div> -->
 
-				<div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
-					<ul class="pagination">
+				<div class="col-md-6">
+					<!-- <ul class="pagination">
 						<li ng-class="{ disabled: tab=='part1'}"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
 						<li ng-class="{ active  : tab=='part1'}"><a href="" ng-click="tab='part1'">Part 1</a></li>
 						<li ng-class="{ active  : tab=='part2'}"><a href="" ng-click="tab='part2'">Part 2</a></li>
@@ -32,20 +32,30 @@
 						<li ng-class="{ active  : tab=='part6'}"><a href="" ng-click="tab='part6'">Part 6</a></li>
 						<li ng-class="{ active  : tab=='review'}"><a href="" ng-click="tab='review'" >Review</a></li>
 						<li ng-class="{ disabled: tab=='review'}"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
-					</ul>
+					</ul> -->
+					<div class="pagination">
+					<span km-form-languages ng-model="document.header.languages"></span>
+				</div>
 				</div>
 
-				<div class="col-lg-4 col-md-5 col-sm-6 hidden-xs" style="text-align:right">
+				<div class="col-md-6" style="text-align:right">
 					<div class="pagination">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						<span km-form-material-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
 				</div>
 			</div>
 
 			<form name="editForm">
 
-			<div km-tab="part1">
+				{{can}}
+
+
+<md-content>
+<md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
+	<md-tab label="Part 1">
+	<md-content class="md-padding">
+
+			<div id="part1" >
 				<div class="row">
 					<div class="col-xs-12">
 						<legend>Introduction</legend>
@@ -154,7 +164,12 @@
 				</div>
 			</div>
 
-			<div km-tab="part2">
+		</md-content>
+</md-tab>
+<md-tab label="Part 2">
+	<md-content class="md-padding">
+
+			<div id="part2">
 				<div class="row">
 					<div class="col-md-12">
 						<legend>1. International financial resource flows</legend>
@@ -436,7 +451,16 @@
 				</div>
 			</div>
 
-			<div km-tab="part3">
+
+
+		</md-content>
+</md-tab>
+<md-tab label="Part 3">
+	<md-content class="md-padding">
+
+
+
+			<div id="part3">
 				<div class="row">
 					<div class="col-lg-12">
 						<legend>2. Inclusion of biodiversity in priorities and plans</legend>
@@ -471,7 +495,18 @@
 
 			</div>
 
-			<div km-tab="part4">
+
+
+
+		</md-content>
+</md-tab>
+<md-tab label="Part 4">
+	<md-content class="md-padding">
+
+
+
+
+			<div id="part4">
 				<div class="row">
 					<div class="col-lg-12">
 						<legend>4. Reporting current domestic biodiversity expenditures</legend>
@@ -793,7 +828,16 @@
 				</div>
 			</div>
 
-			<div km-tab="part5">
+
+		</md-content>
+</md-tab>
+<md-tab label="Part 5">
+	<md-content class="md-padding">
+
+
+
+
+			<div id="part5">
 				<div class="row">
 					<div class="col-lg-12">
 						<legend>5. Reporting funding needs, gaps, and priorities</legend>
@@ -899,7 +943,18 @@
 
 			</div>
 
-			<div km-tab="part6">
+
+
+		</md-content>
+</md-tab>
+<md-tab label="Part 6">
+	<md-content class="md-padding">
+
+
+
+
+
+			<div id="part6">
 				<div class="row">
 					<div class="col-lg-12">
 						<legend>6. National finance plans</legend>
@@ -1110,7 +1165,12 @@
 			</div>
 			</form>
 
-			<div km-tab="review">
+		</md-content>
+</md-tab>
+<md-tab label="Review" >
+	<md-content class="md-padding">
+
+			<div id="review">
 
 				<div km-document-validation ng-model="validationReport"></div>
 
@@ -1122,10 +1182,14 @@
 
 			</div>
 
+		</md-content>
+</md-tab>
+</md-content>
+
 			<div class="row">
 
 				<div class="col-md-9 col-sm-8 col-xs-12">
-					<ul class="pagination">
+					<!-- <ul class="pagination">
 						<li ng-class="{ disabled: tab=='part1'}"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
 						<li ng-class="{ active  : tab=='part1'}"><a href="" ng-click="tab='part1'">Part 1</a></li>
 						<li ng-class="{ active  : tab=='part2'}"><a href="" ng-click="tab='part2'">Part 2</a></li>
@@ -1135,18 +1199,18 @@
 						<li ng-class="{ active  : tab=='part6'}"><a href="" ng-click="tab='part6'">Part 6</a></li>
 						<li ng-class="{ active  : tab=='review'}"><a href="" ng-click="tab='review'">Review</a></li>
 						<li ng-class="{ disabled: tab=='review'}"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
-					</ul>
+					</ul> -->
 				</div>
 
 				<div class="col-md-3 col-sm-4 hidden-xs" style="text-align:right">
 					<div class="pagination">
-						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						<span km-form-material-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
 				</div>
 
 				<div class="col-xs-12 visible-xs">
 					<div class="">
-						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						<span km-form-material-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
 				</div>
 			</div>

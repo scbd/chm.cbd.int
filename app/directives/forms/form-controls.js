@@ -4,6 +4,7 @@ define([
 	'./km-document-validation',
 	'./km-form-languages',
 	'./km-form-std-buttons',
+	'./km-form-material-buttons',
 	'./km-inputtext-list',
 	'./km-inputtext-ml',
 	'./km-link',

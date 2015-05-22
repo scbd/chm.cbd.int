@@ -37,11 +37,12 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                                         $and: [{
                                             "createdOn": {
                                                 "$gt": new Date(notification.createdOn).toISOString()
-                                            }
+                                            },
+                                            $or:[{'state': 'read'},{'state': 'unread'}]
                                         }]
                                     };
                             }
-
+    	                    var continueNotification = true;
                             userNotificationService.query(queryMyNotifications, pageNumber, pageLength)
                                 .then(function(data) {
                                     if (!data || data.length === 0)
@@ -63,11 +64,12 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                                 })
                                 .catch(function(error){
                                     if(error.data.statusCode==401){
-                                        authentication.getUser();
+                                        continueNotification = false;
                                     }
                                 })
                                 .finally(function() {
-                                   notificationTimer =  $timeout(function() { getNotification();}, 10000);
+                                   if(continueNotification)
+                                        notificationTimer =  $timeout(function() { getNotification();}, 10000);
                                 });
                             //}
                         }

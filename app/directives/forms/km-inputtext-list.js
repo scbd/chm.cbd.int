@@ -1,4 +1,4 @@
-define(['app', 'angular', 'jquery', 'text!./km-inputtext-list.html'], function(app, angular, $, template) { 'use strict';
+define(['app', 'angular', 'lodash', 'text!./km-inputtext-list.html'], function(app, angular, _, template) { 'use strict';
 
 	app.directive('kmInputtextList', [function ()
 	{
@@ -13,35 +13,94 @@ define(['app', 'angular', 'jquery', 'text!./km-inputtext-list.html'], function(a
 				binding     : "=ngModel",
 				required    : "@"
 			},
-			link: function ($scope, $element, attrs, ngModelController)
+			link: function ($scope)
 			{
-				$scope.skipLoad = false;
-				$scope.texts    = [];
-				$scope.$watch('binding', $scope.load);
-				$scope.$watch('binding', function() {
-					ngModelController.$setViewValue($scope.binding);
-				});
+				$scope.texts = [];
+
+				ensureLastEmpty();
 
 				//==============================
 				//
 				//==============================
-				$scope.load = function ()
-				{
-					if($scope.skipLoad)
-					{
-						$scope.skipLoad = false;
+				$scope.$watch('binding', function(){
+
+
+					var oldTexts = _($scope.texts  ).pluck('value').compact().value();
+					var newTexts = _($scope.binding)               .compact().value();
+
+					newTexts = _.isEmpty(newTexts) ? undefined : newTexts;
+					oldTexts = _.isEmpty(oldTexts) ? undefined : oldTexts;
+
+					if(areEquals(newTexts, oldTexts)) {
 						return;
 					}
 
-					var oBinding = $scope.binding || [];
-
-					$scope.texts = [];
-
-					angular.forEach(oBinding, function(text)
-					{
-						$scope.texts.push({value : text});
+					$scope.texts = _.map(newTexts || [], function(t){
+						return { value : t };
 					});
-				};
+
+					ensureLastEmpty();
+
+				}, true); //force deep watching
+
+				//==============================
+				//
+				//==============================
+				$scope.$watch('texts', function(){
+
+					ensureLastEmpty();
+
+					var newTexts = _($scope.texts  ).pluck('value').compact().value();
+					var oldTexts = _($scope.binding)               .compact().value();
+
+					newTexts = _.isEmpty(newTexts) ? undefined : newTexts;
+					oldTexts = _.isEmpty(oldTexts) ? undefined : oldTexts;
+
+					if(areEquals(newTexts, oldTexts)) {
+						return;
+					}
+
+					//Update the binding
+
+					var newBinding;
+
+					if(newTexts) {
+
+						newBinding = $scope.binding || [];
+						newBinding.length = newTexts.length;             //clear the array;
+
+						for(var i=0; i<newTexts.length;i++)
+							newBinding[i] = newTexts[i];
+					}
+
+					$scope.binding = newBinding;
+
+				}, true); //force deep watching
+
+				//==============================
+				//
+				//==============================
+				function ensureLastEmpty() {
+
+					var last = _.last($scope.texts||[]);
+
+					if(!last || last.value)
+						$scope.texts.push({value : ''});
+				}
+
+				//==============================
+				//
+				//==============================
+				function areEquals(a, b) {
+
+					a = a||[];
+					b = b||[];
+
+					if(a.length!=b.length)
+						return false;
+
+					return a.join('|') == b.join('|');
+				}
 
 				//==============================
 				//
@@ -49,43 +108,6 @@ define(['app', 'angular', 'jquery', 'text!./km-inputtext-list.html'], function(a
 				$scope.remove = function (index)
 				{
 					$scope.texts.splice(index, 1);
-
-					$scope.save();
-				};
-
-				//==============================
-				//
-				//==============================
-				$scope.save = function ()
-				{
-					var oNewBinding = [];
-					var oText       = $scope.texts;
-
-					angular.forEach(oText, function(text)
-					{
-						if($.trim(text.value)!="")// jshint ignore:line
-							oNewBinding.push($.trim(text.value));
-					});
-
-					$scope.binding  = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
-					$scope.skipLoad = true;
-				};
-
-				//==============================
-				//
-				//==============================
-				$scope.getTexts = function ()
-				{
-					if($scope.texts.length==0)// jshint ignore:line
-						$scope.texts.push({value : ""});
-
-					var sLastValue = $scope.texts[$scope.texts.length-1].value;
-
-					//NOTE: IE can set value to 'undefined' for a moment
-					if(sLastValue && sLastValue!="")// jshint ignore:line
-						$scope.texts.push({value : ""});
-
-					return $scope.texts;
 				};
 
 				//==============================
@@ -93,7 +115,7 @@ define(['app', 'angular', 'jquery', 'text!./km-inputtext-list.html'], function(a
 				//==============================
 				$scope.isRequired = function()
 				{
-					return $scope.required!=undefined && $.isEmptyObject($scope.binding);// jshint ignore:line
+					return $scope.required && _($scope.texts).pluck('value').compact().isEmpty();
 				};
 			}
 		};

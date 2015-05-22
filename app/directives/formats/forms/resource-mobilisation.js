@@ -835,6 +835,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
+				$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
 				$location.url("/submit/resourceMobilisation");
 			};
 

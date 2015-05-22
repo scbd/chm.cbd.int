@@ -8,6 +8,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 			replace: true,
 			transclude: true,
 			scope: {
+				formStatus     	  : "=status",
 				getDocumentFn     : "&document",
 				onPreCloseFn      : "&onPreClose",
 				onPostCloseFn     : "&onPostClose",
@@ -23,13 +24,13 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 			link: function ($scope, $element)
 			{
 				$scope.errors = null;
-				$scope.status = "";
-				$scope.updateSecurity();
+				$scope.status = "loading buttons";
+				//$scope.updateSecurity();
+
 
 			},
 			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout)
 			{
-
 
 				//====================
 				//
@@ -210,12 +211,32 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 				};
 
 
+				// $scope.loadSecurity = function(){
+				// 	$timeout(function(){$scope.updateSecurity();}, 500);
+				// }
+
+				//==================================
+				//
+				//==================================
+				$scope.$watch('formStatus', function(status) {
+
+					if(!status) return;
+
+					if(status =="ready"){
+						$scope.updateSecurity();
+						$scope.status = "ready";
+					}
+				});
+
+
 				//====================
 				//
 				//====================
 				$scope.updateSecurity = function()
 				{
 					$scope.security = {};
+
+					$scope.formStatus = "loading";
 
 					$q.when($scope.getDocumentFn()).then(function(document){
 
@@ -246,7 +267,10 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 								$scope.security.canSaveDraft = allowed;
 							});
 						});
-					});
+					}).finally(function(){
+						$scope.formStatus = "ready";
+
+					});;
 				};
 
 

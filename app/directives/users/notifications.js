@@ -37,7 +37,8 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                                         $and: [{
                                             "createdOn": {
                                                 "$gt": new Date(notification.createdOn).toISOString()
-                                            }
+                                            },
+                                            $or:[{'state': 'read'},{'state': 'unread'}]
                                         }]
                                     };
                             }

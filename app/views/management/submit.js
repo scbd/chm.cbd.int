@@ -1,19 +1,19 @@
-define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km-workflows'], function() { 'use strict';
+define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr"], function(_) { 'use strict';
 
-    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm",
-     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm) {
+    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",
+     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr) {
 
         $scope.schemasList = [
-            { identifier: 'nationalReport'         ,publishCount:0, draftCount:0, requestCount:0 },
-            { identifier: 'aichiTarget'            ,publishCount:0, draftCount:0, requestCount:0 },
-            { identifier: 'resourceMobilisation'   ,publishCount:0, draftCount:0, requestCount:0     },
-            { identifier: 'resource'               ,publishCount:0, draftCount:0, requestCount:0     },
-            { identifier: 'organization'           ,publishCount:0, draftCount:0, requestCount:0    },
-            { identifier: 'caseStudy'              ,publishCount:0, draftCount:0, requestCount:0    },
-            { identifier: 'marineEbsa'             ,publishCount:0, draftCount:0, requestCount:0   },
-            { identifier: 'strategicPlanIndicator' ,publishCount:0, draftCount:0, requestCount:0   },
-            { identifier: 'absch'                  ,publishCount:0, draftCount:0, requestCount:0   },
-            { identifier: 'bch'                    ,publishCount:0, draftCount:0, requestCount:0   },
+            { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
+            { identifier: 'aichiTarget'            ,public:0, draft:0, workflow:0 },
+            { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
+            { identifier: 'resource'               ,public:0, draft:0, workflow:0 },
+            { identifier: 'organization'           ,public:0, draft:0, workflow:0 },
+            { identifier: 'caseStudy'              ,public:0, draft:0, workflow:0 },
+            { identifier: 'marineEbsa'             ,public:0, draft:0, workflow:0 },
+            { identifier: 'strategicPlanIndicator' ,public:0, draft:0, workflow:0 },
+            { identifier: 'absch'                  ,public:0, draft:0, workflow:0 },
+            { identifier: 'bch'                    ,public:0, draft:0, workflow:0 },
         ];
 
         $scope.government = userGovernment();
@@ -36,9 +36,16 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
             // ABS Facets
             ///////////////
             var absSchemas = [ "absPermit", "absCheckpoint", "absCheckpointCommunique", "authority", "measure", "database", "resource"]
-
-            var publisehdReportQuery = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=realm_ss&fl=&facet.mincount=1&q=(realm_ss:abs AND '+
-            '(schema_s:' +  absSchemas.join(" OR schema_s:") + '))+AND+NOT+version_s:*&rows=0&wt=json');
+            
+            var qsABSFacetParams =
+            {
+                "q"  : '(realm_ss:abs AND '+'(schema_s:' +  absSchemas.join(" OR schema_s:") + ')) AND NOT version_s:*',
+                "rows" : 0,
+               "facet":true,
+               "facet.mincount":1,
+               "facet.field":"realm_ss"
+            };
+            var publisehdReportQuery = $http.get('/api/v2013/index/select', { params : qsABSFacetParams});
 
             $q.when(publisehdReportQuery)
             .then(function(results){
@@ -53,50 +60,55 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
             // CHM Facets
             ///////////////
 
+            
             var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
-
-            var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
-                                qSchema + ')+AND+NOT+version_s:*+AND+NOT+workflow_s:*&rows=0&wt=json');
-            var drafts    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
-                                qSchema + ')+AND+version_s:*+AND+NOT+workflow_s:*&rows=0&wt=json');
-            var request    	  = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.mincount=1&facet.field=schema_s&fl=&q=(realm_ss:chm '+
-                                qSchema + ')+AND+version_s:*+AND+workflow_s:*&rows=0&wt=json');
-
-            $q.all([published, drafts, request])
-            .then(function(results) {
-
-              var index=0;
-              _.each(results, function(facets){
-                  _.each(readFacets2(facets.data.facet_counts.facet_fields.schema_s), function(facet){
-                        // add all schema's under national report
-                        var schema = facet.schema;
-                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'],schema)>=0){
-                            schema = 'nationalReport'
-                        }
-                        var schemaTypeFacet = _.where($scope.schemasList,{"identifier":schema});
-
-                        if(schemaTypeFacet.length>0){
-                            if(index===0)
-                                  schemaTypeFacet[0].publishCount += facet.count;
-                            else if(index==1)
-                                  schemaTypeFacet[0].draftCount += facet.count;
-                            else if(index==2)
-                                schemaTypeFacet[0].requestCount += count;
-                        }
-                  });
-                index++;
+            
+              // Apply ownership
+              var userGroups = [];
+              user.userGroups.map(function(group){
+                  userGroups.push(solr.escape(group));
               });
+           
+            var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
+            var q = '(realm_ss:chm ' + qSchema + ownershipQuery + ')';
+        	
+            var qsOtherSchemaFacetParams =
+             {
+                "q"  : q,
+                "rows" : 0,
+               "facet":true,
+               "facet.mincount":1,
+               "facet.pivot":"schema_s,_state_s"
+             };
+                
+             var OtherSchemaFacet     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
+             
+            $q.when(OtherSchemaFacet).then(function(results) {
 
-          })
-          .catch(function(error) {
+                  _.each(results.data.facet_counts.facet_pivot['schema_s,_state_s'], function(facet){
+                       var schema = facet.value;
+                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'],schema)>=0){
+                            schema = 'nationalReport';
+                        }
+                    	var reportType = _.first(_.where($scope.schemasList, {'identifier':schema}));
+            	        if(reportType)
+                    	   facetSummation(facet,reportType);
+                  });
+
+            }).then(null, function(error) {
                console.log(error );
-          });
-
+            });
         };
 
         $scope.loadFacets();
 
+        function facetSummation(facets,reportType){
+            _.each(facets.pivot,function(facet){
+                reportType[facet.value] += facet.count; 
+            });
+            
+        }
         function readFacets2(solrArray) {
             var facets = [];
             if(solrArray){
@@ -107,7 +119,6 @@ define(['app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km
             }
             return facets;
         }
-
         $scope.getFacet = function(schema){
             return _.first(_.where($scope.schemasList,{"identifier":schema}));
         }

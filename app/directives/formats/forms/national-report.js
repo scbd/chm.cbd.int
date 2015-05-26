@@ -1,6 +1,6 @@
 define(['text!./national-report.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
+app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template : template,
@@ -31,8 +31,9 @@ app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'ISt
 
 				var qs = $route.current.params;
 				var schema  = "nationalReport";
-				var reportType  = qs.reportType;
+				var reportType  = qs.type;
 				var promise = null;
+
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);
@@ -77,6 +78,7 @@ app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'ISt
 			        }
 
 			        return doc;
+
 				}).then(function(doc) {
 
 					$scope.status = "ready";
@@ -302,7 +304,8 @@ app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'ISt
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
+                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+                $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
 			};
 
 			//==================================
@@ -310,40 +313,26 @@ app.directive("editNationalReport", ["$http", "$q", "$location", "$filter", 'ISt
 			//==================================
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
-                var schema = '';
-                     if($scope.qs.type=="nbsap") schema='nationalStrategicPlan';
-                else if($scope.qs.type=="nr")    schema='nationalReport';
-                else if($scope.qs.type=="other") schema='otherReport';
-				$location.url("/management/national-reporting/" + schema);
+                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+                $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				gotoManager();
+                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				gotoManager();
+                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
+                $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
 			};
 
-			//==================================
-			//
-			//==================================
-			function gotoManager() {
-                var schema = '';
 
-                     if($scope.qs.type=="nbsap") schema='nationalStrategicPlan';
-                else if($scope.qs.type=="nr")    schema='nationalReport';
-                else if($scope.qs.type=="other") schema='otherReport';
-
-				$location.url("/management/national-reporting/" + schema);
-
-			}
 
 			//==================================
 			//

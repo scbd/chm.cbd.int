@@ -25,19 +25,10 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 			{
 				$scope.errors = null;
 				$scope.status = "loading buttons";
-				//$scope.updateSecurity();
-
 
 			},
 			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout)
 			{
-
-				//====================
-				//
-				//====================
-				$rootScope.$on("DraftSaved", function(evt) {
-					$scope.status = "";
-				});
 
 				//====================
 				//
@@ -47,10 +38,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 					$scope.status = "saving";
 
 					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
-
-						//return $scope.closeDialog().then(function() {
 							return result;
-						//});
 					}).then(function(cancel) {
 						if(cancel)
 							return;
@@ -62,11 +50,11 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 
 						return editFormUtility.saveDraft(document).then(function(draftInfo) {
 							$scope.onPostSaveDraftFn({ data: draftInfo });
+							$scope.status = "";
 
 						});
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
-						//$scope.closeDialog();
 					});
 				};
 
@@ -127,8 +115,15 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 							throw "Invalid document";
 
 						return editFormUtility.publish(document).then(function(documentInfo) {
-
 							$scope.onPostPublishFn({ data: documentInfo });
+
+
+							var identifier = document.header.identifier;
+							var schema     = document.header.schema;
+
+							$rootScope.$broadcast("ProcessingRecord", identifier, schema);
+
+
 							return documentInfo;
 						});
 
@@ -211,9 +206,6 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 				};
 
 
-				// $scope.loadSecurity = function(){
-				// 	$timeout(function(){$scope.updateSecurity();}, 500);
-				// }
 
 				//==================================
 				//
@@ -274,107 +266,6 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 				};
 
 
-				//====================
-				//
-				//====================
-				// $scope.publish = function()
-				// {
-				// 	$q.when($scope.onPrePublishFn()).then(function(result) {
-				//
-				// 		return $scope.closeDialog().then(function() {
-				// 			return result;
-				// 		});
-				//
-				// 	}).then(function(canceled) {
-				//
-				// 		if(canceled)
-				// 			return;
-				//
-				// 		var document = $scope.getDocumentFn();
-				//
-				// 		if(!document)
-				// 			throw "Invalid document";
-				//
-				// 		return editFormUtility.publish(document).then(function(documentInfo) {
-				//
-				// 			$scope.onPostPublishFn({ data: documentInfo });
-				//
-				// 			return documentInfo;
-				// 		});
-				//
-				// 	}).catch(function(error){
-				//
-				// 		$scope.onErrorFn({ action: "publish", error: error });
-				// 		$scope.closeDialog();
-				//
-				// 	});
-				// };
-
-				//====================
-				//
-				//====================
-				// $scope.publishRequest = function()
-				// {
-				// 	$q.when($scope.onPrePublishFn()).then(function(result) {
-				//
-				// 		return $scope.closeDialog().then(function() {
-				// 			return result;
-				// 		});
-				//
-				// 	}).then(function(canceled) {
-				//
-				// 		if(canceled)
-				// 			return;
-				//
-				// 		var document = $scope.getDocumentFn();
-				//
-				// 		if(!document)
-				// 			throw "Invalid document";
-				//
-				// 		return editFormUtility.publishRequest(document).then(function(workflowInfo) {
-				//
-				// 			$scope.onPostWorkflowFn({ data: workflowInfo });
-				//
-				// 			return workflowInfo;
-				// 		});
-				//
-				// 	}).catch(function(error){
-				//
-				// 		$scope.onErrorFn({ action: "publishRequest", error: error });
-				// 		$scope.closeDialog();
-				//
-				// 	});
-				// };
-
-				//====================
-				//
-				//====================
-				// $scope.saveDraft = function()
-				// {
-				// 	$q.when($scope.onPreSaveDraftFn()).then(function(result) {
-				//
-				// 		return $scope.closeDialog().then(function() {
-				// 			return result;
-				// 		});
-				// 	}).then(function(cancel) {
-				// 		if(cancel)
-				// 			return;
-				//
-				// 		var document = $scope.getDocumentFn();
-				//
-				// 		if(!document)
-				// 			throw "Invalid document";
-				//
-				// 		return editFormUtility.saveDraft(document).then(function(draftInfo) {
-				// 			$scope.onPostSaveDraftFn({ data: draftInfo });
-				// 		});
-				// 	}).catch(function(error){
-				// 		$scope.onErrorFn({ action: "saveDraft", error: error });
-				// 		$scope.closeDialog();
-				// 	});
-				// };
-
-
 
 				//====================
 				//
@@ -387,14 +278,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 						$scope.errors = null;
 				};
 
-				//====================
-				//
-				//====================
-				// $scope.closeDialog = function()
-				// {
-				// 	return $q.all([$scope.showSaveDialog(false), $scope.showCancelDialog(false)]);
-				// };
-
+		
 				//====================
 				//
 				//====================
@@ -404,8 +288,6 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 						return angular.fromJson(angular.toJson(data));
 				};
 
-
-				$scope.updateSecurity();
 
 			}]
 		};

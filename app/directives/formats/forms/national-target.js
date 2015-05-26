@@ -1,6 +1,6 @@
 define(['text!./national-target.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-target', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", function ($filter, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route) {
+app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", function ($filter, $rootScope, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route) {
     return {
         restrict: 'E',
         template : template,
@@ -303,7 +303,8 @@ app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "auth
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
+                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+                gotoManager();
 			};
 
 			//==================================
@@ -311,20 +312,22 @@ app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "auth
 			//==================================
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
-				$location.url("/management/national-reporting/nationalTarget");
+                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+                gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				gotoManager();
+                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
+                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
 				gotoManager();
 			};
 
@@ -332,7 +335,7 @@ app.directive("editNationalTarget", ['$filter', "$http", "$q", 'IStorage', "auth
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/management/national-reporting/nationalTarget");
+				$location.url("/submit/online-reporting/nationalTarget");
 			}
 
 			//==================================

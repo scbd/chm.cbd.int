@@ -1,6 +1,6 @@
 define(['text!./national-support-tool.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-support-tool', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
+app.directive("editNationalSupportTool", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -279,40 +279,41 @@ app.directive("editNationalSupportTool", ["$http", "$q", "$location", "$filter",
 				});
 			};
 
-			//==================================
-			//
-			//==================================
-			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
-			};
+            //
+            //==================================
+            $scope.onPostWorkflow = function() {
+                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+                gotoManager();
+            };
 
-			//==================================
-			//
-			//==================================
-			$scope.onPostPublish = function() {
-				$scope.$root.showAcknowledgement = true;
-				$location.url("/management/national-reporting/nationalSupportTool");
-			};
+            //==================================
+            //
+            //==================================
+            $scope.onPostPublish = function() {
+                $scope.$root.showAcknowledgement = true;
+                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+                gotoManager();
+            };
 
-			//==================================
-			//
-			//==================================
-			$scope.onPostSaveDraft = function() {
-				gotoManager();
-			};
+            //==================================
+            //
+            //==================================
+            $scope.onPostSaveDraft = function() {
+                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+            };
 
-			//==================================
-			//
-			//==================================
-			$scope.onPostClose = function() {
-				gotoManager();
-			};
-
+            //==================================
+            //
+            //==================================
+            $scope.onPostClose = function() {
+                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
+                gotoManager();
+            };
 			//==================================
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/management/national-reporting/nationalSupportTool");
+				$location.url("/submit/online-reporting/nationalSupportTool");
 			}
 
 			//==================================

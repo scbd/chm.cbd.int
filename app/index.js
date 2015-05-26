@@ -20,6 +20,7 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
 
         $scope.breadcrumbs     = breadcrumbs;
         $scope.$root.pageTitle = { text: "" };
+        $rootScope.placeholderRecords=[];
 
         $scope.$on("$routeChangeSuccess", function(){
             $scope.routeLoaded = true;
@@ -113,7 +114,6 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
         });
 
         $rootScope.$on("onSaveDraft", function(evt, msg) {
-            $rootScope.$broadcast("DraftSaved");
             $scope.showSimpleToast(msg);
         });
 
@@ -128,6 +128,14 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
             );
         }
 
+
+        //======================================================
+        //
+        //
+        //======================================================
+        $rootScope.$on("ProcessingRecord", function(evt, recID, schema) {
+            $rootScope.placeholderRecords.push({'recID':recID,'schema':schema});
+        });
 
      }]);
 });

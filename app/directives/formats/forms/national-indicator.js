@@ -1,6 +1,6 @@
 define(['text!./national-indicator.html', 'app', 'angular', 'lodash','authentication', '../views/national-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
+app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -190,11 +190,12 @@ app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", '
 				});
 			};
 
-			//==================================
+            //==================================
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
+                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+                gotoManager();
 			};
 
 			//==================================
@@ -202,20 +203,22 @@ app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", '
 			//==================================
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
-				$location.url("/management/national-reporting/nationalIndicator");
+                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+                gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				gotoManager();
+                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
+                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
 				gotoManager();
 			};
 
@@ -223,7 +226,7 @@ app.directive("editNationalIndicator", ["$http", "$q", "$location", "$filter", '
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/management/national-reporting/nationalIndicator");
+				$location.url("/submit/online-reporting/nationalIndicator");
 			}
 
 			//==================================

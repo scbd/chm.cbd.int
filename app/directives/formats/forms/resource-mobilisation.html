@@ -14,12 +14,6 @@
 		<div style="position: relative">
 
 			<div class="row">
-				<!-- <div class="col-xs-12 visible-xs">
-					<div class="">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-material-buttons  document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-					</div>
-				</div> -->
 
 				<div class="col-md-6">
 					<!-- <ul class="pagination">
@@ -47,7 +41,7 @@
 
 			<form name="editForm">
 
-				{{can}}
+
 
 
 <md-content>
@@ -1202,15 +1196,10 @@
 					</ul> -->
 				</div>
 
-				<div class="col-md-3 col-sm-4 hidden-xs" style="text-align:right">
-					<div class="pagination">
-						<span km-form-material-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-					</div>
-				</div>
 
-				<div class="col-xs-12 visible-xs">
-					<div class="">
-						<span km-form-material-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				<div class="col-xs-12 text-right">
+					<div class="pagination">
+						<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
 				</div>
 			</div>

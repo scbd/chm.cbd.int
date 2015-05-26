@@ -1,14 +1,11 @@
-﻿<div>
+﻿<div style="padding-bottom:20px;">
 
-    <h1 ng-show="document.reportType">
-		<span>{{document.reportType | term}} </span>
-    </h1>
-    <h1 ng-hide="document.reportType">
+    <h1>
     	<span ng-switch="qs.type">
-    		<span ng-switch-when="nr">National Report</span>
-    		<span ng-switch-when="nbsap">National Biodiversity Strategies and Action Plan (NBSAP)</span>
-    		<span ng-switch-when="other">Other report</span>
-    		<span ng-switch-default="other">National Report, NBSAP or Other reports</span>
+    		<span ng-switch-when="nr">National Reports</span>
+    		<span ng-switch-when="nbsap">National Biodiversity Strategies and Action Plans (NBSAP)</span>
+    		<span ng-switch-when="other">Other reports</span>
+    		<span ng-switch-default="other">National Reports, NBSAPs or Other reports</span>
     	</span>
         <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i>
     </h1>
@@ -18,33 +15,27 @@
 		<div>{{error}}</div>
 	</div>
 
-
 	<div class="row" ng-show="status=='loading'">Loading...</div>
 
 	<div ng-hide="status=='hidden'||status=='loading'">
 
-		<div class="row">
-			<div class="col-xs-12 visible-xs">
-				<div class="">
-					<span km-form-languages ng-model="document.header.languages"></span>
-					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-				</div>
+        <div class="row" style="margin-top:30px;padding:5px;">
+			<div class="col-xs-6">
+				<span km-form-languages ng-model="document.header.languages"></span>
 			</div>
+            <div class="col-xs-6 text-right">
+                <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+            </div>
+        </div>
 
-			<div class="col-sm-8 col-xs-12">
+        <div class="row">
+			<div class="col-xs-12">
 				<ul class="pagination">
 					<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
 					<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
 					<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
 					<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>
-			</div>
-
-			<div class="col-sm-4 hidden-xs" style="text-align:right">
-				<div class="pagination">
-					<span km-form-languages ng-model="document.header.languages"></span>
-					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-				</div>
 			</div>
 		</div>
 
@@ -226,15 +217,10 @@
 				</ul>
 			</div>
 
-			<div class="col-sm-3 hidden-xs" style="text-align:right">
-				<div class="pagination">
-					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-				</div>
-			</div>
 
-			<div class="col-xs-12 visible-xs">
+			<div class="col-xs-12 text-right">
 				<div class="">
-					<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+                    <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 				</div>
 			</div>
 		</div>

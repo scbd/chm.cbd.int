@@ -1,6 +1,6 @@
 define(['text!./implementation-activity.html', 'app', 'angular', 'lodash', 'authentication', '../views/implementation-activity', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editImplementationActivity", ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
+app.directive("editImplementationActivity", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -280,39 +280,41 @@ app.directive("editImplementationActivity", ["$http", "$q", "$location", "$filte
 				});
 			};
 
-			//==================================
-			//
+            //
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
+                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+                gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url("/management/national-reporting/implementationActivity");
+                $scope.$root.showAcknowledgement = true;
+                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+                gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				gotoManager();
+                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
+                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
 				gotoManager();
 			};
-
  			//==================================
  			//
  			//==================================
 			function gotoManager() {
-				$location.url("/management/national-reporting/implementationActivity");
+				$location.url("/submit/online-reporting/implementationActivity");
 
 			}
 

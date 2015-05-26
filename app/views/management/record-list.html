@@ -3,6 +3,7 @@
     <div class="container">
 
         <div class="row" ng-switch="subSchema">
+            <h1 ng-switch-when="nr">National Report(s) <i ng-show="loading" ng-class="{ 'fa-spin':loading }" class="fa fa-spinner"></i></h1>
             <h1 ng-switch-when="nbsap">NBSAP(s) <i ng-show="loading" ng-class="{ 'fa-spin':loading }" class="fa fa-spinner"></i></h1>
             <h1 ng-switch-when="other">Other Reports <i ng-show="loading" ng-class="{ 'fa-spin':loading }" class="fa fa-spinner"></i></h1>
             <h1 ng-switch-default>{{schema | schemaName}} <i ng-show="loading" ng-class="{ 'fa-spin':loading }" class="fa fa-spinner"></i></h1>

@@ -16,6 +16,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         $scope.onDelete    = del;
         $scope.onEdit      = edit;
         $scope.onWorkflow  = viewWorkflow;
+        $scope.qs = $location.search();
+
+
 
         $scope.onAdd       = function() {
             edit({ schema_s : $scope.schema });
@@ -231,8 +234,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //======================================================
         function edit(record)
         {
-            $location.url(navigation.editUrl(record.schema_s, record.identifier_s));
+            $location.url(navigation.editUrl(record.schema_s, record.identifier_s, $scope.qs.type));
         }
+
 
         //======================================================
         //

@@ -6,10 +6,10 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
     app.value("siteMapUrls", { //legacy
 
         management: {
-            home: "/management",
-            drafts: "/management/my-drafts",
-            records: "/management/my-records",
-            workflows: "/management"
+            home: "/submit",
+            drafts: "/submit/my-drafts",
+            records: "/submit/my-records",
+            workflows: "/submit"
         },
 
         errors: {
@@ -85,7 +85,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
                 });
             },
 
-            editUrl : function(schema, uid){
+            editUrl : function(schema, uid, type){
 
                 var url = '/submit/';
 
@@ -95,6 +95,9 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
 
                 url += schema + '/' + (uid || 'new');
 
+                if(type)
+                    url += "?type=" + type;
+
                 return url;
             },
 
@@ -103,7 +106,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             //
             //======================================================
             toLocalUrl : function toLocalUrl(url) {
-                
+
                 if(_(url).startsWith("http://chm.cbd.int/" )) url = url.substr("http://chm.cbd.int" .length);
                 if(_(url).startsWith("https://chm.cbd.int/")) url = url.substr("https://chm.cbd.int".length);
 

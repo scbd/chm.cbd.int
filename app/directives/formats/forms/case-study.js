@@ -157,31 +157,38 @@ app.directive('editCaseStudy', ["$http","$rootScope","$q", "$location", "$filter
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url("/submit/caseStudy");
+				$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url("/submit/caseStudy");
+				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url("/submit/caseStudy");
+				$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$rootScope.$broadcast("onPostClose", "Case Study record closed without saving.");
-				$location.url("/submit/caseStudy");
+				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				gotoManager();
 			};
-
+			//==================================
+			//
+			//==================================
+			function gotoManager() {
+				$location.url("/submit/caseStudy");
+			}
 			//==================================
 			//
 			//==================================

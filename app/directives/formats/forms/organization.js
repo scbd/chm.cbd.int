@@ -1,6 +1,6 @@
 define(['text!./organization.html', 'app', 'angular', 'authentication', '../views/organization', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular) { 'use strict';
 
-app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "$route", function ($http, guid, $filter, Thesaurus, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, $route) {
+app.directive('editOrganization', ['$http', '$rootScope', "guid", "$filter", "Thesaurus", "$q", "$location", 'IStorage', "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "$route", function ($http, $rootScope, guid, $filter, Thesaurus, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -181,32 +181,38 @@ app.directive('editOrganization', ['$http', "guid", "$filter", "Thesaurus", "$q"
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
+				$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url('/management/list/organization');
+				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url('/management/list/organization');
+				$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);
-				else
-					$location.url('/management/list/organization');
+				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				gotoManager();
 			};
+			//==================================
+			//
+			//==================================
+			function gotoManager() {
+				$location.url("/submit/organization");
+			}
 
 			//==================================
 			//

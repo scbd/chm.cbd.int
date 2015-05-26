@@ -1,6 +1,6 @@
 define(['text!./resource.html', 'app', 'angular', 'authentication', '../views/resource', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular) { 'use strict';
 
-app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", 'authentication', 'editFormUtility', 'siteMapUrls', 'IStorage', '$route', function ($http, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, siteMapUrls, storage, $route) {
+app.directive('editResource', ['$http',"$rootScope", "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", 'authentication', 'editFormUtility', 'siteMapUrls', 'IStorage', '$route', function ($http, $rootScope, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, siteMapUrls, storage, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -220,37 +220,42 @@ app.directive('editResource', ['$http', "Enumerable", "$filter", "$q", "guid", "
 					return hasError;
 				});
 			};
-
 			//==================================
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$location.url(siteMapUrls.management.workflows);
+				$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url('/management/list/resource');
+				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+				gotoManager();
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url('/management/list/resource');
+				$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				if($location.search().returnUrl)
-					$location.url($location.search().returnUrl);
-				else
-					$location.url('/management/list/resource');
+				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				gotoManager();
 			};
+			//==================================
+			//
+			//==================================
+			function gotoManager() {
+				$location.url("/submit/resource");
+			}
 
 			//==================================
 			//

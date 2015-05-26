@@ -1,11 +1,17 @@
-define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities', 'jqvmap', 'jqvmapworld',  ], function() { 'use strict';
+/* global $ */
+define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilities', 'jqvmap', 'jqvmapworld'], function(_) { 'use strict';
 
-    return ["$scope","$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", function ($scope, $http, $q, $location, $timeout, $filter,  thesaurus) {
+    return ["$scope", "$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", function ($scope, $http, $q, $location, $timeout, $filter, thesaurus) {
 
+        $scope.loading = true;
+        $scope.countries=[];
+        $scope.colors={};
+
+        $http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) {$scope.countries = $filter('orderBy')(o.data, 'name');});
 
         if(!$scope.options) {
             $scope.options = {
-                countries:		$http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
+                countries: $http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
             };
         }
 
@@ -17,14 +23,6 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities', 'jqv
             { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
             { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' },
         ];
-
-
-
-        $scope.filterSchema     = "nationalReport,nationalTarget,nationalIndicator,progressAssessment,implementationActivity,nationalSupportTool";
-        $scope.filterGovernment = 'ca,ar';
-        $scope.filterKeywords = '';
-
-
 
         $scope.querySchema     = " ( schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:progressAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
         $scope.queryGovernment = '*:*';
@@ -54,103 +52,171 @@ define(['app', 'directives/forms/form-controls' , 'utilities/km-utilities', 'jqv
 
                 //$scope.count = data.response.numFound;
                 $scope.documents = data.grouped.government_s.groups;
+                $scope.records = $scope.documents;
 
             }).error(function (error) { console.log('onerror'); console.log(error); });
         };
 
+
+
         //================================================
-        $scope.runSearch = function() {
+        $scope.$watch('government', function() {
 
-            //$scope.queryGovernment = buildQuery($scope.government, 'government_s');
-            //$scope.querySchema = buildQuery($scope.schema, 'schema_s');
-            //$scope.queryKeywords = $scope.keyword == '' ? '*:*' : '(title_t:"' + $scope.keyword + '*" OR government_EN_t:"' + $scope.keyword +  '*" OR description_t:"' + $scope.keyword + '*" OR text_EN_txt:"' + $scope.keyword + '*")';
+                if(!$scope.government) {
+                    return;
+                }
 
-            $scope.currentPage=0;
-            $scope.query();
-        };
+                if(!$scope.documents) {
+                    runSearch();
+                }
 
-        if(!$scope.documents) {
-            $scope.runSearch();
-        }
+                var recs = [];
+                var docs = $scope.documents;
+                var gov = $scope.government;
 
+                for(var i=0; i < docs.length;i++){
+                    for(var j=0; j < gov.length;j++){
+                        if(docs[i].groupValue == gov[j].identifier){
+                            recs.push(docs[i]);
+                        }
+                    }
+                }
 
-        //$scope.query();
+                $scope.records = recs;
+                updateMap(recs);
+
+                return;
+        });
 
         // //================================================
-        // $scope.$watch('government', function() {
-        //
-        //     //if($scope.government == null) $scope.documents = "";
-        //
-        //     //if($scope.government){
-        //         $scope.queryGovernment = buildQuery($scope.government, 'government_s')
-        //     //}
-        //
-        // });
-        //
-        // // //================================================
-        // $scope.$watch('schema', function() {
-        //     $scope.querySchema = buildQuery($scope.schema, 'schema_s');
-        //
-        // });
-        // // //================================================
-        // $scope.$watch('keyword', function () {
-        //     $scope.queryKeywords = $scope.keyword == '' ? '*:*' : '(title_t:"' + $scope.keyword + '*" OR government_EN_t:"' + $scope.keyword +  '*" OR description_t:"' + $scope.keyword + '*" OR text_EN_txt:"' + $scope.keyword + '*")';
-        //
-        // });
+
 
 
         //================================================
-        function buildQuery (fitler, field) {
+        // function buildQuery (fitler, field) {
+        //
+        //     if(!fitler) return '*:*';
+        //     if(!fitler.length===0) return '*:*';
+        //
+        //     var conditions = [];
+        //
+        //     fitler.forEach(function (item) {
+        //         if(item)
+        //             conditions.push(field+':'+item.identifier);
+        //     });
+        //
+        //     var query = '';
+        //
+        //     conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
+        //     query += ' )';
+        //
+        //     return query;
+        // }
 
-            if(!fitler) return '*:*';
-            if(!fitler.length===0) return '*:*';
 
-            var conditions = [];
 
-            fitler.forEach(function (item) {
-                if(item)
-                    conditions.push(field+':'+item.identifier);
+
+        // // //================================================
+        $scope.$watch('records', function() {
+
+
+            if(!$scope.records){
+                console.log("watching records !rec")
+                return;
+            }
+
+            if($scope.records.length == 0){
+                console.log("watching records rec.length=0")
+                $('#vmap').vectorMap('set', 'colors', '');
+                return;
+            }
+            console.log("watching records");
+            updateMap($scope.records);
+            $scope.loading = false;
+
+        });
+
+
+        //================================================
+        //================================================
+        //================================================
+        //================================================
+        //================================================
+
+        //================================================
+        function updateMap(recs) {
+
+            //jQuery('#vmap').vectorMap('set', 'colors', '');
+
+            if(!recs){
+                console.log("udpate map !rec")
+                return;
+            }
+
+            if(recs.length == 0){
+                console.log("udpate map rec.length=0")
+                $('#vmap').vectorMap('set', 'colors', {});
+                return;
+            }
+
+            var colors = {};
+            _.forEach(recs, function(item) {
+                colors[item.groupValue] = "#428bca";
+                console.log(item.groupValue)
             });
 
-            var query = '';
+            $('#vmap').vectorMap('set', 'colors', colors);
 
-            conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
-            query += ' )';
+            console.log("map updated:" +  colors)
 
-            return query;
+            console.log("start");
+            for(var i = 0; i < colors.length; i++){
+                console.log(i + " = " + colors[i]);
+            }
+            console.log(colors);
+            console.log("end");
+
         }
 
-
-
         //================================================
-        //================================================
-        //================================================
-        //================================================
-        //================================================
-
         function loadMap() {
 
-            jQuery('#vmap').vectorMap({
+            $('#vmap').vectorMap({
                 map: 'world_en',
                 backgroundColor: null,
+                    backgroundColor: '#fff',
                    color: '#ffffff',
                    hoverOpacity: 0.7,
                    selectedColor: '#666666',
                    enableZoom: true,
                    showTooltip: true,
-                   scaleColors: ['#C8EEFF', '#006491'],
-                   normalizeFunction: 'polynomial'
-            });
+                   normalizeFunction: 'polynomial',
+                   onRegionClick: function(element, code, region)
+                    {
+                        var message = 'You clicked "'
+                            + region
+                            + '" which has the code: '
+                            + code.toUpperCase();
+
+                        alert(message);
+                    }
+                        });
             $('.jqvmap-zoomin').html('<i class="glyphicon glyphicon-plus"/>')
             $('.jqvmap-zoomout').html('<i class="glyphicon glyphicon-minus"/>')
+
         }
 
-        loadMap();
+        //================================================
+        function runSearch() {
+            $scope.loading = true;
+            $scope.currentPage=0;
+            $scope.query();
+            $scope.loading = false;
+        }
 
         //================================================
-
-
-
+        loadMap();
+        runSearch();
 
     }];
 });

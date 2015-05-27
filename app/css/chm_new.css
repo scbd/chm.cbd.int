@@ -1,3 +1,6 @@
+
+
+
 @font-face {
     font-family: 'alternategotno3dotregular';
     src: url('/app/fonts/alternategotno3dot-webfont.eot');
@@ -9,6 +12,12 @@
     font-style: normal;
 }
 
+form label.required:after,
+form label[required]:after
+{
+	color: #e32;
+	content: ' * ';
+}
 
 
 .header-banner {

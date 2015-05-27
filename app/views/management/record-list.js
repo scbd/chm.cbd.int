@@ -1,6 +1,6 @@
 define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment", "utilities/solr"], function(_) { 'use strict';
 
-    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', function($scope, $route, $http, $location, $q, solr, user, navigation, storage) {
+    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog', function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog) {
 
         var pageSize = 15;
 
@@ -21,6 +21,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         $scope.onAdd       = function() {
             edit({ schema_s : $scope.schema });
         };
+
 
         $scope.formatWID   = function (workflowID) {
     		return workflowID ? workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2").toUpperCase() : "";
@@ -265,9 +266,8 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //
         //
         //======================================================
-        function del(record)
+        function del(record, ev)
         {
-
             var repo = null;
             var identifier = record.identifier_s;
 
@@ -284,19 +284,25 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 if(!exist)
                     throw new Alert("Record not found.");
 
-                if(!confirm("Are you sure to delete...."))
-                    throw new Noop();
+                var confirm = $mdDialog.confirm()
+                  .title('Are you sure you want to delete?')
+                  .ariaLabel('delete records')
+                  .ok('DELETE RECORD')
+                  .cancel('CANCEL')
+                  .targetEvent(ev);
 
-                return repo.delete(identifier);
+                $mdDialog.show(confirm)
+                .then(function() {
+                    return repo.delete(identifier);
+                }).then(function() {
 
-            }).then(function() {
+                    $scope.recordCount--;
 
-                $scope.recordCount--;
+                    refreshFacetCounts();
 
-                refreshFacetCounts();
-                
-                _.remove($scope.records, function(r){
-                    return r==record;
+                    _.remove($scope.records, function(r){
+                        return r==record;
+                    });
                 });
 
             }).catch(function(e){

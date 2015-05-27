@@ -14,17 +14,9 @@
                 </div>
 
                 <div class="row" style="margin-top:20px;">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div km-select required name="government" multiple ng-model="government" placeholder="Select a country" watch-items items="options.countries"></div>
-                    </div>
-                    <div class="col-md-5">
-                        <!-- <div km-select required name="schema" multiple ng-model="schema" placeholder="Select record type" watch-items items="nationalRecords"></div> -->
-                    </div>
-                    <div class="col-md-2">
-                        <!-- <input type="text" class="form-control" name="keyword" ng-model="keyword" placeholder="keywords"> -->
-                    </div>
-                    <div class="col-md-1">
-                        <!-- <a type="button" href="" class="btn btn-primary" ng-click="loadMap();" >Search</a> -->
+                        <div km-select required name="schema" multiple ng-model="schema" placeholder="Select record type" watch-items items="nationalRecords"></div>
                     </div>
                 </div>
 

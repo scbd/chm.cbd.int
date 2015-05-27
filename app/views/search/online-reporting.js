@@ -3,8 +3,6 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
 
     return ["$scope", "$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", function ($scope, $http, $q, $location, $timeout, $filter, thesaurus) {
 
-        $scope.status = "loading";
-
         $scope.countries=[];
         $scope.colors={};
 
@@ -120,7 +118,6 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
         // // //================================================
         $scope.$watch('records', function() {
 
-
             if(!$scope.records){
                 console.log("watching records !rec")
                 return;
@@ -131,10 +128,14 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
                 $('#vmap').vectorMap('set', 'colors', '');
                 return;
             }
+
+
             console.log("watching records");
 
             startMap($scope.documents,'#ffffff');
             updateMap($scope.records, $scope.documents, '#428bca');
+
+            delete $scope.loading;
 
         });
 
@@ -196,7 +197,7 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
             // }
             // console.log(colors);
             // console.log("end");
-        // 
+        //
         // }
 
 
@@ -259,10 +260,11 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
 
         //================================================
         $scope.runSearch= function() {
+
             $scope.loading = true;
             $scope.currentPage=0;
             $scope.query();
-            $scope.loading = false;
+
         }
 
         //================================================

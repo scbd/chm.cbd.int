@@ -106,7 +106,7 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
         });
 
         $rootScope.$on("onPostPublish", function(evt, msg) {
-            $scope.showSimpleToast(msg);
+            $scope.showToastConfirmReload(msg);
         });
 
         $rootScope.$on("onPostClose", function(evt, msg) {
@@ -122,11 +122,29 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
             $mdToast.show(
               $mdToast.simple()
                 .content(msg)
-                .action('OK')
                 .position('top right')
                 .hideDelay(3000)
             );
+
+
         }
+
+        $scope.showToastConfirmReload = function(msg)
+        {
+            var toast = $mdToast.simple()
+                  .content(msg)
+                  .action('Refresh List')
+                  .highlightAction(false)
+                  .position('top right')
+                  .hideDelay(20000);
+
+            $mdToast.show(toast).then(function() {
+                $scope.$broadcast("RefreshList");
+            });
+
+        }
+
+
 
 
         //======================================================

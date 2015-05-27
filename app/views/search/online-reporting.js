@@ -3,7 +3,8 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
 
     return ["$scope", "$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", function ($scope, $http, $q, $location, $timeout, $filter, thesaurus) {
 
-        $scope.loading = true;
+        $scope.status = "loading";
+
         $scope.countries=[];
         $scope.colors={};
 
@@ -63,11 +64,11 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
         $scope.$watch('government', function() {
 
                 if(!$scope.government) {
-                    return;
+                    $scope.records = $scope.documents;
                 }
 
                 if(!$scope.documents) {
-                    runSearch();
+                    $scope.runSearch();
                 }
 
                 var recs = [];
@@ -83,7 +84,7 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
                 }
 
                 $scope.records = recs;
-                updateMap(recs);
+                //updateMap(recs, $scope.documents, "#666666");
 
                 return;
         });
@@ -131,51 +132,106 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
                 return;
             }
             console.log("watching records");
-            updateMap($scope.records);
-            $scope.loading = false;
+
+            startMap($scope.documents,'#ffffff');
+            updateMap($scope.records, $scope.documents, '#428bca');
 
         });
 
-
         //================================================
         //================================================
         //================================================
         //================================================
         //================================================
 
+
         //================================================
-        function updateMap(recs) {
+        function updateMap(recs, docs, color) {
 
-            //jQuery('#vmap').vectorMap('set', 'colors', '');
+            var map_index = getMapIndex();
 
-            if(!recs){
+            if(!docs || !recs){
                 console.log("udpate map !rec")
                 return;
             }
 
+            //set all countries to white
+            _.each(docs, function(item) {
+                $("#jqvmap" + map_index + "_" + item.groupValue).attr("fill", "#ffffff");
+            });
+
+            //set all countries to white
+            _.each(recs, function(item) {
+                $("#jqvmap" + map_index + "_" + item.groupValue).attr("fill", color);
+            });
+
+        }
+
+            //jQuery('#vmap').vectorMap('set', 'colors', '');
+            // if(!recs){
+            //     console.log("udpate map !rec")
+            //     return;
+            // }
+            //
+            // if(recs.length == 0){
+            //     console.log("udpate map rec.length=0")
+            //     $('#vmap').vectorMap('set', 'colors', {});
+            //     return;
+            // }
+            //
+            //
+            // var colors = {};
+            // _.forEach(recs, function(item) {
+            //     colors[item.groupValue] = color;
+            //     console.log(item.groupValue)
+            // });
+            //
+            // $('#vmap').vectorMap('set', 'colors', colors);
+            //
+            // console.log("map updated:" +  colors)
+            //
+            // console.log("start");
+            // for(var i = 0; i < colors.length; i++){
+            //     console.log(i + " = " + colors[i]);
+            // }
+            // console.log(colors);
+            // console.log("end");
+        // 
+        // }
+
+
+        //================================================
+        function startMap(recs, color) {
+
+            if(!recs){
+                return;
+            }
+
             if(recs.length == 0){
-                console.log("udpate map rec.length=0")
-                $('#vmap').vectorMap('set', 'colors', {});
                 return;
             }
 
             var colors = {};
+
             _.forEach(recs, function(item) {
-                colors[item.groupValue] = "#428bca";
-                console.log(item.groupValue)
+                colors[item.groupValue] = color;
             });
 
             $('#vmap').vectorMap('set', 'colors', colors);
 
-            console.log("map updated:" +  colors)
+        }
 
-            console.log("start");
-            for(var i = 0; i < colors.length; i++){
-                console.log(i + " = " + colors[i]);
-            }
-            console.log(colors);
-            console.log("end");
+        //================================================
+        function getMapIndex(id) {
+            if (!id)
+                id = 1;
+            //the jvqmap increase its index when map is visisted multiple times
+            //hence get the index of any country and use it for all others
+            //TODO: check why
+            if ($("#jqvmap" + id + "_ca").length == 0)
+              return getMapIndex(id + 1)
 
+            return id;
         }
 
         //================================================
@@ -193,21 +249,16 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
                    normalizeFunction: 'polynomial',
                    onRegionClick: function(element, code, region)
                     {
-                        var message = 'You clicked "'
-                            + region
-                            + '" which has the code: '
-                            + code.toUpperCase();
-
-                        alert(message);
+                        $scope.government = "[{'identifier','" + code + "'}]";
                     }
-                        });
+            });
             $('.jqvmap-zoomin').html('<i class="glyphicon glyphicon-plus"/>')
             $('.jqvmap-zoomout').html('<i class="glyphicon glyphicon-minus"/>')
 
         }
 
         //================================================
-        function runSearch() {
+        $scope.runSearch= function() {
             $scope.loading = true;
             $scope.currentPage=0;
             $scope.query();
@@ -216,7 +267,8 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
 
         //================================================
         loadMap();
-        runSearch();
+        $scope.runSearch();
+
 
     }];
 });

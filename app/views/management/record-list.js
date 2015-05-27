@@ -18,8 +18,6 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         $scope.onWorkflow  = viewWorkflow;
         $scope.qs = $location.search();
 
-
-
         $scope.onAdd       = function() {
             edit({ schema_s : $scope.schema });
         };
@@ -30,6 +28,12 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
         refreshPager();
         loadPage(0);
+
+
+        $scope.$on("RefreshList", function(evt) {
+            refreshPager();
+            loadPage(0);
+        });
 
         //======================================================
         //
@@ -81,28 +85,8 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
             if(!$scope.facets || refreshFacets)
             {
-                // Execute facets query
-                var qsFacetParams =
-                {
-                    "q"  : buildQuery({ status : undefined, latest : undefined }),
-                    "row"   : 0,
-                    "facet" : true,
-                    "facet.field" : "_state_s",
-                };
-
-                qFacets = $http.get("/api/v2013/index", { params : qsFacetParams }).then(function(res) {
-
-                    var documentState = _(res.data.facet_counts.facet_fields._state_s).chunk(2).zipObject().value();
-
-                    $scope.facets = _.defaults(documentState, {
-                        public   : 0,
-                        draft    : 0,
-                        workflow : 0,
-                        total    : res.data.response.numFound
-                    });
-                });
+                qFacets = refreshFacetCounts();
             }
-
 
             return $q.all([qRecords, qFacets]).catch(function(res){
 
@@ -110,6 +94,45 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 $scope.recordCount = -1;
                 $scope.error       = res.data || res;
 
+                console.error($scope.error);
+
+            }).finally(function(){
+                delete $scope.loading;
+            });
+        }
+
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function refreshFacetCounts() {
+
+            var qFacets;
+
+            // Execute facets query
+            var qsFacetParams =
+            {
+                "q"  : buildQuery({ status : undefined, latest : undefined }),
+                "row"   : 0,
+                "facet" : true,
+                "facet.field" : "_state_s",
+            };
+
+            qFacets = $http.get("/api/v2013/index", { params : qsFacetParams }).then(function(res) {
+
+                var documentState = _(res.data.facet_counts.facet_fields._state_s).chunk(2).zipObject().value();
+
+                $scope.facets = _.defaults(documentState, {
+                    public   : 0,
+                    draft    : 0,
+                    workflow : 0,
+                    total    : res.data.response.numFound
+                });
+            });
+            return $q.all(qFacets).catch(function(res){
+
+                $scope.error       = res.data || res;
                 console.error($scope.error);
 
             }).finally(function(){
@@ -268,6 +291,10 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
             }).then(function() {
 
+                $scope.recordCount--;
+
+                refreshFacetCounts();
+                
                 _.remove($scope.records, function(r){
                     return r==record;
                 });

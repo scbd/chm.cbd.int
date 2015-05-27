@@ -13,12 +13,24 @@
 
 		<div ng-hide="hideButtons=='true'" style="float:right">
 
-			<span ng-show="internalDocumentInfo.workingDocumentLock">
+			<!-- <span ng-show="internalDocumentInfo.workingDocumentLock">
 				<i class="fa fa-lock"></i>
 				Document is locked
 			</span>
 			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
-			<button type="button" class="btn btn-default" ng-click="delete()" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="{{deleteTooltip}}">Delete &raquo;</button>
+			<button type="button" class="btn btn-default" ng-click="delete()"  title="{{deleteTooltip}}">Delete &raquo;</button>
+		 -->
+
+			<div class="btn-group btn-group-sm" ng-show="internalDocumentInfo.workingDocumentLock">
+				<button type="button" class="btn btn-default"><i class="fa fa-lock"></i></button>
+			</div>
+
+			<div class="btn-group btn-group-sm" ng-show="!internalDocumentInfo.workingDocumentLock">
+				<button ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock" title="Edit"            type="button" class="btn btn-default" ng-click="edit(record)"><i class="fa fa-edit"></i></button>
+				<button ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="Delete"          type="button" class="btn btn-default" ng-click="delete(record)"><i class="fa fa-trash-o"></i></button>
+			</div>
+
+
 		</div>
 
 		<h1>{{internalDocument.header.schema | schemaName}}</h1>

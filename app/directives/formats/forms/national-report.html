@@ -1,5 +1,4 @@
 ﻿<div style="padding-bottom:20px;">
-
     <h1>
     	<span ng-switch="qs.type">
     		<span ng-switch-when="nr">National Reports</span>
@@ -62,10 +61,10 @@
 					</div>
 				</div>
 
-				<div class="row">
+				<div class="row" >
 					<div class="col-md-12">
 						<div class="km-control-group" name="reportType" required caption="Type of Document">
-							<div km-select required name="reportType" single ng-model="document.reportType" placeholder="Please select report type" watch-items items="options.reportTypes"></div>
+							<div km-select required ng-disabled="disableReportType" name="reportType" single ng-model="document.reportType" placeholder="Please select report type" watch-items items="options.reportTypes"></div>
 						</div>
 					</div>
 				</div>

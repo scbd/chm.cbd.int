@@ -33,6 +33,8 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 				var schema  = "nationalReport";
 				var reportType  = qs.type;
 				var promise = null;
+				var keepTypeOptions= null;
+				var rmTypeOptions= null;
 
 
 				if(qs.uid) { // Load
@@ -53,10 +55,16 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 
 						if(reportType=="nbsap"){
 					 		reportType = "B0EBAE91-9581-4BB2-9C02-52FCF9D82721"; 
+							keepTypeOptions = "B0EBAE91-9581-4BB2-9C02-52FCF9D82721";
+							$scope.disableReportType = true;
 						}
 						
 						if(reportType=="nr"){
-					 		reportType = "B3079A36-32A3-41E2-BDE0-65E4E3A51601"; 
+							keepTypeOptions = "B3079A36-32A3-41E2-BDE0-65E4E3A51601, 272B0A17-5569-429D-ADF5-2A55C588F7A7, DA7E04F1-D2EA-491E-9503-F7923B1FD7D4, A49393CA-2950-4EFD-8BCC-33266D69232F, F27DBC9B-FF25-471B-B624-C0F73E76C8B3";
+						}
+						
+						if(reportType=="other"){
+							rmTypeOptions = "B0EBAE91-9581-4BB2-9C02-52FCF9D82721, B3079A36-32A3-41E2-BDE0-65E4E3A51601, 272B0A17-5569-429D-ADF5-2A55C588F7A7, DA7E04F1-D2EA-491E-9503-F7923B1FD7D4, A49393CA-2950-4EFD-8BCC-33266D69232F, F27DBC9B-FF25-471B-B624-C0F73E76C8B3";
 						}
 						
 						return {
@@ -82,10 +90,35 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 			                approvedStatus:	$http.get("/api/v2013/thesaurus/domains/E27760AB-4F87-4FBB-A8EA-927BDE375B48/terms",	{ cache: true }).then(function (o) { return o.data; }),
 			                approvingBody:	$http.get("/api/v2013/thesaurus/domains/F1A5BFF1-F555-40D1-A24C-BBE1BE8E82BF/terms",	{ cache: true }).then(function (o) { return o.data; }),
 			                reportStatus:	$http.get("/api/v2013/thesaurus/domains/7F0D898A-6BF1-4CE6-AA77-7FEAED3429C6/terms",	{ cache: true }).then(function (o) { return o.data; }),
-			                reportTypes:	$http.get("/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms",	{ cache: true }).then(function (o) { return thesaurus.buildTree(o.data); })
+			                reportTypes:	$http.get("/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms",	{ cache: true }).then(function (o) { 
+								
+								var rtypes = [];
+								var data = [];
+								data = o.data;
+								
+								if(keepTypeOptions){	
+									for(var i=0; i < data.length; i++)
+									{
+										if(keepTypeOptions.indexOf(data[i].identifier) >= 0 )
+											rtypes.push(data[i]);
+									}
+								}
+								else if(rmTypeOptions){
+									for(var i=0; i < data.length; i++)
+									{
+										if(rmTypeOptions.indexOf(data[i].identifier) < 0)
+											rtypes.push(data[i]);
+									}
+								}
+								else 
+									rtypes = o.data;
+								
+								return thesaurus.buildTree(rtypes); 
+								
+							})
 			            };
 			        }
-
+					
 			        return doc;
 
 				}).then(function(doc) {

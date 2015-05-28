@@ -73,7 +73,14 @@
             	<tbody>
             		<tr ng-repeat="record in records">
             			<td class="type">
-                            <b>{{record.schemaName | lstring}}</b>
+                            <b>{{record.schemaName | lstring}}
+                                <span ng-switch="subSchema">
+                                    <span ng-switch-when="nr"></span>
+                                    <span ng-switch-when="nbsap">: NBSAP</span>
+                                    <span ng-switch-when="other">: Other</span>
+                                    <span ng-switch-default></span>
+                                </span>               
+                            </b>
                             <div>{{record.reportTypeName | lstring}}</div>
                         </td>
             			<td class="descr">

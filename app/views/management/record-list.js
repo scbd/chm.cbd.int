@@ -299,14 +299,10 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 .then(function() {
                     return repo.delete(identifier);
                 }).then(function() {
-                    
-                     _.remove($scope.records, function(r){
-                        return r==record;
-                    
-                    $scope.recordCount--;
-
-                    refreshFacetCounts();
-                   
+                   $scope.recordCount--;
+                   refreshFacetCounts(); 
+                    _.remove($scope.records, function(r){
+                       return r==record;               
                     });
                 });
 

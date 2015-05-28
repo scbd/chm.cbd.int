@@ -51,6 +51,14 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 						;
 					}).then(function(identifier) {
 
+						if(reportType=="nbsap"){
+					 		reportType = "B0EBAE91-9581-4BB2-9C02-52FCF9D82721"; 
+						}
+						
+						if(reportType=="nr"){
+					 		reportType = "B3079A36-32A3-41E2-BDE0-65E4E3A51601"; 
+						}
+						
 						return {
 							header: {
 								identifier: identifier,
@@ -60,6 +68,7 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 							government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
 							reportType: reportType ? { identifier: reportType } : undefined
 						};
+							
 					});
 				}
 
@@ -80,9 +89,9 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 			        return doc;
 
 				}).then(function(doc) {
-
-					$scope.status = "ready";
+					
 					$scope.document = doc;
+					$scope.status = "ready";
 
 				}).catch(function(err) {
 

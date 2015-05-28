@@ -15,6 +15,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         $scope.onText      = _.debounce(function(){ loadPage(0, true); }, 500);
         $scope.onDelete    = del;
         $scope.onEdit      = edit;
+        $scope.onReloadList = reloadList;
         $scope.onWorkflow  = viewWorkflow;
         $scope.qs = $location.search();
 
@@ -27,14 +28,17 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
     		return workflowID ? workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2").toUpperCase() : "";
     	};
 
-        refreshPager();
-        loadPage(0);
+       reloadList();
 
+        $scope.$on("RefreshList", function(ev) {
+           reloadList();
+        });
 
-        $scope.$on("RefreshList", function(evt) {
+       function reloadList(){
             refreshPager();
             loadPage(0);
-        });
+            refreshFacetCounts();
+        }
 
         //======================================================
         //
@@ -295,13 +299,14 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 .then(function() {
                     return repo.delete(identifier);
                 }).then(function() {
-
+                    
+                     _.remove($scope.records, function(r){
+                        return r==record;
+                    
                     $scope.recordCount--;
 
                     refreshFacetCounts();
-
-                    _.remove($scope.records, function(r){
-                        return r==record;
+                   
                     });
                 });
 

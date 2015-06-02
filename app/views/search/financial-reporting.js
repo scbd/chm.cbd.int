@@ -102,26 +102,26 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
         // });
 
 
-        //================================================
-        function buildQuery (fitler, field) {
-
-            if(!fitler) return '*:*';
-            if(!fitler.length===0) return '*:*';
-
-            var conditions = [];
-
-            fitler.forEach(function (item) {
-                if(item)
-                    conditions.push(field+':'+item.identifier);
-            });
-
-            var query = '';
-
-            conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
-            query += ' )';
-
-            return query;
-        }
+        // //================================================
+        // function buildQuery (fitler, field) {
+        //
+        //     if(!fitler) return '*:*';
+        //     if(!fitler.length===0) return '*:*';
+        //
+        //     var conditions = [];
+        //
+        //     fitler.forEach(function (item) {
+        //         if(item)
+        //             conditions.push(field+':'+item.identifier);
+        //     });
+        //
+        //     var query = '';
+        //
+        //     conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
+        //     query += ' )';
+        //
+        //     return query;
+        // }
 
 
 
@@ -170,9 +170,9 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
             console.log("udpatING MAP");
 
             //set all countries to white
-            _.each($scope.countries, function(item) {
-                $("#jqvmap" + map_index + "_" + item.identifier).attr("fill", "#ffffff");
-            });
+            // _.each($scope.countries, function(item) {
+            //     $("#jqvmap" + map_index + "_" + item.identifier).attr("fill", "#ffffff");
+            // });
 
             //set all countries to color
             _.each(recs, function(item) {
@@ -181,26 +181,26 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
 
         }
 
-        //================================================
-        function startMap(recs, color) {
-
-            if(!recs){
-                return;
-            }
-
-            if(recs.length == 0){
-                return;
-            }
-
-            var colors = {};
-
-            _.forEach(recs, function(item) {
-                colors[item.groupValue] = color;
-            });
-
-            $('#vmap').vectorMap('set', 'colors', colors);
-
-        }
+        // //================================================
+        // function startMap(recs, color) {
+        //
+        //     if(!recs){
+        //         return;
+        //     }
+        //
+        //     if(recs.length == 0){
+        //         return;
+        //     }
+        //
+        //     var colors = {};
+        //
+        //     _.forEach(recs, function(item) {
+        //         colors[item.groupValue] = color;
+        //     });
+        //
+        //     $('#vmap').vectorMap('set', 'colors', colors);
+        //
+        // }
 
         //================================================
         function getMapIndex(id) {
@@ -228,9 +228,11 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
                    enableZoom: true,
                    showTooltip: true,
                    normalizeFunction: 'polynomial',
-                   onRegionClick: function(element, code, region)
-                    {
-                        $scope.government = "[{'identifier','" + code + "'}]";
+                   onRegionOver: function (event, code, region) {
+                       event.preventDefault();
+                    },
+                    onRegionClick: function (event, code, region) {
+                        event.preventDefault();
                     }
             });
             $('.jqvmap-zoomin').html('<i class="glyphicon glyphicon-plus"/>')

@@ -122,8 +122,11 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         $scope.getFacet = function(schema){
             return _.first(_.where($scope.schemasList,{"identifier":schema}));
         }
+        
+        var isAdmin         = user.roles.indexOf('Administrator')>=0;
+        var isNationalAdmin = user.roles.indexOf('NFP-CBD')>=0 || user.roles.indexOf('ChmNationalFocalPoint')>=0 || user.roles.indexOf('ChmNationalAuthorizedUser')>=0;
 
-        $scope.enableNr = user.roles.indexOf('Administrator')>=0 || user.roles.indexOf('ChmNrNationalFocalPoint')>=0 || user.roles.indexOf('ChmNrNationalAuthorizedUser')>=0;
-        $scope.enableRm = user.roles.indexOf('Administrator')>=0 || user.roles.indexOf('ChmRmFocalPoint')>=0 || user.roles.indexOf('ChmRmNAU')>=0;
+        $scope.enableNr = isAdmin || isNationalAdmin || user.roles.indexOf('ChmNrNationalFocalPoint')>=0 || user.roles.indexOf('ChmNrNationalAuthorizedUser')>=0;
+        $scope.enableRm = isAdmin || isNationalAdmin || user.roles.indexOf('ChmRmFocalPoint')>=0 || user.roles.indexOf('ChmRmNAU')>=0;
     }];
 });

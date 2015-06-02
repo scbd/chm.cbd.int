@@ -29,7 +29,7 @@ define(['text!./signin.html', 'app', 'angular', 'authentication'], function(temp
                         if ($location.search().returnUrl)
                             $location.url($location.search().returnUrl);
                         else
-                            $location.url('/management');
+                            $location.url('/submit');
                     },
                     function (error) { // Error
                         $scope.password = "";

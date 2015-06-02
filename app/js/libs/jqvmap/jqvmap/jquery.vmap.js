@@ -466,6 +466,7 @@
 
       jQuery(params.container).trigger(regionClickEvent, [code, mapData.pathes[code].name]);
       if (!regionClickEvent.isDefaultPrevented()) {
+
         if (map.selectedRegions.indexOf(code) !== -1) {
           map.deselect(code, path);
         } else {

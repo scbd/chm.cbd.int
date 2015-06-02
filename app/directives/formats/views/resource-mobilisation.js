@@ -15,9 +15,9 @@ app.directive('viewResourceMobilisation', [function () {
 		link : function ($scope)
 		{
 			$scope.options  = {
-				multipliers : 		[{identifier:'thousands',     title: {en:'in thousands'}}, 		   {identifier:'millions', title: {en:'in millions'}}],
-				methodology : 		[{identifier:'oecd_dac',      title: {en:'OECD DAC Rio markers'}}, {identifier:'other', 	 title: {en:'Other'       }}],
-				measures    : 		[{identifier:'no', 	          title: {en:'No' }}, 		  	       {identifier:'some', title: {en:'Some measures taken'}}, {identifier:'comprehensive', title: {en:'Comprehensive measures taken'}}],
+				multipliers : 		[{identifier:'absolute',      title: {en:'in absolute values'}},   {identifier:'thousands', title: {en:'in thousands'}}, 		{identifier:'millions', title: {en:'in millions'}}],
+				methodology : 		[{identifier:'oecd_dac',      title: {en:'OECD DAC Rio markers'}}, {identifier:'other', 	title: {en:'Other'       }}],
+				measures    : 		[{identifier:'no', 	          title: {en:'No' }}, 		  	       {identifier:'some', 		title: {en:'Some measures taken'}}, {identifier:'comprehensive', title: {en:'Comprehensive measures taken'}}],
 				inclusions  : 		[{identifier:'notyet', 	      title: {en:'Not yet stared'}},
 							   		 {identifier:'some', 	      title: {en:'Some inclusion achieved'}},
 							   		 {identifier:'comprehensive', title: {en:'Comprehensive inclusion'}}],

@@ -79,12 +79,12 @@
                                     <span ng-switch-when="nbsap">: NBSAP</span>
                                     <span ng-switch-when="other">: Other</span>
                                     <span ng-switch-default></span>
-                                </span>               
+                                </span>
                             </b>
                             <div>{{record.reportTypeName | lstring}}</div>
                         </td>
             			<td class="descr">
-                            <h5 class="title" style="margin-top:0">
+                            <h5 class="title" style="margin:0;padding:0;">
                                 <span ng-hide="record.url">{{(record.title || record.identifier_s) | lstring}}</span>
                                 <a    ng-show="record.url" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
                                 <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
@@ -117,7 +117,7 @@
 
             		<tr ng-show="records.length==0">
                         <td colspan="6">
-                            No record.
+                            No records found.
             			</td>
                     </tr>
 

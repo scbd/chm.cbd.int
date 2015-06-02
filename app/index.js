@@ -114,7 +114,7 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
         });
 
         $rootScope.$on("onSaveDraft", function(evt, msg) {
-            $scope.showToastConfirmReload(msg);
+            $scope.showSimpleToast(msg);
         });
 
         $scope.showSimpleToast = function(msg)

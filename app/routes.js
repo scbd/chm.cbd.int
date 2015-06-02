@@ -13,13 +13,14 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/database/record/:documentid?',             { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
 
             when('/search',                                   { templateUrl: 'views/search/search.html',  label :'Search',   resolveController: true}).
-            when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',  label :'Online Reporting',   resolveController: true}).
+            when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',  label :'CBD Implementation',   resolveController: true}).
+            when('/search/financial-reporting',               { templateUrl: 'views/search/financial-reporting.html',  label :'CBD Implementation',   resolveController: true}).
 
             // SUBMIT SECTION
 
             when('/submit',                                             { templateUrl: 'views/management/submit.html',                          label: 'Submit Information',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
-            when('/submit/online-reporting',                            { templateUrl: 'views/management/select/online-reporting.html',         label: 'Online Reporting',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/online-reporting',                            { templateUrl: 'views/management/select/online-reporting.html',         label: 'CBD Implementation',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/:schema',                    { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
     //      when('/submit/online-reporting/:schema/:id',                <= final implementation goal

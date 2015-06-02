@@ -70,3 +70,7 @@ legend{
     .km-value li{
         margin-left:20px;
     }
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+        background-color:#888;
+    }

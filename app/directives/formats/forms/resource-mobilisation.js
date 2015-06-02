@@ -30,7 +30,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				domesticYears 	  : _.range(2006, 2016),
 				fundingNeedsYears : _.range(2014, 2021),
 
-				multipliers : 	    [{identifier:'thousands',     title: {en:'in thousands'}}, 		  {identifier:'millions', title: {en:'in millions'}}],
+				multipliers : 	    [{identifier:'absolute',      title: {en:'in absolute values'}},			{identifier:'thousands',     title: {en:'in thousands'}}, 		  {identifier:'millions', title: {en:'in millions'}}],
 				methodology : 	    [{identifier:'oecd_dac',      title: {en:'OECD DAC Rio markers'}},  {identifier:'other', 	 title: {en:'Other'       }}],
 				measures    : 	    [{identifier:'no', 	          title: {en:'No' }}, 		  	      {identifier:'some', title: {en:'Some measures taken'}}, {identifier:'comprehensive', title: {en:'Comprehensive measures taken'}}],
 				inclusions  : 	    [{identifier:'notyet', 	      title: {en:'Not yet stared'}},
@@ -959,10 +959,13 @@ app.directive('rmPopover', function() {
 		restrict: 'A',
 		link: function (scope, elem, attrs) {
 			elem.popover({
-				trigger: 'hover',
-				placement: attrs.dataPlacement || 'top',
-				html: true
+				trigger: 'focus hover',
+				placement: attrs.dataPlacement || 'auto',
+				html: true,
+				container: 'body'
 			});
+
+
 		}
 	};
 });

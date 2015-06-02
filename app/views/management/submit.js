@@ -123,5 +123,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             return _.first(_.where($scope.schemasList,{"identifier":schema}));
         }
 
+        $scope.enableNr = user.roles.indexOf('Administrator')>=0 || user.roles.indexOf('ChmNrNationalFocalPoint')>=0 || user.roles.indexOf('ChmNrNationalAuthorizedUser')>=0;
+        $scope.enableRm = user.roles.indexOf('Administrator')>=0 || user.roles.indexOf('ChmRmFocalPoint')>=0 || user.roles.indexOf('ChmRmNAU')>=0;
     }];
 });

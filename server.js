@@ -21,7 +21,8 @@ var proxy   = require('http-proxy').createProxyServer({});
 
 // LOAD CONFIGURATION
 
-var oneDay = 86400000;
+var oneDay   = 86400000;
+var cacheTag = Math.random() * 0x80000000 | 0;
 
 app.use(require('morgan')('dev'));
 app.use(require('compression')());
@@ -42,9 +43,10 @@ app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https:/
 
 // Configure index.html
 
-app.get('/*', function (req, res) { res.sendfile(__dirname + '/app/index.html'); });
-
-
+app.get('/*', function (req, res) { 
+    res.cookie('cachetag', cacheTag);
+    res.sendfile(__dirname + '/app/index.html'); 
+});
 
 // Start server
 

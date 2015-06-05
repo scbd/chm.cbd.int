@@ -2,6 +2,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
     return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog', function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog) {
 
+        if($route.current.params.schema=='resourceMobilization')    // FOR NOTIFICATION
+            $location.path('/submit/resourceMobilisation');         // FOR NOTIFICATION
+
         var pageSize = 15;
 
         $scope.schema      = _.camelCase($route.current.params.schema);

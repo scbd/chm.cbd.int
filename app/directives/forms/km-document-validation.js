@@ -37,7 +37,7 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 				//====================
 				$scope.getLabel = function(field) {
 
-					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
+					var qLabel = $element.parents("form[name='editForm']:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
 
 					if (qLabel.size() != 0)// jshint ignore:line
 						return qLabel.text();

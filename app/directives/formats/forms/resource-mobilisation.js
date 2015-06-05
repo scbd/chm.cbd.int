@@ -836,7 +836,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//==================================
 			$scope.onPostWorkflow = function() {
 				$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
-				$location.url("/submit/resourceMobilisation");
+				$location.url("/submit/online-reporting/resourceMobilisation");
 			};
 
 			//==================================
@@ -845,14 +845,14 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			$scope.onPostPublish = function() {
 				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
 
-				$location.url("/submit/resourceMobilisation");
+				$location.url("/submit/online-reporting/resourceMobilisation");
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				//$location.url("/submit/resourceMobilisation");
+				//$location.url("/submit/online-reporting/resourceMobilisation");
 				$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
 
 			};
@@ -862,7 +862,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//==================================
 			$scope.onPostClose = function() {
 				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
-				$location.url("/submit/resourceMobilisation");
+				$location.url("/submit/online-reporting/resourceMobilisation");
 			};
 
 			//==================================

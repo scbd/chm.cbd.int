@@ -7,28 +7,43 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 			template: template,
 			replace: true,
 			transclude: true,
+			require : "?^mdTabs",
 			scope: {
 				report : '=ngModel',
 			},
-			link: function ($scope, $element) {
+			link: function ($scope, $element, attribs, mdTabsCtrl) {
+
+				//====================
+				//
+				//====================
+				function lookup(field){
+
+					return $element.parents("form[name='editForm']:first").find("label[for='" + field + "']:first");
+				}
 
 				//====================
 				//
 				//====================
 				$scope.jumpTo = function(field) {
 
-					var qLabel = $element.parents("[km-tab]:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
-					var sTab   = qLabel.parents("[km-tab]:first").attr("km-tab");
+					if(!mdTabsCtrl) {
+						return;
+					}
 
-					if (sTab) {
+					var qLabel = lookup(field);
+					var tabId  = qLabel.parents("md-tab-content:first").attr("id") || "";
+
+					var tabIndex = parseInt(tabId.replace(/.*-(\d+)$/, "$1"))-1;
+
+					if(tabIndex>=0)
+					{
+						mdTabsCtrl.select(tabIndex);
+
 						var qBody = $element.parents("body:last");
-
-						$scope.$parent.tab = sTab;
-						//$scope.$parent.selectedIndex = sTab;
 
 						$timeout(function jumpTo(){
 							qBody.stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
-						});
+						},100);
 					}
 				};
 
@@ -37,7 +52,7 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 				//====================
 				$scope.getLabel = function(field) {
 
-					var qLabel = $element.parents("form[name='editForm']:last").parent().find("form[name='editForm'] label[for='" + field + "']:first");
+					var qLabel = lookup(field);
 
 					if (qLabel.size() != 0)// jshint ignore:line
 						return qLabel.text();

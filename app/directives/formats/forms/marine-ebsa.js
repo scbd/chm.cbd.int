@@ -210,14 +210,14 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url('/management/list/marineEbsa');
+				$location.url('/submit/marineEbsa');
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url('/management/list/marineEbsa');
+				$location.url('/submit/marineEbsa');
 			};
 
 			//==================================
@@ -227,7 +227,7 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 				if($location.search().returnUrl)
 					$location.url($location.search().returnUrl);
 				else
-					$location.url('/management/list/marineEbsa');
+					$location.url('/submit/marineEbsa');
 			};
 
 			//==================================

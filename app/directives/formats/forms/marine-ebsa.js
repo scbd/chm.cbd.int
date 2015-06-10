@@ -71,7 +71,9 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 						};
 
 						$scope.options  = {
-							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+
+							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",                            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							ebsaRegions   : $http.get("/api/v2013/thesaurus/domains/0AE91664-5C43-46FB-9959-0744AD1B0E91/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							libraries     : $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							copDecisions  : $http.get("/api/v2013/index/select", { params: decisionQuery, cache: true })
 												 .then(function(res) {

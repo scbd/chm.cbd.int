@@ -14,8 +14,16 @@
 		</div>
 	</div>
 
-	<div ng-show="document.gisFiles">
+	<div ng-show="document.gisFiles || document.region || document.location">
 		<legend>Location</legend>
+
+		<div ng-show="document.region">
+			<label>EBSA Region</label>
+			<ul class="km-value">
+				<li>{{document.region | term:locale}}</li>
+			</ul
+		</div>
+
 
 		<div ng-show="document.location">
 			<label>Description of location</label>

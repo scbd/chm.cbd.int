@@ -72,12 +72,19 @@
 				</div>
 
 				<legend>Location</legend>
-
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label" for="region" required>Region</label><br/>
+							<div km-select required name="region" ng-model="document.region" placeholder="Please select region..." watch-items items="options.regions"></div>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" required for="location">Location</label>
-							<div km-textbox-ml required name="location" ng-model="document.location" rows="4" locales="document.header.languages" placeholder="example: this area is located..."></div>
+							<div km-textbox-ml name="location" ng-model="document.location" rows="4" locales="document.header.languages" placeholder="example: this area is located..."></div>
 						</div>
 					</div>
 				</div>

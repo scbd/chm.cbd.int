@@ -1,5 +1,6 @@
 
-
+<div class="container">
+    <div class="row">
 
 <div class="home-bottom" style="position:relative">
     <!-- <div class="col-xs-3">
@@ -74,21 +75,23 @@
 			</table>
 
 
-			<div ng-hide="activity.closedOn" ng-switch="activity.name">
+			<div ng-hide="activity.closedOn" ng-switch="activity.name" >
 				<div ng-switch-when="publishRecord">
 
 					<span ng-hide="activity.closedOn">
 
-						<div ng-show="isAssignedToMe(activity)">
-							<button type="button" class="btn btn-primary" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
+						<div ng-show="isAssignedToMe(activity)" class="text-right">
+
 							<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="fa fa-remove"></i> Request Changes / Reject </button>
-                            <a type="button" class="btn btn-success" ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema}}/{{workflow.data.identifier}}?workflowId={{workflow._id}}"
+                            <a type="button" class="btn btn-default bg-draft" ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema}}/{{workflow.data.identifier}}?workflowId={{workflow._id}}"
                             ><i class="fa fa-edit"></i> Edit</a>
+                            <button type="button" class="btn btn-default bg-published" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
 						</div>
-						<span ng-hide="isAssignedToMe(activity)">
-							<i class="fa fa-times"></i>
+						<h4 ng-hide="isAssignedToMe(activity)">
+                            <p class="alert alert-danger">
 							Waiting for <em>{{activity.assignedTo_info[0].firstName}} {{activity.assignedTo_info[0].lastName}}</em> to approve or reject this request.
-						</span>
+                            </p>
+						</h4>
 					</span>
 
 				</div>
@@ -116,7 +119,7 @@
 
 			<p></p>
 
-			<div ng-show="document" class="t-document">
+			<div ng-show="document" class="t-document md-whiteframe-z1 bg-grey">
 				<view-form-loader document="document" hide-buttons="true" link-target="_self"></view-form-loader>
 			</div>
 
@@ -172,3 +175,5 @@
   letter-spacing: 1px;
 }
 </style>
+</div>
+</div>

@@ -48,7 +48,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "nationalReport") return "National Report";
             if (schema == "implementationActivity") return "Implementation Activity";
             if (schema == "nationalSupportTool") return "Guidance and Support Tools";
-            if (schema == "resourceMobilisation") return "Resource Mobilisation";
+            if (schema == "resourceMobilisation") return "Financial Reporting Framework";
             if (schema == "absCheckpoint") return "Checkpoint";
             if (schema == "absCheckpointCommunique") return "Checkpoint Communiqué";
             if (schema == "absPermit") return "Permit";
@@ -89,7 +89,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
 
                 var url = '/submit/';
 
-                if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'progressAssessment', 'nationalSupportTool', 'implementationActivity']).contains(schema)) {
+                if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'progressAssessment', 'nationalSupportTool', 'implementationActivity', 'resourceMobilisation']).contains(schema)) {
                     url = '/submit/online-reporting/';
                 }
 

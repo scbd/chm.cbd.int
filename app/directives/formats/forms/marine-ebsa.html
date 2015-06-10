@@ -72,14 +72,16 @@
 				</div>
 
 				<legend>Location</legend>
+
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-12">
 						<div class="form-group">
-							<label class="control-label" for="region" required>Region</label><br/>
-							<div km-select required name="region" ng-model="document.region" placeholder="Please select region..." watch-items items="options.regions"></div>
+							<label class="control-label" for="region">EBSA region</label><br/>
+							<div km-select name="region" ng-model="document.region" placeholder="Please select the EBSA region..." watch-items items="options.ebsaRegions"></div>
 						</div>
 					</div>
 				</div>
+
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
@@ -409,31 +411,10 @@
 
 				<a name="#assessment"></a>
 				<legend>Assessment of the area against CBD EBSA criteria</legend>
-				<script type="text/ng-template" id="marine-ebsa-assessment.html">
-					<ol style="list-style-type: none">
-						<li style="margin-bottom:15px" ng-repeat="assessment in assessments">
-							<input type="checkbox" ng-model="assessment.selected" style="margin-left: -18px; margin-top: -4px">
-							<b>{{assessment.title}}</b>
-							<br/>
-							<br/>
-								<div class="btn-group" ng-model="assessment.level" bs-buttons-radio>
-									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='high',          'active':assessment.level=='high'}"          value="high">High</button>
-									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='medium',        'active':assessment.level=='medium'}"        value="medium">Medium</button>
-									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='low',           'active':assessment.level=='low'}"           value="low">Low</button>
-									<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='noInformation', 'active':assessment.level=='noInformation'}" value="noInformation">No information</button>
-								</div>
-							<br/>
-							<br/>
-
-							<div class="km-textbox-ml" ng-disabled="!assessment.selected" ng-model="assessment.justification" rows="8" locales="locales"></div>
-						</li>
-					</ol>
-				</script>
 
 				<label style="display:none" class="control-label" for="assessments" required>Assessments</label>
 
-				<div class="marine-ebsa-assessment" ng-model="document.assessments" locales="document.header.languages">
-				</div>
+				<marine-ebsa-assessment ng-model="document.assessments" locales="document.header.languages"></marine-ebsa-assessment>
 
 				<a name="#AdditionalInformation"></a>
 				<legend>Additional Information</legend>

@@ -6,7 +6,6 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         $scope.schemasList = [
             { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
             { identifier: 'aichiTarget'            ,public:0, draft:0, workflow:0 },
-            { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
             { identifier: 'resource'               ,public:0, draft:0, workflow:0 },
             { identifier: 'organization'           ,public:0, draft:0, workflow:0 },
             { identifier: 'caseStudy'              ,public:0, draft:0, workflow:0 },
@@ -88,7 +87,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
                   _.each(results.data.facet_counts.facet_pivot['schema_s,_state_s'], function(facet){
                        var schema = facet.value;
-                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'],schema)>=0){
+                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation',],schema)>=0){
                             schema = 'nationalReport';
                         }
                     	var reportType = _.first(_.where($scope.schemasList, {'identifier':schema}));

@@ -300,9 +300,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                     return repo.delete(identifier);
                 }).then(function() {
                    $scope.recordCount--;
-                   refreshFacetCounts(); 
+                   refreshFacetCounts();
                     _.remove($scope.records, function(r){
-                       return r==record;               
+                       return r==record;
                     });
                 });
 
@@ -329,7 +329,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //======================================================
         function viewWorkflow(record)
         {
-            $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, ""));
+            $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
         }
     }];
 });

@@ -102,7 +102,7 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
         //======================================================
 
         $rootScope.$on("onPostWorkflow", function(evt, msg) {
-            $scope.showSimpleToast(msg);
+            $scope.showToastConfirmReload(msg);
         });
 
         $rootScope.$on("onPostPublish", function(evt, msg) {

@@ -1,4 +1,4 @@
-define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet-directive', 'linqjs', 'jquery', 'authentication', '../views/marine-ebsa', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L, Enumerable, $) { 'use strict';
+define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L) { 'use strict';
 
 app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
@@ -58,19 +58,28 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 					});
 				}
 
+
 				return promise.then(function(doc) {
 
 					if(!$scope.options)	{
+
+						var decisionQuery = {
+							q    : "schema_s:decision AND body_s:XXVII8-COP",
+							sort : "event_s desc, symbol_s asc",
+							rows : 999999,
+							fl   : "title_t,symbol_s"
+						};
+
 						$scope.options  = {
-							regions	      : $http.get("/api/v2013/thesaurus/domains/0AE91664-5C43-46FB-9959-0744AD1B0E91/terms",{ cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
-							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",                            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
+							ebsaRegions   : $http.get("/api/v2013/thesaurus/domains/0AE91664-5C43-46FB-9959-0744AD1B0E91/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							libraries     : $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
-							copDecisions  : $http.get("/api/v2013/index/select?q=schema_s%3Adecision+AND+body_s%3ACOP&sort=event_s+desc%2Cdecision_s+asc&rows=999999&fl=title_t%2C+decision_s%2C+symbol_s", { cache: true })
+							copDecisions  : $http.get("/api/v2013/index/select", { params: decisionQuery, cache: true })
 												 .then(function(res) {
 												 	return _.map(res.data.response.docs, function(o) {
 												 		return {
-												 			identifier: o.decision_s,
-												 			title: (o.decision_s + " - " + o.title_t)
+												 			identifier: o.symbol_s,
+												 			title: (o.symbol_s + " - " + o.title_t)
 												 		};
 												 	});
 												 })
@@ -203,14 +212,14 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$location.url('/management/list/marineEbsa');
+				$location.url('/submit/marineEbsa');
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-				$location.url('/management/list/marineEbsa');
+				$location.url('/submit/marineEbsa');
 			};
 
 			//==================================
@@ -220,7 +229,7 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 				if($location.search().returnUrl)
 					$location.url($location.search().returnUrl);
 				else
-					$location.url('/management/list/marineEbsa');
+					$location.url('/submit/marineEbsa');
 			};
 
 			//==================================
@@ -268,78 +277,6 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 			};
 
 			$scope.init();
-		}
-	};
-}]);
-
-app.directive('marineEbsaAssessment', [ function () {
-	return {
-		restrict   : 'EAC',
-		templateUrl: "marine-ebsa-assessment.html",
-		replace    : true,
-		transclude : false,
-		scope: {
-			binding : "=ngModel",
-			locales : "="
-		},
-		link : function($scope)
-		{
-			$scope.assessments = [
-				{ selected: false, code: "criteria1", title: "C1: Uniqueness or rarity" },
-				{ selected: false, code: "criteria2", title: "C2: Special importance for life-history stages of species" },
-				{ selected: false, code: "criteria3", title: "C3: Importance for threatened, endangered or declining species and/or habitats" },
-				{ selected: false, code: "criteria4", title: "C4: Vulnerability, fragility, sensitivity, or slow recovery" },
-				{ selected: false, code: "criteria5", title: "C5: Biological productivity" },
-				{ selected: false, code: "criteria6", title: "C6: Biological diversity" },
-				{ selected: false, code: "criteria7", title: "C7: Naturalness" }
-			];
-
-			$scope.$watch("binding", $scope.load);
-			$scope.$watch(function(){ return angular.toJson($scope.assessments);}, $scope.save);
-
-			//==================================
-			//
-			//==================================
-			$scope.load = function() {
-				var qBinding = Enumerable.From($scope.binding || []);
-
-				angular.forEach($scope.assessments, function(criteria) {
-					var oBindingCriteria = qBinding.FirstOrDefault(undefined, function(o) { return o.identifier == criteria.code; });
-
-					var oSelected      = !!oBindingCriteria;
-					var oLevel         = (oBindingCriteria || {}).level;
-					var oJustification = (oBindingCriteria || {}).justification;
-
-					if (!angular.equals(criteria.selected,      oSelected))      criteria.selected      = oSelected;
-					if (!angular.equals(criteria.level,         oLevel))         criteria.level         = oLevel;
-					if (!angular.equals(criteria.justification, oJustification)) criteria.justification = oJustification;
-				});
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.save = function() {
-				var oBinding = [];
-
-				angular.forEach($scope.assessments, function(criteria) {
-
-					if (!criteria.selected)
-						return;
-
-					oBinding.push({
-						identifier    : criteria.code,
-						level         : criteria.level,
-						justification : criteria.justification
-					});
-				});
-
-				if ($.isEmptyObject(oBinding))
-					oBinding = undefined;
-
-				$scope.binding = oBinding;
-			};
-
 		}
 	};
 }]);

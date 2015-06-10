@@ -21,6 +21,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit',                                             { templateUrl: 'views/management/submit.html',                          label: 'Submit Information',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
             when('/submit/online-reporting',                            { templateUrl: 'views/management/select/online-reporting.html',         label: 'CBD Implementation',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+
+            when('/submit/online-reporting/resourceMobilization',       { redirectTo:  '/submit/online-reporting/resourceMobilisation' }).
             when('/submit/online-reporting/:schema',                    { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
     //      when('/submit/online-reporting/:schema/:id',                <= final implementation goal
@@ -36,6 +38,9 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/online-reporting/nationalSupportTool/:uid',    { templateUrl: 'views/management/edit/national-support-tool.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/implementationActivity/new',  { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/implementationActivity/:uid', { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/online-reporting/resourceMobilisation/new',   { templateUrl: 'views/management/edit/resource-mobilisation.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/online-reporting/resourceMobilisation/:uid',  { templateUrl: 'views/management/edit/resource-mobilisation.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            
 
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
     //      when('/submit/:schema/:id',                                 <= final implementation goal
@@ -49,8 +54,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/organization/:uid',                            { templateUrl: 'views/management/edit/organization.html',               label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/resource/new',                                 { templateUrl: 'views/management/edit/resource.html',                   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/resource/:uid',                                { templateUrl: 'views/management/edit/resource.html',                   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/resourceMobilisation/new',                     { templateUrl: 'views/management/edit/resource-mobilisation.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/resourceMobilisation/:uid',                    { templateUrl: 'views/management/edit/resource-mobilisation.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+//            when('/submit/resourceMobilisation/new',                     { templateUrl: 'views/management/edit/resource-mobilisation.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+//            when('/submit/resourceMobilisation/:uid',                    { templateUrl: 'views/management/edit/resource-mobilisation.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/strategicPlanIndicator/new',                   { templateUrl: 'views/management/edit/strategic-plan-indicator.html',   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/strategicPlanIndicator/:uid',                  { templateUrl: 'views/management/edit/strategic-plan-indicator.html',   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 

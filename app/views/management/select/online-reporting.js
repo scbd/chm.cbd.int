@@ -12,7 +12,8 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                     { identifier: 'nationalIndicator',  draft:0, public:0, workflow:0       },
                     { identifier: 'progressAssessment',   draft:0, public:0, workflow:0     },
                     { identifier: 'nationalSupportTool',  draft:0, public:0, workflow:0     },
-                    { identifier: 'implementationActivity'  ,draft:0, public:0, workflow:0   }
+                    { identifier: 'implementationActivity'  ,draft:0, public:0, workflow:0   },
+                    { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
             ];
 
         //var nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });
@@ -83,7 +84,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 ////////////////
                 // All other schema
                 ////////////////
-                var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'];
+                var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation'];
                 var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
                  var qsOtherSchemaFacetParams =

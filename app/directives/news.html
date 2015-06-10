@@ -6,7 +6,7 @@
                 <div><a ng-href="{{doc.url_ss[0]}}">{{doc.title_t}}</a></div>
             </td>
         </tr>
-        <tr ng-hide="isPagerVisible()">
+        <tr ng-hide="isPagerVisible() || !fullListUrl">
             <td>
                 <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}" class="morelinks">More News</a></div>
                 <div ng-hide="hasRecords()">Sorry, there are no news currently available.</div>

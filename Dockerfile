@@ -7,7 +7,7 @@ COPY . /usr/src/app
 RUN npm install
 
 # Minify + concat
-RUN ./node_modules/.bin/grunt requirejs
+# RUN ./node_modules/.bin/grunt requirejs
 
 ENV PORT 8000
 

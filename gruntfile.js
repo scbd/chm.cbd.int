@@ -30,6 +30,13 @@ module.exports = function(grunt) { 'use strict';
                     src: ['*.*'],
                     dest: 'app/libs/fonts'
                 },
+                { //bootstrap glyph-icons
+                    expand: true,
+                    dot: true,
+                    cwd: 'bower_components/bootstrap/fonts/',
+                    src: ['*.*'],
+                    dest: 'app/libs/fonts'
+                },
                 { //for font-awesome
                     expand: true,
                     dot: true,

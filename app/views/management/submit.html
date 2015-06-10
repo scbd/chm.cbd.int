@@ -8,7 +8,7 @@
                     <span class="badge bg-draft"    style="width:130px;padding:5px;">DRAFTS</span>
                     <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
                 </div>
-                <h1><i class="fa fa-edit"></i> Management Center Dashboard</h1>
+                <h1><i class="fa fa-edit"></i> Management Center</h1>
                 <h2 class="color-litegrey">The CHM handles the submission of various CBD related records and information.
                     <h3 class="color-medgrey" style="margin-bottom:30px;">Please select the type of information you would like to submit:</h3>
                 </h2>
@@ -36,20 +36,6 @@
 
               </div>
             </div>
-
-            <div class="col-md-4">
-                <div class="box bg-grey  md-whiteframe-z1">
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('resourceMobilisation').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('resourceMobilisation').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('resourceMobilisation').workflow}}</span>
-                    </div>
-                    <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> Financial Resource Mobilization Reporting Framework</h4>
-                    <p>The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
-                    <a class="btn btn-primary " href="/submit/resourceMobilisation/" role="button bg-white" ng-disabled="!enableRm"> Select »</a>
-              </div>
-            </div>
-
             <div class="col-md-4">
                 <div class="box bg-grey  md-whiteframe-z1">
                     <div class="pull-right">
@@ -57,14 +43,13 @@
                         <!-- <span class="badge bg-draft">{{getFacet('absch').draft}}</span>
                         <span class="badge bg-request">{{getFacet('absch').workflow}}</span> -->
                     </div>
-                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> ABS Information</h4>
+                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> ABS Clearing-House</h4>
                   <p>The Access and Benefit-sharing Clearing-House (ABS-CH) handles the submission of information on access and benefit-sharing established by Article 14 of the Nagoya Protocol. Both Parties and other governments are encouraged to submit their relevant ABS information.</p>
                   <a class="btn btn-warning" href="http://absch.cbd.int/register" role="button bg-white"> Go to the ABSCH »</a>
               </div>
             </div>
 
-            <div class="clearfix"></div>
-
+   
             <div class="col-md-4">
                 <div class="box bg-grey  md-whiteframe-z1">
                     <!-- <div class="pull-right">
@@ -72,7 +57,7 @@
                         <span class="badge bg-draft">{{getFacet('bch').draft}}</span>
                         <span class="badge bg-request">{{getFacet('bch').workflow}}</span>
                     </div> -->
-                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> BCH Information</h4>
+                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> BCH Clearing-House</h4>
                   <p>The Biosafety Clearing-House (BCH) is a mechanism set up by the Cartagena Protocol on Biosafety to facilitate the exchange of information on Living Modified Organisms (LMOs) and assist the Parties to better comply with their obligations under the Protocol.</p>
                   <a class="btn btn-warning" href="http://bch.cbd.int" role="button bg-white"> Go to the BCH »</a>
               </div>

@@ -61,15 +61,23 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 				return promise.then(function(doc) {
 
 					if(!$scope.options)	{
+
+						var decisionQuery = {
+							q    : "schema_s:decision AND body_s:XXVII8-COP",
+							sort : "event_s desc, symbol_s asc",
+							rows : 999999,
+							fl   : "title_t,symbol_s"
+						};
+
 						$scope.options  = {
 							countries     : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							libraries     : $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
-							copDecisions  : $http.get("/api/v2013/index/select?q=schema_s%3Adecision+AND+body_s%3ACOP&sort=event_s+desc%2Cdecision_s+asc&rows=999999&fl=title_t%2C+decision_s%2C+symbol_s", { cache: true })
+							copDecisions  : $http.get("/api/v2013/index/select", { params: decisionQuery, cache: true })
 												 .then(function(res) {
 												 	return _.map(res.data.response.docs, function(o) {
 												 		return {
-												 			identifier: o.decision_s,
-												 			title: (o.decision_s + " - " + o.title_t)
+												 			identifier: o.symbol_s,
+												 			title: (o.symbol_s + " - " + o.title_t)
 												 		};
 												 	});
 												 })

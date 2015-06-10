@@ -1,4 +1,4 @@
-define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet-directive', 'linqjs', 'jquery', 'authentication', '../views/marine-ebsa', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L, Enumerable, $) { 'use strict';
+define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L) { 'use strict';
 
 app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
@@ -57,6 +57,7 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 						};
 					});
 				}
+
 
 				return promise.then(function(doc) {
 
@@ -275,78 +276,6 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 			};
 
 			$scope.init();
-		}
-	};
-}]);
-
-app.directive('marineEbsaAssessment', [ function () {
-	return {
-		restrict   : 'EAC',
-		templateUrl: "marine-ebsa-assessment.html",
-		replace    : true,
-		transclude : false,
-		scope: {
-			binding : "=ngModel",
-			locales : "="
-		},
-		link : function($scope)
-		{
-			$scope.assessments = [
-				{ selected: false, code: "criteria1", title: "C1: Uniqueness or rarity" },
-				{ selected: false, code: "criteria2", title: "C2: Special importance for life-history stages of species" },
-				{ selected: false, code: "criteria3", title: "C3: Importance for threatened, endangered or declining species and/or habitats" },
-				{ selected: false, code: "criteria4", title: "C4: Vulnerability, fragility, sensitivity, or slow recovery" },
-				{ selected: false, code: "criteria5", title: "C5: Biological productivity" },
-				{ selected: false, code: "criteria6", title: "C6: Biological diversity" },
-				{ selected: false, code: "criteria7", title: "C7: Naturalness" }
-			];
-
-			$scope.$watch("binding", $scope.load);
-			$scope.$watch(function(){ return angular.toJson($scope.assessments);}, $scope.save);
-
-			//==================================
-			//
-			//==================================
-			$scope.load = function() {
-				var qBinding = Enumerable.From($scope.binding || []);
-
-				angular.forEach($scope.assessments, function(criteria) {
-					var oBindingCriteria = qBinding.FirstOrDefault(undefined, function(o) { return o.identifier == criteria.code; });
-
-					var oSelected      = !!oBindingCriteria;
-					var oLevel         = (oBindingCriteria || {}).level;
-					var oJustification = (oBindingCriteria || {}).justification;
-
-					if (!angular.equals(criteria.selected,      oSelected))      criteria.selected      = oSelected;
-					if (!angular.equals(criteria.level,         oLevel))         criteria.level         = oLevel;
-					if (!angular.equals(criteria.justification, oJustification)) criteria.justification = oJustification;
-				});
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.save = function() {
-				var oBinding = [];
-
-				angular.forEach($scope.assessments, function(criteria) {
-
-					if (!criteria.selected)
-						return;
-
-					oBinding.push({
-						identifier    : criteria.code,
-						level         : criteria.level,
-						justification : criteria.justification
-					});
-				});
-
-				if ($.isEmptyObject(oBinding))
-					oBinding = undefined;
-
-				$scope.binding = oBinding;
-			};
-
 		}
 	};
 }]);

@@ -1,0 +1,19 @@
+<ol style="list-style-type: none">
+	<li style="margin-bottom:15px" ng-repeat="assessment in assessments">
+		<input type="checkbox" ng-model="assessment.selected" style="margin-left: -18px; margin-top: -4px">
+		<b>{{assessment.title}}</b>
+		<br/>
+		<br/>
+			<div class="btn-group" bs-buttons-radio>
+				<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='high',          'active':assessment.level=='high'}"          ng-click="assessment.level='high'">High</button>
+				<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='medium',        'active':assessment.level=='medium'}"        ng-click="assessment.level='medium'">Medium</button>
+				<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='low',           'active':assessment.level=='low'}"           ng-click="assessment.level='low'">Low</button>
+				<button type="button" class="btn btn-default" ng-disabled="!assessment.selected" ng-class="{ 'btn-info':assessment.level=='noInformation', 'active':assessment.level=='noInformation'}" ng-click="assessment.level='noInformation'">No information</button>
+			</div>
+		<br/>
+		<br/>
+
+		<div class="km-textbox-ml" ng-disabled="!assessment.selected" ng-model="assessment.justification" rows="8" locales="locales"></div>
+	</li>
+
+</ol>

@@ -15,9 +15,15 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
             layers: "=layers"
         },
         template: '<div style="height:400px;margin-bottom:10px" class="angular-leaflet-map"></div>',
-        link: function (scope, element, attrs, ctrl) {
+        link: function (scope, element, attrs) {
+
+            var opt = {};
+
+            if(attrs.scrollWheelZoom!==undefined)
+                opt.scrollWheelZoom = attrs.scrollWheelZoom=="true" || attrs.scrollWheelZoom=="1";
+
             var $el = element[0],
-                map = new L.Map($el);
+                map = new L.Map($el, opt);
 
             scope.$watch(function() { return element.is(':visible') }, invalidate)
 
@@ -68,9 +74,9 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
 
                 map.on("drag", function (e) {
                     scope.$apply(function(s) {
-                        s.center = angular.extend(s.center||{}, { 
+                        s.center = angular.extend(s.center||{}, {
                             lat : map.getCenter().lat,
-                            lng : map.getCenter().lng 
+                            lng : map.getCenter().lng
                         });
                     });
                 });
@@ -111,7 +117,7 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
                 map.on("zoomend", function (e) {
                     if (!scope.$$phase) {
                         scope.$apply(function(s) {
-                            s.center = angular.extend(s.center||{}, { 
+                            s.center = angular.extend(s.center||{}, {
                                 zoom : map.getZoom()
                             });
                         });

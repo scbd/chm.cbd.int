@@ -18,7 +18,7 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 				//====================
 				function lookup(field){
 
-					return $element.parents("form[name='editForm']:first").find("label[for='" + field + "']:first");
+					return $element.parents('body').find('form[name="editForm"]:first').find('label[for="' + field + '"]:first');
 				}
 
 				//====================

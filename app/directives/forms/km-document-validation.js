@@ -26,25 +26,33 @@ define(['app', 'text!./km-document-validation.html'], function(app, template) { 
 				//====================
 				$scope.jumpTo = function(field) {
 
-					if(!mdTabsCtrl) {
-						return;
-					}
-
 					var qLabel = lookup(field);
-					var tabId  = qLabel.parents("md-tab-content:first").attr("id") || "";
 
-					var tabIndex = parseInt(tabId.replace(/.*-(\d+)$/, "$1"))-1;
+					if(mdTabsCtrl) { // with Material design
 
-					if(tabIndex>=0)
-					{
+						var tabId  = qLabel.parents("md-tab-content:first").attr("id") || "";
+
+						var tabIndex = parseInt(tabId.replace(/.*-(\d+)$/, "$1"))-1;
+
+						if(tabIndex<0 || isNaN(tabIndex))
+							return;
+
 						mdTabsCtrl.select(tabIndex);
-
-						var qBody = $element.parents("body:last");
-
-						$timeout(function jumpTo(){
-							qBody.stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
-						},100);
 					}
+					else { // Old way
+
+						var tab = qLabel.parents("[km-tab]:first").attr("km-tab");
+
+						if(!tab)
+							return;
+
+						$scope.$parent.tab = tab;
+					}
+
+					$timeout(function(){
+						$element.parents("body:last").stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
+					},100);
+
 				};
 
 				//====================

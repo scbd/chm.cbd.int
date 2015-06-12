@@ -35,6 +35,8 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 									"application/pdf",
 									"application/xml",
 									"application/zip",
+									"application/x-zip",
+									"application/x-zip-compressed",
 									"audio/mpeg",
 									"audio/x-ms-wma",
 									"audio/x-wav",

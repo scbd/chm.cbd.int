@@ -55,9 +55,9 @@ md-select-label{
 
             <table class="table table-striped" style="width:100%">
                 <tr>
-                    <th  colspan="2" style="width:40%;text-align:left;">Target</th>
-                    <th style="width:30%;text-align:left;">Indicators</th>
-                    <th style="width:30%;text-align:left;">Assessment</th>
+                    <th  colspan="2" style="width:60%;text-align:left;">Target</th>
+                    <!-- <th style="width:30%;text-align:left;">Indicators</th> -->
+                    <th style="width:40%;text-align:left;">Assessment</th>
                 </tr>
                 <tr ng-repeat="record in records">
 
@@ -68,7 +68,7 @@ md-select-label{
                         <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">&nbsp;</span>
                         {{record.title_s}}
                     </td>
-                    <td>
+                    <!-- <td>
 
 
                         <md-select ng-model="user" md-on-open="loadUsers()" style="min-width: 200px;padding-bottom:0;margin-bottom:0;">
@@ -112,7 +112,7 @@ md-select-label{
 
 
 
-                    </td>
+                    </td> -->
 
 
                     <td>
@@ -154,9 +154,9 @@ md-select-label{
                         <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalTarget/new">Add New National Target</md-button>
                         <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalTarget/new">Add Aichi Target</md-button>
                     </td>
-                    <td>
+                    <!-- <td>
                         <md-button  class="md-raised">List Indicators</md-button>
-                    </td>
+                    </td> -->
                     <td>
                         <md-button  class="md-raised">List Assessments</md-button>
                     </td>

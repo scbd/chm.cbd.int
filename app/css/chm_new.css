@@ -135,6 +135,8 @@ form label[required]:after
 }
 .container-links a{
     color:white;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 .container-breadcrumbs{
     background: rgba(25, 25, 25, .05);

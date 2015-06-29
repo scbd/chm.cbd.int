@@ -1,13 +1,12 @@
 FROM node:0.10
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY . /usr/src/app
+COPY package.json bower.json .bowerrc .npmrc ./
+
 RUN npm install
 
-# Minify + concat
-# RUN ./node_modules/.bin/grunt requirejs
+COPY . ./
 
 ENV PORT 8000
 

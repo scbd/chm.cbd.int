@@ -3,17 +3,18 @@
   "description": "Clearing-House Mechanism Website",
   "dependencies": {
     "bower": "1.4.1",
-    "compression": "~1.4.3",
-    "console-stamp": "~0.1.5",
-    "express": "~4.12.3",
-    "http-proxy": "~1.9.0",
-    "morgan": "~1.5.2",
-    "serve-static": "~1.9.2"
+    "compression": "1.4.3",
+    "express": "4.12.3",
+    "http-proxy": "1.9.0",
+    "morgan": "1.5.2",
+    "serve-static": "1.9.2"
   },
   "devDependencies": {
     "awsbox": "0.6.x"
   },
   "engine": "node >= 0.10.30",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install --allow-root",
     "start": "node server"

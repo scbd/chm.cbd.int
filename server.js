@@ -43,9 +43,9 @@ app.delete('/api/*', function(req, res) { proxy.web(req, res, { target: 'https:/
 
 // Configure index.html
 
-app.get('/*', function (req, res) { 
+app.get('/*', function (req, res) {
     res.cookie('cachetag', cacheTag);
-    res.sendfile(__dirname + '/app/index.html'); 
+    res.sendFile(__dirname + '/app/index.html'); 
 });
 
 // Start server

@@ -64,10 +64,10 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 				$scope.new_cancel = function(ev) {
 
 					var confirm = $mdDialog.confirm()
-						.title('Close the form without saving?')
-						.content('Click "CANCEL" to remain on this record or "CLOSE" to close the form without saving.')
+						.title('Close the form?')
+						.content('Click "CANCEL" to remain on this record or "CLOSE" to close the form. Changes will be lost if not previously saved.')
 						.ariaLabel('close form')
-						.ok('CLOSE RECORD WITHOUT SAVING')
+						.ok('CLOSE RECORD')
 						.cancel('CANCEL')
 						.targetEvent(ev);
 						$mdDialog.show(confirm).then(function() {
@@ -278,7 +278,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 						$scope.errors = null;
 				};
 
-		
+
 				//====================
 				//
 				//====================

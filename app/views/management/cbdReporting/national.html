@@ -57,7 +57,7 @@ md-select-label{
                 <tr>
                     <th  colspan="2" style="width:60%;text-align:left;">Target</th>
                     <!-- <th style="width:30%;text-align:left;">Indicators</th> -->
-                    <th style="width:40%;text-align:left;">Assessment</th>
+                    <th style="width:60%;text-align:left;">Assessment</th>
                 </tr>
                 <tr ng-repeat="record in records">
 
@@ -119,17 +119,11 @@ md-select-label{
 
 
 
-                        <md-select ng-model="user" md-on-open="loadUsers()" style="min-width: 200px;padding-bottom:0;margin-bottom:0;">
-                          <md-select-label>Add</md-select-label>
-                          <md-option ng-value="user1" ><span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">&nbsp;</span> 2009 - 2010 <i class=" bg-a fa fa-line-chart"></i> </md-option>
-                          <md-option ng-value="user2" ><span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">&nbsp;</span> 2009 - 2010 <i class=" bg-b fa fa-line-chart"></i> </md-option>
-                          <md-option ng-value="user3" ><span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">&nbsp;</span> 2009 - 2010 <i class=" bg-c fa fa-line-chart"></i> </md-option>
+                        <md-option ng-value="new" >
+                            <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalIndicator/new">New Assessment</md-button>
+                        </md-option>
 
-                          <md-option ng-value="new" >
-                              <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalIndicator/new">New Assessment</md-button>
-                          </md-option>
-                        </md-select>
-
+                        <md-list>
                       <md-list-item class="md-3-line">
                         <div class="md-list-item-text">
                           <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">&nbsp;</span> 2009 - 2010  <i class=" bg-a fa fa-line-chart"></i>

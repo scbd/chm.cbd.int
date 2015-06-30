@@ -9,6 +9,16 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
 
         $scope.email = $rootScope.lastLoginEmail || "";
 
+
+
+		//========================================
+		//
+		//========================================
+		$scope.goto = function (path) {
+
+			$window.location.href = path;
+		}
+
         //========================================
         //
         //========================================

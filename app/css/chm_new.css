@@ -130,13 +130,14 @@ form label[required]:after
 .container-links{
     background: rgba(25, 25, 25, .05);
     min-height:30px;
-    color:white;
+    color:#EEE;
     padding-top:5px;
 }
 .container-links a{
-    color:white;
+    color:#EEE;
     text-transform: uppercase;
     font-weight: bold;
+    font-size:13px;
 }
 .container-breadcrumbs{
     background: rgba(25, 25, 25, .05);

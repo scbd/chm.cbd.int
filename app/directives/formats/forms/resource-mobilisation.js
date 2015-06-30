@@ -65,7 +65,6 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			$scope.contributionsYears = [];
 			$scope.fundingNeedsYears  = [];
 
-
             $scope.isRequired =   function (arrayName) {
 
                 if((arrayName == 'baselineFlows' || arrayName=='progressFlows' ) && $scope.document && $scope.document.internationalResources)
@@ -657,6 +656,20 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				}
 
 				return 0;
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.annualEstimatesHasYear = function (year) {
+				if(!year) return false;
+				if($scope.document && $scope.document.fundingNeedsData && $scope.document.fundingNeedsData.annualEstimates){
+					var estimates = $scope.document.fundingNeedsData.annualEstimates;
+					var estimate = _.findWhere(estimates, {year:year});
+					if(estimate)
+						return true;
+				}
+				return false;
 			};
 
 			//==================================

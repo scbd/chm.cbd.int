@@ -925,6 +925,8 @@
 							<div class="col-md-6">
 								<div class="km-control-group" name="fundingNeedsData.currency" caption="Currency" required={{isRequired('annualEstimates')}}>
 									<div km-select name="fundingNeedsData.currency" ng-model="document.domesticExpendituresData.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+									<div ng-show="document.domesticExpendituresData.currency" class="text-info" style="padding-top:5px">Note: the currency is taken from part 4.</div>
+									<span ng-show="!document.domesticExpendituresData.currency" class="text-warning"> <i>Please select a currency in Part 4.</i></span>
 								</div>
 							</div>
 
@@ -937,22 +939,12 @@
 
 						<div class="row">
 							<div class="col-lg-12">
-								<label>Do you want to extrapolate the average value from question 4.1 and apply annual percentage increase to the table below?</label>
-								<span class="help-block">Note: the table below will be overwritten.</span>
 
-								<div class="km-control-group" name="isExtrapolated" caption="">
-									<div km-yes-no ng-model="isExtrapolated" locales="document.header.languages" ng-click="applyExtrapolation(isExtrapolated)"></div>
-
-
-									<div ng-show="isExtrapolated">
-										<div><label>Annual percentage increase: </label></div>
-
-										<div class="input-group col-xs-2"  ng-class="{ 'has-error': temp.annualPercentage && !isValidNumber(temp.annualPercentage) }">
-											<input type="text" name="annualPercentage" class="form-control text-right" ng-model="temp.annualPercentage" ng-change="applyPercentageIncrease(temp.annualPercentage)">
-											<span class="input-group-addon">%</span>
-										</div>
-									</div>
-								</div>
+								<!-- <div><label>Apply annual percentage increase: </label></div>
+								<div class="input-group col-xs-2"  ng-class="{ 'has-error': temp.annualPercentage && !isValidNumber(temp.annualPercentage) }">
+									<input type="text" name="annualPercentage" class="form-control text-right" ng-model="temp.annualPercentage" ng-change="applyPercentageIncrease(temp.annualPercentage)">
+									<span class="input-group-addon">%</span>
+								</div> -->
 							</div>
 						</div>
 
@@ -1039,6 +1031,8 @@
 					<div class="col-md-6">
 						<div class="km-control-group" name="nationalPlansData.currency" caption="Currency" required={{isRequired('domesticSources')}}>
 							<div km-select name="nationalPlansData.currency"  ng-model="document.domesticExpendituresData.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+							<div ng-show="document.domesticExpendituresData.currency" class="text-info" style="padding-top:5px">Note: the currency is taken from part 4.</div>
+							<span ng-show="!document.domesticExpendituresData.currency" class="text-warning"> <i>Please select a currency in Part 4.</i></span>
 						</div>
 					</div>
 
@@ -1051,42 +1045,25 @@
 
 				<div class="row">
 					<div class="col-lg-12">
-						<table class="table table-hover table-responsive">
+
+						<span ng-hide="document.fundingNeedsData.annualEstimates.length > 1" class="text-warning"><strong>Please complete the table on Reporting funding needs, gaps, and priorities from previous section to complete the section below.</strong></span>
+						<table class="table table-hover table-responsive" ng-show="document.fundingNeedsData.annualEstimates.length > 1">
 							<thead>
 								<tr>
-									<th class="col-sm-3 text-center"></th>
-									<th class="col-sm-1 text-center">2014</th>
-									<th class="col-sm-1 text-center">2015</th>
-									<th class="col-sm-1 text-center">2016</th>
-									<th class="col-sm-1 text-center">2017</th>
-									<th class="col-sm-1 text-center">2018</th>
-									<th class="col-sm-1 text-center">2019</th>
-									<th class="col-sm-1 text-center">2020</th>
-									<td class="col-xs-1 text-left"></th>
+									<th class="col-sm-3 text-left"></th>
+									<th ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center">{{estimate.year}}</th>
 								</tr>
 
 							</thead>
 							<tbody>
 								<tr class="active text-center">
 									<td class="text-left"><strong>Expected funding gap</strong> <a rm-popover data-content="The expected funding gap would be taken from column (3) under question 5." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
-									<td><strong>{{getFundingGapYear(2014)}}<strong></td>
-									<td><strong>{{getFundingGapYear(2015)}}<strong></td></td>
-									<td><strong>{{getFundingGapYear(2016)}}<strong></td></td>
-									<td><strong>{{getFundingGapYear(2017)}}<strong></td></td>
-									<td><strong>{{getFundingGapYear(2018)}}<strong></td></td>
-									<td><strong>{{getFundingGapYear(2019)}}<strong></td></td>
-									<td><strong>{{getFundingGapYear(2020)}}<strong></td></td>
+									<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getFundingGapYear(estimate.year)}}<strong></td>
 									<td></td>
 								</tr>
 								<tr class="active text-center">
 									<td class="text-left"><strong>Domestic sources (total)<strong> <a rm-popover data-content="The planned contribution towards the identified funding gap by domestic sources. You may wish to further specify the planned sources that you wish to mobilize and their respective contribution. In this case, please replace the ‘placeholders’ and add more rows as needed. Possible domestic sources may include: (i) additional government allocations; (ii) earmarked funds from environmental fiscal reform, including new forms of environmental taxation or fee structures; (iii) earmarked funds from the elimination, phase out or reform of harmful incentives, including subsidies; (iv) various biodiversity funding mechanisms such as payments for ecosystem services, offsets, markets for green products, business-biodiversity partnerships, etc. (v); the mobilization of collective action by indigenous and local communities; etc." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2014)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2015)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2016)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2017)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2018)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2019)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('domesticSources', 2020)}}<strong></td>
+									<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year)}}<strong></td>
 									<td></td>
 								</tr>
 								<tr ng-repeat="source in document.nationalPlansData.domesticSources track by $index">
@@ -1094,39 +1071,39 @@
 									<td>
 										<div km-textbox-ml rows=1  style="width: 100%" name="sourceName" placeholder="domestic source name" ng-model="source.name" locales="document.header.languages"></div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2014)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2014 && !isValidNumber(source.amount2014) }">
-											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2015)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2015 && !isValidNumber(source.amount2015) }">
-											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2016)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2016 && !isValidNumber(source.amount2016) }">
-											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2017)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2017 && !isValidNumber(source.amount2017) }">
-											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2018)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2018 && !isValidNumber(source.amount2018) }">
-											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2019)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2019 && !isValidNumber(source.amount2019) }">
-											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2020)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2020 && !isValidNumber(source.amount2020) }">
-											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
 									<td>
@@ -1135,13 +1112,7 @@
 								</tr>
 								<tr class="active text-center">
 									<td class="text-left"><strong>international flows (total)<strong> <a rm-popover data-content="The planned contribution towards the identified finance gap by international sources. You may wish to further specify the sources and their respective expected contribution. In this case, please replace the ‘placeholders’ and add more rows as needed. Possible sources may include: (i) bi- and multilateral ODA/OOF; (ii) REDD+ or similar initiatives, including alternative policy approaches such as joint mitigation and adaptation approaches; (iii) ABS agreements, etc." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2014)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2015)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2016)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2017)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2018)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2019)}}<strong></td>
-									<td><strong>{{getNationalPlansSourcesTotal('internationalSources', 2020)}}<strong></td>
+									<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year)}}<strong></td>
 									<td></td>
 								</tr>
 
@@ -1149,39 +1120,39 @@
 									<td>
 										<div km-textbox-ml rows=1  style="width: 100%" name="sourceName" placeholder="international source name" ng-model="source.name" locales="document.header.languages"></div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2014)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2014 && !isValidNumber(source.amount2014) }">
-											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2015)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2015 && !isValidNumber(source.amount2015) }">
-											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2016)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2016 && !isValidNumber(source.amount2016) }">
-											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2017)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2017 && !isValidNumber(source.amount2017) }">
-											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2018)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2018 && !isValidNumber(source.amount2018) }">
-											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2019)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2019 && !isValidNumber(source.amount2019) }">
-											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
-									<td>
+									<td ng-show="annualEstimatesHasYear(2020)">
 										<div class="input-group" ng-class="{ 'has-error': source.amount2020 && !isValidNumber(source.amount2020) }">
-											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: right; margin-bottom: 0px;" >
+											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: center; margin-bottom: 0px;" >
 										</div>
 									</td>
 									<td>
@@ -1190,13 +1161,7 @@
 								</tr>
 								<tr class="active text-center">
 									<td class="text-left"><strong>Remaining gap<strong> <a rm-popover data-content="The remaining gap is calculated by subtracting (3) and (2) from (1)." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2014)}}<strong></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2015)}}<strong></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2016)}}<strong></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2017)}}<strong></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2018)}}<strong></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2019)}}<strong></td>
-									<td><strong>{{getNationalPlansRemainingGapByYear(2020)}}<strong></td>
+									<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)}}<strong></td>
 									<td></td>
 								</tr>
 							</tbody>

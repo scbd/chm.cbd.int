@@ -39,39 +39,6 @@ app.directive('viewNationalTarget', ["$q", "IStorage", function ($q, storage) {
 			//===============
 			//
 			//===============
-			$scope.$watch("document.higherLevelNationalTarget", function(refs) {
-				if(refs){
-					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.higherLevelNationalTarget = result;
-					});
-				}
-			});
-
-			//===============
-			//
-			//===============
-			$scope.$watch("document.nationalIndicators", function(refs) {
-				if(refs){
-					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.nationalIndicators = result;
-					});
-				}
-			});
-
-			//===============
-			//
-			//===============
-			$scope.$watch("document.partners", function(refs) {
-				if(refs){
-					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.partners = result;
-					});
-				}
-			});
-
-			//===============
-			//
-			//===============
 			function loadReferences(refs, options) {
 
 				if (!refs)

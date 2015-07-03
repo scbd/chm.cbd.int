@@ -1,6 +1,6 @@
 ﻿<div>
 
-    <h1>National Target   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
+    <h1>National Target<i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
 
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
@@ -15,14 +15,25 @@
 
 			<div class="row">
 
-                <div class="col-md-6">
-                    <div class="pagination">
-                    <span km-form-languages ng-model="document.header.languages"></span>
-                </div>
+                <div class="col-xs-12 visible-xs">
+					<div class="">
+						<span km-form-languages ng-model="document.header.languages"></span>
+                        <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+                <div class="col-sm-6 col-xs-12">
+                    <ul class="pagination">
+                        <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+                        <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+                        <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+                        <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+                    </ul>
                 </div>
 
-                <div class="col-md-6" style="text-align:right">
-                    <div class="pagination">
+                <div class="col-sm-6 hidden-xs" style="text-align:right">
+					<div class="pagination">
+						<span km-form-languages ng-model="document.header.languages"></span>
                         <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
                     </div>
                 </div>
@@ -45,7 +56,7 @@
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="title" caption="Title">
+								<div class="km-control-group" required name="title" caption="National Target">
 									<div class="help-block">Please use the official title, if available.</div>
 									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
 								</div>
@@ -54,7 +65,7 @@
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="description" caption="Description of the National Target">
+								<div class="km-control-group" required name="description" caption="Rationale for the National Target">
 									<div km-textbox-ml required name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
 								</div>
 							</div>
@@ -91,70 +102,13 @@
 							</div>
 						</div>
 
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="higherLevelNationalTarget" caption="If this National Target is a sub-target, please indicate the higher level National Target.">
-									<div km-select required displaycount="1" name="higherLevelNationalTarget" multiple ng-model="document.higherLevelNationalTarget" placeholder="Please select National Target" watch-items items="options.nationalTargets"></div>
-								</div>
-							</div>
-						</div>
+						<legend>Relevant Documents and Information</legend>
+                        <div class="help-block">If possible, attach relevant documents where such target is included and can be found.</div>
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="meansOfAssessment" caption="Means to assess progress">
-								<span class="help-block">Please describe in this field how you envisage to assess whether the national target has been achieved or what progress is being made to achieve the target. This could be done through indicators that might be used or through other means of verification such as case study information, project evaluations or expert judgment. <em>If this information is not currently available, please enter the date by which you can commit to providing this information in the text field below</em>.</span>
-									<div km-textbox-ml required name="meansOfAssessment" ng-model="document.meansOfAssessment" rows="6" locales="document.header.languages" placeholder=""></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="nationalIndicators" caption="Link to National Indicators">
-									<div km-select name="nationalIndicators" multiple ng-model="document.nationalIndicators" placeholder="" watch-items items="options.nationalIndicators"></div>
-								</div>
-							</div>
-						</div>
-
-						<legend>Partners</legend>
-
-						<div class="row  bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="partners" caption="Link to Relevant Partners">
-									<div km-reference name="partners" multiple ng-model="document.partners" loader="loadRecords(identifier, 'organization')" order-by="sortContacts(reference)">
-										<div>
-											<div><strong>{{reference.title | lstring}}</strong></div>
-											<div>{{reference.summary | lstring}}</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-						<legend>Main relevant document(s) and information</legend>
-
-						<div class="row  bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="documentText" caption="Relevant information">
-									<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
-								</div>
-							</div>
-						</div>
-						<div class="row  bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
-									<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
-								</div>
-							</div>
-						</div>
-
-						<legend>Other Relevant Information</legend>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" name="relevantInformation" caption="Additional Information">
-									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+								<div class="km-control-group" name="relevantInformation" caption="Relevant information">
+									<div class="help-block">Please use this field to provide any relevant information.</div>
 									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
 								</div>
 							</div>
@@ -162,7 +116,7 @@
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+								<div class="km-control-group" name="relevantDocuments" caption="Relevant websites, links, and files">
 									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
 								</div>
 							</div>

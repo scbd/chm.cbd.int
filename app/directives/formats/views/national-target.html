@@ -9,7 +9,7 @@
 	</div>
 
 	<div ng-show="document.description">
-		<label>Description</label>
+		<label>Rationale for the National Target</label>
 		<div class="km-value km-pre" ng-bind="document.description | lstring:locale"></div>
 	</div>
 
@@ -31,10 +31,10 @@
 	</div>
 
 
-	<div ng-show="document.aichiTargets || document.otherAichiTargets || document.meansOfAssessment || document.nationalIndicators || document.higherLevelNationalTarget">
+	<div ng-show="document.aichiTargets || document.otherAichiTargets">
 
 		<legend>Targets and Indicators</legend>
-		
+
 		<div ng-show="document.aichiTargets">
 			<label>Main related Aichi Targets</label>
 			<div class="km-value" ng-repeat="item in      aichiTargets">{{item.title | lstring:locale}}</div>
@@ -45,33 +45,7 @@
 			<div class="km-value" ng-repeat="item in otherAichiTargets">{{item.title | lstring:locale}}</div>
 		</div>
 
-		<div ng-show="document.meansOfAssessment">
-			<label>Means to assess progress</label>
-			<div class="km-value km-pre">{{document.meansOfAssessment | lstring:locale}}</div>
-		</div>
-
-		<div ng-show="document.higherLevelNationalTarget">
-			<label>If this National Target is a sub-target, please indicate the higher level National Target.</label>
-			<div class="km-value" ng-repeat="item in higherLevelNationalTarget">{{item.title | lstring:locale}}</div>
-		</div>
-
-		<div ng-show="nationalIndicators">
-			<label>National Indicators</label>
-			<div class="km-value" ng-repeat="term in nationalIndicators">{{term | term:locale}}</div>
-		</div>
-
 	</div>
-
-	<div ng-show="partners">
-
-		<legend>Partners</legend>
-
-		<div class="km-value" ng-repeat="organization in partners">
-			<div class="cbdViewOrganizationReference" ng-model="organization" locale="locale"></div>
-		</div>
-
-	</div>
-
 
 	<div ng-show="document.documentText||document.documentLinks">
 

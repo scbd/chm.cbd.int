@@ -18,25 +18,20 @@
 		<div class="km-value" ng-repeat="item in strategicPlanIndicators">{{item.title|lstring:locale}}</div>
 	</div>
 
-	<div ng-show="document.documents">
-		<label>Main relevant document(s)</label>
-		<div class="km-value" ng-repeat="item in document.documents">
-			<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
-		</div>
-	</div>
-
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
-		<legend>Additional Information</legend>
-
-		<div ng-show="document.relevantInformation">
-			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
-		</div>
+		<legend>Documents and relevant information</legend>
 
 		<div ng-show="document.relevantDocuments">
-			<label>Other relevant website address or attached documents</label>
+			<label>Relevant website address or documents</label>
 			<div class="km-value" ng-repeat="item in document.relevantDocuments">
 				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 			</div>
 		</div>
+
+		<div ng-show="document.relevantInformation">
+			<label>Additional Information</label>
+			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+		</div>
+
 	</div>
 </div>

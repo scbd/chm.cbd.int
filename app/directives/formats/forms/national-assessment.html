@@ -50,29 +50,13 @@
 							</div>
 						</div>
 
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="title" caption="Title">
-									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages" placeholder=""></div>
-								</div>
-							</div>
-						</div>
-
 						<legend>Object of the assessment</legend>
 
 						<div class="row bottom-spacing">
 
-							<div class="col-md-4">
-								<div class="km-control-group" required name="aichiTarget" caption="Aichi Target">
-									<div km-select ng-disabled="document.nationalTarget" required displaycount="1" name="aichiTarget" ng-model="document.aichiTarget" placeholder="Please select one target..." watch-items items="options.aichiTargets"></div>
-								</div>
-							</div>
-
-							<div class="col-md-1"><em>OR</em></div>
-
-							<div class="col-md-4">
-								<div class="km-control-group" required name="nationalTarget" caption="National Target">
-									<div km-select ng-disabled="document.aichiTarget"  required displaycount="1" name="nationalTarget" ng-model="document.nationalTarget" placeholder="Please select one target..." watch-items items="options.nationalTargets"></div>
+							<div class="col-md-12">
+								<div class="km-control-group" required name="nationalTarget" caption="Target">
+									<div km-select required displaycount="1" name="nationalTarget" ng-model="document.nationalTarget" placeholder="Please select one target..." watch-items items="options.nationalTargets"></div>
 								</div>
 							</div>
 						</div>
@@ -81,34 +65,8 @@
 
 						<div class="row bottom-spacing">
 							<div class="col-md-4">
-								<div class="km-control-group" required name="startDate" caption="From">
-									<div km-date name="startDate" required ng-model="document.startDate"></div>
-								</div>
-							</div>
-
-							<div class="col-md-1">
-							</div>
-
-							<div class="col-md-6">
-								<div class="km-control-group" required name="endDate" caption="To">
-									<div km-date name="endDate" required ng-model="document.endDate"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="jurisdiction" caption="Level of assessment">
-									<div class="help-block">Please specify if the assessment was carried out for the national or subnational level</div>
-									<div km-select required name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of assessment" watch-items items="options.jurisdictions"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row bottom-spacing" ng-show="isJurisdictionSubNational()">
-							<div class="col-md-12" >
-								<div class="km-control-group" required name="jurisdictionInfo" caption="Please provide additional details on the specific level of assessment">
-									<div km-textbox-ml required name="jurisdictionInfo" ng-model="document.jurisdictionInfo" rows="3" locales="document.header.languages" placeholder=""></div>
+								<div class="km-control-group" required name="date" caption="Date the assessment was done">
+									<div km-date name="date" required ng-model="document.date"></div>
 								</div>
 							</div>
 						</div>
@@ -126,22 +84,6 @@
 							<div class="col-md-12">
 								<div class="km-control-group" required name="progress" caption="Summary of the assessment of progresses toward the implementation of the selected target">
 									<div km-select name="progress" required displaycount="1"  ng-model="document.progress" placeholder="" watch-items items="options.progresses"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="confidence" caption="Level of confidence of the above assessment">
-									<div km-select name="confidence" required ng-model="document.confidence" placeholder="" watch-items items="options.confidences"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation of the level of confidence indicated in the field ">
-									<div km-textbox-ml required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
@@ -189,6 +131,24 @@
 							</div>
 						</div>
 
+						<legend>Level of confidence</legend>
+
+ 						<div class="row bottom-spacing">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="confidence" caption="Level of confidence of the above assessment">
+									<div km-select name="confidence" required ng-model="document.confidence" placeholder="" watch-items items="options.confidences"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation of the level of confidence indicated in the field ">
+									<div km-textbox-ml required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+
 						<legend>Other Relevant Information</legend>
 
 						<div class="row">
@@ -207,6 +167,8 @@
 								</div>
 							</div>
 						</div>
+
+
 
 						<div class="row">
 							<div class="col-md-12">

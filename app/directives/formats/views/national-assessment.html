@@ -1,5 +1,5 @@
 ﻿<div class="viewForm">
-	<h2>{{document.title | lstring:locale}} </h2>
+	<h2>{{document.date.substr(0,4)}} - {{document.progress | term:locale}}</h2>
 
 	<div ng-show="document.government">
 		<label>Country</label>
@@ -13,59 +13,27 @@
 		<div class="km-value km-pre" ng-bind="document.description | lstring:locale"></div>
 	</div>
 
-	<div ng-show="document.aichiTarget || document.nationalTarget">
+	<div ng-show="document.nationalTarget">
 
-		<legend>Targets and Indicators</legend>
-		<div ng-show="document.aichiTarget">
-			<label>Aichi Targets</label>
-			<ul class="km-value">
-			    <li ng-repeat="item in aichiTarget">{{item.title | lstring:locale}}</li>
-			</ul>
-		</div>
-
+		<legend>Targets</legend>
 		<div ng-show="document.nationalTarget">
-			<label>National Targets</label>
+			<label>Targets</label>
 			<ul class="km-value">
 			    <li ng-repeat="item in nationalTarget">{{item.title | lstring:locale}} </li>
 			</ul>
 		</div>
 	</div>
 
-	<div ng-show="document.startDate || document.endDate">
-		<label>Assessment period</label>
-		<div ng-show="document.startDate">
-			<div class="span4">
-				<label>From</label>
-				<div class="km-value km-pre">{{document.startDate | lstring:locale}}</div>
-			</div>
-		</div>
-
-		<div class="span1">
-		</div>
-
-		<div ng-show="document.endDate">
-			<div class="span4">
-				<label>To</label>
-				<div class="km-value km-pre">{{document.endDate | lstring:locale}}</div>
-			</div>
+	<div ng-show="document.date">
+		<label>Date the assessment was done</label>
+		<div class="span4">
+			<div class="km-value km-pre">{{document.date | lstring:locale}}</div>
 		</div>
 	</div>
 
 
-	<div ng-show="document.jurisdiction || document.jurisdictionInfo ||
-			document.assessmentText || document.progress ||
-			document.confidence || document.confidenceInfo">
+	<div ng-show="document.assessmentText || document.progress">
 		<legend>Assessment</legend>
-
-		<div ng-show="document.jurisdiction">
-			<label>Level of assessment</label>
-			<span class="km-value">{{document.jurisdiction | term:locale}} </span>
-		</div>
-
-		<div ng-show="document.jurisdictionInfo">
-			<label>Please provide additional details on the specific level of assessment</label>
-			<div class="km-value km-pre">{{document.jurisdictionInfo | lstring:locale}}</div>
-		</div>
 
 		<div ng-show="document.assessmentText">
 			<label>Assessment</label>
@@ -75,16 +43,6 @@
 		<div ng-show="document.progress">
 			<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
 			<span class="km-value">{{document.progress | term:locale}} </span>
-		</div>
-
-		<div ng-show="document.confidence">
-			<label>Level of confidence of the above measure</label>
-			<span class="km-value">{{document.confidence | term:locale}} </span>
-		</div>
-
-		<div ng-show="document.confidenceInfo">
-			<label>Level of confidence of the above measure</label>
-			<div class="km-value km-pre">{{document.confidenceInfo | lstring:locale}}</div>
 		</div>
 
 	</div>
@@ -133,6 +91,21 @@
 		</div>
 	</div>
 
+	<div ng-show="document.confidence || document.confidenceInfo">
+
+		<legend>Level of confidence</legend>
+
+		<div ng-show="document.confidence">
+			<label>Level of confidence of the above measure</label>
+			<span class="km-value">{{document.confidence | term:locale}} </span>
+		</div>
+
+		<div ng-show="document.confidenceInfo">
+			<label>Level of confidence of the above measure</label>
+			<div class="km-value km-pre">{{document.confidenceInfo | lstring:locale}}</div>
+		</div>
+
+	</div>
 
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
 

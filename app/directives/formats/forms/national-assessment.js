@@ -15,10 +15,8 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             $scope.review = { locale: "en" };
             $scope.options = {
                 countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
-            	jurisdictions:           $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
             	progresses:              $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", { cache: true }).then(function (o) { return o.data; }),
             	confidences:             $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms", { cache: true }).then(function (o) { return o.data; }),
-            	aichiTargets:            $http.get("/api/v2013/index", { params: { q:"schema_s:aichiTarget", fl:"identifier_s,title_t,number_d",  sort:"number_d ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.number_d  +" - "+ o.title_t }; });}).then(null, $scope.onError),
             	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t }; });}).then(null, $scope.onError),
             	implementationActivities: [],
             	nationalIndicators: [],
@@ -79,14 +77,21 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 				$scope.status = "loading";
 				var qs = $route.current.params;
 				var identifier  = qs.uid;
-				var year        = qs.year;
-				var aichiTarget = qs.aichiTarget;
-				var nationalTarget = qs.nationalTarget;
 				var promise = null;
 
-				if(identifier)
+				if(identifier) {
 					promise = editFormUtility.load(identifier, "nationalAssessment");
-				else
+                }
+				else {
+
+                    var year           = qs.year;
+    				var nationalTarget = qs.nationalTarget;
+
+                    var dates = [new Date()];
+
+                    if(year)
+                        dates.push(new Date(year + "-12-31"));
+
 					promise = $q.when({
 						header: {
 							identifier: guid(),
@@ -94,12 +99,10 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 							languages: ["en"]
 						},
 						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
-						startDate : year ? year + "-01-01" : undefined,
-						endDate   : year ? year + "-12-31" : undefined,
-						aichiTarget    : aichiTarget    ? { identifier: aichiTarget } : undefined,
+						date : _.min(dates).toISOString().substr(0, 10),
 						nationalTarget : nationalTarget ? { identifier: nationalTarget } : undefined
 					});
-
+                }
 
 				promise.then(
 					function(doc) {
@@ -110,16 +113,6 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 						$scope.onError(err.data, err.status);
 						throw err;
 					});
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.isJurisdictionSubNational = function(document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
 			};
 
 			//==================================
@@ -141,9 +134,6 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				if (!document)
 					return $q.when(true);
-
-				if (!$scope.isJurisdictionSubNational(document))
-					document.jurisdictionInfo = undefined;
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;

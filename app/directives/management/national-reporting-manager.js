@@ -249,7 +249,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 			//
 			//===============
 			$scope.isAssessed = function(value) {
-				return value && value.progressAssessments && value.progressAssessments.length > 0;
+				return value && value.nationalAssessments && value.nationalAssessments.length > 0;
 			};
 
 			//===============
@@ -257,8 +257,8 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 			//===============
 			$scope.getAssessment = function(value, year) {
 
-				if (value && value.progressAssessments)
-					return _.find(value.progressAssessments, function(o) { return _.contains(o.years, year); });
+				if (value && value.nationalAssessments)
+					return _.find(value.nationalAssessments, function(o) { return _.contains(o.years, year); });
 			};
 
 		    //===============
@@ -451,7 +451,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 				};
 
 				var nationalQuery = {
-					q: "schema_s:(nationalIndicator nationalTarget progressAssessment implementationActivity nationalSupportTool) AND government_s:" + government,
+					q: "schema_s:(nationalIndicator nationalTarget nationalAssessment implementationActivity nationalSupportTool) AND government_s:" + government,
 					fl: "schema_s, url_ss, identifier_s, title_t, description_t, nationalIndicator_ss, aichiTarget_ss, aichiTarget_s, nationalTarget_s, nationalTarget_ss, year_is, government_s, completion_CEN_s, version_s",
 					sort: "title_s ASC",
 					rows: 99999999
@@ -470,21 +470,21 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 					var qAichiTargets             =         response[0];
 					var qNationalIndicators       = _.where(response[1], { schema_s: 'nationalIndicator' });
 					var qNationalTargets          = _.where(response[1], { schema_s: 'nationalTarget' });
-					var qProgressAssessments      = _.where(response[1], { schema_s: 'progressAssessment' });
+					var qNationalAssessments      = _.where(response[1], { schema_s: 'nationalAssessment' });
 					var qImplementationActivities = _.where(response[1], { schema_s: 'implementationActivity' });
 					var qNationalSupportTools     = _.where(response[1], { schema_s: 'nationalSupportTool' });
 
 					// Aichi Targets
 					var aichiTargets = _.map(qAichiTargets, function(record) {
 
-						var qqAssessments     = _.compact(_.where(qProgressAssessments, { aichiTarget_s : record.identifier_s }));
+						var qqAssessments     = _.compact(_.where(qNationalAssessments, { aichiTarget_s : record.identifier_s }));
 						var qqNationalTargets = _.compact(_.filter(qNationalTargets, function(o) { return _.contains(o.aichiTarget_ss, record.identifier_s); }));
 
 						return _.first(_.map(map_aichiTargets([record]), function(record) {
 
 							return _.extend(record, {
 								nationalTargets     : map_nationalTargets(qqNationalTargets),
-								progressAssessments : map_progressAssessments(qqAssessments),
+								nationalAssessments : map_nationalAssessments(qqAssessments),
 								assessmentYears     : _.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is")))),
 								nextAssessmentYear  : nextAssessmentYear(_.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is"))))),
 								isUpToDate          : isUpToDate(_.flatten(_.pluck(qqAssessments, "year_is")))
@@ -495,7 +495,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 					// National Targets
 					var nationalTargets = _.map(qNationalTargets, function(record) {
 
-						var qqAssessments  = _.compact(_.where (qProgressAssessments, { nationalTarget_s : record.identifier_s }));
+						var qqAssessments  = _.compact(_.where (qNationalAssessments, { nationalTarget_s : record.identifier_s }));
 						var qqAichiTargets = _.compact(_.filter(qAichiTargets,        function(o) { return _.contains(record.aichiTarget_ss, o.identifier_s); }));
 						var qqIndicators   = _.compact(_.filter(qNationalIndicators,  function(o) { return _.contains(record.nationalIndicator_ss, o.identifier_s); }));
 
@@ -504,7 +504,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 							return _.extend(record, {
 								nationalIndicators  : map_nationalIndicators (qqIndicators),
 								aichiTargets        : map_aichiTargets       (qqAichiTargets),
-								progressAssessments : map_progressAssessments(qqAssessments),
+								nationalAssessments : map_nationalAssessments(qqAssessments),
 								assessmentYears     : _.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is")))),
 								nextAssessmentYear  : nextAssessmentYear(_.compact(_.uniq(_.flatten(_.pluck(qqAssessments, "year_is"))))),
 								isUpToDate          : isUpToDate(_.flatten(_.pluck(qqAssessments, "year_is")))
@@ -541,7 +541,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 							return _.extend(record, {
 								nationalIndicators  : map_nationalIndicators (qqIndicators),
 								aichiTargets        : map_aichiTargets       (qqAichiTargets),
-								nationalTargets     : map_progressAssessments(qqNationalTargets)
+								nationalTargets     : map_nationalAssessments(qqNationalTargets)
 							});
 						}));
 					});
@@ -559,7 +559,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 							return _.extend(record, {
 								nationalIndicators  : map_nationalIndicators (qqIndicators),
 								aichiTargets        : map_aichiTargets       (qqAichiTargets),
-								nationalTargets     : map_progressAssessments(qqNationalTargets)
+								nationalTargets     : map_nationalAssessments(qqNationalTargets)
 							});
 						}));
 					});
@@ -667,7 +667,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 				//==================================
 				//
 				//==================================
-				function map_progressAssessments(rawRecords) {
+				function map_nationalAssessments(rawRecords) {
 
 					return _.map(rawRecords, function(record) {
 						return {

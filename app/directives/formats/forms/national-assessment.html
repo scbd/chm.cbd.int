@@ -233,7 +233,7 @@
 						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
 
-					<view-progress-assessment ng-model="document" locale="review.locale"></view-progress-assessment>
+					<view-national-assessment ng-model="document" locale="review.locale"></view-national-assessment>
 				</div>
 
 				<div class="row">

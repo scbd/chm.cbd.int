@@ -17,7 +17,7 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 		"nationalReport"         : { name : "publishNationalRecord", version : "0.4" },
 		"nationalSupportTool"    : { name : "publishNationalRecord", version : "0.4" },
 		"nationalTarget"         : { name : "publishNationalRecord", version : "0.4" },
-		"progressAssessment"     : { name : "publishNationalRecord", version : "0.4" },
+		"nationalAssessment"     : { name : "publishNationalRecord", version : "0.4" },
 		"resourceMobilisation"   : { name : "publishNationalRecord", version : "0.4" }
 	};
 

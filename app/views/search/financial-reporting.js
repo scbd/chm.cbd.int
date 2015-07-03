@@ -18,7 +18,7 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
         //     { identifier: 'resourceMobilisation'          , title: 'National Reports and NBSAPs'},
         //     { identifier: 'nationalTarget'          , title: 'National Targets'           },
         //     { identifier: 'nationalIndicator'       , title: 'National Indicators'        },
-        //     { identifier: 'progressAssessment'      , title: 'Progress Assessments'       },
+        //     { identifier: 'nationalAssessment'      , title: 'Progress Assessments'       },
         //     { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
         //     { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' },
         // ];

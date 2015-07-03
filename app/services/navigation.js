@@ -2,7 +2,7 @@
 define(['app', 'lodash'], function(app, _) { 'use strict';
 
     app.value("realm", "CHM");
-    app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "progressAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"]);
+    app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "nationalAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"]);
     app.value("siteMapUrls", { //legacy
 
         management: {
@@ -44,7 +44,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "strategicPlanIndicator") return "Strategic Plan Indicator";
             if (schema == "nationalIndicator") return "National Indicator";
             if (schema == "nationalTarget") return "National Target";
-            if (schema == "progressAssessment") return "Progress Assessment";
+            if (schema == "nationalAssessment") return "Progress Assessment";
             if (schema == "nationalReport") return "National Report";
             if (schema == "implementationActivity") return "Implementation Activity";
             if (schema == "nationalSupportTool") return "Guidance and Support Tools";
@@ -89,7 +89,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
 
                 var url = '/submit/';
 
-                if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'progressAssessment', 'nationalSupportTool', 'implementationActivity', 'resourceMobilisation']).contains(schema)) {
+                if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'nationalAssessment', 'nationalSupportTool', 'implementationActivity', 'resourceMobilisation']).contains(schema)) {
                     url = '/submit/online-reporting/';
                 }
 

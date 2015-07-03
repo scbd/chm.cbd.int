@@ -204,7 +204,7 @@
                         <span class="label label-default"   ng-hide="aichiTarget.assessmentYears">missing</span>-->
 
                     <div ng-show="aichiTarget.nextAssessmentYear" style="margin-top:3px">
-                        <button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : aichiTarget.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>
+                        <button type="button" class="btn btn-info btn-xs btn-add" ng-click="edit('nationalAssessment', {aichiTarget : aichiTarget.identifier, year : aichiTarget.nextAssessmentYear, government : government })" title="Add a new assessment">add +</button>
                     </div>
                 </td>
 
@@ -303,7 +303,7 @@
                                 <span class="label badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(target, year)), 'badge-published' : isPublic(getAssessment(target, year)) }"> {{year}}</span>
                             </a>
                         </div>
-                        <button style="margin-top:5px;" type="button" class="btn btn-info btn-xs" ng-click="edit('progressAssessment', {aichiTarget : aichiTarget.identifier, year : target.nextAssessmentYear, government : government })" title="Add a new assessment">
+                        <button style="margin-top:5px;" type="button" class="btn btn-info btn-xs" ng-click="edit('nationalAssessment', {aichiTarget : aichiTarget.identifier, year : target.nextAssessmentYear, government : government })" title="Add a new assessment">
                             add +</button>
 
                     </td>

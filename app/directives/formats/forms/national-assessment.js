@@ -1,6 +1,6 @@
-define(['text!./progress-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/progress-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editProgressAssessment", ['$http',"$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', function ($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route) {
+app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', function ($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route) {
     return {
         restrict: 'E',
         template: template,
@@ -85,12 +85,12 @@ app.directive("editProgressAssessment", ['$http',"$rootScope", "$filter", "$q", 
 				var promise = null;
 
 				if(identifier)
-					promise = editFormUtility.load(identifier, "progressAssessment");
+					promise = editFormUtility.load(identifier, "nationalAssessment");
 				else
 					promise = $q.when({
 						header: {
 							identifier: guid(),
-							schema   : "progressAssessment",
+							schema   : "nationalAssessment",
 							languages: ["en"]
 						},
 						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,

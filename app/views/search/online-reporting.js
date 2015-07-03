@@ -18,12 +18,12 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
             { identifier: 'nationalReport'          , title: 'National Reports and NBSAPs'},
             { identifier: 'nationalTarget'          , title: 'National Targets'           },
             { identifier: 'nationalIndicator'       , title: 'National Indicators'        },
-            { identifier: 'progressAssessment'      , title: 'Progress Assessments'       },
+            { identifier: 'nationalAssessment'      , title: 'Progress Assessments'       },
             { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
             { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' },
         ];
 
-        $scope.querySchema     = " ( schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:progressAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
+        $scope.querySchema     = " ( schema_s:nationalReport OR schema_s:nationalTarget OR schema_s:nationalIndicator OR schema_s:nationalAssessment OR schema_s:implementationActivity OR schema_s:nationalSupportTool ) ";
         $scope.queryGovernment = '*:*';
         $scope.queryKeywords = '*:*';
 

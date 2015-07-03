@@ -10,7 +10,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                     { identifier: 'otherReport',      draft:0, public:0, workflow:0         },
                     { identifier: 'nationalTarget',     draft:0, public:0, workflow:0       },
                     { identifier: 'nationalIndicator',  draft:0, public:0, workflow:0       },
-                    { identifier: 'progressAssessment',   draft:0, public:0, workflow:0     },
+                    { identifier: 'nationalAssessment',   draft:0, public:0, workflow:0     },
                     { identifier: 'nationalSupportTool',  draft:0, public:0, workflow:0     },
                     { identifier: 'implementationActivity'  ,draft:0, public:0, workflow:0   },
                     { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
@@ -60,9 +60,9 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                   user.userGroups.map(function(group){
                       userGroups.push(solr.escape(group));
                   });
-               
+
                 var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-    
+
                 var q = '(realm_ss:chm AND schema_s:nationalReport AND _latest_s:true ' +  ownershipQuery + ')';
                  var qsFacetParams =
                  {
@@ -72,7 +72,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                    "facet.mincount":1,
                    "facet.pivot":"reportType_s,_state_s"
                  };
-                    
+
                  var published     = $http.get('/api/v2013/index/select', { params : qsFacetParams});
                 $q.when(published)
                   .then(function(result){
@@ -84,7 +84,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 ////////////////
                 // All other schema
                 ////////////////
-                var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation'];
+                var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation'];
                 var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
                  var qsOtherSchemaFacetParams =
@@ -95,9 +95,9 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                    "facet.mincount":1,
                    "facet.pivot":"schema_s,_state_s"
                  };
-                    
+
                  var OtherSchemaFacet     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
-                 
+
                 $q.when(OtherSchemaFacet).then(function(results) {
 
                       var index=0;
@@ -106,7 +106,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 	        if(reportType)
                         	   facetSummation([facet],reportType);
                       });
-    
+
                     }).then(null, function(error) {
                        console.log(error );
                    });
@@ -120,27 +120,27 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
             var others= cbdNationalReports.concat(cbdNBSAPs);
             var qqOthers          = _.filter(list, function(o) { return  !_.contains(others, o.value); });
-            
+
             var nationalReport = _.where($scope.schemasList, {'identifier':'nationalReport'})[0];
             facetSummation(qqNationalReports,nationalReport);
-            
+
            var nationalStrategicPlan = _.where($scope.schemasList, {'identifier':'nationalStrategicPlan'})[0];
             facetSummation(qqNBSAPs,nationalStrategicPlan);
-            
+
             var otherReport = _.where($scope.schemasList, {'identifier':'otherReport'})[0];
             facetSummation(qqOthers,otherReport);
-    	
+
             console.log($scope.schemasList);
 
         }
-        
+
         function facetSummation(reportFacets,reportType){
             _.each(reportFacets, function(facets){
                 _.each(facets.pivot,function(facet){
-                    reportType[facet.value] += facet.count; 
+                    reportType[facet.value] += facet.count;
                 })
             });
-            
+
         }
 
         $scope.load();

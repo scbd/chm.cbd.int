@@ -14,7 +14,7 @@ define(['text!./search.html',
 		"./row-meeting",
 		"./row-notification",
 		"./row-press-release",
-		"./row-progress-assessment",
+		"./row-national-assessment",
 		"./row-statement"
 
 	], function(template, app) { 'use strict';
@@ -51,7 +51,7 @@ define(['text!./search.html',
 	                'nationalReport'        : 'icon-quote-left',
 	                'nationalTarget'        : 'fa fa-flag',
 	                'nationalIndicator'     : 'icon-signal',
-	                'progressAssessment'    : 'icon-eye-open',
+	                'nationalAssessment'    : 'icon-eye-open',
 	                'implementationActivity': 'icon-retweet',
 	                'nationalSupportTool'   : 'icon-wrench',
 					'resourceMobilisation'  : 'fa fa-university'

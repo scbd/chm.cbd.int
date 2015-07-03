@@ -22,7 +22,7 @@ app.directive("myDocuments", ["$location", "IStorage", "schemaTypes", '$timeout'
                 { identifier: 'nationalReport', title: { en: 'National Reports and Strategic Plans' } },
                 { identifier: 'nationalTarget', title: { en: 'National Targets' } },
                 { identifier: 'nationalIndicator', title: { en: 'National Indicator' } },
-                { identifier: 'progressAssessment', title: { en: 'Progress Assessment' } },
+                { identifier: 'nationalAssessment', title: { en: 'Progress Assessment' } },
                 { identifier: 'nationalSupportTool', title: { en: 'Guidance and Support Tools' } },
                 { identifier: 'implementationActivity', title: { en: 'Implementation Activity' } },
                 { identifier: 'organization', title: { en: 'Biodiversity Related Organizations' } },

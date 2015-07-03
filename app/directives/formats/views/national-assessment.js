@@ -1,6 +1,6 @@
-define(['app', 'text!./progress-assessment.html', "lodash"], function(app, template, _){
+define(['app', 'text!./national-assessment.html', "lodash"], function(app, template, _){
 
-app.directive('viewProgressAssessment', ["$q", "IStorage", function ($q, storage) {
+app.directive('viewNationalAssessment', ["$q", "IStorage", function ($q, storage) {
 	return {
 		restrict   : 'E',
 		template   : template,

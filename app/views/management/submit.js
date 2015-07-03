@@ -35,7 +35,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             // ABS Facets
             ///////////////
             var absSchemas = [ "absPermit", "absCheckpoint", "absCheckpointCommunique", "authority", "measure", "database", "resource"]
-            
+
             var qsABSFacetParams =
             {
                 "q"  : '(realm_ss:abs AND '+'(schema_s:' +  absSchemas.join(" OR schema_s:") + ')) AND NOT version_s:*',
@@ -59,19 +59,19 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             // CHM Facets
             ///////////////
 
-            
-            var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
+
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
-            
+
               // Apply ownership
               var userGroups = [];
               user.userGroups.map(function(group){
                   userGroups.push(solr.escape(group));
               });
-           
+
             var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
             var q = '(realm_ss:chm ' + qSchema + ownershipQuery + ')';
-        	
+
             var qsOtherSchemaFacetParams =
              {
                 "q"  : q,
@@ -80,14 +80,14 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                "facet.mincount":1,
                "facet.pivot":"schema_s,_state_s"
              };
-                
+
              var OtherSchemaFacet     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
-             
+
             $q.when(OtherSchemaFacet).then(function(results) {
 
                   _.each(results.data.facet_counts.facet_pivot['schema_s,_state_s'], function(facet){
                        var schema = facet.value;
-                        if(_.indexOf(['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation',],schema)>=0){
+                        if(_.indexOf(['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation',],schema)>=0){
                             schema = 'nationalReport';
                         }
                     	var reportType = _.first(_.where($scope.schemasList, {'identifier':schema}));
@@ -104,9 +104,9 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
         function facetSummation(facets,reportType){
             _.each(facets.pivot,function(facet){
-                reportType[facet.value] += facet.count; 
+                reportType[facet.value] += facet.count;
             });
-            
+
         }
         function readFacets2(solrArray) {
             var facets = [];
@@ -121,7 +121,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         $scope.getFacet = function(schema){
             return _.first(_.where($scope.schemasList,{"identifier":schema}));
         }
-        
+
         var isAdmin         = user.roles.indexOf('Administrator')>=0;
         var isNationalAdmin = user.roles.indexOf('NFP-CBD')>=0 || user.roles.indexOf('ChmNationalFocalPoint')>=0 || user.roles.indexOf('ChmNationalAuthorizedUser')>=0;
 

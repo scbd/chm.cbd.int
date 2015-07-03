@@ -33,7 +33,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
                 { identifier: 'caseStudy',              title: 'Case Studies'  ,                                                 type:'SCBD'  },
                 { identifier: 'marineEbsa',             title: 'Marine Ecologically or Biologically Significant Areas (EBSA)'  , type:'SCBD'  },
-                //{ identifier: 'progressAssessment',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
+                //{ identifier: 'nationalAssessment',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
                 { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators' ,                                    type:'SCBD'  },
 
                 // { identifier: 'database',               title: 'National Database'  ,                   type:'SCBD'  },
@@ -55,7 +55,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             if($location.url().indexOf("/nationalStrategicPlan") >= 0 ||
                $location.url().indexOf("/nationalReport") >= 0 ||
                $location.url().indexOf("/otherReport") >= 0 ||
-               $location.url().indexOf("/progressAssessment") >= 0 ||
+               $location.url().indexOf("/nationalAssessment") >= 0 ||
                $location.url().indexOf("/nationalTarget") >= 0 ||
                $location.url().indexOf("/nationalIndicator") >= 0 ||
                $location.url().indexOf("/nationalSupportTool") >= 0 ||
@@ -207,7 +207,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
                     ////////////////
                     // All other schema
                     ////////////////
-                    var filter = ['progressAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation'];
+                    var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation'];
                     var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
                     var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&fq=(realm_ss:chm '+
                                         'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase()) + qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');

@@ -150,31 +150,33 @@
 
             <table class="table table-striped" style="width:100%;margin-top:20px;">
                 <tr>
-                    <th colspan="2" style="width:35%;text-align:left;">Target</th>
+                    <th style="width:35%;text-align:left;">Target</th>
                     <th colspan="3" style="border-left:1px #DDD solid;width:55%;text-align:left;">Assessment</th>
                 </tr>
                 <tr>
                     <td>
+                        <div class="btn-group btn-group-xs pull-right">
+                            <!-- You can only edit if not published. -->
+                            <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
+                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
+                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
+                        </div>
+
                         <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
                         Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
-                    </td>
-                    <td>
-                        <!-- You can only edit if not published. -->
-                        <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
-                        <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
-                        <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
-                        <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
                         <img src="/app/img/ratings/a.png" class="pull-left"></img>
                     </td>
                     <td>
-                        <div class="pull-right">    <!-- You can only edit if not published. -->
-                            <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
-                            <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
-                            <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
-                            <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                        <div class="btn-group btn-group-xs pull-right">
+                            <!-- You can only edit if not published. -->
+                            <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
+                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
+                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
                         <div><span  ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span> <span style="font-weight:bold;text-transform:uppercase;">22 May 2009</span></div>
                         <div class="color-grey">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description </div>
@@ -187,15 +189,16 @@
 
                 <tr>
                     <td>
+                        <div class="btn-group btn-group-xs pull-right">
+                        <!-- You can only edit if not published. -->
+                        <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
+                        <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
+                        <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+                        <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
+                        </div>
+
                         <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
                         Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
-                    </td>
-                    <td>
-                        <!-- You can only edit if not published. -->
-                        <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
-                        <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
-                        <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
-                        <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
                     </td>
 
                     <td colspan="2" style="vertical-align:middle;text-align:center;border-left:1px #DDD solid;">
@@ -210,26 +213,28 @@
 
                 <tr>
                     <td>
+                        <div class="btn-group btn-group-xs pull-right">
+                        <!-- You can only edit if not published. -->
+                        <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
+                        <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
+                        <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+                        <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
+                        </div>
+
                         <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
                         Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
-                    </td>
-                    <td>
-                        <!-- You can only edit if not published. -->
-                        <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
-                        <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
-                        <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
-                        <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
                         <img src="/app/img/ratings/c.png" class="pull-left"></img>
                     </td>
                     <td>
-                        <div class="pull-right">    <!-- You can only edit if not published. -->
-                            <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
-                            <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
-                            <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
-                            <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                        <div class="btn-group btn-group-xs pull-right">
+                            <!-- You can only edit if not published. -->
+                            <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
+                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
+                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
                         <div><span  ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span> <span style="font-weight:bold;text-transform:uppercase;">22 May 2009</span></div>
                         <div class="color-grey">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description </div>
@@ -242,16 +247,15 @@
 
                 <tr>
                     <td colspan="2">
-                        <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalTarget/new">Add New National Target</md-button>
-                        <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalTarget/new">Add Aichi Target</md-button>
+                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> Add National Target </a>
+                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> Add Aichi Target </a>
                     </td>
                     <!-- <td>
                         <md-button  class="md-raised">List Indicators</md-button>
                     </td> -->
                     <td  colspan="3" style="border-left:1px #DDD solid;">
-                        <md-button  class="md-raised">View all Targets</md-button>
-                        <md-button  class="md-raised">View all Assessments</md-button>
-                        <md-button  class="md-raised">View all Indicators</md-button>
+                        <a class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalAssessment"> View Assessments</a>
+                        <a class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalIndicator"> View Indicators </a>
                     </td>
                 </tr>
             </table>

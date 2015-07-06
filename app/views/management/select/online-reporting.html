@@ -1,5 +1,35 @@
 <div id="submit" >
+<style>
 
+    .badge{
+    position:relative!important;
+    top:-2px!important;
+    }
+
+    .bg-a{
+    background-color: #1074BC;
+    padding:0 1px 0 1px;
+    }
+    .bg-b{
+    background-color: #109E49;
+    padding:0 1px 0 1px;
+    }
+    .bg-c{
+    background-color: #FEC210;
+    padding:0 1px 0 1px;
+    }
+    .bg-d{
+    background-color: #EE1D23;
+    padding:0 1px 0 1px;
+    }
+    .bg-e{
+    background-color: #6C1C67;
+    padding:0 1px 0 1px;
+    }
+
+    th{font-size:140%;}
+
+</style>
 
 
 
@@ -110,9 +140,132 @@
         </div>
     </div>
 
-    <h3 class="container-fluid color-grey" style="border-top:1px solid #DDD;"><i class="fa fa-chevron-circle-down"></i> Implementation Progress</h3>
+    <h3 class="container-fluid color-grey" style="border-top:1px solid #DDD;"><i class="fa fa-chevron-circle-down"></i> Progress Achieved on National or Aichi Targets</h3>
+
+
+
 
     <div class="container" style="padding-bottom:20px;">
+        <div class="row">
+
+            <table class="table table-striped" style="width:100%;margin-top:20px;">
+                <tr>
+                    <th colspan="2" style="width:35%;text-align:left;">Target</th>
+                    <th colspan="3" style="border-left:1px #DDD solid;width:55%;text-align:left;">Assessment</th>
+                </tr>
+                <tr>
+                    <td>
+                        <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
+                        Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                    </td>
+                    <td>
+                        <!-- You can only edit if not published. -->
+                        <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
+                        <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
+                        <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
+                        <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                    </td>
+
+                    <td style="border-left:1px #DDD solid;">
+                        <img src="/app/img/ratings/a.png" class="pull-left"></img>
+                    </td>
+                    <td>
+                        <div class="pull-right">    <!-- You can only edit if not published. -->
+                            <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
+                            <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
+                            <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
+                            <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                        </div>
+                        <div><span  ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span> <span style="font-weight:bold;text-transform:uppercase;">22 May 2009</span></div>
+                        <div class="color-grey">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description </div>
+                    </td>
+
+                    <td style="border-left:1px #DDD solid;">
+                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> update </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
+                        Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                    </td>
+                    <td>
+                        <!-- You can only edit if not published. -->
+                        <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
+                        <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
+                        <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
+                        <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                    </td>
+
+                    <td colspan="2" style="vertical-align:middle;text-align:center;border-left:1px #DDD solid;">
+                        <h3 class="color-litegrey">Progress on this target has not yet been assessed.<h3>
+                    </td>
+
+                    <td style="border-left:1px #DDD solid;">
+                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> update</a>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
+                        Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                    </td>
+                    <td>
+                        <!-- You can only edit if not published. -->
+                        <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
+                        <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
+                        <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
+                        <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                    </td>
+
+                    <td style="border-left:1px #DDD solid;">
+                        <img src="/app/img/ratings/c.png" class="pull-left"></img>
+                    </td>
+                    <td>
+                        <div class="pull-right">    <!-- You can only edit if not published. -->
+                            <a                                           title="view"            ng-click="onWorkflow(record)" class="material-icons">pageview</a>
+                            <a ng-show    ="record._state_s=='workflow'" title="Locked for edit" ng-click="onWorkflow(record)" class="material-icons">lock</a>
+                            <a ng-hide    ="record._state_s=='workflow'" title="Edit"            ng-click="onEdit(record)"      class="material-icons">edit</a>
+                            <a ng-disabled="record._state_s=='workflow'" title="Delete"          ng-click="onDelete(record, $event)" class="material-icons">delete</a>
+                        </div>
+                        <div><span  ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span> <span style="font-weight:bold;text-transform:uppercase;">22 May 2009</span></div>
+                        <div class="color-grey">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description </div>
+                    </td>
+
+                    <td style="border-left:1px #DDD solid;">
+                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> update </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalTarget/new">Add New National Target</md-button>
+                        <md-button class="md-raised md-primary" ng-href="/submit/online-reporting/nationalTarget/new">Add Aichi Target</md-button>
+                    </td>
+                    <!-- <td>
+                        <md-button  class="md-raised">List Indicators</md-button>
+                    </td> -->
+                    <td  colspan="3" style="border-left:1px #DDD solid;">
+                        <md-button  class="md-raised">View all Targets</md-button>
+                        <md-button  class="md-raised">View all Assessments</md-button>
+                        <md-button  class="md-raised">View all Indicators</md-button>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- <div class="container" style="padding-bottom:20px;">
         <div class="row">
 
             <div class="col-md-4">
@@ -173,11 +326,11 @@
             </div>
 
         </div>
-    </div>
+    </div> -->
 
 
 
-    <h3 class="container-fluid color-grey" style="border-top:1px solid #DDD;"><i class="fa fa-chevron-circle-down"></i> Activities, Guidance and Support Tools</h3>
+    <!-- <h3 class="container-fluid color-grey" style="border-top:1px solid #DDD;"><i class="fa fa-chevron-circle-down"></i> Activities, Guidance and Support Tools</h3>
 
     <div class="container" >
         <div class="row">
@@ -220,7 +373,7 @@
 
 
         </div>
-    </div>
+    </div> -->
 
 
 </div>

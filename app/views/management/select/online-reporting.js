@@ -3,6 +3,9 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
     return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",
      function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm,user,solr) {
 
+         $scope.displayStyle='table';
+         $scope.showSubmissionSection = true;
+         $scope.showProgressSection = true;
 
         $scope.schemasList = [
                     { identifier: 'nationalStrategicPlan' ,draft:0, public:0, workflow:0  },

@@ -2,7 +2,7 @@ define(['app', 'angular', 'lodash', 'text!./national-indicator.html', 'utilities
 
 app.directive('viewNationalIndicator',  ["$q", "IStorage", function ($q, storage) {
 	return {
-		restrict   : 'EAC',
+		restrict   : 'E',
 		template   : template,
 		replace    : true,
 		transclude : false,

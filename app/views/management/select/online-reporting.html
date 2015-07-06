@@ -2,8 +2,8 @@
 <style>
 
     .badge{
-    position:relative!important;
-    top:-2px!important;
+        position:relative!important;
+        top:-2px!important;
     }
 
     .bg-a{
@@ -164,7 +164,14 @@
                         </div>
 
                         <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                        Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                        <strong>National Target 2</strong>
+                        <div>By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.</div>
+                        <div>
+                            <!-- show main related Aichi targets -->
+                            <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" style="height:26px;" ></img>
+                            <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;" ></img>
+                        </div>
+
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
@@ -197,8 +204,16 @@
                         <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
 
-                        <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                        Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                        <div class="pull-left">
+                            <span class="badge bg-published" style="font-size:10px;" >Published</span>
+                            <strong> Aichi Target 14</strong>
+                        </div>
+                        <br>
+                        <div>
+                            <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" class="pull-left" ></img>
+                            By 2020, ecosystems that provide essential services, including services related to water, and contribute to health, livelihoods and well-being, are restored and safeguarded, taking into account the needs of women, indigenous and local communities, and the poor and vulnerable.
+                        </div>
+
                     </td>
 
                     <td colspan="2" style="vertical-align:middle;text-align:center;border-left:1px #DDD solid;">
@@ -222,7 +237,13 @@
                         </div>
 
                         <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                        Target 2: By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                        <strong>National Target 4</strong>
+                        <div>By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.</div>
+                        <div>
+                            <!-- show main related Aichi targets -->
+                            <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" style="height:26px;" ></img>
+                            <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;" ></img>
+                        </div>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">

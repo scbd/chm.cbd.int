@@ -121,6 +121,33 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 			});
 		},
 
+
+		//==================================
+		//
+		//==================================
+		canPublish: function(document) {
+
+			var identifier = document.header.identifier;
+			var schema     = document.header.schema;
+			var metadata   = {};
+
+			if (document.government)
+				metadata.government = document.government.identifier;
+
+			// Check if document exists
+
+			return _self.documentExists(identifier).then(function(exists) {
+
+				// Check user security on document
+
+				var qCanWrite = exists ? storage.documents.security.canUpdate(identifier, schema, metadata) :
+                                         storage.documents.security.canCreate(identifier, schema, metadata);
+
+				return qCanWrite;
+
+			});
+		},		
+
 		//==================================
 		//
 		//==================================

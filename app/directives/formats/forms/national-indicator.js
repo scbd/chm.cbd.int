@@ -1,4 +1,4 @@
-define(['text!./national-indicator.html', 'app', 'angular', 'lodash','authentication', '../views/national-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./national-indicator.html', 'app', 'angular', 'authentication', './national-indicator.form', '../views/national-indicator', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular) { 'use strict';
 
 app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
     return {
@@ -62,18 +62,6 @@ app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location",
 
 				promise.then(function(doc) {
 
-					if(!$scope.options) {
-
-			            $scope.options = {
-			                countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms",  { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
-			            	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 99999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t }; });}).then(null, $scope.onError)
-			            };
-			        }
-
-			        return doc;
-
-				}).then(function(doc) {
-
 					$scope.status = "ready";
 					$scope.document = doc;
 
@@ -83,6 +71,19 @@ app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location",
 					throw err;
 
 				});
+			};
+
+            //==================================
+			//
+			//==================================
+			$scope.defaultGovernment = function() {
+
+				var qsGovernment = $location.search().government;
+
+				if (qsGovernment)
+					qsGovernment = qsGovernment.toLowerCase();
+
+				return authentication.user().government || qsGovernment;
 			};
 
 			//==================================
@@ -153,25 +154,7 @@ app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location",
 				return !!$scope.error;
 			};
 
-			//==================================
-			//
-			//==================================
-			$scope.userGovernment = function() {
-				return authentication.user().government;
-			};
 
-			//==================================
-			//
-			//==================================
-			$scope.defaultGovernment = function() {
-
-				var qsGovernment = $location.search().government;
-
-				if (qsGovernment)
-					qsGovernment = qsGovernment.toLowerCase();
-
-				return $scope.userGovernment() || qsGovernment;
-			};
 
 			//==================================
 			//

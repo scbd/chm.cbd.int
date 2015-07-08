@@ -86,7 +86,7 @@
 
             </div>
             <div class="col-xs-1">
-                <div style="min-width:80px;">
+                <div style="min-width:160px;">
                     <span class="badge bg-published">{{getFacet('nationalStrategicPlan').public}}</span>
                     <span class="badge bg-draft">{{getFacet('nationalStrategicPlan').draft}}</span>
                     <span class="badge bg-request">{{getFacet('nationalStrategicPlan').workflow}}</span>
@@ -110,7 +110,7 @@
                 <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
             </div>
             <div class="col-xs-1">
-                <div style="min-width:80px;">
+                <div style="min-width:160px;">
                     <span class="badge bg-published">{{getFacet('nationalReport').public}}</span>
                     <span class="badge bg-draft">{{getFacet('nationalReport').draft}}</span>
                     <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
@@ -135,7 +135,7 @@
 
             </div>
             <div class="col-xs-1">
-                <div style="min-width:80px;">
+                <div style="min-width:160px;">
                     <span class="badge bg-published">{{getFacet('otherReport').public}}</span>
                     <span class="badge bg-draft">{{getFacet('otherReport').draft}}</span>
                     <span class="badge bg-request">{{getFacet('otherReport').workflow}}</span>
@@ -159,7 +159,7 @@
 
             </div>
             <div class="col-xs-1">
-                <div style="min-width:80px;">
+                <div style="min-width:160px;">
                     <span class="badge bg-published">{{getFacet('resourceMobilisation').public}}</span>
                     <span class="badge bg-draft">{{getFacet('resourceMobilisation').draft}}</span>
                     <span class="badge bg-request">{{getFacet('resourceMobilisation').workflow}}</span>
@@ -291,8 +291,10 @@
                             <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
 
-                        <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                        <strong>National Target 2</strong>
+                        <div>
+                            <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
+                            <strong>National Target 2</strong>
+                        </div>
                         <div>
                             <div class="pull-left" style="margin-right:10px;margin-top:3px;">
                                 <!-- show main related Aichi targets and other related targets -->
@@ -336,11 +338,10 @@
                         <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
 
-                        <div class="pull-left">
+                        <div>
                             <span class="badge bg-published" style="font-size:10px;" >Published</span>
                             <strong> Aichi Target 14</strong>
                         </div>
-                        <br>
                         <div>
                             <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" class="pull-left" style="height:66px;margin-right:10px;" ></img>
                             By 2020, ecosystems that provide essential services, including services related to water, and contribute to health, livelihoods and well-being, are restored and safeguarded, taking into account the needs of women, indigenous and local communities, and the poor and vulnerable.
@@ -367,9 +368,10 @@
                         <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
                         <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
-
-                        <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                        <strong>National Target 4</strong>
+                        <div>
+                            <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
+                            <strong>National Target 4</strong>
+                        </div>
                         <div>
                             <div class="pull-left" style="margin-right:10px;margin-top:3px;">
                                 <!-- show main related Aichi targets and other related targets -->

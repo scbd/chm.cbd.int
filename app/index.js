@@ -1,19 +1,7 @@
-require(['jquery'], function($) {
-    $("#ctl06_menuSubcbd" ).mouseover(function () { $("#ctl06_menuTopcbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcbd").removeClass("hover"); });
-    $("#ctl06_menuSubcpb" ).mouseover(function () { $("#ctl06_menuTopcpb").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopcpb").removeClass("hover"); });
-    $("#ctl06_menuSubprog").mouseover(function () { $("#ctl06_menuTopprog").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopprog").removeClass("hover"); });
-    $("#t-masterNavi *"   ).removeClass('t-navSelected');$("#ctl06_menuSubinfo").mouseover(function () { $("#ctl06_menuTopinfo").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopinfo").removeClass("hover"); });
-    $("#ctl06_menuSubscbd").mouseover(function () { $("#ctl06_menuTopscbd").addClass("hover"); }).mouseout(function () { $("#ctl06_menuTopscbd").removeClass("hover"); });
-});
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-
-define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app) {
+define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app, $) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast' ,'$timeout',  function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, $timeout) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast',  function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
@@ -22,8 +10,9 @@ define(['app', 'authentication', 'ng-breadcrumbs','directives/users/notification
         $scope.$root.pageTitle = { text: "" };
         $rootScope.placeholderRecords=[];
 
-        $scope.$on("$routeChangeSuccess", function(){
+        $scope.$on("$routeChangeSuccess", function(evt, current){
             $scope.routeLoaded = true;
+            $("head > title").text(current.$$route.label || "Clearing-House Mechanism");
         });
 
         //============================================================

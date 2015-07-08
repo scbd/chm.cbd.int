@@ -93,7 +93,38 @@
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
 								<div class="km-control-group" name="nationalIndicators" required="{{isBasedOnComprehensiveIndicators()}}" caption="Link to National indicator(s) used in this assessment">
-									<div km-select name="nationalIndicators" multiple ng-required="isBasedOnComprehensiveIndicators()" ng-model="document.nationalIndicators" placeholder="" watch-items items="options.nationalIndicators"></div>
+									<div class="btn-group" role="group">
+										<div class="btn-group" role="group">
+										    <button type="button" ng-disabled="!unselectedIndicators.length" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												<span ng-if="!unselectedIndicators.length">No indicator</span>
+												<span ng-if="unselectedIndicators.length">Select an indicator...</span>
+												<span class="caret"></span>
+										    </button>
+										    <ul class="dropdown-menu">
+										    	<li ng-repeat="item in (unselectedIndicators = (options.nationalIndicators | filter:filterUnselectedIndicator))"><a href="#" ng-click="addIndicator(item)">{{item.title | lstring}}</a></li>
+										    </ul>
+										</div>
+										<button type="button" class="btn btn-default" ng-click="createIndicator($event)">+</button>
+									</div>
+
+									<ul class="list-group" ng-if="document.nationalIndicators.length" style="margin-top:10px">
+										<li class="list-group-item" ng-repeat="item in document.nationalIndicators">
+											<table style="width:100%">
+											  <tr>
+												<td>
+													<h4>{{docInfo(item).title | lstring}}</h4>
+													<p>{{docInfo(item).description | lstring}}</p>
+
+													<div km-link ng-model="item.links" identifier="document.header.identifier"></div>
+												</td>
+												<td style="white-space:nowrap;text-align:right;vertical-align:top">
+													<button type="button" class="btn btn-default" ng-click="removeIndicator(item)"><i class="fa fa-trash-o"></i></button>
+												</td>
+											  </tr>
+											</table>
+										</li>
+									</ul>
+
 								</div>
 							</div>
 						</div>

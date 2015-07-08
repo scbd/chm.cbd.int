@@ -1,6 +1,6 @@
 define(['app', 'text!./national-assessment.html', "lodash"], function(app, template, _){
 
-app.directive('viewNationalAssessment', ["$q", "IStorage", function ($q, storage) {
+app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", function ($q, $http, storage) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -14,29 +14,6 @@ app.directive('viewNationalAssessment', ["$q", "IStorage", function ($q, storage
 		},
 		link : function ($scope)
 		{
-			//===============
-			//
-			//===============
-			$scope.$watch("document.aichiTarget", function(refs) {
-				if(refs){
-					$q.when(loadReferences([refs], { info : true })).then(function(result){
-						console.log(result);
-						$scope.aichiTarget = result;
-					});
-				}
-			});
-
-			//===============
-			//
-			//===============
-			$scope.$watch("document.nationalIndicators", function(refs) {
-				if(refs){
-					$q.when(loadReferences(refs, { info : true })).then(function(result){
-						$scope.nationalIndicators = result;
-					});
-				}
-			});
-
 			//===============
 			//
 			//===============
@@ -76,6 +53,61 @@ app.directive('viewNationalAssessment', ["$q", "IStorage", function ($q, storage
 						});
 				}));
 			}
+
+			//==================================
+			//
+			//==================================
+			var docCache = {};
+
+			$scope.docInfo = function (item) {
+
+				if(docCache[item.identifier])
+					return docCache[item.identifier];
+
+				docCache[item.identifier] = item;
+
+				var params = buidQuery({
+					schema_s: "nationalIndicator",
+					identifier_s: item.identifier,
+					_latest_s : true
+				});
+
+				return $http.get("/api/v2013/index", { params: params }).then(mapResult).then(function(records){
+					docCache[item.identifier] = _.first(records) || item;
+				});
+			};
+
+			//==================================
+			//
+			//==================================
+			function buidQuery(options) {
+
+				return {
+					fl: "identifier_s,title_t,description_t",
+					sort: "title_s ASC",
+					rows:99999999,
+					q: _.reduce(options, function(acc, value, key){
+						if(acc)
+							acc += " AND ";
+
+						return acc + key + ":" + value;
+					}, "")
+				};
+			}
+
+			//==================================
+			//
+			//==================================
+			function mapResult(res) {
+				return _.map(res.data.response.docs, function(o) {
+					return {
+						identifier: o.identifier_s,
+						title: o.title_t,
+						description : o.description_t
+					};
+				});
+			}
+
 		}
 	};
 }]);

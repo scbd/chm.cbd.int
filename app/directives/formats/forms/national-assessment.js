@@ -1,6 +1,6 @@
-define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './national-indicator', './inline-editor'], function(template, app, angular, _) { 'use strict';
 
-app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', function ($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route) {
+app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', 'inlineEditor', function ($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route, inlineEditor) {
     return {
         restrict: 'E',
         template: template,
@@ -30,30 +30,36 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             	$scope.options.implementationActivities = [];
 
             	if (term) {
-
-            		var buidQueryFn = function(schema) {
-            			return {
-            				q: "schema_s:" + schema + " AND government_s:" + term.identifier,
-            				fl: "identifier_s,title_t",
-            				sort: "title_s ASC",
-							rows:99999999
-            			};
-            		};
-
-            		var mapResultFn = function(res) {
-            			return _.map(res.data.response.docs, function(o) {
-            				return {
-            					identifier: o.identifier_s,
-            					title: o.title_t
-            				};
-            			});
-            		};
-
-            		$scope.options.nationalIndicators       = $http.get("/api/v2013/index", { params: buidQueryFn("nationalIndicator")      }).then(mapResultFn).then(null, $scope.onError);
-            		$scope.options.nationalTargets          = $http.get("/api/v2013/index", { params: buidQueryFn("nationalTarget")         }).then(mapResultFn).then(null, $scope.onError);
-            		$scope.options.implementationActivities = $http.get("/api/v2013/index", { params: buidQueryFn("implementationActivity") }).then(mapResultFn).then(null, $scope.onError);
+            		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "nationalIndicator",      government_s: term.identifier, _latest_s : true })}).then(mapResult).then(function(records){ $scope.options.nationalIndicators       = records; }, $scope.onError);
+            		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "nationalTarget",         government_s: term.identifier, _latest_s : true })}).then(mapResult).then(function(records){ $scope.options.nationalTargets          = records; }, $scope.onError);
+            		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "implementationActivity", government_s: term.identifier, _latest_s : true })}).then(mapResult).then(function(records){ $scope.options.implementationActivities = records; }, $scope.onError);
             	}
             });
+
+            function buidQuery(options) {
+
+                return {
+                    fl: "identifier_s,title_t,description_t",
+                    sort: "title_s ASC",
+                    rows:99999999,
+                    q: _.reduce(options, function(acc, value, key){
+                        if(acc)
+                            acc += " AND ";
+
+                        return acc + key + ":" + value;
+                    }, "")
+                };
+            }
+
+            function mapResult(res) {
+                return _.map(res.data.response.docs, function(o) {
+                    return {
+                        identifier: o.identifier_s,
+                        title: o.title_t,
+                        description : o.description_t
+                    };
+                });
+            }
 
 			//==================================
 			//
@@ -179,7 +185,87 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 							}));
 						});
 				}
-			};
+            };
+
+            //==================================
+			//
+			//==================================
+            $scope.createIndicator = function (evt) {
+
+                inlineEditor.edit({
+                    targetEvent : evt,
+                    document : {
+                        header : {
+                            identifier: guid(),
+							schema   : "nationalIndicator",
+							languages: _.clone($scope.document.header.languages)
+                        },
+                        government : _.clone($scope.document.government)
+                    }
+
+                }).then(function (doc){
+                    $scope.options.nationalIndicators.push({ identifier : doc.header.identifier, title : doc.title, description : doc.description });
+                    $scope.addIndicator({ identifier : doc.header.identifier });
+                });
+            };
+
+            //==================================
+			//
+			//==================================
+            $scope.addIndicator = function (item) {
+                $scope.document.nationalIndicators = $scope.document.nationalIndicators || [];
+                $scope.document.nationalIndicators.push({ identifier : item.identifier });
+            };
+
+            //==================================
+			//
+			//==================================
+            $scope.removeIndicator = function (item) {
+                $scope.document.nationalIndicators = _.reject($scope.document.nationalIndicators||[], function(ind){
+                    return ind === item;
+                });
+
+                if(_.isEmpty($scope.document.nationalIndicators))
+                    delete $scope.document.nationalIndicators;
+            };
+
+            //==================================
+			//
+			//==================================
+            $scope.filterUnselectedIndicator = function (item) {
+                return !$scope.document.nationalIndicators ||
+                       _.findWhere($scope.document.nationalIndicators, { identifier : item.identifier })===undefined;
+            };
+
+            //==================================
+			//
+			//==================================
+            var docCache = {};
+
+            $scope.docInfo = function (item) {
+
+                if(docCache[item.identifier])
+                    return docCache[item.identifier];
+
+                docCache[item.identifier] = _.findWhere($scope.options.nationalIndicators, { identifier : item.identifier });
+
+                if(docCache[item.identifier])
+                    return docCache[item.identifier];
+
+                docCache[item.identifier] = item;
+
+                var params = buidQuery({
+                    schema_s: "nationalIndicator",
+                    identifier_s: item.identifier,
+                    _latest_s : true
+                });
+
+                return $http.get("/api/v2013/index", { params: params }).then(mapResult).then(function(records){
+                    docCache[item.identifier] = _.first(records) || item;
+                });
+            };
+
+
 			//======================================================================
 			//======================================================================
 			//======================================================================

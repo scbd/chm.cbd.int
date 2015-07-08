@@ -41,11 +41,14 @@
 
 	<ul class="list-group" ng-if="selectedItems.length && list" style="margin-top:10px">
 		<li class="list-group-item" ng-repeat="item in selectedItems">
-			<table style="width:100%"><tr>
-				<td>{{item.title | lstring}}</td>
-				<td style="width:10px"><button class="btn btn-default" ng-click="clicked(item)"><i class="fa fa-trash"></i></button></td>
-			</tr></table
-
+			<table style="width:100%">
+				<tr>
+					<td>{{item.title | lstring}}</td>
+					<td style="white-space:nowrap;text-align:right;vertical-align:top">
+						<button type="button" class="btn btn-default" ng-click="clicked(item)"><i class="fa fa-trash-o"></i></button>
+					</td>
+				</tr>
+			</table>
 		</li>
 	</ul>
 

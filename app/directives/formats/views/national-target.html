@@ -37,12 +37,12 @@
 
 		<div ng-show="document.aichiTargets">
 			<label>Main related Aichi Targets</label>
-			<div class="km-value" ng-repeat="item in      aichiTargets">{{item.title | lstring:locale}}</div>
+			<div class="km-value" ng-repeat="item in document.aichiTargets">{{item | term:locale}}</div>
 		</div>
 
 		<div ng-show="document.otherAichiTargets">
 			<label>Other related Aichi Targets</label>
-			<div class="km-value" ng-repeat="item in otherAichiTargets">{{item.title | lstring:locale}}</div>
+			<div class="km-value" ng-repeat="item in document.otherAichiTargets">{{item | term:locale}}</div>
 		</div>
 
 	</div>

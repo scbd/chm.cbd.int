@@ -17,7 +17,7 @@
 
 	<span>
 		<div class="btn-group" >
-			<button tyle="button" class="btn btn-default dropdown-toggle" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : hasSelectedItems() }" data-toggle="dropdown">
+			<button tyle="button" class="btn btn-default dropdown-toggle" ng-click="autoInit()" ng-class="{disabled:ngDisabledFn(), 'btn-info' : selectedItems.length }" data-toggle="dropdown">
 				{{getTitle(displayCount, true)}}
 				<span class="caret"></span>
 			</button>
@@ -29,7 +29,7 @@
 					<a href><em>Nothing to select...</em></a>
 				</li>
 				<li ng-show="!!rootItems && (getMinimum()==0 || allowOther == 'true')" style="padding:2px 20px">
-					<button class="btn btn-xs btn-default" ng-show="getMinimum()==0 && (hasSelectedItems() || rootItems.length!=0)"      type ="button" ng-click="clearSelection()" ng-disabled="!hasSelectedItems()">Clear selection</button>
+					<button class="btn btn-xs btn-default" ng-show="getMinimum()==0 && (selectedItems.length || rootItems.length!=0)"      type ="button" ng-click="clearSelection()" ng-disabled="!selectedItems.length">Clear selection</button>
 					<button class="btn btn-xs btn-default" ng-show="allowOther == 'true'" type="button" ng-click="chooseOther()"    ng-show="allowOther">Specify another value</button>
 				</li>
 				<li ng:repeat="item in rootItems" ng-class="{disabled:!itemEnabled(item)}" ng-include="'select-tree-renderer.html'" style="position:relative">
@@ -38,4 +38,15 @@
 		</div>
 
 	</span>
+
+	<ul class="list-group" ng-if="selectedItems.length && list" style="margin-top:10px">
+		<li class="list-group-item" ng-repeat="item in selectedItems">
+			<table style="width:100%"><tr>
+				<td>{{item.title | lstring}}</td>
+				<td style="width:10px"><button class="btn btn-default" ng-click="clicked(item)"><i class="fa fa-trash"></i></button></td>
+			</tr></table
+
+		</li>
+	</ul>
+
 </span>

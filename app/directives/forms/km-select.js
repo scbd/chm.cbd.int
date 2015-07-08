@@ -26,7 +26,9 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 				$scope.attr       = $attrs;
 				$scope.multiple   = $attrs.multiple   !== undefined && $attrs.multiple   !== null;
 				$scope.watchItems = $attrs.watchItems !== undefined && $attrs.watchItems !== null;
-			    $scope.displayCount = 3;
+				$scope.list       = $scope.multiple && !($attrs.list==="false")
+				$scope.displayCount = ($scope.multiple && $scope.list) ? 0 : 3;
+				$scope.electedItems = [];
 
 				$scope.$watch('identifier', $scope.save);
 				$scope.$watch('items',      $scope.load);
@@ -44,7 +46,7 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 					});
 
 				$element.find('.dropdown-menu').click(function(event) {
-					if ($scope.multiple && $scope.getSelectedItems().length!=0)// jshint ignore:line
+					if ($scope.multiple && $scope.selectedItems.length!=0)// jshint ignore:line
 						event.stopPropagation();
 				});
 
@@ -177,7 +179,7 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 				//==============================
 				$scope.getTitles = function()
 				{
-					return _.map($scope.getSelectedItems(), function(o) {
+					return _.map($scope.selectedItems, function(o) {
 						return $filter("lstring")(o.title || o.name, $scope.locale);
 					});
 				};
@@ -211,16 +213,9 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 				//==============================
 				// in tree order /deep first
 				//==============================
-				$scope.getSelectedItems = function() {
-					return _.where($scope.allItems||[], { selected : true });
-				};
-
-				//==============================
-				//
-				//==============================
-				$scope.hasSelectedItems = function() {
-					return _.findWhere($scope.allItems||[], { selected : true })!==undefined;
-				};
+				function updateSelectedItems() {
+					$scope.selectedItems = _.where($scope.allItems||[], { selected : true });
+				}
 
 				//==============================
 				//
@@ -245,6 +240,8 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 					angular.forEach($scope.allItems, function(item) {
 						item.selected = _.find(oBinding, function(o) { return o.identifier == item.identifier; })!==undefined;
 					});
+
+					updateSelectedItems();
 				};
 
 				//==============================
@@ -252,10 +249,13 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 				//==============================
 				$scope.save = function()
 				{
+					updateSelectedItems();
+
 					if (!$scope.allItems) // Not initialized
 						return;
 
-					var oBindings = _.map($scope.getSelectedItems(), function(o) {
+
+					var oBindings = _.map($scope.selectedItems, function(o) {
 						return {
 							identifier: o.identifier,
 							customValue : o.customValue
@@ -329,12 +329,12 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'], function
 				//==============================
 				$scope.itemEnabled = function(item) {
 
-					if ( $scope.getMinimum() > 0 && $scope.getSelectedItems().length <= $scope.getMinimum())
-						if (item == null || $scope.getSelectedItems().indexOf(item) >= 0)// jshint ignore:line
+					if ( $scope.getMinimum() > 0 && $scope.selectedItems.length <= $scope.getMinimum())
+						if (item == null || $scope.selectedItems.indexOf(item) >= 0)// jshint ignore:line
 							return false;
 
-					if ($scope.getMaximum() < $scope.allItems.length && $scope.getSelectedItems().length >= $scope.getMaximum())
-						if (item != null && $scope.getSelectedItems().indexOf(item) < 0)// jshint ignore:line
+					if ($scope.getMaximum() < $scope.allItems.length && $scope.selectedItems.length >= $scope.getMaximum())
+						if (item != null && $scope.selectedItems.indexOf(item) < 0)// jshint ignore:line
 							return false;
 					return true;
 				};

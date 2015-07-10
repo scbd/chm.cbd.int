@@ -47,6 +47,7 @@ require.config({
       'ngAnimate'                : { deps: ['angular'] },
       'ngAria'                   : { deps: ['angular'] },
       'ngMaterial'               : { deps: ['angular', 'ngAnimate', 'ngAria'] },
+      'ngSmoothScroll'           : { deps: ['angular'] },
 
     },
 });

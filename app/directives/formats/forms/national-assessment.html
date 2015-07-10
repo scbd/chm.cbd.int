@@ -64,6 +64,13 @@
 						<legend>Assessment</legend>
 
 						<div class="row bottom-spacing">
+
+							<div class="col-md-8">
+								<div class="km-control-group" required name="progress" caption="Rate of progresses toward the implementation of the selected target">
+									<div km-select name="progress" required displaycount="1"  ng-model="document.progress" placeholder="" watch-items items="options.progresses"></div>
+								</div>
+							</div>
+
 							<div class="col-md-4">
 								<div class="km-control-group" required name="date" caption="Date the assessment was done">
 									<div km-date name="date" required ng-model="document.date"></div>
@@ -71,28 +78,22 @@
 							</div>
 						</div>
 
-						<div class="row bottom-spacing">
+						<!-- <div class="row bottom-spacing">
 							<div class="col-md-12">
 								<div class="km-control-group" required name="assessmentText" caption="Assessment">
 									<div class="help-block">In case of assessment of progress toward a National Target, please refer to the “Means to assess progress” described in the National Target record.</div>
 									<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
 								</div>
 							</div>
-						</div>
+						</div> -->
+
+
+
+						<legend>Indicators and other tools used in this Assessment</legend>
 
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="progress" caption="Summary of the assessment of progresses toward the implementation of the selected target">
-									<div km-select name="progress" required displaycount="1"  ng-model="document.progress" placeholder="" watch-items items="options.progresses"></div>
-								</div>
-							</div>
-						</div>
-
-						<legend>Indicators and Activities</legend>
-
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="nationalIndicators" required="{{isBasedOnComprehensiveIndicators()}}" caption="Link to National indicator(s) used in this assessment">
+								<div class="km-control-group" name="nationalIndicators" required="{{isBasedOnComprehensiveIndicators()}}" caption="Indicator(s) used in this assessment">
 									<div class="btn-group" role="group">
 										<div class="btn-group" role="group">
 										    <button type="button" ng-disabled="!unselectedIndicators.length" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -129,27 +130,26 @@
 							</div>
 						</div>
 
-						<div class="row bottom-spacing">
+<!--						<div class="row bottom-spacing">
 							<div class="col-md-12">
 								<div class="km-control-group" name="strategicPlanIndicators" caption="Link to Indicator(s) used in this assessment">
 									<div km-select name="strategicPlanIndicators" multiple ng-model="document.strategicPlanIndicators" placeholder="" watch-items items="options.strategicPlanIndicators"></div>
 								</div>
 							</div>
 						</div>
-
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
 								<div class="km-control-group" name="implementationActivities" caption="Link to National Activity(ies) related to this assessment">
 									<div km-select name="implementationActivities" multiple ng-model="document.implementationActivities" placeholder="" watch-items items="options.implementationActivities"></div>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
-						<legend>Main Relevant Documents and Information</legend>
+<!--						<legend>Main Relevant Documents and Information</legend>-->
 
 						<div class="row  bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group" name="documentText" caption="Relevant information">
+								<div class="km-control-group" name="documentText" caption="Please describe any of the tools used or others means used in assessing progress">
 									<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
 								</div>
 							</div>
@@ -180,7 +180,7 @@
 							</div>
 						</div>
 
-						<legend>Other Relevant Information</legend>
+<!--						<legend>Other Relevant Information</legend>
 
 						<div class="row">
 							<div class="col-md-12">
@@ -197,7 +197,7 @@
 									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 
 

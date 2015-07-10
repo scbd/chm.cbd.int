@@ -26,6 +26,7 @@ require.config({
       'ngAnimate'        : 'libs/angular-animate/angular-animate.min',
       'ngAria'           : 'libs/angular-aria/angular-aria.min',
       'ngMaterial'       : 'libs/angular-material/angular-material.min',
+      'ngSmoothScroll'   : 'libs/ngSmoothScroll/angular-smooth-scroll.min',
 
 
     },

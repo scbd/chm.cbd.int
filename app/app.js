@@ -1,6 +1,6 @@
-define(['angular', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial'], function(angular) { 'use strict';
+define(['angular', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothScroll'], function(angular) { 'use strict';
 
-    var deps = ['ngRoute', 'ngSanitize', 'leaflet-directive', 'ng-breadcrumbs','ngAnimate' ,'ngAria' ,'ngMaterial'];
+    var deps = ['ngRoute', 'ngSanitize', 'leaflet-directive', 'ng-breadcrumbs','ngAnimate' ,'ngAria' ,'ngMaterial', 'smoothScroll'];
 
     angular.defineModules(deps);
 

@@ -281,134 +281,70 @@
                     <th style="width:50%;text-align:left;">Target</th>
                     <th colspan="3" style="border-left:1px #DDD solid;width:50%;text-align:left;">Assessment</th>
                 </tr>
-                <tr>
+                <tr ng-repeat="nationalTarget in nationalTargets">
                     <td>
                         <div class="btn-group btn-group-xs pull-right">
-                            <!-- You can only edit if not published. -->
-                            <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
-                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
-                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
-                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
+                            <a title="View" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
+                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
+                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
+                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
 
                         <div>
-                            <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                            <strong>National Target 2</strong>
+                            <span ng-if="nationalTarget._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
+                            <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
+                            <span ng-if="nationalTarget._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
+                            <span ng-if="nationalTarget.isAichiTarget_b" class="badge" style="font-size:10px;" >National Aichi Target</span>
+                            <strong ng-if="nationalTarget.isAichiTarget_b">{{nationalTarget.aichiTargets_EN_txt ? nationalTarget.aichiTargets_EN_txt[0]:""}}</strong>
+                            <strong ng-if="!nationalTarget.isAichiTarget_b">{{nationalTarget.title_t}}</strong>
                         </div>
                         <div>
                             <div class="pull-left" style="margin-right:10px;margin-top:3px;">
-                                <!-- show main related Aichi targets and other related targets -->
-                                <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" style="height:26px;" ></img>
-                                <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;" ></img>
-                                <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;opacity:0.5;" ></img>
-                                <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;opacity:0.5;" ></img>
+                                <img ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss"
+                                    src="https://www.cbd.int/images/aichi/48/abt-{{aichiTarget.replace('AICHI-TARGET-','')}}-48.png" style="height:26px;" ></img>
                             </div>
-
-                            By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
+                            {{nationalTarget.summary|lstring}}
                         </div>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
-                        <img src="/app/img/ratings/a.png" class="pull-left"></img>
+                        <img ng-if="nationalTarget.assessment" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
                     </td>
                     <td>
-                        <div class="btn-group btn-group-xs pull-right">
+                        <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
                             <!-- You can only edit if not published. -->
-                            <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
-                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
-                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
-                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
+                            <a title="View"  class="btn btn-default"
+                                ng-href="{{nationalTarget.assessment.url}}"><i class="fa fa-search"></i></a>
+
+                            <button ng-show    ="nationalTarget.assessment._state_s=='workflow'" title="Locked for edit" type="button"
+                                class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessment)"><i class="fa fa-lock"></i></button>
+
+                            <button ng-hide    ="nationalTarget.assessment._state_s=='workflow'" title="Edit" type="button"
+                                class="btn btn-default" ng-click="onEdit(nationalTarget.assessment, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
+
+                            <button ng-disabled="nationalTarget.assessment._state_s=='workflow'" title="Delete" type="button"
+                                class="btn btn-default" ng-click="onDelete(nationalTarget.assessment, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
-                        <div><span  ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span> <span style="font-weight:bold;text-transform:uppercase;">22 May 2009</span></div>
-                        <div class="color-grey">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description </div>
+                        <div>
+                            <span ng-if="nationalTarget.assessment._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
+                            <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
+                            <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
+                            <span style="font-weight:bold;text-transform:uppercase;">{{nationalTarget.assessment.date_dt|datetime:"MMM Do YYYY"}}</span></div>
+                        <div class="color-grey" ng-if="!nationalTarget.assessment">
+                            No assessment available
+                        </div>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
-                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> <i class="fa fa-plus-square"></i> update </a>
+                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> <i class="fa fa-plus-square"></i> Add </a>
                     </td>
                 </tr>
 
-                <tr>
-                    <td>
-                        <div class="btn-group btn-group-xs pull-right">
-                        <!-- You can only edit if not published. -->
-                        <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
-                        <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
-                        <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
-                        <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
-                        </div>
-
-                        <div>
-                            <span class="badge bg-published" style="font-size:10px;" >Published</span>
-                            <strong> Aichi Target 14</strong>
-                        </div>
-                        <div>
-                            <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" class="pull-left" style="height:66px;margin-right:10px;" ></img>
-                            By 2020, ecosystems that provide essential services, including services related to water, and contribute to health, livelihoods and well-being, are restored and safeguarded, taking into account the needs of women, indigenous and local communities, and the poor and vulnerable.
-                        </div>
-
-                    </td>
-
-                    <td colspan="2" style="vertical-align:middle;text-align:center;border-left:1px #DDD solid;">
-                        <h3 class="color-litegrey">Progress on this target has not yet been assessed.<h3>
-                    </td>
-
-                    <td style="border-left:1px #DDD solid;">
-                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> <i class="fa fa-plus-square"></i> update</a>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>
-                        <div class="btn-group btn-group-xs pull-right">
-                        <!-- You can only edit if not published. -->
-                        <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
-                        <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
-                        <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
-                        <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                        <div>
-                            <span ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span>
-                            <strong>National Target 4</strong>
-                        </div>
-                        <div>
-                            <div class="pull-left" style="margin-right:10px;margin-top:3px;">
-                                <!-- show main related Aichi targets and other related targets -->
-                                <img src="https://www.cbd.int/images/aichi/48/abt-14-48.png" style="height:26px;" ></img>
-                                <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;" ></img>
-                                <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;opacity:0.5;" ></img>
-                                <img src="https://www.cbd.int/images/aichi/48/abt-16-48.png" style="height:26px;opacity:0.5;" ></img>
-                            </div>
-
-                            By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
-                        </div>
-                    </td>
-
-                    <td style="border-left:1px #DDD solid;">
-                        <img src="/app/img/ratings/c.png" class="pull-left"></img>
-                    </td>
-                    <td>
-                        <div class="btn-group btn-group-xs pull-right">
-                            <!-- You can only edit if not published. -->
-                            <button                                           title="View" type="button" class="btn btn-default" ng-click="open record"><i class="fa fa-search"></i></button>
-                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
-                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
-                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                        <div><span  ng-class="{'bg-published': record._state_s == 'public', 'bg-draft': record._state_s == 'draft' }" style="font-size:10px;" class="badge">Draft</span> <span style="font-weight:bold;text-transform:uppercase;">22 May 2009</span></div>
-                        <div class="color-grey">Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description </div>
-                    </td>
-
-                    <td style="border-left:1px #DDD solid;">
-                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> <i class="fa fa-plus-square"></i> update </a>
-                    </td>
-                </tr>
 
                 <tr>
                     <td>
                         <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> National Target </a>
-                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Aichi Target </a>
+                        <!-- <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Aichi Target </a> -->
                     </td>
                     <!-- <td>
                         <md-button  class="md-raised">List Indicators</md-button>

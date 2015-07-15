@@ -1,11 +1,15 @@
 define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr"], function(_) { 'use strict';
 
-    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",
-     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm,user,solr) {
+    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr", 'navigation', '$mdDialog', '$location',
+     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm,user,solr, navigation, $mdDialog, $location) {
 
          $scope.displayStyle='table';
          $scope.showSubmissionSection = true;
          $scope.showProgressSection = true;
+
+         $scope.onDelete    = del;
+         $scope.onEdit      = edit;
+         $scope.onWorkflow  = viewWorkflow;
 
         $scope.schemasList = [
                     { identifier: 'nationalStrategicPlan' ,draft:0, public:0, workflow:0  },
@@ -49,8 +53,122 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         }
 
 
+        //======================================================
+        //
+        //
+        //======================================================
+        function loadNationalTargets() {
 
 
+            $scope.loading = true;
+
+
+            $q.when(loadRecords({schema:'nationalTarget'}))
+            .then(function(data){
+                if(data){
+
+                    $scope.nationalTargets = data;
+
+                    _.each($scope.nationalTargets, function(target){
+
+                        loadRecords({schema:'nationalAssessment',nationaTargetId:target.identifier_s})
+                        .then(function(data){
+                            target.assessment = _.first(data)
+                            console.log(target.assessment);
+                        });
+
+                    });
+                }
+            })
+            .catch(function(res){
+
+                $scope.records     = [];
+                $scope.recordCount = -1;
+                $scope.error       = res.data || res;
+
+                console.error($scope.error);
+
+            }).finally(function(){
+                delete $scope.loading;
+            });
+        }
+
+        function loadRecords(options){
+            // Execute query
+
+            var qsParams =
+            {
+                "q"  : buildQuery(options),
+                "fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, " +
+                       "url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b,aichiTargets_*,date_dt,progress_s",
+                "sort"  : "updatedDate_dt desc",
+                "start" : 0,
+                "row"   : 500,
+            };
+
+            return $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
+
+                return _.map(res.data.response.docs, function(v){
+                    return _.defaults(v, {
+                        schemaName     : solr.lstring(v, "schema_*_t",     "schema_EN_t",     "schema_s"),
+                        title          : solr.lstring(v, "title_*_t",      "title_EN_t",      "title_t"),
+                        summary        : solr.lstring(v, "summary_*_t",    "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
+                        url            : toLocalUrl(v.url_ss)
+                    });
+                });
+
+            });
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function buildQuery(options) {
+
+            options = _.assign({
+                schema    : options.schema,
+                target    : options.nationaTargetId,
+                latest    : true
+            }, options || {});
+
+            var query  = [];
+
+            // Add Schema
+            query.push("schema_s:" + solr.escape(options.schema));
+
+            if(options.target)
+                query.push("nationalTarget_s:"+solr.escape(options.target));
+            // Apply ownership
+            query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
+
+            // Apply ownership
+            query.push(_.map(user.userGroups, function(v){
+                return "_ownership_s:"+solr.escape(v);
+            }));
+
+            if(options.latest!==undefined){
+                query.push("_latest_s:" + (options.latest ? "true" : "false"));
+            }
+
+            // AND / OR everything
+
+            return solr.andOr(query);
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function toLocalUrl(urls) {
+
+            var url = navigation.toLocalUrl(_.first(urls));
+
+            if(_(url).startsWith('/') && (_(url).endsWith('=null') || _(url).endsWith('=undefined')))
+                return null;
+
+            return url;
+        }
         //==============================
         //
         //==============================
@@ -147,11 +265,90 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         }
 
         $scope.load();
+        loadNationalTargets();
 
         $scope.getFacet = function(schema){
             return _.first(_.where($scope.schemasList,{"identifier":schema}));
         }
 
+        //======================================================
+        //
+        //
+        //======================================================
+        function edit(record, type)
+        {
+            $location.url(navigation.editUrl(record.schema_s, record.identifier_s, type));
+        }
+
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function del(record, type, ev)
+        {
+            var repo = null;
+            var identifier = record.identifier_s;
+
+            $q.when(record).then(function(r) {
+
+                    if(r._state_s == "public")  repo = storage.documents;
+               else if(r._state_s == "draft")   repo = storage.drafts;
+               else                             throw new Alert("Cannot delete request");
+
+               return repo.exists(identifier);
+
+           }).then(function(exist) {
+
+                if(!exist)
+                    throw new Alert("Record not found.");
+
+                var confirm = $mdDialog.confirm()
+                  .title('Are you sure you want to delete?')
+                  .ariaLabel('delete records')
+                  .ok('DELETE RECORD')
+                  .cancel('CANCEL')
+                  .targetEvent(ev);
+
+                $mdDialog.show(confirm)
+                .then(function() {
+                    return repo.delete(identifier);
+                }).then(function() {
+                    if(type=='nationalTargets'){
+                        _.remove($scope.nationalTargets, function(r){
+                           return r==record;
+                        });
+                    }
+                    else {
+                        record=undefined;
+                    }
+                });
+
+            }).catch(function(e){
+
+                if(e instanceof Noop)
+                    return;
+
+                if(e instanceof Alert) {
+                    alert(e.message);
+                    return;
+                }
+
+                $scope.error = e;
+            });
+
+            function Alert(msg) { this.message = msg; }
+            function Noop()     { }
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function viewWorkflow(record)
+        {
+            $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
+        }
 
 
     }];

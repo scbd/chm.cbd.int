@@ -53,75 +53,102 @@
 								</div>
 							</div>
 						</div>
-
-						<div class="row">
+                        <legend>National Target Type</legend>
+                        <div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="title" caption="National Target">
-									<div class="help-block">Please use the official title, if available.</div>
-									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
+								<div class="km-control-group" required name="isAichiTarget" caption="Target Type">
+                                    <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="true"/> AICHI Target
+                                    <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="false"/> National Target
 								</div>
 							</div>
 						</div>
+                        <div ng-show="document.isAichiTarget">
+    						<legend>AICHI Target</legend>
 
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="description" caption="Rationale for the National Target">
-									<div km-textbox-ml required name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
-								</div>
-							</div>
-						</div>
+    						<div class="row bottom-spacing">
+    							<div class="col-md-12">
+    								<div class="km-control-group" required name="aichiTargets" caption="Aichi Targets">
+    									<div km-select required  name="aichiTargets" ng-model="selectedAichi.target" placeholder="Please select Aichi Target" watch-items items="options.aichiTargetsFiltered"></div>
+    								</div>
+    							</div>
 
-						<div class="row bottom-spacing">
-							<div class="col-md-11 ">
-								<div class="km-control-group" required name="jurisdiction" caption="Level of application">
-								<span class="help-block">Please specify if the target refers to the national or subnational level</span>
-									<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
-								</div>
-							</div>
-							<div class="col-md-10" ng-show="isJurisdictionSubNational()">
-								<div class="km-control-group" required name="jurisdictionInfo" caption="Please provide additional details on the specific level of application">
-									<div km-textbox-ml name="jurisdictionInfo" ng-model="document.jurisdictionInfo" rows="3" locales="document.header.languages" placeholder=""></div>
-								</div>
-							</div>
-						</div>
+    							<div class="col-md-12">
+    								<div class="km-control-group" name="otherAichiTargets" caption="Sub Aichi Targets">
+    									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select sub Aichi Targets" watch-items items="options.aichiSubTargets"></div>
+    								</div>
+    							</div>
+    						</div>
+                        </div>
 
+                        <div ng-show="!document.isAichiTarget">
+    						<div class="row" >
+    							<div class="col-md-12">
+    								<div class="km-control-group" required name="title" caption="National Target">
+    									<div class="help-block">Please use the official title, if available.</div>
+    									<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
+    								</div>
+    							</div>
+    						</div>
 
-						<legend>Targets and indicators</legend>
+    						<div class="row">
+    							<div class="col-md-12">
+    								<div class="km-control-group" required name="description" caption="Rationale for the National Target">
+    									<div km-textbox-ml required name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
+    								</div>
+    							</div>
+    						</div>
 
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Targets">
-									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
-								</div>
-							</div>
+    						<div class="row bottom-spacing">
+    							<div class="col-md-11 ">
+    								<div class="km-control-group" required name="jurisdiction" caption="Level of application">
+    								<span class="help-block">Please specify if the target refers to the national or subnational level</span>
+    									<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
+    								</div>
+    							</div>
+    							<div class="col-md-10" ng-show="isJurisdictionSubNational()">
+    								<div class="km-control-group" required name="jurisdictionInfo" caption="Please provide additional details on the specific level of application">
+    									<div km-textbox-ml name="jurisdictionInfo" ng-model="document.jurisdictionInfo" rows="3" locales="document.header.languages" placeholder=""></div>
+    								</div>
+    							</div>
+    						</div>
 
-							<div class="col-md-12">
-								<div class="km-control-group" name="otherAichiTargets" caption="Other related Aichi Targets">
-									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
-								</div>
-							</div>
-						</div>
+    						<legend>Targets and indicators</legend>
 
-						<legend>Relevant Documents and Information</legend>
-                        <div class="help-block">If possible, attach relevant documents where such target is included and can be found.</div>
+    						<div class="row bottom-spacing">
+    							<div class="col-md-12">
+    								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Targets">
+    									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
+    								</div>
+    							</div>
 
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" name="relevantInformation" caption="Relevant information">
-									<div class="help-block">Please use this field to provide any relevant information.</div>
-									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
+    							<div class="col-md-12">
+    								<div class="km-control-group" name="otherAichiTargets" caption="Other related Aichi Targets">
+    									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
+    								</div>
+    							</div>
+    						</div>
 
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" name="relevantDocuments" caption="Relevant websites, links, and files">
-									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
-								</div>
-							</div>
-						</div>
+    						<legend>Relevant Documents and Information</legend>
+                            <div class="help-block">If possible, attach relevant documents where such target is included and can be found.</div>
 
+    						<div class="row">
+    							<div class="col-md-12">
+    								<div class="km-control-group" name="relevantInformation" caption="Relevant information">
+    									<div class="help-block">Please use this field to provide any relevant information.</div>
+    									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+    								</div>
+    							</div>
+    						</div>
+
+    						<div class="row">
+    							<div class="col-md-12">
+    								<div class="km-control-group" name="relevantDocuments" caption="Relevant websites, links, and files">
+    									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+    								</div>
+    							</div>
+    						</div>
+
+                        </div>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" name="notes">

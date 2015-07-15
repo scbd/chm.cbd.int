@@ -398,7 +398,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/management/online-reporting/aichiTarget");
+				$location.url("/submit/online-reporting");
 			}
 
 			//==================================

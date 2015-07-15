@@ -13,7 +13,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
             $scope.document = null;
 			$scope.tab      = 'general';
             $scope.review = { locale: "en" };
-
+            $scope.selectedAichi={};
 			//==================================
 			//
 			//==================================
@@ -70,6 +70,12 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			                countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms",                            { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
                             jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
                             aichiTargets:       $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS-COMPONENTS/terms",			 { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }),
+                            aichiTargetsFiltered: $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS-COMPONENTS/terms",			 { cache: true }).then(function (o) {
+                                                                 var records =  _.reject(o.data, function(item){return item.broaderTerms.length>0});
+                                                                 $scope.cachedAichiTargets = o.data;
+                                                                 return records;
+                                                            }),
+                            aichiSubTargets     : function(){return filterSubAichiTargets();}
 			            };
 
        				    return $q.all(_.values($scope.options)).then(function() {
@@ -83,7 +89,8 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 					$scope.document = doc;
 					$scope.status  = "ready";
-
+                    if($scope.document.isAichiTarget===undefined)
+                        $scope.document.isAichiTarget = true;
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
@@ -91,6 +98,16 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				});
 			};
+
+            function filterSubAichiTargets(){
+                if(!$scope.cachedAichiTargets || !$scope.selectedAichi.target)
+                    return [];
+
+                return _.filter($scope.cachedAichiTargets, function(item){
+
+                            return _.contains(item.broaderTerms,$scope.selectedAichi.target.identifier);
+                        });
+            }
 
 			//==================================
 			//
@@ -117,6 +134,18 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
+
+                if($scope.selectedAichi.target && document.isAichiTarget){
+                    document.aichiTargets = [];
+                    document.aichiTargets.push($scope.selectedAichi.target);
+                    document.title =  {en:$scope.selectedAichi.target.identifier};
+
+                    document.description = undefined;
+                    document.jurisdiction = undefined;
+                    document.jurisdictionInfo = undefined;
+                    document.relevantInformation = undefined;
+                    document.relevantDocuments = undefined;
+                }
 
 				return $q.when(false);
 			};
@@ -176,6 +205,12 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				$scope.validationReport = null;
 
 				var oDocument = $scope.document;
+
+                if($scope.selectedAichi.target && oDocument.isAichiTarget){
+                    oDocument.aichiTargets = [];
+                    oDocument.aichiTargets.push($scope.selectedAichi.target);
+                    oDocument.title = {en:$scope.selectedAichi.target.identifier};
+                }
 
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
@@ -293,7 +328,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/submit/online-reporting/nationalTarget");
+				$location.url("/submit/online-reporting");
 			}
 
 			//==================================
@@ -320,6 +355,15 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				else
 					$scope.error = error;
 			};
+
+            $scope.$watch('document.aichiTargets', function(value){
+                if(value && $scope.document.isAichiTarget)
+                    $scope.selectedAichi.target = _.first(value);
+            });
+            $scope.$watch('selectedAichi.target', function(value){
+                if($scope.options)
+                    $scope.options.aichiSubTargets = filterSubAichiTargets();
+            });
 
             $scope.init();
 

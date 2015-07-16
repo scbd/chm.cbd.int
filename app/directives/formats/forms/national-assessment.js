@@ -429,7 +429,11 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/submit/online-reporting");
+				
+				if($scope.qs.nationalTarget)
+					$location.url("/submit/online-reporting");
+				else
+					$location.url("/submit/online-reporting/nationalAssessment");
 			}
 
 			//==================================

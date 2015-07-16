@@ -874,7 +874,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				$rootScope.$broadcast("onPostClose", "Record closed..");
 				$location.url("/submit/online-reporting/resourceMobilisation");
 			};
 

@@ -201,7 +201,7 @@ app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location",
 			//
 			//==================================
 			$scope.onPostClose = function() {
-                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
+                $rootScope.$broadcast("onPostClose", "Record closed.");
 				gotoManager();
 			};
 

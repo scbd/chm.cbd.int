@@ -180,7 +180,7 @@ app.directive('editCaseStudy', ["$http","$rootScope","$q", "$location", "$filter
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				$rootScope.$broadcast("onPostClose", "Record closed.");
 				gotoManager();
 			};
 			//==================================

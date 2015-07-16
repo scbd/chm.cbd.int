@@ -307,7 +307,7 @@ app.directive("editImplementationActivity", ["$http","$rootScope", "$q", "$locat
 			//
 			//==================================
 			$scope.onPostClose = function() {
-                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
+                $rootScope.$broadcast("onPostClose", "Record closed.");
 				gotoManager();
 			};
  			//==================================

@@ -247,7 +247,7 @@ app.directive('editResource', ['$http',"$rootScope", "Enumerable", "$filter", "$
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				$rootScope.$broadcast("onPostClose", "Record closed.");
 				gotoManager();
 			};
 			//==================================

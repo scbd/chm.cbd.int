@@ -357,7 +357,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.onPostClose = function() {
-                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
+                $rootScope.$broadcast("onPostClose", "Record closed.");
 				gotoManager();
 			};
 

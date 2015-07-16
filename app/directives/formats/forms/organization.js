@@ -204,7 +204,7 @@ app.directive('editOrganization', ['$http', '$rootScope', "guid", "$filter", "Th
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$rootScope.$broadcast("onPostClose", "Record closed without saving.");
+				$rootScope.$broadcast("onPostClose", "Record closed.");
 				gotoManager();
 			};
 			//==================================

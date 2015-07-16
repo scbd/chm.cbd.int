@@ -370,7 +370,7 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 			//
 			//==================================
 			$scope.onPostClose = function() {
-                $rootScope.$broadcast("onPostClose", "Record closed without saving.");
+                $rootScope.$broadcast("onPostClose", "Record closed.");
                 $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
 			};
 

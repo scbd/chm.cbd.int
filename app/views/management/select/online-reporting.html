@@ -284,10 +284,10 @@
                 <tr ng-repeat="nationalTarget in nationalTargets">
                     <td>
                         <div class="btn-group btn-group-xs pull-right">
-                            <a title="View" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
-                            <button ng-show    ="record._state_s=='workflow'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
-                            <button ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
-                            <button ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
+                            <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
+                            <button ng-show="record._state_s=='workflow' && nationalTarget._state_s == 'request'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
+                            <button ng-show="nationalTarget._state_s == 'draft'" ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
+                            <button ng-show="nationalTarget._state_s == 'draft'" ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
 
                         <div>
@@ -313,16 +313,16 @@
                     <td>
                         <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
                             <!-- You can only edit if not published. -->
-                            <a title="View"  class="btn btn-default"
+                            <a title="View" ng-show="nationalTarget.assessment._state_s == 'public'"  class="btn btn-default"
                                 ng-href="{{nationalTarget.assessment.url}}"><i class="fa fa-search"></i></a>
 
-                            <button ng-show    ="nationalTarget.assessment._state_s=='workflow'" title="Locked for edit" type="button"
+                            <button ng-show="nationalTarget.assessment._state_s=='workflow' && nationalTarget.assessment._state_s == 'request'" title="Locked for edit" type="button"
                                 class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessment)"><i class="fa fa-lock"></i></button>
 
-                            <button ng-hide    ="nationalTarget.assessment._state_s=='workflow'" title="Edit" type="button"
+                            <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-hide    ="nationalTarget.assessment._state_s=='workflow'" title="Edit" type="button"
                                 class="btn btn-default" ng-click="onEdit(nationalTarget.assessment, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
 
-                            <button ng-disabled="nationalTarget.assessment._state_s=='workflow'" title="Delete" type="button"
+                            <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-disabled="nationalTarget.assessment._state_s=='workflow'" title="Delete" type="button"
                                 class="btn btn-default" ng-click="onDelete(nationalTarget.assessment, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
                         <div>

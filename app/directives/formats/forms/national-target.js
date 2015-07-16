@@ -13,7 +13,10 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
             $scope.document = null;
 			$scope.tab      = 'general';
             $scope.review = { locale: "en" };
-            $scope.selectedAichi={};
+			$scope.qs = $location.search();
+            
+			
+			$scope.selectedAichi={};
 			//==================================
 			//
 			//==================================
@@ -90,7 +93,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 					$scope.document = doc;
 					$scope.status  = "ready";
                     if($scope.document.isAichiTarget===undefined)
-                        $scope.document.isAichiTarget = true;
+                        $scope.document.isAichiTarget = false;
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
@@ -148,6 +151,40 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
                 }
 
 				return $q.when(false);
+			};
+			
+			//==================================
+			//
+			//==================================
+			$scope.getCleanDocument = function(document) {
+				document = document || $scope.document;
+
+				if (!document)
+					return;
+
+				document = angular.fromJson(angular.toJson(document));
+
+				if (!document)
+					return $q.when(true);
+
+				if (!$scope.isJurisdictionSubNational(document))
+					document.jurisdictionInfo = undefined;
+
+				if (/^\s*$/g.test(document.notes))
+					document.notes = undefined;
+
+                if($scope.selectedAichi.target && document.isAichiTarget){
+                    document.aichiTargets = [];
+                    document.aichiTargets.push($scope.selectedAichi.target);
+                    document.title =  {en:$scope.selectedAichi.target.identifier};
+
+                    document.description = undefined;
+                    document.jurisdiction = undefined;
+                    document.jurisdictionInfo = undefined;
+                    document.relevantInformation = undefined;
+                    document.relevantDocuments = undefined;
+                }
+				return document;
 			};
 
 			//==================================
@@ -306,7 +343,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
                 $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
-                gotoManager();
+             	gotoManager();
 			};
 
 			//==================================
@@ -324,12 +361,13 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				gotoManager();
 			};
 
-			//==================================
+//==================================
 			//
 			//==================================
 			function gotoManager() {
 				$location.url("/submit/online-reporting");
 			}
+			
 
 			//==================================
 			//

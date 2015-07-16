@@ -13,6 +13,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             $scope.document = null;
 			$scope.tab      = 'general';
             $scope.review = { locale: "en" };
+			$scope.qs = $location.search();
             $scope.options = {
                 countries:               $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'title|lstring'); }),
             	progresses:              $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", { cache: true }).then(function (o) { return o.data; }),
@@ -36,6 +37,10 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             	}
             });
 
+
+			//==================================
+			//
+			//==================================
             function buidQuery(options) {
 
                 return {
@@ -51,6 +56,10 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
                 };
             }
 
+
+			//==================================
+			//
+			//==================================
             function mapResult(res) {
                 return _.map(res.data.response.docs, function(o) {
                     return {
@@ -146,7 +155,29 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				return $q.when(false);
 			};
+			
+			//==================================
+			//
+			//==================================
+			$scope.getCleanDocument = function(document) {
+				
+				document = document || $scope.document;
 
+				if (!document)
+					return;
+
+				document = angular.fromJson(angular.toJson(document));
+
+				if (!document)
+					return $q.when(true);
+						
+				if (/^\s*$/g.test(document.notes))
+					document.notes = undefined;
+
+				return document;
+			};
+
+			
 			//==================================
 			//
 			//==================================

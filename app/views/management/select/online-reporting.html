@@ -308,7 +308,7 @@
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
-                        <img ng-if="nationalTarget.assessment" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
+                        <img ng-if="nationalTarget.assessment.progress_s" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
                     </td>
                     <td>
                         <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
@@ -330,20 +330,21 @@
                             <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
                             <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
                             <span style="font-weight:bold;text-transform:uppercase;">{{nationalTarget.assessment.date_dt|datetime:"MMM Do YYYY"}}</span></div>
-                        <div class="color-grey" ng-if="!nationalTarget.assessment">
-                            No assessment available
+                        
+                        <div class="color-litegrey text-center" ng-if="!nationalTarget.assessment">
+                            <h3>Assessment not available</h3>
                         </div>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
-                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new"> <i class="fa fa-plus-square"></i> Add </a>
+                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{nationalTarget.identifier_s}}"> <i class="fa fa-plus-square"></i> Add </a>
                     </td>
                 </tr>
 
 
                 <tr>
                     <td>
-                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> National Target </a>
+                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Add National Target or Aichi Target </a>
                         <!-- <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Aichi Target </a> -->
                     </td>
                     <!-- <td>

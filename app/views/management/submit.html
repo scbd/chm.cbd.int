@@ -125,18 +125,7 @@
     <div class="container"  ng-show="!government">
         <div class="row">
 
-            <div class="col-md-4">
-                <div class="box bg-grey md-whiteframe-z1">
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('marineEbsa').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('marineEbsa').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('marineEbsa').workflow}}</span>
-                    </div>
-                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i>Ecologically or Biologically Significant Marine Areas (EBSA)</h4>
-                  <p>Here you will find scientific information used to describe specific marine and coastal areas that meet the scientific criteria for Ecologically or Biologically Significant Marine Areas (EBSA).  These are special areas in the ocean that serve important purposes, in one way or another, to support the healthy functioning of oceans and the many services that it provides.</p>
-                  <a class="btn btn-primary" href="/submit/marineEbsa/" role="button bg-white"> Select »</a>
-              </div>
-            </div>
+
 
 
             <div class="col-md-4">
@@ -166,6 +155,34 @@
                   <a class="btn btn-primary" href="/submit/aichiTarget/" role="button bg-white"> Select »</a>
               </div>
             </div>
+
+            <div class="col-md-4">
+                <div class="box bg-grey md-whiteframe-z1">
+                    <div class="pull-right">
+                        <span class="badge bg-published">{{getFacet('marineEbsa').public}}</span>
+                        <span class="badge bg-draft">{{getFacet('marineEbsa').draft}}</span>
+                        <span class="badge bg-request">{{getFacet('marineEbsa').workflow}}</span>
+                    </div>
+                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i>Ecologically or Biologically Significant Marine Areas (EBSA)</h4>
+                  <p>Here you will find scientific information used to describe specific marine and coastal areas that meet the scientific criteria for Ecologically or Biologically Significant Marine Areas (EBSA).  These are special areas in the ocean that serve important purposes, in one way or another, to support the healthy functioning of oceans and the many services that it provides.</p>
+                  <a class="btn btn-primary" href="/submit/marineEbsa/" role="button bg-white"> Select »</a>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="box bg-grey">
+                    <div class="pull-right">
+                        <span class="badge bg-published">{{getFacet('aichiTarget').public}}</span>
+                        <span class="badge bg-draft">{{getFacet('aichiTarget').draft}}</span>
+                        <span class="badge bg-request">{{getFacet('aichiTarget').workflow}}</span>
+                    </div>
+                  <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> LifeWeb</h4>
+                  <p>Here you will find a collection of editable records related to LifeWeb such as Projects, Campaigns, Events and Donors.</p>
+                  <a class="btn btn-primary" href="/submit/lifeWeb/" role="button bg-white"> Select »</a>
+              </div>
+            </div>
+
+
 
         </div>
     </div>

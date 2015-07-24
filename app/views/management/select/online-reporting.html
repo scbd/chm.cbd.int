@@ -283,34 +283,39 @@
                 </tr>
                 <tr ng-repeat="nationalTarget in nationalTargets">
                     <td>
+                        <div class="pull-left">
+                            <span ng-if="nationalTarget._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
+                            <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
+                            <span ng-if="nationalTarget._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
+                            <br>
+                            <img ng-if="nationalTarget.isAichiTarget_b" ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
+                        </div>
                         <div class="btn-group btn-group-xs pull-right">
                             <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
                             <button ng-show="record._state_s=='workflow' && nationalTarget._state_s == 'request'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
                             <button ng-show="nationalTarget._state_s == 'draft'" ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
                             <button ng-show="nationalTarget._state_s == 'draft'" ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
-
                         <div>
-                            <span ng-if="nationalTarget._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
-                            <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
-                            <span ng-if="nationalTarget._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
+                          
                             <span ng-if="nationalTarget.isAichiTarget_b" class="badge" style="font-size:10px;" >National Aichi Target</span>
                             <strong ng-if="nationalTarget.isAichiTarget_b">{{nationalTarget.aichiTargets_EN_txt ? nationalTarget.aichiTargets_EN_txt[0]:""}}</strong>
                             <strong ng-if="!nationalTarget.isAichiTarget_b">{{nationalTarget.title_t}}</strong>
                         </div>
                         <div>
-                            <div class="pull-left" style="margin-right:10px;margin-top:3px;">
-                                <img ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
-                            </div>
                             {{nationalTarget.summary|lstring}}
-                            {{nationalTarget}}
+                            <!--{{nationalTarget}}-->
                         </div>
                     </td>
 
-                    <td style="border-left:1px #DDD solid;">
+                    <td style="border-left:1px #DDD solid;" ng-if="nationalTarget.assessment">
+                        <span ng-if="nationalTarget.assessment._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
+                        <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
+                        <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
+                        <br>
                         <img ng-if="nationalTarget.assessment.progress_s" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
                     </td>
-                    <td>
+                    <td ng-if="nationalTarget.assessment">
                         <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
                             <!-- You can only edit if not published. -->
                             <a title="View" ng-show="nationalTarget.assessment._state_s == 'public'"  class="btn btn-default"
@@ -326,18 +331,17 @@
                                 class="btn btn-default" ng-click="onDelete(nationalTarget.assessment, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                         </div>
                         <div>
-                            <span ng-if="nationalTarget.assessment._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
-                            <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
-                            <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
+                           
                             <span style="font-weight:bold;text-transform:uppercase;">{{nationalTarget.assessment.date_dt|datetime:"MMM Do YYYY"}}</span></div>
-                        
-                        <div class="color-litegrey text-center" ng-if="!nationalTarget.assessment">
-                            <h3>No assessment has been completed</h3>
-                        </div>
+                    </td>
+                    <td colspan="2" ng-if="!nationalTarget.assessment" class="color-litegrey text-center"  style="border-left:1px #DDD solid;">
+                       <h4 ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'">Target must be published before it can be assessed.</h4>
+                       <h4 ng-if="nationalTarget._state_s == 'public'">Ready to be assessed.</h4>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
-                        <a class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{nationalTarget.identifier_s}}"> <i class="fa fa-plus-square"></i> Add </a>
+                        <a ng-if="nationalTarget._state_s == 'public'" class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{nationalTarget.identifier_s}}"> <i class="fa fa-plus-square"></i> Add </a>
+                        <span ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'" class="btn btn-primary btn-xs bg-grey"> <i class="fa fa-plus-square"></i> Add </a>
                     </td>
                 </tr>
 

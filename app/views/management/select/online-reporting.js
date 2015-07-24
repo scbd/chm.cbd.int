@@ -12,15 +12,15 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
          $scope.onWorkflow  = viewWorkflow;
 
         $scope.schemasList = [
-                    { identifier: 'nationalStrategicPlan' ,draft:0, public:0, workflow:0  },
+                    { identifier: 'nationalStrategicPlan',  draft:0, public:0, workflow:0  },
                     { identifier: 'nationalReport',   draft:0, public:0, workflow:0         },
                     { identifier: 'otherReport',      draft:0, public:0, workflow:0         },
                     { identifier: 'nationalTarget',     draft:0, public:0, workflow:0       },
                     { identifier: 'nationalIndicator',  draft:0, public:0, workflow:0       },
                     { identifier: 'nationalAssessment',   draft:0, public:0, workflow:0     },
                     { identifier: 'nationalSupportTool',  draft:0, public:0, workflow:0     },
-                    { identifier: 'implementationActivity'  ,draft:0, public:0, workflow:0   },
-                    { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
+                    { identifier: 'implementationActivity',  draft:0, public:0, workflow:0   },
+                    { identifier: 'resourceMobilisation',   draft:0 ,public:0, workflow:0 },
             ];
 
         //var nationalReportTypes = $http.get('/api/v2013/thesaurus/domains/2FD0C77B-D30B-42BC-8049-8C62D898A193/terms').then(function(response) { return response.data; });

@@ -58,9 +58,11 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //
         //======================================================
         function loadNationalTargets() {
-            
+
+
             $scope.loading = true;
-            
+
+
             $q.when(loadRecords({schema:'nationalTarget'}))
             .then(function(data){
                 if(data){
@@ -90,11 +92,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 delete $scope.loading;
             });
         }
-        
-        //======================================================
-        //
-        //
-        //======================================================
+
         function loadRecords(options){
             // Execute query
 
@@ -102,7 +100,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
             {
                 "q"  : buildQuery(options),
                 "fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, " +
-                       "url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, jurisdiction_*, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+                       "url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b,aichiTargets_*,date_dt,progress_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : 0,
                 "row"   : 500,
@@ -141,7 +139,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
             if(options.target)
                 query.push("nationalTarget_s:"+solr.escape(options.target));
-            
             // Apply ownership
             query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
 
@@ -237,11 +234,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
         };
 
-
-        //======================================================
-        //
-        //
-        //======================================================
         function calculateFacet(list, type){
 
             var qqNationalReports = _.filter(list, function(o) { return   _.contains(cbdNationalReports, o.value); });
@@ -263,11 +255,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
         }
 
-
-        //======================================================
-        //
-        //
-        //======================================================
         function facetSummation(reportFacets,reportType){
             _.each(reportFacets, function(facets){
                 _.each(facets.pivot,function(facet){

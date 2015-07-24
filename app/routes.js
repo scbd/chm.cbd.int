@@ -19,7 +19,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             // SUBMIT SECTION
 
             when('/submit',                                             { templateUrl: 'views/management/submit.html',                          label: 'Submit Information',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-
+            when('/submit/reports',                                     { templateUrl: 'views/management/select/reports.html',                  label: 'National Strategies and Reports',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+        
             when('/submit/online-reporting',                            { templateUrl: 'views/management/select/online-reporting.html',         label: 'CBD Online Reporting',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
             when('/submit/online-reporting/resourceMobilization',       { redirectTo:  '/submit/online-reporting/resourceMobilisation' }).

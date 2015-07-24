@@ -44,304 +44,139 @@
 
 </style>
 
-
-
-    <div class="container" style="padding-top:20px;">
+    <div class="container" style="padding-top:10px;">
         <div class="row">
             <div class="col-sm-12">
-                <div class="pull-right" style="margin-top:5px;">
+                <!--<div class="pull-right" style="margin-top:5px;">
                     <span class="badge bg-published" style="width:130px;padding:5px;">PUBLISHED</span>
                     <span class="badge bg-draft"    style="width:130px;padding:5px;">DRAFTS</span>
                     <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
-                </div>
-                <h1>CBD Online Reporting</h1>
-                <h3 class="color-medgrey">Please select the type of information you would like to submit:</h3>
+                </div>-->
+                <h1>  Progress Achieved on National Targets</h1>
+                <h3 class="color-medgrey">Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... </h3>
             </div>
         </div>
     </div>
 
-    <h3 class="container-fluid" style="padding-top:5px;border-top:1px solid #DDD;margin-top:60px;margin-bottom:30px;">
-        <i ng-click="showSubmissionSection = !showSubmissionSection" class="fa fa-chevron-circle-down color-blue"></i> National Strategies and Reports
-        <a ng-click="displayStyle='table'"><i class="fa fa-list"></i></a>
-        <a ng-click="displayStyle='div'"><i class="fa fa-th-large"></i></a>
-    </h3>
-
-
-    <div class="container" style="padding-top:20px;" ng-show="displayStyle=='table' && showSubmissionSection" >
-
-        <div class="row title-row row-bottom-border">
-            <div class="col-xs-3">Record Type</div>
-            <div class="col-xs-7">Description</div>
-            <div class="col-xs-1">Status</div>
-            <div class="col-xs-1">Action</div>
-        </div>
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h4 style="padding-top:0;margin-top:0;">National Biodiversity Strategies and Action Plans (NBSAPS) </h4>
-            </div>
-            <div class="col-xs-7">
-                <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
-                <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
-
-            </div>
-            <div class="col-xs-1">
-                <div style="min-width:160px;">
-                    <span class="badge bg-published">{{getFacet('nationalStrategicPlan').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('nationalStrategicPlan').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('nationalStrategicPlan').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/online-reporting/nationalReport?type=nbsap"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/nationalReport/new?type=nbsap"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h4 style="padding-top:0;margin-top:0;">National Reports </h4>
-            </div>
-            <div class="col-xs-7">
-                <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
-                <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
-            </div>
-            <div class="col-xs-1">
-                <div style="min-width:160px;">
-                    <span class="badge bg-published">{{getFacet('nationalReport').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('nationalReport').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/online-reporting/nationalReport?type=nr"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/nationalReport/new?type=nr"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h4 style="padding-top:0;margin-top:0;">Other National Reports</h4>
-            </div>
-            <div class="col-xs-7">
-                <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
-                <p style="font-size:12px;">other national reports</p>
-
-            </div>
-            <div class="col-xs-1">
-                <div style="min-width:160px;">
-                    <span class="badge bg-published">{{getFacet('otherReport').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('otherReport').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('otherReport').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/online-reporting/nationalReport?type=other"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/nationalReport/new?type=other"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-xs-3">
-                <h4 style="padding-top:0;margin-top:0;">Financial Reporting Framework</h4>
-            </div>
-            <div class="col-xs-7">
-                <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
-
-            </div>
-            <div class="col-xs-1">
-                <div style="min-width:160px;">
-                    <span class="badge bg-published">{{getFacet('resourceMobilisation').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('resourceMobilisation').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('resourceMobilisation').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/online-reporting/resourceMobilisation/"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/resourceMobilisation/new"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-
-<!-- DIV VIEW ****************************************************************************************** -->
-    <div class="container"  ng-show="displayStyle=='div'  && showSubmissionSection">
-        <div class="row">
-
-            <div class="col-md-4">
-                <div class="box bg-grey md-whiteframe-z1">
-
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('nationalStrategicPlan').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('nationalStrategicPlan').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('nationalStrategicPlan').workflow}}</span>
-                    </div>
-
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">National Biodiversity Strategies and Action Plans (NBSAPS) </h4></a>
-                    <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
-    <p class="alert alert-danger">Under Development</p>
-
-                    <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/nationalReport?type=nbsap"> view records </a>
-                        <a class="btn btn-primary" href="/submit/online-reporting/nationalReport/new?type=nbsap"> add new </a>
-                    </div>
-
-              </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="box bg-grey md-whiteframe-z1">
-
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('nationalReport').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('nationalReport').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
-                    </div>
-
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">National Reports </h4></a>
-                    <p style="font-size:12px;">Article 26 of the Convention states that the objective of national reporting is to provide information on measures taken for the implementation of the Convention and the effectiveness of these measures. In decision X/10, the Conference of the Parties requested Parties to submit their fifth national report by 31 March 2014.  </p>
-    <p class="alert alert-danger">Under Development</p>
-
-                    <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/nationalReport?type=nr"> view records </a>
-                        <a class="btn btn-primary"  href="/submit/online-reporting/nationalReport/new?type=nr"> add new </a>
-                    </div>
-
-              </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="box bg-grey md-whiteframe-z1">
-
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('otherReport').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('otherReport').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('otherReport').workflow}}</span>
-                    </div>
-
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">Other Reports </h4></a>
-                    <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p class="alert alert-danger">Under Development</p>
-
-                    <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/nationalReport?type=other"> view records </a>
-                        <a class="btn btn-primary" href="/submit/online-reporting/nationalReport/new?type=other"> add new </a>
-                    </div>
-              </div>
-            </div>
-
-
-
-            <div class="clearfix"></div>
-
-             <div class="col-md-4">
-                <div class="box bg-grey  md-whiteframe-z1">
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('resourceMobilisation').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('resourceMobilisation').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('resourceMobilisation').workflow}}</span>
-                    </div>
-                    <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> Financial Reporting Framework</h4>
-                    <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
-
-                         <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/resourceMobilisation/"> view records </a>
-                        <a class="btn btn-primary" href="/submit/online-reporting/resourceMobilisation/new"> add new </a>
-                    </div>
-
-              </div>
-            </div>
-
-
-        </div>
-    </div>
-
-    <h3 class="container-fluid" style="padding-top:5px;border-top:1px solid #DDD;margin-top:60px;margin-bottom:30px;">
+    <!--<h3 class="container-fluid" style="padding-top:5px;border-top:1px solid #DDD;margin-top:60px;margin-bottom:30px;">
         <i ng-click="showProgressSection = !showProgressSection"class="fa fa-chevron-circle-down color-blue"></i>
-        Progress Achieved on National Targets and/or Aichi Targets</h3>
+        Progress Achieved on National Targets and/or Aichi Targets</h3>-->
 
     <div class="container" ng-show="showProgressSection">
         <div class="row">
+            
+            <style>
+                .target-table{
+                    width:100%;
+                    margin-top:20px;
+                }
+                
+                .target-content {
+                	padding: 0 0 0 80px; /* 75px being the width of the thumbnail + how much space you want to put between it and your text */
+                	position: relative; /* So the thumbnail is relative to this */
+                    min-height:96px;
+                }
+                
+                	.target-content-icon {
+                		left: 0;
+                		position: absolute;
+                		top: 0px;
+                        z-index:500;
+                	}
+                    .big-icon {
+                  font-size: 60px;
+                  width: 70px;
+                  height: 60px;
+                }
+            </style>
+            
 
-            <table class="table table-striped" style="width:100%;margin-top:20px;">
+            <table class="table table-striped target-table" >
                 <tr>
-                    <th style="width:50%;text-align:left;">Target</th>
-                    <th colspan="3" style="border-left:1px #DDD solid;width:50%;text-align:left;">Assessment</th>
+                    <th  style="width:50%;text-align:left;">National Targets</th>
+                    <th colspan="2" style="border-left:1px #DDD solid;width:50%;text-align:left;">Assessments</th>
                 </tr>
-                <tr ng-repeat="nationalTarget in nationalTargets">
+                <tr ng-repeat="nationalTarget in nationalTargets | orderBy:'aichiTargets_ss'">
+                    
                     <td>
-                        <div class="pull-left">
-                            <span ng-if="nationalTarget._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
-                            <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
-                            <span ng-if="nationalTarget._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
-                            <br>
-                            <img ng-if="nationalTarget.isAichiTarget_b" ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
-                        </div>
-                        <div class="btn-group btn-group-xs pull-right">
-                            <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
-                            <button ng-show="record._state_s=='workflow' && nationalTarget._state_s == 'request'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
-                            <button ng-show="nationalTarget._state_s == 'draft'" ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
-                            <button ng-show="nationalTarget._state_s == 'draft'" ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                        <div>
-                          
-                            <span ng-if="nationalTarget.isAichiTarget_b" class="badge" style="font-size:10px;" >National Aichi Target</span>
-                            <strong ng-if="nationalTarget.isAichiTarget_b">{{nationalTarget.aichiTargets_EN_txt ? nationalTarget.aichiTargets_EN_txt[0]:""}}</strong>
-                            <strong ng-if="!nationalTarget.isAichiTarget_b">{{nationalTarget.title_t}}</strong>
-                        </div>
-                        <div>
-                            {{nationalTarget.summary|lstring}}
-                            <!--{{nationalTarget}}-->
-                        </div>
+                        <div class="target-content">
+                             <div class="pull-left target-content-icon">
+                                <span ng-if="nationalTarget._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;width:60px;" >Draft</span>
+                                <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:60px;">Published</span>
+                                <span ng-if="nationalTarget._state_s == 'request'" class="badge bg-requested" style="font-size:10px;width:60px;">Request</span>
+                                <br>
+                                
+                                
+                                <img ng-if="nationalTarget.isAichiTarget_b" ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
+                                <i   ng-if="!nationalTarget.isAichiTarget_b" class="material-icons big-icon">my_location</i>
+                            
+                            </div>
+                            <div class="btn-group btn-group-xs pull-right">
+                                <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
+                                <button ng-show="record._state_s=='workflow' && nationalTarget._state_s == 'request'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
+                                <button ng-show="nationalTarget._state_s == 'draft'" ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
+                                <button ng-show="nationalTarget._state_s == 'draft'" ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                            <div ng-if="nationalTarget.isAichiTarget_b">
+                                <strong>Aichi Target {{nationalTarget.aichiTargets_EN_txt ? nationalTarget.aichiTargets_EN_txt[0]:""}}  </strong>
+                                <br>
+                                 <ul ng-repeat="sub_target in nationalTarget.otherAichiTargets_EN_txt" style="padding-left:14px;">
+                                     <li>{{sub_target}}</li>
+                                </lu>
+                            </div>      
+                            <div ng-if="!nationalTarget.isAichiTarget_b">      
+                                <strong>{{nationalTarget.title_t}}</strong>
+                                <div ng-if="nationalTarget.description_s.length > 0" >{{nationalTarget.description_s|lstring}}</div>
+                                <!--<div ng-if="nationalTarget.aichiTargets_REL_ss" ng-repeat="target in nationalTarget.aichiTargets_REL_ss"><img src="/app/img/aichi_target_icons/{{target}}.png" style="height:24px;"> </img></div>-->
+               
+                                 <!--{{nationalTarget}}-->
+                            </div>
+                         </div>
                     </td>
 
                     <td style="border-left:1px #DDD solid;" ng-if="nationalTarget.assessment">
-                        <span ng-if="nationalTarget.assessment._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;" >Draft</span>
-                        <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;">Published</span>
-                        <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;">Request</span>
-                        <br>
-                        <img ng-if="nationalTarget.assessment.progress_s" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
-                    </td>
-                    <td ng-if="nationalTarget.assessment">
-                        <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
-                            <!-- You can only edit if not published. -->
-                            <a title="View" ng-show="nationalTarget.assessment._state_s == 'public'"  class="btn btn-default"
-                                ng-href="{{nationalTarget.assessment.url}}"><i class="fa fa-search"></i></a>
-
-                            <button ng-show="nationalTarget.assessment._state_s=='workflow' && nationalTarget.assessment._state_s == 'request'" title="Locked for edit" type="button"
-                                class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessment)"><i class="fa fa-lock"></i></button>
-
-                            <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-hide    ="nationalTarget.assessment._state_s=='workflow'" title="Edit" type="button"
-                                class="btn btn-default" ng-click="onEdit(nationalTarget.assessment, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
-
-                            <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-disabled="nationalTarget.assessment._state_s=='workflow'" title="Delete" type="button"
-                                class="btn btn-default" ng-click="onDelete(nationalTarget.assessment, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
+                        <div class="target-content">
+                            <div class="pull-left target-content-icon">
+                                <span ng-if="nationalTarget.assessment._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;width:100px;" >Draft</span>
+                                <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:100px;">Published</span>
+                                <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;width:100px;">Request</span>
+                                <br>
+                                <img ng-if="nationalTarget.assessment.progress_s" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
+                            </div>
+                            <div style="padding-left:35px;">
+                                <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
+                                    <!-- You can only edit if not published. -->
+                                    <a title="View" ng-show="nationalTarget.assessment._state_s == 'public'"  class="btn btn-default"
+                                        ng-href="{{nationalTarget.assessment.url}}"><i class="fa fa-search"></i></a>
+        
+                                    <button ng-show="nationalTarget.assessment._state_s=='workflow' && nationalTarget.assessment._state_s == 'request'" title="Locked for edit" type="button"
+                                        class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessment)"><i class="fa fa-lock"></i></button>
+        
+                                    <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-hide    ="nationalTarget.assessment._state_s=='workflow'" title="Edit" type="button"
+                                        class="btn btn-default" ng-click="onEdit(nationalTarget.assessment, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
+        
+                                    <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-disabled="nationalTarget.assessment._state_s=='workflow'" title="Delete" type="button"
+                                        class="btn btn-default" ng-click="onDelete(nationalTarget.assessment, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
+                                </div>
+                                <div>
+                                    <strong>Latest Assessment</strong>
+                                    <div><h3>{{nationalTarget.assessment.title_EN_t}}</h3></div>
+                                    <div>{{nationalTarget.assessment.description_s}}</div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                           
-                            <span style="font-weight:bold;text-transform:uppercase;">{{nationalTarget.assessment.date_dt|datetime:"MMM Do YYYY"}}</span></div>
+                        
+                        <div>+ show past assessments</div>
                     </td>
-                    <td colspan="2" ng-if="!nationalTarget.assessment" class="color-litegrey text-center"  style="border-left:1px #DDD solid;">
+                    
+                    <td ng-if="!nationalTarget.assessment" class="color-litegrey text-center"  style="border-left:1px #DDD solid;">
                        <h4 ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'">Target must be published before it can be assessed.</h4>
                        <h4 ng-if="nationalTarget._state_s == 'public'">Ready to be assessed.</h4>
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
                         <a ng-if="nationalTarget._state_s == 'public'" class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{nationalTarget.identifier_s}}"> <i class="fa fa-plus-square"></i> Add </a>
-                        <span ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'" class="btn btn-primary btn-xs bg-grey"> <i class="fa fa-plus-square"></i> Add </a>
+                        <span ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'" class="btn btn-default btn-xs bg-grey disabled"> <i class="fa fa-plus-square"></i> Add </a>
                     </td>
                 </tr>
 

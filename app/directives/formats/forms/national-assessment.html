@@ -9,7 +9,7 @@
 	</div>
 
 	<div ng-show="status!='hidden'">
-		
+
 				<div class="row" style="margin-top:30px;padding:5px;">
 					<div class="col-xs-6">
 						<span km-form-languages ng-model="document.header.languages"></span>
@@ -18,7 +18,7 @@
 		                <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 		            </div>
 		        </div>
-		
+
 		        <div class="row">
 					<div class="col-xs-12">
 						<ul class="pagination">
@@ -98,7 +98,7 @@
 										    	<li ng-repeat="item in (unselectedIndicators = (options.nationalIndicators | filter:filterUnselectedIndicator))"><a href="#" ng-click="addIndicator(item)">{{item.title | lstring}}</a></li>
 										    </ul>
 										</div>
-										<button type="button" class="btn btn-default" ng-click="createIndicator($event)">+</button>
+										<!-- <button type="button" class="btn btn-default" ng-click="createIndicator($event)">+</button> -->
 									</div>
 
 									<ul class="list-group" ng-if="document.nationalIndicators.length" style="margin-top:10px">
@@ -108,9 +108,16 @@
 												<td>
 													<h4>{{docInfo(item).title | lstring}}</h4>
 													<p>{{docInfo(item).description | lstring}}</p>
+                                                    <p>
+                                                        <div class="km-control-group"  name="descriptionText" caption="Description">
+                        									<div class="help-block">Indicator description if any.</div>
+                            								<div km-textbox-ml required name="description" ng-model="item.description" rows="5"
+                                                            locales="document.header.languages"></div>
+                							            </div>
+                                                    </p>
+                                                    <div km-link ng-model="item.links" identifier="document.header.identifier"></div>
 
-													<div km-link ng-model="item.links" identifier="document.header.identifier"></div>
-												</td>
+                                                </td>
 												<td style="white-space:nowrap;text-align:right;vertical-align:top">
 													<button type="button" class="btn btn-default" ng-click="removeIndicator(item)"><i class="fa fa-trash-o"></i></button>
 												</td>
@@ -237,7 +244,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 
 	</div>
 </div>

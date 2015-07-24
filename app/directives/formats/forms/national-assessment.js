@@ -31,7 +31,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             	$scope.options.implementationActivities = [];
 
             	if (term) {
-            		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "nationalIndicator",      government_s: term.identifier, _latest_s : true })}).then(mapResult).then(function(records){ $scope.options.nationalIndicators       = records; }, $scope.onError);
+            		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "nationalIndicator",      government_s: term.identifier, _latest_s : true, _state_s:'public' })}).then(mapResult).then(function(records){ $scope.options.nationalIndicators       = records; }, $scope.onError);
             		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "nationalTarget",         government_s: term.identifier, _latest_s : true })}).then(mapResult).then(function(records){ $scope.options.nationalTargets          = records; }, $scope.onError);
             		$http.get("/api/v2013/index", { params: buidQuery({ schema_s: "implementationActivity", government_s: term.identifier, _latest_s : true })}).then(mapResult).then(function(records){ $scope.options.implementationActivities = records; }, $scope.onError);
             	}
@@ -155,12 +155,12 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				return $q.when(false);
 			};
-			
+
 			//==================================
 			//
 			//==================================
 			$scope.getCleanDocument = function(document) {
-				
+
 				document = document || $scope.document;
 
 				if (!document)
@@ -170,14 +170,14 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				if (!document)
 					return $q.when(true);
-						
+
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;
 
 				return document;
 			};
 
-			
+
 			//==================================
 			//
 			//==================================
@@ -221,24 +221,24 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             //==================================
 			//
 			//==================================
-            $scope.createIndicator = function (evt) {
-
-                inlineEditor.edit({
-                    targetEvent : evt,
-                    document : {
-                        header : {
-                            identifier: guid(),
-							schema   : "nationalIndicator",
-							languages: _.clone($scope.document.header.languages)
-                        },
-                        government : _.clone($scope.document.government)
-                    }
-
-                }).then(function (doc){
-                    $scope.options.nationalIndicators.push({ identifier : doc.header.identifier, title : doc.title, description : doc.description });
-                    $scope.addIndicator({ identifier : doc.header.identifier });
-                });
-            };
+            // $scope.createIndicator = function (evt) {
+            //
+            //     inlineEditor.edit({
+            //         targetEvent : evt,
+            //         document : {
+            //             header : {
+            //                 identifier: guid(),
+			// 				schema   : "nationalIndicator",
+			// 				languages: _.clone($scope.document.header.languages)
+            //             },
+            //             government : _.clone($scope.document.government)
+            //         }
+            //
+            //     }).then(function (doc){
+            //         $scope.options.nationalIndicators.push({ identifier : doc.header.identifier, title : doc.title, description : doc.description });
+            //         $scope.addIndicator({ identifier : doc.header.identifier });
+            //     });
+            // };
 
             //==================================
 			//
@@ -429,7 +429,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 			//
 			//==================================
 			function gotoManager() {
-				
+
 				if($scope.qs.nationalTarget)
 					$location.url("/submit/online-reporting");
 				else

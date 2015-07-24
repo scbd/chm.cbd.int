@@ -300,10 +300,10 @@
                         </div>
                         <div>
                             <div class="pull-left" style="margin-right:10px;margin-top:3px;">
-                                <img ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss"
-                                    src="https://www.cbd.int/images/aichi/48/abt-{{aichiTarget.replace('AICHI-TARGET-','')}}-48.png" style="height:26px;" ></img>
+                                <img ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
                             </div>
                             {{nationalTarget.summary|lstring}}
+                            {{nationalTarget}}
                         </div>
                     </td>
 

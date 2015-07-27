@@ -5,6 +5,10 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
         $scope.schemasList = [
             { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
+            { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalTarget'         ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalAssessment'     ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalIndicator'      ,public:0, draft:0, workflow:0 },
             { identifier: 'aichiTarget'            ,public:0, draft:0, workflow:0 },
             { identifier: 'resource'               ,public:0, draft:0, workflow:0 },
             { identifier: 'organization'           ,public:0, draft:0, workflow:0 },
@@ -12,6 +16,12 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'marineEbsa'             ,public:0, draft:0, workflow:0 },
             { identifier: 'strategicPlanIndicator' ,public:0, draft:0, workflow:0 },
             { identifier: 'absch'                  ,public:0, draft:0, workflow:0 },
+            { identifier: 'authority'              ,public:0, draft:0, workflow:0 },
+            { identifier: 'measure'                ,public:0, draft:0, workflow:0 },
+            { identifier: 'database'               ,public:0, draft:0, workflow:0 },
+            { identifier: 'absPermit'              ,public:0, draft:0, workflow:0 },
+            { identifier: 'absCheckpoint'          ,public:0, draft:0, workflow:0 },
+            { identifier: 'absCheckpointCommunique',public:0, draft:0, workflow:0 },
             { identifier: 'bch'                    ,public:0, draft:0, workflow:0 },
         ];
 
@@ -38,8 +48,8 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
             var qsABSFacetParams =
             {
-                "q"  : '(realm_ss:abs AND '+'(schema_s:' +  absSchemas.join(" OR schema_s:") + ')) AND NOT version_s:*',
-                "rows" : 0,
+               "q"  : '(realm_ss:abs AND '+'(schema_s:' +  absSchemas.join(" OR schema_s:") + ')) AND NOT version_s:*',
+               "rows" : 0,
                "facet":true,
                "facet.mincount":1,
                "facet.field":"realm_ss"
@@ -60,7 +70,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
               // Apply ownership
@@ -87,9 +97,14 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
                   _.each(results.data.facet_counts.facet_pivot['schema_s,_state_s'], function(facet){
                        var schema = facet.value;
-                        if(_.indexOf(['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation',],schema)>=0){
-                            schema = 'nationalReport';
-                        }
+                        // if(_.indexOf(['resourceMobilisation'],schema)>=0){
+                        //     schema = 'nationalReport';
+                        // }
+                        
+                        // if(_.indexOf(['nationalTarget','nationalIndicator'],schema)>=0){
+                        //     schema = 'nationalAssessment';
+                        // }
+                        
                     	var reportType = _.first(_.where($scope.schemasList, {'identifier':schema}));
             	        if(reportType)
                     	   facetSummation(facet,reportType);

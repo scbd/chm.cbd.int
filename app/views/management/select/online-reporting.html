@@ -102,19 +102,18 @@
                              <div class="pull-left target-content-icon">
                                 <span ng-if="nationalTarget._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;width:60px;" >Draft</span>
                                 <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:60px;">Published</span>
-                                <span ng-if="nationalTarget._state_s == 'request'" class="badge bg-requested" style="font-size:10px;width:60px;">Request</span>
+                                <span ng-if="nationalTarget._state_s == 'workflow'" class="badge bg-request" style="font-size:10px;width:60px;">Request</span>
                                 <br>
-                                
-                                
+                           
                                 <img ng-if="nationalTarget.isAichiTarget_b" ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
                                 <i   ng-if="!nationalTarget.isAichiTarget_b" class="material-icons big-icon">my_location</i>
                             
                             </div>
                             <div class="btn-group btn-group-xs pull-right">
                                 <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
-                                <button ng-if="record._state_s=='workflow' && nationalTarget._state_s == 'request'" title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
-                                <button ng-if="nationalTarget._state_s == 'draft' || nationalTarget.assessments.length <= 0 " ng-hide    ="record._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
-                                <button ng-if="nationalTarget._state_s == 'draft' || nationalTarget.assessments.length <= 0" ng-disabled="record._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
+                                <button ng-if="nationalTarget._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
+                                <button ng-if="nationalTarget._state_s == 'draft' || nationalTarget.assessments.length <= 0 " ng-hide    ="nationalTarget._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
+                                <button ng-if="nationalTarget._state_s == 'draft' || nationalTarget.assessments.length <= 0" ng-hide="nationalTarget._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
                             </div>
                             <div ng-if="nationalTarget.isAichiTarget_b">
                                 <strong>Aichi Target {{nationalTarget.aichiTargets_EN_txt ? nationalTarget.aichiTargets_EN_txt[0]:""}}  </strong>
@@ -138,7 +137,7 @@
                             <div class="pull-left target-content-icon">
                                 <span ng-if="nationalTarget.assessments[0]._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;width:100px;" >Draft</span>
                                 <span ng-if="nationalTarget.assessments[0]._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:100px;">Published</span>
-                                <span ng-if="nationalTarget.assessments[0]._state_s == 'request'" class="badge bg-requested" style="font-size:10px;width:100px;">Request</span>
+                                <span ng-if="nationalTarget.assessments[0]._state_s == 'workflow'" class="badge bg-request" style="font-size:10px;width:100px;">Request</span>
                                 <br>
                                 <img ng-if="nationalTarget.assessments[0].progress_s" src="/app/img/ratings/{{nationalTarget.assessments[0].progress_s}}.png" class="pull-left"></img>
                             </div>
@@ -154,7 +153,7 @@
                                     <button ng-if="nationalTarget.assessments[0]._state_s == 'draft' && nationalTarget.assessments[0]._state_s!='workflow'" title="Edit" type="button"
                                         class="btn btn-default" ng-click="onEdit(nationalTarget.assessments[0], 'nationalAssessment')"><i class="fa fa-edit"></i></button>
         
-                                    <button ng-if="nationalTarget.assessments[0]._state_s == 'draft'" ng-disabled="nationalTarget.assessments[0]._state_s=='workflow'" title="Delete" type="button"
+                                    <button ng-if="nationalTarget.assessments[0]._state_s == 'draft'" ng-hide="nationalTarget.assessments[0]._state_s=='workflow'" title="Delete" type="button"
                                         class="btn btn-default" ng-click="onDelete(nationalTarget.assessments[0], 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                                 </div>
                                 <div>
@@ -176,7 +175,7 @@
                             <div ng-repeat="ass in nationalTarget.assessments" ng-if="$index >= 1" style="border-top:1px solid #eee;padding:5px 0;">
                                 <span ng-if="ass._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;"> D</span>
                                 <span ng-if="ass._state_s == 'public'" class="badge bg-published" style="font-size:10px;"> P</span>
-                                <span ng-if="ass._state_s == 'request'" class="badge bg-requested" style="font-size:10px;"> R</span>
+                                <span ng-if="ass._state_s == 'workflow'" class="badge bg-request" style="font-size:10px;"> R</span>
                                 <img ng-if="ass.progress_s" src="/app/img/ratings/{{ass.progress_s}}.png" style="height:20px;" ></img> 
                                 {{ass.title_EN_t}} 
                                 
@@ -191,7 +190,7 @@
                                     <button ng-show="ass._state_s == 'draft'" ng-hide    ="ass._state_s=='workflow'" title="Edit" type="button"
                                         class="btn btn-default" ng-click="onEdit(ass, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
         
-                                    <button ng-show="ass._state_s == 'draft'" ng-disabled="ass._state_s=='workflow'" title="Delete" type="button"
+                                    <button ng-show="ass._state_s == 'draft'" ng-hide="ass._state_s=='workflow'" title="Delete" type="button"
                                         class="btn btn-default" ng-click="onDelete(ass, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                                 </div>
                                 
@@ -200,7 +199,8 @@
                     </td>
                     
                     <td ng-if="!nationalTarget.assessments[0]" class="color-litegrey text-center"  style="border-left:1px #DDD solid;">
-                       <h4 ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'">Target must be published before it can be assessed.</h4>
+                       <h4 ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'workflow'">
+                                            Target must be published before it can be assessed.</h4>
                        <h4 ng-if="nationalTarget._state_s == 'public'">Ready to be assessed.</h4>
                     </td>
 

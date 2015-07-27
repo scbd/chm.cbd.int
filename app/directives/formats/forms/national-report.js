@@ -347,7 +347,7 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 			//==================================
 			$scope.onPostWorkflow = function() {
                 $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
-                $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
+                $location.url("/submit/reports/nationalReport?type=" + $scope.qs.type);
 			};
 
 			//==================================
@@ -356,7 +356,7 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
                 $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
-                $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
+                $location.url("/submit/reports/nationalReport?type=" + $scope.qs.type);
 			};
 
 			//==================================
@@ -371,7 +371,7 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 			//==================================
 			$scope.onPostClose = function() {
                 $rootScope.$broadcast("onPostClose", "Record closed.");
-                $location.url("/submit/online-reporting/nationalReport?type=" + $scope.qs.type);
+                $location.url("/submit/reports/nationalReport?type=" + $scope.qs.type);
 			};
 
 

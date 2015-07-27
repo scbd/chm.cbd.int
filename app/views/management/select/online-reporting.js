@@ -381,6 +381,14 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         {
             $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
         }
+         //======================================================
+        //
+        //
+        //======================================================
+        $scope.$on("RefreshList", function(ev) {
+             $scope.load();
+             loadNationalTargets();
+        });
 
 
     }];

@@ -5,6 +5,8 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
         $scope.schemasList = [
             { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalStrategicPlan'  ,public:0, draft:0, workflow:0 },
+            { identifier: 'otherReport'            ,public:0, draft:0, workflow:0 },
             { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
             { identifier: 'nationalTarget'         ,public:0, draft:0, workflow:0 },
             { identifier: 'nationalAssessment'     ,public:0, draft:0, workflow:0 },

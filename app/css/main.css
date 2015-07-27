@@ -76,7 +76,6 @@ legend{
     }
 
 
-<style>
 
     .badge{
         position:relative!important;
@@ -125,5 +124,9 @@ legend{
         border-bottom:1px solid #ddd;
         margin-bottom:10px;
     }
+    
+    .status-badge > span {
+       min-width:40px;
+    }
 
-</style>
+

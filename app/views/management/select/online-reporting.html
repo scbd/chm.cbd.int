@@ -81,7 +81,6 @@
                 		left: 0;
                 		position: absolute;
                 		top: 0px;
-                        z-index:500;
                 	}
                     .big-icon {
                   font-size: 60px;
@@ -134,42 +133,73 @@
                          </div>
                     </td>
 
-                    <td style="border-left:1px #DDD solid;" ng-if="nationalTarget.assessment">
+                    <td style="border-left:1px #DDD solid;" ng-if="nationalTarget.assessments.length > 0">
                         <div class="target-content">
                             <div class="pull-left target-content-icon">
-                                <span ng-if="nationalTarget.assessment._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;width:100px;" >Draft</span>
-                                <span ng-if="nationalTarget.assessment._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:100px;">Published</span>
-                                <span ng-if="nationalTarget.assessment._state_s == 'request'" class="badge bg-requested" style="font-size:10px;width:100px;">Request</span>
+                                <span ng-if="nationalTarget.assessments[0]._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;width:100px;" >Draft</span>
+                                <span ng-if="nationalTarget.assessments[0]._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:100px;">Published</span>
+                                <span ng-if="nationalTarget.assessments[0]._state_s == 'request'" class="badge bg-requested" style="font-size:10px;width:100px;">Request</span>
                                 <br>
-                                <img ng-if="nationalTarget.assessment.progress_s" src="/app/img/ratings/{{nationalTarget.assessment.progress_s}}.png" class="pull-left"></img>
+                                <img ng-if="nationalTarget.assessments[0].progress_s" src="/app/img/ratings/{{nationalTarget.assessments[0].progress_s}}.png" class="pull-left"></img>
                             </div>
                             <div style="padding-left:35px;">
-                                <div ng-if="nationalTarget.assessment" class="btn-group btn-group-xs pull-right">
+                                <div ng-if="nationalTarget.assessments[0]" class="btn-group btn-group-xs pull-right">
                                     <!-- You can only edit if not published. -->
-                                    <a title="View" ng-show="nationalTarget.assessment._state_s == 'public'"  class="btn btn-default"
-                                        ng-href="{{nationalTarget.assessment.url}}"><i class="fa fa-search"></i></a>
+                                    <a title="View" ng-show="nationalTarget.assessments[0]._state_s == 'public'"  class="btn btn-default"
+                                        ng-href="{{nationalTarget.assessments[0].url}}"><i class="fa fa-search"></i></a>
         
-                                    <button ng-show="nationalTarget.assessment._state_s=='workflow' && nationalTarget.assessment._state_s == 'request'" title="Locked for edit" type="button"
-                                        class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessment)"><i class="fa fa-lock"></i></button>
+                                    <button ng-show="nationalTarget.assessments[0]._state_s=='workflow' && nationalTarget.assessments[0]._state_s == 'request'" title="Locked for edit" type="button"
+                                        class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessments[0])"><i class="fa fa-lock"></i></button>
         
-                                    <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-hide    ="nationalTarget.assessment._state_s=='workflow'" title="Edit" type="button"
-                                        class="btn btn-default" ng-click="onEdit(nationalTarget.assessment, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
+                                    <button ng-show="nationalTarget.assessments[0]._state_s == 'draft'" ng-hide    ="nationalTarget.assessments[0]._state_s=='workflow'" title="Edit" type="button"
+                                        class="btn btn-default" ng-click="onEdit(nationalTarget.assessments[0], 'nationalAssessment')"><i class="fa fa-edit"></i></button>
         
-                                    <button ng-show="nationalTarget.assessment._state_s == 'draft'" ng-disabled="nationalTarget.assessment._state_s=='workflow'" title="Delete" type="button"
-                                        class="btn btn-default" ng-click="onDelete(nationalTarget.assessment, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
+                                    <button ng-show="nationalTarget.assessments[0]._state_s == 'draft'" ng-disabled="nationalTarget.assessments[0]._state_s=='workflow'" title="Delete" type="button"
+                                        class="btn btn-default" ng-click="onDelete(nationalTarget.assessments[0], 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                                 </div>
                                 <div>
                                     <strong>Latest Assessment</strong>
-                                    <div><h3>{{nationalTarget.assessment.title_EN_t}}</h3></div>
-                                    <div>{{nationalTarget.assessment.description_s}}</div>
+                                    <div><h3>{{nationalTarget.assessments[0].title_EN_t}}</h3></div>
+                                    <div>{{nationalTarget.assessments[0].description_s}}</div>
                                 </div>
                             </div>
                         </div>
+
+                        <!--<div ng-show="nationalTarget.assessments.length > 1">
+                            <a style="font-size:10px;text-transform:uppercase;" href="#" ng-show="!show_past_assessments" ng-click="show_past_assessments=!show_past_assessments">+ show past assessments</a>
+                            <a style="font-size:10px;text-transform:uppercase;" href="#" ng-show="show_past_assessments" ng-click="show_past_assessments=!show_past_assessments">- hide past assessments</a>
+                        </div>-->
                         
-                        <div>+ show past assessments</div>
+                        <div ng-if="nationalTarget.assessments.length > 1">
+                            <div style="font-size:10px;text-transform:uppercase;font-weight:bold;">past assessments</div>
+                            
+                            <div ng-repeat="ass in nationalTarget.assessments" ng-if="$index >= 1" style="border-top:1px solid #eee;padding:5px 0;">
+                                <span ng-if="ass._state_s == 'draft'" class="badge bg-draft" style="font-size:10px;"> D</span>
+                                <span ng-if="ass._state_s == 'public'" class="badge bg-published" style="font-size:10px;"> P</span>
+                                <span ng-if="ass._state_s == 'request'" class="badge bg-requested" style="font-size:10px;"> R</span>
+                                <img ng-if="ass.progress_s" src="/app/img/ratings/{{ass.progress_s}}.png" style="height:20px;" ></img> 
+                                {{ass.title_EN_t}} 
+                                
+                                 <div ng-if="ass" class="btn-group btn-group-xs pull-right">
+                                    <!-- You can only edit if not published. -->
+                                    <a title="View" ng-show="ass._state_s == 'public'"  class="btn btn-default"
+                                        ng-href="{{ass.url}}"><i class="fa fa-search"></i></a>
+        
+                                    <button ng-show="ass._state_s=='workflow' && nationalTarget.assessments[0]._state_s == 'request'" title="Locked for edit" type="button"
+                                        class="btn btn-default" ng-click="onWorkflow(ass)"><i class="fa fa-lock"></i></button>
+        
+                                    <button ng-show="ass._state_s == 'draft'" ng-hide    ="ass._state_s=='workflow'" title="Edit" type="button"
+                                        class="btn btn-default" ng-click="onEdit(ass, 'nationalAssessment')"><i class="fa fa-edit"></i></button>
+        
+                                    <button ng-show="ass._state_s == 'draft'" ng-disabled="ass._state_s=='workflow'" title="Delete" type="button"
+                                        class="btn btn-default" ng-click="onDelete(ass, 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </td>
                     
-                    <td ng-if="!nationalTarget.assessment" class="color-litegrey text-center"  style="border-left:1px #DDD solid;">
+                    <td ng-if="!nationalTarget.assessments[0]" class="color-litegrey text-center"  style="border-left:1px #DDD solid;">
                        <h4 ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'">Target must be published before it can be assessed.</h4>
                        <h4 ng-if="nationalTarget._state_s == 'public'">Ready to be assessed.</h4>
                     </td>
@@ -190,8 +220,8 @@
                         <md-button  class="md-raised">List Indicators</md-button>
                     </td> -->
                     <td  colspan="3" style="border-left:1px #DDD solid;">
-                        <a class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalAssessment"> <i class="fa fa-list"></i> Assessments</a>
-                        <a class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalIndicator"> <i class="fa fa-list"></i> Indicators </a>
+                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalIndicator/new"> <i class="fa fa-plus-square"></i> Add New Indicator</a>
+                        <a class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalIndicator"> <i class="fa fa-list"></i> List Indicators </a>
                     </td>
                 </tr>
             </table>

@@ -10,6 +10,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
          $scope.onDelete    = del;
          $scope.onEdit      = edit;
          $scope.onWorkflow  = viewWorkflow;
+         $scope.how_past_assessments=false;
 
         $scope.schemasList = [
                     { identifier: 'nationalStrategicPlan',  draft:0, public:0, workflow:0  },
@@ -71,8 +72,12 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                         loadRecords({schema:'nationalAssessment',nationaTargetId:target.identifier_s})
                         .then(function(data){
-                            target.assessment = _.first(data)
-                            console.log(target.assessment);
+                            
+                             target.assessments = data;
+
+                            // target.assessment = _.first(data)
+                            // target.pastAssessments = data;
+                            // console.log(target.assessment);
                         });
 
                     });
@@ -327,12 +332,26 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 .then(function() {
                     return repo.delete(identifier);
                 }).then(function() {
+                 
                     if(type=='nationalTargets'){
                         _.remove($scope.nationalTargets, function(r){
                            return r==record;
                         });
                     }
-                    else {
+                    
+                    else if(type=='nationalAssessment'){
+
+                         _.each($scope.nationalTargets, function(target){
+					       _.each(target, function(assessment){
+                             _.remove(assessment, function(r){
+                                return r==record;
+					        });
+        			     });
+                        });
+
+                    }
+                    
+                   else {
                         record=undefined;
                     }
                 });

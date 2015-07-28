@@ -88,7 +88,7 @@ form label[required]:after
 }
 
 .navbar-portal{
-    min-height:100px;
+    /*min-height:100px;*/
     margin-bottom:0;
     border:0;
     z-index:78;
@@ -108,8 +108,6 @@ form label[required]:after
     margin-bottom:0;
 }
 
-
-
 .container-cbd{
     background: rgba(25, 25, 25, .05);
     min-height:30px;
@@ -121,7 +119,7 @@ form label[required]:after
     /*background: rgba(25, 25, 25, .05);*/
     min-height:100px;
     color:white;
-    padding-top:5px;
+    padding-top:20px;
     font-family:alternategotno3dotregular!important;
 
 }

@@ -147,6 +147,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html'], function(app,
 							return;
 
 						var document = $scope.getDocumentFn();
+						$scope.status = "publishing";
 
 						if(!document)
 							throw "Invalid document";

@@ -52,7 +52,7 @@
                     <span class="badge bg-draft"    style="width:130px;padding:5px;">DRAFTS</span>
                     <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
                 </div>-->
-                <h1>  Progress Achieved on National Targets</h1>
+                <h1>  Progress Achieved on National Targets <i ng-if="loading" ng-class="{ 'fa-spin':loading }" class="fa fa-spinner"></i></h1>
                 <h3 class="color-medgrey">Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... </h3>
             </div>
         </div>
@@ -89,12 +89,16 @@
                 }
             </style>
             
-
-            <table class="table table-striped target-table" >
+            <table class="table table-striped target-table" ng-if="!loading">
                 <tr>
                     <th  style="width:50%;text-align:left;">National Targets</th>
                     <th colspan="2" style="border-left:1px #DDD solid;width:50%;text-align:left;">Assessments</th>
                 </tr>
+                
+                <tr ng-if="!nationalTargets">
+                   <td colspan="3"><h4>No Targets. Please add Targets.</h4></td>
+                </tr>
+                
                 <tr ng-repeat="nationalTarget in nationalTargets | orderBy:'aichiTargets_ss'">
                     
                     <td>

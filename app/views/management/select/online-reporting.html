@@ -108,10 +108,8 @@
                                 <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:60px;">Published</span>
                                 <span ng-if="nationalTarget._state_s == 'workflow'" class="badge bg-request" style="font-size:10px;width:60px;">Request</span>
                                 <br>
-                           
                                 <img ng-if="nationalTarget.isAichiTarget_b" ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
                                 <i   ng-if="!nationalTarget.isAichiTarget_b" class="fa fa-dot-circle-o big-icon" style="position:relative;left:4px;"></i>
-                            
                             </div>
                             <div class="btn-group btn-group-xs pull-right">
                                 <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
@@ -137,7 +135,6 @@
                                  <div ng-repeat="at in getAichiTargets(nationalTarget.otherAichiTargets_ss)" style="display:inline;">
                                     <img ng-if="at.length == 15" src="/app/img/aichi_target_icons/{{at}}.png" style="height:32px;opacity: 0.4;filter: alpha(opacity=40);"></img>
                                 </div>
-                                
                                 
                                 <!--<div ng-if="nationalTarget.aichiTargets_REL_ss" ng-repeat="target in nationalTarget.aichiTargets_REL_ss"><img src="/app/img/aichi_target_icons/{{target}}.png" style="height:24px;"> </img></div>-->
                

@@ -83,6 +83,10 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 
 					$scope.internalDocument = results[0];
 					$scope.internalDocumentInfo = results[1];
+
+					if(results[1].type=='nationalIndicator' || results[1].type=='nationalTarget' || results[1].type=='nationalAssessment'){
+						$scope.hideButtons = 'true';
+					}
 				}).then(null, function(error) {
 
 					$scope.errorNotFound = error && error.status==404;

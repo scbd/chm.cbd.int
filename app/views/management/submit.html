@@ -2,8 +2,8 @@
 
     <div class="container"  style="margin-top:20px;">
         <div class="row">
-            <div class="col-sm-12 well">
-                <div class="pull-right" style="margin-top:5px;">
+                <div class="col-sm-12">
+                     <div class="pull-right">
                     <span class="badge bg-published" style="width:130px;padding:5px;">PUBLISHED</span>
                     <span class="badge bg-draft"    style="width:130px;padding:5px;">DRAFTS</span>
                     <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
@@ -17,9 +17,377 @@
         </div>
     </div>
 
-    <h3  class="container-fluid color-blue" style="border-top:1px solid #DDD;padding-top:0;margin-top:3px;"><i class="fa fa-chevron-circle-down"></i> National Records</h3>
+    <h3  class="container-fluid color-blue" style="border-top:1px solid #DDD;padding-top:0;margin-top:3px;"><i class="fa fa-chevron-circle-down"></i> National Records
+
+    </h3>
+
+    <div class="container" style="padding-top:20px;" >
+
+        <div class="row section-row bg-grey row-bottom-border">
+            <div class="col-xs-12">
+                National Strategies and Reports
+            </div>
+        </div>
+
+        <!--<div class="row title-row row-bottom-border">
+            <div class="col-xs-3">Record Type</div>
+            <div class="col-xs-7">Description</div>
+            <div class="col-xs-1">Status</div>
+            <div class="col-xs-1">Action</div>
+        </div>-->
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">National Biodiversity Strategies and Action Plans (NBSAPS) </h5>
+            </div>
+            <div class="col-xs-6">
+                <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
+                <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
+
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('nationalStrategicPlan').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('nationalStrategicPlan').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('nationalStrategicPlan').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/reports/nationalReport?type=nbsap"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nbsap"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">National Reports </h5>
+            </div>
+            <div class="col-xs-6">
+                <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
+                <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published" >{{getFacet('nationalReport').public}}</span>
+                    <span class="badge bg-draft" >{{getFacet('nationalReport').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/reports/nationalReport?type=nr"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nr"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Other National Reports</h5>
+            </div>
+            <div class="col-xs-6">
+                <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
+                <p style="font-size:12px;">other national reports</p>
+
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('otherReport').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('otherReport').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('otherReport').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/reports/nationalReport?type=other"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=other"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
 
 
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Financial Reporting Framework</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
+
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('resourceMobilisation').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('resourceMobilisation').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('resourceMobilisation').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/reports/resourceMobilisation/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/reports/resourceMobilisation/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                Implementation Progress Achieved on Targets
+            </div>
+        </div>
+
+         <!--<div class="row title-row row-bottom-border">
+            <div class="col-xs-3">Record Type</div>
+            <div class="col-xs-7">Description</div>
+            <div class="col-xs-1">Status</div>
+            <div class="col-xs-1">Action</div>
+        </div>-->
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Targets</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
+
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('nationalTarget').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('nationalTarget').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('nationalTarget').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs  pull-right">
+                    <a class="btn btn-info" href="/submit/online-reporting/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/online-reporting/nationalTarget/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Assessments</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
+
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('nationalAssessment').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('nationalAssessment').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('nationalAssessment').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/online-reporting/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/online-reporting/nationalAssessment/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Indicators</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
+
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('nationalIndicator').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('nationalIndicator').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('nationalIndicator').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/online-reporting/nationalIndicator/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/online-reporting/nationalIndicator/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                Access and Benefit-Sharing (Nagoya Protocol)
+            </div>
+        </div>
+<!--
+         <div class="row title-row row-bottom-border">
+            <div class="col-xs-3">Record Type</div>
+            <div class="col-xs-7">Description</div>
+            <div class="col-xs-1">Status</div>
+            <div class="col-xs-1">Action</div>
+        </div>-->
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Competent National Authorities</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('authority').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('authority').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('authority').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="https://absch.cbd.int/register/CNA"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="https://absch.cbd.int/register/CNA/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Legislative, administrative or policy measures on access and benefit-sharing</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('measure').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('measure').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('measure').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="https://absch.cbd.int/register/MSR"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="https://absch.cbd.int/register/MSR/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+         <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">National Websites and Databases</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('database').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('database').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('database').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="https://absch.cbd.int/register/NDB"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="https://absch.cbd.int/register/NDB/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Internationally Recognized Certificate of Compliance</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('absPermit').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('absPermit').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('absPermit').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="https://absch.cbd.int/register/IRCC"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="https://absch.cbd.int/register/IRCC/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Checkpoints</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('absCheckpoint').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('absCheckpoint').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('absCheckpoint').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="https://absch.cbd.int/register/CP"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="https://absch.cbd.int/register/CP/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Checkpoint Communiqués</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('absCheckpointCommunique').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('absCheckpointCommunique').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('absCheckpointCommunique').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="https://absch.cbd.int/register/CPC"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="https://absch.cbd.int/register/CPC/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                BCH Clearing-House
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-xs-3">
+                <a ng-href="http://bch.cbd.int"><h5 style="padding-top:0;margin-top:0;">BCH Clearing-House Records</h5></a>
+            </div>
+        </div>
+
+
+   </div>
+
+<!--
     <div class="container" >
         <div class="row">
 
@@ -30,33 +398,41 @@
                         <span class="badge bg-draft">{{getFacet('nationalReport').draft}}</span>
                         <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
                     </div>
-                    <h4 style="padding-top:0;margin-top:0;" ><i class="fa fa-edit"></i> CBD Online Reporting</h3>
+                    <h4 style="padding-top:0;margin-top:0;" ><i class="fa fa-edit"></i> National Strategies and Reports</h3>
+                    <p>National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
+                    <a class="btn btn-primary" href="/submit/reports/" role="button bg-white" ng-disabled="!enableNr"> Select »</a>
+
+              </div>
+            </div>
+
+             <div class="col-md-4">
+                <div class="box bg-grey md-whiteframe-z1">
+                    <div class="pull-right">
+                        <span class="badge bg-published">{{getFacet('nationalAssessment').public}}</span>
+                        <span class="badge bg-draft">{{getFacet('nationalAssessment').draft}}</span>
+                        <span class="badge bg-request">{{getFacet('nationalAssessment').workflow}}</span>
+                    </div>
+                    <h4 style="padding-top:0;margin-top:0;" ><i class="fa fa-edit"></i> Implementation Progress Achieved on Targets</h3>
                     <p>National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
                     <a class="btn btn-primary" href="/submit/online-reporting/" role="button bg-white" ng-disabled="!enableNr"> Select »</a>
 
               </div>
             </div>
+
             <div class="col-md-4">
                 <div class="box bg-grey  md-whiteframe-z1">
-                    <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('absch').public}}</span>
-                        <!-- <span class="badge bg-draft">{{getFacet('absch').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('absch').workflow}}</span> -->
-                    </div>
+
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> ABS Clearing-House</h4>
                   <p>The Access and Benefit-sharing Clearing-House (ABS-CH) handles the submission of information on access and benefit-sharing established by Article 14 of the Nagoya Protocol. Both Parties and other governments are encouraged to submit their relevant ABS information.</p>
                   <a class="btn btn-warning" href="http://absch.cbd.int/register" role="button bg-white"> Go to the ABSCH »</a>
               </div>
             </div>
 
+            <div class="clearfix"></div>
 
             <div class="col-md-4">
                 <div class="box bg-grey  md-whiteframe-z1">
-                    <!-- <div class="pull-right">
-                        <span class="badge bg-published">{{getFacet('bch').public}}</span>
-                        <span class="badge bg-draft">{{getFacet('bch').draft}}</span>
-                        <span class="badge bg-request">{{getFacet('bch').workflow}}</span>
-                    </div> -->
+
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> BCH Clearing-House</h4>
                   <p>The Biosafety Clearing-House (BCH) is a mechanism set up by the Cartagena Protocol on Biosafety to facilitate the exchange of information on Living Modified Organisms (LMOs) and assist the Parties to better comply with their obligations under the Protocol.</p>
                   <a class="btn btn-warning" href="http://bch.cbd.int" role="button bg-white"> Go to the BCH »</a>
@@ -64,7 +440,7 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
 
 
 
@@ -73,7 +449,109 @@
 
     <h3 class="container-fluid color-orange" style="border-top:1px solid #DDD;margin-top:30px;"><i class="fa fa-chevron-circle-down"></i> Reference Records</h3>
     <div class="container">
+
+
+         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+               Virtual Library Records
+            </div>
+        </div>
+<!--
+         <div class="row title-row row-bottom-border">
+            <div class="col-xs-3">Record Type</div>
+            <div class="col-xs-7">Description</div>
+            <div class="col-xs-1">Status</div>
+            <div class="col-xs-1">Action</div>
+        </div>-->
+
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">General Library Records</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('resource').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('resource').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('resource').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/resource"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/resource/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+           <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Case Studies</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('caseStudy').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('caseStudy').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('caseStudy').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/caseStudy/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/caseStudy/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+               Organizations
+            </div>
+        </div>
+<!--
+         <div class="row title-row row-bottom-border">
+            <div class="col-xs-3">Record Type</div>
+            <div class="col-xs-7">Description</div>
+            <div class="col-xs-1">Status</div>
+            <div class="col-xs-1">Action</div>
+        </div>-->
+
         <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Biodiversity Related Organizations</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('organization').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('organization').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('organization').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/organization/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/organization/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--<div class="row">
 
             <div class="col-md-4">
                 <div class="box bg-grey  md-whiteframe-z1">
@@ -118,8 +596,8 @@
             </div>
 
         </div>
-    </div>
-
+    </div>-->
+</div>
 
     <h3 ng-show="!government" class="container-fluid color-black" style="border-top:1px solid #DDD;margin-top:30px;"><i class="fa fa-chevron-circle-down"></i> SCBD Managed Records</h3>
     <div class="container"  ng-show="!government">

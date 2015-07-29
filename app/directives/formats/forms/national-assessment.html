@@ -9,7 +9,7 @@
 	</div>
 
 	<div ng-show="status!='hidden'">
-		
+
 				<div class="row" style="margin-top:30px;padding:5px;">
 					<div class="col-xs-6">
 						<span km-form-languages ng-model="document.header.languages"></span>
@@ -18,7 +18,7 @@
 		                <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 		            </div>
 		        </div>
-		
+
 		        <div class="row">
 					<div class="col-xs-12">
 						<ul class="pagination">
@@ -71,14 +71,14 @@
 							</div>
 						</div>
 
-						<!-- <div class="row bottom-spacing">
+						 <div class="row bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="assessmentText" caption="Assessment">
-									<div class="help-block">In case of assessment of progress toward a National Target, please refer to the “Means to assess progress” described in the National Target record.</div>
+								<div class="km-control-group"  name="assessmentText" caption="Assessment Summary">
+									<!--<div class="help-block">Summary of the assessment done</div>-->
 									<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
 								</div>
 							</div>
-						</div> -->
+						</div> 
 
 
 
@@ -98,7 +98,7 @@
 										    	<li ng-repeat="item in (unselectedIndicators = (options.nationalIndicators | filter:filterUnselectedIndicator))"><a href="#" ng-click="addIndicator(item)">{{item.title | lstring}}</a></li>
 										    </ul>
 										</div>
-										<button type="button" class="btn btn-default" ng-click="createIndicator($event)">+</button>
+										<!-- <button type="button" class="btn btn-default" ng-click="createIndicator($event)">+</button> -->
 									</div>
 
 									<ul class="list-group" ng-if="document.nationalIndicators.length" style="margin-top:10px">
@@ -106,13 +106,20 @@
 											<table style="width:100%">
 											  <tr>
 												<td>
-													<h4>{{docInfo(item).title | lstring}}</h4>
+													<h4><span class="color-litegrey">INDICATOR:</span> {{docInfo(item).title | lstring}}</h4>
 													<p>{{docInfo(item).description | lstring}}</p>
+                                                    <p>
+                                                        <div class="km-control-group"  name="IndicatorDescriptionText" caption="Description">
+                        									<div class="help-block">Indicator description if any.</div>
+                            								<div km-textbox-ml required name="IndicatorDescription" ng-model="item.description" rows="5"
+                                                            locales="document.header.languages"></div>
+                							            </div>
+                                                    </p>
+                                                    <div km-link ng-model="item.links" identifier="document.header.identifier"></div>
 
-													<div km-link ng-model="item.links" identifier="document.header.identifier"></div>
-												</td>
+                                                </td>
 												<td style="white-space:nowrap;text-align:right;vertical-align:top">
-													<button type="button" class="btn btn-default" ng-click="removeIndicator(item)"><i class="fa fa-trash-o"></i></button>
+													<a ng-click="removeIndicator(item)"><i class="material-icons">close</i></a>
 												</td>
 											  </tr>
 											</table>
@@ -237,7 +244,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 
 	</div>
 </div>

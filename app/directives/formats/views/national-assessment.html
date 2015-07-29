@@ -59,7 +59,7 @@
 					<h4>{{docInfo(item).title | lstring}}</h4>
 
 					<p>{{docInfo(item).description | lstring}}</p>
-
+					<p><strong>Indicator Description:</strong><br/>{{item.description| lstring}}</p>
 					<ul class="list-group" ng-if="item.links.length" style="margin-top:10px">
 						<li class="list-group-item" ng-repeat="item in item.links">
 							<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>

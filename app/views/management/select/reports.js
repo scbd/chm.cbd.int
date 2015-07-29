@@ -10,7 +10,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
          $scope.onDelete    = del;
          $scope.onEdit      = edit;
          $scope.onWorkflow  = viewWorkflow;
-         $scope.how_past_assessments=false;
 
         $scope.schemasList = [
                     { identifier: 'nationalStrategicPlan',  draft:0, public:0, workflow:0  },
@@ -59,9 +58,11 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //
         //======================================================
         function loadNationalTargets() {
-            
+
+
             $scope.loading = true;
-            
+
+
             $q.when(loadRecords({schema:'nationalTarget'}))
             .then(function(data){
                 if(data){
@@ -72,12 +73,8 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                         loadRecords({schema:'nationalAssessment',nationaTargetId:target.identifier_s})
                         .then(function(data){
-                            
-                             target.assessments = data;
-
-                            // target.assessment = _.first(data)
-                            // target.pastAssessments = data;
-                            // console.log(target.assessment);
+                            target.assessment = _.first(data)
+                            console.log(target.assessment);
                         });
 
                     });
@@ -95,11 +92,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 delete $scope.loading;
             });
         }
-        
-        //======================================================
-        //
-        //
-        //======================================================
+
         function loadRecords(options){
             // Execute query
 
@@ -107,7 +100,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
             {
                 "q"  : buildQuery(options),
                 "fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, " +
-                       "url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, jurisdiction_*, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+                       "url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b,aichiTargets_*,date_dt,progress_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : 0,
                 "row"   : 500,
@@ -146,7 +139,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
             if(options.target)
                 query.push("nationalTarget_s:"+solr.escape(options.target));
-            
             // Apply ownership
             query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
 
@@ -242,11 +234,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
         };
 
-
-        //======================================================
-        //
-        //
-        //======================================================
         function calculateFacet(list, type){
 
             var qqNationalReports = _.filter(list, function(o) { return   _.contains(cbdNationalReports, o.value); });
@@ -268,11 +255,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
         }
 
-
-        //======================================================
-        //
-        //
-        //======================================================
         function facetSummation(reportFacets,reportType){
             _.each(reportFacets, function(facets){
                 _.each(facets.pivot,function(facet){
@@ -332,26 +314,12 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 .then(function() {
                     return repo.delete(identifier);
                 }).then(function() {
-                 
                     if(type=='nationalTargets'){
                         _.remove($scope.nationalTargets, function(r){
                            return r==record;
                         });
                     }
-                    
-                    else if(type=='nationalAssessment'){
-
-                         _.each($scope.nationalTargets, function(target){
-					       _.each(target, function(assessment){
-                             _.remove(assessment, function(r){
-                                return r==record;
-					        });
-        			     });
-                        });
-
-                    }
-                    
-                   else {
+                    else {
                         record=undefined;
                     }
                 });
@@ -380,36 +348,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         function viewWorkflow(record)
         {
             $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
-        }
-         //======================================================
-        //
-        //
-        //======================================================
-        $scope.$on("RefreshList", function(ev) {
-             $scope.load();
-             loadNationalTargets();
-        });
-        //======================================================
-        //
-        //gets the unique aichi targets from targets and subtargets
-        //======================================================
-        $scope.getAichiTargets = function(targets){
-             
-            if(!targets) return [];
-            
-             var list = [];
-             var n = "";
-             
-            _.forEach(targets, function(name, key) {
-              
-              n = name.substring(0, 15);
-
-              if(list.indexOf(n) == -1 )
-                list.push(n);
-            });
-            
-            return list;
-             
         }
 
 

@@ -5,6 +5,12 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
         $scope.schemasList = [
             { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalStrategicPlan'  ,public:0, draft:0, workflow:0 },
+            { identifier: 'otherReport'            ,public:0, draft:0, workflow:0 },
+            { identifier: 'resourceMobilisation'   ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalTarget'         ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalAssessment'     ,public:0, draft:0, workflow:0 },
+            { identifier: 'nationalIndicator'      ,public:0, draft:0, workflow:0 },
             { identifier: 'aichiTarget'            ,public:0, draft:0, workflow:0 },
             { identifier: 'resource'               ,public:0, draft:0, workflow:0 },
             { identifier: 'organization'           ,public:0, draft:0, workflow:0 },
@@ -12,6 +18,14 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'marineEbsa'             ,public:0, draft:0, workflow:0 },
             { identifier: 'strategicPlanIndicator' ,public:0, draft:0, workflow:0 },
             { identifier: 'absch'                  ,public:0, draft:0, workflow:0 },
+            { identifier: 'authority'              ,public:0, draft:0, workflow:0 },
+            { identifier: 'measure'                ,public:0, draft:0, workflow:0 },
+            { identifier: 'database'               ,public:0, draft:0, workflow:0 },
+            { identifier: 'absPermit'              ,public:0, draft:0, workflow:0 },
+            { identifier: 'absCheckpoint'          ,public:0, draft:0, workflow:0 },
+            { identifier: 'absCheckpointCommunique',public:0, draft:0, workflow:0 },
+            { identifier: 'measure'                ,public:0, draft:0, workflow:0 },
+            { identifier: 'authority'              ,public:0, draft:0, workflow:0 },
             { identifier: 'bch'                    ,public:0, draft:0, workflow:0 },
         ];
 
@@ -34,25 +48,31 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ////////////////
             // ABS Facets
             ///////////////
-            var absSchemas = [ "absPermit", "absCheckpoint", "absCheckpointCommunique", "authority", "measure", "database", "resource"]
+            
+            var publishedQuery  = $http.get("/api/v2013/documents/query/facets", { params : {collection:"my",      realm:'ABS-DEV'}});
+            var draftQuery      = $http.get("/api/v2013/documents/query/facets", { params : {collection:"mydraft", realm:'ABS-DEV'}});
+            var requestQuery    = $http.get("/api/v2013/documents/query/facets", { params : {collection:"request", realm:'ABS-DEV'}});
 
-            var qsABSFacetParams =
-            {
-                "q"  : '(realm_ss:abs AND '+'(schema_s:' +  absSchemas.join(" OR schema_s:") + ')) AND NOT version_s:*',
-                "rows" : 0,
-               "facet":true,
-               "facet.mincount":1,
-               "facet.field":"realm_ss"
-            };
-            var publisehdReportQuery = $http.get('/api/v2013/index/select', { params : qsABSFacetParams});
-
-            $q.when(publisehdReportQuery)
+            $q.all([publishedQuery,draftQuery,requestQuery])
             .then(function(results){
-                var abs = _.first(_.where($scope.schemasList,{"identifier":"absch"}));
+                var index=0;
+        		  _.each(results, function(facets){
+        			  _.each(facets.data, function(count, format){
+                            if(format == 'resource')
+                                return;
 
-                var publishCount    = readFacets2(results.data.facet_counts.facet_fields.realm_ss)
-                abs.publishCount    = publishCount ? publishCount[0].count : 0;
-
+        					var schemaTypeFacet = _.find($scope.schemasList,{identifier:format});
+        					if(schemaTypeFacet){
+        						if(index===0)
+        						  	schemaTypeFacet.public = count;
+        			            else if(index==1)
+        						  	schemaTypeFacet.draft = count;
+        			            else if(index==2)
+        							schemaTypeFacet.request = count;
+        					}
+        			  });
+        			index++;
+        		  });
             });
 
             ////////////////
@@ -60,7 +80,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
               // Apply ownership
@@ -87,9 +107,14 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
                   _.each(results.data.facet_counts.facet_pivot['schema_s,_state_s'], function(facet){
                        var schema = facet.value;
-                        if(_.indexOf(['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity', 'resourceMobilisation',],schema)>=0){
-                            schema = 'nationalReport';
-                        }
+                        // if(_.indexOf(['resourceMobilisation'],schema)>=0){
+                        //     schema = 'nationalReport';
+                        // }
+
+                        // if(_.indexOf(['nationalTarget','nationalIndicator'],schema)>=0){
+                        //     schema = 'nationalAssessment';
+                        // }
+
                     	var reportType = _.first(_.where($scope.schemasList, {'identifier':schema}));
             	        if(reportType)
                     	   facetSummation(facet,reportType);
@@ -119,7 +144,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             return facets;
         }
         $scope.getFacet = function(schema){
-            return _.first(_.where($scope.schemasList,{"identifier":schema}));
+            return _.find($scope.schemasList,{"identifier":schema});
         }
 
         var isAdmin         = user.roles.indexOf('Administrator')>=0;

@@ -88,8 +88,12 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             editUrl : function(schema, uid, type){
 
                 var url = '/submit/';
+                
+                if(_(['nationalReport', 'resourceMobilisation']).contains(schema)) {
+                    url = '/submit/reports/';
+                }
 
-                if(_(['nationalReport', 'nationalTarget', 'nationalIndicator', 'nationalAssessment', 'nationalSupportTool', 'implementationActivity', 'resourceMobilisation']).contains(schema)) {
+                if(_(['nationalTarget', 'nationalIndicator', 'nationalAssessment', 'nationalSupportTool', 'implementationActivity']).contains(schema)) {
                     url = '/submit/online-reporting/';
                 }
 

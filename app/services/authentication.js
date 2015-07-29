@@ -5,14 +5,13 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 	app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", "$timeout", function($q, $rootScope, $window, $document, $timeout) {
 
 		var pToken;
-
 		//============================================================
 		//
 		//
 		//============================================================
 		function getToken() {
-
-			var authenticationFrame = $document.find('#authenticationFrame')[0];
+			//incase of iframe not found in $document object search the $ object (for Firefox)
+			var authenticationFrame = $document.find('#authenticationFrame')[0]||$('#authenticationFrame')[0];
 
 			if(!authenticationFrame) {
 				pToken = pToken || null;

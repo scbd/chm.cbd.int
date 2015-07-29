@@ -120,11 +120,21 @@
                                 <br>
                                  <ul ng-repeat="sub_target in nationalTarget.otherAichiTargets_EN_txt" style="padding-left:14px;">
                                      <li>{{sub_target}}</li>
-                                </lu>
+                                </ul>
                             </div>      
                             <div ng-if="!nationalTarget.isAichiTarget_b">      
                                 <strong>{{nationalTarget.title_t}}</strong>
-                                <div ng-if="nationalTarget.description_s.length > 0" >{{nationalTarget.description_s|lstring}}</div>
+                                <div>
+                                    <span ng-show="nationalTarget.description_s.length > 0">{{nationalTarget.description_s|lstring}}</span>
+                                </div>
+                                <div ng-repeat="at in getAichiTargets(nationalTarget.aichiTargets_ss)" style="display:inline;">
+                                    <img ng-if="at.length == 15" src="/app/img/aichi_target_icons/{{at}}.png" style="height:32px;"></img>
+                                </div>
+                                 <div ng-repeat="at in getAichiTargets(nationalTarget.otherAichiTargets_ss)" style="display:inline;">
+                                    <img ng-if="at.length == 15" src="/app/img/aichi_target_icons/{{at}}.png" style="height:32px;opacity: 0.4;filter: alpha(opacity=40);"></img>
+                                </div>
+                                
+                                
                                 <!--<div ng-if="nationalTarget.aichiTargets_REL_ss" ng-repeat="target in nationalTarget.aichiTargets_REL_ss"><img src="/app/img/aichi_target_icons/{{target}}.png" style="height:24px;"> </img></div>-->
                
                                  <!--{{nationalTarget}}-->

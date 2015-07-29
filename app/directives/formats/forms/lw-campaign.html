@@ -1,0 +1,129 @@
+<div>
+
+
+  <h1>Campaign  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+
+  <div class="alert alert-danger" ng-show="hasError()">
+    <strong>Error as occured...</strong>
+    <div>{{error}}</div>
+  </div>
+
+  <div ng-show="status!='hidden'">
+
+
+    <div style="position: relative">
+
+      <div class="row">
+        <!--- row start-->
+        <div class="col-xs-12 visible-xs">
+          <div class="">
+            <span km-form-languages ng-model="document.header.languages"></span>
+            <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+            on-pre-publish="onPrePublish()"></span>
+          </div>
+        </div>
+        <!--- review tab buttons start -->
+        <div class="col-sm-8 col-xs-12">
+          <ul class="pagination">
+            <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+            <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+            <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+            <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+          </ul>
+        </div>
+        <!--- review tab buttons end -->
+
+        <!--- language, cancel, cave buttons start -->
+        <div class="col-sm-4 hidden-xs" style="text-align:right">
+          <div class="pagination">
+            <span km-form-languages ng-model="document.header.languages"></span>
+            <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+            on-pre-publish="onPrePublish()"></span>
+          </div>
+        </div>
+        <!--- language, cancel, cave buttons end -->
+      </div>
+      <!--- row end-->
+      <div>
+        <!--- FORM Start  -->
+        <form name="editForm">
+          <div km-tab="general">
+
+            <legend>General information</legend>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="km-control-group" name="title" required caption="title">
+                  <div km-textbox-ml name="title" required ng-model="document.title" placeholder="enter title here" locales="document.header.languages"></div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="km-control-group"  name="startDate" caption="Start Date">
+                  <div km-date style="width:200px" name="startDate" ng-model="document.startDate"></div>
+                </div>
+              </div>
+              <div class="col-md-4" offset1>
+                <div class="km-control-group"  name="endDate" caption="End Date">
+                  <div km-date style="width:200px"  name="endDate" ng-model="document.endDate"></div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-5">
+                <div class="km-control-group" name="websites" caption="Campaign Web Site">
+                  <div km-link name="websites" ng-model="document.homepage" allow-link="true" allow-file="false"></div>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div class="km-control-group" name="images" caption="Image for Campaign logo">
+                  <div km-link name="images" ng-model="document.logo" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!--- FORM end  -->
+
+        <div km-tab="review">
+          <div km-document-validation ng-model="validationReport"></div>
+          <div class="btn-group" ng-show="document.header.languages.length>1">
+            <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+          </div>
+          <view-lw-campaign ng-model="document" locale="review.locale" target="_blank" allow-drafts="true"></view-lw-campaign>
+        </div>
+        <!--- review tab buttons start -->
+        <div class="row">
+          <div class="col-sm-9 col-xs-12">
+            <ul class="pagination">
+              <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+              <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+              <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+              <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+            </ul>
+          </div>
+          <!--- review tab buttons end -->
+          <div class="col-sm-3 hidden-xs" style="text-align:right">
+            <div class="pagination">
+              <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+              on-pre-publish="onPrePublish()"></span>
+            </div>
+          </div>
+
+          <div class="col-xs-12 visible-xs">
+            <div class="">
+              <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+              on-pre-publish="onPrePublish()"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -389,6 +389,28 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
              $scope.load();
              loadNationalTargets();
         });
+        //======================================================
+        //
+        //gets the unique aichi targets from targets and subtargets
+        //======================================================
+        $scope.getAichiTargets = function(targets){
+             
+            if(!targets) return [];
+            
+             var list = [];
+             var n = "";
+             
+            _.forEach(targets, function(name, key) {
+              
+              n = name.substring(0, 15);
+
+              if(list.indexOf(n) == -1 )
+                list.push(n);
+            });
+            
+            return list;
+             
+        }
 
 
     }];

@@ -52,7 +52,7 @@
                     <span class="badge bg-draft"    style="width:130px;padding:5px;">DRAFTS</span>
                     <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
                 </div>-->
-                <h1>  Progress Achieved on National Targets</h1>
+                <h1>  Progress Achieved on National Targets <i ng-if="loading" ng-class="{ 'fa-spin':loading }" class="fa fa-spinner"></i></h1>
                 <h3 class="color-medgrey">Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... Some instructions here ... </h3>
             </div>
         </div>
@@ -89,12 +89,16 @@
                 }
             </style>
             
-
-            <table class="table table-striped target-table" >
+            <table class="table table-striped target-table" ng-if="!loading">
                 <tr>
                     <th  style="width:50%;text-align:left;">National Targets</th>
                     <th colspan="2" style="border-left:1px #DDD solid;width:50%;text-align:left;">Assessments</th>
                 </tr>
+                
+                <tr ng-if="!nationalTargets">
+                   <td colspan="3"><h4>No Targets. Please add Targets.</h4></td>
+                </tr>
+                
                 <tr ng-repeat="nationalTarget in nationalTargets | orderBy:'aichiTargets_ss'">
                     
                     <td>
@@ -104,10 +108,8 @@
                                 <span ng-if="nationalTarget._state_s == 'public'" class="badge bg-published" style="font-size:10px;width:60px;">Published</span>
                                 <span ng-if="nationalTarget._state_s == 'workflow'" class="badge bg-request" style="font-size:10px;width:60px;">Request</span>
                                 <br>
-                           
                                 <img ng-if="nationalTarget.isAichiTarget_b" ng-repeat="aichiTarget in nationalTarget.aichiTargets_ss" src="/app/img/aichi_target_icons/{{aichiTarget}}.png" style="height:60px;"> </img>
-                                <i   ng-if="!nationalTarget.isAichiTarget_b" class="material-icons big-icon">my_location</i>
-                            
+                                <i   ng-if="!nationalTarget.isAichiTarget_b" class="fa fa-dot-circle-o big-icon" style="position:relative;left:4px;"></i>
                             </div>
                             <div class="btn-group btn-group-xs pull-right">
                                 <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
@@ -120,11 +122,20 @@
                                 <br>
                                  <ul ng-repeat="sub_target in nationalTarget.otherAichiTargets_EN_txt" style="padding-left:14px;">
                                      <li>{{sub_target}}</li>
-                                </lu>
+                                </ul>
                             </div>      
                             <div ng-if="!nationalTarget.isAichiTarget_b">      
                                 <strong>{{nationalTarget.title_t}}</strong>
-                                <div ng-if="nationalTarget.description_s.length > 0" >{{nationalTarget.description_s|lstring}}</div>
+                                <div>
+                                    <span ng-show="nationalTarget.description_s.length > 0">{{nationalTarget.description_s|lstring}}</span>
+                                </div>
+                                <div ng-repeat="at in getAichiTargets(nationalTarget.aichiTargets_ss)" style="display:inline;">
+                                    <img ng-if="at.length == 15" src="/app/img/aichi_target_icons/{{at}}.png" style="height:32px;"></img>
+                                </div>
+                                 <div ng-repeat="at in getAichiTargets(nationalTarget.otherAichiTargets_ss)" style="display:inline;">
+                                    <img ng-if="at.length == 15" src="/app/img/aichi_target_icons/{{at}}.png" style="height:32px;opacity: 0.4;filter: alpha(opacity=40);"></img>
+                                </div>
+                                
                                 <!--<div ng-if="nationalTarget.aichiTargets_REL_ss" ng-repeat="target in nationalTarget.aichiTargets_REL_ss"><img src="/app/img/aichi_target_icons/{{target}}.png" style="height:24px;"> </img></div>-->
                
                                  <!--{{nationalTarget}}-->

@@ -10,6 +10,7 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 		"strategicPlanIndicator" : { name : "publishReferenceRecord", version : undefined },
 		"resource"               : { name : "publishReferenceRecord", version : undefined },
 		"organization"           : { name : "publishReferenceRecord", version : undefined },
+		"lwCampaigns"            : { name : "publishReferenceRecord", version : undefined },
 
 		"database"               : { name : "publishNationalRecord", version : "0.4" },
 		"implementationActivity" : { name : "publishNationalRecord", version : "0.4" },
@@ -146,7 +147,7 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 				return qCanWrite;
 
 			});
-		},		
+		},
 
 		//==================================
 		//

@@ -84,7 +84,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 			pToken = token || undefined;
 
-			var authenticationFrame = $document.find('#authenticationFrame')[0];
+			var authenticationFrame = $document.find('#authenticationFrame')[0]||$('#authenticationFrame')[0];
 
 			if(authenticationFrame) {
 

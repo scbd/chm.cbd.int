@@ -1,6 +1,6 @@
-define(['text!./notifications.html','app','lodash','utilities/km-user-notification-service',
+define(['text!./all-notifications.html','app','lodash','utilities/km-user-notification-service',
         'utilities/km-utilities','filters/moment','ionsound'], function(template,app,_) {
-    app.directive('userNotifications', function() {
+    app.directive('allNotifications', function() {
         return {
             restrict: 'EAC',
             replace: true,
@@ -10,7 +10,7 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
 
 
                     var pageNumber = 0;
-                    var pageLength = 5;
+                    var pageLength = 1000;
 
                     //============================================================
                     //
@@ -24,7 +24,7 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                     //
                     //
                     //============================================================
-                     function getNotification() {
+                    function getNotification() {
                         if ($rootScope.user && $rootScope.user.isAuthenticated) {
                             // if (canQuery) {
                             var queryMyNotifications;

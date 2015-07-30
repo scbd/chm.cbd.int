@@ -5,6 +5,7 @@ define(['text!./all-notifications.html','app','lodash','utilities/km-user-notifi
             restrict: 'EAC',
             replace: true,
             template: template,
+            scope : {},
             controller: ['$scope', '$rootScope', 'IUserNotificationService', '$timeout', '$filter','authentication',
                 function($scope, $rootScope, userNotificationService, $timeout, $filter, authentication) {
 
@@ -68,8 +69,8 @@ define(['text!./all-notifications.html','app','lodash','utilities/km-user-notifi
                                     }
                                 })
                                 .finally(function() {
-                                   if(continueNotification)
-                                        notificationTimer =  $timeout(function() { getNotification();}, 10000);
+                                   //if(continueNotification)
+                                        //notificationTimer =  $timeout(function() { getNotification();}, 10000);
                                 });
                             //}
                         }

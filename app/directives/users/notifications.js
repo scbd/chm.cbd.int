@@ -100,6 +100,7 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
                     };
 
                     $scope.$on('$destroy', function(evt){
+                        $scope.notifications = undefined;
                         $timeout.cancel(notificationTimer);
                     });
 
@@ -110,6 +111,7 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
 //                            },5000);
 //                    });
     	           $scope.$on('signOut', function(evt,user){
+                       $scope.notifications = undefined;
                        $timeout.cancel(notificationTimer);
                     });
 
@@ -117,6 +119,7 @@ define(['text!./notifications.html','app','lodash','utilities/km-user-notificati
 
                     $rootScope.$watch('user', function(newVla,oldVal){
                         if(newVla && newVla!=oldVal){
+                            $scope.notifications = undefined;
                             $timeout.cancel(notificationTimer);
                             getNotification();
                         }

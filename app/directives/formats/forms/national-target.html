@@ -54,7 +54,7 @@
 									<span ng-class="{'color-litegrey': document.isAichiTarget}"> Create a new National Target</span></h4>
 									
 									<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="true"/> 
-									<span ng-class="{'color-litegrey': !document.isAichiTarget}">Use an Aichi Target as your National Target</span></h4>
+									<span ng-class="{'color-litegrey': !document.isAichiTarget}">Use an <a href="https://www.cbd.int/sp/targets/rationale/" target="_new" >Aichi Biodiversity Target</a> as your National Target</span></h4>
 									
 								</div>
 							</div>
@@ -64,14 +64,14 @@
 
     						<div class="row bottom-spacing">
     							<div class="col-md-12">
-    								<div class="km-control-group" required name="aichiTargets" caption="Aichi Target">
-    									<div km-select required  name="aichiTargets" ng-model="selectedAichi.target" placeholder="Please select an Aichi Target" watch-items items="options.aichiTargetsFiltered"></div>
+    								<div class="km-control-group" required name="aichiTargets" caption="Aichi Biodiversity Target">
+    									<div km-select required  name="aichiTargets" ng-model="selectedAichi.target" placeholder="Please select an Aichi Biodiversity Target" watch-items items="options.aichiTargetsFiltered"></div>
     								</div>
     							</div>
 
     							<div class="col-md-12">
-    								<div class="km-control-group" name="otherAichiTargets" caption="Aichi Sub-targets">
-    									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Sub-targets" watch-items items="options.aichiSubTargets"></div>
+    								<div class="km-control-group" name="otherAichiTargets" caption="Aichi Biodiversity Sub-targets">
+    									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Biodiversity Sub-targets" watch-items items="options.aichiSubTargets"></div>
     								</div>
     							</div>
     						</div>
@@ -97,6 +97,8 @@
 
     						<div class="row bottom-spacing">
     							<div class="col-md-11 ">
+									
+									
     								<div class="km-control-group" required name="jurisdiction" caption="Level of application">
     								<span class="help-block">Please specify if the target refers to the national or subnational level</span>
     									<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
@@ -113,20 +115,23 @@
 
     						<div class="row bottom-spacing">
     							<div class="col-md-12">
-    								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Targets">
-    									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
+									
+									<div class="help-block">Links between national targets and Aichi Biodiversity Targets (Note: There is no need to enter this information if your country reports against the Aichi Biodiversity Targets.)</div>
+									
+    								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Biodiversity Targets">
+    									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select main Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
     								</div>
     							</div>
 
     							<div class="col-md-12">
-    								<div class="km-control-group" name="otherAichiTargets" caption="Other related Aichi Targets">
-    									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
+    								<div class="km-control-group" name="otherAichiTargets" caption="Other related Aichi Biodiversity Targets">
+    									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select other related Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
     								</div>
     							</div>
     						</div>
 
     						<legend>Relevant Documents and Information</legend>
-                            <div class="help-block">If possible, attach relevant documents where such target is included and can be found.</div>
+                            <div class="help-block">If possible, please attach relevant documents where such target is included and can be found.</div>
 
     						<div class="row">
     							<div class="col-md-12">

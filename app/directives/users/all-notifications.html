@@ -1,18 +1,12 @@
 <div>
         <table class="table table-striped" style="width:100%;margin-bottom:30px;">
             <tr style="border-bottom: 1px solid #ddd;">
-                 <th>Read</th>
+              
                 <th>Message</th>
-                <th>From</th>
-               
+                   <th>Read</th>
             </tr>
             <tr ng-repeat="notification in notifications" class="notification-item" ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }">
-                
-                <td style="width:20px;">
-                    <a href="#" ng-show="notification.state=='unread'" class="pull-left" ng-click="updateStatus(notification,'read');"><i class="fa fa-square-o fa-lg"></i></a>
-                    <a href="#" ng-show="notification.state=='read'" class="pull-left" ng-click="updateStatus(notification, 'unread');"><i class="fa fa-check-square-o fa-lg"></i></a>
-                </td>
-                
+              
                 <td ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }" style="padding:10px 0;cursor:pointer;">
                     <a ng-href="{{getURL(notification)}}" ng-click="updateStatus(notification,'read');">
                         <i ng-class="{'color-blue':notification.state=='unread'}">
@@ -20,30 +14,36 @@
                         <i class="fa fa-bell" style="font-size:15px" ng-show="notification.type=='documentNotification'"></i> 
                         <strong>{{notification.createdBy_info.firstName + ' ' + notification.createdBy_info.lastName}}</strong></i>
                         <span ng-show="notification.type=='message'"> has sent you a message</span>
-                        <span ng-show="notification.data.action=='request'"> has sent you a request for publishing for</span>
-                        <span ng-show="notification.data.action=='approved'"> has approved your publishing request for</span>
-                        <span ng-show="notification.data.action=='rejected'"> has rejected your publishing request for</span>
-                        <span ng-show="notification.data.action=='recalled'"> has recalled publishing request for</span>
+                        <span ng-show="notification.data.action=='request'"> has <span class="bold color-red">sent</span> you a request for publishing for</span>
+                        <span ng-show="notification.data.action=='approved'"> has <span class="bold color-red">approved</span> your publishing request for</span>
+                        <span ng-show="notification.data.action=='rejected'"> has <span class="bold color-red">rejected</span> your publishing request for</span>
+                        <span ng-show="notification.data.action=='recalled'"> has <span class="bold color-red">recalled</span> publishing request for</span>
                         
                         <strong><i ng-class="{'color-blue':notification.state=='unread'}">
                             {{(notification.data.documentInfo.title||notification.data.subject)|lstring}}
                             </i>
-                        </strong>
-                        <span ng-show="notification.type=='documentNotification'"> ({{notification.data.documentInfo.metadata.schema|schemaName}})</span>
+                             <span ng-show="notification.type=='documentNotification'"> ({{notification.data.documentInfo.metadata.schema|schemaName}})</span>
+                         </strong>
                     </a>
                     <br><span style="text-transform:uppercase;font-size:10px;font-weight:bold">{{timePassed(notification.createdOn)}}</span>
+                    
+                    <span style="text-transform:uppercase;font-size:10px;" > from 
+                    <span ng-show="notification.data.documentInfo.realm == 'ABS'"> ABSCH</span>
+                    <span ng-show="notification.data.documentInfo.realm == 'ABS-TRG'"> ABSCH TRAINING</span>
+                    <span ng-show="notification.data.documentInfo.realm == 'ABS-DEV'"> ABSCH DEVELOPMENT</span>
+                    <span ng-show="notification.data.documentInfo.realm == 'CHM'"> CHM</span>
+                    <span ng-show="notification.data.documentInfo.realm == 'BCH'"> BCH</span>
+                    </span>
+                    
                 </td>
-                 <td>
-                    <span class="label label-default color-white" style="color:#ddd!important;" ng-show="notification.data.documentInfo.realm == 'ABS'"> ABSCH</span>
-                    <span class="label label-default color-white" style="color:#ddd!important;" ng-show="notification.data.documentInfo.realm == 'ABS-TRG'"> ABSCH TRAINING</span>
-                    <span class="label label-default color-white" style="color:#ddd!important;" ng-show="notification.data.documentInfo.realm == 'ABS-DEV'"> ABSCH DEVELOPMENT</span>
-                    <span class="label label-default color-white" style="color:#ddd!important;" ng-show="notification.data.documentInfo.realm == 'CHM'"> CHM</span>
-                    <span class="label label-default color-white" style="color:#ddd!important;" ng-show="notification.data.documentInfo.realm == 'BCH'"> BCH</span>
+                  <td style="width:10px;" class="text-center">
+                    <a href="#" ng-show="notification.state=='unread'" ng-click="updateStatus(notification,'read');"><i class="fa fa-square-o fa-lg"></i></a>
+                    <a href="#" ng-show="notification.state=='read'" ng-click="updateStatus(notification, 'unread');"><i class="fa fa-check-square-o fa-lg"></i></a>
                 </td>
-                
             </tr>
         </table>
         <div ng-show="!notifications">
-            <span class="color-grey">no recent activity</span>
+            <span class="color-grey">no notifications</span>
         </div>
 </div>
+

@@ -1,4 +1,4 @@
-define(['app', 'angular', 'text!./km-form-std-buttons.html'], function(app, angular, template) { 'use strict';
+define(['app', 'angular', 'text!./km-form-std-buttons.html','jquery'], function(app, angular, template) { 'use strict';
 
 	app.directive('kmFormStdButtons', ["$q", function ($q)
 	{

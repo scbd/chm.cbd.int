@@ -1,4 +1,4 @@
-define(['app'], function(app) { 'use strict';
+define(['app','jquery'], function(app) { 'use strict';
 
 	app.directive('kmTab', ["$timeout", function ($timeout)
 	{

@@ -1,4 +1,4 @@
-define(['app', 'text!./km-form-languages.html'], function(app, template) { 'use strict';
+define(['app', 'text!./km-form-languages.html','jquery'], function(app, template) { 'use strict';
 
 	app.directive('kmFormLanguages', [function ()
 	{

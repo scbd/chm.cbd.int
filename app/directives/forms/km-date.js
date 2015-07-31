@@ -1,4 +1,4 @@
-define(['app', 'text!./km-date.html', 'bootstrap-datepicker'], function(app, template) { 'use strict';
+define(['app', 'text!./km-date.html', 'bootstrap-datepicker','jquery'], function(app, template) { 'use strict';
 
 	app.directive('kmDate', [function ()
 	{

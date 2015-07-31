@@ -1,4 +1,4 @@
-define(['app', 'text!./km-document-validation.html'], function(app, template) { 'use strict';
+define(['app', 'text!./km-document-validation.html','jquery'], function(app, template) { 'use strict';
 
 	app.directive('kmDocumentValidation', ["$timeout", function ($timeout)
 	{

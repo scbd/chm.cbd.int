@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', 'text!./km-inputtext-list.html'], function(app, angular, _, template) { 'use strict';
+define(['app', 'angular', 'lodash', 'text!./km-inputtext-list.html','jquery'], function(app, angular, _, template) { 'use strict';
 
 	app.directive('kmInputtextList', [function ()
 	{

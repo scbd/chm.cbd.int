@@ -1,4 +1,4 @@
-define(['app', 'text!./km-yes-no.html'], function(app, template) { 'use strict';
+define(['app', 'text!./km-yes-no.html','jquery'], function(app, template) { 'use strict';
 
 	app.directive('kmYesNo', [function ()
 	{

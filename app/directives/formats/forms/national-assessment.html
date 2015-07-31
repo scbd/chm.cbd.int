@@ -1,8 +1,12 @@
-﻿<div>
+﻿<div layout="column" class="row md-whiteframe-z1">
   <div smooth-scroll duration="100" offset="200" ></div>
-
-	<h1>Assessment of progress <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
-
+<md-toolbar>
+    <div class="md-toolbar-tools bg-darkgrey" >
+      <h2 class="md-flex">Online Reporting: Assessment of progress <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h2>
+    </div>
+  </md-toolbar>
+  <md-content style="padding:20px;background-color:transparent;">
+	  
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
 		<div>{{error}}</div>
@@ -10,7 +14,7 @@
 
 	<div ng-show="status!='hidden'">
 
-				<div class="row" style="margin-top:30px;padding:5px;">
+				<div class="row">
 					<div class="col-xs-6">
 						<span km-form-languages ng-model="document.header.languages"></span>
 					</div>
@@ -73,8 +77,8 @@
 
 						 <div class="row bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group"  name="assessmentText" caption="Assessment Summary">
-									<!--<div class="help-block">Summary of the assessment done</div>-->
+								<div class="km-control-group"  name="assessmentText" caption="Assessment summary">
+									<div class="help-block">Please provide evidence for your assessment, such as actions taken to implement this target and outcomes achieved</div>
 									<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
 								</div>
 							</div>
@@ -149,14 +153,14 @@
 
 						<div class="row  bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group" name="documentText" caption="Please describe any of the tools used or others means used in assessing progress">
+								<div class="km-control-group" name="documentText" caption="Please describe any other tools or means used for assessing progress.">
 									<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
 								</div>
 							</div>
 						</div>
 						<div class="row  bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
+								<div class="km-control-group" name="documentLinks" caption="Please provide relevant web links and/or files where additional information can be found to support the assessment.">
 									<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
 								</div>
 							</div>
@@ -174,7 +178,7 @@
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation of the level of confidence indicated in the field ">
+								<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation for the level of confidence indicated.">
 									<div km-textbox-ml required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
 								</div>
 							</div>
@@ -247,4 +251,5 @@
 
 
 	</div>
+<md-content layout-padding>
 </div>

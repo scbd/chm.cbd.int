@@ -24,7 +24,7 @@ define(['angular', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothSc
 							  /^\/\w+/i                   .test(config.url);
 
                 //exception if the APi call needs to be done for different realm
-                if(trusted && realm && config.params && config.params.realm != realm) {
+                if(trusted && realm && config.params && config.params.realm && config.params.realm != realm) {
                       config.headers = angular.extend(config.headers || {}, { realm : config.params.realm });
                 }
                 else if(trusted && realm ) {

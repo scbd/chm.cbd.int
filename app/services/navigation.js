@@ -90,10 +90,10 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
                 var url = '/submit/';
                 
                 if(_(['nationalReport', 'resourceMobilisation']).contains(schema)) {
-                    url = '/submit/reports/';
+                    url = '/submit/';
                 }
 
-                if(_(['nationalTarget', 'nationalIndicator', 'nationalAssessment', 'nationalSupportTool', 'implementationActivity']).contains(schema)) {
+                if(_(['nationalTarget', 'nationalIndicator', 'nationalAssessment']).contains(schema)) {
                     url = '/submit/online-reporting/';
                 }
 

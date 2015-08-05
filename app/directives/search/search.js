@@ -155,7 +155,7 @@ define(['text!./search.html',
 
 	                    if(!$scope.schemas) {
 	                        var queryFacetsParameters = {
-	                            'q': 'NOT version_s:* AND realm_ss:'+ realm,
+	                            'q': 'NOT version_s:* AND realm_ss:'+ realm.toLowerCase(),
 	                            'fl': '',
 	                            'wt': 'json',
 	                            'rows': 0,

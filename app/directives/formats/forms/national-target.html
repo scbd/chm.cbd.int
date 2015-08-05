@@ -25,7 +25,7 @@
 		                <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 		            </div>
 		        </div>
-		
+
 		        <div class="row">
 					<div class="col-xs-12">
 						<ul class="pagination">
@@ -36,7 +36,7 @@
 						</ul>
 					</div>
 				</div>
-				
+
 				<form name="editForm">
 
 					<div km-tab="general">
@@ -54,13 +54,13 @@
                         <div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" required name="isAichiTarget" caption="Target Type">
-									
+
                                     <h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="false"/>
 									<span ng-class="{'color-litegrey': document.isAichiTarget}"> Create a new National Target</span></h4>
-									
-									<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="true"/> 
+
+									<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="true"/>
 									<span ng-class="{'color-litegrey': !document.isAichiTarget}">Use an <a href="https://www.cbd.int/sp/targets/rationale/" target="_new" >Aichi Biodiversity Target</a> as your National Target</span></h4>
-									
+
 								</div>
 							</div>
 						</div>
@@ -102,8 +102,8 @@
 
     						<div class="row bottom-spacing">
     							<div class="col-md-11 ">
-									
-									
+
+
     								<div class="km-control-group" required name="jurisdiction" caption="Level of application">
     								<span class="help-block">Please specify if the target refers to the national or subnational level</span>
     									<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
@@ -116,13 +116,13 @@
     							</div>
     						</div>
 
-    						<legend>Targets and indicators</legend>
+    						<legend>Relevance of National Targets to Aichi Targets</legend>
 
     						<div class="row bottom-spacing">
     							<div class="col-md-12">
-									
+
 									<div class="help-block">Links between national targets and Aichi Biodiversity Targets (Note: There is no need to enter this information if your country reports against the Aichi Biodiversity Targets.)</div>
-									
+
     								<div class="km-control-group" required name="aichiTargets" caption="Main related Aichi Biodiversity Targets">
     									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select main Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
     								</div>
@@ -181,7 +181,7 @@
                     <view-national-target ng-model="document" locale="review.locale"></view-national-target>
 				</div>
 
-				
+
 
 
 		<div class="row" style="padding-bottom:30px;">
@@ -201,8 +201,8 @@
 				</div>
 			</div>
 		</div>
-					
-				
+
+
 
 	</div>
 </md-content>

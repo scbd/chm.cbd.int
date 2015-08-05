@@ -1,5 +1,12 @@
-﻿<div>
-	<h1>National Indicator   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
+﻿
+<div layout="column"  class="row md-whiteframe-z1">
+  <div smooth-scroll duration="100" offset="200" ></div>
+<md-toolbar>
+    <div class="md-toolbar-tools bg-darkgrey" >
+      <h2 class="md-flex">Online Reporting: National Indicator   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h2>
+    </div>
+  </md-toolbar>
+  <md-content style="padding:20px;background-color:transparent;">
 
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>Error as occured...</strong>
@@ -10,7 +17,7 @@
 
 	<div ng-hide="status=='hidden'||status=='loading'">
 
-		 <div class="row" style="margin-top:30px;padding:5px;">
+		 <div class="row" >
 			<div class="col-xs-6">
 				<span km-form-languages ng-model="document.header.languages"></span>
 			</div>
@@ -64,4 +71,5 @@
 		</div>
 		
 	</div>
+  </md-content>
 </div>

@@ -21,7 +21,7 @@
 
                    <table class="table table-striped" style="width:100%;padding:0;margin:0;">
                  
-                        <tr ng-repeat="notification in notifications" class="notification-item" ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }">
+                        <tr ng-repeat="notification in notifications" ng-if="$index < 5" class="notification-item" ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }">
                           
                             <td ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }" style="padding:10px 0;cursor:pointer;">
                                 <a ng-href="{{getURL(notification)}}" ng-click="updateStatus(notification,'read');">

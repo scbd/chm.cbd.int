@@ -106,7 +106,7 @@
                             <div  ng-show="record._state_s=='workflow'" style="margin-top:5px"><a href="#" ng-click="onWorkflow(record)">{{formatWID(record._workflow_s)}}</a></div>
                         </td>
             			<td class="edit text-right">
-            				<div class="btn-group btn-group-sm" >
+            				<div class="btn-group btn-group-xs"  >
                                 <a title="View" ng-if="record._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{record.url}}"><i class="fa fa-search"></i></a>
             					<button ng-show    ="record._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
             					<button ng-hide    ="record._state_s=='workflow' || (record._state_s=='public' && schema=='nationalIndicator')" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>

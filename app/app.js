@@ -6,11 +6,19 @@ define(['angular', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothSc
 
     var app = angular.module('kmApp', deps);
 
-    app.config(['$httpProvider', function($httpProvider){
+    app.config(['$httpProvider', '$provide', function($httpProvider, $provide){
 
         $httpProvider.useApplyAsync(true);
         $httpProvider.interceptors.push('authenticationHttpIntercepter');
         $httpProvider.interceptors.push('realmHttpIntercepter');
+
+        //alter the realm Value to appropriate realm!
+        $provide.decorator('realm', ['$location','$delegate', function ($location, $delegate) {
+            if($location.$$host!= "chm.cbd.int"){
+                return 'CHM-DEV';
+            }
+            return $delegate;
+        }]);
 
     }]);
 
@@ -18,7 +26,6 @@ define(['angular', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothSc
 
 		return {
 			request: function(config) {
-
 				var trusted = /^https:\/\/api.cbd.int\//i .test(config.url) ||
 						      /^https:\/\/localhost[:\/]/i.test(config.url) ||
 							  /^\/\w+/i                   .test(config.url);

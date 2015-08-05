@@ -19,7 +19,7 @@ define(['text!./search.html',
 
 	], function(template, app) { 'use strict';
 
-	app.directive('search', ['$http', function ($http) {
+	app.directive('search', ['$http', 'realm', function ($http, realm) {
 	    return {
 	        restrict: 'EAC',
 	        template: template,
@@ -121,7 +121,7 @@ define(['text!./search.html',
 	            self.query = function () {
 
 	                // NOT version_s:* remove non-public records from resultset
-	                var q = 'NOT version_s:* AND realm_ss:chm AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
+	                var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
 
 	                var queryParameters = {
 	                    'q': q,
@@ -155,7 +155,7 @@ define(['text!./search.html',
 
 	                    if(!$scope.schemas) {
 	                        var queryFacetsParameters = {
-	                            'q': 'NOT version_s:* AND realm_ss:chm',
+	                            'q': 'NOT version_s:* AND realm_ss:'+ realm,
 	                            'fl': '',
 	                            'wt': 'json',
 	                            'rows': 0,

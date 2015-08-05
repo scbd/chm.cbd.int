@@ -140,7 +140,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
             if(options.target)
                 query.push("nationalTarget_s:"+solr.escape(options.target));
             // Apply ownership
-            query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
+            query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
             // Apply ownership
             query.push(_.map(user.userGroups, function(v){
@@ -184,7 +184,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                 var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
 
-                var q = '(realm_ss:chm AND schema_s:nationalReport AND _latest_s:true ' +  ownershipQuery + ')';
+                var q = '(realm_ss:' + realm.toLowerCase() + ' AND schema_s:nationalReport AND _latest_s:true ' +  ownershipQuery + ')';
                  var qsFacetParams =
                  {
                     "q"  : q,
@@ -210,7 +210,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                  var qsOtherSchemaFacetParams =
                  {
-                    "q"  : '(realm_ss:chm ' + qSchema + ' AND _latest_s:true ' +  ownershipQuery + ')',
+                    "q"  : '(realm_ss:' + realm.toLowerCase() + ' ' + qSchema + ' AND _latest_s:true ' +  ownershipQuery + ')',
                     "rows" : 0,
                    "facet":true,
                    "facet.mincount":1,

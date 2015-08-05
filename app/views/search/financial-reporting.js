@@ -1,7 +1,8 @@
 /* global $ */
 define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilities', 'jqvmap', 'jqvmapworld'], function(_) { 'use strict';
 
-    return ["$scope", "$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", function ($scope, $http, $q, $location, $timeout, $filter, thesaurus) {
+    return ["$scope", "$http", "$q", "$location", '$timeout', "$filter", "Thesaurus","realm",
+     function ($scope, $http, $q, $location, $timeout, $filter, thesaurus, realm) {
 
         $scope.countries=[];
         $scope.colors={};
@@ -31,7 +32,7 @@ define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilitie
         $scope.query = function () {
 
             // NOT version_s:* remove non-public records from resultset
-            var q = 'NOT version_s:* AND realm_ss:chm AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryKeywords;
+            var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryKeywords;
 
             var queryParameters = {
                 'q': q,

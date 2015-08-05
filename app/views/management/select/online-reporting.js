@@ -59,9 +59,9 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //
         //======================================================
         function loadNationalTargets() {
-            
+
             $scope.loading = true;
-            
+
             $q.when(loadRecords({schema:'nationalTarget'}))
             .then(function(data){
                 if(data){
@@ -72,7 +72,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                         loadRecords({schema:'nationalAssessment',nationaTargetId:target.identifier_s})
                         .then(function(data){
-                            
+
                              target.assessments = data;
 
                             // target.assessment = _.first(data)
@@ -95,7 +95,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 delete $scope.loading;
             });
         }
-        
+
         //======================================================
         //
         //
@@ -146,9 +146,9 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
             if(options.target)
                 query.push("nationalTarget_s:"+solr.escape(options.target));
-            
+
             // Apply ownership
-            query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
+            query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
             // Apply ownership
             query.push(_.map(user.userGroups, function(v){
@@ -192,7 +192,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                 var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
 
-                var q = '(realm_ss:chm AND schema_s:nationalReport AND _latest_s:true ' +  ownershipQuery + ')';
+                var q = '(realm_ss:' + realm.toLowerCase() + ' AND schema_s:nationalReport AND _latest_s:true ' +  ownershipQuery + ')';
                  var qsFacetParams =
                  {
                     "q"  : q,
@@ -218,7 +218,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
                  var qsOtherSchemaFacetParams =
                  {
-                    "q"  : '(realm_ss:chm ' + qSchema + ' AND _latest_s:true ' +  ownershipQuery + ')',
+                    "q"  : '(realm_ss:' + realm.toLowerCase() + ' ' + qSchema + ' AND _latest_s:true ' +  ownershipQuery + ')',
                     "rows" : 0,
                    "facet":true,
                    "facet.mincount":1,
@@ -332,13 +332,13 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 .then(function() {
                     return repo.delete(identifier);
                 }).then(function() {
-                 
+
                     if(type=='nationalTargets'){
                         _.remove($scope.nationalTargets, function(r){
                            return r==record;
                         });
                     }
-                    
+
                     else if(type=='nationalAssessment'){
 
                          _.each($scope.nationalTargets, function(target){
@@ -350,7 +350,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                         });
 
                     }
-                    
+
                    else {
                         record=undefined;
                     }
@@ -394,22 +394,22 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //gets the unique aichi targets from targets and subtargets
         //======================================================
         $scope.getAichiTargets = function(targets){
-             
+
             if(!targets) return [];
-            
+
              var list = [];
              var n = "";
-             
+
             _.forEach(targets, function(name, key) {
-              
+
               n = name.substring(0, 15);
 
               if(list.indexOf(n) == -1 )
                 list.push(n);
             });
-            
+
             return list;
-             
+
         }
 
 

@@ -48,7 +48,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ////////////////
             // ABS Facets
             ///////////////
-            
+
             var publishedQuery  = $http.get("/api/v2013/documents/query/facets", { params : {collection:"my",      realm:'ABS-DEV'}});
             var draftQuery      = $http.get("/api/v2013/documents/query/facets", { params : {collection:"mydraft", realm:'ABS-DEV'}});
             var requestQuery    = $http.get("/api/v2013/documents/query/facets", { params : {collection:"request", realm:'ABS-DEV'}});
@@ -90,7 +90,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
               });
 
             var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-            var q = '(realm_ss:chm ' + qSchema + ownershipQuery + ')';
+            var q = '(realm_ss:' + realm.toLowerCase() + ' ' + qSchema + ownershipQuery + ')';
 
             var qsOtherSchemaFacetParams =
              {

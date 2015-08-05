@@ -1,6 +1,7 @@
 define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment", "utilities/solr"], function(_) { 'use strict';
 
-    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog', function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog) {
+    return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog', 'realm',
+     function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog, realm) {
 
         var pageSize = 15;
 
@@ -217,7 +218,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
             // Apply ownership
 
-            query.push(["realm_ss:chm", "(*:* NOT realm_ss:*)"]);
+            query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
             // Apply ownership
 

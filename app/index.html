@@ -16,7 +16,7 @@
 
 <iframe id="authenticationFrame" src="https://accounts.cbd.int/app/authorize.html" style="display:none" onload="(event.target || event.srcElement).ready = true"></iframe>
 
-<nav class="navbar navbar-cbd navbar-default bg-cbdgreen navbar-static-top" id="anchorTop">
+<nav class="navbar navbar-cbd navbar-default bg-cbdgreen navbar-static-top" id="anchorTop" ng-class="{'bg-cbdgreen': !test_env, 'bg-orange': test_env}">
       <div class="container container-cbd">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -99,7 +99,7 @@
                 <div class="col-xs-9">
                     <a href="/" class="color-cbdgreen">
                         <h1 style="font-size:60px;padding:0;margin:0;position:relative;">
-                            <span class="color-cbdgreen">CHM</span>
+                            <span ng-class="{'color-cbdgreen': !test_env, 'color-orange': test_env}">{{env_name}}</span>
                           </h1>
 
                             <!-- <form class="navbar-form" ng-submit="doSearch()" style="display:inline;" >
@@ -126,7 +126,7 @@
 
 
 <!-- PORTAL LINKS-->
-    <nav class="navbar navbar-links navbar-default navbar-static-top bg-blue">
+    <nav class="navbar navbar-links navbar-default navbar-static-top" ng-class="{'bg-blue': !test_env, 'bg-orange': test_env}">
         <div class="container container-links color-grey">
                 <div style="display:inline">
                     <a href="/"><i class="fa fa-home" ></i> Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

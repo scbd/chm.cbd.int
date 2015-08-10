@@ -53,6 +53,18 @@ define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/no
         $scope.hideSubmitInfoButton = function() { return $location.path()=="/management/register"; };
 
 
+
+        $scope.env_name = "CHM";
+        $scope.production_env = true;
+        $scope.test_env = false;
+
+        if ($location.absUrl().toLowerCase().indexOf("://dev-chm.cbd.int") > 0 || $location.absUrl().toLowerCase().indexOf("localhost:2000") > 0) {
+            $scope.test_env = true;
+            $scope.production_env = false;
+            $scope.env_name = "TEST";
+        }
+
+
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////

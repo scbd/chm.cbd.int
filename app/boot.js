@@ -32,7 +32,7 @@ require.config({
     },
     shim: {
       'libs/angular/angular'     : { deps: ['jquery'] },
-      'angular'                  : { deps: ['libs/angular/angular.min'] },
+      'angular'                  : { deps: ['libs/angular/angular'] },
       'ngRoute'                  : { deps: ['angular'] },
       'ngSanitize'               : { deps: ['angular'] },
       'leaflet-directive'        : { deps: ['angular', 'leaflet'], exports : 'L' },

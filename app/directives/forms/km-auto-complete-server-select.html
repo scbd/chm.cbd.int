@@ -1,0 +1,49 @@
+
+<form ng-submit="$event.preventDefault()"  >
+
+     <md-autocomplete  
+       
+          ng-disabled="isDisabled"
+          md-no-cache="noCache"
+          md-selected-item="binding"
+          
+          md-search-text-change="searchTextChange(searchText)"
+          md-search-text="searchText"
+         
+          md-items="item in querySearch(searchText,$event)"
+          md-item-text="item.display"
+          md-min-length="0"
+          placeholder={{placeholder}} 
+          md-menu-class="autocomplete-custom-template">
+    
+        <md-item-template >
+          <div ng-click="selectedItemChange(item,$event)" >
+          <span   >
+            <i class="fa fa-check ng-scope" ng-show="item.selected" ng-hide="!item.selected"></i>
+            <span> {{item.title | lstring}} </span>
+          </span><br>
+          <span class="item-metadata">
+            <span class="item-metastat">
+              IValue: <strong>{{item.id}}</strong> 
+            </span>
+          </span>
+          </div>
+        </md-item-template>
+      </md-autocomplete>
+      
+      
+      
+      
+      <ul class="list-group" ng-if="selectedItems.length" style="margin-top:10px">
+        <li class="list-group-item" ng-repeat="item in selectedItems">
+          <table style="width:100%">
+            <tr>
+              <td>{{item.title | lstring}}</td>
+              <td style="white-space:nowrap;text-align:right;vertical-align:top">
+                <button type="button" class="btn btn-default" ng-click="deleteSelectedItem(item)"><i class="fa fa-trash-o"></i></button>
+              </td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+</form>

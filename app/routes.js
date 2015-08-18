@@ -73,8 +73,17 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/register',                      { redirectTo:  '/management/' }).
 
-            when('/signin',                                   { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
+            when('/signin',                                             { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
+///////////////
+            //lifeWeb Routes
+            when('/lifeWeb/',                                            { templateUrl: 'views/management/lifeWeb/lifeWebSelect.html',           label: 'LifeWeb Online Reporting',   resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwcapaign/new',                                { templateUrl: 'views/management/edit/lw-campaign.html',                label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwevent/new',                               { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+         
+         
+          //  when('/submit/lifeWeb/campaignsList',                       { templateUrl: 'views/management/edit/lifeWeb/campaignsList.html',          label: 'LifeWeb Campaign List',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
+///////////////
         //  when('/management/meetings',                          { templateUrl: 'views/management/meetings/index.html',                 resolveController: true, resolveUser: true }).
         //  when('/management/meetings/:meetingId/documents',     { templateUrl: 'views/management/meetings/documents/index.html',       resolveController: true, resolveUser: true }).
         //  when('/management/meetings/:meetingId/documents/:id', { templateUrl: 'views/management/meetings/documents/document-id.html', resolveController: true, resolveUser: true }).

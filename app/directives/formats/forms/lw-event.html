@@ -1,0 +1,205 @@
+<div>
+
+
+  <h1>Event  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+
+  <div class="alert alert-danger" ng-show="hasError()">
+    <strong>Error as occured...</strong>
+    <div>{{error}}</div>
+  </div>
+
+  <div ng-show="status!='hidden'">
+
+
+    <div style="position: relative">
+
+      <div class="row">
+        <!--- row start-->
+                <div class="col-xs-12 visible-xs">
+                  <div class="">
+                    <span km-form-languages ng-model="document.header.languages"></span>
+                    <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                    on-pre-publish="onPrePublish()"></span>
+                  </div>
+                </div>
+        <!--- review tab buttons end -->
+        
+        <!--- language, cancel, cave buttons start -->
+                <div class="row">
+                  <div class="col-xs-6">
+                    <span km-form-languages ng-model="document.header.languages"></span>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <span km-form-material-buttons status="status" document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)"
+                    on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+                    on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+                  </div>
+                </div>
+         <!--- language, cancel, cave buttons end-->
+        
+        
+        
+              <div class="row">
+                <!--- row start-->
+                      <div class="col-xs-12 visible-xs">
+                        <div class="">
+                          <span km-form-languages ng-model="document.header.languages"></span>
+                          <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)"
+                          on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+                          on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+                        </div>
+                      </div>
+                      <!--- review tab buttons start -->
+                      <div class="col-sm-8 col-xs-12">
+                        <ul class="pagination">
+                          <li ng-class="{ disabled: tab=='general' }">
+                            <a href="" ng-click="tab='general'">&laquo;</a>
+                          </li>
+                          <li ng-class="{ active  : tab=='general' }">
+                            <a href="" ng-click="tab='general'">General</a>
+                          </li>
+                          <li ng-class="{ active  : tab=='review'  }">
+                            <a href="" ng-click="tab='review'">Review</a>
+                          </li>
+                          <li ng-class="{ disabled: tab=='review'  }">
+                            <a href="" ng-click="tab='review'">&raquo;</a>
+                          </li>
+                        </ul>
+                      </div>
+                <!--- review tab buttons end -->
+              </div>
+      </div>
+      <!--- row end-->
+      <div>
+    <!--- FORM Start -->
+    <form name="editForm">
+      <div km-tab="general">
+        <legend>Event Information</legend>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="name" required caption="Name">
+              <div km-textbox-ml name="name" required ng-model="document.name" placeholder="enter name here" locales="document.header.languages"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="description" caption="Description">
+              <div km-textbox-ml name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="km-control-group" name="startDate" caption="Start Date">
+              <div km-date style="width:200px" name="startDate" ng-model="document.startDate"></div>
+            </div>
+          </div>
+          <div class="col-md-4" offset1>
+            <div class="km-control-group" name="endDate" caption="End Date">
+              <div km-date style="width:200px" name="endDate" ng-model="document.endDate"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row  bottom-spacing">
+          <div class="col-md-12">
+            <div class="km-control-group" name="organizations" caption="Organizations Hosting the Event">
+              <div class="help-block">Please type the name of the organization.</div>
+              <div km-inputtext-list name="organizations" ng-model="document.organizations"
+              placeholder="example: Convention on Biological Diversity"></div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row  bottom-spacing">
+          <div class="col-md-10">
+            <div class="km-control-group" name="project" caption="Organizations Hosting the Event">
+              <div km-auto-complete-server-select placeholder="Search organizations by typing key words"> </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row  bottom-spacing">
+          <div class="col-md-10">
+            <div class="km-control-group" name="project" caption="Select Related Projects">
+              <div km-auto-complete-server-select placeholder="Search projects by typing key words"> </div>
+            </div>
+          </div>
+        </div>
+
+        
+         
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Event Images</legend>
+              <div class="km-control-group" name="images" caption="Please send high quality images and any additional media (videos, brochures, etc.) of the project. At least one image is
+                    required. Upload images in (JPEG/PNG) format.">
+                <div km-link name="images" ng-model="document.images" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png"
+                identifier="document.header.identifier"></div>
+              </div>
+            </div>
+          </div>
+        
+       <div class="row">
+          <div class="col-md-10">
+            <div class="km-control-group" required name="coverImage" caption="Select a Cover Image">
+              <div km-select name="coverImage" ng-model="document.coverImage" items="options.images()" watch-items='true' ></div>
+            </div>
+          </div>
+       </div>
+          
+          <div class="row  bottom-spacing">
+            <div class="col-md-12">
+              <legend>Event Documents</legend>
+              <div class="km-control-group" name="documents" caption="Please add all the events documents, including schedules, relevant websites, links, and files">
+                <div km-link name="documents" ng-model="document.documents" identifier="document.header.identifier" ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form> 
+  
+        <!--- FORM end  -->
+
+        <div km-tab="review">
+          <div km-document-validation ng-model="validationReport"></div>
+          <div class="btn-group" ng-show="document.header.languages.length>1">
+            <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+          </div>
+          <view-lw-event ng-model="document" locale="review.locale" target="_blank" allow-drafts="true"></view-lw-event>
+        </div>
+        
+        
+          <!--- review tab buttons start -->
+          <div class="row">
+              <div class="col-sm-9 col-xs-12">
+                <ul class="pagination">
+                  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+                  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+                  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+                  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+                </ul>
+              </div>
+              
+              <!--- review tab buttons end -->
+              <div class="col-sm-3 hidden-xs" style="text-align:right">
+                <div class="pagination">
+                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                  on-pre-publish="onPrePublish()"></span>
+                </div>
+              </div>
+    
+              <div class="col-xs-12 visible-xs">
+                <div class="">
+                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                  on-pre-publish="onPrePublish()"></span>
+                </div>
+              </div>
+         </div>
+
+      </div>
+    </div>
+  </div>
+</div>

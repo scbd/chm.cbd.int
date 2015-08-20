@@ -14,5 +14,6 @@ define([
 	'./km-tab',
 	'./km-terms-check',
 	'./km-terms-radio',
-	'./km-yes-no'
+	'./km-yes-no',
+	'./km-auto-complete-server-select'
 ], {});

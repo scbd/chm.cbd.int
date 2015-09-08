@@ -76,13 +76,13 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/signin',                                             { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
 ///////////////
             //lifeWeb Routes
-            when('/lifeWeb/',                                            { templateUrl: 'views/management/lifeWeb/lifeWebSelect.html',           label: 'LifeWeb Online Reporting',   resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/lwcapaign/new',                                { templateUrl: 'views/management/edit/lw-campaign.html',                label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/lwevent/new',                               { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-         
-         
-          //  when('/submit/lifeWeb/campaignsList',                       { templateUrl: 'views/management/edit/lifeWeb/campaignsList.html',          label: 'LifeWeb Campaign List',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-
+            when('/lifeWeb',                                             { templateUrl: 'views/management/lifeWeb/life-web-select.html',         label: 'LifeWeb Online Reporting',   resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwEvent/new',                                  { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwEvent/:uid',                                  { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwProject/new',                                { templateUrl: 'views/management/edit/lw-project.html',                 label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).   
+            when('/submit/lwProject/:uid',                                { templateUrl: 'views/management/edit/lw-project.html',                 label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).               
+            when('/submit/lwDonor/new',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).          
+            when('/submit/lwDonor/:uid',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).        
 ///////////////
         //  when('/management/meetings',                          { templateUrl: 'views/management/meetings/index.html',                 resolveController: true, resolveUser: true }).
         //  when('/management/meetings/:meetingId/documents',     { templateUrl: 'views/management/meetings/documents/index.html',       resolveController: true, resolveUser: true }).

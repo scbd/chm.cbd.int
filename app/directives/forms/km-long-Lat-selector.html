@@ -1,0 +1,33 @@
+<div class="row ">
+	<div class="col-xs-3">
+		
+		<div class="row" >
+			<div class="col-sm-5">
+				<label >{{'Latitude'}}</label>
+			</div>
+			<div class="col-sm-7">
+				<input type="text" class="form-control" ng-model="binding.lat" />
+			</div>
+		</div>
+		
+		<div class="row botom" style="padding-top: 10px;">
+			<div class="col-sm-5">
+				<label  >{{'Longitude' }}</label>
+			</div>
+			<div class="col-sm-7">
+				<input type="text" class="form-control" ng-model="binding.lng" />
+			</div>
+		</div>
+		
+		<div class="row"  style="padding-top: 10px;">
+			<div class="col-sm-5">
+				<label >{{'Zoom' }}</label>
+			</div>
+			<div class="col-sm-7">
+				<input type="text" class="form-control" ng-model="binding.zoom" />
+			</div>
+		</div>
+		&nbsp;
+	</div>
+	<div id="map" class="col-xs-8" style="height: 200px;"></div>
+</div>

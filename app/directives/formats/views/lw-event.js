@@ -1,6 +1,6 @@
-define(['app', 'angular', 'lodash', 'text!./lw-campaign.html', 'utilities/km-storage'], function(app, angular, _, template){
+define(['app', 'angular', 'lodash', 'text!./lw-event.html', 'utilities/km-storage'], function(app, angular, _, template){
 
-app.directive('viewLwCampaign', ["IStorage", function (storage) {
+app.directive('viewLwEvent', ["IStorage", function (storage) {
 	return {
 		restrict   : 'E',
 		template   : template,

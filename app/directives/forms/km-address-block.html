@@ -1,0 +1,85 @@
+						  <!-- lstring  version -->
+							<div class="row" ng-show="document.header.languages">
+								<div class="col-md-10">
+									<div class="km-control-group" name="address" caption="Address">
+										<div km-textbox-ml ng-model="street" rows="2" placeholder="example: 413 St-Jacques Ouest, Suite 800" locales="document.header.languages" ></div>
+										
+									</div>
+								</div>
+							</div>
+						   <!-- plain text version -->
+							<div class="row" ng-show="!document.header.languages">
+								<div class="col-md-10">
+									<div class="km-control-group" name="address" caption="Address">
+										
+										<textarea  class="form-control"  ng-model="street" placeholder="example: 413 St-Jacques Ouest, Suite 800" rows="2" style="display:inline-block" ></textarea>
+									</div>
+								</div>
+							</div>
+							
+							<!-- lstring  version -->
+							<div class="row" ng-show="document.header.languages" >
+								<div class="col-md-4">
+									<div class="km-control-group" name="city" caption="City">
+										<div km-textbox-ml  name="city" ng-model="city" locales="document.header.languages" placeholder="example: Montreal" ng-show="document.header.languages"></div>
+										
+									</div>
+								</div>
+								<div class="col-md-4 offset1">
+									<div class="km-control-group" name="state" caption="State or Province">
+										<div km-textbox-ml name="state" ng-model="state" locales="document.header.languages" placeholder="example: Quebec" ng-show="document.header.languages"></div>
+								
+									</div>
+								</div>
+							</div>
+							
+							<!-- plain text  version -->
+							<div class="row" ng-show="!document.header.languages">
+								<div class="col-md-4">
+									<div class="km-control-group" name="city" caption="City">
+										
+										<textarea  class="form-control" name="city"  ng-model="city" placeholder="example: Montreal" rows="1" style="display:inline-block"></textarea>
+									</div>
+								</div>
+
+								<div class="col-md-4 offset1">
+									<div class="km-control-group" name="state" caption="State or Province">
+										
+										<textarea  class="form-control" name="state"  ng-model="state" placeholder="example: Quebec" rows="1" style="display:inline-block"></textarea>
+									</div>
+								</div>
+							</div>
+							<!-- lstring text  version -->
+							<div class="row" ng-show="document.header.languages">
+
+								<div class="col-md-4" >
+									<div class="km-control-group" name="postalCode" caption="Postal Code or Zip" >
+										<div km-textbox-ml name="postalCode" ng-model="postalCode" locales="document.header.languages" placeholder="example: L2T 3C7 or 14559" ></div>
+										
+									</div>
+								</div>
+
+								<div class="col-md-4 offset1">
+									<div class="km-control-group" name="country"  caption="Country">
+                    					<div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="country" items="lifeWebApiCalls.getCountries(query)" cache="true"> </div>
+										<!--<div km-select required name="country" ng-model="document.country" items="options.countries()"></div>    -->
+									</div>
+								</div>
+							</div>
+							<!-- plain text  version -->
+							<div class="row" ng-show="!document.header.languages">
+
+								<div class="col-md-4" >
+									<div class="km-control-group" name="postalCode" caption="Postal Code or Zip" >
+										<textarea name="postalCode" ng-model="postalCode"  placeholder="example: L2T 3C7 or 14559" ></textarea>
+										
+									</div>
+								</div>
+
+								<div class="col-md-4 offset1">
+									<div class="km-control-group" name="country"  caption="Country">
+                    					<div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="country" items="lifeWebApiCalls.getCountries(query)" cache="true" > </div>
+										<!--<div km-select required name="country" ng-model="document.country" items="options.countries()"></div>    -->
+									</div>
+								</div>
+							</div>

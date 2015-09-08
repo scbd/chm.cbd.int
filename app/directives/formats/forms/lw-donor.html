@@ -1,0 +1,161 @@
+<div>
+
+
+  <h1>Donor  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+
+  <div class="alert alert-danger" ng-show="hasError()">
+    <strong>Error as occured...</strong>
+    <div>{{error}}</div>
+  </div>
+
+  <div ng-show="status!='hidden'">
+
+
+    <div style="position: relative">
+
+     			<div class="row">
+				<div class="col-xs-12 visible-xs">
+					<div class="">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+				<div class="col-sm-8 col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+					</ul>
+				</div>
+
+				<div class="col-sm-4 hidden-xs" style="text-align:right">
+					<div class="pagination">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
+      <!--- row end-->
+      <div>
+    <!--- FORM Start    <div km-textbox-ml name="name" required ng-model="document.name" placeholder="enter name here" locales="document.header.languages"></div>-->
+    <form name="editForm">
+      <div km-tab="general">
+        
+        <legend>Donor Information</legend>
+        
+        <div class="row">
+          
+          <div class="col-md-12">
+            <div class="km-control-group" name="document.name" required caption="Name">
+                <textarea  class="form-control" ng-required="true" ng-model="document.name" placeholder="Enter Donor name" rows="1" style="display:inline-block"></textarea>
+            </div>
+          </div>
+          
+        </div>
+        
+        
+        <div class="row">
+          
+          <div class="col-md-6">
+            <div class="km-control-group" name="document.acronym" caption="Acronym">
+              <textarea class="form-control" ng-required="true" ng-model="document.acronym" placeholder="Enter Donor'S Acronym'" rows="1"></textarea>
+            </div>
+          </div>
+         <div class="col-md-6">   
+            <div class="km-control-group" name="country" caption="Country">
+              <div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="document.country"
+              items="lifeWebServices.getCountries(query)" cache="true" km-type="ETerm"> </div>
+            </div>
+         </div>
+          
+        </div> 
+        
+       <div class="row">
+          
+          <div class="col-md-12">
+            <div class="km-control-group" name="document.description" required caption="Description">
+                <textarea  class="form-control" ng-required="true" ng-model="document.description" placeholder="Enter Donor's description'" rows="5" ></textarea>
+            </div>
+          </div>
+          
+        </div>
+        
+        
+        <div class="row">
+          
+            <div class="col-md-6">
+             
+              <div class="km-control-group" name="document.logo" caption="Upload Donor's Logo'">
+                <div km-link name="logo" ng-model="document.logo" allow-file="true" allow-link="false"  identifier="document.header.identifier"></div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+         
+              <div  class="km-control-group" name="document.website" caption="Upload Donor's Website'">
+                <div km-link name="website" ng-model="document.website" allow-file="false" allow-link="true"  identifier="document.header.identifier"></div>
+              </div>
+            </div>
+            
+         </div>
+         
+       <!---  <div class="row">
+          
+            <div class="col-md-12">
+              <div class="km-control-group" name="document.socialMedia" caption="Social Media">
+                <div inputtext-list name="socialMedia" ng-model="document.socialMedia" identifier="document.header.identifier"></div>
+              </div>
+            </div>
+            
+         </div>-->
+        
+        
+        
+        
+       </div>
+    </form> 
+  
+        <!--- FORM end  -->
+
+        <div km-tab="review">
+          <div km-document-validation ng-model="validationReport"></div>
+          <div class="btn-group" ng-show="document.header.languages.length>1">
+            <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+          </div>
+          <view-lw-event ng-model="document" locale="review.locale" target="_blank" allow-drafts="true"></view-lw-event>
+        </div>
+        
+        
+          <!--- review tab buttons start -->
+          <div class="row">
+              <div class="col-sm-9 col-xs-12">
+                <ul class="pagination">
+                  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+                  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+                  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+                  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+                </ul>
+              </div>
+              
+              <!--- review tab buttons end -->
+              <div class="col-sm-3 hidden-xs" style="text-align:right">
+                <div class="pagination">
+                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                  on-pre-publish="onPrePublish()"></span>
+                </div>
+              </div>
+    
+              <div class="col-xs-12 visible-xs">
+                <div class="">
+                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                  on-pre-publish="onPrePublish()"></span>
+                </div>
+              </div>
+         </div>
+
+      </div>
+    </div>
+  </div>
+</div>

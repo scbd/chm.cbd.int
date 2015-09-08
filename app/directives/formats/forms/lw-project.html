@@ -1,0 +1,502 @@
+
+<div>
+<style type="text/css">.popover {font-weight: normal; max-width: 400px;} </style>
+
+  <h1>Project  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+
+  <div class="alert alert-danger" ng-show="hasError()">
+    <strong>Error as occured...</strong>
+    <div>{{error}}</div>
+  </div>
+
+  <div ng-show="status!='hidden'">
+
+
+    <div style="position: relative">
+
+     			<div class="row">
+				<div class="col-xs-12 visible-xs">
+					<div class="">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+				<div class="col-sm-8 col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+					</ul>
+				</div>
+
+				<div class="col-sm-4 hidden-xs" style="text-align:right">
+					<div class="pagination">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
+      <!--- row end-->
+      <div>
+    <!--- FORM Start    <div km-textbox-ml name="name" required ng-model="document.name" placeholder="enter name here" locales="document.header.languages"></div>-->
+    <form name="editForm">
+      <div km-tab="general">
+        
+        <legend>Project Information</legend>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="document.title" required caption="Project Title">
+                <textarea  class="form-control" ng-required="true" ng-model="document.title" placeholder="Enter project title" rows="1" style="display:inline-block"></textarea>
+            </div>
+          </div>
+        </div>        
+         
+         <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="document.leadContact" required caption="Lead Contact">
+                <textarea  class="form-control" ng-required="true" ng-model="document.leadContact" placeholder="Enter lead contact name" rows="1" style="display:inline-block"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2" >
+            <div class="km-control-group" name="document.expired" required caption="Is Project Expired?">
+                <div km-yes-no name="document.expired" ng-model="document.expired" locales="document.header.languages"></div>
+            </div>
+          </div>
+    
+            <div class="col-md-3">
+            <div class="km-control-group" name="document.startDate" caption="Project Start Date" required >
+              <div km-date style="width:200px" name="startDate" ng-model="document.startDate" placeholder="YYYY-MM-DD" required></div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="km-control-group" name="document.timeFrame" required caption="Time Frame">
+                <input type="number"  ng-required="true" ng-model="document.timeFrame" placeholder="Number of months" ></textarea>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="country" caption="Country or Countries">
+              <div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="document.countries"
+              items="lifeWebServices.getCountries(query)" cache="true" km-type="ETerm" multiple> </div>
+            </div>
+          </div>
+        </div> 
+
+
+                       
+        <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="projectAbstract" caption="Abstract">
+                <textarea  class="form-control" ng-required="true" ng-model="document.projectAbstract"  rows="5" style="display:inline-block"></textarea>
+            </div>
+          </div>
+        </div>
+        
+       <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="description" caption="Description">
+                <textarea  class="form-control" ng-required="true" ng-model="document.description"  rows="5" style="display:inline-block"></textarea>
+            </div>
+          </div>
+        </div>
+        
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Project Images</legend>
+              <div class="km-control-group" name="document.images" caption="Please send high quality images and any additional media (videos, brochures, etc.) of the project. At least one image is
+                    required. Upload images in (JPEG/PNG) format.">
+                <div km-link name="document.images" ng-model="document.images" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png"
+                identifier="document.header.identifier"></div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="row">
+              <div class="col-md-12">
+                <div class="km-control-group" required name="document.thumbnail.url" caption="Select a Thumbnail">
+                  <div km-select name="document.thumbnail" ng-model="document.thumbnail" items="options.images()" watch-items='true' ng-change="eLinkCoverImage()"></div>
+                </div>
+              </div>
+          </div>        
+        
+
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Link with the 2011-2020 Strategic Plan for Biodiversity and the Aichi Targets</legend>
+              LifeWeb facilitates financing that contribute toward the achievement of the area-based Aichi Targets in the 2011-2020 Strategic
+              Plan for Biodiversity.
+              <div class="km-control-group" name="document.selectedAichiTargets" caption="Aichi Targets">
+                <div km-auto-complete-server-select placeholder="Choose an Aichi target by typeing its name or number" ng-model="document.aichiTargets"
+                items="lifeWebServices.getAichiTargets(query)" cache="true" km-type="ETerm"  multiple> </div>
+              </div>
+            </div>
+          
+            <div class="col-md-12">
+              <div class="km-control-group" name="aichiTabs" caption="Aichi Tabs">
+                <ul class="pagination">
+                  <li ng-class="{ disabled: aichiSelectedTab==aichiFirstTab}"><a href="" ng-click="setAichiTab(prevAichiTab);">&laquo;  </a></li>
+                  <li ng-repeat="target in aichiTabs" ng-class="{ active  : aichiSelectedTab==target.identifier}" ><a href="" ng-click="setAichiTab(target.identifier);">{{target.identifier}}</a></li>
+                  <li ng-class="{ disabled: aichiSelectedTab==aichiLastTab}"><a href="" ng-click="setAichiTab(nextAichiTab);">&raquo;</a></li>
+                </ul>
+                <div ng-repeat="target in aichiTabs" >
+                  <div ng-show="showAichiTab(target.identifier)">
+                      <p>{{lifeWebServices.getAichiDescription(target.identifier).help}} <a href="{{lifeWebServices.getAichiDescription(target.identifier).link}}" target='_blank'>More Info<a/></p>
+                      <textarea class="form-control" ng-model="aichiComments[target.identifier]" placeholder="Describe the project's alignment to Aichi Target {{target.identifier}}"
+                      rows="5" style="display:inline-block"></textarea>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>        
+        
+ 
+        <div class="row">
+          <div class="col-md-12">
+            <legend>Alignment with National Planning</legend>
+            Consistent with the decision X/31, please indicate the relevance between this submission and the following planning processes.
+
+          </div>
+        </div>  
+              
+      <div class="row">
+        <div class="col-md-12">
+          <div class="km-control-group" name="nationalAlignements" caption="National Alignments">
+            
+            <ul class="pagination">
+              <li ng-class="{ disabled: natAliSelectedTab=='NBSAPs'}"><a href="" ng-click="setNatAliSelectedTab(natAliPrevTab)">&laquo;</a></li>
+              <li ng-class="{ active  : natAliSelectedTab=='NBSAPs'}"><a href="" ng-click="setNatAliSelectedTab('NBSAPs')">NBSAPs</a></li>
+              <li ng-class="{ active  : natAliSelectedTab=='climateChange'}"><a href="" ng-click="setNatAliSelectedTab('climateChange')">National Climate</a></li>      
+              <li ng-class="{ active  : natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab('o_n_s')">Other National Strategies</a></li>     
+              <li ng-class="{ disabled: natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab(natAliNextTab)">&raquo;</a></li>
+            </ul>
+            <div>
+                <div  ng-show="natAliSelectedTab=='NBSAPs'">
+                  <textarea class="form-control" ng-model="document.nationalAlignment[0].comment" placeholder=" National Biodiversity Strategies and Action Plans (NBSAPs) and action plans for implementing the CBD Programme of Work on Protected Areas (PoWPA)."
+                  rows="5" ></textarea>
+                </div>
+                <div  ng-show="natAliSelectedTab=='climateChange'">
+                  <textarea class="form-control" ng-model="document.nationalAlignment[1].comment" placeholder=" Alignment with National Climate Change Strategies"
+                  rows="5" ></textarea>
+                </div>
+                
+                <div  ng-show="natAliSelectedTab=='o_n_s'">
+    
+                  <textarea class="form-control" ng-model="document.nationalAlignment[2].comment" placeholder="             Such as:  Programme of WOrk on Protected Areas (PoWPA), Poverty Reduction Strategies (PRSPs), National Climate Change Strategies, REDD+ Strategies, National Adaptation Plans of Action (NAPAs), economic and sustainable development plans, national resource mobilization strategy, infrastructure plans, land use plans, strategies for achieving the Millennium Development Goals, etc."
+                  rows="5" ></textarea>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>         
+        
+
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Contribution to Climate Change</legend>
+              <div class="km-control-group" name="climateContribution" caption="Conritbutions">
+                <div km-auto-complete-server-select placeholder="Add an Ecological Contribution attributed to this project by typing its name" ng-model="document.climateContribution"
+                items="lifeWebServices.getContributionsClimateChange(query)" cache="true" km-type="ETerm" multiple> </div>
+              </div>
+            </div>
+          
+            <div class="col-md-12">
+              <div class="km-control-group" name="climateContributionTabs" caption="Contribution Tabs">
+                <ul class="pagination">
+                  <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionFirstTab}"><a href="" ng-click="setClimateContributionTab(prevClimateContributionTab);">&laquo;  </a></li>
+                  <li ng-repeat="target in climateContributionTabs" ng-class="{ active  : climateContributionSelectedTab==target.identifier}" ><a href="" ng-click="setClimateContributionTab(target.identifier);">{{target.title}}</a></li>
+                  <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionLastTab}"><a href="" ng-click="setClimateContributionTab(nextClimateContributionTab);">&raquo;</a></li>
+                </ul>
+                <div ng-repeat="target in document.climateContribution" >
+                  <div ng-show="showClimateContributionTab(target.identifier)">
+                   
+                      <textarea class="form-control" ng-model="climateContributionComments[target.identifier]" placeholder="Describe the project's contribution to ecological change"
+                      rows="5" style="display:inline-block"></textarea>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Ecological Contribution</legend>
+              <div class="km-control-group" name="document.ecologicalContribution" caption="Ecological Contribution">
+                 <textarea class="form-control" ng-model="document.ecologicalContribution" placeholder="Please indicate the extend to which the area(s) is/are ecological priority(s) for the national protected area system, based on contribution to ecological representation, connectivity, viability and/or irreplaceability within the protected area system. If available, please refer to the national ecological gap analysis or other geographic prioritisation exercises."
+                  rows="5" style="display:inline-block"></textarea>
+              </div>
+            </div>
+           </div>
+            
+           <div class="row">
+            <div class="col-md-12">
+              <legend>Institutional Context</legend>
+             
+              <div class="km-control-group" name="document.institutionalContext" caption="Add and edit partners to be involved, their roles, and any additional information">
+
+                  <table class="table table-hover table-condensed" >
+									<thead>
+										<tr>
+											<th class="col-lg-3 text-left">Partner Name</th>
+											<th class="col-lg-6 text-left">Info</th>
+											<th class="col-lg-2 text-left">Role in Project</th>
+											<th class="col-lg-1 text-left"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="partner in document.institutionalContext track by $index">
+											<td>
+												<div class="input-group" >
+                           <input type="text" class="form-control" ng-model="partner.partner" ng-change="addRowInstitutionalContext();" " >
+												</div>
+											</td>
+											<td>
+												<div  >
+													 <textarea class="form-control"  ng-model="partner.info" placeholder=" Describe the partners role specific to this project" rows="2" style="width:100%;"></textarea>
+												</div>
+											</td>
+											<td>
+												<div km-select  name="role" ng-model="partner.role" items="lifeWebServices.getRoles(query)"></div>
+											</td>
+											<td>
+												<span class="btn btn-default" ng-click="document.institutionalContext.splice($index, 1);" ng-show="!$last || isNotEmpty(partner)"><i class="fa fa-trash-o"></i></span>
+											</td>
+										</tr>
+
+									</tbody>
+
+							    </table>
+
+              </div>
+            </div>
+           </div>
+
+           <div class="row">
+            <div class="col-md-12">
+              <legend>Objectives and Results</legend>
+              Objectives and results of funding.
+              <div class="km-control-group" name="document.budget" caption="Add and edit objectives and results per funding amount">
+
+                  <table class="table table-hover table-condensed">
+									<thead>
+										<tr>
+											<th class="col-lg-5 text-left">Activities</th>
+											<th class="col-lg-5 text-left">Results</th>
+											<th class="col-lg-1 text-left">Cost</th>
+											<th class="col-xs-1 text-left"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="budgetRow in document.budget track by $index">
+											<td>
+											
+                           <textarea type="text" class="form-control" ng-model="budgetRow.activity" ng-change="addRowBudget();"  rows="2" style="width:100%;"></textarea>
+										
+											</td>
+											<td>
+									
+													<textarea type="text" class="form-control" ng-model="budgetRow.results"  rows="2" style="width:100%;"></textarea>
+										
+											</td>
+											<td>
+											
+													<input type="number" class="form-control" ng-model="budgetRow.amount" placeholder="USD">
+										
+											</td>
+											<td>
+												<span class="btn btn-default" ng-click="document.budget.splice($index, 1);" ng-show="!$last || isNotEmpty(objective)"><i class="fa fa-trash-o"></i></span>
+											</td>
+										</tr>
+									</tbody>
+
+							    </table>
+
+              </div>
+            </div>
+           </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="km-control-group" name="document.fincialStability" caption="Fincial Stability">
+                 <textarea class="form-control" ng-model="document.financialStability" placeholder="Enter details on how the project is fincialy stable or well maintained"
+                  rows="5" style="display:inline-block"></textarea>
+              </div>
+            </div>
+           </div>
+
+        <div class="row">
+            <div class="col-md-12">
+              <legend>Donations</legend>
+         
+              <div class="km-control-group" name="document.donations" caption="Add and edit donations.">
+
+                  <table class="table table-hover table-condensed">
+									<thead>
+										<tr>
+											<th class="col-lg-2 text-left">Date Donated</th>
+											<th class="col-xs-3 text-left">Donor</th>
+											<th class="col-lg-3 text-left">Description</th>
+											<th class="col-lg-1 text-left">Funding</th>
+
+                      <th class="col-xs-2 text-left">Verified - Domestic</th>
+                      <th class="col-xs-1 text-left"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="donation in document.donations track by $index">
+                      											<td>
+												<div  >
+													<div class="km-control-group" name="donation.date" required >
+                            <div km-date  name="donation.date" ng-model="donation.date"  ng-change="addRowDonation();" required></div> <!-- style="width:200px" -->
+                          </div>
+												</div>
+											</td>
+                      
+                      <td>
+                        <div >
+                            <div km-auto-complete-server-select placeholder="Search for a Donor" ng-model="donation.donor"
+                            items="lifeWebServices.getDonors(query)" cache="true"  style="width:100%" km-type="ETerm"  required>
+                            </div >
+                         </div>
+                      </td>
+                      
+                      <td>
+												<div  >
+                          
+                            <textarea class="form-control"  ng-model="donation.description"  rows="2" style="width:100%;"></textarea>
+												</div>
+											</td>
+                      
+											<td>
+												<div  >
+													<input type="number"  ng-model="donation.funding" min="1" required>
+												</div>
+											</td>
+                        
+                        <td>
+                          <div style="background:white">
+                        
+                          
+                          
+                                <input type="radio" name="isdomestic{{$index}}" ng-model="donation.domestic" ng-value="true" />Domestic
+                                <input type="radio" name="isdomestic{{$index}}" ng-model="donation.domestic" ng-value="false" />International
+                       </div>
+                       <div style="background:white;  border-top: thin double #000000; white-space:nowrap; ">
+                                <input type="radio" name="lifewebFacilitated{{$index}}" ng-model="donation.lifewebFacilitated" ng-value="true" />Secured
+                                <input type="radio" name="lifewebFacilitated{{$index}}" ng-model="donation.lifewebFacilitated" ng-value="false" />Unsecured
+                       
+                            
+                          </div>
+                                <div style="background:white;  border-top: thin double #000000;white-space:nowrap; ">
+                                <input type="checkbox" name="donation.lifewebPrevFunded" ng-model="donation.lifewebPrevFunded" ng-value="true" />Previous Secured Funding
+                              
+                       
+                            
+                          </div>
+                        </td>
+											<td>
+												<span class="btn btn-default" ng-click="document.donations.splice($index, 1);" ng-show="!$last || isNotEmpty(objective)"><i class="fa fa-trash-o"></i></span>
+											</td>
+										</tr>
+
+									</tbody>
+
+							    </table>
+
+              </div>
+            </div>
+           </div>
+
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Links with the World Database on Protected Areas</legend>
+              
+              <div class="km-control-group" name="document.protectedAreas" caption="If this project's scope involved protected areas registered in the World Database on Protected Areas (WDPA), please include the URL links where the sites appear on http://www.protectedplanet.net of all the areas involved in this project. If the area(s) are not registered in the WDPA, please indicate the complete name(s).">
+						      	<div km-link name="document.protectedAreas" allow-link="true" allow-file="false" ng-model="document.protectedAreas" identifier="document.header.identifier"></div>
+              </div>
+            </div>
+          </div>
+
+           <div class="row">
+            <div class="col-md-12">
+              <legend>Maps</legend>
+              <div class="km-control-group" name="document.protectedAreas" caption="Please send high quality digital GIS files or scanned maps situating and describing the project area. There files may be made available for download on the LifeWeb website and may be used in CBD and LifeWeb communication materials.">
+						      	<div km-link name="document.maps" allow-link="false" allow-file="true" ng-model="document.maps" identifier="document.header.identifier"></div>
+              </div>
+            </div>
+          </div>       
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <legend>Project Coordinates</legend>
+              <div class="km-control-group" name="document.location.coordinates" caption="Please click the map to select co-ordinates">
+                <km-long-Lat-selector ng-model="document.coordinates" map-reference="locationMap"></km-long-Lat-selector>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="row ">
+            <div class="col-md-12">
+              <legend>Project Documents and Links</legend>
+              <div class="km-control-group" name="document.attachments" caption="Please add all the events documents, including schedules, relevant websites, links, and files">
+                <div km-link name="documents" ng-model="document.attachments" identifier="document.header.identifier" ></div>
+              </div>
+            </div>
+          </div>
+       
+       </div>
+    </form> 
+  
+        <!--- FORM end  -->
+
+        <div km-tab="review">
+          <div km-document-validation ng-model="validationReport"></div>
+          <div class="btn-group" ng-show="document.header.languages.length>1">
+            <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+          </div>
+          <view-lw-project ng-model="document" locale="review.locale" target="_blank" allow-drafts="true"></view-lw-project>
+        </div>
+        
+        
+          <!--- review tab buttons start -->
+          <div class="row">
+              <div class="col-sm-9 col-xs-12">
+                <ul class="pagination">
+                  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+                  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+                  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+                  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+                </ul>
+              </div>
+              
+              <!--- review tab buttons end -->
+              <div class="col-sm-3 hidden-xs" style="text-align:right">
+                <div class="pagination">
+                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                  on-pre-publish="onPrePublish()"></span>
+                </div>
+              </div>
+    
+              <div class="col-xs-12 visible-xs">
+                <div class="">
+                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+                  on-pre-publish="onPrePublish()"></span>
+                </div>
+              </div>
+         </div>
+
+      </div>
+    </div>
+  </div>
+</div>

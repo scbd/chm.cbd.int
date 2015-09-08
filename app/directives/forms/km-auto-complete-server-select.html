@@ -5,14 +5,15 @@
        
           ng-disabled="isDisabled"
           md-no-cache="noCache"
-          md-selected-item="binding"
+         
           
           md-search-text-change="searchTextChange(searchText)"
           md-search-text="searchText"
          
-          md-items="item in querySearch(searchText,$event)"
+          md-items="item in querySearch(searchText)"
           md-item-text="item.display"
-          md-min-length="0"
+          md-min-length="1"
+      
           placeholder={{placeholder}} 
           md-menu-class="autocomplete-custom-template">
     
@@ -20,11 +21,11 @@
           <div ng-click="selectedItemChange(item,$event)" >
           <span   >
             <i class="fa fa-check ng-scope" ng-show="item.selected" ng-hide="!item.selected"></i>
-            <span> {{item.title | lstring}} </span>
+            <span> {{item.title }} </span>
           </span><br>
           <span class="item-metadata">
             <span class="item-metastat">
-              IValue: <strong>{{item.id}}</strong> 
+              IValue: <strong>{{item.identifier}}</strong> 
             </span>
           </span>
           </div>
@@ -34,7 +35,7 @@
       
       
       
-      <ul class="list-group" ng-if="selectedItems.length" style="margin-top:10px">
+      <ul class="list-group" ng-if="selectedItems.length && multiple" style="margin-top:10px">
         <li class="list-group-item" ng-repeat="item in selectedItems">
           <table style="width:100%">
             <tr>

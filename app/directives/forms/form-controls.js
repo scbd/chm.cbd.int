@@ -15,5 +15,7 @@ define([
 	'./km-terms-check',
 	'./km-terms-radio',
 	'./km-yes-no',
-	'./km-auto-complete-server-select'
+	'./km-auto-complete-server-select',
+	'./km-long-Lat-selector',
+	'./km-address-block'
 ], {});

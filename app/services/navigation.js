@@ -52,6 +52,9 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "absCheckpoint") return "Checkpoint";
             if (schema == "absCheckpointCommunique") return "Checkpoint Communiqué";
             if (schema == "absPermit") return "Permit";
+            if (schema == "lwProject") return "LifeWeb Projects";
+            if (schema == "lwEvent") return "LifeWeb Events";
+            if (schema == "lwDonor") return "LifeWeb Donors";
 
             return (schema || "") + "*";
         };

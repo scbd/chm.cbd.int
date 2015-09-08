@@ -10,8 +10,18 @@ define(['app', 'text!./km-date.html', 'bootstrap-datepicker','jquery'], function
 			scope: {
 				binding      : '=ngModel',
 				placeholder  : '@',
-				ngDisabledFn : '&ngDisabled'
-			}
+				ngDisabledFn : '&ngDisabled',
+				ngChange : '&',
+			},
+			    link : function(scope, element, attrs){
+						
+					scope.$watch('binding', function (newVal) {
+						if(scope.ngChange)
+							scope.ngChange();
+						
+					}) ;  
+				}
+			
 		};
 	}]);
 });

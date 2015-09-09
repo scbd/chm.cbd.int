@@ -99,7 +99,8 @@
                 <div class="col-xs-9">
                     <a href="/" class="color-cbdgreen">
                         <h1 style="font-size:60px;padding:0;margin:0;position:relative;">
-                            <span ng-class="{'color-cbdgreen': !test_env, 'color-orange': test_env}">{{env_name}}</span>
+                            <span ng-hide="test_env" class="color-cbdgreen">CHM</span>
+                            <span ng-show="test_env" class="color-orange" ng-cloak>TEST</span>
                           </h1>
 
                             <!-- <form class="navbar-form" ng-submit="doSearch()" style="display:inline;" >
@@ -111,7 +112,7 @@
                                     </div>
                             </form> -->
                             <div class="color-grey hidden-xs hidden-sm" style="text-transform:uppercase;font-size:20px;margin-left:100px;position:absolute;top:10px;line-height:22px;">
-                               The Clearing-House Mechanism of the Convention on Biological Diversity 
+                               The Clearing-House Mechanism of the Convention on Biological Diversity
                                <br>Information Submission Service</div>
                     </a>
                 </div>

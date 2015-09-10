@@ -2,22 +2,18 @@
   "name": "chm.cbd.int",
   "description": "Clearing-House Mechanism Website",
   "dependencies": {
-    "bower": "1.4.1",
-    "compression": "1.4.3",
-    "express": "4.12.3",
-    "http-proxy": "1.9.0",
-    "morgan": "1.5.2",
-    "serve-static": "1.9.2"
-  },
-  "devDependencies": {
-    "awsbox": "0.6.x"
+    "bower": "1.5.2",
+    "compression": "1.5.2",
+    "express": "4.13.3",
+    "http-proxy": "1.11.2",
+    "morgan": "1.6.1",
+    "serve-static": "1.10.0"
   },
   "engine": "node >= 0.10.30",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "./node_modules/.bin/bower install --allow-root",
-    "start": "node server"
+    "postinstall": "./node_modules/.bin/bower install --allow-root"
   },
   "repository": {
     "type": "git",

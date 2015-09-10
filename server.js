@@ -6,6 +6,10 @@
 var app     = require('express')();
 var proxy   = require('http-proxy').createProxyServer({});
 
+proxy.on('error', function(e) {
+    console.error(e);
+}); //ignore errors
+
 // LOAD CONFIGURATION
 
 var oneDay   = 86400000;

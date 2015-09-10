@@ -1,11 +1,12 @@
 define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app, $) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast',  function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
 
+        $scope.test_env        = realm != 'CHM';
         $scope.breadcrumbs     = breadcrumbs;
         $scope.$root.pageTitle = { text: "" };
         $rootScope.placeholderRecords=[];
@@ -51,19 +52,6 @@ define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/no
         $scope.goHome               = function() { $location.path('/'); };
         $scope.currentPath          = function() { return $location.path(); };
         $scope.hideSubmitInfoButton = function() { return $location.path()=="/management/register"; };
-
-
-
-        $scope.env_name = "CHM";
-        $scope.production_env = true;
-        $scope.test_env = false;
-
-        if ($location.absUrl().toLowerCase().indexOf("://dev-chm.cbd.int") > 0 || $location.absUrl().toLowerCase().indexOf("localhost:2000") > 0) {
-            $scope.test_env = true;
-            $scope.production_env = false;
-            $scope.env_name = "TEST";
-        }
-
 
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////

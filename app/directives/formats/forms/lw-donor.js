@@ -17,7 +17,8 @@ app.directive('editLwDonor', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 			$scope.review   = { locale : "en" };
 
 			$scope.lifeWebServices = lifeWebServices;
-
+			$scope.options={};
+			$scope.options.countries=		$http.get("/api/v2013/thesaurus/domains/countries/terms",	{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
 			//==================================
 			//
 			//==================================
@@ -76,7 +77,7 @@ app.directive('editLwDonor', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 						loadLogo(doc);
 						loadWebsite(doc);
 						$scope.document = doc;
-
+console.log('loading doc',doc);
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);
@@ -88,8 +89,11 @@ app.directive('editLwDonor', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 			//
 			//==================================
 			 function loadCountry(doc) {
-				if(doc.country)
-					doc.country={identifier:doc.country.identifier,title:doc.country.customValue.en};
+
+				if(doc.country  && doc.country.customValue)
+				 	if(doc.country.customValue.hasOwnProperty('en') )
+						doc.country={identifier:doc.country.identifier,title:doc.country.customValue.en};
+				
 				
 			};
 			
@@ -142,8 +146,8 @@ app.directive('editLwDonor', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 					else
 						document.logo={url:document.logo[0].url,name:document.logo[0].name};					
 				
-				if(document.country)
-					document.country={identifier:document.country.identifier,customValue:{'en':document.country.title}};
+				// if(document.country)
+				// 	document.country={identifier:document.country.identifier,customValue:{'en':document.country.title}};
 			
 				if (!document)
 					return $q.when(true);

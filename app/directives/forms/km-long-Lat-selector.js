@@ -24,7 +24,7 @@ app.directive('kmLongLatSelector', function() {
 			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
             $scope.$watch('binding', function() {
-console.log('map binding',$scope.binding);
+//console.log('map binding',$scope.binding);
                 if($scope.binding.lat && $scope.binding.lng)
                     $scope.newMarker();
             }, true);

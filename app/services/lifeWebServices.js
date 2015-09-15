@@ -1,26 +1,69 @@
 /* jshint sub:true */
 
-define(['app', 'lodash'], function (app) { 'use strict';
+define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 
-	app.factory('lifeWebServices',  ["$http", '$filter','$q','$rootScope', function($http, $filter, $q,$rootScope) {
+	app.factory('lifeWebServices',  ["$http", '$q','solr', function($http,$q,solr) {
 
 		//var dataResults;
+		//============================================================
+		//
+		//
+		//============================================================
+		
+		function formatIDQuery(ids) {
 
+			if(!_.isArray(ids))return;
+			var qParams='';
+			
+			_.each(ids, function (item,key) {
+				qParams = qParams +'identifier_s:'+item.identifier+' OR ';
+			});//_.each(ids
+			return qParams;	
+		};// getEventTypes
+	
+	
+	
 		//============================================================
 		//
 		//
 		//============================================================
 		
 		function getDonors(query) {
+				if(query){
+					var q= '(name_t:'+query+'* OR identifier_s:'+query+'*) AND schema_s:lwDonor)';
+					var rows = 10;
+				}
+				else{
+					var q= '(schema_s:lwDonor)';
+					var rows = 500;
+				}	
+				var  queryParameters = {
+								'q': q,
+								'fl': 'name_s,title_s, identifier_s',
+								'wt': 'json',
+								'start': 0,
+								'rows': rows,
+				};
+				
+	
+				//return defer;
+				return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters })
+					.then(function (data) {
 
-			// if(dataResults){
-			// 		return makePromise(filterBySearchText(dataResults,query));
-			// }else{
-				return $http.get('/api/v2013/index/select?cb=1418322176016&q=((schema_s:lwDonor))&sort=createdDate_dt+desc,+title_t+asc&start=0&wt=json', {chache: true  }).then(function(data) {
-						//dataResults = processData(data);
-					return {'data':data.data.response.docs};
-				});// return
-			// }
+						if(rows==500){
+					
+							var tempData=[];
+							_.each(data.data.response.docs,function (item,key){
+								tempData.push({identifier:item.identifier_s,title:item.title_s,selected:0});
+							});
+							data.data.response.docs=tempData;
+							return tempData;
+						}
+						
+						return {'data':data.data.response.docs};
+				});  
+	
+			
 		};// getEventTypes
 		
 		//============================================================
@@ -73,6 +116,18 @@ define(['app', 'lodash'], function (app) { 'use strict';
 		};// getAichiTargets(query)	
 	   	
 
+		/*****************************************************************
+		* is an item already in the array
+		*******************************************************************/
+		function inArray(array,item) {
+			var present = false;
+			_.each(array, function (testItem) {
+							if(item.identifier===testItem.identifier){
+								present = 1;
+							}//function
+			})//angular.forEach
+			return present;
+		}//inArray
 
 		//============================================================
 		// 
@@ -80,14 +135,13 @@ define(['app', 'lodash'], function (app) { 'use strict';
 		function getContributionsClimateChange() {					
 				     var deferred = $q.defer();
 								deferred.resolve([
-									{title: 'Community Engagement', identifier: 'community_engagement',},
-									{title: 'Implementation', identifier: 'implementation',},
-									{title: 'Monitoring', identifier: 'monitoring',},
-									{title: 'Partner Coordination', identifier: 'partner_coordination',},
-									{title: 'Project Management', identifier: 'project_management',},
-									{title: 'Strategic Planning', identifier: 'strategic_planning',},
-									{title: 'Technical Support', identifier: 'technical_support',},
-									{title: 'Other', identifier: '5B6177DD-5E5E-434E-8CB7-D63D67D5EBED',},
+											{identifier: 'ecoservices1', title: 'Climate Change Mitigation' },
+											{identifier: 'ecoservices2', title: 'Climate Change Adaptation'},
+											{identifier: 'ecoservices3', title: 'Freshwater Security',},
+											{identifier: 'ecoservices4', title: 'Food Security',},
+											{identifier: 'ecoservices5', title: 'Human Health',},
+											{identifier: 'ecoservices6', title: 'Cultural and Spiritual Access',},
+											{identifier: 'ecoservices7', title: 'Income Generation',}
 								]);
      			 return deferred.promise;
 		};// getEventTypes		
@@ -153,9 +207,10 @@ define(['app', 'lodash'], function (app) { 'use strict';
 		//============================================================
 		function getCountries(query) {	   
 		  
-				return $http.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function(data) {	
-						return data; 
-				});// return
+
+					return $http.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function(data) {	
+							return data; 
+					});// return
 			
 		};// getCountries
 		
@@ -186,7 +241,33 @@ define(['app', 'lodash'], function (app) { 'use strict';
 				});  
 		};// getProjects
 		
-		
+		//============================================================
+		// 
+		//
+		//============================================================
+		function getFeaturedProjects() {	 
+			  
+			var  queryParameters = {
+							'q': '( schema_s:lwProject AND featured_d:[* TO *])',
+							//'q' : '(title_t:"' + query + '*") AND schema_s:lwProject',
+							'fl': 'featured_d',
+							'wt': 'json',
+							'start': 0,
+							'rows': 6,
+							
+							//'cb': new Date().getTime()
+			};
+			
+
+			//return defer;
+			return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters })
+				.then(function (data) {
+
+					return {'data':data.data.response.docs};
+					
+				});  
+		};// getProjects
+			
 		//============================================================
 		// 
 		//
@@ -218,7 +299,9 @@ define(['app', 'lodash'], function (app) { 'use strict';
 			getAichiDescription:getAichiDescription,
 			getContributionsClimateChange:getContributionsClimateChange,
 			getRoles:getRoles,
-			getDonors:getDonors
+			getDonors:getDonors,
+			inArray:inArray,
+			getFeaturedProjects:getFeaturedProjects,
 		};
 
 		

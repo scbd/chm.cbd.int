@@ -88,22 +88,44 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					  function (projs){
 					  
 						  	_.each(projs.data, function (p,key){
-								  
-								  if(p.featured_d==1)
-									  featuredOptions[1].splice(1,1);
-								  if(p.featured_d==2)
-									  featuredOptions.splice(2,1);
-								  if(p.featured_d==3)
-									  featuredOptions.splice(3,1);									  									
-								  if(p.featured_d==4)
-									  featuredOptions.splice(4,1);
-								  if(p.featured_d==5)
-									  featuredOptions.splice(5,1);
-								  if(p.featured_d==6)
-									 featuredOptions.splice(6,1);									  									  
-								
+								 
+								 if($scope.document.featured){
+										if(p.featured_d==1  && $scope.document.featured.identifier !=1)
+											delete featuredOptions[1];
+											//featuredOptions[1]=0;
+										if(p.featured_d==2  && $scope.document.featured.identifier !=2)
+											delete featuredOptions[2];
+										if(p.featured_d==3  && $scope.document.featured.identifier !=3)
+											delete featuredOptions[3];								  									
+										if(p.featured_d==4  && $scope.document.featured.identifier !=4)
+											delete featuredOptions[4];	
+										if(p.featured_d==5 && $scope.document.featured.identifier != 5)
+											delete featuredOptions[5];	
+										if(p.featured_d==6 && $scope.document.featured.identifier !=6)
+											delete featuredOptions[6];
+								 }else{
+									 	if(p.featured_d==1 )
+											delete featuredOptions[1];
+											//featuredOptions[1]=0;
+										if(p.featured_d==2 )
+											delete featuredOptions[2];
+										if(p.featured_d==3 )
+											delete featuredOptions[3];								  									
+										if(p.featured_d==4  )
+											delete featuredOptions[4];	
+										if(p.featured_d==5)
+											delete featuredOptions[5];	
+										if(p.featured_d==6 )
+											delete featuredOptions[6];
+									 
+									 
+								 }										  									  
+						
 							  });
-							  console.log('featuredOptions.length',featuredOptions.length)
+
+							//if($scope.document.featured)
+							//	featuredOptions[$scope.document.featured.identifier]={title:$scope.document.featured.identifier,identifier:$scope.document.featured.identifier};
+
 							if(featuredOptions.length==0)
 								featuredOptions['EOF']={title:'Please deselect featured project to create a spot',identifier:''};
 							return featuredOptions;  
@@ -626,16 +648,18 @@ console.log('scope loading doc',$scope.document);
 			//==================================
 			function cleanThumbnail(document) {	
 //console.log('document.thumbnail',document.thumbnail);
-						if(document.thumbnail && _.isArray(document.thumbnail)){
+					if(document.thumbnail)	{
+						if( _.isArray(document.thumbnail)){
 //console.log('document.thumbnail1',document.thumbnail);
 							document.thumbnail=document.thumbnail[0];
 							delete document.thumbnail.identifier;
-						}else if (document.thumbnail && _.isObject(document.thumbnail)){
+						}else if ( _.isObject(document.thumbnail)){
 //console.log('document.thumbnail2',document.thumbnail);
 							delete document.thumbnail.identifier;							
 						}
-						if($scope.document.thumbnail.tags)
-							delete  $scope.document.thumbnail.tags;
+						if( document.thumbnail.tags)
+							delete  document.thumbnail.tags;
+					}
 //console.log('document.thumbnail1 at end',document.thumbnail)
 							
 			  }// formatInstitutionalContext

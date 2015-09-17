@@ -4,12 +4,11 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 
 	app.factory('lifeWebServices',  ["$http", '$q','solr', function($http,$q,solr) {
 
-		//var dataResults;
+
 		//============================================================
 		//
 		//
 		//============================================================
-		
 		function formatIDQuery(ids) {
 
 			if(!_.isArray(ids))return;
@@ -18,6 +17,7 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 			_.each(ids, function (item,key) {
 				qParams = qParams +'identifier_s:'+item.identifier+' OR ';
 			});//_.each(ids
+			
 			return qParams;	
 		};// getEventTypes
 	
@@ -27,7 +27,6 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 		//
 		//
 		//============================================================
-		
 		function getDonors(query) {
 				if(query){
 					var q= '(name_t:'+query+'* OR identifier_s:'+query+'*) AND schema_s:lwDonor)';
@@ -59,62 +58,57 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							data.data.response.docs=tempData;
 							return tempData;
 						}
-						
 						return {'data':data.data.response.docs};
 				});  
 	
 			
 		};// getEventTypes
 		
-		//============================================================
-		//
-		//
-		//============================================================
 		
+		
+		//============================================================
+		//
+		//
+		//============================================================
 		function getEventTypes(query) {
-
-			// if(dataResults){
-			// 		return makePromise(filterBySearchText(dataResults,query));
-			// }else{
 				return $http.get('/api/v2013/thesaurus/domains/ED902BF7-E9A8-42E8-958B-03B6899FCCA6/terms', {chache: true  }).then(function(data) {
 						//dataResults = processData(data);
 						return data; 
 				});// return
-			// }
 		};// getEventTypes
+		
+		
 		
 		//============================================================
 		// 
 		//============================================================
 		function getAichiTargets(query) {					
+						
+			return $http.get('/api/v2013/thesaurus/domains/AICHI-TARGETS/terms', {chache: true  }).then(function(data) {
+				
+					var i = data.data.length;
+					while (i--) {
+						data.data[i].title_s = data.data[i].identifier+" "+data.data[i].name.replace(/\./g,' ').replace(/[0-9]/g, '');
+						if( data.data[i].identifier == 'AICHI-TARGET-01' ||
+							data.data[i].identifier == 'AICHI-TARGET-02' ||
+							data.data[i].identifier == 'AICHI-TARGET-03' ||
+							data.data[i].identifier == 'AICHI-TARGET-04' ||
+							data.data[i].identifier == 'AICHI-TARGET-07' ||
+							data.data[i].identifier == 'AICHI-TARGET-08' ||
+							data.data[i].identifier == 'AICHI-TARGET-16' ||
+							data.data[i].identifier == 'AICHI-TARGET-17' ||
+							data.data[i].identifier == 'AICHI-TARGET-18' ||
+							data.data[i].identifier == 'AICHI-TARGET-19' ||
+							data.data[i].identifier == 'AICHI-TARGET-20' 	
+						)
+						data.data.splice(i,1);
+					}
 
-								
-						return $http.get('/api/v2013/thesaurus/domains/AICHI-TARGETS/terms', {chache: true  }).then(function(data) {
-							
-								var i = data.data.length;
-								while (i--) {
-													data.data[i].title_s = data.data[i].identifier+" "+data.data[i].name.replace(/\./g,' ').replace(/[0-9]/g, '');
-													if( data.data[i].identifier == 'AICHI-TARGET-01' ||
-														data.data[i].identifier == 'AICHI-TARGET-02' ||
-														data.data[i].identifier == 'AICHI-TARGET-03' ||
-														data.data[i].identifier == 'AICHI-TARGET-04' ||
-														data.data[i].identifier == 'AICHI-TARGET-07' ||
-														data.data[i].identifier == 'AICHI-TARGET-08' ||
-														data.data[i].identifier == 'AICHI-TARGET-16' ||
-														data.data[i].identifier == 'AICHI-TARGET-17' ||
-														data.data[i].identifier == 'AICHI-TARGET-18' ||
-														data.data[i].identifier == 'AICHI-TARGET-19' ||
-														data.data[i].identifier == 'AICHI-TARGET-20' 	
-													)
-													data.data.splice(i,1);
-								}
-
-						return data; 
-						});// return		
-								
-
+			return data; 
+			});// return		
 		};// getAichiTargets(query)	
 	   	
+
 
 		/*****************************************************************
 		* is an item already in the array
@@ -128,6 +122,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 			})//angular.forEach
 			return present;
 		}//inArray
+
+
 
 		//============================================================
 		// 
@@ -145,6 +141,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 								]);
      			 return deferred.promise;
 		};// getEventTypes		
+
+
 
 		//============================================================
 		// 
@@ -164,8 +162,9 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
      			 return deferred.promise;
 		};// getEventTypes
 
+
 		
-				//============================================================
+		//============================================================
 		// 
 		//============================================================
 		function getCss() {					
@@ -181,6 +180,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 										]);
      			 return deferred.promise;
 		};// getEventTypes	
+		
+		
 		
 		/*****************************************************************
 		* returns promise
@@ -200,9 +201,11 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							};
 					return aichiDescriptions[id];	
 		} // 
+		
+		
 						
 		//============================================================
-		// fake server calls
+		// s
 		//
 		//============================================================
 		function getCountries(query) {	   
@@ -213,6 +216,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 					});// return
 			
 		};// getCountries
+		
+		
 		
 		//============================================================
 		// 
@@ -241,6 +246,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 				});  
 		};// getProjects
 		
+		
+		
 		//============================================================
 		// 
 		//
@@ -267,6 +274,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 					
 				});  
 		};// getProjects
+		
+		
 			
 		//============================================================
 		// 
@@ -305,7 +314,7 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 		};
 
 		
-	}]);
-});
+	}]);//app factory
+}); //define
 
  

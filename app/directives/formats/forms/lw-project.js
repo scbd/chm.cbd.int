@@ -343,6 +343,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			   // makes cover image conform to the Elink definition
 			//==================================
 			$scope.eLinkCoverImage = function () {
+			
 				if($scope.document.thumbnail){
 					var temp = _.find($scope.options.images(), function (image){		
 						return image.identifier == $scope.document.thumbnail.identifier;
@@ -418,7 +419,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 		        if ($scope.document.header)
 							return;
-console.log('$scope.document.header',$scope.document.header);
+//console.log('$scope.document.header',$scope.document.header);
 				$scope.status = "loading";
 
 				var identifier = $route.current.params.uid;
@@ -449,7 +450,7 @@ console.log('$scope.document.header',$scope.document.header);
 //console.log('doc.coutnries from funciton',doc.countries);
 						$scope.document = doc;
 //console.log('scope loading doc countries',$scope.document.countries);
-console.log('scope loading doc',$scope.document);
+//console.log('scope loading doc',$scope.document);
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);
@@ -743,19 +744,17 @@ console.log('scope loading doc',$scope.document);
 			function formatNationalAlignment(doc) {
 	//console.log('natAli1',doc.nationalAlignment);						
 							var tempNatAli= new Array();
-							//natAli=[];
 							
-								//if(_.isObject(natAli))
-								//document.nationalAlignment=_.toArray(document.nationalAlignment);	
+							if(doc.nationalAlignment){
 								if(doc.nationalAlignment[0])		
 									tempNatAli[0] = {type:{identifier:'NBSAP',customValue:{'en':'NBSAPs'}},comment:doc.nationalAlignment[0].comment};
 								if(doc.nationalAlignment[1])
 									tempNatAli[1] = {type:{identifier:'climateChange',customValue:{'en':'National Climate'}},comment:doc.nationalAlignment[1].comment};	
 								if(doc.nationalAlignment[2])
 									tempNatAli[2] = {type:{identifier:'o_n_s',customValue:{'en':'Other National Strategies'}},comment:doc.nationalAlignment[2].comment};	
-		//console.log('tempNatAli',tempNatAli);			
+		
 								doc.nationalAlignment=tempNatAli;
-	//console.log('natAli2',doc.nationalAlignment);
+							}
 			  }// formatInstitutionalContext
 
 			 //==================================

@@ -1,6 +1,4 @@
 <div>
-
-
   <h1>Event  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
 
   <div class="alert alert-danger" ng-show="hasError()">
@@ -13,216 +11,239 @@
 
     <div style="position: relative">
 
-     			<div class="row">
-				<div class="col-xs-12 visible-xs">
-					<div class="">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-					</div>
-				</div>
+      <div class="row">
+        <div class="col-xs-12 visible-xs">
+          <div class="">
+            <span km-form-languages ng-model="document.header.languages"></span>
+            <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+            on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+            on-pre-publish="onPrePublish()"></span>
+          </div>
+        </div>
 
-				<div class="col-sm-8 col-xs-12">
-					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-					</ul>
-				</div>
+        <div class="col-sm-8 col-xs-12">
+          <ul class="pagination">
+            <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+            <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+            <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+            <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+          </ul>
+        </div>
 
-				<div class="col-sm-4 hidden-xs" style="text-align:right">
-					<div class="pagination">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-					</div>
-				</div>
-			</div>
+        <div class="col-sm-4 hidden-xs" style="text-align:right">
+          <div class="pagination">
+            <span km-form-languages ng-model="document.header.languages"></span>
+            <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+            on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+            on-pre-publish="onPrePublish()"></span>
+          </div>
+        </div>
+      </div>
       <!--- row end-->
       <div>
-    <!--- FORM Start    <div km-textbox-ml name="name" required ng-model="document.name" placeholder="enter name here" locales="document.header.languages"></div>-->
-    <form name="editForm">
-      <div km-tab="general">
-        
-        <legend>Event Information</legend>
-        
-        <div class="row">
-          <div class="col-md-12">
-            <div class="km-control-group" name="document.name" required caption="Name">
-                <textarea  class="form-control" ng-required="true" ng-model="document.name" placeholder="Enter Event name" rows="1" style="display:inline-block"></textarea>
-            </div>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-md-12">
-            <div class="km-control-group" name="description" caption="Description">
-                <textarea  class="form-control" ng-required="true" ng-model="document.description" placeholder="Enter Event name" rows="5" style="display:inline-block"></textarea>
-            </div>
-          </div>
-        </div>
-        
-        <div class="row">		
-					<div class="col-md-6">
-            {{searchT}}
-						<div  name="document.type" required caption="Event Type">
-							<div km-auto-complete-server-select  required name="document.type" cache="true" ng-model="document.type"  placeholder="Please select can event type" km-type="ETerm" items="lifeWebServices.getEventTypes(query)" multiple="true"></div>
-						</div>
-					</div>
-				
-          
-          <div class="col-md-3">
-            <div class="km-control-group" name="document.startDate" caption="Start Date" required >
-              <div km-date style="width:200px" name="startDate" ng-model="document.startDate" required></div>
-            </div>
-          </div>
-          
-          <div class="col-md-3" offset1>
-            <div class="km-control-group" name="document.endDate" caption="End Date">
-              <div km-date style="width:200px" name="endDate" ng-model="document.endDate"></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="col-md-6">
-            <div class="km-control-group"  name="document.organizations" caption="Organizations Hosting the Event">
-              <div km-auto-complete-server-select ng-model="document.organizations" placeholder="Search organizations by typing key words" items="lifeWebServices.getOrganizations(query)" km-type="ETerm" multiple> </div>
-            </div>
-          </div>
-        
-          <div class="col-md-6">
-            <div class="km-control-group" name="document.projects" caption="Select Related Project">
-              <div km-auto-complete-server-select  ng-model="document.project" placeholder="Search projects by typing key words" items="lifeWebServices.getProjects(query)" km-type="ETerm"> </div>
-            </div>
-          </div>
-        </div>
+        <!--- FORM Start    <div km-textbox-ml name="name" required ng-model="document.name" placeholder="enter name here" locales="document.header.languages"></div>-->
+        <form name="editForm">
+          <div km-tab="general">
 
-          <div class="row">
-            <div class="col-md-12">
-              <legend>Event Coordinates</legend>
+            <legend>Event Information</legend>
 
-						   <!-- plain text version -->
-							<div class="row" >
-								<div class="col-md-10">
-									<div class="km-control-group" name="Street" caption="Street">
-										
-										<textarea  class="form-control"  ng-model="document.addressBlock.street" placeholder="example: 413 St-Jacques Ouest, Suite 800" rows="2" style="display:inline-block" ></textarea>
-									</div>
-								</div>
-							</div>
-							
-							<!-- plain text  version -->
-							<div class="row" >
-								<div class="col-md-4">
-									<div class="km-control-group" name="city" caption="City">
-										
-										<textarea  class="form-control" name="city"  ng-model="document.addressBlock.city" placeholder="example: Montreal" rows="1" style="display:inline-block"></textarea>
-									</div>
-								</div>
-
-								<div class="col-md-4 offset1">
-									<div class="km-control-group" name="state" caption="State or Province">
-										
-										<textarea  class="form-control" name="state"  ng-model="document.addressBlock.state" placeholder="example: Quebec" rows="1" style="display:inline-block" ></textarea>
-									</div>
-								</div>
-							</div>
-	
-							<!-- plain text  version -->
-							<div class="row" >
-
-								<div class="col-md-4" >
-									<div class="km-control-group" name="postalCode" caption="Postal Code or Zip" >
-										
-                  <textarea class="form-control" name="postalCode"   ng-model="document.addressBlock.postalCode"  placeholder="example: L2T 3C7 or 14559" rows="1"></textarea>
-										
-									</div>
-								</div>
-
-								<div class="col-md-4 offset1">
-									<div class="km-control-group" name="country"  caption="Country">
-                    					<div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="document.addressBlock.country" items="lifeWebServices.getCountries(query)" cache="true" km-type="ETerm"> </div>
-										          
-                    <!--<div km-select required name="country" ng-model="document.country" items="options.countries()"></div>    -->
-									</div>
-								</div>
-							</div>
-              
-
-              <div class="km-control-group" name="document.location.coordinates" caption="Please click the map to select co-ordinates">
-                <km-long-Lat-selector ng-model="document.location.coordinates" map-reference="locationMap"></km-long-Lat-selector>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="km-control-group" name="document.name" required caption="Name">
+                  <textarea class="form-control" ng-required="true" ng-model="document.name" placeholder="Enter Event name" rows="1" style="display:inline-block"></textarea>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <div class="row">
-            <div class="col-md-12">
-              <legend>Event Images </legend>
-              <div class="km-control-group" name="document.images" caption="Please send high quality images and any additional media (videos, brochures, etc.) of the project. At least one image is
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="km-control-group" name="description" caption="Description">
+                  <textarea class="form-control" ng-required="true" ng-model="document.description" placeholder="Enter Event name" rows="5"
+                  style="display:inline-block"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                {{searchT}}
+                <div name="document.type" required caption="Event Type">
+                  <div km-auto-complete-server-select required name="document.type" cache="true" ng-model="document.type" placeholder="Please select can event type"
+                  km-type="ETerm" items="lifeWebServices.getEventTypes(query)" multiple="true"></div>
+                </div>
+              </div>
+
+
+              <div class="col-md-3">
+                <div class="km-control-group" name="document.startDate" caption="Start Date" required>
+                  <div km-date style="width:200px" name="startDate" ng-model="document.startDate" required></div>
+                </div>
+              </div>
+
+              <div class="col-md-3" offset1>
+                <div class="km-control-group" name="document.endDate" caption="End Date">
+                  <div km-date style="width:200px" name="endDate" ng-model="document.endDate"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="km-control-group" name="document.organizations" caption="Organizations Hosting the Event">
+                  <div km-auto-complete-server-select ng-model="document.organizations" placeholder="Search organizations by typing key words"
+                  items="lifeWebServices.getOrganizations(query)" km-type="ETerm" multiple> </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="km-control-group" name="document.projects" caption="Select Related Project">
+                  <div km-auto-complete-server-select ng-model="document.project" placeholder="Search projects by typing key words" items="lifeWebServices.getProjects(query)"
+                  km-type="ETerm"> </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <legend>Event Coordinates</legend>
+
+
+                <div class="row">
+                  <div class="col-md-10">
+                    <div class="km-control-group" name="Street" caption="Street">
+
+                      <textarea class="form-control" ng-model="document.addressBlock.street" placeholder="example: 413 St-Jacques Ouest, Suite 800"
+                      rows="2" style="display:inline-block"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="km-control-group" name="city" caption="City">
+
+                      <textarea class="form-control" name="city" ng-model="document.addressBlock.city" placeholder="example: Montreal" rows="1"
+                      style="display:inline-block"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 offset1">
+                    <div class="km-control-group" name="state" caption="State or Province">
+
+                      <textarea class="form-control" name="state" ng-model="document.addressBlock.state" placeholder="example: Quebec" rows="1"
+                      style="display:inline-block"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+
+                  <div class="col-md-4">
+                    <div class="km-control-group" name="postalCode" caption="Postal Code or Zip">
+
+                      <textarea class="form-control" name="postalCode" ng-model="document.addressBlock.postalCode" placeholder="example: L2T 3C7 or 14559"
+                      rows="1"></textarea>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 offset1">
+                    <div class="km-control-group" name="country" caption="Country">
+                      <div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="document.addressBlock.country"
+                      items="lifeWebServices.getCountries(query)" cache="true" km-type="ETerm"> </div>
+
+
+                    </div>
+                  </div>
+                </div>
+                {{document.location}}
+                <!--<div class="km-control-group" name="coordaddaddressressinates" caption="Please click the map to select co-ordinates">
+               
+                  <textarea class="form-control" name="postalCode" ng-model="document.location.address" map-reference="locationMap"></textarea>
+                  
+                </div>-->
+                <div class="km-control-group" name="coordinates" caption="Please click the map to select co-ordinates">
+
+                  <km-long-Lat-selector ng-model="document.location.coordinates" map-reference="locationMap"></km-long-Lat-selector>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <legend>Event Images </legend>
+                <div class="km-control-group" name="document.images" caption="Please send high quality images and any additional media (videos, brochures, etc.) of the project. At least one image is
                     required. Upload images in (JPEG/PNG) format.">
-                <div km-link name="images" ng-model="document.images" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png"
-                identifier="document.header.identifier"></div>
+                  <div km-link name="images" ng-model="document.images" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png"
+                  identifier="document.header.identifier"></div>
+                </div>
               </div>
             </div>
-          </div>
-    
-       <div class="row">
-          <div class="col-md-12">
-            <div class="km-control-group" required name="document.coverImageTemp" caption="Select a Cover Image">
-              <div km-select name="coverImageTemp" ng-model="document.coverImageTemp" items="options.images()" watch-items='true' ng-change="eLinkCoverImage()"></div>
-            </div>
-          </div>
-       </div>
-          
-          <div class="row ">
-            <div class="col-md-12">
-              <legend>Event Documents</legend>
-              <div class="km-control-group" name="document.documents" caption="Please add all the events documents, including schedules, relevant websites, links, and files">
-                <div km-link name="documents" ng-model="document.documents" identifier="document.header.identifier" ></div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="km-control-group" required name="document.coverImage" caption="Select a Cover Image">
+                  <div km-select name="coverImage" ng-model="document.coverImage" items="options.images()" watch-items='true'></div>
+                </div>
               </div>
             </div>
+
+            <div class="row ">
+              <div class="col-md-12">
+                <legend>Event Documents</legend>
+                <div class="km-control-group" name="document.documents" caption="Please add all the events documents, including schedules, relevant websites, links, and files">
+                  <div km-link name="documents" ng-model="document.documents" identifier="document.header.identifier"></div>
+                </div>
+              </div>
+            </div>
+
           </div>
-       
-       </div>
-    </form> 
-  
+
+        </form>
+
         <!--- FORM end  -->
 
         <div km-tab="review">
           <div km-document-validation ng-model="validationReport"></div>
           <div class="btn-group" ng-show="document.header.languages.length>1">
-            <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+            <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages"
+            ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
           </div>
           <view-lw-event ng-model="document" locale="review.locale" target="_blank" allow-drafts="true"></view-lw-event>
         </div>
-        
-        
-          <!--- review tab buttons start -->
-          <div class="row">
-              <div class="col-sm-9 col-xs-12">
-                <ul class="pagination">
-                  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-                  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-                  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-                  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-                </ul>
-              </div>
-              
-              <!--- review tab buttons end -->
-              <div class="col-sm-3 hidden-xs" style="text-align:right">
-                <div class="pagination">
-                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
-                  on-pre-publish="onPrePublish()"></span>
-                </div>
-              </div>
-    
-              <div class="col-xs-12 visible-xs">
-                <div class="">
-                  <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
-                  on-pre-publish="onPrePublish()"></span>
-                </div>
-              </div>
-         </div>
+
+
+        <!--- review tab buttons start -->
+        <div class="row">
+          <div class="col-sm-9 col-xs-12">
+            <ul class="pagination">
+              <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+              <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+              <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+              <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+            </ul>
+          </div>
+
+          <!--- review tab buttons end -->
+          <div class="col-sm-3 hidden-xs" style="text-align:right">
+            <div class="pagination">
+              <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+              on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+              on-pre-publish="onPrePublish()"></span>
+            </div>
+          </div>
+
+          <div class="col-xs-12 visible-xs">
+            <div class="">
+              <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+              on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+              on-pre-publish="onPrePublish()"></span>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>

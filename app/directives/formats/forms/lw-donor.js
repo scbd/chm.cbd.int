@@ -77,7 +77,7 @@ app.directive('editLwDonor', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 						loadLogo(doc);
 						loadWebsite(doc);
 						$scope.document = doc;
-console.log('loading doc',doc);
+//console.log('loading doc',doc);
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);
@@ -172,7 +172,7 @@ console.log('loading doc',doc);
 					oDocument = angular.fromJson(angular.toJson(oDocument));
 
 				$scope.reviewDocument = oDocument;
-console.log('saving doc',oDocument);	
+//console.log('saving doc',oDocument);	
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {

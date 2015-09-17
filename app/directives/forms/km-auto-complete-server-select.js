@@ -56,8 +56,9 @@ define(['app', 'text!./km-auto-complete-server-select.html','angular','jquery','
 							tArray.push($scope.binding);
 							$scope.binding=tArray;
 						}	
-						if(_.isArray($scope.binding) && ((_.contains(_.pluck($scope.binding,'identifier'),undefined)) || $scope.binding==undefined) ) return ; //erronus data
+						if(_.isArray($scope.binding) && $scope.binding==undefined ) return ; //erronus data
 							
+						
 //console.log('---------------------- $scope.selectedItems',$scope.selectedItems)	;
 //console.log('---------------------- $scope.binding',$scope.binding)	;					
 						if(( ((_.contains(_.pluck($scope.binding,'title'),undefined) && _.contains(_.pluck($scope.binding,'name'),undefined)))) ){
@@ -83,7 +84,7 @@ define(['app', 'text!./km-auto-complete-server-select.html','angular','jquery','
 								$scope.searchText='__'+$scope.selectedItems[0].title;
 								$scope.selectedItems[0].selected=1;
 							} else{
-//	console.log('---------------------- $scope.selectedItems3',$scope.selectedItems)	;
+	//console.log('---------------------- $scope.selectedItems3',$scope.selectedItems)	;
 //console.log('---------------------- $scope.binding3',$scope.binding)	;									
 								
 								$scope.selectedItems = JSON.parse(JSON.stringify($scope.binding));
@@ -102,7 +103,7 @@ define(['app', 'text!./km-auto-complete-server-select.html','angular','jquery','
 
 						} else return;
 					}//if((_.isEmpty($scope.selectedItems)  && $scope.binding)  ){
-else return;
+				else return;
 			});//$scope.$watch("binding", 
 
 						/******************************************************
@@ -111,7 +112,7 @@ else return;
 						function  loadSelectedIdentifiers  (selecteditems) {
 									var tempData =[];
 	//console.log('selecteditems in loadSelectedIdentifiers ',selecteditems);								
-									if(!_.isArray(selecteditems)) return;
+						//if(!_.isArray(selecteditems)) return;
 									// if(!_.isArray(selecteditems) && selecteditems){
 										 
 									// 		selecteditems=new Array(selecteditems);	
@@ -119,16 +120,31 @@ else return;
 								
 									if(!$scope.cache){ // should always be empty when loading screen form db or blank
 //console.log('binding2 loadSelectedIdentifiers ',$scope.binding);
-										_.each(selecteditems,function (searchItem){ 
+												if(_.contains(_.pluck(selecteditems,'identifier'),undefined)){
+													var tempSelItms = [];
+													_.each(selecteditems,function(selItem){
+														tempSelItms.push({identifier:selItem});
+													});
+													selecteditems=tempSelItms;
+												}
+												$scope.selectedItems=[];
+												_.each(selecteditems,function (searchItem){ 
+															
+
+												
+									
+//		console.log('data loadSelectedIdentifiers  searchItem',searchItem);											
 													$scope.itemsFn({query:searchItem.identifier}).then(function (data) {
-	//console.log('data loadSelectedIdentifiers ',data);															
+	//console.log('data loadSelectedIdentifiers ---------',data);															
 																data=processData(data);
 																//$scope.cache=data;
-																$scope.selectedItems=[];
+																
 																_.each(selecteditems, function (item, key){
 																	_.each(data, function (dataItem, key2){
-			
-					
+																			
+																			
+//console.log('loadSelectedIdentifiers  matching dataItem---------',item);	
+//console.log('loadSelectedIdentifiers matching item---------',dataItem);						
 																			if(item.identifier === dataItem.identifier ){
 																					dataItem.selected=1;
 																					if(!_.isArray($scope.selectedItems)) $scope.selectedItems=[];
@@ -137,7 +153,7 @@ else return;
 																			}
 																	})//_.each(selecteditems
 																})//_.each(selecteditems
-//console.log('$scope.selectedItems',$scope.selectedItems);	
+//console.log('loadSelectedIdentifiers: $scope.selectedItems',$scope.selectedItems);	
 																if(!$scope.selectedItems || $scope.selectedItems.length==0) return;
 																
 																if($scope.selectedItems.length==1 && !$scope.multiple) {
@@ -150,7 +166,7 @@ else return;
 																	
 																updateModel(true);	
 																//$scope.selectedItems=null;
-	//console.log('$scope.selectedItems after model update',$scope.selectedItems);													
+	//console.log('loadSelectedIdentifiers: $scope.selectedItems after model update',$scope.selectedItems);													
 																return;
 													});
 											}); 

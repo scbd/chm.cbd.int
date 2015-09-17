@@ -342,19 +342,20 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 			   // makes cover image conform to the Elink definition
 			//==================================
-			$scope.eLinkCoverImage = function () {
-			
-				if($scope.document.thumbnail){
+			$scope.eLinkCoverImage = function (document) {
+			    if(!document) document=$scope.document;
+				if(document.thumbnail){
 					var temp = _.find($scope.options.images(), function (image){		
-						return image.identifier == $scope.document.thumbnail.identifier;
+						return image.identifier == document.thumbnail.identifier;
 					});
 
 					if(temp)
-						$scope.document.thumbnail=JSON.parse(JSON.stringify(temp));
-					delete  $scope.document.thumbnail.identifier;
-					$scope.document.thumbnail.tags=$scope.document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
+						document.thumbnail=JSON.parse(JSON.stringify(temp));
+					delete  document.thumbnail.identifier;
+					document.thumbnail.tags=document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
 												
-				}	
+				}
+console.log('end of elink',$scope.document.thumbnail);	
 			};
 
 
@@ -369,7 +370,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 				if (tab == 'review'){
 					
-					$scope.eLinkCoverImage();
+					//$scope.eLinkCoverImage();
 					$scope.validate();
 				}
 			});
@@ -556,14 +557,14 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 			function loadThumbnail(doc) {
 			
-					if(doc.thumbnail){
+					if(doc.thumbnail  && !_.isEmpty(doc.thumbnail)){
 
 						if(!_.isArray(doc.images))
 							doc.images=[];
 						if(!lifeWebServices.inArray(doc.images,{url:doc.thumbnail.url,name:doc.thumbnail.name || doc.thumbnail.url, identifier:doc.thumbnail.url}))
-							doc.images.push({url:doc.thumbnail.url,name:doc.thumbnail.name || doc.thumbnail.url, identifier:doc.thumbnail.url});
+							doc.images.push({url:doc.thumbnail.url,name: doc.thumbnail.url, identifier:doc.thumbnail.url});
 						if(!doc.thumbnail.identifier)	
-							doc.thumbnail.identifier=doc.thumbnail.name || doc.thumbnail.url;
+							doc.thumbnail.identifier= doc.thumbnail.url;
 					}
 			
 			  }// formatInstitutionalContext
@@ -612,7 +613,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
 						
-					$scope.eLinkCoverImage(); // formats image 
+					$scope.eLinkCoverImage(document); // formats image 
 
 					
 					cleanThumbnail(document);

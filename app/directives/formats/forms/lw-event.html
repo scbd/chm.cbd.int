@@ -66,8 +66,8 @@
 
             <div class="row">
               <div class="col-md-6">
-                {{searchT}}
-                <div name="document.type" required caption="Event Type">
+               <div class="km-control-group" name="document.type" caption="Event Type" required >
+               
                   <div km-auto-complete-server-select required name="document.type" cache="true" ng-model="document.type" placeholder="Please select can event type"
                   km-type="ETerm" items="lifeWebServices.getEventTypes(query)" multiple="true"></div>
                 </div>
@@ -90,9 +90,11 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="km-control-group" name="document.organizations" caption="Organizations Hosting the Event">
+                  
                   <div km-auto-complete-server-select ng-model="document.organizations" placeholder="Search organizations by typing key words"
                   items="lifeWebServices.getOrganizations(query)" km-type="ETerm" multiple> </div>
                 </div>
+                To create a new organization please go here: <a href="/submit/organization/new" target="_blank">Organizations</a>
               </div>
 
               <div class="col-md-6">
@@ -158,7 +160,7 @@
                     </div>
                   </div>
                 </div>
-                {{document.location}}
+             
                 <!--<div class="km-control-group" name="coordaddaddressressinates" caption="Please click the map to select co-ordinates">
                
                   <textarea class="form-control" name="postalCode" ng-model="document.location.address" map-reference="locationMap"></textarea>

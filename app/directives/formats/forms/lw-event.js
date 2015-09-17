@@ -148,7 +148,7 @@ app.directive('editLwEvent', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 						$scope.document = doc;	
 									
 					
-//console.log(' loading doc ',doc);	
+console.log(' loading doc ',doc);	
 						
 					}).then(null,
 					function(err) {
@@ -174,7 +174,23 @@ app.directive('editLwEvent', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 					}
 			
 			  }// formatInstitutionalContext
+			  
+			  //==================================
+			//
+			//==================================
+			function loadCoverImage(doc) {
+			
+					if(doc.coverImage){
 
+						if(!_.isArray(doc.images))
+							doc.images=[];
+						if(!lifeWebServices.inArray(doc.images,{url:doc.coverImage.url,name: doc.coverImage.url, identifier:doc.coverImage.url}))
+							doc.images.push({url:doc.coverImage.url,name: doc.coverImage.url, identifier:doc.coverImage.url});
+						if(!doc.coverImage.identifier)	
+							doc.coverImage.identifier= doc.coverImage.url;
+					}
+			
+			  }// formatInstitutionalContext
 
 
 			//==================================
@@ -307,13 +323,14 @@ app.directive('editLwEvent', ['$http', '$filter', '$q', 'guid', '$location', 'IS
               
 			//clean address
 			if(oDocument.addressBlock && oDocument.location){
+
 			 	oDocument.location.address = oDocument.addressBlock.street.replace(/,/g, '')+", " + oDocument.addressBlock.city+ ", " + oDocument.addressBlock.state +", "+oDocument.addressBlock.country.title+", "+oDocument.addressBlock.postalCode; 
-				oDocument.location.country = +oDocument.addressBlock.country;		
+				oDocument.location.country = +oDocument.addressBlock.country.identifier;		
 				delete oDocument.addressBlock;
 			}
 
 				$scope.reviewDocument = oDocument;
-//console.log('loading doc:',$scope.document); 				
+				
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {

@@ -195,17 +195,23 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                  //   "facet.mincount":1,
                     "facet.field":"_state_s"
                 };
+console.log(qsOtherSchemaFacetParams);
                var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
                var schemaFacet = null;
                 $q.when(OtherSchemaFacet).then(function(results) {
-//  
+console.log(results.data.facet_counts);
                         
                        schemaFacet= $scope.getFacet('nationalReport');  
                         
                        if(schemaFacet){
-                           schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[5];
-                           schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
-                           schemaFacet.public=results.data.facet_counts.facet_fields._state_s[3];                           
+                            var documentState = _(results.data.facet_counts.facet_fields._state_s).chunk(2).zipObject().value();
+            
+                            $scope.facets = _.defaults(documentState, {
+                                public   : 0,
+                                draft    : 0,
+                                workflow : 0,
+                                total    : results.data.response.numFound
+                            });                        
                        }                                   
                     }).then(null, function(error) {
                     console.log(error );

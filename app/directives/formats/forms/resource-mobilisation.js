@@ -14,7 +14,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			$scope.error    = null;
 			$scope.document = null;
 			$scope.tab      = 'part1';
-			$scope.isExtrapolated = false;
+			$scope.temp 	= { isExtrapolated: false };
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
 				countries  :	function () { return $http.get("/api/v2013/thesaurus/domains/countries/terms",								{ cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }); },
@@ -159,8 +159,8 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 								progressData:  {progressFlows:[{}]}
 							},
 							domesticExpendituresData: { expenditures:  [{}], contributions: [{}], multiplier: 'thousands'},
-							fundingNeedsData: 		  { annualEstimates: [{}], multiplier: 'thousands'},
-							nationalPlansData:		  { domesticSources: [{}], internationalSources: [{}], multiplier: 'thousands'}
+							fundingNeedsData: 		  { annualEstimates: [{}]},
+							nationalPlansData:		  { domesticSources: [{}], internationalSources: [{}]}
 						};
 					});
 				}
@@ -205,7 +205,13 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 							list = $scope.document.internationalResources[container][member] = _.compact($scope.document.internationalResources[container][member]) || [];
 
 						if(member == "expenditures" || member == "annualEstimates" || member =="contributions" || member=="domesticSources" || member=="internationalSources")
-							list = $scope.document[container][member] = _.compact($scope.document[container][member]) || [];
+							{
+								list = $scope.document[container][member] = _.compact($scope.document[container][member]) || [];
+
+								if(member == "expenditures" && $scope.temp.isExtrapolated){
+									$scope.applyPercentageIncrease($scope.temp.annualPercentage);
+								}
+							}
 
 						if(!_.last(list) || (!_.isEmpty(_.last(list))))
 						{
@@ -326,7 +332,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//==================================
 			var getEstimateAverageAmount = function(){
 
-				if(!$scope.document && !document.domesticExpendituresData && !$scope.document.domesticExpendituresData.expenditures)
+				if(!$scope.document && !$scope.document.domesticExpendituresData && !$scope.document.domesticExpendituresData.expenditures)
 					return 0;
 
 				return $scope.typeAverageAmount($scope.document.domesticExpendituresData.expenditures,'amount');
@@ -339,15 +345,27 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				if($scope.document && $scope.document.fundingNeedsData && $scope.document.fundingNeedsData.annualEstimates){
 
 					var items		 = $scope.document.fundingNeedsData.annualEstimates;
-					var currentValue = getEstimateAverageAmount();
+					var averageValue = getEstimateAverageAmount();
+					var currentValue = averageValue;
+					var lastYear;
 
-					for(var i=1; i<items.length; i++) {
+					if($scope.document && $scope.document.domesticExpendituresData && $scope.document.domesticExpendituresData.expenditures){
+						lastYear = parseInt(_.max(_.pluck($scope.document.domesticExpendituresData.expenditures, 'year')));
+					}
+
+					for(var i=0; i<items.length; i++) {
 
 						var item     = items[i];
 
 						if(!_.isEmpty(item))
 						{
-							currentValue = parseInt(currentValue + (currentValue*rate/100) || 0);
+							var year = _.result(item, 'year', lastYear);
+
+							if(year > lastYear){
+								var years = year-lastYear;
+								currentValue = calculateIncrease(averageValue, rate, years);
+							}
+
 							item = _.mapValues(item, function(val, key){
 
 										if(key == 'availableResourcesAmount')
@@ -365,7 +383,18 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				}
 			};
 
-			$scope.temp = {};
+			//==================================
+			//
+			//==================================
+			var calculateIncrease = function (val, rate, years) {
+				var currentValue = val;
+
+				for(var i=0; i < years; i++){
+					currentValue = Math.round(parseFloat(currentValue + (currentValue*rate/100) || 0));
+				}
+				return currentValue;
+			};
+
 			//==================================
 			//
 			//==================================
@@ -374,6 +403,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				if(!value) {
 					$scope.temp.annualPercentage = 0;
 					$scope.document.fundingNeedsData.annualEstimates = [];
+					$scope.refreshYears('fundingNeedsYears', items);
 					return;
 				}
 
@@ -381,14 +411,38 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 
 				var items = [];
 				var years = $scope.options.fundingNeedsYears;
-				var availableAmount = getEstimateAverageAmount();
+				var availableAmount = getEstimateAverageAmount(); //average from 4.1
+				var estimates = {};
+
+				if($scope.document && $scope.document.fundingNeedsData && $scope.document.fundingNeedsData.annualEstimates){
+					estimates = $scope.document.fundingNeedsData.annualEstimates;
+				}
 
 				for(var i=0; i < years.length; i++){
 
-					var item = {"year": years[i], "fundingNeedAmount":0, "availableResourcesAmount":availableAmount,"fundingGapAmount":-availableAmount, "action":{en:"action "+years[i]}   };
+					var newAvailableAmount = availableAmount;
+					var temp = _.findWhere(estimates, { 'year': years[i]});
+					var fundingNeedAmount = 0;
+					var fundingGapAmount = 0;
+					var action = '';
+
+					if(temp){
+						fundingNeedAmount = temp.fundingNeedAmount;
+						fundingGapAmount  = temp.fundingGapAmount;
+						action = temp.action.en;
+					}
+
+					var item = {
+									"year": years[i],
+									"fundingNeedAmount": fundingNeedAmount || 0,
+									"availableResourcesAmount": newAvailableAmount,
+									"fundingGapAmount": fundingGapAmount-newAvailableAmount,
+									"action":{en: action}
+								};
 
 					items.push(item);
 				}
+
 				$scope.document.fundingNeedsData.annualEstimates = items;
 				$scope.refreshYears('fundingNeedsYears', items);
 			};
@@ -661,20 +715,6 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//==================================
 			//
 			//==================================
-			$scope.annualEstimatesHasYear = function (year) {
-				if(!year) return false;
-				if($scope.document && $scope.document.fundingNeedsData && $scope.document.fundingNeedsData.annualEstimates){
-					var estimates = $scope.document.fundingNeedsData.annualEstimates;
-					var estimate = _.findWhere(estimates, {year:year});
-					if(estimate)
-						return true;
-				}
-				return false;
-			};
-
-			//==================================
-			//
-			//==================================
 			$scope.getNationalPlansSourcesTotal = function(member, year){
 				if(!year || !member) return 0;
 
@@ -720,6 +760,24 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					return true;
 
 				$scope.document.hasDomesticPrivateSectorMeasuresComments = undefined;
+			};
+
+
+			//==================================
+			//
+			//==================================
+			$scope.annualEstimatesHasYear = function (year) {
+				if(!year) return false;
+
+				if($scope.document && $scope.document.fundingNeedsData && $scope.document.fundingNeedsData.annualEstimates){
+
+					var estimates = $scope.document.fundingNeedsData.annualEstimates;
+					var estimate = _.findWhere(estimates, {year:year});
+
+					if(estimate)
+						return true;
+				}
+				return false;
 			};
 
 			//==================================

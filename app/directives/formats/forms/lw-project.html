@@ -63,9 +63,15 @@
         </div>
 
         <div class="row">
-          <div class="col-md-2" >
+          <div class="col-md-3" >
             <div class="km-control-group" name="document.expired" required caption="Is Project Expired?">
                 <div km-yes-no name="document.expired" ng-model="document.expired" locales="document.header.languages"></div>
+            </div>
+          </div>
+          
+          <div class="col-md-3" >
+            <div class="km-control-group" name="document.featured" required caption="Is Project the Featured 6?">
+                <div km-select name="document.featured" ng-model="document.featured" items="options.availableFeaturePositions()"  ></div>
             </div>
           </div>
     
@@ -74,13 +80,22 @@
               <div km-date style="width:200px" name="startDate" ng-model="document.startDate" placeholder="YYYY-MM-DD" required></div>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="km-control-group" name="document.timeFrame" required caption="Time Frame">
                 <input type="number"  ng-required="true" ng-model="document.timeFrame" placeholder="Number of months" ></textarea>
             </div>
           </div>
+
         </div>
         
+         <div class="row">
+          <div class="col-md-12">
+            <div class="km-control-group" name="document.campaigns" caption="Associated Campaign">
+               <div km-select name="document.campaigns" ng-model="document.campaigns" items="options.getCampaigns()" multiple></div>
+            </div>
+          </div>
+        </div> 
+               
         <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="country" caption="Country or Countries">
@@ -263,7 +278,7 @@
 												</div>
 											</td>
 											<td>
-												<div km-select  name="role" ng-model="partner.role" items="lifeWebServices.getRoles(query)"></div>
+												<textarea  name="role" ng-model="partner.role.title"   rows="1" ></textarea></div>
 											</td>
 											<td>
 												<span class="btn btn-default" ng-click="document.institutionalContext.splice($index, 1);" ng-show="!$last || isNotEmpty(partner)"><i class="fa fa-trash-o"></i></span>
@@ -302,12 +317,12 @@
 											</td>
 											<td>
 									
-													<textarea type="text" class="form-control" ng-model="budgetRow.results"  rows="2" style="width:100%;"></textarea>
+													<textarea type="text" class="form-control" ng-model="budgetRow.result"  rows="2" style="width:100%;"></textarea>
 										
 											</td>
 											<td>
 											
-													<input type="number" class="form-control" ng-model="budgetRow.amount" placeholder="USD">
+													<input type="number" class="form-control" ng-model="budgetRow.cost" placeholder="USD">
 										
 											</td>
 											<td>
@@ -361,8 +376,8 @@
                       
                       <td>
                         <div >
-                            <div km-auto-complete-server-select placeholder="Search for a Donor" ng-model="donation.donor"
-                            items="lifeWebServices.getDonors(query)" cache="true"  style="width:100%" km-type="ETerm"  required>
+                            <div km-select placeholder="Search for a Donor" ng-model="donation.donor"
+                            items="lifeWebServices.getDonors(query)"   style="width:100%"  required>
                             </div >
                          </div>
                       </td>

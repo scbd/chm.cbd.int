@@ -198,7 +198,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
             // Apply ownership
 
-            query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
+                 query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
             // Apply ownership
 

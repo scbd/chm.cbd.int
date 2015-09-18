@@ -54,10 +54,85 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			$scope.natAliPrevTab		='NBSAPs';
 			$scope.natAliNextTab		='climateChange';
 			
+
              // should not need later
 			$scope.options ={}; 
 
+			//==================================
+			//p
+			// 
+			//==================================
+			$scope.options.getCampaigns = function () {
+				  var options=[];
+				  	options[0]={title:'Zero Extinction',identifier:'zeroextinction'};
+					options[1]={title:'Island Resilience',identifier:'islandresilience'};
 
+				  return options;
+			}//$scope.options.availableFeaturePositions
+
+			//==================================
+			//populate select box with available feature positions 
+			// 
+			//==================================
+			$scope.options.availableFeaturePositions = function () {
+				  var featuredOptions=[];
+				  	featuredOptions[1]={title:'1',identifier:1};
+					featuredOptions[2]={title:'2',identifier:2};
+					featuredOptions[3]={title:'3',identifier:3};
+					featuredOptions[4]={title:'4',identifier:4};
+					featuredOptions[5]={title:'5',identifier:5};
+					featuredOptions[6]={title:'6',identifier:6};
+					
+				 return lifeWebServices.getFeaturedProjects().then(
+
+					  function (projs){
+					  
+						  	_.each(projs.data, function (p,key){
+								 
+								 if($scope.document.featured){
+										if(p.featured_d==1  && $scope.document.featured.identifier !=1)
+											delete featuredOptions[1];
+											//featuredOptions[1]=0;
+										if(p.featured_d==2  && $scope.document.featured.identifier !=2)
+											delete featuredOptions[2];
+										if(p.featured_d==3  && $scope.document.featured.identifier !=3)
+											delete featuredOptions[3];								  									
+										if(p.featured_d==4  && $scope.document.featured.identifier !=4)
+											delete featuredOptions[4];	
+										if(p.featured_d==5 && $scope.document.featured.identifier != 5)
+											delete featuredOptions[5];	
+										if(p.featured_d==6 && $scope.document.featured.identifier !=6)
+											delete featuredOptions[6];
+								 }else{
+									 	if(p.featured_d==1 )
+											delete featuredOptions[1];
+											//featuredOptions[1]=0;
+										if(p.featured_d==2 )
+											delete featuredOptions[2];
+										if(p.featured_d==3 )
+											delete featuredOptions[3];								  									
+										if(p.featured_d==4  )
+											delete featuredOptions[4];	
+										if(p.featured_d==5)
+											delete featuredOptions[5];	
+										if(p.featured_d==6 )
+											delete featuredOptions[6];
+									 
+									 
+								 }										  									  
+						
+							  });
+
+							//if($scope.document.featured)
+							//	featuredOptions[$scope.document.featured.identifier]={title:$scope.document.featured.identifier,identifier:$scope.document.featured.identifier};
+
+							if(featuredOptions.length==0)
+								featuredOptions['EOF']={title:'Please deselect featured project to create a spot',identifier:''};
+							return featuredOptions;  
+					  });
+					  
+					
+			}//$scope.options.availableFeaturePositions
 
 
 			//==================================
@@ -67,9 +142,9 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			$scope.addRowDonation = function () {
 				    if(!$scope.document.donations)$scope.document.donations=[];
 					if($scope.document.donations.length>0 && _.last($scope.document.donations).date)
-						$scope.document.donations.push({date:undefined});
+						$scope.document.donations.push({});
 					else if($scope.document.donations.length===0)
-						$scope.document.donations.push({date:undefined});
+						$scope.document.donations.push({});
 			};	
 
 
@@ -92,9 +167,9 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			$scope.addRowBudget = function () {
 				if(!$scope.document.budget)$scope.document.budget=[];
 					if($scope.document.budget.length>0 && _.last($scope.document.budget).activity)
-						$scope.document.budget.push({activity:undefined});
+						$scope.document.budget.push({});
 					else if($scope.document.budget.length===0)
-						$scope.document.budget.push({activity:undefined});
+						$scope.document.budget.push({});
 			};	
 
 
@@ -121,9 +196,9 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			$scope.addRowInstitutionalContext = function () {
 				if(!$scope.document.institutionalContext)$scope.document.institutionalContext=[];
 					if($scope.document.institutionalContext.length>0 && _.last($scope.document.institutionalContext).partner)
-						$scope.document.institutionalContext.push({partner:undefined,info:undefined});
+						$scope.document.institutionalContext.push({});
 					else if($scope.document.institutionalContext.length===0)
-						$scope.document.institutionalContext.push({partner:undefined,info:undefined});
+						$scope.document.institutionalContext.push({});
 			};	
 
 
@@ -210,6 +285,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			// // aichi dynamic tabs
 			//==================================
 			$scope.$watch("document.aichiTargets", function (tab){
+
 					$scope.aichiTabs = $scope.document.aichiTargets;
 
 					
@@ -266,18 +342,20 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 			   // makes cover image conform to the Elink definition
 			//==================================
-			$scope.eLinkCoverImage = function () {
-				if($scope.document.thumbnail){
+			$scope.eLinkCoverImage = function (document) {
+			    if(!document) document=$scope.document;
+				if(document.thumbnail){
 					var temp = _.find($scope.options.images(), function (image){		
-						return image.identifier == $scope.document.thumbnail.identifier;
+						return image.identifier == document.thumbnail.identifier;
 					});
 
 					if(temp)
-					$scope.document.thumbnail=JSON.parse(JSON.stringify(temp));
-					delete  $scope.document.thumbnail.identifier;
-					$scope.document.thumbnail.tags=$scope.document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
-					delete  $scope.document.thumbnail.tag;							
-				}	
+						document.thumbnail=JSON.parse(JSON.stringify(temp));
+					delete  document.thumbnail.identifier;
+					document.thumbnail.tags=document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
+												
+				}
+console.log('end of elink',$scope.document.thumbnail);	
 			};
 
 
@@ -292,7 +370,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 				if (tab == 'review'){
 					
-					$scope.eLinkCoverImage();
+					//$scope.eLinkCoverImage();
 					$scope.validate();
 				}
 			});
@@ -310,6 +388,8 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						function (element, index ){
 							
 							$scope.document.images[index].identifier=element.url;
+							if(!$scope.document.images[index].name)
+								$scope.document.images[index].name=element.url;
 						}
 					);
 					return $scope.document.images; 
@@ -340,7 +420,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 		        if ($scope.document.header)
 							return;
-
+//console.log('$scope.document.header',$scope.document.header);
 				$scope.status = "loading";
 
 				var identifier = $route.current.params.uid;
@@ -363,9 +443,15 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						loadAichiTargets(doc);
 						loadClimateContribution(doc);
 						loadThumbnail(doc);
-						 loadConsitutional(doc);
+						loadConsitutional(doc);
+						loadDonations(doc);
+						loadBudegt(doc);
+						loadFeatured(doc);
+	//					doc.countries=loadCountries(doc);
+//console.log('doc.coutnries from funciton',doc.countries);
 						$scope.document = doc;
-console.log($scope.document);
+//console.log('scope loading doc countries',$scope.document.countries);
+//console.log('scope loading doc',$scope.document);
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);
@@ -373,30 +459,116 @@ console.log($scope.document);
 					});
 			};
 			
+			function loadFeatured(document) {
+					if(document.featured)	{
+						document.featured={title:document.featured,identifier:document.featured};
+					}			
+			  }// formatInstitutionalContext
+			
+			
 			//==================================
 			//
 			//==================================
 
-			function loadConsitutional(document) {
-							_.each(document.institutionalContext, function (type,key) {
-									if(_.isObject(type)){
-
-										if(_.isObject(type.role))
-											type.role = {identifier:type.role,title:type.role};
-
-									}
-							});//	}
+			function loadDonations(document) {
+//console.log('document.donations',document.donations);	
+							if(_.isArray(document.donations)){
+									_.each(document.donations, function (donor,key) {
+											if(!_.isEmpty(donor) && donor){
+												
+												if(donor.donor[0]) donor.donor= {identifier:donor.donor[0].identifier};
+//console.log('donoro',donor.donor);
+												if(_.isEmpty(donor.date) && !donor.date)
+													donor.date = new Date('01/01/2008');
+												
+											}//if(!_.isEmpty(donor) && donor){		
+									});	//_.each(document.donations
+									document.donations.push({});
+							}else{
+								document.donations=[];
+								document.donations.push({});
+							}	
 			  }// formatInstitutionalContext
+			  
+			  			//==================================
+			//
+			//==================================
 
+			function loadBudegt(document) {
+//console.log('document.donations',document.donations);	
+							if(_.isArray(document.budget))
+								document.budget.push({});
+							else document.budget=[{}];				
+			  }// formatInstitutionalContext	
+			  		
+			//==================================
+			//
+			//==================================
+			function loadConsitutional(document) {
+					var institutionalContext =[];
+					if(_.isArray(document.institutionalContext)){
+							_.each(document.institutionalContext, function (role,key) {	
+									if(_.isObject(role))
+										if(!_.isObject(role.role)){
+													lifeWebServices.getRoles().then(function (data){
+														_.each(data, function (dataRole,key) {
+
+																if(dataRole.title === role.role || dataRole.identifier === role.role)
+																	role.role = {identifier:dataRole.identifier,title:dataRole.title};
+															});
+													});//lifeWebServices.getRoles()
+										}//if(_.isObject(type.role)){
+							});//_.each(document.institutionalContext
+					   document.institutionalContext.push({});		
+					}//if(_.isArray(document.institutionalContext))
+					else{
+						document.institutionalContext=[];
+						document.institutionalContext.push({});
+					}
+			  }// formatInstitutionalContext
+			  
+			  
+			//   //==================================
+			// //
+			// //==================================
+			// function loadCountries(doc) {
+				
+			// 		if(doc.countries)
+			// 			if( (_.contains(_.pluck(doc.countries,'title'),undefined)))
+			// 				_.each(doc.countries, function (country,key){
+			// 						lifeWebServices.getCountries('query').then(function(data){
+			// 							_.each(data.data, function (countryComplete,key){
+			// 									if(country.identifier===countryComplete.identifier){
+			// 										country.title=countryComplete.name;											
+			// 									}	
+			// 							});
+										
+
+			// 					  });
+			// 				});
+			// 	//console.log('doc.countries',doc.countries);			
+			// 	console.log('doc.countries',doc.countries);
+			// 							return doc.countries;		
+			//   }// loadCountries
+			  
+			  
 			  //==================================
 			//
 			//==================================
 			function loadThumbnail(doc) {
-				
-							if(doc.thumbnail)
-								doc.thumbnail= {url:doc.thumbnail.url,name:doc.thumbnail.name, identifier:doc.thumbnail.url};
+			
+					if(doc.thumbnail  && !_.isEmpty(doc.thumbnail)){
+
+						if(!_.isArray(doc.images))
+							doc.images=[];
+						if(!lifeWebServices.inArray(doc.images,{url:doc.thumbnail.url,name:doc.thumbnail.name || doc.thumbnail.url, identifier:doc.thumbnail.url}))
+							doc.images.push({url:doc.thumbnail.url,name: doc.thumbnail.url, identifier:doc.thumbnail.url});
+						if(!doc.thumbnail.identifier)	
+							doc.thumbnail.identifier= doc.thumbnail.url;
+					}
 			
 			  }// formatInstitutionalContext
+			  
 			//==================================
 			//
 			//==================================
@@ -410,8 +582,7 @@ console.log($scope.document);
 										document.aichiTargets[key] = {identifier:type.type.identifier,title:type.type.title};
 										
 									}
-
-							});	
+							});
 			  }// formatInstitutionalContext
 
 			//==================================
@@ -424,79 +595,136 @@ console.log($scope.document);
 									if(!_.isEmpty(type) && type.type){
 
 										$scope.climateContributionComments[type.type.identifier]=type.comment;
-										document.climateContribution[key] = {identifier:type.type.identifier,title:type.type.title};
-										
+										document.climateContribution[key] = {identifier:type.type.identifier,title:type.type.title};	
 									}
 							});	
 			  }// formatInstitutionalContext
 
-
-
-
-
 			//==================================
-			//
+			// preps data to meet schema requirements
 			//==================================
 			$scope.cleanUp = function(document) {
-				document = document || $scope.document;
+					document = document || $scope.document;
+		
+					if (!document)
+						return $q.when(true);
+		
+		
+					if (/^\s*$/g.test(document.notes))
+						document.notes = undefined;
+						
+					$scope.eLinkCoverImage(document); // formats image 
 
-				if (!document)
-					return $q.when(true);
-
-
-				if (/^\s*$/g.test(document.notes))
-					document.notes = undefined;
-				
-				$scope.eLinkCoverImage();	
-								  // clean partners
-			  if(document.institutionalContext)
-			  	formatInstitutionalContext(document.institutionalContext);
-  			
-	
-			  formatAichiTargets(document);
-
-			  if(document.nationalAlignment){
-				  document.nationalAlignment=_.toArray(document.nationalAlignment);
-				formatNationalAlignment(document.nationalAlignment);	
-			  }		
-			  
-	
-				formatClimateContribution(document);	
-			 if(document.donations)	
-				formatDonations(document.donations)	
-				
-			if(document.budget){
-				formatBudget(document.budget);
-			}
+					
+					cleanThumbnail(document);
 			
+					cleanAichiTargets(document);
+		
+//console.log('before formatting document.nationalAlignment',document);
+				    formatNationalAlignment(document);	
+//console.log('after formatting document.nationalAlignment',document);						
+					cleanCC(document);	
+					
+					// blank row table controls need to clean
+					cleanIC(document);
+
+					cleanDonations(document)	
+					cleanBudget(document);
+					cleanFatured(document);
 				return $q.when(false);
 			};
 
+
 			//==================================
 			//
 			//==================================
-			function formatBudget(budget) {	
-						//budget.pop();
+			function cleanFatured(document) {	
+					if(document.featured && _.isObject(document.featured))
+					{
+						document.featured = document.featured.identifier;
+					}
+							
+			  }// formatInstitutionalContext
+			//==================================
+			//
+			//==================================
+			function cleanThumbnail(document) {	
+//console.log('document.thumbnail',document.thumbnail);
+					if(document.thumbnail)	{
+						if( _.isArray(document.thumbnail)){
+//console.log('document.thumbnail1',document.thumbnail);
+							document.thumbnail=document.thumbnail[0];
+							delete document.thumbnail.identifier;
+						}else if ( _.isObject(document.thumbnail)){
+//console.log('document.thumbnail2',document.thumbnail);
+							delete document.thumbnail.identifier;							
+						}
+						if( document.thumbnail.tags)
+							delete  document.thumbnail.tags;
+					}
+//console.log('document.thumbnail1 at end',document.thumbnail)
+							
+			  }// formatInstitutionalContext
+
+			//==================================
+			//
+			//==================================
+			function cleanBudget(doc) {		
+					if(doc.budget  ){
+						if(doc.budget.hasOwnProperty('0') && doc.budget.hasOwnProperty('length') && _.isEmpty(doc.budget[0])){
+							delete doc.budget ;
+							return;
+						} 
+						_.each(doc.budget, function (item,key) {
+								if(_.isEmpty(doc.budget[key]) ) {
+									
+									delete doc.budget[key];
+									doc.budget.length--;
+								}
+								else{	
+									if(Object.keys(item).length===0){
+										delete doc.budget[key];
+										delete doc.budget.key;
+										doc.budget.length--;
+									}	
+								}						
+
+						});	
+					}
 			  }// formatInstitutionalContext
 			  
 			//==================================
-			//
+			//clean InstitutionalContext
 			//==================================
-			function formatInstitutionalContext(iContext) {
-				
-							_.each(iContext, function (item) {							
+			function cleanIC(doc) {
+					if(doc.institutionalContext){
+					if(doc.institutionalContext.hasOwnProperty('0') && doc.institutionalContext.hasOwnProperty('length') && _.isEmpty(doc.institutionalContext[0])){
+
+							delete doc.institutionalContext;
+							return;
+						} 
+						_.each(doc.institutionalContext, function (item,key) {
+								if(_.isEmpty(doc.institutionalContext[key]) ) {
+									delete doc.institutionalContext[key];	
+									doc.institutionalContext.length--;
+								}else{					
+									if(Object.keys(item).length===0){
+										delete doc.institutionalContext[key];
+										delete doc.institutionalContext.key
+										doc.institutionalContext.length--;
+									}	
 									if(_.isObject(item.role))
-										item.role= item.role.identifier	;	
-
-							});	
-
+										item.role= item.role.identifier	;
+								}	
+						});	
+					}
 			  }// formatInstitutionalContext
 
 
 			//==================================
 			//
 			//==================================
-			function formatAichiTargets(document) {
+			function cleanAichiTargets(document) {
 
 							if(_.isEmpty(document.aichiTargets)){
 								delete document.aichiTargets;
@@ -504,9 +732,9 @@ console.log($scope.document);
 								return;
 						
 							}else
-							_.each(document.aichiTargets, function (type,key) {
-									if(!_.isEmpty(type) && !type.type)
-										document.aichiTargets[key] = {type:type, comment:$scope.aichiComments[type.identifier]};
+								_.each(document.aichiTargets, function (type,key) {
+										if(!_.isEmpty(type) && !type.type)
+											document.aichiTargets[key] = {type:type, comment:$scope.aichiComments[type.identifier]};
 
 							});	
 			  }// formatInstitutionalContext
@@ -514,17 +742,26 @@ console.log($scope.document);
 			 //==================================
 			//
 			//==================================
-			function formatNationalAlignment(natAli) {
-												
-									natAli[0] = {type:{identifier:'NBSAP',customValue:{'en':'NBSAPs'}},comment:natAli[0].comment};
-									natAli[1] = {type:{identifier:'CC',customValue:{'en':'National Climate'}},comment:natAli[1].comment};
-
+			function formatNationalAlignment(doc) {
+	//console.log('natAli1',doc.nationalAlignment);						
+							var tempNatAli= new Array();
+							
+							if(doc.nationalAlignment){
+								if(doc.nationalAlignment[0])		
+									tempNatAli[0] = {type:{identifier:'NBSAP',customValue:{'en':'NBSAPs'}},comment:doc.nationalAlignment[0].comment};
+								if(doc.nationalAlignment[1])
+									tempNatAli[1] = {type:{identifier:'climateChange',customValue:{'en':'National Climate'}},comment:doc.nationalAlignment[1].comment};	
+								if(doc.nationalAlignment[2])
+									tempNatAli[2] = {type:{identifier:'o_n_s',customValue:{'en':'Other National Strategies'}},comment:doc.nationalAlignment[2].comment};	
+		
+								doc.nationalAlignment=tempNatAli;
+							}
 			  }// formatInstitutionalContext
 
 			 //==================================
-			//
+			//formatClimateContribution
 			//==================================
-			function formatClimateContribution(document) {
+			function cleanCC(document) {
 							if(_.isEmpty(document.climateContribution)){
 								delete document.climateContribution;
 								return;
@@ -538,22 +775,40 @@ console.log($scope.document);
 			  //==================================
 			//
 			//==================================
-			function formatDonations(dons) {
-							_.each(dons, function (type,key) {
-									if(!_.isEmpty(type))	
-										if(!type.funding && type.date && type.donor)
-											type.funding=1;
-// need proper consistant error handeling
-// I cannot find the way to inject a proper error and halt saving
-										// 	$scope.onError("funding value cannot be 0");
-										// 	return;
-										// }else{
-										// 	if($scope.error == "funding value cannot be 0")
-										// 		$scope.error='';
-										// }
+			function cleanDonations(doc) {
+	
+					if(doc.donations){
+				
+					if(doc.donations.hasOwnProperty('0') && doc.donations.hasOwnProperty('length') && _.isEmpty(doc.donations[0])){
+
+							delete doc.donations;
+							return;
+						} 
+						
+							_.each(doc.donations, function (type,key) {
+								if(_.isEmpty(doc.donations[key]) ) {
+									delete doc.donations[key];
+									doc.donations.length--;
+								}
+								else{
+									if((Object.keys(type).length===0 || _.isEmpty(type))){
+										delete doc.donations[key];
+										delete doc.donations.key
+										doc.donations.length--;
+									}	
+								}
+								if(!_.isEmpty(type))	
+									if(!type.funding && type.date && type.donor)
+										type.funding=1;
+								
+											
+
 							});	
-							//dons.pop();
-			  }// formatInstitutionalContext
+					
+			  }
+			}  // cleanDonations
+			  			  
+
 
 
 			  
@@ -572,8 +827,10 @@ console.log($scope.document);
               
 	
 
-				$scope.reviewDocument = oDocument;	
+				$scope.reviewDocument = oDocument;
+
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
+console.log('validating',oDocument );	
 					return storage.documents.validate(oDocument).then(
 						function(success) {
 							$scope.validationReport = success.data;

@@ -21,10 +21,10 @@ app.directive('kmLongLatSelector', function() {
 	  		    if($scope.$$phase)
 			        $scope.$digest(); //necessary for some reason? Stupid Angular.
 			});
-			L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
             $scope.$watch('binding', function() {
-console.log('map binding',$scope.binding);
+
                 if($scope.binding.lat && $scope.binding.lng)
                     $scope.newMarker();
             }, true);

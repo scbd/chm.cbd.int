@@ -65,8 +65,8 @@
           </div>
          <div class="col-md-6">   
             <div class="km-control-group" name="country" caption="Country">
-              <div km-auto-complete-server-select placeholder="Choose a country by typeing its name" ng-model="document.country"
-              items="lifeWebServices.getCountries(query)" cache="true" km-type="ETerm"> </div>
+              <div km-select placeholder="Choose a country " ng-model="document.country"
+              items="options.countries" cache="true" > </div>
             </div>
          </div>
           

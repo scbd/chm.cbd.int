@@ -357,7 +357,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.getUser().government;
+				return authentication.user().government;
 			};
 
 			//==================================

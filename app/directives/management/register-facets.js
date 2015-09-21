@@ -173,7 +173,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             //
             //==============================
             $scope.load = function() {
-           
+                // console.log(userGovernment(),authentication.user())
 
 
                 if(userGovernment() || $scope.government){

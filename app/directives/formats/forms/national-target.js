@@ -294,7 +294,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.getUser().government;
+				return authentication.user().government;
 			};
 
 			//==================================

@@ -152,7 +152,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 								languages: ["en"]
 							},
 							title: {en: 'Financial Reporting Framework: Reporting on baseline and progress towards 2015'},
-							government: authentication.getUser().government ? { identifier: authentication.getUser().government } : undefined,
+							government: authentication.user().government ? { identifier: authentication.user().government } : undefined,
 							internationalResources:   {
 								multiplier: 'thousands',
 								baselineData: { baselineFlows: [{}], coefficient:0},
@@ -940,7 +940,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.getUser().government;
+				return authentication.user().government;
 			};
 
 			//==================================

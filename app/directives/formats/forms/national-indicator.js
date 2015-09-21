@@ -83,7 +83,7 @@ app.directive("editNationalIndicator", ["$http","$rootScope", "$q", "$location",
 				if (qsGovernment)
 					qsGovernment = qsGovernment.toLowerCase();
 
-				return authentication.getUser().government || qsGovernment;
+				return authentication.user().government || qsGovernment;
 			};
 
 			//==================================

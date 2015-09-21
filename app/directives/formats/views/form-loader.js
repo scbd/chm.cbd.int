@@ -99,7 +99,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.user = function() {
-				return authentication.getUser();
+				return authentication.user();
 			};
 
 			//==================================

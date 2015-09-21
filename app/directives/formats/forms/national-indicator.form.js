@@ -33,7 +33,7 @@ app.directive("formNationalIndicator", ["$http", "authentication", "$filter", '$
 				if (qsGovernment)
 					qsGovernment = qsGovernment.toLowerCase();
 
-				return authentication.getUser().government || qsGovernment;
+				return authentication.user().government || qsGovernment;
 			};
         }
     };

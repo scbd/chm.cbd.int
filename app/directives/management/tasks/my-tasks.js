@@ -11,7 +11,7 @@ app.directive("myTasks", ['$http', "$timeout", "IWorkflows", "authentication", f
 		link: function ($scope)
 		{
 			var nextLoad  = null;
-			var myUserID = authentication.getUser().userID;
+			var myUserID = authentication.user().userID;
 			var query    = {
 				$and : [
 					{ "activities.assignedTo" : myUserID },
@@ -53,7 +53,7 @@ app.directive("myTasks", ['$http', "$timeout", "IWorkflows", "authentication", f
 			//==============================
 			function isAssignedToMe(activity) {
 
-				return _.contains(activity.assignedTo||[], authentication.getUser().userID||-1);
+				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
 			}
 
 			//==============================

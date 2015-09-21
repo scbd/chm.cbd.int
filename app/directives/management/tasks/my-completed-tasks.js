@@ -11,7 +11,7 @@ app.directive("myCompletedTasks", [ "$timeout", "IWorkflows", "authentication", 
 		link : function ($scope)
 		{
 			var nextLoad = null;
-			var myUserID = authentication.getUser().userID;
+			var myUserID = authentication.user().userID;
 			var query    = {
 				$and : [
 					{ "createdBy" : myUserID },

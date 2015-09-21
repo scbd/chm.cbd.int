@@ -26,7 +26,7 @@ return [ "$scope", "$timeout", "$http", "$route", "IStorage", "IWorkflows", "aut
 	//==================================================
 	$scope.isAssignedToMe = function(activity) {
 
-		return activity && _.contains(activity.assignedTo||[], authentication.getUser().userID||-1);
+		return activity && _.contains(activity.assignedTo||[], authentication.user().userID||-1);
 	};
 
 	//==================================================

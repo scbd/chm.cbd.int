@@ -44,7 +44,7 @@ app.directive("editNationalReport", ["$http","$rootScope", "$q", "$location", "$
 
 					promise = $q.when(guid()).then(function(identifier) {
 						return storage.drafts.security.canCreate(identifier, schema).then(function(isAllowed) {
-console.log("isAllowed",isAllowed);
+
 							if (!isAllowed)
 								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
 
@@ -309,7 +309,7 @@ console.log("isAllowed",isAllowed);
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.getUser().government;
+				return authentication.user().government;
 			};
 
 			//==================================

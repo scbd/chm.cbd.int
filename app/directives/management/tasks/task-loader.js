@@ -47,7 +47,7 @@ app.directive("taskLoader", [ "$scope", "$http", "$route", "IStorage", "IWorkflo
 			//==================================================
 			$scope.isAssignedToMe = function(activity) {
 
-				return _.contains(activity.assignedTo||[], authentication.getUser().userID||-1);
+				return _.contains(activity.assignedTo||[], authentication.user().userID||-1);
 			};
 
 			//==================================================

@@ -246,7 +246,7 @@ app.directive("editImplementationActivity", ["$http","$rootScope", "$q", "$locat
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.getUser().government;
+				return authentication.user().government;
 			};
 
 			//==================================

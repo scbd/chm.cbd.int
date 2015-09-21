@@ -355,7 +355,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					document.thumbnail.tags=document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
 												
 				}
-console.log('end of elink',$scope.document.thumbnail);	
+	
 			};
 
 

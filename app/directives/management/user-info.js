@@ -23,7 +23,7 @@ app.directive("userInfo", ['navigation', 'authentication', '$location', '$window
 				if(!$scope.user || !$scope.user.roles)
 					return false;
 
-				if(realmConfig.isAdministrator(authentication.user()) || realmConfig.isChmAdministrator($scope.user))
+				if(realmConfig.isAdministrator(authentication.getUser()) || realmConfig.isChmAdministrator($scope.user))
 				{
 					return true;
 				}

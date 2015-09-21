@@ -88,7 +88,7 @@ app.directive('editDatabase', ["$http", "$q", "$location", "$filter", 'IStorage'
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.user().government;
+				return authentication.getUser().government;
 			};
 
 			//==================================

@@ -522,8 +522,8 @@ app.factory('IStorage', ["$http", "$q", "authentication", "realm", function($htt
 
 			metadata = angular.extend({}, { 'schema': schema }, metadata || {});
 
-			if (!metadata.government && authentication.user().government)
-				metadata = angular.extend(metadata, { 'government': authentication.user().government });
+			if (!metadata.government && authentication.getUser().government)
+				metadata = angular.extend(metadata, { 'government': authentication.getUser().government });
 
 			if (!metadata.realm && defaultRealm)
 				metadata = angular.extend(metadata, { 'realm': defaultRealm });
@@ -535,7 +535,7 @@ app.factory('IStorage', ["$http", "$q", "authentication", "realm", function($htt
 			};
 
 			var oTrans = transformPath(patternPath, params);
-console.log('params',params);
+
 			return $http.get(oTrans.url, { "params": oTrans.params }).then(
 				function(res) {
 					return res.data.isAllowed;

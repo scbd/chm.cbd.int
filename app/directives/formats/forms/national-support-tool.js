@@ -247,7 +247,7 @@ app.directive("editNationalSupportTool", ["$http","$rootScope", "$q", "$location
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.user().government;
+				return authentication.getUser().government;
 			};
 
 			//==================================

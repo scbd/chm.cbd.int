@@ -165,7 +165,7 @@ app.directive('editResource', ['$http',"$rootScope", "Enumerable", "$filter", "$
 			//
 			//==================================
 			$scope.userGovernment = function() {
-				return authentication.user().government;
+				return authentication.getUser().government;
 			};
 
 			//==================================

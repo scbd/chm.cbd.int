@@ -133,7 +133,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
                 }
                 else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
-
+console.log(roles);
+console.log(user.roles);
                     console.log("securize: not authorized");
 
                     $location.search({ path: $location.url() });

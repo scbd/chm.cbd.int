@@ -1,7 +1,7 @@
-define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr"], function(_) { 'use strict';
+define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr","services/realmConfig"], function(_) { 'use strict';
 
-    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",
-     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr) {
+    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",'realmConfig',
+     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr,realmConfig) {
          
         $scope.schemasList = [
             { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
@@ -85,7 +85,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator','lwEvent','lwProject','lwDonor'];
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator','lwEvent','lwProject','lwDonor'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
 
@@ -129,8 +129,10 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             }).then(null, function(error) {
                console.log(error );
             });
-            
-        };
+            loadNBSAPSFacets ();
+            loadOtherNRFacets ();
+            loadNationalReportFacets();
+        };// $scope.loadFacets = function(){
         
         function loadNBSAPSFacets (){
               
@@ -192,26 +194,21 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                     "q"  : q,
                     "rows" : 0,
                     "facet":true,
-                 //   "facet.mincount":1,
                     "facet.field":"_state_s"
                 };
-console.log(qsOtherSchemaFacetParams);
+
                var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
                var schemaFacet = null;
                 $q.when(OtherSchemaFacet).then(function(results) {
-console.log(results.data.facet_counts);
+
                         
                        schemaFacet= $scope.getFacet('nationalReport');  
-                        
-                       if(schemaFacet){
-                            var documentState = _(results.data.facet_counts.facet_fields._state_s).chunk(2).zipObject().value();
-            
-                            $scope.facets = _.defaults(documentState, {
-                                public   : 0,
-                                draft    : 0,
-                                workflow : 0,
-                                total    : results.data.response.numFound
-                            });                        
+
+                        if(schemaFacet){
+                           schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[5];
+                           schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
+                           schemaFacet.public=results.data.facet_counts.facet_fields._state_s[3];                           
+                      
                        }                                   
                     }).then(null, function(error) {
                     console.log(error );
@@ -233,8 +230,8 @@ console.log(results.data.facet_counts);
             user.userGroups.map(function(group){
                 userGroups.push(solr.escape(group));
             });
-    var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-    //    var ownershipQuery = " AND (_ownership_s:user\:"+ user.userID + ')';
+        var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
+
         var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
 
         var qsOtherSchemaFacetParams =
@@ -248,7 +245,7 @@ console.log(results.data.facet_counts);
         var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
         var schemaFacet = null;
         $q.when(OtherSchemaFacet).then(function(results) {
-//  
+
                 
                 schemaFacet= $scope.getFacet('otherReport');  
                 
@@ -263,10 +260,9 @@ console.log(results.data.facet_counts);
 }//loadNBSAPS
 
         $scope.loadFacets();
-        loadNBSAPSFacets ();
-        loadNationalReportFacets();
-        loadOtherNRFacets ();
 
+
+console.log('$scope.schemasList',$scope.schemasList);
         function facetSummation(facets,reportType){
             _.each(facets.pivot,function(facet){
                 reportType[facet.value] += facet.count;
@@ -287,6 +283,12 @@ console.log(results.data.facet_counts);
             return _.find($scope.schemasList,{"identifier":schema});
         }
 
+        // var isAdmin         = realmConfig.isAdministrator(user); //user.roles.indexOf('Administrator')>=0;
+        // var isNationalAdmin = realmConfig.isNFPCBD(user) || realmConfig.isChmNationalFocalPoint(user) || realmConfig.isChmNationalAuthorizedUser(user)>=0;
+
+        // $scope.enableNr = isAdmin || isNationalAdmin || realmConfig.isChmNrNationalFocalPoint(user) || realmConfig.isChmNrNationalAuthorizedUser(user);
+        // $scope.enableRm = isAdmin || isNationalAdmin || realmConfig.isChmRmFocalPoint(user) || realmConfig.isChmRmNAU(user);
+        
         var isAdmin         = user.roles.indexOf('Administrator')>=0;
         var isNationalAdmin = user.roles.indexOf('NFP-CBD')>=0 || user.roles.indexOf('ChmNationalFocalPoint')>=0 || user.roles.indexOf('ChmNationalAuthorizedUser')>=0;
 

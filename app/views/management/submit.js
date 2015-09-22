@@ -160,11 +160,12 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                         
                        schemaFacet= $scope.getFacet('nationalStrategicPlan');  
                       
-                       if(schemaFacet){
-                           schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[5];
-                           schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[3];
-                           schemaFacet.public=results.data.facet_counts.facet_fields._state_s[1];                           
-                       }                                 
+                        var facetObj = formatFacets(results.data.facet_counts.facet_fields._state_s);                        
+                        if(schemaFacet){
+                            schemaFacet.workflow=facetObj.workflow;
+                            schemaFacet.draft=facetObj.draft;
+                            schemaFacet.public=facetObj.public;                           
+                        }                               
        
                         }).then(null, function(error) {
                         console.log(error );
@@ -204,11 +205,12 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                         
                        schemaFacet= $scope.getFacet('nationalReport');  
 
+                        var facetObj = formatFacets(results.data.facet_counts.facet_fields._state_s);                        
                         if(schemaFacet){
-                           schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[3];
-                           schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
-                           schemaFacet.public=results.data.facet_counts.facet_fields._state_s[5];                           
-                       }    
+                            schemaFacet.workflow=facetObj.workflow;
+                            schemaFacet.draft=facetObj.draft;
+                            schemaFacet.public=facetObj.public;                           
+                        }   
                               
                     }).then(null, function(error) {
                     console.log(error );
@@ -244,14 +246,17 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                 };
                 var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
                 var schemaFacet = null;
+                
                 $q.when(OtherSchemaFacet).then(function(results) {
         
                         
-                        schemaFacet= $scope.getFacet('otherReport');                          
+                        
+                        schemaFacet= $scope.getFacet('otherReport'); 
+                        var facetObj = formatFacets(results.data.facet_counts.facet_fields._state_s);                        
                         if(schemaFacet){
-                            schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[3];
-                            schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
-                            schemaFacet.public=results.data.facet_counts.facet_fields._state_s[5];                           
+                            schemaFacet.workflow=facetObj.workflow;
+                            schemaFacet.draft=facetObj.draft;
+                            schemaFacet.public=facetObj.public;                           
                         }        
                     }).then(null, function(error) {
                     console.log(error );
@@ -260,7 +265,20 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
         $scope.loadFacets();
  
-
+        function formatFacets(facets){
+            if(facets){
+                var facetObject = {};
+                _.each(facets,function(value,key){
+                        if(value==='public')
+                            facetObject.public = facets[key+1];
+                        if(value==='draft')
+                            facetObject.draft = facets[key+1];
+                        if(value==='workflow')
+                            facetObject.workflow = facets[key+1];
+                });
+                return facetObject;
+            }
+        }
 
         function facetSummation(facets,reportType){
             _.each(facets.pivot,function(facet){

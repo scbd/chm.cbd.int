@@ -16,7 +16,7 @@ define(['app', 'lodash'], function (app) { 'use strict';
 
                         ];	
                         
-        var extendProdRolesToDev = false;
+
 		
         //======================================================
         //
@@ -27,12 +27,10 @@ define(['app', 'lodash'], function (app) { 'use strict';
                     var realmConfig = _.where(realmConfigurations, {
                         host: $location.$$host
                     });
-//console.log('realmConfig',realmConfig);                   
+                
                     if (realmConfig.length > 0) {
                         var role = _.find(realmConfig[0].roles, function(key) {
-//  console.log('key',key); 
-//   console.log('_.keys(key)',_.keys(key));  
-//    console.log('roleName',roleName);                                  
+                               
                             return _.keys(key)[0] == roleName;
                         });
                         // console.log(realmConfig, role)
@@ -136,16 +134,6 @@ define(['app', 'lodash'], function (app) { 'use strict';
         function isNFPCBD(user) {                      
                         return (user.roles.indexOf(getRoleName("NFP-CBD")) >=0);
         };// isNFPCBD(user)   
- 
-  
-         //======================================================
-        //
-        //
-        //======================================================        
-        function setProdRolesToDev(val) {
-
-        };//setProdRolesToDev(val) {
-            
             
             								
            return {

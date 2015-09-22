@@ -281,14 +281,13 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         $scope.getFacet = function(schema){
             return _.find($scope.schemasList,{"identifier":schema});
         }
-console.log('user.roles',user.roles);
+
         var isAdmin         = realmConfig.isAdministrator(user); //user.roles.indexOf('Administrator')>=0;
         var isNationalAdmin = realmConfig.isNFPCBD(user) || realmConfig.isChmNationalFocalPoint(user) || realmConfig.isChmNationalAuthorizedUser(user)>=0;
 
         $scope.enableNr = isAdmin || isNationalAdmin || realmConfig.isChmNrNationalFocalPoint(user) || realmConfig.isChmNrNationalAuthorizedUser(user);
-console.log('$scope.enableNr',$scope.enableNr);
         $scope.enableRm = isAdmin || isNationalAdmin || realmConfig.isChmRmFocalPoint(user) || realmConfig.isChmRmNAU(user);
- console.log('$scope.enableRm',$scope.enableRm);       
+     
 
     }];
 });

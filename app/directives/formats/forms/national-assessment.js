@@ -107,7 +107,17 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
                     if(year)
                         dates.push(new Date(year + "-12-31"));
 
-					promise = $q.when({
+					promise = $q.when(guid()).then(function(identifier) {
+
+						return storage.drafts.security.canCreate(identifier, "nationalAssessment").then(function(isAllowed) {
+							if (!isAllowed)
+								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
+
+							return identifier;
+						});
+					}).then(function(identifier) {
+
+						return{ 
 						header: {
 							identifier: guid(),
 							schema   : "nationalAssessment",
@@ -116,7 +126,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
 						date : _.min(dates).toISOString().substr(0, 10),
 						nationalTarget : nationalTarget ? { identifier: nationalTarget } : undefined
-					});
+					}});
                 }
 
 				promise.then(

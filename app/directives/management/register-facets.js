@@ -1,7 +1,7 @@
 define(['text!./register-facets.html', 'app', 'lodash', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', './facet-bar'], function(template, app, _) { 'use strict';
 
-app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","IWorkflows",
-                        function ($rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows) {
+app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","IWorkflows","realmConfig",
+                        function ($rootScope, $location, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, IWorkflows,realmConfig) {
     return {
         priority: 0,
         restrict: 'E',
@@ -85,13 +85,12 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             //
             //==============================
             $scope.isAdmin = function(){
-                for(var i=0; i < $rootScope.user.roles.length; i++)
-                {
-                    if($rootScope.user.roles[i] == 'Administrator' || $rootScope.user.roles[i] == 'ChmAdministrator')
+
+                	if(realmConfig.isAdministrator($rootScope.user) || realmConfig.isChmAdministrator($rootScope.user))//if($rootScope.user.roles[i] == 'Administrator' || $rootScope.user.roles[i] == 'ChmAdministrator')
                     {
                         return true;
                     }
-                }
+
                 return false;
             };
 
@@ -99,42 +98,39 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             //
             //==============================
             $scope.isNationalUser = function(){
-                for(var i=0; i < $rootScope.user.roles.length; i++)
-                {
-                    if( $rootScope.user.roles[i] == 'ChmNationalFocalPoint' ||
-                        $rootScope.user.roles[i] == 'ChmNationalAuthorizedUser' ||
-                        $rootScope.user.roles[i] == 'Administrator' ||
-                        $rootScope.user.roles[i] == 'ChmAdministrator' && $rootScope.user.government)
+
+                    if( realmConfig.isChmNationalFocalPoint($rootScope.user) || //$rootScope.user.roles[i] == 'ChmNationalFocalPoint' ||
+                        realmConfig.isChmNationalAuthorizedUser($rootScope.user) || //$rootScope.user.roles[i] == 'ChmNationalAuthorizedUser' ||
+                        realmConfig.isAdministrato($rootScope.user) || //$rootScope.user.roles[i] == 'Administrator' ||
+                        realmConfig.isChmAdministrator($rootScope.user) && $rootScope.user.government) //$rootScope.user.roles[i] == 'ChmAdministrator' && $rootScope.user.government)
                     {
                         return true;
                     }
-                }
+             
                 return false;
             };
             //==============================
             //
             //==============================
             $scope.isReferenceUser = function(){
-                for(var i=0; i < $rootScope.user.roles.length; i++)
+
+                if(realmConfig.isUser($rootScope.user) )
                 {
-                    if($rootScope.user.roles[i] == 'User' )
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+             
                 return false;
             };
             //==============================
             //
             //==============================
             $scope.isSCBDUser = function(){
-                for(var i=0; i < $rootScope.user.roles.length; i++)
+
+                if(realmConfig.isScbdStaff($rootScope.user))
                 {
-                    if($rootScope.user.roles[i] == 'ScbdStaff' )
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+
                 return false;
             };
 

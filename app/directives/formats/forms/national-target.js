@@ -31,6 +31,11 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			$scope.init = function() {
 
 				navigation.securize();
+				
+				var promise = null;
+				var schema  = "nationalTarget";
+				var qs = $route.current.params;
+
 
 				if ($scope.document)
 					return;
@@ -43,14 +48,24 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				if(identifier)
 					promise = editFormUtility.load(identifier, "nationalTarget");
 				else
-					promise = $q.when({
+					promise = $q.when(guid()).then(function(identifier) {
+
+						return storage.drafts.security.canCreate(identifier, schema).then(function(isAllowed) {
+							if (!isAllowed)
+								throw { data: { error: "Not allowed" }, status: "notAuthorized" };
+
+							return identifier;
+						});
+					}).then(function(identifier) {
+
+						return{ 
 						header: {
 							identifier: guid(),
 							schema   : "nationalTarget",
 							languages: ["en"]
 						},
 						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined
-					});
+					}});
 
 
 				promise.then(function(doc) {

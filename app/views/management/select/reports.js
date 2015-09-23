@@ -1,7 +1,7 @@
 define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr"], function(_) { 'use strict';
 
-    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr", 'navigation', '$mdDialog', '$location',
-     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm,user,solr, navigation, $mdDialog, $location) {
+    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr", 'navigation', '$mdDialog', '$location','realmConfig',
+     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm,user,solr, navigation, $mdDialog, $location,realmConfig) {
 
          $scope.displayStyle='table';
          $scope.showSubmissionSection = true;
@@ -35,10 +35,11 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //
         //==============================
         $scope.isNationalUser = function(){
-            return ($rootScope.user.roles.indexOf('ChmNationalFocalPoint') ||
-                    $rootScope.user.roles.indexOf('ChmNationalAuthorizedUser') ||
-                    $rootScope.user.roles.indexOf('Administrator') ||
-                    $rootScope.user.roles.indexOf('ChmAdministrator')) && $rootScope.user && $rootScope.user.government;
+                        return $rootScope.user && $rootScope.user.government && 
+                        (realmConfig.isChmNationalFocalPoint($rootScope.user) 
+                        || realmConfig.isChmNationalAuthorizedUser($rootScope.user)
+                        || realmConfig.isAdministrato($rootScope.user) 
+                        || realmConfig.isChmAdministrator($rootScope.user));
         };
 
         $scope.government =  userGovernment();

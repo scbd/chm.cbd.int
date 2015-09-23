@@ -1,6 +1,6 @@
 define(['text!./my-drafts.html', 'app', 'authentication', 'utilities/km-storage', 'utilities/km-utilities'], function(template, app) { 'use strict';
 
-app.directive("myDrafts", ["$location", "IStorage", "schemaTypes", '$timeout', '$route', 'authentication', function ($location, storage, schemaTypes, $timeout, $route, authentication) {
+app.directive("myDrafts", ["$location", "IStorage", "schemaTypes", '$timeout', '$route', 'authentication','realmConfig', function ($location, storage, schemaTypes, $timeout, $route, authentication,realmConfig) {
 
 	return {
 		priority: 0,
@@ -136,7 +136,7 @@ app.directive("myDrafts", ["$location", "IStorage", "schemaTypes", '$timeout', '
 			{
 				authentication.getUser().then(function(user){
 
-					if(draft.workingDocumentLock && user && (user.roles.indexOf("administrator") || user.userID == draft.workingDocumentLock.lockedBy.userID))
+					if(draft.workingDocumentLock && user && (realmConfig.isAdministrator(user)	 || user.userID == draft.workingDocumentLock.lockedBy.userID))	//if(draft.workingDocumentLock && user && (user.roles.indexOf("administrator") || user.userID == draft.workingDocumentLock.lockedBy.userID))
 					{
 						if (!confirm("WARNING: Unlocking draft can break workflows. \n Unlock the draft?"))
 							return;

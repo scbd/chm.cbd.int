@@ -205,20 +205,4 @@ define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template,
         }]
     };
 }]);
-
-    //============================================================
-    //
-    //
-    //============================================================
-    app.directive('bindIndeterminate', [function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            scope.$watch(attrs.bindIndeterminate, function (value) {
-                element[0].indeterminate = value;
-            });
-        }
-    };
-    }]);
-
 });

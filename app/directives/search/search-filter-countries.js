@@ -1,6 +1,6 @@
 define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], function(template, app, _, $) { 'use strict';
 
-    app.directive('searchFilterCountries', ["$http", '$location', '$timeout' function ($http, $location, $timeout) {
+    app.directive('searchFilterCountries', ["$http", '$location', '$timeout', function ($http, $location, $timeout) {
     return {
         restrict: 'EAC',
         template: template,
@@ -31,7 +31,7 @@ define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], functi
                 $timeout(function(){ //Ensure angular context
                     //TODO Computes facets
                 });
-            })
+            });
 
             $scope.isSelected = function(item) {
                 return $.inArray(item.symbol, $scope.selectedItems) >= 0;
@@ -114,7 +114,9 @@ define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], functi
                 onWatch_items($scope.items);
             });
 
-            function onWatch_items(values) { if(!values) return;
+            function onWatch_items(values) {
+
+                 if(!values) return;
                 values.forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;

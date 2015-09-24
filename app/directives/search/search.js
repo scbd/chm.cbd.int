@@ -107,13 +107,13 @@ define(['text!./search.html',
 	            function readFacets2(solrArray) {
 
 	                var facets = [];
+					if(solrArray)
+						for (var i = 0; i < solrArray.length; i += 2) {
 
-	                for (var i = 0; i < solrArray.length; i += 2) {
+							var facet = solrArray[i];
 
-	                    var facet = solrArray[i];
-
-	                    facets.push({ symbol: facet, title: facet, count: solrArray[i + 1] });
-	                }
+							facets.push({ symbol: facet, title: facet, count: solrArray[i + 1] });
+						}
 
 	                return facets;
 	            }
@@ -172,8 +172,6 @@ define(['text!./search.html',
 	                    $scope.documents = data.response.docs;
 
 	                    $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
-
-
 
 	                }).error(function (error) { console.log('onerror'); console.log(error); });
 	            }

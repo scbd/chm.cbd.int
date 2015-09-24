@@ -355,7 +355,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					document.thumbnail.tags=document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
 												
 				}
-console.log('end of elink',$scope.document.thumbnail);	
+//console.log('end of elink',$scope.document.thumbnail);	
 			};
 
 
@@ -451,7 +451,7 @@ console.log('end of elink',$scope.document.thumbnail);
 //console.log('doc.coutnries from funciton',doc.countries);
 						$scope.document = doc;
 //console.log('scope loading doc countries',$scope.document.countries);
-//console.log('scope loading doc',$scope.document);
+console.log('scope loading doc',$scope.document);
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);
@@ -474,10 +474,15 @@ console.log('end of elink',$scope.document.thumbnail);
 //console.log('document.donations',document.donations);	
 							if(_.isArray(document.donations)){
 									_.each(document.donations, function (donor,key) {
-											if(!_.isEmpty(donor) && donor){
-												
-												if(donor.donor[0]) donor.donor= {identifier:donor.donor[0].identifier};
-//console.log('donoro',donor.donor);
+											if(!_.isEmpty(donor) && donor.donor){
+											
+												if(donor.donor)
+												if(donor.donor.hasOwnProperty['0'])
+												{
+													donor.donor= {identifier:donor.donor[0].identifier};
+												} else
+													donor.donor= {identifier:donor.donor.identifier};
+
 												if(_.isEmpty(donor.date) && !donor.date)
 													donor.date = new Date('01/01/2008');
 												
@@ -830,7 +835,7 @@ console.log('end of elink',$scope.document.thumbnail);
 				$scope.reviewDocument = oDocument;
 
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-console.log('validating',oDocument );	
+//console.log('validating',oDocument );	
 					return storage.documents.validate(oDocument).then(
 						function(success) {
 							$scope.validationReport = success.data;

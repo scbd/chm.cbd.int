@@ -1,5 +1,7 @@
 define(['text!./search.html',
 		'app',
+		'jquery',
+		'lodash',
 		"utilities/km-utilities",
 		"./search-result",
 		"./search-filter-keywords",
@@ -17,20 +19,16 @@ define(['text!./search.html',
 		"./row-national-assessment",
 		"./row-statement"
 
-	], function(template, app) { 'use strict';
+	], function(template, app, $, _) { 'use strict';
 
-	app.directive('search', ['$http', 'realm', function ($http, realm) {
+	app.directive('search', ['$http', 'realm', '$q', '$timeout', '$location', function ($http, realm, $q, $timeout, $location) {
 	    return {
 	        restrict: 'EAC',
 	        template: template,
 	        replace: true,
-	        scope: {
-	        },
-	        controller: ['$scope', '$q', '$timeout', '$location', function ($scope, $q, $timeout, $location)
-	        {
-	            var self = this;
-
-	            this.xhr = null;
+	        scope: {},
+			link : function($scope) {
+				var canceler = null;
 
 	            var iconMap = {
 	                'focalPoint'            : 'fa fa-user',
@@ -69,12 +67,14 @@ define(['text!./search.html',
 	            $scope.itemsPerPage    = 25;
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
-	            $scope.querySchema     = '*:*';
-	            $scope.queryGovernment = '*:*';
-	            $scope.queryTargets    = '*:*';
-	            $scope.queryTheme      = '*:*';
-	            $scope.queryDate       = '*:*';
-	            $scope.queryKeywords   = '*:*';
+	            $scope.querySchema     = '*:*'; // TODO replace with $scope.subQueries
+	            $scope.queryGovernment = '*:*'; // TODO replace with $scope.subQueries
+	            $scope.queryTargets    = '*:*'; // TODO replace with $scope.subQueries
+	            $scope.queryTheme      = '*:*'; // TODO replace with $scope.subQueries
+	            $scope.queryDate       = '*:*'; // TODO replace with $scope.subQueries
+	            $scope.queryKeywords   = '*:*'; // TODO replace with $scope.subQueries
+
+				$scope.subQueries = {};
 
 	            if($location.search().q) {
 	                $scope.keywords = $location.search().q;
@@ -84,8 +84,8 @@ define(['text!./search.html',
 
 	            $scope.fixHtml = function (htmlText) {
 	                htmlText = (htmlText || "").replace(/\r\n/g, '<br>');
-					htmlText = (htmlText || "").replace(/href="\//g, 'href="http://www.cbd.int/');
-					htmlText = (htmlText || "").replace(/href='\//g, "href='http://www.cbd.int/");
+					htmlText = (htmlText || "").replace(/href="\//g, 'href="https://www.cbd.int/');
+					htmlText = (htmlText || "").replace(/href='\//g, "href='https://www.cbd.int/");
 
 					var qHtml = $('<div/>').html(htmlText);
 
@@ -118,63 +118,65 @@ define(['text!./search.html',
 	                return facets;
 	            }
 
-	            self.query = function () {
+				$scope.buildQuery = function()
+				{
+					// NOT version_s:* remove non-public records from resultset
 
-	                // NOT version_s:* remove non-public records from resultset
-	                var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* AND ' + $scope.querySchema + ' AND ' + $scope.queryGovernment + ' AND ' + $scope.queryTheme + ' AND ' + $scope.queryTargets +' AND ' + $scope.queryDate + ' AND ' + $scope.queryKeywords;
+					var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
+
+					//TODO use:  $scope.subQueries
+
+					var subQueries = _.compact([$scope.querySchema, $scope.queryGovernment, $scope.queryTheme, $scope.queryTargets, $scope.queryDate, $scope.queryKeywords]);
+
+					if(subQueries.length)
+						q += " AND " + subQueries.join(" AND ");
+					return q;
+				};
+
+	            function query() {
 
 	                var queryParameters = {
-	                    'q': q,
+	                    'q': $scope.buildQuery(),
 	                    'sort': 'createdDate_dt desc, title_t asc',
 	                    'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
 	                    'wt': 'json',
 	                    'start': $scope.currentPage * $scope.itemsPerPage,
 	                    'rows': 25,
-	                    'cb': new Date().getTime()
+						'facet': true,
+						'facet.field': ['schema_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
+						'facet.limit': 512
 	                };
 
-	                if (self.canceler) {
+	                if (canceler) {
 	                    console.log('trying to abort pending request...');
-	                    self.canceler.resolve(true);
+	                    canceler.resolve(true);
 	                }
 
-	                self.canceler = $q.defer();
+	                canceler = $q.defer();
 
-	                $http.get('/api/v2013/index/select', { params: queryParameters, timeout: self.canceler.promise }).success(function (data) {
+	                $http.get('/api/v2013/index/select', { params: queryParameters, timeout: canceler.promise }).success(function (data) {
 
-	                    self.canceler = null;
+	                    canceler = null;
 
 	                    $scope.count = data.response.numFound;
 	                    $scope.start = data.response.start;
 	                    $scope.stop  = data.response.start+data.response.docs.length-1;
 	                    $scope.rows  = data.response.docs.length;
 
+						$scope.schemas       = readFacets2(data.facet_counts.facet_fields.schema_s);
+						$scope.governments   = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
+						$scope.regions       = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
+						$scope.aichiTargets  = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
+						$scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
+
 	                    $scope.documents = data.response.docs;
 
 	                    $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
 
-	                    if(!$scope.schemas) {
-	                        var queryFacetsParameters = {
-	                            'q': 'NOT version_s:* AND realm_ss:'+ realm.toLowerCase(),
-	                            'fl': '',
-	                            'wt': 'json',
-	                            'rows': 0,
-	                            'facet': true,
-	                            'facet.field': ['schema_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
-	                            'facet.limit': 512
-	                        };
 
-	                        $http.get('/api/v2013/index/select', { params: queryFacetsParameters }).success(function (data) {
-	                            $scope.schemas = readFacets2(data.facet_counts.facet_fields.schema_s);
-	                            $scope.governments = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
-	                            $scope.regions = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
-	                            $scope.aichiTargets = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
-	                            $scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
 
-	                        }).error(function (error) { console.log('onerror'); console.log(error); } );
-	                    }
 	                }).error(function (error) { console.log('onerror'); console.log(error); });
-	            };
+	            }
 
 	            $scope.range = function (start, end) {
 
@@ -202,23 +204,38 @@ define(['text!./search.html',
 	                return ret;
 	            };
 
-	            $scope.queryScheduled = null;
+	            var queryScheduled = null;
+
 	            function search() {
 
-	                if($scope.queryScheduled)
+	                if(queryScheduled)
 	                    $timeout.cancel($scope.queryScheduled);
 
-	                $scope.queryScheduled = $timeout(function () { self.query(); }, 100);
+	                queryScheduled = $timeout(function () { query(); }, 100);
 	            }
 
 	            $scope.$watch('currentPage',     search);
-	            $scope.$watch('querySchema',     function() { $scope.currentPage=0; search(); });
-	            $scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); });
-	            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; search(); });
-	            $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); });
-	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); });
-	            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; search(); });
-	        }]
+	            $scope.$watch('querySchema',     function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	        },
+			controller : ["$scope", function($scope) {
+
+				this.fullQuery = function() {
+					return $scope.buildQuery();
+				};
+
+				this.setSubQuery = function(name, query) {
+					$scope.subQueries[name] = query;
+				};
+
+				this.getSubQuery = function(name) {
+					return $scope.subQueries[name];
+				};
+			}]
 	    };
 	}]);
 

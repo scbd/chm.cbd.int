@@ -355,7 +355,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					document.thumbnail.tags=document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
 												
 				}
-console.log('end of elink',$scope.document.thumbnail);	
+//console.log('end of elink',$scope.document.thumbnail);	
 			};
 
 
@@ -475,8 +475,8 @@ console.log('end of elink',$scope.document.thumbnail);
 							if(_.isArray(document.donations)){
 									_.each(document.donations, function (donor,key) {
 											if(!_.isEmpty(donor) && donor){
-												
-												if(donor.donor[0]) donor.donor= {identifier:donor.donor[0].identifier};
+											
+												if(donor.donor) donor.donor= {identifier:donor.donor[0].identifier};
 //console.log('donoro',donor.donor);
 												if(_.isEmpty(donor.date) && !donor.date)
 													donor.date = new Date('01/01/2008');

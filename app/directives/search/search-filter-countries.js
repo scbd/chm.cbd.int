@@ -109,7 +109,9 @@ define(['text!./search-filter-countries.html','app', 'lodash'], function(templat
                 onWatch_items($scope.items);
             });
 
-            function onWatch_items(values) { if(!values) return;
+            function onWatch_items(values) {
+             
+                 if(!values) return;
                 values.forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;

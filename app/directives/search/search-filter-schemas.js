@@ -11,7 +11,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
               field: '@field',
               query: '=query',
         },
-        controller : ['$scope', '$element', '$location', function ($scope, $element, $location)
+        controller : ['$scope', '$element', '$location', "$timeout", function ($scope, $element, $location, $timeout)
         {
             $scope.expanded = false;
             $scope.selectedItems = [];
@@ -89,14 +89,25 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 var conditions = [];
                 buildConditions(conditions, $scope.terms);
 
-                if(conditions.length===0) $scope.query = '*:*';
-                else {
+                $scope.query = '*:*';
+
+                if(conditions.length) {
                     var query = '';
                     conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
                     query += ' )';
-                    console.log(query);
+
                     $scope.query = query;
                 }
+
+                // update querystring
+
+                var items = _(_.values($scope.termsx)).where({ selected : true }).map(function(o) { return o.identifier; }).value();
+
+                if(_.isEmpty(items))
+                    items = null;
+
+                $location.replace();
+                $location.search("schema", items);
             }
 
             function buildConditions (conditions, items) {
@@ -161,11 +172,12 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
 
             // Set intitial selection from QueryString parameters
 
-            var initialSelection = $location.search()[$scope.facet];
+            var qsSelection = _([$location.search().schema]).flatten().compact().value();
 
-            if(initialSelection && $scope.termsx[initialSelection]) {
-                $scope.termsx[initialSelection].selected = true;
-            }
+            qsSelection.forEach(function(id) {
+                if($scope.termsx[id])
+                    $scope.termsx[id].selected = true;
+            });
 
             function onWatch_items(values) { if(!values) return;
                 values.forEach(function (item) {
@@ -178,7 +190,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
 
             $scope.refresh = buildQuery;
 
-            buildQuery();
+            $timeout(buildQuery);
         }]
     };
 });

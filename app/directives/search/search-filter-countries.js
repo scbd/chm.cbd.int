@@ -21,12 +21,6 @@ define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], functi
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
 
-            var parameters = $location.search();
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
-
             $element.find("#dialogSelect").on('show.bs.modal', function(){
                 $timeout(function(){ //Ensure angular context
                     //TODO Computes facets
@@ -94,24 +88,38 @@ define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], functi
                     $scope.query = "(" + conditions.join(" OR ") + ")";
 
                 //TODO searchCtrl.setSubQuery
-            }
 
+                // update querystring
 
-            function dictionarize(items) {
-                var dictionary = [];
-                items.forEach(function (item) {
-                    item.selected = false;
-                    dictionary[item.identifier] = item;
-                });
-                return dictionary;
+                var items = _($scope.terms).where({ selected : true }).map(function(o) { return o.identifier; }).value();
+
+                if(_.isEmpty(items))
+                    items = null;
+
+                $location.replace();
+                $location.search("countries", items);
             }
 
             $scope.terms = [];
-            $scope.termsx = [];
+            $scope.termsx = {};
+
             $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
-                $scope.terms = data;
-                $scope.termsx = dictionarize($scope.terms);
+
+                var qsSelection = _([$location.search().countries]).flatten().compact().value();
+
+                $scope.terms = _.map(data, function(t) {
+
+                    t.selected = qsSelection.indexOf(t.identifier)>=0;
+
+                    $scope.termsx[t.identifier] = t;
+
+                    return t;
+                });
+
                 onWatch_items($scope.items);
+
+                if(qsSelection.length)
+                    buildQuery();
             });
 
             function onWatch_items(values) {

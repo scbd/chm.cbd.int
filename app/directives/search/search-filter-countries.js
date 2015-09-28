@@ -97,7 +97,7 @@ define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], functi
                     items = null;
 
                 $location.replace();
-                $location.search("countries", items);
+                $location.search("country", items);
             }
 
             $scope.terms = [];
@@ -105,7 +105,7 @@ define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], functi
 
             $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
 
-                var qsSelection = _([$location.search().countries]).flatten().compact().value();
+                var qsSelection = _([$location.search().country]).flatten().compact().value();
 
                 $scope.terms = _.map(data, function(t) {
 

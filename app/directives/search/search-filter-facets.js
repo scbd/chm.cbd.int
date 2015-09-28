@@ -150,7 +150,7 @@ define(['text!./search-filter-facets.html', 'app', 'lodash'], function(template,
                     items = null;
 
                 $location.replace();
-                $location.search($scope.facet, items);
+                $location.search("aichiTarget", items);
             }
 
             function buildConditions (conditions, items) {
@@ -182,7 +182,7 @@ define(['text!./search-filter-facets.html', 'app', 'lodash'], function(template,
                 $scope.termsx = flatten($scope.terms, {});
                 $scope.termsxx = _.values($scope.termsx);
 
-                var qsSelection = _([$location.search()[$scope.facet]]).flatten().compact().value();
+                var qsSelection = _([$location.search().aichiTarget]).flatten().compact().value();
 
                 qsSelection.forEach(function(id) {
                     if($scope.termsx[id])

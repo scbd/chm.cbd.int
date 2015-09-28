@@ -166,7 +166,7 @@ define(['text!./search.html',
 	                    $scope.rows  = data.response.docs.length;
 
 						$scope.schemas       = readFacets2(data.facet_counts.facet_fields.schema_s);
-						$scope.governments   = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
+						$scope.governments   = readFacets2(data.facet_counts.facet_fields.government_s);
 						$scope.regions       = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
 						$scope.aichiTargets  = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
 						$scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);

@@ -19,13 +19,6 @@ define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template,
         {
             $scope.expanded = false;
             $scope.selectedItems = [];
-            $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
-
-            var parameters = $location.search();
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
 
             $scope.isSelected = function(item) {
                 return $.inArray(item.symbol, $scope.selectedItems) >= 0;
@@ -157,7 +150,15 @@ define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template,
                     $scope.query = query;
                 }
 
-                console.log($scope.query);
+				// update querystring
+
+                var items = _(_.values($scope.termsMap)).where({ selected : true }).map(function(o) { return o.identifier; }).value();
+
+                if(_.isEmpty(items))
+                    items = null;
+
+                $location.replace();
+                $location.search("theme", items);
             }
 
             function buildConditions (conditions, items) {
@@ -187,6 +188,13 @@ define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template,
 
                 $scope.termsMap   = flatten($scope.terms, {});
                 $scope.termsArray = _.values($scope.termsMap);
+
+				var qsSelection = _([$location.search().theme]).flatten().compact().value();
+
+                qsSelection.forEach(function(id) {
+                    if($scope.termsMap[id])
+                        $scope.termsMap[id].selected = true;
+                });
 
                 if($scope.items)
                     $scope.items.forEach(function (item) {

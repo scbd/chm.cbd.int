@@ -17,12 +17,6 @@ define(['text!./search-filter-facets.html', 'app', 'lodash'], function(template,
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
 
-            var parameters = $location.search();
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
-
             $scope.isSelected = function(item) {
                 return $.inArray(item.symbol, $scope.selectedItems) >= 0;
             };
@@ -148,7 +142,15 @@ define(['text!./search-filter-facets.html', 'app', 'lodash'], function(template,
                     $scope.query = query;
                 }
 
-                console.log($scope.query);
+                // update querystring
+
+                var items = _(_.values($scope.termsx)).where({ selected : true }).map(function(o) { return o.identifier; }).value();
+
+                if(_.isEmpty(items))
+                    items = null;
+
+                $location.replace();
+                $location.search($scope.facet, items);
             }
 
             function buildConditions (conditions, items) {
@@ -175,13 +177,25 @@ define(['text!./search-filter-facets.html', 'app', 'lodash'], function(template,
 
             $scope.termsx = [];
             $http.get('/api/v2013/thesaurus/domains/0BB90152-BE5D-4A51-B090-D29906F65247/terms').success(function (data) {
+
                 $scope.terms = thesaurus.buildTree(data);
                 $scope.termsx = flatten($scope.terms, {});
                 $scope.termsxx = _.values($scope.termsx);
+
+                var qsSelection = _([$location.search()[$scope.facet]]).flatten().compact().value();
+
+                qsSelection.forEach(function(id) {
+                    if($scope.termsx[id])
+                        $scope.termsx[id].selected = true;
+                });
+
                 ($scope.items||[]).forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
                         $scope.termsx[item.symbol].count = item.count;
                 });
+
+                if(qsSelection.length)
+                    buildQuery();
             });
 
             $scope.$watch('items', function (values) { if(!values) return;

@@ -68,7 +68,8 @@ define(['text!./search.html',
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
 	            $scope.querySchema     = '*:*'; // TODO replace with $scope.subQueries
-	            $scope.queryGovernment = '*:*'; // TODO replace with $scope.subQueries
+				$scope.queryGovernment = '*:*'; // TODO replace with $scope.subQueries
+	            $scope.queryRegions    = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryTargets    = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryTheme      = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryDate       = '*:*'; // TODO replace with $scope.subQueries
@@ -126,7 +127,7 @@ define(['text!./search.html',
 
 					//TODO use:  $scope.subQueries
 
-					var subQueries = _.compact([$scope.querySchema, $scope.queryGovernment, $scope.queryTheme, $scope.queryTargets, $scope.queryDate, $scope.queryKeywords]);
+					var subQueries = _.compact([$scope.querySchema, $scope.queryGovernment, $scope.queryRegions, $scope.queryTheme, $scope.queryTargets, $scope.queryDate, $scope.queryKeywords]);
 
 					if(subQueries.length)
 						q += " AND " + subQueries.join(" AND ");
@@ -143,8 +144,9 @@ define(['text!./search.html',
 	                    'start': $scope.currentPage * $scope.itemsPerPage,
 	                    'rows': 25,
 						'facet': true,
-						'facet.field': ['schema_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
-						'facet.limit': 512
+						'facet.field': ['schema_s', 'government_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
+						'facet.limit': 999999,
+						'facet.mincount' : 1
 	                };
 
 	                if (canceler) {
@@ -214,7 +216,8 @@ define(['text!./search.html',
 
 	            $scope.$watch('currentPage',     search);
 	            $scope.$watch('querySchema',     function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+				$scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryRegions',    function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
 	            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
 	            $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
 	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries

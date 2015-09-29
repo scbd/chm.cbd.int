@@ -447,6 +447,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						loadDonations(doc);
 						loadBudegt(doc);
 						loadFeatured(doc);
+						loadAttachments(doc);
 	//					doc.countries=loadCountries(doc);
 //console.log('doc.coutnries from funciton',doc.countries);
 						$scope.document = doc;
@@ -465,7 +466,22 @@ console.log('scope loading doc',$scope.document);
 					}			
 			  }// formatInstitutionalContext
 			
-			
+			//==================================
+			//
+			//==================================
+
+			function loadAttachments(document) {
+	
+					if(document.attachments)
+						_.each(document.attachments,function (att){
+							if(att.title)
+								att.name=att.title;
+							if(att.keywords)
+								att.tag=att.keywords;												
+						});
+							
+			  }// formatInstitutionalContext
+			  			
 			//==================================
 			//
 			//==================================

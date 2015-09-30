@@ -42,6 +42,8 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 								'wt': 'json',
 								'start': 0,
 								'rows': rows,
+								'sort': 'name_s ASC',
+								
 				};
 				
 	

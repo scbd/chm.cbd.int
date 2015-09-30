@@ -452,7 +452,6 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 //console.log('doc.coutnries from funciton',doc.countries);
 						$scope.document = doc;
 //console.log('scope loading doc countries',$scope.document.countries);
-console.log('scope loading doc',$scope.document);
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);

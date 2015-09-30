@@ -117,7 +117,7 @@ app.directive('editLwDonor', ['$http', '$filter', '$q', 'guid', '$location', 'IS
 			//
 			//==================================
 			 function loadWebsite(doc) {
-				if(doc.logo){
+				if(doc.website){
 					var tempWebsite=[];
 					
 					tempWebsite.push({url:doc.website.url,name:doc.website.name});

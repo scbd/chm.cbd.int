@@ -63,6 +63,17 @@ define(['text!./search-filter-regions.html', 'app', 'lodash'], function(template
                     query += ' )';
                     $scope.query = query;
                 }
+
+                // update querystring
+
+                var items = _(termsMap).where({ selected : true }).map(function(o) { return o.identifier; }).value();
+
+                if(_.isEmpty(items))
+                    items = null;
+
+                $location.replace();
+                $location.search("region", items);
+
             }
 
             function buildConditions (conditions, items) {
@@ -82,53 +93,73 @@ define(['text!./search-filter-regions.html', 'app', 'lodash'], function(template
                 return collection;
             }
 
-            $scope.$watch('items', function() {
+            $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
 
-                $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
+                var termsTree = thesaurus.buildTree(response.data);
 
-                    var termsTree = thesaurus.buildTree(response.data);
-                    termsMap = flatten(termsTree, {});
-                    var classes   = _.filter(termsTree, function where (o) { return !!o.narrowerTerms && o.identifier!='1796f3f3-13ae-4c71-a5d2-0df261e4f218'; });
+                termsMap = flatten(termsTree, {});
 
-                    _.values(termsMap).forEach(function (term) {
-                        term.name = term.name.replace('CBD Regional Groups - ', '');
-                        term.name = term.name.replace('Inland water ecosystems - ', '');
-                        term.name = term.name.replace('Large marine ecosystems - ', '');
+                var classes   = _.filter(termsTree, function where (o) { return !!o.narrowerTerms && o.identifier!='1796f3f3-13ae-4c71-a5d2-0df261e4f218'; });
 
-                        term.name = term.name.replace('Mountains - All countries', 'Mountains');
-                        term.name = term.name.replace('Global - All countries', 'Global');
-                        term.name = term.name.replace('Americas - All countries', 'Americas');
-                        term.name = term.name.replace('Africa - All countries', 'Africa');
-                        term.name = term.name.replace('Asia - All countries', 'Asia');
-                        term.name = term.name.replace('Europe - All countries', 'Europe');
-                        term.name = term.name.replace('Oceania - All countries', 'Oceania');
+                _.values(termsMap).forEach(function (term) {
+                    term.name = term.name.replace('CBD Regional Groups - ', '');
+                    term.name = term.name.replace('Inland water ecosystems - ', '');
+                    term.name = term.name.replace('Large marine ecosystems - ', '');
 
-                        term.name = term.name.replace('Mountains - ', '');
-                        term.name = term.name.replace('Global - ', '');
-                        term.name = term.name.replace('Americas - ', '');
-                        term.name = term.name.replace('Africa - ', '');
-                        term.name = term.name.replace('Asia - ', '');
-                        term.name = term.name.replace('Europe - ', '');
-                        term.name = term.name.replace('Oceania - ', '');
+                    term.name = term.name.replace('Mountains - All countries', 'Mountains');
+                    term.name = term.name.replace('Global - All countries', 'Global');
+                    term.name = term.name.replace('Americas - All countries', 'Americas');
+                    term.name = term.name.replace('Africa - All countries', 'Africa');
+                    term.name = term.name.replace('Asia - All countries', 'Asia');
+                    term.name = term.name.replace('Europe - All countries', 'Europe');
+                    term.name = term.name.replace('Oceania - All countries', 'Oceania');
 
-                        term.name = term.name.replace('regions', '<All>');
-                        term.name = term.name.replace('groups', '<All>');
+                    term.name = term.name.replace('Mountains - ', '');
+                    term.name = term.name.replace('Global - ', '');
+                    term.name = term.name.replace('Americas - ', '');
+                    term.name = term.name.replace('Africa - ', '');
+                    term.name = term.name.replace('Asia - ', '');
+                    term.name = term.name.replace('Europe - ', '');
+                    term.name = term.name.replace('Oceania - ', '');
 
-                        term.selected = false;
-                        term.count = 0;
-                    });
+                    term.name = term.name.replace('regions', '<All>');
+                    term.name = term.name.replace('groups', '<All>');
 
-                    $scope.allTerms = _.values(termsMap);
-
-                    ($scope.items||[]).forEach(function (item) {
-                        if(_.has(termsMap, item.symbol))
-                        termsMap[item.symbol].count = item.count;
-                    });
-
-                    $scope.terms = classes;
-
+                    term.selected = false;
+                    term.count = 0;
                 });
+
+                $scope.allTerms = _.values(termsMap);
+
+                // Set intitial selection from QueryString parameters
+
+                var qsSelection = _([$location.search().region]).flatten().compact().value();
+
+                qsSelection.forEach(function(id) {
+                    if(termsMap[id])
+                        termsMap[id].selected = true;
+                });
+
+                onWatch_items($scope.items||[]);
+
+                $scope.terms = classes;
+
+                buildQuery();
+
             });
+
+            function onWatch_items(values) {
+
+                 if(!values) return;
+
+                values.forEach(function (item) {
+                    if(_.has(termsMap, item.symbol))
+                        termsMap[item.symbol].count = item.count;
+                });
+            }
+
+            $scope.$watch('items', onWatch_items);
+
 
             $scope.refresh = buildQuery;
         }

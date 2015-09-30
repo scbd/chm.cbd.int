@@ -1,17 +1,18 @@
-define(['text!./search-filter-countries.html','app', 'lodash'], function(template, app, _) { 'use strict';
+define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], function(template, app, _, $) { 'use strict';
 
-    app.directive('searchFilterCountries', ["$http", function ($http) {
+    app.directive('searchFilterCountries', ["$http", '$location', '$timeout', function ($http, $location, $timeout) {
     return {
         restrict: 'EAC',
         template: template,
         replace: true,
+        require : "^search",
         scope: {
               title: '@title',
               items: '=ngModel',
               field: '@field',
               query: '=query',
         },
-        controller : ['$scope', '$element', '$location', function ($scope, $element, $location)
+        link : function ($scope, $element, $attr, searchCtrl)
         {
             $scope.alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
                                'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
@@ -20,11 +21,11 @@ define(['text!./search-filter-countries.html','app', 'lodash'], function(templat
             $scope.selectedItems = [];
             $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
 
-            var parameters = $location.search();
-
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
+            $element.find("#dialogSelect").on('show.bs.modal', function(){
+                $timeout(function(){ //Ensure angular context
+                    //TODO Computes facets
+                });
+            });
 
             $scope.isSelected = function(item) {
                 return $.inArray(item.symbol, $scope.selectedItems) >= 0;
@@ -73,44 +74,56 @@ define(['text!./search-filter-countries.html','app', 'lodash'], function(templat
             };
 
             function buildQuery () {
+
                 var conditions = [];
-                buildConditions(conditions, $scope.terms);
 
-                if(conditions.length===0) $scope.query = '*:*';
-                else {
-                    var query = '';
-                    conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
-                    query += ' )';
-                    $scope.query = query;
-                }
-            }
-
-            function buildConditions (conditions, items) {
-                items.forEach(function (item) {
+                $scope.terms.forEach(function (item) {
                     if(item.selected)
                         conditions.push($scope.field+':'+item.identifier);
                 });
-            }
 
-            function dictionarize(items) {
-                var dictionary = [];
-                items.forEach(function (item) {
-                    item.selected = false;
-                    dictionary[item.identifier] = item;
-                });
-                return dictionary;
+                $scope.query = null;
+
+                if(conditions.length)
+                    $scope.query = "(" + conditions.join(" OR ") + ")";
+
+                //TODO searchCtrl.setSubQuery
+
+                // update querystring
+
+                var items = _($scope.terms).where({ selected : true }).map(function(o) { return o.identifier; }).value();
+
+                if(_.isEmpty(items))
+                    items = null;
+
+                $location.replace();
+                $location.search("country", items);
             }
 
             $scope.terms = [];
-            $scope.termsx = [];
+            $scope.termsx = {};
+
             $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
-                $scope.terms = data;
-                $scope.termsx = dictionarize($scope.terms);
+
+                var qsSelection = _([$location.search().country]).flatten().compact().value();
+
+                $scope.terms = _.map(data, function(t) {
+
+                    t.selected = qsSelection.indexOf(t.identifier)>=0;
+
+                    $scope.termsx[t.identifier] = t;
+
+                    return t;
+                });
+
                 onWatch_items($scope.items);
+
+                if(qsSelection.length)
+                    buildQuery();
             });
 
             function onWatch_items(values) {
-             
+
                  if(!values) return;
                 values.forEach(function (item) {
                     if(_.has($scope.termsx, item.symbol))
@@ -121,7 +134,7 @@ define(['text!./search-filter-countries.html','app', 'lodash'], function(templat
             $scope.$watch('items', onWatch_items);
 
             $scope.refresh = buildQuery;
-        }]
+        }
     };
 }]);
 });

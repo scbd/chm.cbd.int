@@ -1,6 +1,6 @@
 define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], function(template, app) { 'use strict';
 
-    app.directive('searchFilterDates', function () {
+    app.directive('searchFilterDates', ["$location", function ($location) {
         return {
             restrict: 'EAC',
             template: template,
@@ -24,12 +24,14 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                     { text: 'Last year', date: new Date(new Date(now).setMonth(now.getMonth()-12)).toISOString() },
                 ];
 
-                $scope.since = null;
-                $scope.until = null;
-                $scope.selectedDate = '';
+                $scope.since = $location.search().startDate;
+                $scope.until = $location.search().endDate;
 
                 $scope.$watch('since', updateQuery);
                 $scope.$watch('until', updateQuery);
+
+                if(!$scope.since && !$scope.until)
+                    $scope.selectedDate = $scope.dates[0];
 
                 function updateQuery () {
 
@@ -41,9 +43,16 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                     } else {
                         $scope.query = '*:*';
                     }
+
+                    $location.search("startDate", $scope.since || null);
+                    $location.search("endDate",   $scope.until || null);
                 }
 
-                $scope.$watch('selectedDate', function () {
+                $scope.$watch('selectedDate', function (_new, _old) {
+
+                    if(_new==_old)
+                        return;
+
                     $scope.since = $scope.selectedDate.date ? new Date($scope.selectedDate.date).toISOString().substr(0, 10) : null;
                     $scope.until = null;
                 });
@@ -51,5 +60,5 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                 $scope.updateQuery = updateQuery;
             }
         };
-    });
+    }]);
 });

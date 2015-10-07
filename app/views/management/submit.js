@@ -1,7 +1,7 @@
-define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr"], function(_) { 'use strict';
+define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr","services/realmConfig"], function(_) { 'use strict';
 
-    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",
-     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr) {
+    return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",'realmConfig',
+     function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr,realmConfig) {
          
         $scope.schemasList = [
             { identifier: 'nationalReport'         ,public:0, draft:0, workflow:0 },
@@ -86,7 +86,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','nationalReport','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator','lwEvent','lwProject','lwDonor'];
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource','organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator','lwEvent','lwProject','lwDonor'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
 
@@ -130,84 +130,89 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             }).then(null, function(error) {
                console.log(error );
             });
-            
-        };
+            loadNBSAPSFacets ();
+           loadOtherNRFacets ();
+           loadNationalReportFacets();
+        };// $scope.loadFacets = function(){
         
         function loadNBSAPSFacets (){
               
-                var qSchema = "(schema_s:nationalReport AND     reportType_s:("+solr.escape('B0EBAE91-9581-4BB2-9C02-52FCF9D82721') +") ";
-                var userGroups = [];
-                    user.userGroups.map(function(group){
-                        userGroups.push(solr.escape(group));
-                    });
-            var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-            //    var ownershipQuery = " AND (_ownership_s:user\:"+ user.userID + ')';
-                var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
-    
-                var qsOtherSchemaFacetParams =
-                {
-                    "q"  : q,
-                    "rows" : 0,
-                    "facet":true,
-                 //   "facet.mincount":1,
-                    "facet.field":"_state_s"
-                };
-               var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
-               var schemaFacet = null;
-                $q.when(OtherSchemaFacet).then(function(results) {
+                        var qSchema = "(schema_s:nationalReport AND     reportType_s:("+solr.escape('B0EBAE91-9581-4BB2-9C02-52FCF9D82721') +") ";
+                        var userGroups = [];
+                            user.userGroups.map(function(group){
+                                userGroups.push(solr.escape(group));
+                            });
+                        var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
+                        //    var ownershipQuery = " AND (_ownership_s:user\:"+ user.userID + ')';
+                        var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
+            
+                        var qsOtherSchemaFacetParams =
+                        {
+                            "q"  : q,
+                            "rows" : 0,
+                            "facet":true,
+                        //   "facet.mincount":1,
+                            "facet.field":"_state_s"
+                         };
+                        var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
+                        var schemaFacet = null;
+                        $q.when(OtherSchemaFacet).then(function(results) {
 //  
                         
                        schemaFacet= $scope.getFacet('nationalStrategicPlan');  
-                        
-                       if(schemaFacet){
-                           schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[5];
-                           schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
-                           schemaFacet.public=results.data.facet_counts.facet_fields._state_s[3];                           
-                       }                                 
-        
-                    }).then(null, function(error) {
-                    console.log(error );
-                    });
+                      
+                        var facetObj = formatFacets(results.data.facet_counts.facet_fields._state_s);                        
+                        if(schemaFacet){
+                            schemaFacet.workflow=facetObj.workflow;
+                            schemaFacet.draft=facetObj.draft;
+                            schemaFacet.public=facetObj.public;                           
+                        }                               
+       
+                        }).then(null, function(error) {
+                        console.log(error );
+                        });
         }//loadNBSAPS
         
         function loadNationalReportFacets (){
                
-                 var nr    = [ 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',   //1st NR
-                              'A49393CA-2950-4EFD-8BCC-33266D69232F',   //2nd NR
-                              'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',   //3rd NR
-                              '272B0A17-5569-429D-ADF5-2A55C588F7A7',   //4th NR
-                              'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
-                ];
+                        var nr    = [ 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',   //1st NR
+                                    'A49393CA-2950-4EFD-8BCC-33266D69232F',   //2nd NR
+                                    'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',   //3rd NR
+                                    '272B0A17-5569-429D-ADF5-2A55C588F7A7',   //4th NR
+                                    'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
+                        ];
+                        
+                        var qSchema = "(schema_s:nationalReport AND     "+"reportType_s:("+ _(nr).map(solr.escape).values().join(' ') +")";
+                        var userGroups = [];
+                            user.userGroups.map(function(group){
+                                userGroups.push(solr.escape(group));
+                            });
+                        var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
+                        //    var ownershipQuery = " AND (_ownership_s:user\:"+ user.userID + ')';
+                            var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
                 
-                var qSchema = "(schema_s:nationalReport AND     "+"reportType_s:("+ _(nr).map(solr.escape).values().join(' ') +")";
-                var userGroups = [];
-                    user.userGroups.map(function(group){
-                        userGroups.push(solr.escape(group));
-                    });
-            var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-            //    var ownershipQuery = " AND (_ownership_s:user\:"+ user.userID + ')';
-                var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
-    
-                var qsOtherSchemaFacetParams =
-                {
-                    "q"  : q,
-                    "rows" : 0,
-                    "facet":true,
-                 //   "facet.mincount":1,
-                    "facet.field":"_state_s"
-                };
-               var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
-               var schemaFacet = null;
-                $q.when(OtherSchemaFacet).then(function(results) {
-//  
+                            var qsOtherSchemaFacetParams =
+                            {
+                                "q"  : q,
+                                "rows" : 0,
+                                "facet":true,
+                                "facet.field":"_state_s"
+                            };
+            
+                        var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
+                        var schemaFacet = null;
+                            $q.when(OtherSchemaFacet).then(function(results) {
+
                         
                        schemaFacet= $scope.getFacet('nationalReport');  
-                        
-                       if(schemaFacet){
-                           schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[5];
-                           schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
-                           schemaFacet.public=results.data.facet_counts.facet_fields._state_s[3];                           
-                       }                                   
+
+                        var facetObj = formatFacets(results.data.facet_counts.facet_fields._state_s);                        
+                        if(schemaFacet){
+                            schemaFacet.workflow=facetObj.workflow;
+                            schemaFacet.draft=facetObj.draft;
+                            schemaFacet.public=facetObj.public;                           
+                        }   
+                              
                     }).then(null, function(error) {
                     console.log(error );
                     });
@@ -223,44 +228,58 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                               'B3079A36-32A3-41E2-BDE0-65E4E3A51601'    //5th NR
                 ];
            
-        var qSchema = "(schema_s:nationalReport AND     "+"NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join('  ') +")";
-        var userGroups = [];
-            user.userGroups.map(function(group){
-                userGroups.push(solr.escape(group));
-            });
-    var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-    //    var ownershipQuery = " AND (_ownership_s:user\:"+ user.userID + ')';
-        var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
-
-        var qsOtherSchemaFacetParams =
-        {
-            "q"  : q,
-            "rows" : 0,
-            "facet":true,
-            //   "facet.mincount":1,
-            "facet.field":"_state_s"
-        };
-        var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
-        var schemaFacet = null;
-        $q.when(OtherSchemaFacet).then(function(results) {
-//  
+                var qSchema = "(schema_s:nationalReport AND     "+"NOT reportType_s:("+ _(nbsap).union(nr).map(solr.escape).values().join('  ') +")";
+                var userGroups = [];
+                    user.userGroups.map(function(group){
+                        userGroups.push(solr.escape(group));
+                    });
+                var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
+        
+                var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
+        
+                var qsOtherSchemaFacetParams =
+                {
+                    "q"  : q,
+                    "rows" : 0,
+                    "facet":true,
+                    //   "facet.mincount":1,
+                    "facet.field":"_state_s"
+                };
+                var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
+                var schemaFacet = null;
                 
-                schemaFacet= $scope.getFacet('otherReport');  
-                
-                if(schemaFacet){
-                    schemaFacet.workflow=results.data.facet_counts.facet_fields._state_s[5];
-                    schemaFacet.draft=results.data.facet_counts.facet_fields._state_s[1];
-                    schemaFacet.public=results.data.facet_counts.facet_fields._state_s[3];                           
-                }                                   
-            }).then(null, function(error) {
-            console.log(error );
-            });
-}//loadNBSAPS
+                $q.when(OtherSchemaFacet).then(function(results) {
+        
+                        
+                        
+                        schemaFacet= $scope.getFacet('otherReport'); 
+                        var facetObj = formatFacets(results.data.facet_counts.facet_fields._state_s);                        
+                        if(schemaFacet){
+                            schemaFacet.workflow=facetObj.workflow;
+                            schemaFacet.draft=facetObj.draft;
+                            schemaFacet.public=facetObj.public;                           
+                        }        
+                    }).then(null, function(error) {
+                    console.log(error );
+                    });
+        }//loadNBSAPS
 
         $scope.loadFacets();
-        loadNBSAPSFacets ();
-        loadNationalReportFacets();
-        loadOtherNRFacets ();
+ 
+        function formatFacets(facets){
+            if(facets){
+                var facetObject = {};
+                _.each(facets,function(value,key){
+                        if(value==='public')
+                            facetObject.public = facets[key+1];
+                        if(value==='draft')
+                            facetObject.draft = facets[key+1];
+                        if(value==='workflow')
+                            facetObject.workflow = facets[key+1];
+                });
+                return facetObject;
+            }
+        }
 
         function facetSummation(facets,reportType){
             _.each(facets.pivot,function(facet){
@@ -282,10 +301,12 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             return _.find($scope.schemasList,{"identifier":schema});
         }
 
-        var isAdmin         = user.roles.indexOf('Administrator')>=0;
-        var isNationalAdmin = user.roles.indexOf('NFP-CBD')>=0 || user.roles.indexOf('ChmNationalFocalPoint')>=0 || user.roles.indexOf('ChmNationalAuthorizedUser')>=0;
+        var isAdmin         = realmConfig.isAdministrator(user); //user.roles.indexOf('Administrator')>=0;
+        var isNationalAdmin = realmConfig.isNFPCBD(user) || realmConfig.isChmNationalFocalPoint(user) || realmConfig.isChmNationalAuthorizedUser(user)>=0;
 
-        $scope.enableNr = isAdmin || isNationalAdmin || user.roles.indexOf('ChmNrNationalFocalPoint')>=0 || user.roles.indexOf('ChmNrNationalAuthorizedUser')>=0;
-        $scope.enableRm = isAdmin || isNationalAdmin || user.roles.indexOf('ChmRmFocalPoint')>=0 || user.roles.indexOf('ChmRmNAU')>=0;
+        $scope.enableNr = isAdmin || isNationalAdmin || realmConfig.isChmNrNationalFocalPoint(user) || realmConfig.isChmNrNationalAuthorizedUser(user);
+        $scope.enableRm = isAdmin || isNationalAdmin || realmConfig.isChmRmFocalPoint(user) || realmConfig.isChmRmNAU(user);
+     
+
     }];
 });

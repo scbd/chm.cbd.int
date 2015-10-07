@@ -1,6 +1,6 @@
 define(['text!./user-info.html', 'app', 'authentication', 'services/navigation'], function(template, app) { 'use strict';
 
-app.directive("userInfo", ['navigation', 'authentication', '$location', '$window', function (navigation, authentication, $location, $window) {
+app.directive("userInfo", ['navigation', 'authentication', '$location', '$window','realmConfig', function (navigation, authentication, $location, $window,realmConfig) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -23,13 +23,11 @@ app.directive("userInfo", ['navigation', 'authentication', '$location', '$window
 				if(!$scope.user || !$scope.user.roles)
 					return false;
 
-				for(var i=0; i < $scope.user.roles.length; i++)
+				if(realmConfig.isAdministrator(authentication.user()) || realmConfig.isChmAdministrator($scope.user))
 				{
-					if(authentication.user().roles[i] == 'Administrator' || $scope.user.roles[i] == 'ChmAdministrator')
-					{
-						return true;
-					}
+					return true;
 				}
+		
 				return false;
 			};
 

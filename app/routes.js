@@ -12,19 +12,19 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).
             when('/database/record/:documentid?',             { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
 
-            when('/search',                                   { templateUrl: 'views/search/search.html',  label :'Search',   resolveController: true}).
-            when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',  label :'CBD Implementation',   resolveController: true}).
+            when('/search',                                   { templateUrl: 'views/search/search.html',               label :'Search',               resolveController: true, reloadOnSearch : false}).
+            when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',     label :'CBD Implementation',   resolveController: true}).
             when('/search/financial-reporting',               { templateUrl: 'views/search/financial-reporting.html',  label :'CBD Implementation',   resolveController: true}).
 
             // SUBMIT SECTION
 
             when('/submit',                                             { templateUrl: 'views/management/submit.html',                          label: 'Management Center',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-          
+
             when('/submit/online-reporting',                            { templateUrl: 'views/management/select/online-reporting.html',         label: 'Progress in achieving national and/or Aichi Biodiversity Targets',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
             when('/submit/online-reporting/resourceMobilization',       { redirectTo:  '/submit/online-reporting/resourceMobilisation' }).
             when('/submit/resourceMobilization',                        { redirectTo:  '/submit/resourceMobilisation' }).
-            
+
             when('/submit/online-reporting/:schema',                    { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
@@ -46,7 +46,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/online-reporting/nationalSupportTool/:uid',    { templateUrl: 'views/management/edit/national-support-tool.html',      label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/implementationActivity/new',  { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/implementationActivity/:uid', { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-           
+
 
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
     //      when('/submit/:schema/:id',                                 <= final implementation goal
@@ -78,11 +78,11 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             //lifeWeb Routes
             when('/lifeWeb',                                             { templateUrl: 'views/management/lifeWeb/life-web-select.html',         label: 'LifeWeb Online Reporting',   resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/lwEvent/new',                                  { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/lwEvent/:uid',                                  { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/lwProject/new',                                { templateUrl: 'views/management/edit/lw-project.html',                 label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).   
-            when('/submit/lwProject/:uid',                                { templateUrl: 'views/management/edit/lw-project.html',                 label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).               
-            when('/submit/lwDonor/new',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).          
-            when('/submit/lwDonor/:uid',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).        
+            when('/submit/lwEvent/:uid',                                 { templateUrl: 'views/management/edit/lw-event.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwProject/new',                                { templateUrl: 'views/management/edit/lw-project.html',                 label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwProject/:uid',                               { templateUrl: 'views/management/edit/lw-project.html',                 label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwDonor/new',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/lwDonor/:uid',                                 { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 ///////////////
 
 ///////////////
@@ -140,7 +140,6 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
                 }
                 else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
-
                     console.log("securize: not authorized");
 
                     $location.search({ path: $location.url() });

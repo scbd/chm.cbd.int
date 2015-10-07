@@ -535,7 +535,6 @@ app.factory('IStorage', ["$http", "$q", "authentication", "realm", function($htt
 			};
 
 			var oTrans = transformPath(patternPath, params);
-
 			return $http.get(oTrans.url, { "params": oTrans.params }).then(
 				function(res) {
 					return res.data.isAllowed;

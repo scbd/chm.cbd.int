@@ -17,3 +17,4 @@ app_build
 server.json
 .DS_Store
 bower_components
+.settings/

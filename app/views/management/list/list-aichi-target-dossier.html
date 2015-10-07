@@ -1,0 +1,131 @@
+<div id="submit">
+    <div class="container">
+
+        <div class="row">
+            <h1>Aichi Target Dossier</h1>
+        </div>
+
+        <div class="row" >
+
+            <div style="display:inline;">
+                <input  type="text" ng-model="freetext" ng-change="onText()" class="btn btn-default bg-white" placeholder="keyword">
+            </div>
+            <div style="display:inline;">
+                <a ng-click="status=''; onPage(0)" class="btn btn-default btn-info"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
+            </div>
+            <div style="display:inline;">
+                <a ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
+            </div>
+
+            <div style="display:inline;">
+                <a ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
+            </div>
+
+            <div style="display:inline;">
+                <a ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
+            </div>
+
+            <div style="display:inline;" class="pull-right">
+                <a class="btn btn-default" ng-click="onReloadList()"> Refresh List</a>
+                <a class="btn btn-primary" ng-click="onAdd()"> Add New </a>
+            </div>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <div class="row" >
+
+            <nav ng-show="pages.length>1">
+              <ul class="pagination">
+                <li>
+                  <a ng-click="onPage(currentPage-1)"  href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
+                    <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
+                </li>
+                <li>
+                  <a ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+            <table class="table table-striped">
+            	<thead>
+            		<tr>
+            		<th style="white-space:nowrap;" >Type</th>
+            		<th style="white-space:nowrap;" >Summary</th>
+            		<th style="white-space:nowrap;" class="hidden-xs">Created By</th>
+            		<th style="white-space:nowrap;" >Last Update</th>
+            		<th style="white-space:nowrap;width:100px;">Status</th>
+            		<th style="white-space:nowrap;width:100px;" class="text-right">{{recordCount}} Records</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr ng-repeat="record in records">
+            			<td class="type">
+                            <b>{{record.schemaName | lstring}}
+                                <span ng-switch="subSchema">
+                                    <span ng-switch-when="nr"></span>
+                                    <span ng-switch-when="nbsap">: NBSAP</span>
+                                    <span ng-switch-when="other">: Other</span>
+                                    <span ng-switch-default></span>
+                                </span>
+                            </b>
+                            <div>{{record.reportTypeName | lstring}}</div>
+                        </td>
+            			<td class="descr">
+                            <h5 class="title" style="margin:0;padding:0;">
+                                <span ng-hide="record.url">{{(record.title || record.identifier_s) | lstring}}</span>
+                                <a    ng-show="record.url" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
+                                <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
+                            </h5>
+                            <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
+                            </td>
+            			<td class="createdby hidden-xs">
+                            <div title="{{record.createdByEmail_s}}">{{record.createdBy_s}}</div>
+                            <div title="{{record.createdDate_dt | datetime}}" class="date" >{{record.createdDate_dt | fromNow}}</div>
+                        </td>
+            			<td class="udpatedby">
+                            <div title="{{record.updatedByEmail_s}}">{{record.updatedBy_s}}</div>
+                            <div title="{{record.updatedDate_dt | datetime}}" class="date" >{{record.updatedDate_dt | fromNow}}</div>
+                            </td>
+            			<td class="status" style="text-align:center">
+                            <span ng-show="record._state_s=='public' || record._revision_i>1" class="label label-default bg-published">PUBLISHED</span>
+                            <span ng-show="record._state_s=='draft'"    class="label label-default bg-draft">DRAFT</span>
+                            <span ng-show="record._state_s=='workflow'" class="label label-default bg-request">REQUEST</span>
+                            <div  ng-show="record._state_s=='workflow'" style="margin-top:5px"><a href="#" ng-click="onWorkflow(record)">{{formatWID(record._workflow_s)}}</a></div>
+                        </td>
+            			<td class="edit text-right">
+            				<div class="btn-group btn-group-xs"  >
+                                <a title="View" ng-if="record._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{record.url}}"><i class="fa fa-search"></i></a>
+            					<button ng-show    ="record._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
+            					<button ng-hide    ="record._state_s=='workflow' || (record._state_s=='public' && schema=='nationalIndicator')" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
+            					<button ng-hide    ="record._state_s=='workflow' || (record._state_s=='public' && schema=='nationalIndicator')" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
+            				</div>
+            			</td>
+            		</tr>
+
+            		<tr ng-show="records.length==0">
+                        <td colspan="6">
+                            No records found. You have not yet created any records of this type. Click on "add new" to create a new record.
+            			</td>
+                    </tr>
+
+            	</tbody>
+
+
+            </table>
+
+        </div>
+    </div>
+
+
+
+</div>

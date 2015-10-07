@@ -84,6 +84,13 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/lwDonor/new',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).          
             when('/submit/lwDonor/:uid',                                  { templateUrl: 'views/management/edit/lw-donor.html',                   label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).        
 ///////////////
+
+///////////////
+            //Dossier Routes
+            when('/submit/dossier/new',                   { templateUrl: 'views/management/edit/aichi-target-dossier.html',    label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/dossier/:uid',                  { templateUrl: 'views/management/edit/aichi-target-dossier.html',    label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+///////////////
+
         //  when('/management/meetings',                          { templateUrl: 'views/management/meetings/index.html',                 resolveController: true, resolveUser: true }).
         //  when('/management/meetings/:meetingId/documents',     { templateUrl: 'views/management/meetings/documents/index.html',       resolveController: true, resolveUser: true }).
         //  when('/management/meetings/:meetingId/documents/:id', { templateUrl: 'views/management/meetings/documents/document-id.html', resolveController: true, resolveUser: true }).

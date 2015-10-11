@@ -1,7 +1,7 @@
-define(['app', 'lodash'], function (app) { 'use strict';
+define(['app', 'lodash'], function (app,_) { 'use strict';
 
-	app.factory('realmConfig',  ["$http","$location", function($http,$location) {		
-		
+	app.factory('realmConfig',  ["$http","$location", function($http,$location) {
+
 	var realmConfigurations =
                         [
                             //Production
@@ -9,28 +9,28 @@ define(['app', 'lodash'], function (app) { 'use strict';
 
                             //Development
                             {'host':'localhost', 'realm' : 'CHM-DEV', 'roles': [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
-                            
+
                             {'host':'127.0.0.1', 'realm' : 'CHM-DEV', 'roles':  [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
-        
-                            {'host':'dev-chm.cbd.int', 'realm' : 'CHM-DEV', 'roles':  [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },,
 
-                        ];	
-                        
+                            {'host':'dev-chm.cbd.int', 'realm' : 'CHM-DEV', 'roles':  [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
 
-		
+                        ];
+
+
+
         //======================================================
         //
         //
-        //======================================================        
+        //======================================================
         function getRoleName(roleName) {
                 if (roleName) {
                     var realmConfig = _.where(realmConfigurations, {
                         host: $location.$$host
                     });
-                
+
                     if (realmConfig.length > 0) {
                         var role = _.find(realmConfig[0].roles, function(key) {
-                               
+
                             return _.keys(key)[0] == roleName;
                         });
                         // console.log(realmConfig, role)
@@ -41,101 +41,101 @@ define(['app', 'lodash'], function (app) { 'use strict';
                     } else
                         throw 'Realm not configured, please update app\js\realmConfig.js';
                 }
-            };//  function getRoleName(roleName) {
-            								
+            }//  function getRoleName(roleName) {
+
 
         //======================================================
         //
         //
-        //======================================================        
-        function isAdministrator(user) {                      
+        //======================================================
+        function isAdministrator(user) {
                         return (user.roles.indexOf(getRoleName("Administrator")) >=0);
-        };// isAdministrator(user) 
-        
+        }// isAdministrator(user)
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmAdministrator(user) {                      
+        //======================================================
+        function isChmAdministrator(user) {
                         return (user.roles.indexOf(getRoleName("ChmAdministrator")) >=0);
-        };//isChmAdministrator(user) 
-        
-                
+        }//isChmAdministrator(user)
+
+
         //======================================================
         //
         //
-        //======================================================        
-        function isUser(user) {                      
+        //======================================================
+        function isUser(user) {
                         return (user.roles.indexOf(getRoleName("User")) >=0);
-        };// isUser(user) 
-        
+        }// isUser(user)
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmNationalAuthorizedUser(user) {                      
+        //======================================================
+        function isChmNationalAuthorizedUser(user) {
                         return (user.roles.indexOf(getRoleName("ChmNationalAuthorizedUser")) >=0);
-        };// isChmNationalAuthorizedUser(user)  
-   
+        }// isChmNationalAuthorizedUser(user)
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmNationalFocalPoint(user) {                      
+        //======================================================
+        function isChmNationalFocalPoint(user) {
                         return (user.roles.indexOf(getRoleName("ChmNationalFocalPoint")) >=0);
-        };// isChmNationalFocalPoint(user) 
-        
+        }// isChmNationalFocalPoint(user)
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmNrNationalAuthorizedUser(user) {                      
+        //======================================================
+        function isChmNrNationalAuthorizedUser(user) {
                         return (user.roles.indexOf(getRoleName("ChmNrNationalAuthorizedUser")) >=0);
-        };// isChmNrNationalAuthorizedUser(user) 
-        
-        
+        }// isChmNrNationalAuthorizedUser(user)
+
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmRmNAU(user) {                      
+        //======================================================
+        function isChmRmNAU(user) {
                         return (user.roles.indexOf(getRoleName("ChmRmNAU")) >=0);
-        };// isChmRmNAU(user) 
-        
-        
+        }// isChmRmNAU(user)
+
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmNrNationalFocalPoint(user) {                      
+        //======================================================
+        function isChmNrNationalFocalPoint(user) {
                         return (user.roles.indexOf(getRoleName("ChmNrNationalFocalPoint")) >=0);
-        };// isChmNrNationalFocalPoint(user) 
-        
+        }// isChmNrNationalFocalPoint(user)
+
         //======================================================
         //
         //
-        //======================================================        
-        function isChmRmFocalPoint(user) {                      
+        //======================================================
+        function isChmRmFocalPoint(user) {
                         return (user.roles.indexOf(getRoleName("ChmRmFocalPoint")) >=0);
-        };// isChmRmFocalPoint(user)  
- 
+        }// isChmRmFocalPoint(user)
+
         //======================================================
         //
         //
-        //======================================================        
-        function isScbdStaff(user) {                      
+        //======================================================
+        function isScbdStaff(user) {
                         return (user.roles.indexOf(getRoleName("ScbdStaff")) >=0);
-        };// ScbdStaff(user)   
-        
+        }// ScbdStaff(user)
+
          //======================================================
         //
         //
-        //======================================================        
-        function isNFPCBD(user) {                      
+        //======================================================
+        function isNFPCBD(user) {
                         return (user.roles.indexOf(getRoleName("NFP-CBD")) >=0);
-        };// isNFPCBD(user)   
-            
-            								
+        }// isNFPCBD(user)
+
+
            return {
                     getRoleName : getRoleName,
                     isAdministrator:isAdministrator,
@@ -150,7 +150,7 @@ define(['app', 'lodash'], function (app) { 'use strict';
                     isNFPCBD:isNFPCBD,
                     isScbdStaff:isScbdStaff
             };
-	}]);//app factory      
-        
-        
+	}]);//app factory
+
+
 }); //define

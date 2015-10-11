@@ -1,8 +1,8 @@
 <li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectSchemas" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
-		<div ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}" ng-class="ccc(item)" ng-click="onclick(this, $event)">
-			<div class="label label-selected-facet">
+		<div ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}" ng-click="deleteItem(this)">
+			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)  " >
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove"></div>
 				<div class="truncate">
 					{{item.title}} ({{item.count}})

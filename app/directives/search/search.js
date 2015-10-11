@@ -55,20 +55,10 @@ define(['text!./search.html',
 					'resourceMobilisation'  : 'fa fa-university'
 	            };
 
-	            $scope.icon = function (schema) {
-	                return iconMap[schema];
-	            };
-
-	            $scope.actionSetPage = function (pageNumber) {
-	                $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
-	            };
-
 	            $scope.loaded          = false;
 	            $scope.itemsPerPage    = 25;
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
-	            $scope.querySchema     = '*:*'; // TODO replace with $scope.subQueries
-				$scope.queryGovernment = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryRegions    = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryTargets    = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryTheme      = '*:*'; // TODO replace with $scope.subQueries

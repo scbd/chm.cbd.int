@@ -58,7 +58,7 @@ define(['app', 'lodash'], function (app,_) { 'use strict';
         //======================================================
         function isChmAdministrator(user) {
                         return (user.roles.indexOf(getRoleName("ChmAdministrator")) >=0);
-        }//isChmAdministrator(user)
+        }// isChmAdministrator(user)
 
 
         //======================================================

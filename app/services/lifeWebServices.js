@@ -1,6 +1,6 @@
 /* jshint sub:true */
 
-define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
+define(['app', 'lodash',"utilities/solr"], function (app,_) { 'use strict';
 
 	app.factory('lifeWebServices',  ["$http", '$q','solr', function($http,$q,solr) {
 
@@ -13,16 +13,16 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 
 			if(!_.isArray(ids))return;
 			var qParams='';
-			
-			_.each(ids, function (item,key) {
+
+			_.each(ids, function (item) {
 				qParams = qParams +'identifier_s:'+item.identifier+' OR ';
 			});//_.each(ids
-			
-			return qParams;	
-		};// getEventTypes
-	
-	
-	
+
+			return qParams;
+		}// getEventTypes
+
+
+
 		//============================================================
 		//
 		//
@@ -35,7 +35,7 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 				else{
 					var q= '(schema_s:lwDonor)';
 					var rows = 500;
-				}	
+				}
 				var  queryParameters = {
 								'q': q,
 								'fl': 'name_s,title_s, identifier_s',
@@ -43,16 +43,16 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 								'start': 0,
 								'rows': rows,
 								'sort': 'name_s ASC',
-								
+
 				};
-				
-	
+
+
 				//return defer;
 				return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters })
 					.then(function (data) {
 
 						if(rows==500){
-					
+
 							var tempData=[];
 							_.each(data.data.response.docs,function (item,key){
 								tempData.push({identifier:item.identifier_s,title:item.title_s,selected:0});
@@ -61,13 +61,13 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							return tempData;
 						}
 						return {'data':data.data.response.docs};
-				});  
-	
-			
+				});
+
+
 		};// getEventTypes
-		
-		
-		
+
+
+
 		//============================================================
 		//
 		//
@@ -75,19 +75,19 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 		function getEventTypes(query) {
 				return $http.get('/api/v2013/thesaurus/domains/ED902BF7-E9A8-42E8-958B-03B6899FCCA6/terms', {chache: true  }).then(function(data) {
 						//dataResults = processData(data);
-						return data; 
+						return data;
 				});// return
 		};// getEventTypes
-		
-		
-		
+
+
+
 		//============================================================
-		// 
+		//
 		//============================================================
-		function getAichiTargets(query) {					
-						
+		function getAichiTargets(query) {
+
 			return $http.get('/api/v2013/thesaurus/domains/AICHI-TARGETS/terms', {chache: true  }).then(function(data) {
-				
+
 					var i = data.data.length;
 					while (i--) {
 						data.data[i].title_s = data.data[i].identifier+" "+data.data[i].name.replace(/\./g,' ').replace(/[0-9]/g, '');
@@ -101,15 +101,15 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							data.data[i].identifier == 'AICHI-TARGET-17' ||
 							data.data[i].identifier == 'AICHI-TARGET-18' ||
 							data.data[i].identifier == 'AICHI-TARGET-19' ||
-							data.data[i].identifier == 'AICHI-TARGET-20' 	
+							data.data[i].identifier == 'AICHI-TARGET-20'
 						)
 						data.data.splice(i,1);
 					}
 
-			return data; 
-			});// return		
-		};// getAichiTargets(query)	
-	   	
+			return data;
+			});// return
+		};// getAichiTargets(query)
+
 
 
 		/*****************************************************************
@@ -128,9 +128,9 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 
 
 		//============================================================
-		// 
+		//
 		//============================================================
-		function getContributionsClimateChange() {					
+		function getContributionsClimateChange() {
 				     var deferred = $q.defer();
 								deferred.resolve([
 											{identifier: 'ecoservices1', title: 'Climate Change Mitigation' },
@@ -142,14 +142,14 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 											{identifier: 'ecoservices7', title: 'Income Generation',}
 								]);
      			 return deferred.promise;
-		};// getEventTypes		
+		};// getEventTypes
 
 
 
 		//============================================================
-		// 
+		//
 		//============================================================
-		function getRoles() {					
+		function getRoles() {
 				     var deferred = $q.defer();
 								deferred.resolve([
 										{title: 'Community Engagement', identifier: 'community_engagement',},
@@ -165,11 +165,11 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 		};// getEventTypes
 
 
-		
+
 		//============================================================
-		// 
+		//
 		//============================================================
-		function getCss() {					
+		function getCss() {
 				     var deferred = $q.defer();
 								deferred.resolve([
 											{key: 'ecoservices1', title: 'Climate Change Mitigation', help: 'Please indicate information about <a href="https://www.cbd.int/doc/publications/cbd-value-nature-en.pdf">carbon sequestration and/or storage benefits</a> from this project. If specific figures are currently available, please include them here.', },
@@ -181,13 +181,13 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 											{key: 'ecoservices7', title: 'Income Generation',},
 										]);
      			 return deferred.promise;
-		};// getEventTypes	
-		
-		
-		
+		};// getEventTypes
+
+
+
 		/*****************************************************************
 		* returns promise
-		*******************************************************************/							
+		*******************************************************************/
 		function getAichiDescription(id){
 					var aichiDescriptions = {
 							'AICHI-TARGET-05': {title: "Aichi Target 5", key: "aichi_5", help: "By 2020, the rate of loss of all natural habitats, including forests, is at least halved and where feasible brought close to zero, and degradation and fragmentation is significantly reduced.",link:'https://www.cbd.int/doc/strategic-plan/targets/T5-quick-guide-en.pdf'},
@@ -201,32 +201,32 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							'AICHI-TARGET-15': {title: "Aichi Target 15", key: "aichi_15", help: "By 2020, ecosystem resilience and the contribution of biodiversity to carbon stocks has been enhanced, through conservation and restoration, including restoration of at least 15 percent of degraded ecosystems, thereby contributing to climate change mitigation and adaptation and to combating desertification.",link:"https://www.cbd.int/doc/strategic-plan/targets/T15-quick-guide-en.pdf"},
 							'AICHI-TARGET-OTHER': {title: "Contribution to other Aichi Targets", key: "5B6177DD-5E5E-434E-8CB7-D63D67D5EBED", help: "Please describe contributions to any other Aichi Targets"},
 							};
-					return aichiDescriptions[id];	
-		} // 
-		
-		
-						
+					return aichiDescriptions[id];
+		} //
+
+
+
 		//============================================================
 		// s
 		//
 		//============================================================
-		function getCountries(query) {	   
-		  
+		function getCountries(query) {
 
-					return $http.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function(data) {	
-							return data; 
+
+					return $http.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function(data) {
+							return data;
 					});// return
-			
+
 		};// getCountries
-		
-		
-		
+
+
+
 		//============================================================
-		// 
+		//
 		//
 		//============================================================
-		function getProjects(query) {	 
-			  
+		function getProjects(query) {
+
 			var  queryParameters = {
 							'q': '(title_t:'+query+'* OR identifier_s:'+query+'*) AND schema_s:lwProject',
 							//'q' : '(title_t:"' + query + '*") AND schema_s:lwProject',
@@ -234,28 +234,28 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							'wt': 'json',
 							'start': 0,
 							'rows': 10,
-							
+
 							//'cb': new Date().getTime()
 			};
-			
+
 
 			//return defer;
 			return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters })
 				.then(function (data) {
 
 					return {'data':data.data.response.docs};
-					
-				});  
+
+				});
 		};// getProjects
-		
-		
-		
+
+
+
 		//============================================================
-		// 
+		//
 		//
 		//============================================================
-		function getFeaturedProjects() {	 
-			  
+		function getFeaturedProjects() {
+
 			var  queryParameters = {
 							'q': '( schema_s:lwProject AND featured_d:[* TO *])',
 							//'q' : '(title_t:"' + query + '*") AND schema_s:lwProject',
@@ -263,28 +263,28 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 							'wt': 'json',
 							'start': 0,
 							'rows': 6,
-							
+
 							//'cb': new Date().getTime()
 			};
-			
+
 
 			//return defer;
 			return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters })
 				.then(function (data) {
 
 					return {'data':data.data.response.docs};
-					
-				});  
+
+				});
 		};// getProjects
-		
-		
-			
+
+
+
 		//============================================================
-		// 
+		//
 		//
 		//============================================================
-		function getOrganizations(query) {	 
-			  
+		function getOrganizations(query) {
+
 			var  queryParameters = {
 							'q': '(title_t:'+query+'* OR identifier_s:'+query+'*) AND schema_s:organization',
 							'fl': 'title_s, identifier_s',
@@ -295,12 +295,12 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 			//return defer;
 			return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters })
 				.then(function (data) {
-					return {'data':data.data.response.docs};					
-				});  
+					return {'data':data.data.response.docs};
+				});
 		};// getOrganizations
-		
 
-								
+
+
 		return {
 			getEventTypes : getEventTypes,
 			getCountries : getCountries,
@@ -315,8 +315,6 @@ define(['app', 'lodash',"utilities/solr"], function (app) { 'use strict';
 			getFeaturedProjects:getFeaturedProjects,
 		};
 
-		
+
 	}]);//app factory
 }); //define
-
- 

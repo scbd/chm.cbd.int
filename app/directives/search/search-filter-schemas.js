@@ -1,197 +1,134 @@
 define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template, app, _) { 'use strict';
 
-    app.directive('searchFilterSchemas', function () {
+    app.directive('searchFilterSchemas',[ "$timeout", function ($timeout) {
     return {
         restrict: 'EAC',
         template: template,
         replace: true,
+        require : '^search',
         scope: {
               title: '@title',
               items: '=ngModel',
-              field: '@field',
-              query: '=query',
+              facet: '@facet',
+              count: '=count' // total count of all children subquires needed for 0 result combinations
         },
-        controller : ['$scope', '$element', '$location', "$timeout", function ($scope, $element, $location, $timeout)
+    link : function ($scope, $element, $attr, searchCtrl)
         {
-            $scope.expanded = false;
-            $scope.selectedItems = [];
-            $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
 
-            $scope.isSelected = function(item) {
-                return $.inArray(item.symbol, $scope.selectedItems) >= 0;
-            };
-
-            $scope.closeDialog = function() {
-                $element.find("#dialogSelect").modal("hide");
-            };
-
-            $scope.actionSelect = function(item) {
-
-                if($scope.isSelected(item)) {
-                    $scope.selectedItems.splice($.inArray(item.symbol, $scope.selectedItems), 1);
-                } else {
-                    $scope.selectedItems.push(item.symbol);
-                }
-
-                $scope.updateQuery();
-            };
-
-            $scope.actionExpand = function() {
-
-                var count1 = Math.ceil($scope.items.length/3);
-                var count2 = Math.ceil(($scope.items.length-count1)/2);
-                var count3 = Math.ceil(($scope.items.length-count2-count1));
-
-                $scope.items1 = $scope.items.slice(0, count1);
-                $scope.items2 = $scope.items.slice(count1, count2+count2);
-                $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
-
-                $element.find("#dialogSelect").modal("show");
-            };
-
-            $scope.$on('onExpand', function(scope) {
-                if(scope!=$scope && $scope.expanded)
+            $scope.terms = [];
+            $scope.termsModal = {};
                     $scope.expanded = false;
-            });
-
-            $scope.filterx = function(item) {
-                return $scope.isSelected(item) || $scope.expanded;
-            };
-
-            $scope.ccc = function(item) {
-                return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
-            };
-
-            $scope.updateQuery = function() {
-
-                console.log($scope.query);
-
-                $scope.query = '';
-
-                $scope.selectedItems.forEach(function(item) {
-                    $scope.query += ($scope.query==='' ? '' : ' OR ') + $scope.field+':' + item;
-                });
-
-                if($scope.query!=='')
-                    $scope.query = '(' + $scope.query + ')';
-                else
-                    $scope.query = '*:*';
-
-                console.log($scope.query);
-            };
-
-            $scope.onclick = function (scope) {
-                scope.item.selected = !scope.item.selected;
-                buildQuery();
-            };
-
-            function buildQuery () {
-                var conditions = [];
-                buildConditions(conditions, $scope.terms);
-
-                $scope.query = '*:*';
-
-                if(conditions.length) {
-                    var query = '';
-                    conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
-                    query += ' )';
-
-                    $scope.query = query;
-                }
-
-                // update querystring
-
-                var items = _(_.values($scope.termsx)).where({ selected : true }).map(function(o) { return o.identifier; }).value();
-
-                if(_.isEmpty(items))
-                    items = null;
-
-                $location.replace();
-                $location.search("schema", items);
-            }
-
-            function buildConditions (conditions, items) {
-                items.forEach(function (item) {
-                    if(item.selected)
-                        conditions.push($scope.field+':'+item.identifier);
-                });
-            }
-
-            function dictionarize(items) {
-                var dictionary = [];
-                items.forEach(function (item) {
-                    item.selected = false;
-                    dictionary[item.identifier] = item;
-                });
-                return dictionary;
-            }
-
+            //TODO - add in cbd managed records and check for login
             $scope.outreachRecords = [
-                { identifier: 'notification', title: 'Notifications'  },
-                { identifier: 'pressRelease', title: 'Press Releases' },
-                { identifier: 'statement'   , title: 'Statements'     },
-                { identifier: 'announcement', title: 'Announcements'  }
+                { identifier: 'notification', title: 'Notifications'  , count: 0 },
+                { identifier: 'pressRelease', title: 'Press Releases' , count: 0 },
+                { identifier: 'statement'   , title: 'Statements'     , count: 0 },
+                { identifier: 'announcement', title: 'Announcements'  , count: 0 }
             ];
 
             $scope.referenceRecords = [
                 // { identifier: 'treaty'                , title: 'Treaties'                   , count: 0 },
-                // { identifier: 'article'               , title: 'Treaty Articles'            },
+                // { identifier: 'article'               , title: 'Treaty Articles'         , count: 0    },
                 { identifier: 'event'                 , title: 'Related Events'             , count: 0 },
-                { identifier: 'organization'          , title: 'Related Organizations'      },
-                { identifier: 'resource'              , title: 'Virtual Library Resources'  }
+                { identifier: 'organization'            , title: 'Related Organizations'         , count: 0 },
+                { identifier: 'resource'                , title: 'Virtual Library Resources'     , count: 0 }
             ];
 
              $scope.copRecords = [
-                { identifier: 'aichiTarget'           , title: 'Aichi Biodiversity Targets' },
-                { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators'  },
-                { identifier: 'marineEbsa'            , title: 'Marine EBSAs'               },
+                { identifier: 'aichiTarget'             , title: 'Aichi Biodiversity Targets'    , count: 0 },
+                { identifier: 'strategicPlanIndicator'  , title: 'Strategic Plan Indicators'     , count: 0 },
+                { identifier: 'marineEbsa'              , title: 'Marine EBSAs'                  , count: 0 },
                 { identifier: 'caseStudy'             , title: 'Case Studies'               , count: 0 }
             ];
 
             $scope.meetingRecords = [
-                { identifier: 'meeting'        , title: 'Meetings'          },
-                { identifier: 'meetingDocument', title: 'Meeting Documents' },
-                { identifier: 'decision'       , title: 'Decisions'         },
-                { identifier: 'recommendation' , title: 'Recommendations'   }
+                { identifier: 'meeting'                 , title: 'Meetings'                      , count: 0 },
+                { identifier: 'meetingDocument'         , title: 'Meeting Documents'             , count: 0 },
+                { identifier: 'decision'                , title: 'Decisions'                     , count: 0 },
+                { identifier: 'recommendation'          , title: 'Recommendations'               , count: 0    }
             ];
 
             $scope.nationalRecords = [
-                { identifier: 'focalPoint'              , title: 'National Focal Points'      },
-                { identifier: 'nationalReport'          , title: 'National Reports and NBSAPs'},
-                { identifier: 'nationalTarget'          , title: 'National Targets'           },
-                { identifier: 'nationalIndicator'       , title: 'National Indicators'        },
-                { identifier: 'nationalAssessment'      , title: 'Progress Assessments'       },
-                { identifier: 'implementationActivity'  , title: 'Implementation Activities'  },
+                { identifier: 'focalPoint'              , title: 'National Focal Points'         , count: 0 },
+                { identifier: 'nationalReport'          , title: 'National Reports and NBSAPs'   , count: 0 },
+                { identifier: 'nationalTarget'          , title: 'National Targets'              , count: 0 },
+                { identifier: 'nationalIndicator'       , title: 'National Indicators'           , count: 0 },
+                { identifier: 'nationalAssessment'      , title: 'Progress Assessments'          , count: 0 },
+                { identifier: 'implementationActivity'  , title: 'Implementation Activities'     , count: 0 },
                 { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' , count: 0 },
                 {},
-                { identifier: 'resourceMobilisation'    , title: 'Financial Reporting Framework'}
+                { identifier: 'resourceMobilisation'    , title: 'Financial Reporting Framework' , count: 0 }
             ];
 
-            $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords );
-            $scope.termsx = dictionarize($scope.terms);
+            $scope.cbdManagedRecords = [
+                { identifier: 'lwDonor'                 , title: 'LifeWeb Donor'                 , count: 0 },
+                { identifier: 'lwProject'               , title: 'LifeWeb Project'               , count: 0 },
+                { identifier: 'lwEvent'                 , title: 'LifeWeb Event'                 , count: 0 },
 
-            // Set intitial selection from QueryString parameters
+            ];
 
-            var qsSelection = _([$location.search().schema]).flatten().compact().value();
+            buildTermsAndQuery();
+            $scope.$watch('items',function(){searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet);}); // ensure binding gets done at end in order to display facits
 
-            qsSelection.forEach(function(id) {
-                if($scope.termsx[id])
-                    $scope.termsx[id].selected = true;
-            });
+            //=======================================================================
+      			//
+      			//=======================================================================
+            $scope.refresh = function (item){
 
-            function onWatch_items(values) { if(!values) return;
-                values.forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
+                  if(item.selected)
+                      searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
+                  else
+                      $scope.deleteItem(item);
+            };//$scope.refresh
+
+            //=======================================================================
+      			//
+      			//=======================================================================
+            function buildTermsAndQuery() {
+
+                  $scope.terms = _.union($scope.outreachRecords, $scope.referenceRecords, $scope.copRecords, $scope.meetingRecords, $scope.nationalRecords,$scope.cbdManagedRecords );
+                  $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet);
+                  searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
+            }//buildTermsAndQuery()
+
+            // =======================================================================
+            // Jquery to find modal and executes the event on when oped calling our callback
+            // which our call back then calls $timeout whcih will ensure an angular context.
+            // Better then apply call as onlly exectues when the digest is done.
+            //
+      			// =======================================================================
+            $element.find("#dialogSelectSchemas").on('show.bs.modal', function(){
+
+                  $timeout(function(){ //Ensure angular context
+                        buildTermsAndQuery();
+                        // make copy before self changes
+                        $scope.termsModal.outreachRecords=JSON.parse(JSON.stringify($scope.outreachRecords));
+                        $scope.termsModal.referenceRecords=JSON.parse(JSON.stringify($scope.referenceRecords));
+                        $scope.termsModal.copRecords=JSON.parse(JSON.stringify($scope.copRecords));
+                        $scope.termsModal.meetingRecords=JSON.parse(JSON.stringify($scope.meetingRecords));
+                        $scope.termsModal.nationalRecords=JSON.parse(JSON.stringify($scope.nationalRecords));
+                        $scope.termsModal.cbdManagedRecords=JSON.parse(JSON.stringify($scope.cbdManagedRecords));
+
                 });
+            });//$element.find
+
+            // =======================================================================
+            //
+        		// =======================================================================
+            $scope.deleteItem = function (scope) {
+                var item=null;
+                if(scope.item === undefined)
+                  item = scope;
+                else{
+                  item = scope.item;
+                  item.selected = !item.selected;
             }
 
-            $scope.$watch('items', onWatch_items);
+                searchCtrl.deleteSubQuery($scope.facet,item.identifier) ;
+                searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
+            };// $scope.deleteItem
 
-            $scope.refresh = buildQuery;
-
-            $timeout(buildQuery);
-        }]
-    };
-});
-});
+          }//link
+      }; // return
+    }]);  //app.directive('searchFilterCountries
+  });// define;

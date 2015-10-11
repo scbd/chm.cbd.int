@@ -27,8 +27,8 @@ define(['text!./search.html',
 	        template: template,
 	        replace: true,
 	        scope: {},
-			link : function($scope) {
-				var canceler = null;
+					require: '^search',
+			link : function($scope, $element, $attr, searchCtrl) {  // jshint ignore:line
 
 	            var iconMap = {
 	                'focalPoint'            : 'fa fa-user',

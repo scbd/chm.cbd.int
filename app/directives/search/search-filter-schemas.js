@@ -17,7 +17,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
 
             $scope.terms = [];
             $scope.termsModal = {};
-                    $scope.expanded = false;
+            $scope.expanded = false;
             //TODO - add in cbd managed records and check for login
             $scope.outreachRecords = [
                 { identifier: 'notification', title: 'Notifications'  , count: 0 },
@@ -27,9 +27,9 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
             ];
 
             $scope.referenceRecords = [
-                // { identifier: 'treaty'                , title: 'Treaties'                   , count: 0 },
+                // { identifier: 'treaty'                , title: 'Treaties'                , count: 0 },
                 // { identifier: 'article'               , title: 'Treaty Articles'         , count: 0    },
-                { identifier: 'event'                 , title: 'Related Events'             , count: 0 },
+                { identifier: 'event'                   , title: 'Related Events'                , count: 0 },
                 { identifier: 'organization'            , title: 'Related Organizations'         , count: 0 },
                 { identifier: 'resource'                , title: 'Virtual Library Resources'     , count: 0 }
             ];
@@ -38,7 +38,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'aichiTarget'             , title: 'Aichi Biodiversity Targets'    , count: 0 },
                 { identifier: 'strategicPlanIndicator'  , title: 'Strategic Plan Indicators'     , count: 0 },
                 { identifier: 'marineEbsa'              , title: 'Marine EBSAs'                  , count: 0 },
-                { identifier: 'caseStudy'             , title: 'Case Studies'               , count: 0 }
+                { identifier: 'caseStudy'               , title: 'Case Studies'                  , count: 0 }
             ];
 
             $scope.meetingRecords = [
@@ -55,7 +55,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'nationalIndicator'       , title: 'National Indicators'           , count: 0 },
                 { identifier: 'nationalAssessment'      , title: 'Progress Assessments'          , count: 0 },
                 { identifier: 'implementationActivity'  , title: 'Implementation Activities'     , count: 0 },
-                { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools' , count: 0 },
+                { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools'    , count: 0 },
                 {},
                 { identifier: 'resourceMobilisation'    , title: 'Financial Reporting Framework' , count: 0 }
             ];
@@ -109,7 +109,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                         $scope.termsModal.nationalRecords=JSON.parse(JSON.stringify($scope.nationalRecords));
                         $scope.termsModal.cbdManagedRecords=JSON.parse(JSON.stringify($scope.cbdManagedRecords));
 
-                });
+                  });
             });//$element.find
 
             // =======================================================================
@@ -122,7 +122,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 else{
                   item = scope.item;
                   item.selected = !item.selected;
-            }
+                }
 
                 searchCtrl.deleteSubQuery($scope.facet,item.identifier) ;
                 searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);

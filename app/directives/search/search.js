@@ -52,7 +52,7 @@ define(['text!./search.html',
 	                'nationalAssessment'    : 'icon-eye-open',
 	                'implementationActivity': 'icon-retweet',
 	                'nationalSupportTool'   : 'icon-wrench',
-					'resourceMobilisation'  : 'fa fa-university'
+									'resourceMobilisation'  : 'fa fa-university'
 	            };
 
 	            $scope.loaded          = false;
@@ -65,7 +65,7 @@ define(['text!./search.html',
 	            $scope.queryDate       = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryKeywords   = '*:*'; // TODO replace with $scope.subQueries
 
-				$scope.subQueries = {};
+							$scope.subQueries = {};
 
 	            if($location.search().q) {
 	                $scope.keywords = $location.search().q;
@@ -73,162 +73,299 @@ define(['text!./search.html',
 	                $location.search({});
 	            }
 
-	            $scope.fixHtml = function (htmlText) {
-	                htmlText = (htmlText || "").replace(/\r\n/g, '<br>');
-					htmlText = (htmlText || "").replace(/href="\//g, 'href="https://www.cbd.int/');
-					htmlText = (htmlText || "").replace(/href='\//g, "href='https://www.cbd.int/");
+					//======================================================================
+				  //
+					//======================================================================
+					$scope.icon = function (schema) {
 
-					var qHtml = $('<div/>').html(htmlText);
+              return iconMap[schema];
+          };//$scope.icon
 
-					qHtml.find("script,style").remove();
+					//======================================================================
+				  //
+					//======================================================================
+					$scope.actionSetPage = function (pageNumber) {
 
-					return qHtml.html();
-	            };
+	            $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
+	        };//$scope.actionSetPage
 
-	            $scope.fixUrl = function (url) {
-	                if(url) {
-						     if(url.indexOf( "http://chm.cbd.int/")==0) url = url.substr("http://chm.cbd.int" .length); // jshint ignore:line
-	                    else if(url.indexOf("https://chm.cbd.int/")==0) url = url.substr("https://chm.cbd.int".length); // jshint ignore:line
-	                }
+				  //=======================================================================
+				  //
+					//=======================================================================
+	        $scope.fixUrl = function (url) {
 
-	                return url;
-	            };
+                if(url){
+							     if(url.indexOf( "http://chm.cbd.int/")===0)
+									 		url = url.substr("http://chm.cbd.int" .length); // jshint ignore:line
+		               else if(url.indexOf("https://chm.cbd.int/")===0)
+									 		url = url.substr("https://chm.cbd.int".length); // jshint ignore:line
+								}
+                return url;
+	         };//$scope.fixUrl
+
+					 //=======================================================================
+				   //
+					 //=======================================================================
+			     $scope.readFacets2 = function (solrArray) {
+
+				        var facets = [];
+									if(solrArray)
+											for (var i = 0; i < solrArray.length; i += 2) {
+													var facet = solrArray[i];
+													facets.push({ symbol: facet, title: facet, count: solrArray[i + 1] });
+											}
+				          return facets;
+			      };//$scope.readFacets2
+
+						//=======================================================================
+						//
+						//=======================================================================
+						$scope.buildQuery = function()
+						{
+								// NOT version_s:* remove non-public records from resultset
+								var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
+
+								//TODO use:  $scope.subQueries
+								var subQueries = _.compact([getFormatedSubQuery('schema_s'), getFormatedSubQuery('government_s'), $scope.queryRegions, $scope.queryTheme, $scope.queryTargets, $scope.queryDate, $scope.queryKeywords]);
+
+								if(subQueries.length)
+									q += " AND " + subQueries.join(" AND ");
+								return q;
+						};//$scope.buildQuery
+
+						//=======================================================================
+						//
+						//=======================================================================
+            $scope.range = function (start, end) {
+
+                var ret = [];
+                if (!end) {
+                    end = start;
+                    start = 0;
+                }
+
+                var maxCount = 10;
+                var middle = 5;
+                var count = end - start;
+
+                if (count > maxCount) {
+                    if ($scope.currentPage > middle)
+                        start = $scope.currentPage - middle;
+
+                    end = Math.min(count, start + maxCount);
+                    start = Math.max(0, end - maxCount);
+                }
+
+                for (var i = start; i < end; i++) {
+                    ret.push(i);
+                }
+                return ret;
+	          };//$scope.range
+
+						//=======================================================================
+						//
+						//=======================================================================
+						function getFormatedSubQuery (name) {
+
+								var subQ='';
+								if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
+									subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
+									subQ = '('+subQ+')';
+								}
+								return subQ;
+						}//function getFormatedSubQuery (name)
 
 
-	            function readFacets2(solrArray) {
 
-	                var facets = [];
-					if(solrArray)
-						for (var i = 0; i < solrArray.length; i += 2) {
+	            $scope.$watch('currentPage',     searchCtrl.search());
+	            $scope.$watch('queryRegions',    function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryTheme',      function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
+	            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
+	        }, //link
 
-							var facet = solrArray[i];
+			//=======================================================================
+			//
+			//=======================================================================
+			controller : ["$scope", function($scope) {
+					var queryScheduled  = null;
+					var canceler 				= null;
 
-							facets.push({ symbol: facet, title: facet, count: solrArray[i + 1] });
+					//=======================================================================
+					//
+					//=======================================================================
+				function query($scope) {
+
+						readQueryString ();
+						var queryParameters = {
+								'q': $scope.buildQuery(),
+								'sort': 'createdDate_dt desc, title_t asc',
+								'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
+								'wt': 'json',
+								'start': $scope.currentPage * $scope.itemsPerPage,
+								'rows': 25,
+								'facet': true,
+								'facet.field': ['schema_s', 'government_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
+								'facet.limit': 999999,
+								'facet.mincount' : 1
+						};
+
+						if (canceler) {
+								//console.log('trying to abort pending request...');
+								canceler.resolve(true);
 						}
 
-	                return facets;
-	            }
+						canceler = $q.defer();
 
-				$scope.buildQuery = function()
-				{
-					// NOT version_s:* remove non-public records from resultset
+						$http.get('/api/v2013/index/select', { params: queryParameters, timeout: canceler.promise }).success(function (data) {
 
-					var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
+								canceler = null;
 
-					//TODO use:  $scope.subQueries
+								$scope.count = data.response.numFound;
+								$scope.start = data.response.start;
+								$scope.stop  = data.response.start+data.response.docs.length-1;
+								$scope.rows  = data.response.docs.length;
 
-					var subQueries = _.compact([$scope.querySchema, $scope.queryGovernment, $scope.queryRegions, $scope.queryTheme, $scope.queryTargets, $scope.queryDate, $scope.queryKeywords]);
+								$scope.schemas       = $scope.readFacets2(data.facet_counts.facet_fields.schema_s);
+								$scope.governments   = $scope.readFacets2(data.facet_counts.facet_fields.government_s);
+								$scope.regions       = $scope.readFacets2(data.facet_counts.facet_fields.government_REL_ss);
+								$scope.aichiTargets  = $scope.readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
+								$scope.thematicAreas = $scope.readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
 
-					if(subQueries.length)
-						q += " AND " + subQueries.join(" AND ");
-					return q;
-				};
+								$scope.documents = data.response.docs;
 
-	            function query() {
+								$scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
+								updateQueryString();
+						});//$http.get('/ap
+				}// query
 
-	                var queryParameters = {
-	                    'q': $scope.buildQuery(),
-	                    'sort': 'createdDate_dt desc, title_t asc',
-	                    'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
-	                    'wt': 'json',
-	                    'start': $scope.currentPage * $scope.itemsPerPage,
-	                    'rows': 25,
-						'facet': true,
-						'facet.field': ['schema_s', 'government_s', 'government_REL_ss', 'aichiTarget_REL_ss', 'thematicArea_REL_ss'],
-						'facet.limit': 999999,
-						'facet.mincount' : 1
-	                };
+				//=======================================================================
+				//
+				//=======================================================================
+				function readQueryString () {
 
-	                if (canceler) {
-	                    console.log('trying to abort pending request...');
-	                    canceler.resolve(true);
-	                }
+						var qsSchema = _([$location.search().schema_s]).flatten().compact().value(); // takes query string into array
+						var qsCountry = _([$location.search().government_s]).flatten().compact().value(); // takes query string into array
 
-	                canceler = $q.defer();
+						var qsArrByField = {'schema_s':qsSchema,'government_s':qsCountry};
 
-	                $http.get('/api/v2013/index/select', { params: queryParameters, timeout: canceler.promise }).success(function (data) {
+						_.each(qsArrByField,function (idArr,schemaKey){
+								_.each(idArr,function(id){
+										addSubQuery(schemaKey,id);
+								});//_.each
+						});//_.each
+				}//readQueryString
 
-	                    canceler = null;
+				//=======================================================================
+				//
+				//=======================================================================
+				function updateQueryString () {
 
-	                    $scope.count = data.response.numFound;
-	                    $scope.start = data.response.start;
-	                    $scope.stop  = data.response.start+data.response.docs.length-1;
-	                    $scope.rows  = data.response.docs.length;
+						_.each($scope.subQueries,function(itemIdArr,schemaKey){
+											$location.replace();
+											$location.search(schemaKey, itemIdArr);
+						});
+				}//getFormatedSubQuery
 
-						$scope.schemas       = readFacets2(data.facet_counts.facet_fields.schema_s);
-						$scope.governments   = readFacets2(data.facet_counts.facet_fields.government_s);
-						$scope.regions       = readFacets2(data.facet_counts.facet_fields.government_REL_ss);
-						$scope.aichiTargets  = readFacets2(data.facet_counts.facet_fields.aichiTarget_REL_ss);
-						$scope.thematicAreas = readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
+				//=======================================================================
+				//
+				//=======================================================================
+				function search () {
 
-	                    $scope.documents = data.response.docs;
+						if(queryScheduled)
+								$timeout.cancel($scope.queryScheduled);
+						queryScheduled = $timeout(function () { query($scope); }, 100);
+				}//search
 
-	                    $scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
+				//=======================================================================
+				//
+				//=======================================================================
+				function addSubQuery (name, query) {
 
-	                }).error(function (error) { console.log('onerror'); console.log(error); });
-	            }
+						if(!$scope.subQueries) // if called from controler without link ex4ecuting first
+							$scope.subQueries={};
+						if(!_.isArray($scope.subQueries[name])) // initialize
+							$scope.subQueries[name]=[];
+						if($scope.subQueries[name].indexOf(query)<0) // if not already there add
+							$scope.subQueries[name].push(query);
+				}//addSubQuery
 
-	            $scope.range = function (start, end) {
+				//=======================================================================
+				//
+				//=======================================================================
+				function deleteSubQuery(name, query) {
 
-	                var ret = [];
-	                if (!end) {
-	                    end = start;
-	                    start = 0;
-	                }
+						var i = $scope.subQueries[name].indexOf(query);
+						if(i !==-1)
+							$scope.subQueries[name].splice(i,1);
+				}//deleteSubQuery
 
-	                var maxCount = 10;
-	                var middle = 5;
-	                var count = end - start;
+				//=======================================================================
+				//
+				//@ data - raw country data taken from api call
+				//@ terms -
+				//@ qsSelection -
+				//=======================================================================
+				function updateTerms(terms,items,facet,data) {
 
-	                if (count > maxCount) {
-	                    if ($scope.currentPage > middle)
-	                        start = $scope.currentPage - middle;
+						var qsSelection = _([$location.search()[facet]]).flatten().compact().value(); // takes query string into array
+						var termsx = {};
 
-	                    end = Math.min(count, start + maxCount);
-	                    start = Math.max(0, end - maxCount);
-	                }
+						if(!data)data=terms;
 
-	                for (var i = start; i < end; i++) {
-	                    ret.push(i);
-	                }
-	                return ret;
-	            };
+						terms =  _.map(data, function(t) {
+									if(qsSelection && !_.isEmpty(qsSelection))
+											t.selected = qsSelection.indexOf(t.identifier)>=0; // adds query string frmo url into query
 
-	            var queryScheduled = null;
+									termsx[t.identifier] = t;
+									return t;
+						});//_.map
 
-	            function search() {
+						insertCounts(items,termsx);
+						return termsx;
+				}//updateTerms
 
-	                if(queryScheduled)
-	                    $timeout.cancel($scope.queryScheduled);
+				//=======================================================================
+				// initiates all counts to 0 and then insert facit counts based on country
+				//
+				//=======================================================================
+				function insertCounts(items,termsx) {
+						if(termsx)
+								_.each(termsx,function (item) {
+										item.count = 0;
+								});//  _.each
+						//if(!items) items=$scope.items;
+						if(items)
+								items.forEach(function (item) {
+										if(_.has(termsx, item.symbol))
+												termsx[item.symbol].count = item.count;
+								});//items.forEach
+				}//insertCounts
 
-	                queryScheduled = $timeout(function () { query(); }, 100);
-	            }
+				//=======================================================================
+				//
+				//=======================================================================
+				function buildChildQuery (terms,items,facet,data) {
 
-	            $scope.$watch('currentPage',     search);
-	            $scope.$watch('querySchema',     function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-				$scope.$watch('queryGovernment', function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryRegions',    function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryTheme',      function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; search(); }); // TODO delete and replace by $scope.subQueries
-	        },
-			controller : ["$scope", function($scope) {
+						if(!_.isEmpty(terms) )
+								_.each(terms,function (item) {
+										if(item.selected)
+												addSubQuery(facet,item.identifier);
+						});
 
-				this.fullQuery = function() {
-					return $scope.buildQuery();
-				};
+						search();
+						updateTerms(terms,items,facet,data);
+				}//buildQuery
 
-				this.setSubQuery = function(name, query) {
-					$scope.subQueries[name] = query;
-				};
-
-				this.getSubQuery = function(name) {
-					return $scope.subQueries[name];
-				};
-			}]
-	    };
-	}]);
+				this.buildChildQuery =buildChildQuery;
+				this.updateTerms =updateTerms;
+				this.deleteSubQuery =deleteSubQuery;
+				this.search = search;
+				this.addSubQuery= addSubQuery;
+			}]//controlerr
+		};//return
+	}]); //directive
 
 	//============================================================
 	//
@@ -243,7 +380,7 @@ define(['text!./search.html',
 	            });
 	        }
 	    };
-	}]);
+	}]); //directive
 
 	//============================================================
 	//
@@ -257,5 +394,5 @@ define(['text!./search.html',
 	                element.tooltip();
 	        }
 	    };
-	}]);
-});
+	}]); //directive
+});//define

@@ -1,11 +1,11 @@
 <li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectThemes" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong> </div>
 	<div class="list-group-item-expand" style="position:relative">
-		<div ng-repeat="item in termsArray | filter:{selected:true}" ng-click="onclick(this, $event)">
-			<div class="label label-selected-facet">
+		<div ng-repeat="item in termsArray | filter:{selected:true}" ng-click="refresh(this,true)">
+			<div class="label label-selected-facet"  ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)">
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove"></div>
 				<div class="truncate">
-					{{item.name.substring(0, 37)}} ({{item.count}})
+				({{item.count}}) {{item.name.substring(0, 37)}}
 				</div>
 			</div>
 		</div>

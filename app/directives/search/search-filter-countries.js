@@ -48,12 +48,9 @@ define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], f
             //=======================================================================
       			//
       			//=======================================================================
-            $scope.refresh = function (item){
+            $scope.refresh = function (item,forceDelete){
 
-                  if(item.selected)
-                      searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,rawCountries);
-                  else
-                      $scope.deleteItem(item);
+                    searchCtrl.refresh(item,forceDelete,$scope.terms,$scope.items,$scope.facet,rawCountries);
             };//$scope.refresh
 
       			// =======================================================================

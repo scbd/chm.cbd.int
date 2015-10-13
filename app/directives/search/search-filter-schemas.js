@@ -72,12 +72,9 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
             //=======================================================================
       			//
       			//=======================================================================
-            $scope.refresh = function (item){
+            $scope.refresh = function (item,forceDelete){
 
-                  if(item.selected)
-                      searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
-                  else
-                      $scope.deleteItem(item);
+                  searchCtrl.refresh(item,forceDelete,$scope.terms,$scope.items,$scope.facet);
             };//$scope.refresh
 
             //=======================================================================

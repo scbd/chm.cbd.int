@@ -300,9 +300,16 @@ define(['text!./search.html',
 				//=======================================================================
 				//
 				//=======================================================================
-				function deleteSubQuery(name, query) {
+				function deleteSubQuery(name, scope) {
+						var item=null;
 
-						var i = $scope.subQueries[name].indexOf(query);
+						if(scope.item === undefined)
+							item = scope;
+						else{
+							item = scope.item;
+							item.selected = !item.selected;
+						}
+						var i = $scope.subQueries[name].indexOf(item.identifier);
 						if(i !==-1)
 							$scope.subQueries[name].splice(i,1);
 				}//deleteSubQuery

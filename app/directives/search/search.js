@@ -368,6 +368,19 @@ define(['text!./search.html',
 						updateTerms(terms,items,facet,data);
 				}//buildQuery
 
+				//=======================================================================
+				//
+				//=======================================================================
+				function refresh (item,forceDelete,terms,items,facet,data) {
+
+						if(item.selected  && !forceDelete)
+								buildChildQuery(terms,items,facet,data);
+						else{
+								deleteSubQuery(facet,item);
+								buildChildQuery(terms,items,facet,data);
+						}
+				}//buildQuery
+				this.refresh =refresh;
 				this.buildChildQuery =buildChildQuery;
 				this.updateTerms =updateTerms;
 				this.deleteSubQuery =deleteSubQuery;

@@ -1,6 +1,6 @@
 define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], function(template, app) { 'use strict';
 
-    app.directive('searchFilterCountries', ["$http", '$location', '$timeout', function ($http, $location, $timeout) {
+    app.directive('searchFilterCountries', ["$http",'$timeout', function ($http,  $timeout) {
     return {
         restrict: 'EAC',
         template: template,

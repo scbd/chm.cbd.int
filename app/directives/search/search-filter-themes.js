@@ -1,176 +1,115 @@
-define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template, app, _) { 'use strict';
+define(['text!./search-filter-themes.html', 'app', 'lodash','angular'], function(template, app, _,angular) { 'use strict';
 
 	//==============================================
 	//
 	//
 	//==============================================
-	app.directive('searchFilterThemes', ["$http", function ($http) {
+	app.directive('searchFilterThemes',['$http','Thesaurus','$timeout', function ($http,thesaurus,$timeout) {
     return {
         restrict: 'EAC',
         template: template,
         replace: true,
+				require : '^search',
         scope: {
               title: '@title',
               items: '=ngModel',
-              field: '@field',
-              query: '=query',
+              facet: '@facet',
+							count: '=count' // total count of all children subquires needed for 0 result combinations
         },
-        controller : ['$scope', '$element', '$location', 'Thesaurus', function ($scope, $element, $location, thesaurus)
+          link : function ($scope, $element, $attr, searchCtrl)
         {
             $scope.expanded = false;
-            $scope.selectedItems = [];
+            var termsMap =[];
+						$scope.termsArray=[];
+						$scope.terms = [];
+            $scope.termsModal = {};
 
-            $scope.isSelected = function(item) {
-                return $.inArray(item.symbol, $scope.selectedItems) >= 0;
-            };
+						buildTermsAndQuery();
+            $scope.$watch('items',function(){searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
 
-            $scope.closeDialog = function() {
-                $element.find("#dialogSelect").modal("hide");
-            };
+						//=======================================================================
+      			//
+      			//=======================================================================
+            function buildTermsAndQuery() {
+                    if(_.isEmpty(termsMap)){ // get terms once and save
 
-            $scope.actionSelect = function(item) {
+												$http.get('/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms').success(function (data) {
+														$scope.terms = thesaurus.buildTree(data);
 
-                if($scope.isSelected(item)) {
-                    $scope.selectedItems.splice($.inArray(item.symbol, $scope.selectedItems), 1);
-                } else {
-                    $scope.selectedItems.push(item.symbol);
-                }
+														termsMap   = flatten($scope.terms, {});
+														$scope.termsArray = _.values(termsMap);
 
-                $scope.updateQuery();
-            };
+														termsMap=searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
+                            searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
+												});
 
-            $scope.actionExpand = function() {
+                    }else{
+														termsMap = searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
+														//$scope.termsArray = _.values(termsMap);
+														searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
+                    }
 
-                var count1 = Math.ceil($scope.items.length/3);
-                var count2 = Math.ceil(($scope.items.length-count1)/2);
-                var count3 = Math.ceil(($scope.items.length-count2-count1));
+            }//buildTermsAndQuery()
 
-                $scope.items1 = $scope.items.slice(0, count1);
-                $scope.items2 = $scope.items.slice(count1, count2+count2);
-                $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
+            //=======================================================================
+      			//
+      			//=======================================================================
+            $scope.refresh = function (item,forceDelete){
+							var term = item;
 
-                console.log($scope.items1);
-                console.log($scope.items2);
-                console.log($scope.items3);
+										term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
+										setBroaders(term.broaderTerms, term.selected);
+										setNarrowers(term.narrowerTerms, term.selected);
+			              searchCtrl.refresh(item,forceDelete,termsMap,$scope.items,$scope.facet);
+            };//$scope.refresh
 
-                $element.find("#dialogSelect").modal("show");
-            };
+						// =======================================================================
+						// Jquery to find modal and executes the event on when opened calling our callback
+						// which our call back then calls $timeout whcih will ensure an angular context.
+						// Better then apply call as onlly exectues when the digest is done.
+						//
+						// =======================================================================
+						$element.find("#dialogSelectThemes").on('show.bs.modal', function(){
 
-            $scope.$on('onExpand', function(scope) {
-                if(scope!=$scope && $scope.expanded)
-                    $scope.expanded = false;
-            });
+										$timeout(function(){ //Ensure angular context
+														buildTermsAndQuery();
+														$scope.termsModal=angular.copy($scope.terms);// unbinded display for modal for first view
+										});
 
-            $scope.filterx = function(item) {
-                console.log(item);
-                //return item.selected;
-            };
+						});//$element.find("#dialogSelect").on('show.bs.modal', function(){
 
-            $scope.ccc = function(item) {
-                return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
-            };
-
-            $scope.updateQuery = function() {
-
-                console.log($scope.query);
-
-                $scope.query = '';
-
-                $scope.selectedItems.forEach(function(item) {
-                    $scope.query += ($scope.query==='' ? '' : ' OR ') + $scope.field+':' + item;
-                });
-
-                if($scope.query!=='')
-                    $scope.query = '(' + $scope.query + ')';
-                else
-                    $scope.query = '*:*';
-
-                console.log($scope.query);
-            };
-
-            var unselect = $scope.unselect = function (item) {
-                if(!item.selected) item.indeterminate = false;
-                if(item.narrowerTerms) item.narrowerTerms.forEach(unselect);
-            };
-
+						//=======================================================================
+      			//
+      			//=======================================================================
             function setBroaders(broaderTerms, selected) {
 
                 if(!broaderTerms) return;
 
                 broaderTerms.forEach(function (term) {
-
                     term.indeterminateCounterA = term.indeterminateCounterA + (selected ? 1 : -1);
-                    console.log(term.indeterminateCounterA);
                     term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
-
                     setBroaders(term.broaderTerms, selected);
                 });
-            }
+            }//setBroaders(broaderTerms, selected)
 
+						//=======================================================================
+						//
+						//=======================================================================
             function setNarrowers(narrowerTerms, selected) {
 
                 if(!narrowerTerms) return;
 
                 narrowerTerms.forEach(function (term) {
-
                     term.indeterminateCounterB = term.indeterminateCounterB + (selected ? 1 : -1);
-                    console.log(term.indeterminateCounterB);
                     term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
-
                     setNarrowers(term.narrowerTerms, selected);
                 });
-            }
+            }//setNarrowers(narrowerTerms, selected)
 
-            $scope.onclick = function (scope, evt) {
-                scope.item.selected = !scope.item.selected;
-                $scope.ts(scope, evt);
-            };
 
-            $scope.ts = function (scope) {
-
-                var term = scope.item;
-
-                term.indeterminate = !term.selected && (term.indeterminateCounterA + term.indeterminateCounterB) > 0;
-
-                setBroaders(term.broaderTerms, term.selected);
-                setNarrowers(term.narrowerTerms, term.selected);
-
-                buildQuery();
-            };
-
-            function buildQuery () {
-                var conditions = [];
-                buildConditions(conditions, $scope.terms);
-
-                if(conditions.length===0) $scope.query = '*:*';
-                else {
-                    var query = '';
-                    conditions.forEach(function (condition) { query = query + (query==='' ? '( ' : ' OR ') + condition; });
-                    query += ' )';
-                    $scope.query = query;
-                }
-
-				// update querystring
-
-                var items = _(_.values($scope.termsMap)).where({ selected : true }).map(function(o) { return o.identifier; }).value();
-
-                if(_.isEmpty(items))
-                    items = null;
-
-                $location.replace();
-                $location.search("theme", items);
-            }
-
-            function buildConditions (conditions, items) {
-                items.forEach(function (item) {
-                    if(item.selected)
-                        conditions.push('thematicAreas_REL_ss:'+item.identifier);
-                    else if(item.narrowerTerms) {
-                        buildConditions(conditions, item.narrowerTerms);
-                    }
-                });
-            }
-
+						//=======================================================================
+      			//
+      			//=======================================================================
             function flatten(items, collection) {
                 items.forEach(function (item) {
                     item.selected = false;

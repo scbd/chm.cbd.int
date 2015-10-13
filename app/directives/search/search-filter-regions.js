@@ -27,12 +27,7 @@ define(['text!./search-filter-regions.html', 'app', 'lodash','angular'], functio
       			//=======================================================================
             $scope.refresh = function (item, forceDelete){
 
-                  if(item.selected  && !forceDelete)
-                      searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
-                  else{
-                      searchCtrl.deleteSubQuery($scope.facet,item) ;
-                      searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
-                  }
+                  searchCtrl.refresh(item,forceDelete,termsMap,$scope.items,$scope.facet);
             };//$scope.refresh
 
             //=======================================================================

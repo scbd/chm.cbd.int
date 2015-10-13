@@ -126,7 +126,13 @@ define(['text!./search.html',
 								var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
 
 								//TODO use:  $scope.subQueries
-								var subQueries = _.compact([getFormatedSubQuery('schema_s'), getFormatedSubQuery('government_s'), $scope.queryRegions, $scope.queryTheme, $scope.queryTargets, $scope.queryDate, $scope.queryKeywords]);
+								var subQueries = _.compact([getFormatedSubQuery('schema_s'),
+																						getFormatedSubQuery('government_s'),
+																						getFormatedSubQuery('government_REL_ss'),
+																						$scope.queryTheme,
+																						$scope.queryTargets,
+																						$scope.queryDate,
+																						$scope.queryKeywords]);
 
 								if(subQueries.length)
 									q += " AND " + subQueries.join(" AND ");

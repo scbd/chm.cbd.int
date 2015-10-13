@@ -129,7 +129,7 @@ define(['text!./search.html',
 								var subQueries = _.compact([getFormatedSubQuery('schema_s'),
 																						getFormatedSubQuery('government_s'),
 																						getFormatedSubQuery('government_REL_ss'),
-																						$scope.queryTheme,
+																						getFormatedSubQuery('thematicArea_REL_ss'),
 																						$scope.queryTargets,
 																						$scope.queryDate,
 																						$scope.queryKeywords]);

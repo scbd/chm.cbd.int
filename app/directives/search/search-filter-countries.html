@@ -1,11 +1,11 @@
 <li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectCountries" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
-		<div ng-animate="'animate'" ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}"  ng-click="deleteItem(this)">
+		<div ng-animate="'animate'" ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}"  ng-click="refresh(this,true)">
 			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)  " >
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove" ></div>
 						<div class="truncate" >
-						({{item.count}}) {{item.title.en}} 
+						({{item.count}}) {{item.title.en}}
 						</div>
 			</div>
 		</div>

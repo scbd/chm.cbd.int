@@ -72,26 +72,10 @@ define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], f
         		// =======================================================================
             $scope.selectedLetter= function(index) {
 
-                   $scope.sLetter = $scope.alphabet[index];
-                   $scope.selectedIndex = index;
+                    $scope.sLetter = $scope.alphabet[index];
+                    $scope.selectedIndex = index;
             };//$scope.selectedLetter
 
-            // =======================================================================
-            //
-        		// =======================================================================
-            $scope.deleteItem = function (scope) {
-                var item=null;
-
-                if(scope.item === undefined)
-                  item = scope;
-                else{
-                  item = scope.item;
-                  item.selected = !item.selected;
-                }
-
-                searchCtrl.deleteSubQuery($scope.facet,item.identifier) ;
-                searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,rawCountries);
-            };//$scope.deleteItem
         }//link
     }; // return
   }]);  //app.directive('searchFilterCountries

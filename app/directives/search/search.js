@@ -326,7 +326,6 @@ define(['text!./search.html',
 						var termsx = {};
 
 						if(!data)data=terms;
-
 						terms =  _.map(data, function(t) {
 									if(qsSelection && !_.isEmpty(qsSelection))
 											t.selected = qsSelection.indexOf(t.identifier)>=0; // adds query string frmo url into query

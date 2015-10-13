@@ -4,9 +4,9 @@
 		<div ng-animate="'animate'" ng-repeat="item in allTerms | orderBy:'title' | filter:{selected:true}" ng-click="refresh(this,true)">
 			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)  ">
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove"></div>
-				<div class="truncate">
+					<div class="truncate">
 						({{item.count}}) {{item.name}}
-				</div>
+					</div>
 			</div>
 		</div>
 	</div>
@@ -15,21 +15,23 @@
 			<div class="modal-content" style="width:760px">
 				<div class="modal-body" style="padding-left:20px">
 					<div class="panel-group" id="accordion">
-						<div class="panel panel-default" ng-repeat="class in terms">
-							<div class="panel-heading">
-								<h4 class="panel-title" style="margin:0">
-									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}">{{class.name}}</a>
-								</h4>
-							</div>
+						<div class="panel panel-default" ng-repeat="class in terms" ng-init="classIndex = $index">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}">
+									<div class="panel-heading">
+										<h4 class="panel-title" style="margin:0">
+											{{class.name}}
+										</h4>
+								  </div>
+							</a>
 							<div id="{{class.identifier}}" class="panel-collapse" ng-class="{ true:'in', false:'collapse' }[$index==0]">
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6" ng-repeat="region in class.narrowerTerms">
 											<div class="checkbox" style="margin-top:0;margin-bottom:0">
-												<label><input type="checkbox" ng-model="region.selected" ng-click="refresh()"> {{region.name}} ({{region.count}})</label>
+												<label><input type="checkbox" ng-model="region.selected" ng-click="refresh(region)" ng-init="regionIndex = $index" ng-disabled="!termsModal[classIndex].narrowerTerms[regionIndex].count"> {{region.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].count}})</label>
 											</div>
 											<div class="checkbox" style="margin-top:0;margin-bottom:0;margin-left:20px" ng-repeat="region2 in region.narrowerTerms">
-												<label><input type="checkbox" ng-model="region2.selected" ng-change="refresh()">{{region2.name}} ({{region2.count}})</label>
+												<label><input type="checkbox" ng-model="region2.selected" ng-change="refresh(region2)" ng-disabled="!termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count"> {{region2.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count}}) </label>
 											</div>
 										</div>
 									</div>

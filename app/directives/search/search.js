@@ -59,7 +59,7 @@ define(['text!./search.html',
 	            $scope.itemsPerPage    = 25;
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
-	            $scope.queryRegions    = '*:*'; // TODO replace with $scope.subQueries
+
 	            $scope.queryTargets    = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryTheme      = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryDate       = '*:*'; // TODO replace with $scope.subQueries

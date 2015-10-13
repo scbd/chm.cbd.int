@@ -64,7 +64,6 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'lwDonor'                 , title: 'LifeWeb Donor'                 , count: 0 },
                 { identifier: 'lwProject'               , title: 'LifeWeb Project'               , count: 0 },
                 { identifier: 'lwEvent'                 , title: 'LifeWeb Event'                 , count: 0 },
-
             ];
 
             buildTermsAndQuery();

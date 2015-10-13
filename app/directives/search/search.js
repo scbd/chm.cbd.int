@@ -333,7 +333,6 @@ define(['text!./search.html',
 									termsx[t.identifier] = t;
 									return t;
 						});//_.map
-
 						insertCounts(items,termsx);
 						return termsx;
 				}//updateTerms

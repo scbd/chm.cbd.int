@@ -181,36 +181,9 @@ define(['text!./search-filter-themes.html', 'app', 'lodash'], function(template,
                         flatten(item.narrowerTerms, collection);
                 });
                 return collection;
-            }
+            }//flatten(items, collection)
 
-            $http.get('/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms').success(function (data) {
-                $scope.terms = thesaurus.buildTree(data);
-
-                $scope.termsMap   = flatten($scope.terms, {});
-                $scope.termsArray = _.values($scope.termsMap);
-
-				var qsSelection = _([$location.search().theme]).flatten().compact().value();
-
-                qsSelection.forEach(function(id) {
-                    if($scope.termsMap[id])
-                        $scope.termsMap[id].selected = true;
-                });
-
-                if($scope.items)
-                    $scope.items.forEach(function (item) {
-                        if(_.has($scope.termsMap, item.symbol))
-                            $scope.termsMap[item.symbol].count = item.count;
-                    });
-            });
-
-            $scope.$watch('items', function (values) { if(!values) return;
-                if($scope.termsMap)
-                    values.forEach(function (item) {
-                        if(_.has($scope.termsMap, item.symbol))
-                            $scope.termsMap[item.symbol].count = item.count;
-                    });
-            });
-        }]
-    };
-}]);
-});
+				}//link
+    }; // return
+  }]);  //app.directive('searchFilterCountries
+});// define

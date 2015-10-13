@@ -104,25 +104,8 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                         $scope.termsModal.meetingRecords=JSON.parse(JSON.stringify($scope.meetingRecords));
                         $scope.termsModal.nationalRecords=JSON.parse(JSON.stringify($scope.nationalRecords));
                         $scope.termsModal.cbdManagedRecords=JSON.parse(JSON.stringify($scope.cbdManagedRecords));
-
                   });
             });//$element.find
-
-            // =======================================================================
-            //
-        		// =======================================================================
-            $scope.deleteItem = function (scope) {
-                var item=null;
-                if(scope.item === undefined)
-                  item = scope;
-                else{
-                  item = scope.item;
-                  item.selected = !item.selected;
-                }
-
-                searchCtrl.deleteSubQuery($scope.facet,item.identifier) ;
-                searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
-            };// $scope.deleteItem
 
           }//link
       }; // return

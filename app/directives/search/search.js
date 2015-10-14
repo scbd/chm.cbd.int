@@ -177,8 +177,6 @@ define(['text!./search.html',
 										return subQ;
 								}//function getFormatedSubQuery (name)
 
-			          $scope.$watch('currentPage',     searchCtrl.search());
-
 	    }, //link
 
 			//=======================================================================

@@ -215,10 +215,17 @@ define(['text!./search.html',
 
 								canceler = null;
 
+								if(data.response.start && data.response.numFound && data.response.start>=data.response.numFound ){
+										$scope.actionSetPage(1);
+										query($scope);
+								}
+
 								$scope.count = data.response.numFound;
 								$scope.start = data.response.start;
 								$scope.stop  = data.response.start+data.response.docs.length-1;
 								$scope.rows  = data.response.docs.length;
+
+
 
 								$scope.schemas       = $scope.readFacets2(data.facet_counts.facet_fields.schema_s);
 								$scope.governments   = $scope.readFacets2(data.facet_counts.facet_fields.government_s);

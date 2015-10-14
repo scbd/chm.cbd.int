@@ -34,8 +34,8 @@ define(['text!./search-filter-themes.html', 'app', 'lodash','angular'], function
                     if(_.isEmpty(termsMap)){ // get terms once and save
 
 												$http.get('/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms').success(function (data) {
-														$scope.terms = thesaurus.buildTree(data);
 
+														$scope.terms = thesaurus.buildTree(data);
 														termsMap   = flatten($scope.terms, {});
 														$scope.termsArray = _.values(termsMap);
 

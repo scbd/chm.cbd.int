@@ -41,6 +41,8 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                         var until = $scope.until ? $scope.until + 'T23:59:59.999Z' : '*';
                         searchCtrl.addSubQuery('createdDate_s','[ ' + since + ' TO ' + until + ']',true);
                     }
+                    if(!$scope.since && !$scope.until)
+                        searchCtrl.deleteAllSubQuery('createdDate_s');
 
                     searchCtrl.search();
                     $location.search("startDate",      $scope.since        || null);

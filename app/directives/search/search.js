@@ -62,119 +62,119 @@ define(['text!./search.html',
 
 							$scope.subQueries = {};
 
-					//======================================================================
-				  //
-					//======================================================================
-					$scope.icon = function (schema) {
+							//======================================================================
+						  //
+							//======================================================================
+							$scope.icon = function (schema) {
 
-              return iconMap[schema];
-          };//$scope.icon
+		              return iconMap[schema];
+		          };//$scope.icon
 
-					//======================================================================
-				  //
-					//======================================================================
-					$scope.actionSetPage = function (pageNumber) {
+							//======================================================================
+						  //
+							//======================================================================
+							$scope.actionSetPage = function (pageNumber) {
 
-	            $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
-	        };//$scope.actionSetPage
+			            $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
+			        };//$scope.actionSetPage
 
-				  //=======================================================================
-				  //
-					//=======================================================================
-	        $scope.fixUrl = function (url) {
+						  //=======================================================================
+						  //
+							//=======================================================================
+			        $scope.fixUrl = function (url) {
 
-                if(url){
-							     if(url.indexOf( "http://chm.cbd.int/")===0)
-									 		url = url.substr("http://chm.cbd.int" .length); // jshint ignore:line
-		               else if(url.indexOf("https://chm.cbd.int/")===0)
-									 		url = url.substr("https://chm.cbd.int".length); // jshint ignore:line
-								}
-                return url;
-	         };//$scope.fixUrl
+		                if(url){
+									     if(url.indexOf( "http://chm.cbd.int/")===0)
+											 		url = url.substr("http://chm.cbd.int" .length); // jshint ignore:line
+				               else if(url.indexOf("https://chm.cbd.int/")===0)
+											 		url = url.substr("https://chm.cbd.int".length); // jshint ignore:line
+										}
+		                return url;
+			         };//$scope.fixUrl
 
-					 //=======================================================================
-				   //
-					 //=======================================================================
-			     $scope.readFacets2 = function (solrArray) {
+							 //=======================================================================
+						   //
+							 //=======================================================================
+					     $scope.readFacets2 = function (solrArray) {
 
-				        var facets = [];
-									if(solrArray)
-											for (var i = 0; i < solrArray.length; i += 2) {
-													var facet = solrArray[i];
-													facets.push({ symbol: facet, title: facet, count: solrArray[i + 1] });
-											}
-				          return facets;
-			      };//$scope.readFacets2
+						        var facets = [];
+											if(solrArray)
+													for (var i = 0; i < solrArray.length; i += 2) {
+															var facet = solrArray[i];
+															facets.push({ symbol: facet, title: facet, count: solrArray[i + 1] });
+													}
+						          return facets;
+					      };//$scope.readFacets2
 
-						//=======================================================================
-						//
-						//=======================================================================
-						$scope.buildQuery = function()
-						{
-								// NOT version_s:* remove non-public records from resultset
-								var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
+								//=======================================================================
+								//
+								//=======================================================================
+								$scope.buildQuery = function()
+								{
+										// NOT version_s:* remove non-public records from resultset
+										var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
 
-								var subQueries = _.compact([getFormatedSubQuery('schema_s'),
-																						getFormatedSubQuery('government_s'),
-																						getFormatedSubQuery('government_REL_ss'),
-																						getFormatedSubQuery('thematicArea_REL_ss'),
-																						getFormatedSubQuery('aichiTarget_ss'),
-																						getFormatedSubQuery('createdDate_s'),
+										var subQueries = _.compact([getFormatedSubQuery('schema_s'),
+																								getFormatedSubQuery('government_s'),
+																								getFormatedSubQuery('government_REL_ss'),
+																								getFormatedSubQuery('thematicArea_REL_ss'),
+																								getFormatedSubQuery('aichiTarget_ss'),
+																								getFormatedSubQuery('createdDate_s'),
 																								getFormatedSubQuery('keywords')]);
 
-								if(subQueries.length)
-									q += " AND " + subQueries.join(" AND ");
-								return q;
-						};//$scope.buildQuery
+										if(subQueries.length)
+											q += " AND " + subQueries.join(" AND ");
+										return q;
+								};//$scope.buildQuery
 
-						//=======================================================================
-						//
-						//=======================================================================
-            $scope.range = function (start, end) {
+								//=======================================================================
+								//
+								//=======================================================================
+		            $scope.range = function (start, end) {
 
-                var ret = [];
-                if (!end) {
-                    end = start;
-                    start = 0;
-                }
+		                var ret = [];
+		                if (!end) {
+		                    end = start;
+		                    start = 0;
+		                }
 
-                var maxCount = 10;
-                var middle = 5;
-                var count = end - start;
+		                var maxCount = 10;
+		                var middle = 5;
+		                var count = end - start;
 
-                if (count > maxCount) {
-                    if ($scope.currentPage > middle)
-                        start = $scope.currentPage - middle;
+		                if (count > maxCount) {
+		                    if ($scope.currentPage > middle)
+		                        start = $scope.currentPage - middle;
 
-                    end = Math.min(count, start + maxCount);
-                    start = Math.max(0, end - maxCount);
-                }
+		                    end = Math.min(count, start + maxCount);
+		                    start = Math.max(0, end - maxCount);
+		                }
 
-                for (var i = start; i < end; i++) {
-                    ret.push(i);
-                }
-                return ret;
-	          };//$scope.range
+		                for (var i = start; i < end; i++) {
+		                    ret.push(i);
+		                }
+		                return ret;
+			          };//$scope.range
 
-						//=======================================================================
-						//
-						//=======================================================================
-						function getFormatedSubQuery (name) {
+								//=======================================================================
+								//
+								//=======================================================================
+								function getFormatedSubQuery (name) {
 
-								var subQ='';
-								if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
+										var subQ='';
+										if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
 												if(name==='keywords' && $scope.subQueries[name][0])
 															subQ +=  $scope.subQueries[name][0];
 												else
-									subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
-									subQ = '('+subQ+')';
-								}
-								return subQ;
-						}//function getFormatedSubQuery (name)
+															subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
+												subQ = '('+subQ+')';
+										}
+										return subQ;
+								}//function getFormatedSubQuery (name)
 
-	            $scope.$watch('currentPage',     searchCtrl.search());
+			          $scope.$watch('currentPage',     searchCtrl.search());
 
-	        }, //link
+	    }, //link
 
 			//=======================================================================
 			//
@@ -183,9 +183,9 @@ define(['text!./search.html',
 					var queryScheduled  = null;
 					var canceler 				= null;
 
-					//=======================================================================
-					//
-					//=======================================================================
+				//=======================================================================
+				//
+				//=======================================================================
 				function query($scope) {
 
 						readQueryString ();
@@ -255,8 +255,8 @@ define(['text!./search.html',
 
 						_.each($scope.subQueries,function(itemIdArr,schemaKey){
 											if(schemaKey!=='createdDate_s' && schemaKey!=='keywords'){ // exlusions should be handled better
-											$location.replace();
-											$location.search(schemaKey, itemIdArr);
+													$location.replace();
+													$location.search(schemaKey, itemIdArr);
 											}
 						});
 				}//getFormatedSubQuery
@@ -285,7 +285,7 @@ define(['text!./search.html',
 								$scope.subQueries[name].push(query);
 						}
 						else if($scope.subQueries[name].indexOf(query)<0) // if not already there add
-							$scope.subQueries[name].push(query);
+									$scope.subQueries[name].push(query);
 				}//addSubQuery
 
 				//=======================================================================
@@ -303,6 +303,14 @@ define(['text!./search.html',
 						var i = $scope.subQueries[name].indexOf(item.identifier);
 						if(i !==-1)
 							$scope.subQueries[name].splice(i,1);
+				}//deleteSubQuery
+
+				//=======================================================================
+				//
+				//=======================================================================
+				function deleteAllSubQuery(name) {
+						if($scope.subQueries)
+							$scope.subQueries[name]=[];
 				}//deleteSubQuery
 
 				//=======================================================================
@@ -370,6 +378,8 @@ define(['text!./search.html',
 								buildChildQuery(terms,items,facet,data);
 						}
 				}//buildQuery
+
+				this.deleteAllSubQuery=deleteAllSubQuery;
 				this.refresh =refresh;
 				this.buildChildQuery =buildChildQuery;
 				this.updateTerms =updateTerms;

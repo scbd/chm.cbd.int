@@ -185,7 +185,7 @@ define(['text!./search.html',
 
 	            $scope.$watch('currentPage',     searchCtrl.search());
 
-	            $scope.$watch('queryTargets',    function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
+
 	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
 	            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
 	        }, //link

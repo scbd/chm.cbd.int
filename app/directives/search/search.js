@@ -78,6 +78,9 @@ define(['text!./search.html',
 							$scope.actionSetPage = function (pageNumber) {
 
 			            $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
+									searchCtrl.search();
+									$location.replace();
+									$location.search("currentPage", $scope.currentPage);
 			        };//$scope.actionSetPage
 
 						  //=======================================================================

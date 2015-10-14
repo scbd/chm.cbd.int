@@ -164,19 +164,17 @@ define(['text!./search.html',
 
 								var subQ='';
 								if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
+												if(name==='keywords' && $scope.subQueries[name][0])
+															subQ +=  $scope.subQueries[name][0];
+												else
 									subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
 									subQ = '('+subQ+')';
 								}
 								return subQ;
 						}//function getFormatedSubQuery (name)
 
-
-
 	            $scope.$watch('currentPage',     searchCtrl.search());
 
-
-	            $scope.$watch('queryDate',       function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
-	            $scope.$watch('queryKeywords',   function() { $scope.currentPage=0; searchCtrl.search(); }); // TODO delete and replace by $scope.subQueries
 	        }, //link
 
 			//=======================================================================

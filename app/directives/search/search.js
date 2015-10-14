@@ -286,13 +286,17 @@ define(['text!./search.html',
 				//=======================================================================
 				//
 				//=======================================================================
-				function addSubQuery (name, query) {
+				function addSubQuery (name, query,singleTon) {
 
 						if(!$scope.subQueries) // if called from controler without link ex4ecuting first
-							$scope.subQueries={};
+							$scope.subQueries=[];
 						if(!_.isArray($scope.subQueries[name])) // initialize
 							$scope.subQueries[name]=[];
-						if($scope.subQueries[name].indexOf(query)<0) // if not already there add
+						if(singleTon){  // allows for only one of that type ie date or keyword
+								$scope.subQueries[name]=[];
+								$scope.subQueries[name].push(query);
+						}
+						else if($scope.subQueries[name].indexOf(query)<0) // if not already there add
 							$scope.subQueries[name].push(query);
 				}//addSubQuery
 

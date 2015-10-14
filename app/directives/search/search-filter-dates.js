@@ -5,11 +5,12 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
             restrict: 'EAC',
             template: template,
             replace: true,
+            require : '^search',
             scope: {
                   title: '@title',
-                  query: '=query'
             },
-            link: function ($scope) {
+            link : function ($scope, $element, $attr, searchCtrl)//jshint ignore:line
+            {
 
                 var now = new Date();
 

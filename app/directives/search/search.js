@@ -60,8 +60,6 @@ define(['text!./search.html',
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
 
-	            $scope.queryTargets    = '*:*'; // TODO replace with $scope.subQueries
-
 	            $scope.queryDate       = '*:*'; // TODO replace with $scope.subQueries
 	            $scope.queryKeywords   = '*:*'; // TODO replace with $scope.subQueries
 

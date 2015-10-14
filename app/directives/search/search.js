@@ -129,7 +129,7 @@ define(['text!./search.html',
 																						getFormatedSubQuery('government_REL_ss'),
 																						getFormatedSubQuery('thematicArea_REL_ss'),
 																						getFormatedSubQuery('aichiTarget_ss'),
-																						$scope.queryDate,
+																						getFormatedSubQuery('createdDate_s'),
 																						$scope.queryKeywords]);
 
 								if(subQueries.length)

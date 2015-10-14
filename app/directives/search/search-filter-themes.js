@@ -45,7 +45,6 @@ define(['text!./search-filter-themes.html', 'app', 'lodash','angular'], function
 
                     }else{
 														termsMap = searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
-														//$scope.termsArray = _.values(termsMap);
 														searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
                     }
 

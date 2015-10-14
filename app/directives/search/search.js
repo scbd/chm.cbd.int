@@ -61,6 +61,8 @@ define(['text!./search.html',
 	            $scope.currentPage     = 0;
 
 							$scope.subQueries = {};
+							if($location.search().currentPage >=0)
+									$scope.currentPage=$location.search().currentPage;
 
 							//======================================================================
 						  //

@@ -1,89 +1,111 @@
-define(['text!./search-filter-regions.html', 'app', 'lodash'], function(template, app, _) { 'use strict';
-    app.directive('searchFilterRegions', ['$http', '$location', 'Thesaurus', function ($http, $location, thesaurus) {
+define(['text!./search-filter-regions.html', 'app', 'lodash','angular'], function(template, app, _,angular) { 'use strict';
+    app.directive('searchFilterRegions', ['$http','Thesaurus','$timeout', function ($http,thesaurus,$timeout) {
     return {
         restrict: 'EAC',
         template: template,
         replace: true,
+        require : '^search',
         scope: {
               title: '@title',
               items: '=ngModel',
-              field: '@field',
-              query: '=query',
+              facet: '@facet',
+              count: '=count' // total count of all children subquires needed for 0 result combinations
         },
-        link: function ($scope, $element)
+    link : function ($scope, $element, $attr, searchCtrl)
         {
             var termsMap = [];
-
+            var classes= [];
             $scope.expanded = false;
-            $scope.selectedItems = [];
-            $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
+            $scope.terms = [];
+            $scope.termsModal = {};
 
-            var parameters = $location.search();
+            buildTermsAndQuery();
+            $scope.$watch('items',function(){searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);}); // ensure binding gets done at end in order to display facits
 
-            if (parameters[$scope.facet]) {
-                $scope.selectedItems.push(parameters[$scope.facet]);
-            }
+            //=======================================================================
+      			//
+      			//=======================================================================
+            $scope.refresh = function (item, forceDelete){
 
-            $scope.isSelected = function(item) {
-                return $.inArray(item.symbol, $scope.selectedItems) >= 0;
-            };
+                  searchCtrl.refresh(item,forceDelete,termsMap,$scope.items,$scope.facet);
+            };//$scope.refresh
 
-            $scope.closeDialog = function() {
-                $element.find("#dialogSelect").modal("hide");
-            };
+            //=======================================================================
+      			//
+      			//=======================================================================
+            function buildTermsAndQuery() {
 
-            $scope.actionSelect = function(item) {
+                  if(_.isEmpty(termsMap))  // reduce server calls and computation by saving
+                  {
+                      $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
 
-                if($scope.isSelected(item)) {
-                    $scope.selectedItems.splice($.inArray(item.symbol, $scope.selectedItems), 1);
-                } else {
-                    $scope.selectedItems.push(item.symbol);
+                          var termsTree = thesaurus.buildTree(response.data);
+
+                          termsMap = flatten(termsTree, {});
+
+                          classes   = _.filter(termsTree, function where (o) { return !!o.narrowerTerms && o.identifier!='1796f3f3-13ae-4c71-a5d2-0df261e4f218'; });
+
+                          _.values(termsMap).forEach(function (term) {
+                              term.name = term.name.replace('CBD Regional Groups - ', '');
+                              term.name = term.name.replace('Inland water ecosystems - ', '');
+                              term.name = term.name.replace('Large marine ecosystems - ', '');
+
+                              term.name = term.name.replace('Mountains - All countries', 'Mountains');
+                              term.name = term.name.replace('Global - All countries', 'Global');
+                              term.name = term.name.replace('Americas - All countries', 'Americas');
+                              term.name = term.name.replace('Africa - All countries', 'Africa');
+                              term.name = term.name.replace('Asia - All countries', 'Asia');
+                              term.name = term.name.replace('Europe - All countries', 'Europe');
+                              term.name = term.name.replace('Oceania - All countries', 'Oceania');
+
+                              term.name = term.name.replace('Mountains - ', '');
+                              term.name = term.name.replace('Global - ', '');
+                              term.name = term.name.replace('Americas - ', '');
+                              term.name = term.name.replace('Africa - ', '');
+                              term.name = term.name.replace('Asia - ', '');
+                              term.name = term.name.replace('Europe - ', '');
+                              term.name = term.name.replace('Oceania - ', '');
+
+                              term.name = term.name.replace('regions', '<All>');
+                              term.name = term.name.replace('groups', '<All>');
+
+                              term.selected = false;
+                              term.count = 0;
+                          });
+
+                          $scope.allTerms = _.values(termsMap);
+                          $scope.terms = classes;
+                          termsMap = searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
+                          searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
+
+                      });//http
+                } else{
+                          $scope.allTerms = _.values(termsMap);
+                          $scope.terms = classes;
+                          termsMap = searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
+                          searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
                 }
+            }//buildTermsAndQuery()
 
-                buildQuery();
-            };
+            // =======================================================================
+            // Jquery to find modal and executes the event on when opened calling our callback
+            // which our call back then calls $timeout whcih will ensure an angular context.
+            // Better then apply call as onlly exectues when the digest is done.
+            //
+      			// =======================================================================
+            $element.find("#dialogSelectRegions").on('show.bs.modal', function(){
 
-            $scope.ccc = function(item) {
-                return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
-            };
-
-            $scope.onclick = function (scope) {
-                scope.item.selected = !scope.item.selected;
-                buildQuery();
-            };
-
-            function buildQuery () {
-                var conditions = [];
-                buildConditions(conditions, termsMap);
-
-                if(conditions.length===0) $scope.query = '*:*';
-                else {
-                    var query = '';
-                    conditions.forEach(function (condition) { query = query + (query=='' ? '( ' : ' OR ') + condition; }); // jshint ignore:line
-                    query += ' )';
-                    $scope.query = query;
-                }
-
-                // update querystring
-
-                var items = _(termsMap).where({ selected : true }).map(function(o) { return o.identifier; }).value();
-
-                if(_.isEmpty(items))
-                    items = null;
-
-                $location.replace();
-                $location.search("region", items);
-
-            }
-
-            function buildConditions (conditions, items) {
-                _.values(items).forEach(function (item) {
-                    if(item.selected)
-                        conditions.push($scope.field+':'+item.identifier);
+                $timeout(function(){ //Ensure angular context
+                        buildTermsAndQuery();
+                        $scope.termsModal=angular.copy($scope.terms);// unbinded display for modal for first view
                 });
-            }
+            });//$element.find("#dialogSelect").on('show.bs.modal', function(){
 
+            // =======================================================================
+            //
+        		// =======================================================================
             function flatten(items, collection) {
+
                 items.forEach(function (item) {
                     item.selected = false;
                     collection[item.identifier] = item;
@@ -91,78 +113,9 @@ define(['text!./search-filter-regions.html', 'app', 'lodash'], function(template
                         flatten(item.narrowerTerms, collection);
                 });
                 return collection;
-            }
+            } // flatten
 
-            $http.get('/api/v2013/thesaurus/domains/regions/terms', { cache:true }).then(function (response) {
-
-                var termsTree = thesaurus.buildTree(response.data);
-
-                termsMap = flatten(termsTree, {});
-
-                var classes   = _.filter(termsTree, function where (o) { return !!o.narrowerTerms && o.identifier!='1796f3f3-13ae-4c71-a5d2-0df261e4f218'; });
-
-                _.values(termsMap).forEach(function (term) {
-                    term.name = term.name.replace('CBD Regional Groups - ', '');
-                    term.name = term.name.replace('Inland water ecosystems - ', '');
-                    term.name = term.name.replace('Large marine ecosystems - ', '');
-
-                    term.name = term.name.replace('Mountains - All countries', 'Mountains');
-                    term.name = term.name.replace('Global - All countries', 'Global');
-                    term.name = term.name.replace('Americas - All countries', 'Americas');
-                    term.name = term.name.replace('Africa - All countries', 'Africa');
-                    term.name = term.name.replace('Asia - All countries', 'Asia');
-                    term.name = term.name.replace('Europe - All countries', 'Europe');
-                    term.name = term.name.replace('Oceania - All countries', 'Oceania');
-
-                    term.name = term.name.replace('Mountains - ', '');
-                    term.name = term.name.replace('Global - ', '');
-                    term.name = term.name.replace('Americas - ', '');
-                    term.name = term.name.replace('Africa - ', '');
-                    term.name = term.name.replace('Asia - ', '');
-                    term.name = term.name.replace('Europe - ', '');
-                    term.name = term.name.replace('Oceania - ', '');
-
-                    term.name = term.name.replace('regions', '<All>');
-                    term.name = term.name.replace('groups', '<All>');
-
-                    term.selected = false;
-                    term.count = 0;
-                });
-
-                $scope.allTerms = _.values(termsMap);
-
-                // Set intitial selection from QueryString parameters
-
-                var qsSelection = _([$location.search().region]).flatten().compact().value();
-
-                qsSelection.forEach(function(id) {
-                    if(termsMap[id])
-                        termsMap[id].selected = true;
-                });
-
-                onWatch_items($scope.items||[]);
-
-                $scope.terms = classes;
-
-                buildQuery();
-
-            });
-
-            function onWatch_items(values) {
-
-                 if(!values) return;
-
-                values.forEach(function (item) {
-                    if(_.has(termsMap, item.symbol))
-                        termsMap[item.symbol].count = item.count;
-                });
-            }
-
-            $scope.$watch('items', onWatch_items);
-
-
-            $scope.refresh = buildQuery;
-        }
-    };
-}]);
-});
+        }//link
+    }; // return
+  }]);  //app.directive('searchFilterRegions
+});// define

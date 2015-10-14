@@ -5,11 +5,12 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
             restrict: 'EAC',
             template: template,
             replace: true,
+            require : '^search',
             scope: {
                   title: '@title',
-                  query: '=query'
             },
-            link: function ($scope) {
+            link : function ($scope, $element, $attr, searchCtrl)//jshint ignore:line
+            {
 
                 var now = new Date();
 
@@ -38,18 +39,17 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                     if($scope.since || $scope.until) {
                         var since = $scope.since ? $scope.since + 'T00:00:00.000Z' : '*';
                         var until = $scope.until ? $scope.until + 'T23:59:59.999Z' : '*';
-
-                        $scope.query = ' ( createdDate_s:[ ' + since + ' TO ' + until + ' ] ) ';
-                    } else {
-                        $scope.query = '*:*';
+                        searchCtrl.addSubQuery('createdDate_s','[ ' + since + ' TO ' + until + ']',true);
                     }
+                    if(!$scope.since && !$scope.until)
+                        searchCtrl.deleteAllSubQuery('createdDate_s');
 
-                    $location.search("startDate", $scope.since || null);
-                    $location.search("endDate",   $scope.until || null);
+                    searchCtrl.search();
+                    $location.search("startDate",      $scope.since        || null);
+                    $location.search("endDate",        $scope.until        || null);
                 }
 
                 $scope.$watch('selectedDate', function (_new, _old) {
-
                     if(_new==_old)
                         return;
 
@@ -58,7 +58,8 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                 });
 
                 $scope.updateQuery = updateQuery;
-            }
-        };
-    }]);
-});
+
+          }//link
+    }; // return
+  }]);  //app.directive('
+});// define

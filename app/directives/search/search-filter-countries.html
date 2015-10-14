@@ -1,12 +1,12 @@
 <li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectCountries" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
-		<div ng-animate="'animate'" ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}" ng-class="ccc(item)" ng-click="onclick(this, $event)">
-			<div class="label label-selected-facet">
-				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove"></div>
-				<div class="truncate">
-					{{item.title.en}} ({{item.count}})
-				</div>
+		<div ng-animate="'animate'" ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}"  ng-click="refresh(this,true)">
+			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)  " >
+				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove" ></div>
+						<div class="truncate" >
+						({{item.count}}) {{item.title.en}}
+						</div>
 			</div>
 		</div>
 	<div>
@@ -16,12 +16,12 @@
 			<div class="modal-content" style="width:760px">
 				<div class="modal-body" style="padding-left:20px">
 					<div style="padding-bottom:10px">
-						<a style="padding-right:10px" ng-repeat="letter in alphabet">{{letter}}</a>
+						<a style="padding-right:10px" ng-class="{'label label-letter-search': $index == selectedIndex}" ng-click='selectedLetter($index)' ng-repeat="letter in alphabet">{{letter}}</a>
 					</div>
 					<div style="height:360px;overflow-y:auto">
-						<div class="col-lg-4 col-md-4 col-sm-4" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" ng-repeat="item in terms | orderBy:'title.en'">
-							<div class="checkbox" style="margin-top:2px;margin-bottom:2px">
-								<label><input type="checkbox" ng-model="item.selected" ng-change="refresh(item)"> {{item.title.en}} ({{item.count}})</label>
+						<div class="col-lg-4 col-md-4 col-sm-4" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" ng-repeat="item in (filtered =(terms  | filterByLetter:sLetter | orderBy:'title.en'))">
+							<div class="checkbox" style="margin-top:2px;margin-bottom:2px" >
+								<label ng-disabled="!item.count"><input type="checkbox" ng-model="item.selected" ng-change="refresh(item)" ng-disabled="!termsModal[item.identifier].count"> {{item.title.en}} ({{termsModal[item.identifier].count}})</label>
 							</div>
 						</div>
 					</div>

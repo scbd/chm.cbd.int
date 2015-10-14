@@ -1,140 +1,82 @@
-define(['text!./search-filter-countries.html','app', 'lodash', 'jquery'], function(template, app, _, $) { 'use strict';
+define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], function(template, app) { 'use strict';
 
-    app.directive('searchFilterCountries', ["$http", '$location', '$timeout', function ($http, $location, $timeout) {
+    app.directive('searchFilterCountries', ["$http",'$timeout', function ($http,  $timeout) {
     return {
         restrict: 'EAC',
         template: template,
         replace: true,
-        require : "^search",
+        require : '^search',
         scope: {
               title: '@title',
               items: '=ngModel',
-              field: '@field',
-              query: '=query',
+              facet: '@facet',
+              count: '=count' // total count of all children subquires needed for 0 result combinations
         },
         link : function ($scope, $element, $attr, searchCtrl)
         {
+
             $scope.alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
-                               'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                               'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','ALL'];
 
             $scope.expanded = false;
-            $scope.selectedItems = [];
-            $scope.facet = $scope.field.replace('_s', ''); // TODO: replace @field by @facet
-
-            $element.find("#dialogSelect").on('show.bs.modal', function(){
-                $timeout(function(){ //Ensure angular context
-                    //TODO Computes facets
-                });
-            });
-
-            $scope.isSelected = function(item) {
-                return $.inArray(item.symbol, $scope.selectedItems) >= 0;
-            };
-
-            $scope.closeDialog = function() {
-                $element.find("#dialogSelect").modal("hide");
-            };
-
-            $scope.actionSelect = function(item) {
-
-                if($scope.isSelected(item)) {
-                    $scope.selectedItems.splice($.inArray(item.symbol, $scope.selectedItems), 1);
-                } else {
-                    $scope.selectedItems.push(item.symbol);
-                }
-
-                buildQuery();
-            };
-
-            $scope.actionExpand = function() {
-
-                var count1 = Math.ceil($scope.items.length/3);
-                var count2 = Math.ceil(($scope.items.length-count1)/2);
-                var count3 = Math.ceil(($scope.items.length-count2-count1));
-
-                $scope.items1 = $scope.items.slice(0, count1);
-                $scope.items2 = $scope.items.slice(count1, count2+count2);
-                $scope.items3 = $scope.items.slice(count1+count2, count1+count2+count3);
-
-                console.log($scope.items1);
-                console.log($scope.items2);
-                console.log($scope.items3);
-
-
-                $element.find("#dialogSelect").modal("show");
-            };
-
-            $scope.ccc = function(item) {
-                return $scope.isSelected(item) ? 'facet selected' : 'facet unselected';
-            };
-
-            $scope.onclick = function (scope) {
-                scope.item.selected = !scope.item.selected;
-                buildQuery();
-            };
-
-            function buildQuery () {
-
-                var conditions = [];
-
-                $scope.terms.forEach(function (item) {
-                    if(item.selected)
-                        conditions.push($scope.field+':'+item.identifier);
-                });
-
-                $scope.query = null;
-
-                if(conditions.length)
-                    $scope.query = "(" + conditions.join(" OR ") + ")";
-
-                //TODO searchCtrl.setSubQuery
-
-                // update querystring
-
-                var items = _($scope.terms).where({ selected : true }).map(function(o) { return o.identifier; }).value();
-
-                if(_.isEmpty(items))
-                    items = null;
-
-                $location.replace();
-                $location.search("country", items);
-            }
-
             $scope.terms = [];
-            $scope.termsx = {};
+            $scope.termsModal = {};
+            $scope.selectedIndex=$scope.alphabet.length-1;
+            $scope.sLetter='';
+            var rawCountries = null;
 
-            $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
+            buildTermsAndQuery();
+            $scope.$watch('items',function(){searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,rawCountries);});
 
-                var qsSelection = _([$location.search().country]).flatten().compact().value();
+            //=======================================================================
+      			//
+      			//=======================================================================
+            function buildTermsAndQuery() {
 
-                $scope.terms = _.map(data, function(t) {
+                    if(!rawCountries){
+                        $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
+                            rawCountries = data;
+                            $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,data);
+                            searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,data);
+                        });
+                    }else{
+                        $scope.terms=searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,rawCountries); // save terms to avoid multiple server quiries for same data
+                        searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,rawCountries);
+                    }
+            }//buildTermsAndQuery()
 
-                    t.selected = qsSelection.indexOf(t.identifier)>=0;
+            //=======================================================================
+      			//
+      			//=======================================================================
+            $scope.refresh = function (item,forceDelete){
 
-                    $scope.termsx[t.identifier] = t;
+                    searchCtrl.refresh(item,forceDelete,$scope.terms,$scope.items,$scope.facet,rawCountries);
+            };//$scope.refresh
 
-                    return t;
-                });
+      			// =======================================================================
+            // Jquery to find modal and executes the event on when opened calling our callback
+            // which our call back then calls $timeout whcih will ensure an angular context.
+            // Better then apply call as onlly exectues when the digest is done.
+            //
+      			// =======================================================================
+            $element.find("#dialogSelectCountries").on('show.bs.modal', function(){
 
-                onWatch_items($scope.items);
+                    $timeout(function(){ //Ensure angular context
+                            buildTermsAndQuery();
+                            $scope.termsModal=JSON.parse(JSON.stringify($scope.terms));// unbinded display for modal
+                    });
+            });//$element.find("#dialogSelect").on('show.bs.modal', function(){
 
-                if(qsSelection.length)
-                    buildQuery();
-            });
+            // =======================================================================
+            //
+        		// =======================================================================
+            $scope.selectedLetter= function(index) {
 
-            function onWatch_items(values) {
+                    $scope.sLetter = $scope.alphabet[index];
+                    $scope.selectedIndex = index;
+            };//$scope.selectedLetter
 
-                 if(!values) return;
-                values.forEach(function (item) {
-                    if(_.has($scope.termsx, item.symbol))
-                        $scope.termsx[item.symbol].count = item.count;
-                });
-            }
-
-            $scope.$watch('items', onWatch_items);
-
-            $scope.refresh = buildQuery;
-        }
-    };
-}]);
-});
+        }//link
+    }; // return
+  }]);  //app.directive('searchFilterCountries
+});// define

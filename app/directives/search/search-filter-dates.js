@@ -58,7 +58,8 @@ define(['text!./search-filter-dates.html', 'app', 'directives/forms/km-date'], f
                 });
 
                 $scope.updateQuery = updateQuery;
-            }
-        };
-    }]);
-});
+
+          }//link
+    }; // return
+  }]);  //app.directive('
+});// define

@@ -50,7 +50,6 @@ app.directive('searchFilterAichi',['$http','Thesaurus','$timeout', function ($ht
             //=======================================================================
             $scope.refresh = function (item,forceDelete){
 
-                    var term = item;
                     searchCtrl.refresh(item,forceDelete,termsMap,$scope.items,$scope.facet);
             };//$scope.refresh
 

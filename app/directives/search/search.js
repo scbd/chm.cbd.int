@@ -372,7 +372,6 @@ define(['text!./search.html',
 				//
 				//=======================================================================
 				function refresh (item,forceDelete,terms,items,facet,data) {
-
 						if(item.selected  && !forceDelete)
 								buildChildQuery(terms,items,facet,data);
 						else{

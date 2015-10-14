@@ -114,14 +114,13 @@ define(['text!./search.html',
 								// NOT version_s:* remove non-public records from resultset
 								var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
 
-								//TODO use:  $scope.subQueries
 								var subQueries = _.compact([getFormatedSubQuery('schema_s'),
 																						getFormatedSubQuery('government_s'),
 																						getFormatedSubQuery('government_REL_ss'),
 																						getFormatedSubQuery('thematicArea_REL_ss'),
 																						getFormatedSubQuery('aichiTarget_ss'),
 																						getFormatedSubQuery('createdDate_s'),
-																						$scope.queryKeywords]);
+																								getFormatedSubQuery('keywords')]);
 
 								if(subQueries.length)
 									q += " AND " + subQueries.join(" AND ");

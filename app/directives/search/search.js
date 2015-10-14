@@ -345,7 +345,6 @@ define(['text!./search.html',
 								_.each(termsx,function (item) {
 										item.count = 0;
 								});//  _.each
-						//if(!items) items=$scope.items;
 						if(items)
 								items.forEach(function (item) {
 										if(_.has(termsx, item.symbol))

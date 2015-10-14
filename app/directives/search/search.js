@@ -60,16 +60,7 @@ define(['text!./search.html',
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
 
-	          
-	            $scope.queryKeywords   = '*:*'; // TODO replace with $scope.subQueries
-
 							$scope.subQueries = {};
-
-	            if($location.search().q) {
-	                $scope.keywords = $location.search().q;
-	                $location.replace();
-	                $location.search({});
-	            }
 
 					//======================================================================
 				  //

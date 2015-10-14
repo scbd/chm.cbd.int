@@ -1,0 +1,142 @@
+<div>
+	<h1>Aichi Target Dossier <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
+
+	<div class="alert alert-danger" ng-cloak ng-show="error">
+		<strong>Error as occured...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div ng-show="status=='loading'"><em>Loading...</em></div>
+
+	<div ng-hide="status=='hidden'||status=='loading'">
+
+		<div style="position:relative">
+
+			<div class="row">
+
+				<div class="col-xs-12 visible-xs">
+					<div class="">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+				<div class="col-sm-8 col-xs-12">
+					<ul class="pagination">
+					  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+					  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+					  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+					  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+					</ul>
+				</div>
+
+				<div class="col-sm-4 hidden-xs" style="text-align:right">
+					<div class="pagination">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
+
+
+			<div>
+
+				<form name="editForm">
+				<div km-tab="general">
+
+						<legend>General information</legend>
+						
+						<div  class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="country" caption="Country">
+									<div km-select name="country" ng-model="document.country" placeholder="" watch-items items="options.countries"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div  class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="title" caption="Title">
+									<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div  class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="sumdescriptionmary" caption="Description">
+									<div km-textbox-ml name="description" ng-model="document.description" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div  class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="cbdSubjects" caption="Related CBD Subject area(s)">
+									<div km-select required multiple name="cbdSubjects" ng-model="document.cbdSubjects" watch-items items="options.subjects" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="aichiTargets" caption="Related Aichi Target(s)">
+									<div km-select required displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select Aichi Target" watch-items items="options.aichiTargets"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" name="documents" caption="Dossier Documents">
+									<div km-link name="documents" ng-model="document.documents" allow-file="true" allow-link="false" identifier="document.header.identifier"></div>
+								</div>
+							</div>
+						</div>
+						
+				</div>
+				</form>
+
+				<div km-tab="review">
+
+					<div km-document-validation ng-model="validationReport"></div>
+
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+					  <input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"/>
+					</div>
+
+					<view-aichi-target-dossier ng-model="reviewDocument" locale="review.locale" allow-drafts="true" link-target="_blank"></view-caview-aichi-target-dossierse-study>
+
+				</div>
+
+				<div class="row">
+
+					<div class="col-sm-9 col-xs-12">
+						<ul class="pagination">
+						  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+						  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+						  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+						</ul>
+					</div>
+
+					<div class="col-sm-3 hidden-xs" style="text-align:right">
+						<div class="pagination">
+							<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						</div>
+					</div>
+
+					<div class="col-xs-12 visible-xs">
+						<div class="">
+							<span km-form-std-buttons document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

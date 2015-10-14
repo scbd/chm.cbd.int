@@ -30,6 +30,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'lwEvent'                ,public:0, draft:0, workflow:0 },
             { identifier: 'lwProject'              ,public:0, draft:0, workflow:0 },
             { identifier: 'lwDonor'                ,public:0, draft:0, workflow:0 },
+            { identifier: 'dossier'                ,public:0, draft:0, workflow:0 },
         ];
 
         $scope.government = userGovernment();

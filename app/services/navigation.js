@@ -55,6 +55,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "lwProject") return "LifeWeb Projects";
             if (schema == "lwEvent") return "LifeWeb Events";
             if (schema == "lwDonor") return "LifeWeb Donors";
+            if (schema == "dossier") return "Aichi Target Dossiers";
 
             return (schema || "") + "*";
         };

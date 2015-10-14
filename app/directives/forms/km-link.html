@@ -1,5 +1,8 @@
 <div style="margin-bottom:20px">
 	<div>
+			<button type="button" class="btn btn-default" ng-click="addLink()" ng-show="isAllowLink()"><i class="fa fa-globe"></i> Add link</button>
+		<button type="button" class="btn btn-default" ng-click="addFile()" ng-show="isAllowFile()" ng-disabled="!identifier"><i class="fa fa-file-o"></i> Add file</button>
+	
 		<ul class="list-group" ng-if="links||links.length">
 			<li class="list-group-item" ng-repeat="link in links">
 				<table style="width:100%">
@@ -16,8 +19,6 @@
 			</li>
 		</ul>
 
-		<button type="button" class="btn btn-default" ng-click="addLink()" ng-show="isAllowLink()"><i class="fa fa-globe"></i> Add link</button>
-		<button type="button" class="btn btn-default" ng-click="addFile()" ng-show="isAllowFile()" ng-disabled="!identifier"><i class="fa fa-file-o"></i> Add file</button>
 	</div>
 
     <!--Link Editor-->

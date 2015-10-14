@@ -274,7 +274,7 @@ define(['text!./search.html',
 				//
 				//=======================================================================
 				function search () {
-
+					
 						if(queryScheduled)
 								$timeout.cancel($scope.queryScheduled);
 						queryScheduled = $timeout(function () { query($scope); }, 100);

@@ -206,7 +206,6 @@ define(['text!./search.html',
 						};
 
 						if (canceler) {
-								//console.log('trying to abort pending request...');
 								canceler.resolve(true);
 						}
 

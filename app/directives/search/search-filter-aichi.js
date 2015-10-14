@@ -28,7 +28,7 @@ app.directive('searchFilterAichi',['$http','Thesaurus','$timeout', function ($ht
             //
             //=======================================================================
             function buildTermsAndQuery() {
-              
+
                     if(_.isEmpty(termsMap)){ // get terms once and save
                         $http.get('/api/v2013/thesaurus/domains/0BB90152-BE5D-4A51-B090-D29906F65247/terms').success(function (data) {
 
@@ -83,8 +83,7 @@ app.directive('searchFilterAichi',['$http','Thesaurus','$timeout', function ($ht
                     return collection;
             }// flatten
 
-
-          }//link
-      }; // return
-    }]);  //app.directive('searchFilterCountries
-  });// define
+        }//link
+    }; // return
+  }]);  //app.directive('searchFilterCountries
+});// define

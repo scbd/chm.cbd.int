@@ -254,7 +254,7 @@ define(['text!./search.html',
 				function updateQueryString () {
 
 						_.each($scope.subQueries,function(itemIdArr,schemaKey){
-											if(schemaKey!=='createdDate_s'){ // exlusions should be handled better
+											if(schemaKey!=='createdDate_s' && schemaKey!=='keywords'){ // exlusions should be handled better
 											$location.replace();
 											$location.search(schemaKey, itemIdArr);
 											}

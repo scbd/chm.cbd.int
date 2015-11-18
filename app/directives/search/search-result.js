@@ -1,4 +1,4 @@
-define(['text!./search-result.html','app', 'moment'], function(template, app, moment) { 'use strict';
+define(['text!./search-result.html','app', 'moment','lodash',_], function(template, app, moment,_) { 'use strict';
 
     app.directive('searchResult', function () {
         return {
@@ -57,4 +57,12 @@ define(['text!./search-result.html','app', 'moment'], function(template, app, mo
             }
         };
     });
+
+app.filter('htmlToTextPerSentance',
+            function () {
+                 return function (items) {
+                      var stripped = String(String(String(items).replace(/&\w+;\s*/g, '')).replace(/<\/?[^>]+(>|$)/g,'')).replace('undefined','');
+                      return stripped.length>2? stripped+'.' : '';
+                 };
+            });
 });

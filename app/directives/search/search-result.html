@@ -8,7 +8,7 @@
 	<a ng-href="{{fixUrl(document.url_ss[0])}}">	{{title | limitTo:110}}</a>
 	</div>
 	<div style="font-size:13px;">
-		<a ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a>
+		<a style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
 	</div>
 	<div style="font-size:13px;margin:2px 0">{{(description.split('.')[0]) | htmlToTextPerSentance}} {{(description.split('.')[1]) | htmlToTextPerSentance}}</div>
 	<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{(description2.split('.')[0]) | htmlToTextPerSentance}} {{(description2.split('.')[1]) | htmlToTextPerSentance}}</div>

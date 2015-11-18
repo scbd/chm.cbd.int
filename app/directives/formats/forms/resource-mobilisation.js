@@ -159,8 +159,8 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 								progressData:  {progressFlows:[{}]}
 							},
 							domesticExpendituresData: { expenditures:  [{}], contributions: [{}], multiplier: 'thousands'},
-							fundingNeedsData: 		  { annualEstimates: [{}]},
-							nationalPlansData:		  { domesticSources: [{}], internationalSources: [{}]}
+							fundingNeedsData: 		  { annualEstimates: [{}], multiplier: 'thousands'},
+							nationalPlansData:		  { domesticSources: [{}], internationalSources: [{}], multiplier: 'thousands'}
 						};
 					});
 				}
@@ -240,15 +240,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 							list[i] = item;
 						}
 					});
-
 			}
-
-
-
-
-
-
-
 
 			//==================================
 			//
@@ -315,6 +307,11 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 
 					if(document.internationalResources && document.internationalResources.baselineData && !document.internationalResources.baselineData.coefficient)
 						document.internationalResources.baselineData.coefficient = parseInt(document.internationalResources.baselineData.coefficient || 0) || 0;
+
+					if(document.domesticExpendituresData){
+						document.fundingNeedsData.multiplier  = document.domesticExpendituresData.multiplier;
+						document.nationalPlansData.multiplier = document.domesticExpendituresData.multiplier;
+					}
 
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
@@ -1025,6 +1022,10 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
     };
 }]);
 
+
+//==================================
+//
+//==================================
 app.directive('rmPopover', function() {
 	return {
 		restrict: 'A',

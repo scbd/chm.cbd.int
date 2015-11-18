@@ -3,12 +3,15 @@
 		<strong ng-if="!sourceTooltip" style="color:#222">{{source}}</strong>
 		<a ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca"><strong>{{source}}</strong></a>
 	</div>
-	<div style="font-size:13px;font-weight:bold" ng-show="type">{{type}}</div>
-	<div class="truncatex">
-		{{title}}
+	<div style="font-size:13px; font-weight:bold;" ng-show="type">{{type}}</div>
+	<div class="truncatex" style="font-weight:bold;">
+	<a ng-href="{{fixUrl(document.url_ss[0])}}">	{{title | limitTo:110}}</a>
 	</div>
-	<div style="font-size:13px;margin:2px 0">{{description}}</div>
-	<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{description2}}</div>
+	<div style="font-size:13px;">
+		<a ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a>
+	</div>
+	<div style="font-size:13px;margin:2px 0">{{(description.split('.')[0]) | htmlToTextPerSentance}} {{(description.split('.')[1]) | htmlToTextPerSentance}}</div>
+	<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{(description2.split('.')[0]) | htmlToTextPerSentance}} {{(description2.split('.')[1]) | htmlToTextPerSentance}}</div>
 	<div ng-if="false">
 		<i style="color:#ccc" class="fa fa-map-marker"></i> <span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span>
 		&nbsp; &nbsp;
@@ -35,9 +38,6 @@
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
 		<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
 		<a style="color:#428bca;padding:0 3px">ZH</a>
-	</div>
-	<div>
-		<a ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a>
 	</div>
 	<div ng-if="{'meetingDocument':true}[schema_s]">
 		<i class="fa fa-tag"></i>

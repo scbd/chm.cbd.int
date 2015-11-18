@@ -1,10 +1,10 @@
 define(['text!./lw-project.html', 'app', 'angular', 'authentication', '../views/lw-event',  'services/editFormUtility', 'directives/forms/form-controls',
  'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation','services/lifeWebServices'], function(template, app, angular) { 'use strict';
 
-app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'editFormUtility', 'authentication', 
+app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'editFormUtility', 'authentication',
 	'siteMapUrls', '$route','$log','lifeWebServices', '$rootScope', function ($http, $filter, $q, guid, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, $route,$log,lifeWebServices,$rootScope) {
 	return {
-	
+
 		restrict   : 'E',
 		template   : template,
 		replace    : true,
@@ -12,9 +12,9 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 		//scope      : {},
 		link : function($scope)
 		{
-			
-			
-			$scope.status   = "";   
+
+
+			$scope.status   = "";
 			$scope.error    = null; // error messsage
 			$scope.document = {}; // document to be submitted to api
 			// main tab set
@@ -39,13 +39,13 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			$scope.nextclimateContributionTab		= '';
 			$scope.climateContributionComments		= [];
 			$scope.selectedClimateContributions		= [];
-			
-			// 
+
+			//
 			$scope.document.institutionalContext = [];//{partner:'',info:'',role:''};
-			//$scope.document.budget			     = [];		
+			//$scope.document.budget			     = [];
 			//$scope.document.donations			 = [];
-			//$scope.document.images			  	 = [];		
-				
+			//$scope.document.images			  	 = [];
+
 			//services
 			$scope.lifeWebServices 		= lifeWebServices;
 
@@ -53,14 +53,14 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			$scope.natAliSelectedTab	='NBSAPs';
 			$scope.natAliPrevTab		='NBSAPs';
 			$scope.natAliNextTab		='climateChange';
-			
+
 
              // should not need later
-			$scope.options ={}; 
+			$scope.options ={};
 
 			//==================================
 			//p
-			// 
+			//
 			//==================================
 			$scope.options.getCampaigns = function () {
 				  var options=[];
@@ -71,8 +71,8 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			}//$scope.options.availableFeaturePositions
 
 			//==================================
-			//populate select box with available feature positions 
-			// 
+			//populate select box with available feature positions
+			//
 			//==================================
 			$scope.options.availableFeaturePositions = function () {
 				  var featuredOptions=[];
@@ -82,13 +82,13 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					featuredOptions[4]={title:'4',identifier:4};
 					featuredOptions[5]={title:'5',identifier:5};
 					featuredOptions[6]={title:'6',identifier:6};
-					
+
 				 return lifeWebServices.getFeaturedProjects().then(
 
 					  function (projs){
-					  
+
 						  	_.each(projs.data, function (p,key){
-								 
+
 								 if($scope.document.featured){
 										if(p.featured_d==1  && $scope.document.featured.identifier !=1)
 											delete featuredOptions[1];
@@ -96,11 +96,11 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 										if(p.featured_d==2  && $scope.document.featured.identifier !=2)
 											delete featuredOptions[2];
 										if(p.featured_d==3  && $scope.document.featured.identifier !=3)
-											delete featuredOptions[3];								  									
+											delete featuredOptions[3];
 										if(p.featured_d==4  && $scope.document.featured.identifier !=4)
-											delete featuredOptions[4];	
+											delete featuredOptions[4];
 										if(p.featured_d==5 && $scope.document.featured.identifier != 5)
-											delete featuredOptions[5];	
+											delete featuredOptions[5];
 										if(p.featured_d==6 && $scope.document.featured.identifier !=6)
 											delete featuredOptions[6];
 								 }else{
@@ -110,17 +110,17 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 										if(p.featured_d==2 )
 											delete featuredOptions[2];
 										if(p.featured_d==3 )
-											delete featuredOptions[3];								  									
+											delete featuredOptions[3];
 										if(p.featured_d==4  )
-											delete featuredOptions[4];	
+											delete featuredOptions[4];
 										if(p.featured_d==5)
-											delete featuredOptions[5];	
+											delete featuredOptions[5];
 										if(p.featured_d==6 )
 											delete featuredOptions[6];
-									 
-									 
-								 }										  									  
-						
+
+
+								 }
+
 							  });
 
 							//if($scope.document.featured)
@@ -128,15 +128,15 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 							if(featuredOptions.length==0)
 								featuredOptions['EOF']={title:'Please deselect featured project to create a spot',identifier:''};
-							return featuredOptions;  
+							return featuredOptions;
 					  });
-					  
-					
+
+
 			}//$scope.options.availableFeaturePositions
 
 
 			//==================================
-			//add a blank row to the institutionalContext array 
+			//add a blank row to the institutionalContext array
 			// so user can insert new data
 			//==================================
 			$scope.addRowDonation = function () {
@@ -145,14 +145,14 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						$scope.document.donations.push({});
 					else if($scope.document.donations.length===0)
 						$scope.document.donations.push({});
-			};	
+			};
 
 
 			//==================================
-			// 
-			//==================================			
-			
-			$scope.$watch("document.donation", function (tab){	
+			//
+			//==================================
+
+			$scope.$watch("document.donation", function (tab){
 					if($scope.document.donations){
 						if(  $scope.document.donations.length==0)
 							$scope.addRowDonation();
@@ -161,7 +161,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			});//$scope.$watch("climateContributionSelectedTab"
 
 			//==================================
-			//add a blank row to the institutionalContext array 
+			//add a blank row to the institutionalContext array
 			// so user can insert new data
 			//==================================
 			$scope.addRowBudget = function () {
@@ -170,13 +170,13 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						$scope.document.budget.push({});
 					else if($scope.document.budget.length===0)
 						$scope.document.budget.push({});
-			};	
+			};
 
 
 			//==================================
-			// 
-			//==================================			
-			
+			//
+			//==================================
+
 			$scope.$watch("document.budget", function (tab){
 					if($scope.document.budget){
 						if($scope.document.budget.length==0)
@@ -190,7 +190,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 
 			//==================================
-			//add a blank row to the institutionalContext array 
+			//add a blank row to the institutionalContext array
 			// so user can insert new data
 			//==================================
 			$scope.addRowInstitutionalContext = function () {
@@ -199,13 +199,13 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						$scope.document.institutionalContext.push({});
 					else if($scope.document.institutionalContext.length===0)
 						$scope.document.institutionalContext.push({});
-			};	
+			};
 
 
 			//==================================
-			// 
-			//==================================			
-			
+			//
+			//==================================
+
 			$scope.$watch("document.institutionalContext", function (tab){
 					if($scope.document.institutionalContext){
 						if($scope.document.institutionalContext.length==0)
@@ -217,21 +217,21 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 			//==================================
 			// dynamic climateContribution tabs
-			//==================================			
-			
+			//==================================
+
 			$scope.$watch("climateContributionSelectedTab", function (tab){
 					 _.each($scope.climateContributionTabs, function(item,key){
 						 if(item.identifier=== tab) {
-			 	
+
 							 if(key>=1)
 							 	$scope.prevClimateContributionTab=$scope.climateContributionTabs[key-1].identifier;
 							 if(key<$scope.climateContributionTabs.length-1)
 							 	$scope.nextClimateContributionTab=$scope.climateContributionTabs[key+1].identifier;
-							 	
-						 } 
+
+						 }
 					 });
 			});//$scope.$watch("climateContributionSelectedTab"
-			
+
 			//==================================
 			// // needed this function as normal assignment was not triggering $watch or updating scope but working in dom
 			//==================================
@@ -240,23 +240,23 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						$scope.climateContributionSelectedTab = tabName;
 					}
 					$scope.document.climateContribution=$scope.document.climateContribution;
-			};			
+			};
 			//==================================
 			// // climateContribution dynamic tabs
 			//==================================
 			$scope.$watch("document.climateContribution", function (tab){
 					$scope.climateContributionTabs = $scope.document.climateContribution;
 
-					
+
 					if($scope.climateContributionTabs && $scope.climateContributionTabs.length > 0){
 						$scope.climateContributionFirstTab =  $scope.climateContributionTabs[0].identifier;
 						$scope.climateContributionLastTab  =  $scope.climateContributionTabs[$scope.climateContributionTabs.length-1].identifier;
 						if($scope.climateContributionSelectedTab=='' )
-							$scope.climateContributionSelectedTab=$scope.climateContributionFirstTab; 
+							$scope.climateContributionSelectedTab=$scope.climateContributionFirstTab;
 					}
 
 			});
-			
+
 			//==================================
 			//
 			//==================================
@@ -267,7 +267,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						return true;
 					else
 						return false;
-			};		
+			};
 
 			//==================================
 			//
@@ -279,8 +279,8 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 				if(tabName == "NBSAPs"  ) 	 		{ $scope.natAliPrevTab = "NBSAPs"; 	   			$scope.natAliNextTab = "climateChange";}
 				if(tabName == "climateChange")     	{ $scope.natAliPrevTab = "NBSAPs"; 	   			$scope.natAliNextTab = "o_n_s";}
 				if(tabName == "o_n_s"  )    		{ $scope.natAliPrevTab = "climateChange";      	$scope.natAliNextTab = "o_n_s";}
-			};			
-						
+			};
+
 			//==================================
 			// // aichi dynamic tabs
 			//==================================
@@ -288,35 +288,35 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 					$scope.aichiTabs = $scope.document.aichiTargets;
 
-					
+
 					if($scope.aichiTabs && $scope.aichiTabs.length > 0){
 						$scope.aichiFirstTab =  $scope.aichiTabs[0].identifier;
 						$scope.aichiLastTab  =  $scope.aichiTabs[$scope.aichiTabs.length-1].identifier;
 						if($scope.aichiSelectedTab=='' )
-							$scope.aichiSelectedTab=$scope.aichiFirstTab; 
-							
+							$scope.aichiSelectedTab=$scope.aichiFirstTab;
+
 
 					}
 
 			});
-			
+
 			//==================================
 			// dynamic aichi tabs
-			//==================================			
-			
+			//==================================
+
 			$scope.$watch("aichiSelectedTab", function (tab){
 					 _.each($scope.aichiTabs, function(item,key){
 						 if(item.identifier=== tab) {
-			 	
+
 							 if(key>=1)
 							 	$scope.prevAichiTab=$scope.aichiTabs[key-1].identifier;
 							 if(key<$scope.aichiTabs.length-1)
 							 	$scope.nextAichiTab=$scope.aichiTabs[key+1].identifier;
-							 	
-						 } 
+
+						 }
 					 });
 			});//$scope.$watch("aichiSelectedTab"
-			
+
 			//==================================
 			//
 			//==================================
@@ -336,16 +336,16 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						return true;
 					else
 						return false;
-			};			
-			
-			
+			};
+
+
 			//==================================
 			   // makes cover image conform to the Elink definition
 			//==================================
 			$scope.eLinkCoverImage = function (document) {
 			    if(!document) document=$scope.document;
 				if(document.thumbnail){
-					var temp = _.find($scope.options.images(), function (image){		
+					var temp = _.find($scope.options.images(), function (image){
 						return image.identifier == document.thumbnail.identifier;
 					});
 
@@ -353,9 +353,9 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						document.thumbnail=JSON.parse(JSON.stringify(temp));
 					delete  document.thumbnail.identifier;
 					document.thumbnail.tags=document.thumbnail.tag; // validation bug gives tag in km control but only accepts tags
-												
+
 				}
-//console.log('end of elink',$scope.document.thumbnail);	
+//console.log('end of elink',$scope.document.thumbnail);
 			};
 
 
@@ -369,7 +369,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 					return;
 
 				if (tab == 'review'){
-					
+
 					//$scope.eLinkCoverImage();
 					$scope.validate();
 				}
@@ -381,24 +381,24 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 
 			$scope.options.images= function(){
-				
-				if($scope.document.images) 
+
+				if($scope.document.images)
 				{
 					angular.forEach($scope.document.images,
 						function (element, index ){
-							
+
 							$scope.document.images[index].identifier=element.url;
 							if(!$scope.document.images[index].name)
 								$scope.document.images[index].name=element.url;
 						}
 					);
-					return $scope.document.images; 
+					return $scope.document.images;
 				}
-				else 
+				else
 					return null;
-					
+
 			}//$scope.options.images
-			
+
 			//==================================
 			//
 			//==================================
@@ -458,39 +458,39 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 						throw err;
 					});
 			};
-			
+
 			function loadFeatured(document) {
 					if(document.featured)	{
 						document.featured={title:document.featured,identifier:document.featured};
-					}			
+					}
 			  }// formatInstitutionalContext
-			
+
 			//==================================
 			//
 			//==================================
 
 			function loadAttachments(document) {
-	
+
 					if(document.attachments)
 						_.each(document.attachments,function (att){
 							if(att.title)
 								att.name=att.title;
 							if(att.keywords)
-								att.tag=att.keywords;												
+								att.tag=att.keywords;
 						});
-							
+
 			  }// formatInstitutionalContext
-			  			
+
 			//==================================
 			//
 			//==================================
 
 			function loadDonations(document) {
-//console.log('document.donations',document.donations);	
+//console.log('document.donations',document.donations);
 							if(_.isArray(document.donations)){
 									_.each(document.donations, function (donor,key) {
 											if(!_.isEmpty(donor) && donor.donor){
-											
+
 												if(donor.donor)
 												if(donor.donor.hasOwnProperty['0'])
 												{
@@ -500,34 +500,34 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 												if(_.isEmpty(donor.date) && !donor.date)
 													donor.date = new Date('01/01/2008');
-												
-											}//if(!_.isEmpty(donor) && donor){		
+
+											}//if(!_.isEmpty(donor) && donor){
 									});	//_.each(document.donations
 									document.donations.push({});
 							}else{
 								document.donations=[];
 								document.donations.push({});
-							}	
+							}
 			  }// formatInstitutionalContext
-			  
+
 			  			//==================================
 			//
 			//==================================
 
 			function loadBudegt(document) {
-//console.log('document.donations',document.donations);	
+//console.log('document.donations',document.donations);
 							if(_.isArray(document.budget))
 								document.budget.push({});
-							else document.budget=[{}];				
-			  }// formatInstitutionalContext	
-			  		
+							else document.budget=[{}];
+			  }// formatInstitutionalContext
+
 			//==================================
 			//
 			//==================================
 			function loadConsitutional(document) {
 					var institutionalContext =[];
 					if(_.isArray(document.institutionalContext)){
-							_.each(document.institutionalContext, function (role,key) {	
+							_.each(document.institutionalContext, function (role,key) {
 									if(_.isObject(role))
 										if(!_.isObject(role.role)){
 													lifeWebServices.getRoles().then(function (data){
@@ -539,68 +539,68 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 													});//lifeWebServices.getRoles()
 										}//if(_.isObject(type.role)){
 							});//_.each(document.institutionalContext
-					   document.institutionalContext.push({});		
+					   document.institutionalContext.push({});
 					}//if(_.isArray(document.institutionalContext))
 					else{
 						document.institutionalContext=[];
 						document.institutionalContext.push({});
 					}
 			  }// formatInstitutionalContext
-			  
-			  
+
+
 			//   //==================================
 			// //
 			// //==================================
 			// function loadCountries(doc) {
-				
+
 			// 		if(doc.countries)
 			// 			if( (_.contains(_.pluck(doc.countries,'title'),undefined)))
 			// 				_.each(doc.countries, function (country,key){
 			// 						lifeWebServices.getCountries('query').then(function(data){
 			// 							_.each(data.data, function (countryComplete,key){
 			// 									if(country.identifier===countryComplete.identifier){
-			// 										country.title=countryComplete.name;											
-			// 									}	
+			// 										country.title=countryComplete.name;
+			// 									}
 			// 							});
-										
+
 
 			// 					  });
 			// 				});
-			// 	//console.log('doc.countries',doc.countries);			
+			// 	//console.log('doc.countries',doc.countries);
 			// 	console.log('doc.countries',doc.countries);
-			// 							return doc.countries;		
+			// 							return doc.countries;
 			//   }// loadCountries
-			  
-			  
+
+
 			  //==================================
 			//
 			//==================================
 			function loadThumbnail(doc) {
-			
+
 					if(doc.thumbnail  && !_.isEmpty(doc.thumbnail)){
 
 						if(!_.isArray(doc.images))
 							doc.images=[];
 						if(!lifeWebServices.inArray(doc.images,{url:doc.thumbnail.url,name:doc.thumbnail.name || doc.thumbnail.url, identifier:doc.thumbnail.url}))
 							doc.images.push({url:doc.thumbnail.url,name: doc.thumbnail.url, identifier:doc.thumbnail.url});
-						if(!doc.thumbnail.identifier)	
+						if(!doc.thumbnail.identifier)
 							doc.thumbnail.identifier= doc.thumbnail.url;
 					}
-			
+
 			  }// formatInstitutionalContext
-			  
+
 			//==================================
 			//
 			//==================================
 
 			function loadAichiTargets(document) {
-				
+
 							_.each(document.aichiTargets, function (type,key) {
 									if(!_.isEmpty(type) && type.type){
 
 										$scope.aichiComments[type.type.identifier]=type.comment;
 										document.aichiTargets[key] = {identifier:type.type.identifier,title:type.type.title};
-										
+
 									}
 							});
 			  }// formatInstitutionalContext
@@ -610,14 +610,14 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 
 			function loadClimateContribution(document) {
-				
+
 							_.each(document.climateContribution, function (type,key) {
 									if(!_.isEmpty(type) && type.type){
 
 										$scope.climateContributionComments[type.type.identifier]=type.comment;
-										document.climateContribution[key] = {identifier:type.type.identifier,title:type.type.title};	
+										document.climateContribution[key] = {identifier:type.type.identifier,title:type.type.title};
 									}
-							});	
+							});
 			  }// formatInstitutionalContext
 
 			//==================================
@@ -625,30 +625,30 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 			$scope.cleanUp = function(document) {
 					document = document || $scope.document;
-		
+
 					if (!document)
 						return $q.when(true);
-		
-		
+
+
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
-						
-					$scope.eLinkCoverImage(document); // formats image 
 
-					
+					$scope.eLinkCoverImage(document); // formats image
+
+
 					cleanThumbnail(document);
-			
+
 					cleanAichiTargets(document);
-		
+
 //console.log('before formatting document.nationalAlignment',document);
-				    formatNationalAlignment(document);	
-//console.log('after formatting document.nationalAlignment',document);						
-					cleanCC(document);	
-					
+				    formatNationalAlignment(document);
+//console.log('after formatting document.nationalAlignment',document);
+					cleanCC(document);
+
 					// blank row table controls need to clean
 					cleanIC(document);
 
-					cleanDonations(document)	
+					cleanDonations(document)
 					cleanBudget(document);
 					cleanFatured(document);
 				return $q.when(false);
@@ -658,17 +658,17 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//==================================
 			//
 			//==================================
-			function cleanFatured(document) {	
+			function cleanFatured(document) {
 					if(document.featured && _.isObject(document.featured))
 					{
 						document.featured = document.featured.identifier;
 					}
-							
+
 			  }// formatInstitutionalContext
 			//==================================
 			//
 			//==================================
-			function cleanThumbnail(document) {	
+			function cleanThumbnail(document) {
 //console.log('document.thumbnail',document.thumbnail);
 					if(document.thumbnail)	{
 						if( _.isArray(document.thumbnail)){
@@ -677,42 +677,42 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 							delete document.thumbnail.identifier;
 						}else if ( _.isObject(document.thumbnail)){
 //console.log('document.thumbnail2',document.thumbnail);
-							delete document.thumbnail.identifier;							
+							delete document.thumbnail.identifier;
 						}
 						if( document.thumbnail.tags)
 							delete  document.thumbnail.tags;
 					}
 //console.log('document.thumbnail1 at end',document.thumbnail)
-							
+
 			  }// formatInstitutionalContext
 
 			//==================================
 			//
 			//==================================
-			function cleanBudget(doc) {		
+			function cleanBudget(doc) {
 					if(doc.budget  ){
 						if(doc.budget.hasOwnProperty('0') && doc.budget.hasOwnProperty('length') && _.isEmpty(doc.budget[0])){
 							delete doc.budget ;
 							return;
-						} 
+						}
 						_.each(doc.budget, function (item,key) {
 								if(_.isEmpty(doc.budget[key]) ) {
-									
+
 									delete doc.budget[key];
 									doc.budget.length--;
 								}
-								else{	
+								else{
 									if(Object.keys(item).length===0){
 										delete doc.budget[key];
 										delete doc.budget.key;
 										doc.budget.length--;
-									}	
-								}						
+									}
+								}
 
-						});	
+						});
 					}
 			  }// formatInstitutionalContext
-			  
+
 			//==================================
 			//clean InstitutionalContext
 			//==================================
@@ -722,21 +722,21 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 
 							delete doc.institutionalContext;
 							return;
-						} 
+						}
 						_.each(doc.institutionalContext, function (item,key) {
 								if(_.isEmpty(doc.institutionalContext[key]) ) {
-									delete doc.institutionalContext[key];	
+									delete doc.institutionalContext[key];
 									doc.institutionalContext.length--;
-								}else{					
+								}else{
 									if(Object.keys(item).length===0){
 										delete doc.institutionalContext[key];
 										delete doc.institutionalContext.key
 										doc.institutionalContext.length--;
-									}	
+									}
 									if(_.isObject(item.role))
 										item.role= item.role.identifier	;
-								}	
-						});	
+								}
+						});
 					}
 			  }// formatInstitutionalContext
 
@@ -750,30 +750,30 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 								delete document.aichiTargets;
 								//document.aichiTargets=undefined;
 								return;
-						
+
 							}else
 								_.each(document.aichiTargets, function (type,key) {
 										if(!_.isEmpty(type) && !type.type)
 											document.aichiTargets[key] = {type:type, comment:$scope.aichiComments[type.identifier]};
 
-							});	
+							});
 			  }// formatInstitutionalContext
-			  
+
 			 //==================================
 			//
 			//==================================
 			function formatNationalAlignment(doc) {
-	//console.log('natAli1',doc.nationalAlignment);						
-							var tempNatAli= new Array();
-							
+	//console.log('natAli1',doc.nationalAlignment);
+							var tempNatAli= [];
+
 							if(doc.nationalAlignment){
-								if(doc.nationalAlignment[0])		
+								if(doc.nationalAlignment[0])
 									tempNatAli[0] = {type:{identifier:'NBSAP',customValue:{'en':'NBSAPs'}},comment:doc.nationalAlignment[0].comment};
 								if(doc.nationalAlignment[1])
-									tempNatAli[1] = {type:{identifier:'climateChange',customValue:{'en':'National Climate'}},comment:doc.nationalAlignment[1].comment};	
+									tempNatAli[1] = {type:{identifier:'climateChange',customValue:{'en':'National Climate'}},comment:doc.nationalAlignment[1].comment};
 								if(doc.nationalAlignment[2])
-									tempNatAli[2] = {type:{identifier:'o_n_s',customValue:{'en':'Other National Strategies'}},comment:doc.nationalAlignment[2].comment};	
-		
+									tempNatAli[2] = {type:{identifier:'o_n_s',customValue:{'en':'Other National Strategies'}},comment:doc.nationalAlignment[2].comment};
+
 								doc.nationalAlignment=tempNatAli;
 							}
 			  }// formatInstitutionalContext
@@ -787,24 +787,24 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 								return;
 							}else
 							_.each(document.climateContribution, function (type,key) {
-									if(!_.isEmpty(type) && !type.type)	
+									if(!_.isEmpty(type) && !type.type)
 										document.climateContribution[key] = {type:type, comment:$scope.climateContributionComments[type.identifier]};
-							});	
+							});
 			  }// formatInstitutionalContext
-			  
+
 			  //==================================
 			//
 			//==================================
 			function cleanDonations(doc) {
-	
+
 					if(doc.donations){
-				
+
 					if(doc.donations.hasOwnProperty('0') && doc.donations.hasOwnProperty('length') && _.isEmpty(doc.donations[0])){
 
 							delete doc.donations;
 							return;
-						} 
-						
+						}
+
 							_.each(doc.donations, function (type,key) {
 								if(_.isEmpty(doc.donations[key]) ) {
 									delete doc.donations[key];
@@ -813,44 +813,44 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 								else{
 									if((Object.keys(type).length===0 || _.isEmpty(type))){
 										delete doc.donations[key];
-										delete doc.donations.key
+										delete doc.donations.key;
 										doc.donations.length--;
-									}	
+									}
 								}
-								if(!_.isEmpty(type))	
+								if(!_.isEmpty(type))
 									if(!type.funding && type.date && type.donor)
 										type.funding=1;
-								
-											
 
-							});	
-					
+
+
+							});
+
 			  }
 			}  // cleanDonations
-			  			  
 
 
 
-			  
-			  
+
+
+
 			//==================================
 			//
 			//==================================
 			$scope.validate = function(clone) {
- 
+
 				$scope.validationReport = null;
 
 				var oDocument = $scope.document;
 
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
-              
-	
+
+
 
 				$scope.reviewDocument = oDocument;
 
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
-//console.log('validating',oDocument );	
+//console.log('validating',oDocument );
 					return storage.documents.validate(oDocument).then(
 						function(success) {
 							$scope.validationReport = success.data;
@@ -910,7 +910,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				
+
 				$location.url('/submit/lwProject');
 			};
 
@@ -955,7 +955,7 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 				else
 					$scope.error = error;
 			};
-	
+
 			$scope.init();
 
         }

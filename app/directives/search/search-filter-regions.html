@@ -31,7 +31,7 @@
 												<label><input type="checkbox" ng-model="region.selected" ng-click="refresh(region)" ng-init="regionIndex = $index" ng-disabled="!termsModal[classIndex].narrowerTerms[regionIndex].count"> {{region.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].count}})</label>
 											</div>
 											<div class="checkbox" style="margin-top:0;margin-bottom:0;margin-left:20px" ng-repeat="region2 in region.narrowerTerms">
-												<label><input type="checkbox" ng-model="region2.selected" ng-change="refresh(region2)" ng-disabled="!termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count"> {{region2.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count}}) </label>
+												 <div ng-show="termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count"><label><input type="checkbox" ng-model="region2.selected" ng-change="refresh(region2)" ng-disabled="!termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count"> {{region2.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count}}) </label></div>
 											</div>
 										</div>
 									</div>

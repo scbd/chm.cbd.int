@@ -21,7 +21,7 @@
 					<div style="height:360px;overflow-y:auto">
 						<div class="col-lg-4 col-md-4 col-sm-4" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" ng-repeat="item in (filtered =(terms  | filterByLetter:sLetter | orderBy:'title.en'))">
 							<div class="checkbox" style="margin-top:2px;margin-bottom:2px" >
-								<label ng-disabled="!item.count"><input type="checkbox" ng-model="item.selected" ng-change="refresh(item)" ng-disabled="!termsModal[item.identifier].count"> {{item.title.en}} ({{termsModal[item.identifier].count}})</label>
+								<div ng-show="termsModal[item.identifier].count"><label ng-disabled="!item.count"><input type="checkbox" ng-model="item.selected" ng-change="refresh(item)" ng-disabled="!termsModal[item.identifier].count"> {{item.title.en}} ({{termsModal[item.identifier].count}})</label></div>
 							</div>
 						</div>
 					</div>

@@ -132,6 +132,22 @@ define(['text!./search.html',
 										return q;
 								};//$scope.buildQuery
 
+								//======================================================================
+							  //hides filter if parent search result in no hits for this filter
+								//======================================================================
+								$scope.isFilterEmpty = function (filter) {
+
+											var total=0;
+											if($location.url()==='/database') {return 0;}
+										  _.each(filter,function (filterElement){
+															if (filterElement.count) total++;
+											});
+			              	if(total)
+												return 0;
+											else
+												return 1;
+			          };//$scope.isFilterEmpty
+
 								//=======================================================================
 								//
 								//=======================================================================

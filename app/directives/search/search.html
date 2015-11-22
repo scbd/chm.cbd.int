@@ -60,13 +60,13 @@
             <li class="list-group-item"style="background-color: #FAFAFA;">
                 <i class="fa fa-info-circle"></i>&nbsp;&nbsp;Choose fields to narrow search results.
             </li>
-            <search-filter-keywords 	title='Keywords' 						ng-model='keywords' 			query='queryKeywords'											style="padding-right:15px;background-color: #FAFAFA;"></search-filter-keywords>
+            <search-filter-keywords 	title='Keywords' 				ng-model='keywords' 			query='queryKeywords'											style="padding-right:15px;background-color: #FAFAFA;"></search-filter-keywords>
             <search-filter-schemas 		title='Information Types' 	ng-model='schemas' 				facet='schema_s' 					  count='count' style="padding-right:15px;background-color: #FAFAFA;"></search-filter-schemas>
-            <search-filter-countries 	title='Countries' 					ng-model='governments' 		facet='government_s' 			  count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(governments);"></search-filter-countries>
-            <search-filter-regions 		title='Country Groups' 			ng-model='regions' 				facet='government_REL_ss'		count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(regions);"></search-filter-regions>
-            <search-filter-aichi 			title='Aichi Targets' 			ng-model='aichiTargets' 	facet='aichiTarget_ss' 			count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(aichiTargets);"></search-filter-aichi>
-            <search-filter-themes 		title='Thematic Areas' 			ng-model='thematicAreas'	facet='thematicArea_REL_ss' count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(thematicAreas);"></search-filter-themes>
-            <search-filter-dates 			title='Date of record' 			query='queryDate' style="padding-right:15px;background-color: #FAFAFA;"></search-filter-dates>
+            <search-filter-countries 	title='Countries' 			ng-model='governments' 		facet='government_s' 			  count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(governments);"></search-filter-countries>
+            <search-filter-regions 		title='Regions' 				ng-model='regions' 				facet='government_REL_ss'		count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(regions);"></search-filter-regions>
+            <search-filter-aichi 			title='Aichi Targets' 	ng-model='aichiTargets' 	facet='aichiTarget_ss' 			count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(aichiTargets);"></search-filter-aichi>
+            <search-filter-themes 		title='Thematic Areas' 	ng-model='thematicAreas'	facet='thematicArea_REL_ss' count='count' style="padding-right:15px;background-color: #FAFAFA;" ng-hide="isFilterEmpty(thematicAreas);"></search-filter-themes>
+            <search-filter-dates 			title='Date of record' 	query='queryDate' style="padding-right:15px;background-color: #FAFAFA;"></search-filter-dates>
    		</ul>
 	</div>
 

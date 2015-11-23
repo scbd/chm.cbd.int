@@ -258,6 +258,35 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 							document.internationalResources.baselineData.baselineFlows = undefined;
 					}
 
+
+					if(document.internationalResources.currency && _.isEmpty(document.internationalResources.currency))
+						document.internationalResources.currency= undefined;
+
+					if(document.internationalResources && document.internationalResources.baselineData){
+						if(document.internationalResources.baselineData.odaConfidenceLevel && _.isEmpty( document.internationalResources.baselineData.odaConfidenceLevel))
+							document.internationalResources.baselineData.odaConfidenceLevel = undefined;
+
+						if(document.internationalResources.baselineData.oofConfidenceLevel && _.isEmpty( document.internationalResources.baselineData.oofConfidenceLevel))
+							document.internationalResources.baselineData.oofConfidenceLevel = undefined;
+
+						if(document.internationalResources.baselineData.otherConfidenceLevel && _.isEmpty( document.internationalResources.baselineData.otherConfidenceLevel))
+							document.internationalResources.baselineData.otherConfidenceLevel = undefined;
+					}
+
+					if(document.internationalResources && document.internationalResources.progressData){
+						if(document.internationalResources.progressData.odaConfidenceLevel && _.isEmpty( document.internationalResources.progressData.odaConfidenceLevel))
+							document.internationalResources.progressData.odaConfidenceLevel = undefined;
+
+						if(document.internationalResources.progressData.oofConfidenceLevel && _.isEmpty( document.internationalResources.progressData.oofConfidenceLevel))
+							document.internationalResources.progressData.oofConfidenceLevel = undefined;
+
+						if(document.internationalResources.progressData.otherConfidenceLevel && _.isEmpty( document.internationalResources.progressData.otherConfidenceLevel))
+							document.internationalResources.progressData.otherConfidenceLevel = undefined;
+					}
+
+					if(document.domesticExpendituresData.currency && _.isEmpty(document.domesticExpendituresData.currency))
+						document.domesticExpendituresData.currency= undefined;
+
 					if(document.internationalResources && document.internationalResources.progressData && document.internationalResources.progressData.progressFlows){
 						document.internationalResources.progressData.progressFlows = _.filter(document.internationalResources.progressData.progressFlows, function(o) { return !_.isEmpty(o);});
 						if(document.internationalResources.progressData.progressFlows.length===0)

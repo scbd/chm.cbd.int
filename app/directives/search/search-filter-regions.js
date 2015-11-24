@@ -66,8 +66,8 @@ define(['text!./search-filter-regions.html', 'app', 'lodash','angular'], functio
                               term.name = term.name.replace('Europe - ', '');
                               term.name = term.name.replace('Oceania - ', '');
 
-                              term.name = term.name.replace('regions', '<All>');
-                              term.name = term.name.replace('groups', '<All>');
+                              term.name = term.name.replace('regions', '<All Regions>');
+                              term.name = term.name.replace('groups', '<All Groups>');
 
                               term.selected = false;
                               term.count = 0;
@@ -76,7 +76,7 @@ define(['text!./search-filter-regions.html', 'app', 'lodash','angular'], functio
                           $scope.allTerms = _.values(termsMap);
                           $scope.terms = classes;
                           termsMap = searchCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
-                          searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);
+                          searchCtrl.buildChildQuery(termsMap,$scope.items,$scope.facet);                      
 
                       });//http
                 } else{

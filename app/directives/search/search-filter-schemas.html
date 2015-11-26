@@ -20,29 +20,29 @@
 							<td style="width:360px" valign="top">
 								<h4>News &amp; Announcements</h4>
 								<div class="checkbox" ng-repeat="item in outreachRecords" ng-switch on="!!item.title">
-									<div ng-show="termsModal.outreachRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.outreachRecords[$index].count">{{item.title}} ({{termsModal.outreachRecords[$index].count}})</label>
+									<div ng-show="termsModal.outreachRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.outreachRecords[$index].count">{{item.title}} <span class="bg-blue badge">{{termsModal.outreachRecords[$index].count}}</span></label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none"></div>
 								</div>
 								<h4 style="margin-top:20px">CBD </h4>
 								<div class="checkbox" ng-repeat="item in copRecords" ng-switch on="!!item.title">
-									<div ng-show="termsModal.copRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.copRecords[$index].count">{{item.title}} ({{termsModal.copRecords[$index].count}})</label>
+									<div ng-show="termsModal.copRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.copRecords[$index].count">{{item.title}} <span class="bg-blue badge">{{termsModal.copRecords[$index].count}}</span></label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none"></div>
 								</div>
 								<h4 style="margin-top:20px">Reference </h4>
 								<div class="checkbox" ng-repeat="item in referenceRecords" ng-switch on="!!item.title">
-									<div ng-show="termsModal.referenceRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.referenceRecords[$index].count">{{item.title}} ({{termsModal.referenceRecords[$index].count}})</label>
+									<div ng-show="termsModal.referenceRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.referenceRecords[$index].count">{{item.title}} <span class="bg-blue badge">{{termsModal.referenceRecords[$index].count}}</span></label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none"></div>
 								</div>
 							</td>
 							<td style="width:360px" valign="top">
 								<h4>CBD Meetings &amp; Outcomes</h4>
 								<div class="checkbox" ng-repeat="item in meetingRecords" ng-switch on="!!item.title">
-									<div ng-show="termsModal.meetingRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.meetingRecords[$index].count">{{item.title}} ({{termsModal.meetingRecords[$index].count}})</label>
+									<div ng-show="termsModal.meetingRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.meetingRecords[$index].count">{{item.title}} <span class="bg-blue badge">{{termsModal.meetingRecords[$index].count}}</span></label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none"></div>
 								</div>
 								<h4 style="margin-top:20px">National</h4>
 								<div class="checkbox" ng-repeat="item in nationalRecords" ng-switch on="!!item.title">
-									<div ng-show="termsModal.nationalRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.nationalRecords[$index].count">{{item.title}} ({{termsModal.nationalRecords[$index].count}})</label>
+									<div ng-show="termsModal.nationalRecords[$index].count"><label ng-switch-when="true"><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" ng-disabled="!termsModal.nationalRecords[$index].count">{{item.title}} <span class="bg-blue badge">{{termsModal.nationalRecords[$index].count}}</span></label>
 									<hr ng-switch-when="false" style="height:8px;margin:0;border:none"></div>
 								</div>
 							</td>

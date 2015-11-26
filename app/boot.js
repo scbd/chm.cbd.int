@@ -27,6 +27,9 @@ require.config({
       'ngAria'           : 'libs/angular-aria/angular-aria.min',
       'ngMaterial'       : 'libs/angular-material/angular-material.min',
       'ngSmoothScroll'   : 'libs/ngSmoothScroll/angular-smooth-scroll.min',
+      'ammap3WorldLow'   : 'libs/ammap3/ammap/maps/js/worldLow',
+      'ammap3'           : 'libs/ammap3/ammap/ammap',
+
 
 
     },
@@ -48,6 +51,7 @@ require.config({
       'ngAria'                   : { deps: ['angular'] },
       'ngMaterial'               : { deps: ['angular', 'ngAnimate', 'ngAria'] },
       'ngSmoothScroll'           : { deps: ['angular'] },
+      'ammap3WorldLow'           : { deps: ['ammap3'] },
 
     },
 });

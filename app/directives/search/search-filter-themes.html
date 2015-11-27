@@ -34,17 +34,17 @@
 				<div class="modal-body">
 					<div style="height:360px;overflow-y:auto">
 						<div ng-repeat="item in terms" class="checkbox" ng-init="index1 = $index" >
-							<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" > {{item.name}} ({{termsModal[index1].count}})</label>
+							<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" > {{item.name}} <span class="bg-blue badge">{{termsModal[index1].count}}</span></label>
 							<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index2 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].count">
-								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} ({{termsModal[index1].narrowerTerms[index2].count}})</label>
+								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].count}}</span ></label>
 								<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index3 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].count">
-									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} ({{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].count}})</label>
+									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].count}}</span></label>
 									<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index4 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].count">
-										<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} ({{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].count}})</label>
+										<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].count}}</span><</label>
 										<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index5 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].narrowerTerms[index5].count">
-											<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} ({{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].narrowerTerms[index5].count}})</label>
+											<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].narrowerTerms[index5].count}}</span></label>
 											<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="background-color:red;padding-left:20px" ng-init="index6 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].narrowerTerms[index5].narrowerTerms[index6].count">
-												<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} ({{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].narrowerTerms[index5].narrowerTerms[index6].count}})</label>
+												<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].narrowerTerms[index5].narrowerTerms[index6].count}}</span></label>
 											</div>
 										</div>
 									</div>
@@ -53,7 +53,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer" style="text-align:left;">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>

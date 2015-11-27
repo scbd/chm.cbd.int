@@ -1,6 +1,6 @@
-define(['text!./search-result.html','app', 'moment','lodash',_], function(template, app, moment,_) { 'use strict';
+define(['text!./search-result.html','app', 'moment','lodash','authentication'], function(template, app, moment,authentication) { 'use strict';
 
-    app.directive('searchResult', function () {
+    app.directive('searchResult', function (authentication) {
         return {
             restrict: 'EAC',
             template: template,
@@ -53,7 +53,18 @@ define(['text!./search-result.html','app', 'moment','lodash',_], function(templa
                         $scope.dates = formatDate(document.startDate_s) + ' to ' + formatDate(document.endDate_s);
                         $scope.venue = document.eventCity_EN_t + ', ' + document.eventCountry_EN_t;
                     }
+
                 });
+
+
+                //==================================
+          			//
+          			//==================================
+          			$scope.userGovernment = function() {
+          				return authentication.user.government;
+          			};
+
+
             }
         };
     });

@@ -19,7 +19,7 @@
 							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}" >
 									<div class="panel-heading">
 										<h4 class="panel-title" style="margin:0">
-											{{class.name}} ({{class.count}})
+											{{class.name}} <span class="bg-blue badge">{{class.count}}</span>
 										</h4>
 								  </div>
 							</a>
@@ -28,10 +28,10 @@
 									<div class="row">
 										<div class="checkbox col-lg-6 col-md-6 col-sm-6" ng-repeat="region in class.narrowerTerms" style="margin-top:0;margin-bottom:0" ng-init="regionIndex = $index">
 
-												<div ng-if="termsModal[classIndex].narrowerTerms[regionIndex].count"><label><input type="checkbox" ng-model="region.selected" ng-click="refresh(region)" > {{region.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].count}})</label></div>
+												<div ng-if="termsModal[classIndex].narrowerTerms[regionIndex].count"><label><input type="checkbox" ng-model="region.selected" ng-click="refresh(region)" > {{region.name}} <span class="bg-blue badge">{{termsModal[classIndex].narrowerTerms[regionIndex].count}}</span></label></div>
 
 											<div class="checkbox" style="margin-top:0;margin-bottom:0;margin-left:20px" ng-repeat="region2 in region.narrowerTerms">
-												 <div ng-if="termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count"><label><input type="checkbox" ng-model="region2.selected" ng-change="refresh(region2)" > {{region2.name}} ({{termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count}})</label></div>
+												 <div ng-if="termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count"><label><input type="checkbox" ng-model="region2.selected" ng-change="refresh(region2)" > {{region2.name}} <span class="bg-blue badge">{{termsModal[classIndex].narrowerTerms[regionIndex].narrowerTerms[$index].count}}</span></label></div>
 											</div>
 										</div>
 									</div>
@@ -40,7 +40,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer" style="text-align:left;">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>

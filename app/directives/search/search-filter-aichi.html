@@ -1,5 +1,7 @@
 <li class="list-group-item" style="cursor:pointer;">
-	<div data-toggle="modal" href="#dialogSelectFacets" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong> </div>
+	<div data-toggle="modal" href="#dialogSelectFacets" ng-class="{false:'not', true:'x'}[expanded]">
+		<strong>{{title}}</strong>
+	</div>
 	<div class="list-group-item-expand">
 		<div ng-repeat="item in termsArray | filter:{selected:true}" ng-click="refresh(this,true)">
 			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)">
@@ -18,7 +20,6 @@
 			font-style: normal;
 			font-weight: normal;
 			text-decoration: inherit;
-
 			color: #000;
 			font-size: 18px;
 			padding-right: 0.5em;
@@ -36,10 +37,12 @@
 					<div style="height:360px;overflow-y:auto">
 						<div ng-repeat="item in termsArray">
 							<div ng-if="!item.narrowerTerms && item.count" class="col-sm-6 col-sm-6 ">
-								<div>
-									<img style="height: 20px;  width: 20px; " ng-src="http://www.cbd.int/images/aichi/48/abt-{{item.identifier.substring(13)}}-48.png">
-									<label style="font-weight: 400;">
-										<input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh(item)"> {{item.name}} ({{item.count}}) </label>
+								<div ng-show="!item.narrowerTerms && item.count" class="col-sm-6 col-sm-6" style="overflow: hidden;min-width: 3000px;">
+									<label style="font-weight: normal;">
+										<img style="height: 20px;  width: 20px;float:left; " ng-src="http://www.cbd.int/images/aichi/48/abt-{{item.identifier.substring(13)}}-48.png">
+										<input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh(item)"> {{item.name}}
+										<span class="bg-blue badge">{{item.count}}</span>
+									</label>
 								</div>
 							</div>
 						</div>

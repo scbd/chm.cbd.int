@@ -1,0 +1,23 @@
+
+	<div class="panel panel-default"  style="margin-right: 0px;">
+		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#aichi">
+			<div class="panel-heading">
+				<h4 class="panel-title" style="font-size: 13px;margin:0">
+					{{title}}
+				</h4>
+			</div>
+		</a>
+		<div id="aichi" class="panel-collapse" >
+		<div class="panel-body">
+			<div class="row">
+
+				<div class="col-lg-2" ng-repeat="target in aichiTargets track by $index" >
+					<script>
+					$(document).ready(function(){
+						$('[data-toggle="{{target.identifier_s}}"]').popover({container: 'body'});
+					});
+					</script>
+						<input type="image"  src="{{::target.icon_s}}" style="width:24px;hieght:24px;"  data-toggle="{{target.identifier_s}}"  data-trigger="hover" data-content="{{target.description_EN_t}}" ng-click="loadAssements(target.identifier_s);"/>
+				</div>
+			</div>
+		</div>

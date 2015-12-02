@@ -97,7 +97,7 @@ define(['text!./search.html',
 		                return url;
 			         };//$scope.fixUrl
 
-							 //=======================================================================
+							//=======================================================================
 						   //
 							 //=======================================================================
 					     $scope.readFacets2 = function (solrArray) {
@@ -290,7 +290,7 @@ define(['text!./search.html',
 				//
 				//=======================================================================
 				function search () {
-					
+
 						if(queryScheduled)
 								$timeout.cancel($scope.queryScheduled);
 						queryScheduled = $timeout(function () { query($scope); }, 100);
@@ -345,7 +345,10 @@ define(['text!./search.html',
 				//@ qsSelection -
 				//=======================================================================
 				function updateTerms(terms,items,facet,data) {
-
+// console.log('items',items);
+// console.log('terms',terms);
+// console.log('facet',facet);
+// console.log('data',data);
 						var qsSelection = _([$location.search()[facet]]).flatten().compact().value(); // takes query string into array
 						var termsx = {};
 

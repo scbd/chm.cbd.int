@@ -11,6 +11,7 @@
 @import url("../libs/leaflet/dist/leaflet.css");
 @import url("../libs/bootstrap-datepicker/css/datepicker3.css");
 @import url("../libs/ammap3/ammap/ammap.css");
+@import url("search/reporting-display.css");
 [ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
 
 a:hover {text-decoration:none;}

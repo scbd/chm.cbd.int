@@ -16,7 +16,6 @@ var oneDay   = 86400000;
 var cacheTag = Math.random() * 0x80000000 | 0;
 
 app.use(require('morgan')('dev'));
-app.use(require('compression')());
 
 app.set('port', process.env.PORT || 2000);
 app.use('/favicon.ico', require('serve-static')(__dirname + '/favicon.ico', { maxAge:    oneDay }));

@@ -1,17 +1,19 @@
 
-	<div class="panel panel-default"  style="margin-right: 0px;">
-		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#aichi">
+
+	<div class="panel panel-default"  style="margin-right: 0px; padding-right:1px;" >
+		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#aichi"  >
 			<div class="panel-heading">
-				<h4 class="panel-title" style="font-size: 13px;margin:0">
-					{{title}}
+				<h4 class="panel-title" style="font-size: 13px;margin:0; white-space: nowrap; width:100%;">
+					{{title}} <i class="fa fa-info-circle" style="float:right;"> </i>
 				</h4>
+
 			</div>
 		</a>
-		<div id="aichi" class="panel-collapse" >
+		<div id="aichi" class="panel-collapse collapse" >
 		<div class="panel-body">
-			<div class="row">
+			<div class="row" style="padding-left:10px;padding-right:10px;">
 
-				<div class="col-lg-2" ng-repeat="target in aichiTargets track by $index" >
+				<div class="col-lg-2" ng-repeat="target in aichiTargets track by $index" style="float:left; ">
 					<script>
 					$(document).ready(function(){
 						$('[data-toggle="{{target.identifier_s}}"]').popover({container: 'body'});

@@ -71,21 +71,23 @@ app.directive('ammap3',[ function () {
                                 if(doc.schema_s=='nationalAssessment')
                                 {
                                       if(!changed)hideAreas();
-                                      countryMap={'id':doc.government_s,'color':progressToColor(doc.progress_EN_t)};
-                                  //    adToDataSet(countryMap);
-                                      getMapObject(countyCode).colorReal=progressToColor(doc.progress_EN_t);
-                                      changed=1;
-
+                                      changeAreaColor(countyCode,progressToColor(doc.progress_EN_t));
+                                      changed=1;//flag not to recolor entire map again
                                 }
 
                     });
-
-
-                    $scope.map.validateData();
-              }//progressColorMap()
+                    $scope.map.validateData(); // updates map with color changes
+              }//progressColorMap
 
               // //=======================================================================
               // //
+              // //=======================================================================
+              function changeAreaColor(id,color) {
+                          getMapObject(id).colorReal=color;
+               }//getMapObject
+
+              // //=======================================================================
+              // // changes color of all un colored areas
               // //=======================================================================
               function hideAreas() {
                     // Walkthrough areas

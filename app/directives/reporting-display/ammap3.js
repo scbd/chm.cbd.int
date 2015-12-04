@@ -15,10 +15,14 @@ app.directive('ammap3',[ function () {
                var ammap3= requiredDirectives[1];
                $scope.$watch('items',function(){ammap3.progressColorMap();});
                initMap();
-               ammap3.writeMap($scope.mapData);
+               //ammap3.writeMap($scope.mapData);
                ammap3.initAsslegend();
                ammap3.writeMap();
-
+               console.log(ammap3);
+               $scope.map.addListener("clickMapObject", function(event) {
+                        alert('here');
+                        console.log(event.mapObject);
+               });
                //=======================================================================
                //
                //=======================================================================

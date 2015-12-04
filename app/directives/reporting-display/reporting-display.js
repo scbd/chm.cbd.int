@@ -11,7 +11,7 @@ define(['text!./reporting-display.html',
 
 	], function(template, app, $, _) { 'use strict';
 
-	app.directive('reportingDisplay', ['$http', 'realm', '$q', '$timeout', '$location', function ($http, realm, $q, $timeout, $location) {
+	app.directive('reportingDisplay', ['$http', 'realm', '$q', '$timeout', '$location','$filter', function ($http, realm, $q, $timeout, $location,$filter) {
 	    return {
 	        restrict: 'E',
 	        template: template,
@@ -37,6 +37,11 @@ define(['text!./reporting-display.html',
 	            $scope.currentPage     = 0;
 
 							$scope.subQueries = {};
+
+							$http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) {
+											$scope.countries=$filter('orderBy')(o.data, 'title|lstring');
+								 			return ;
+							 });
 							if($location.search().currentPage >=0)
 									$scope.currentPage=$location.search().currentPage;
 
@@ -89,7 +94,18 @@ define(['text!./reporting-display.html',
 		                return url;
 			         };//$scope.fixUrl
 
+							 //============================================================
+					 		// s
+					 		//
+					 		//============================================================
+					 		function getCountries(query) {
 
+
+					 					return $http.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function(data) {
+					 							return data;
+					 					});// return
+
+					 		};// getCountries
 
 								//=======================================================================
 								//
@@ -234,13 +250,18 @@ define(['text!./reporting-display.html',
 							//	$scope.thematicAreas = $scope.readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
 								$scope.nationalAssesments = $scope.readFacets2(data.facet_counts.facet_fields.aichiTarget_ss.nationalAssesments);
 
-
+//console.log('data.response.docs',data.response.docs);
+								$scope.count=data.response.docs.length;
 								$scope.documents = groupByCountry(data.response.docs);
+// console.log('reporting-display.js $scope.documents',$scope.documents);
+// console.log('reporting-display.js $scope.countries ',$scope.countries);
 
 								$scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
 								updateQueryString();
 						});//$http.get('/ap
 				}// query
+
+
 				//=======================================================================
 				//
 				//=======================================================================
@@ -248,22 +269,59 @@ define(['text!./reporting-display.html',
 							var docsByCountry ={};
 							_.each(list,function(doc){
 
-										if(!docsByCountry[doc.government_s])
+										if(!docsByCountry[doc.government_s]) // if country object not created created
+										{
 												docsByCountry[doc.government_s]=[];
+												docsByCountry[doc.government_s]=getCountryById(doc.government_s); //insert country data
+												docsByCountry[doc.government_s].docs={}; // initializes the countries docs
+										}
 
-										docsByCountry[doc.government_s].push(doc);
+										if(!docsByCountry[doc.government_s].docs[doc.schema_s]) //order docs by schema
+											docsByCountry[doc.government_s].docs[doc.schema_s]=[];
 
-										if(docsByCountry[doc.government_s].length > 1)
-												docsByCountry[doc.government_s].sort(function(a,b){if(b.date_dt && a.date_dt )return new Date(b.date_dt) - new Date(a.date_dt);});
+										docsByCountry[doc.government_s].docs[doc.schema_s].push(doc); // insert doc
 
-										if(docsByCountry[doc.government_s].length > 1)
-												docsByCountry[doc.government_s].sort(function(a,b){
+										if(docsByCountry[doc.government_s].docs[doc.schema_s].length > 1 && doc.schema_s==='nationalAssessment')
+												docsByCountry[doc.government_s].docs[doc.schema_s].sort(
+													function(a,b){
+														if(b.date_dt && a.date_dt )return new Date(b.date_dt) - new Date(a.date_dt);
+												}); // sort by date
+
+										if(docsByCountry[doc.government_s].docs[doc.schema_s].length > 1 && doc.schema_s==='nationalAssessment')
+												docsByCountry[doc.government_s].docs[doc.schema_s].sort(function(a,b){
 													if(b.progress_EN_t && a.progress_EN_t)
 														return progressToNum(b.progress_EN_t) - progressToNum(a.progress_EN_t);
-													});
+												}); // sort sort by progress
 							});
+							setNumDocumentsInCountry();
 							return docsByCountry;
 				}//readQueryString
+
+				//=======================================================================
+				//
+				//=======================================================================
+				function getCountryById(id) {
+
+					var index = _.findIndex($scope.countries, function(country) {
+								 return country.identifier.toUpperCase() === id.toUpperCase();
+					 });
+					 return $scope.countries[index];
+				}//getCountryById
+
+				//=======================================================================
+				//
+				//=======================================================================
+				function setNumDocumentsInCountry() {
+						var totalDocs=0;
+					_.each($scope.countries, function(country) {
+							_.each(country.docs , function(schema) {
+									totalDocs += schema.length;
+							});
+							country.numDocs=totalDocs;
+							totalDocs=0;
+					 });
+				}//setNumDocumentsInCountry()
+
 
 				//=======================================================================
 				//

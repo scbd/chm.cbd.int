@@ -40,9 +40,12 @@ app.directive('ammap3',[ function () {
                       },
                       "areasSettings": {
                         "autoZoom": true,
-                        "selectedColor": "#009b48",
+                        "selectedColor": "#423f3f",
+                        "rollOverColor":"#423f3f",
                         "selectable": true,
-                        "color": "#428bca"
+                        "color": "#428bca",
+
+
                       },
                       "smallMap": {},
                       "export": {

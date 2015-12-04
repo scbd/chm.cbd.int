@@ -1,6 +1,5 @@
-
-
-	<div class="panel panel-default"  style="margin-right: 0px; padding-right:1px;" >
+<div>
+	<div class="panel panel-default"  style="margin-right: 0px; margin-bottom: 5px; padding-right:1px;" >
 		<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#aichi"  >
 			<div class="panel-heading">
 				<h4 class="panel-title" style="font-size: 13px;margin:0; white-space: nowrap; width:100%;">
@@ -19,7 +18,29 @@
 						$('[data-toggle="{{target.identifier_s}}"]').popover({container: 'body'});
 					});
 					</script>
-						<input type="image"  src="{{::target.icon_s}}" style="width:24px;hieght:24px;"  data-toggle="{{target.identifier_s}}"  data-trigger="hover" data-content="{{target.description_EN_t}}" ng-click="loadAssements(target.identifier_s);"/>
+						<input type="image" src="{{::target.icon_s}}" style="width:24px;hieght:24px;"  data-toggle="{{target.identifier_s}}"  data-trigger="hover" title="Aichi Target"  data-content="{{target.description_EN_t}}" ng-click="loadAssements(target.identifier_s);"/>
 				</div>
 			</div>
 		</div>
+</div>
+</div>
+
+<div class="panel panel-default"  style="margin-right: 0px; padding-right:1px;" >
+	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#nr"  >
+		<div class="panel-heading">
+			<h4 class="panel-title" style="font-size: 13px;margin:0; white-space: nowrap; width:100%;">
+				national report <i class="fa fa-info-circle" style="float:right;"> </i>
+			</h4>
+
+		</div>
+	</a>
+	<div id="nr" class="panel-collapse collapse" >
+	<div class="panel-body">
+		<div class="row" style="padding-left:10px;padding-right:10px;">
+
+
+		</div>
+	</div>
+</div>
+</div>
+</div>

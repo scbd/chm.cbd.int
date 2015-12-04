@@ -1,4 +1,4 @@
-define(['text!./ammap3.html', 'app', 'lodash','ammap3','ammap3WorldLow','ammap-theme','ammap-resp'], function(template, app, _,ammap3) { 'use strict';
+define(['text!./ammap3.html', 'app', 'lodash','ammap3','ammap3WorldLow','ammap-theme'], function(template, app, _,ammap3) { 'use strict';
 
 app.directive('ammap3',[ function () {
     return {

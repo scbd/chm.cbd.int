@@ -28,9 +28,19 @@ app.directive('resultsList',['$timeout', function ($timeout) {
     				function init() {
                   $scope.numCountries=_.size($scope.items);
                   if(!$scope.numRecords)$scope.numRecords=0;
-                  console.log('result list items',$scope.items);
-                  //initJQ();
+
     				}//
+
+
+              //=======================================================================
+              //
+              //=======================================================================
+              $scope.fixURI =function (uri) {
+//console.log(uri);
+
+
+              }//
+
 
             //=======================================================================
     				//

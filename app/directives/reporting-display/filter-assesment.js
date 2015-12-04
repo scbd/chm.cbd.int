@@ -20,6 +20,7 @@ app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http
 
             $scope.termsModal = {};
             $scope.aichiTargets=[];
+            $scope.disabledTarget=0;
   buildTermsAndQuery();
             $scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
 
@@ -63,7 +64,15 @@ app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http
 
         		}// getOrganizations
 
+            //============================================================
+        		//
+        		//
+        		//============================================================
+        		function disableSiblings(target) {
 
+                  $scope.disabledTarget=target;
+                  console.log('target',target);
+        		}// getOrganizations
 
 
 
@@ -71,8 +80,6 @@ app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http
               //
               //=======================================================================
               $scope.loadAssements = function (aichiNumber) {
-
-
 
                 if(aichiNumber)
                     reportingDisplayCtrl.addSubQuery('nationalAssessment','schema_s:nationalAssessment AND _latest_s:true AND _state_s:public AND nationalTarget_EN_t:"'+aichiNumber+'"',true);

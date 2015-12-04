@@ -73,25 +73,81 @@ app.directive('ammap3',[ function () {
 
                     var countryMap={};
                     var changed=null;
-                    _.each($scope.items,function(docs,countyCode){
-                            var doc =docs[0]; // get first from sorted list
-                                if(doc.schema_s=='nationalAssessment')
+                    _.each($scope.items,function(country){
+                          _.each(country.docs,function(schema,schemaName){
+                                if(schemaName=='nationalAssessment')
                                 {
+                                      if(schema.length >= 1 && country.identifier!='va')  // must account for va
+                                      {
+                                      var doc =schema[0];//get first doc from sorted list
                                       if(!changed)hideAreas();
-                                      changeAreaColor(countyCode,progressToColor(doc.progress_EN_t));
+                                          changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
+                                          buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t));
                                       changed=1;//flag not to recolor entire map again
                                 }
-
+                                }
+                          });
                     });
                     $scope.map.validateData(); // updates map with color changes
+
               }//progressColorMap
 
               // //=======================================================================
               // //
               // //=======================================================================
               function changeAreaColor(id,color) {
+
                           getMapObject(id).colorReal=color;
+
+
                }//getMapObject
+
+               // //=======================================================================
+               // // c
+               // //=======================================================================
+               function buildProgressBaloon(id,progress) {
+                            var area = getMapObject(id);
+                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress)+"</div> </div>";
+console.log('id',area);
+               }//getMapObject
+
+              // //=======================================================================
+                // // c
+                // //=======================================================================
+                function getProgressIcon(progress) {
+
+                             switch (progress){
+                                  case '1':
+                                  return 'app/img/ratings/36A174B8-085A-4363-AE11-E34163A9209C.png';
+                                  case '2':
+                                  return 'app/img/ratings/2D241E0A-1D17-4A0A-9D52-B570D34B23BF.png';
+                                  case '3':
+                                  return 'app/img/ratings/486C27A7-6BDF-460D-92F8-312D337EC6E2.png';
+                                  case '4':
+                                  return 'app/img/ratings/884D8D8C-F2AE-4AAC-82E3-5B73CE627D45.png';
+                                  case '5':
+                                  return 'app/img/ratings/E49EF94E-0590-486C-903B-68C5E54EC089.png';
+                             }
+                }//getProgressIcon(progress)
+
+                // //=======================================================================
+                // //
+                // //=======================================================================
+                function getProgressText(progress) {
+
+                             switch (progress){
+                                  case '1':
+                                  return 'Moving away from target (things are getting worse rather than better).';
+                                  case '2':
+                                  return 'No significant overall progress (overall, we are neither moving towards the target nor moving away from it).';
+                                  case '3':
+                                  return 'Progress towards target but at an insufficient rate (unless we increase our efforts the target will not be met by its deadline).';
+                                  case '4':
+                                  return 'On track to achieve target (if we continue on our current trajectory we expect to achieve the target by 2020).';
+                                  case '5':
+                                  return 'On track to exceed target (we expect to achieve the target before its deadline).';
+                             }
+                }//getProgressIcon(progress)
 
               // //=======================================================================
               // // changes color of all un colored areas

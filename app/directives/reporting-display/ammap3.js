@@ -18,9 +18,9 @@ app.directive('ammap3',[ function () {
                //ammap3.writeMap($scope.mapData);
                ammap3.initAsslegend();
                ammap3.writeMap();
-               console.log(ammap3);
+
                $scope.map.addListener("clickMapObject", function(event) {
-                        alert('here');
+
                         console.log(event.mapObject);
                });
                //=======================================================================
@@ -74,6 +74,7 @@ app.directive('ammap3',[ function () {
                     var countryMap={};
                     var changed=null;
                     _.each($scope.items,function(country){
+
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalAssessment')
                                 {
@@ -82,7 +83,7 @@ app.directive('ammap3',[ function () {
                                       var doc =schema[0];//get first doc from sorted list
                                           if(!changed)hideAreas();
                                           changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
-                                          buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t));
+                                          buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
                                           changed=1;//flag not to recolor entire map again
                                       }
                                 }
@@ -103,12 +104,20 @@ app.directive('ammap3',[ function () {
                }//getMapObject
 
                // //=======================================================================
+               // //
+               // //=======================================================================
+               function aichiTargetReadable(target) {
+
+                        return target.replace("-", " ").replace("-", " ").toLowerCase().replace(/\b./g, function(m){ return m.toUpperCase(); });
+                }//aichiTargetReadable
+
+               // //=======================================================================
                // // c
                // //=======================================================================
-               function buildProgressBaloon(id,progress) {
+               function buildProgressBaloon(id,progress,target) {
                             var area = getMapObject(id);
-                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress)+"</div> </div>";
-console.log('id',area);
+                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress,target)+"</div> </div>";
+//console.log('id',area);
                 }//getMapObject
 
                 // //=======================================================================
@@ -117,35 +126,35 @@ console.log('id',area);
                 function getProgressIcon(progress) {
 
                              switch (progress){
-                                  case '1':
+                                  case 1:
                                   return 'app/img/ratings/36A174B8-085A-4363-AE11-E34163A9209C.png';
-                                  case '2':
+                                  case 2:
                                   return 'app/img/ratings/2D241E0A-1D17-4A0A-9D52-B570D34B23BF.png';
-                                  case '3':
+                                  case 3:
                                   return 'app/img/ratings/486C27A7-6BDF-460D-92F8-312D337EC6E2.png';
-                                  case '4':
-                                  return 'app/img/ratings/884D8D8C-F2AE-4AAC-82E3-5B73CE627D45.png';
-                                  case '5':
+                                  case 4:
                                   return 'app/img/ratings/E49EF94E-0590-486C-903B-68C5E54EC089.png';
+                                  case 5:
+                                  return 'app/img/ratings/884D8D8C-F2AE-4AAC-82E3-5B73CE627D45.png';
                              }
                 }//getProgressIcon(progress)
 
                 // //=======================================================================
                 // //
                 // //=======================================================================
-                function getProgressText(progress) {
+                function getProgressText(progress,target) {
 
                              switch (progress){
-                                  case '1':
-                                  return 'Moving away from target (things are getting worse rather than better).';
-                                  case '2':
-                                  return 'No significant overall progress (overall, we are neither moving towards the target nor moving away from it).';
-                                  case '3':
-                                  return 'Progress towards target but at an insufficient rate (unless we increase our efforts the target will not be met by its deadline).';
-                                  case '4':
-                                  return 'On track to achieve target (if we continue on our current trajectory we expect to achieve the target by 2020).';
-                                  case '5':
-                                  return 'On track to exceed target (we expect to achieve the target before its deadline).';
+                                  case 1:
+                                  return 'Moving away from '+aichiTargetReadable(target)+' (things are getting worse rather than better).';
+                                  case 2:
+                                  return 'No significant overall progress towards '+aichiTargetReadable(target)+' (overall, we are neither moving towards the '+aichiTargetReadable(target)+' nor moving away from it).';
+                                  case 3:
+                                  return 'Progress towards '+aichiTargetReadable(target)+' but at an insufficient rate (unless we increase our efforts the '+aichiTargetReadable(target)+' will not be met by its deadline).';
+                                  case 4:
+                                  return 'On track to achieve '+aichiTargetReadable(target)+' (if we continue on our current trajectory we expect to achieve the '+aichiTargetReadable(target)+' by 2020).';
+                                  case 5:
+                                  return 'On track to exceed '+aichiTargetReadable(target)+' (we expect to achieve the '+aichiTargetReadable(target)+' before its deadline).';
                              }
                 }//getProgressIcon(progress)
 

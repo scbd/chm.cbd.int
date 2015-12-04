@@ -80,11 +80,11 @@ app.directive('ammap3',[ function () {
                                       if(schema.length >= 1 && country.identifier!='va')  // must account for va
                                       {
                                       var doc =schema[0];//get first doc from sorted list
-                                      if(!changed)hideAreas();
+                                          if(!changed)hideAreas();
                                           changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
                                           buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t));
-                                      changed=1;//flag not to recolor entire map again
-                                }
+                                          changed=1;//flag not to recolor entire map again
+                                      }
                                 }
                           });
                     });
@@ -109,9 +109,9 @@ app.directive('ammap3',[ function () {
                             var area = getMapObject(id);
                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress)+"</div> </div>";
 console.log('id',area);
-               }//getMapObject
+                }//getMapObject
 
-              // //=======================================================================
+                // //=======================================================================
                 // // c
                 // //=======================================================================
                 function getProgressIcon(progress) {
@@ -167,32 +167,50 @@ console.log('id',area);
 
                           return area.id === id.toUpperCase();
                     });
-
                     return $scope.map.dataProvider.areas[index];
                }//getMapObject
 
               //=======================================================================
               //
               //=======================================================================
-              function progressToColor(progress) {
+              function progressToNumber(progress) {
 
                   switch(progress.trim())
                   {
                       case "On track to exceed target":
-                          return '#1074bc';
+                          return 5;
                       case "On track to achieve target":
-                          return '#109e49';
+                          return 4;
                       case "Progress towards target but at an  insufficient rate":
-                          return '#fec210';
+                          return 3;
                       case "No significant change":
-                          return '#ee1d23';
+                          return 2;
                       case "Moving away from target":
-                          return '#6c1c67';
+                          return 1;
                   }
 
               }//readQueryString
 
+              //=======================================================================
+              //
+              //=======================================================================
+              function progressToColor(progress) {
 
+                  switch(progress)
+                  {
+                      case 5:
+                          return '#1074bc';
+                      case 4:
+                          return '#109e49';
+                      case 3:
+                          return '#fec210';
+                      case 2:
+                          return '#ee1d23';
+                      case 1:
+                          return '#6c1c67';
+                  }
+
+              }//readQueryString
 
               //=======================================================================
               //
@@ -267,6 +285,7 @@ console.log('id',area);
                       "color": "#6c1c67",
                         "description":"desc5"
                     }
+
                    ]
                  });
 

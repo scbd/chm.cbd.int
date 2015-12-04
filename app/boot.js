@@ -30,7 +30,7 @@ require.config({
       'ammap3WorldLow'   : 'libs/ammap3/ammap/maps/js/worldLow',
       'ammap3'           : 'libs/ammap3/ammap/ammap',
       'ammap-theme'      : 'libs/ammap3/ammap/themes/light',
-     // "ammap-resp"       : 'libs/ammap3/ammap/plugins/responsive/responsive',
+      // "ammap-resp"       : 'libs/ammap3/ammap/plugins/responsive/responsive',
 
 
 
@@ -56,7 +56,7 @@ require.config({
       'ngSmoothScroll'           : { deps: ['angular'] },
       'ammap3WorldLow'           : { deps: ['ammap3'] },
       'ammap-theme'              : { deps: ['ammap3']},
-      "ammap-resp"               : { deps: ['ammap3']}
+      // "ammap-resp"               : { deps: ['ammap3']}
     },
 });
 

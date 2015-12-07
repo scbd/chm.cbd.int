@@ -16,14 +16,13 @@ app.directive('ammap3',[ function () {
 
                $scope.leggends={
                  aichiTarget:[
-                   {id:5, title:'Exceeded Target', visible:true, color:'#1074bc'},
-                   {id:4, title:'Meet Target', visible:true, color:'#109e49'},
-                   {id:3, title:'Insufficient Rate', visible:true, color:'#fec210'},
-                   {id:2, title:'No Progress', visible:true, color:'#ee1d23'},
+                   {id:0, title:'No Data', visible:true, color:'#dddddd'},
                    {id:1, title:'Moving Away', visible:true, color:'#6c1c67'},
-                   {id:0, title:'No Data', visible:true, color:'#dddddd'}],
-
-               };
+                   {id:2, title:'No Progress', visible:true, color:'#ee1d23'},
+                   {id:3, title:'Insufficient Rate', visible:true, color:'#fec210'},
+                   {id:4, title:'Meet Target', visible:true, color:'#109e49'},
+                   {id:5, title:'Exceeded Target', visible:true, color:'#1074bc'},
+               ]};
                $scope.$watch('items',function(){ammap3.progressColorMap();});
                initMap();
 
@@ -67,6 +66,47 @@ app.directive('ammap3',[ function () {
           },//link
           controller : ["$scope", function($scope) {
 
+            //=======================================================================
+            //
+            //=======================================================================
+            function restLegend(legend) {
+
+                    _.each(legend,function(legendItem){
+                        legendItem.visible=true;
+                    });
+            };//$scope.legendHide
+
+            //=======================================================================
+            //
+            //=======================================================================
+            $scope.legendHide = function (legendItem) {
+                    _.each($scope.map.dataProvider.areas,function(area){
+                          if(legendItem.color===area.originalColor && area.mouseEnabled==true){
+                                area.colorReal='#FFFFFF';
+                                area.mouseEnabled=false;
+                          }else if(legendItem.color===area.originalColor && area.mouseEnabled==false){
+                                area.colorReal=legendItem.color;
+                                area.mouseEnabled=true;
+                          }
+                    });
+                    if(legendItem.visible)
+                        legendItem.visible=false;
+                    else
+                        legendItem.visible=true;
+                    $scope.map.validateData();
+            };//$scope.legendHide
+
+            //=======================================================================
+            //
+            //=======================================================================
+            function toggleLegend(legend,color) {
+                    var index = _.findIndex(legend, function(legendItem) {
+                        return legendItem.color == 'color';
+                    });
+                    legend[index].visible=false;
+
+            }//toggleLeggend
+
               //=======================================================================
               //
               //=======================================================================
@@ -81,7 +121,8 @@ app.directive('ammap3',[ function () {
               //=======================================================================
               function progressColorMap() {
 
-                    var countryMap={};
+                    if(_.isEmpty($scope.items))hideAreas('#428bca');
+                    restLegend($scope.leggends.aichiTarget);
                     var changed=null;
                     _.each($scope.items,function(country){
 
@@ -108,8 +149,8 @@ app.directive('ammap3',[ function () {
               // //=======================================================================
               function changeAreaColor(id,color) {
 
-                          getMapObject(id).colorReal=color;
-
+                        var area =  getMapObject(id);
+                        area.colorReal=area.originalColor=color;
 
                }//getMapObject
 
@@ -171,10 +212,13 @@ app.directive('ammap3',[ function () {
               // //=======================================================================
               // // changes color of all un colored areas
               // //=======================================================================
-              function hideAreas() {
+              function hideAreas(color) {
                     // Walkthrough areas
+                    if(!color) color= '#dddddd';
                     _.each($scope.map.dataProvider.areas,function(area){
-                          area.colorReal='#dddddd';
+                          area.colorReal=area.originalColor=color;
+                          area.mouseEnabled=true;
+                          area.balloonText='[[title]]'
                     });
                }//getMapObject
 

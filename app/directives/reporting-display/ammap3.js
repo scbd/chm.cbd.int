@@ -11,12 +11,22 @@ app.directive('ammap3',[ function () {
         },
           link : function ($scope, $element, $attr, requiredDirectives)
         {
-               var reportingDIsplay = requiredDirectives[0];
+              // var reportingDIsplay = requiredDirectives[0];
                var ammap3= requiredDirectives[1];
+
+               $scope.leggends={
+                 aichiTarget:[
+                   {id:5, title:'Exceeded Target', visible:true, color:'#1074bc'},
+                   {id:4, title:'Meet Target', visible:true, color:'#109e49'},
+                   {id:3, title:'Insufficient Rate', visible:true, color:'#fec210'},
+                   {id:2, title:'No Progress', visible:true, color:'#ee1d23'},
+                   {id:1, title:'Moving Away', visible:true, color:'#6c1c67'},
+                   {id:0, title:'No Data', visible:true, color:'#dddddd'}],
+
+               };
                $scope.$watch('items',function(){ammap3.progressColorMap();});
                initMap();
-               //ammap3.writeMap($scope.mapData);
-               ammap3.initAsslegend();
+
                ammap3.writeMap();
 
                $scope.map.addListener("clickMapObject", function(event) {
@@ -256,49 +266,7 @@ app.directive('ammap3',[ function () {
                       $scope.mapData.responsive[name]=value;
               }//setLegendMapData
 
-              //=======================================================================
-              //
-              //=======================================================================
-              function initAsslegend() {
-                  setLegendMapData( {
-                    "width": "100%",
-                    "marginRight": 27,
-                    "marginLeft": 27,
-                    "equalWidths": false,
-                    "backgroundAlpha": 0.5,
-                    "backgroundColor": "#FFFFFF",
-                    "borderColor": "#ffffff",
-                    "borderAlpha": 1,
-                    "top": 358,
-                    "left": 0,
-                    "horizontalGap": 10,
-                    "data": [ {
-                      "title": "Exceed Target",
-                      "color": "#1074bc",
-                      "description":"desc1"
-                    }, {
-                      "title": "Meet Target",
-                      "color": "#109e49",
-                        "description":"desc2"
-                    }, {
-                      "title": "Insuffient Rate",
-                      "color": "#fec210",
-                        "description":"desc3"
-                    }, {
-                      "title": "No Progress",
-                      "color": "#ee1d23",
-                        "description":"desc4"
-                    },
-                    {
-                      "title": "Moving Away",
-                      "color": "#6c1c67",
-                        "description":"desc5"
-                    }
 
-                   ]
-                 });
-
-            }// initAsslegend
 
 
 
@@ -308,7 +276,7 @@ app.directive('ammap3',[ function () {
               this.setMapData =setMapData;
               this.setLegendMapData=setLegendMapData;
               this.setResponsiveMapData=setResponsiveMapData;
-              this.initAsslegend=initAsslegend;
+
               this.progressColorMap=progressColorMap;
           }],
     }; // return

@@ -21,7 +21,7 @@ app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http
             $scope.termsModal = {};
             $scope.aichiTargets=[];
             $scope.disabledTarget=0;
-  buildTermsAndQuery();
+            buildTermsAndQuery();
             $scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
 
             //=======================================================================
@@ -33,6 +33,7 @@ app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http
                         getAichiTargets().then(function (data) {
 
                             $scope.aichiTargets=_.toArray(_.indexBy(data.data, 'number_d'));
+                            makeLocalIcons($scope.aichiTargets);
                     //        $scope.terms=reportingDisplayCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets,1);
                     //        reportingDisplayCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets);
 
@@ -63,6 +64,52 @@ app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http
                 });
 
         		}// getOrganizations
+
+            // //=======================================================================
+            // //
+            // //=======================================================================
+            $scope.aichiTargetReadable = function (target) {
+
+                     return target.replace("-", " ").replace("-", " ").toLowerCase().replace(/\b./g, function(m){ return m.toUpperCase(); });
+             };//aichiTargetReadable
+
+             // //=======================================================================
+             // //
+             // //=======================================================================
+             $scope.aichiTargetNumber = function (target) {
+
+                      return target.substring(target.length-2);
+              };//aichiTargetReadable
+
+              // //=======================================================================
+              // //
+              // //=======================================================================
+              $scope.toggleTarget= function (targets,target) {
+
+                    _.each(targets,function (targ){
+
+                          if(targ.identifier_s===target.identifier_s){
+                            targ.selected=false;
+                            targ.selectedIcon = _.clone(targ.localIconBW);
+                          } else{targ.selectedIcon=targ.localIcon, targ.selected=true;}
+                    });
+
+
+               };//aichiTargetReadable
+
+              // //=======================================================================
+              // //
+              // //=======================================================================
+              function makeLocalIcons (targets) {
+
+                       _.each(targets, function(target){
+                         target.localIcon="app/images/targets/"+$scope.aichiTargetNumber(target.identifier_s)+".png";
+                         target.localIconBW="app/images/targets_bw/"+$scope.aichiTargetNumber(target.identifier_s)+".png";
+                         target.selected=true;
+                         target.selectedIcon="app/images/targets/"+$scope.aichiTargetNumber(target.identifier_s)+".png";
+                       });
+
+               }//aichiTargetReadable
 
             //============================================================
         		//

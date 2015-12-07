@@ -1,0 +1,32 @@
+
+<div class="panel panel-default" style="margin-right: 0px; margin-bottom: 5px; padding-right:1px;">
+<style>
+ .reportRow{
+	 font-size: 10px;
+	 color: black;
+	 padding-left: 10px;
+ }
+ .reportRow a{
+	font-size: 11px;
+	color: black;
+ }
+</style>
+	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#reports">
+		<div class="panel-heading" >
+			<h4 class="panel-title" style="font-size: 13px;margin:0; white-space: nowrap; width:100%;">
+				{{title}} <i class="fa fa-info-circle" style="float:right;"> </i>
+			</h4>
+		</div>
+	</a>
+	<div id="reports" class="panel-collapse collapse" style="padding-top: 0px;">
+		<div class="panel-body" style="padding-top: 0px;">
+			<div class="row">
+				<lu class="nav nav-sidebar">
+					<li ng-repeat="term in terms track by $index" class="reportRow" ng-class="{active:selectedQuery === term.id}">
+						<a ng-src="{{term.title}}">{{term.title}}</a>
+					</li>
+				</lu>
+			</div>
+		</div>
+	</div>
+</div>

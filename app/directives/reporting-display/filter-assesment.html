@@ -9,15 +9,16 @@
 		</a>
 		<div id="aichi" class="panel-collapse collapse" >
 		<div class="panel-body">
-			<div class="row" style="padding-left:10px;padding-right:10px;">
+			<div class="row" style="padding-left:18px;padding-right:10px;">
 
-				<div class="col-lg-2" ng-repeat="target in aichiTargets track by $index" style="float:left; ">
+				<div class="col-md-3" ng-repeat="target in aichiTargets track by $index" style="padding-left:0; " ng-click="loadAssements(target.identifier_s);toggleTarget(aichiTargets,target);">
 					<script>
 					$(document).ready(function(){
 						$('[data-toggle="{{target.identifier_s}}"]').popover({container: 'body'});
 					});
 					</script>
-						<input type="image" src="{{::target.icon_s}}" style="width:24px;hieght:24px;"  data-toggle="{{target.identifier_s}}"  data-trigger="hover" title="Aichi Target"  data-content="{{target.description_EN_t}}" ng-click="loadAssements(target.identifier_s);"/>
+						<input type="image" ng-src="{{target.selectedIcon}}" style="width:24px;hieght:24px;"   data-toggle="{{target.identifier_s}}"  data-trigger="hover"  data-content="{{target.description_EN_t}}" />
+
 				</div>
 			</div>
 		</div>

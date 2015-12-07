@@ -8,6 +8,7 @@ define(['text!./reporting-display.html',
 //	"./rd-filter-countries",
 	"./results-list",
 	"./filter-assesment",
+	"./filter-report",
 
 	], function(template, app, $, _) { 'use strict';
 

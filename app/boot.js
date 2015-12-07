@@ -56,7 +56,7 @@ require.config({
       'ngSmoothScroll'           : { deps: ['angular'] },
       'ammap3WorldLow'           : { deps: ['ammap3'] },
       'ammap-theme'              : { deps: ['ammap3']},
-      // "ammap-resp"               : { deps: ['ammap3']}
+      'ammap-resp'               : { deps: ['ammap3']}
     },
 });
 

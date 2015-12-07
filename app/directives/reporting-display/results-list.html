@@ -148,7 +148,7 @@
 	<div class="tree">
 		<ul>
 			<li ng-repeat="country in items track by $index" >
-				<span class="country" ng-mouseover="expanded=toggleHide(expanded);"><i class="flag-icon flag-icon-{{country.identifier}}"></i> &nbsp;{{country.name}}
+				<span class="country" ng-click="expanded=toggleHide(expanded);"><i class="flag-icon flag-icon-{{country.identifier}}"></i> &nbsp;{{country.name}}
 					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:3px;">{{country.numDocs}}</span>
 				</span>
 				<ul>

@@ -30,7 +30,7 @@ require.config({
       'ammap3WorldLow'   : 'libs/ammap3/ammap/maps/js/worldLow',
       'ammap3'           : 'libs/ammap3/ammap/ammap',
       'ammap-theme'      : 'libs/ammap3/ammap/themes/light',
-      // "ammap-resp"       : 'libs/ammap3/ammap/plugins/responsive/responsive',
+      'ammap-resp'       : 'libs/ammap3/ammap/plugins/responsive/responsive',
 
 
 

@@ -1,4 +1,4 @@
-<div class="col-md-7">
+<div class="col-md-7" >
   <style>
     .square {
       width: 18px;
@@ -13,7 +13,7 @@
     }
   </style>
 
-  <div id="mapdiv" style="maxwidth: 900px; height: 400px; "></div>
+  <div id="mapdiv" style="maxwidth: 900px; height: 400px;  "></div>
   <!-- <select id="langselect" onchange="setLanguage(this.options[this.selectedIndex].value);">
     <option value="en" selected="selected">English (default)</option>
     <option value="ar" >Arabic</option>
@@ -26,8 +26,8 @@
   <div class="panel panel-default">
     <div class="panel-body">
 
-      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" >
-        <div class="square" ng-style="{'background-color':item.color}"></div> {{item.title}}
+      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);">
+        <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
       </div>
 
     </div>

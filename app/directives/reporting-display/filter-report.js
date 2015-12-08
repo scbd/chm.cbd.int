@@ -78,73 +78,17 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
 
         		}// getOrganizations
 
-            // //=======================================================================
-            // //
-            // //=======================================================================
-            $scope.aichiTargetReadable = function (target) {
-
-                     return target.replace("-", " ").replace("-", " ").toLowerCase().replace(/\b./g, function(m){ return m.toUpperCase(); });
-             };//aichiTargetReadable
-
-             // //=======================================================================
-             // //
-             // //=======================================================================
-             $scope.aichiTargetNumber = function (target) {
-
-                      return target.substring(target.length-2);
-              };//aichiTargetReadable
-
-              // //=======================================================================
-              // //
-              // //=======================================================================
-              $scope.toggleTarget= function (targets,target) {
-
-                    _.each(targets,function (targ){
-
-                          if(targ.identifier_s===target.identifier_s){
-                            targ.selected=false;
-                            targ.selectedIcon = _.clone(targ.localIconBW);
-                          } else{targ.selectedIcon=targ.localIcon, targ.selected=true;}
-                    });
-
-
-               };//aichiTargetReadable
-
-              // //=======================================================================
-              // //
-              // //=======================================================================
-              function makeLocalIcons (targets) {
-
-                       _.each(targets, function(target){
-                         target.localIcon="app/images/targets/"+$scope.aichiTargetNumber(target.identifier_s)+".png";
-                         target.localIconBW="app/images/targets_bw/"+$scope.aichiTargetNumber(target.identifier_s)+".png";
-                         target.selected=true;
-                         target.selectedIcon="app/images/targets/"+$scope.aichiTargetNumber(target.identifier_s)+".png";
-                       });
-
-               }//aichiTargetReadable
-
-            //============================================================
-        		//
-        		//
-        		//============================================================
-        		function disableSiblings(target) {
-
-                  $scope.disabledTarget=target;
-                  console.log('target',target);
-        		}// getOrganizations
-
 
 
               //=======================================================================
               //
               //=======================================================================
-              $scope.loadAssements = function (aichiNumber) {
+              $scope.loadReports = function (type) {
 
-                if(aichiNumber)
-                    reportingDisplayCtrl.addSubQuery('nationalAssessment','schema_s:nationalAssessment AND _latest_s:true AND _state_s:public AND nationalTarget_EN_t:"'+aichiNumber+'"',true);
+                if(type)
+                    reportingDisplayCtrl.addSubQuery('nationalReport','schema_s:nationalReport AND _latest_s:true AND _state_s:public AND reportType_s:'+type+' ',true);
                 else
-                    reportingDisplayCtrl.deleteAllSubQuery('nationalAssessments');
+                    reportingDisplayCtrl.deleteAllSubQuery('nationalReport');
                 reportingDisplayCtrl.search();
 
               };// flatten

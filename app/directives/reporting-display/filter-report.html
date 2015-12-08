@@ -22,8 +22,8 @@
 		<div class="panel-body" style="padding-top: 0px;">
 			<div class="row">
 				<lu class="nav nav-sidebar">
-					<li ng-repeat="term in terms track by $index" class="reportRow" ng-class="{active:selectedQuery === term.id}">
-						<a ng-src="{{term.title}}">{{term.title}}</a>
+					<li ng-repeat="term in terms track by $index" class="reportRow" ng-class="{active:selectedQuery === term.id}" ng-click="loadReports(term.id);">
+						<a src="#" >{{term.title}}</a>
 					</li>
 				</lu>
 			</div>

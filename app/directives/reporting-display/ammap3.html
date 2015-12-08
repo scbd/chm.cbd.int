@@ -26,7 +26,10 @@
   <div class="panel panel-default">
     <div class="panel-body">
 
-      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);">
+      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="schema=='nationalAssessment'">
+        <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
+      </div>
+      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='nationalReport'">
         <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
       </div>
 

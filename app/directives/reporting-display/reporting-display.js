@@ -120,7 +120,7 @@ define(['text!./reporting-display.html',
                                                 //getFormatedSubQuery('schema_s'),
 																							//	getFormatedSubQuery('government_s'),
 																							//	getFormatedSubQuery('government_REL_ss'),
-																							//	getFormatedSubQuery('thematicArea_REL_ss'),
+																							  getFormatedSubQuery('nationalReport'),
 																								getFormatedSubQuery('nationalAssessment'),
 																							//	getFormatedSubQuery('createdDate_s'),
 																							//	getFormatedSubQuery('keywords')
@@ -187,8 +187,11 @@ define(['text!./reporting-display.html',
 												{
 															subQ +=  $scope.subQueries[name][0] ;
 												}
-												else
-															subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
+										  	else 	if(name==='nationalReport' && $scope.subQueries[name][0])
+												{
+															subQ +=  $scope.subQueries[name][0] ;
+												}else
+													subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
 												subQ = '('+subQ+')';
 										}
 										return subQ;
@@ -215,7 +218,7 @@ define(['text!./reporting-display.html',
 								'fl': 'documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,nationalTarget_EN_t,government_s',
 								'wt': 'json',
 								'start': $scope.currentPage * $scope.itemsPerPage,
-								'rows': 25,
+'rows': 500,
 								'facet': true,
 								'facet.field': ['nationalTarget_s','schema_s', 'government_s', 'aichiTarget_ss'],
 								'facet.limit': 999999,
@@ -254,6 +257,7 @@ define(['text!./reporting-display.html',
 //console.log('data.response.docs',data.response.docs);
 								$scope.count=data.response.docs.length;
 								$scope.documents = groupByCountry(data.response.docs);
+console.log($scope.documents);
 // console.log('reporting-display.js $scope.documents',$scope.documents);
 // console.log('reporting-display.js $scope.countries ',$scope.countries);
 
@@ -389,9 +393,10 @@ define(['text!./reporting-display.html',
 				//
 				//=======================================================================
 				function addSubQuery (name, query,singleTon) {
+						$scope.selectedSchema=name;
 
-						if(!$scope.subQueries) // if called from controler without link ex4ecuting first
-							$scope.subQueries=[];
+						//if(!$scope.subQueries) // if called from controler without link ex4ecuting first
+						$scope.subQueries=[];
 						if(!_.isArray($scope.subQueries[name])) // initialize
 							$scope.subQueries[name]=[];
 						if(singleTon){  // allows for only one of that type ie date or keyword

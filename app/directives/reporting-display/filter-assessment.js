@@ -1,6 +1,6 @@
-define(['text!./filter-assesment.html', 'app', 'lodash','angular','jquery'], function(template, app, _,angular,$) { 'use strict';
+define(['text!./filter-assessment.html', 'app', 'lodash','angular','jquery'], function(template, app, _,angular,$) { 'use strict';
 
-app.directive('filterAssesment',['$http','Thesaurus','$timeout', function ($http,thesaurus,$timeout) {
+app.directive('filterAssessment',['$http','Thesaurus','$timeout', function ($http,thesaurus,$timeout) {
     return {
         restrict: 'EAC',
         template: template,

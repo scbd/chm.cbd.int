@@ -19,30 +19,30 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
             $scope.termsModal = {};
 
             $scope.terms = [{
-              id: '272B0A17-5569-429D-ADF5-2A55C588F7A7',
+              id: 'B3079A36-32A3-41E2-BDE0-65E4E3A51601',
               title: '5th National Report',
               count:0,
-              selected: false
+              selected: 0
             }, {
-              id: 'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',
+              id: '272B0A17-5569-429D-ADF5-2A55C588F7A7',
               title: '4th National Report',
               count:0,
-              selected: false
+              selected: 0
             }, {
-              id: 'A49393CA-2950-4EFD-8BCC-33266D69232F',
+              id: 'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',
               title: '3rd National Report',
               count:0,
-              selected: false
+              selected: 0
             }, {
-              id: 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',
+              id: 'A49393CA-2950-4EFD-8BCC-33266D69232F',
               title: '2nd National Report',
               count:0,
-              selected: false
+              selected: 0
             }, {
-              id: '5471756B-6B33-46AD-9D51-15443C5E5315',
+              id: 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',
               title: '1st National Report',
               count:0,
-              selected: false
+              selected: 0
             }];
 
 
@@ -57,6 +57,17 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
               $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet);
               searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
             }//buildTermsAndQuery()
+
+
+            //=======================================================================
+            //
+            //=======================================================================
+            $scope.termsNotSelected = function () {
+                  _.each($scope.terms, function (term) {
+                      term.selected=0;
+                  });
+            }//buildTermsAndQuery()
+
 
             //============================================================
         		//

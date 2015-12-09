@@ -1,6 +1,6 @@
-define(['text!./ammap3.html', 'app', 'lodash','ammap3','ammap3WorldLow','ammap-theme'], function(template, app, _,ammap3) { 'use strict';
+define(['text!./ammap3.html', 'app', 'lodash','ammap3','ammap3WorldHigh','ammap-theme'], function(template, app, _,ammap3) { 'use strict';
 
-app.directive('ammap3',[ function () {
+app.directive('ammap3',['$timeout',  function ($timeout) {
     return {
         restrict: 'EAC',
         template: template,
@@ -9,10 +9,11 @@ app.directive('ammap3',[ function () {
         scope: {
               items: '=ngModel',
               schema:'=schema',
+              zoomTo:'=zoomTo'
         },
           link : function ($scope, $element, $attr, requiredDirectives)
         {
-              // var reportingDIsplay = requiredDirectives[0];
+               var reportingDIsplay = requiredDirectives[0];
                var ammap3= requiredDirectives[1];
 
                $scope.leggends={
@@ -24,20 +25,39 @@ app.directive('ammap3',[ function () {
                    {id:4, title:'Meet Target', visible:true, color:'#109e49'},
                    {id:5, title:'Exceeded Target', visible:true, color:'#1074bc'},
                ],
-               nationalReport:[
+               nationalReport:{body:[
+
                  {id:0, title:'No Data', visible:true, color:'#dddddd'},
                  {id:1, title:'Reports Submitted', visible:true, color:'#428bca'},
-               ],
+
+               ],title:"%th National Report "},
              };
                $scope.$watch('items',function(){ammap3.generateMap($scope.schema);});
+               $scope.$watch('zoomTo',function(){zoomTo();});//
                initMap();
 
                ammap3.writeMap();
 
                $scope.map.addListener("clickMapObject", function(event) {
-
-                        console.log(event.mapObject);
+                        $timeout(function(){
+                            reportingDIsplay.showCountryResultList(event.mapObject.id);
+                        });
                });
+
+                $scope.map.addListener("homeButtonClicked", function(event) {
+                    $timeout(function(){
+                        reportingDIsplay.showCountryResultList('show');
+                    });
+               });
+
+               //=======================================================================
+               //
+               //=======================================================================
+               function zoomTo() {
+                    if($scope.zoomTo[0])
+                      $scope.map.clickMapObject(ammap3.getMapObject($scope.zoomTo[0]));
+               };//$scope.legendHide
+
                //=======================================================================
                //
                //=======================================================================
@@ -50,7 +70,7 @@ app.directive('ammap3',[ function () {
                           "enabled": true
                         },
                       "dataProvider": {
-                        "map": "worldLow",
+                        "map": "worldHigh",
                         "getAreasFromMap": true
                       },
                       "areasSettings": {
@@ -89,6 +109,8 @@ app.directive('ammap3',[ function () {
 
                   }
             } //$scope.legendHide
+
+
 
 
             //=======================================================================
@@ -154,7 +176,7 @@ app.directive('ammap3',[ function () {
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalAssessment')
                                 {
-                                      if(schema.length >= 1 && country.identifier!='va')  // must account for va
+                                      if(schema.length >= 1 &&  country.identifier!='eur')  // must account for va
                                       {
                                       var doc =schema[0];//get first doc from sorted list
                                           if(!changed)hideAreas();
@@ -174,7 +196,7 @@ app.directive('ammap3',[ function () {
               //=======================================================================
               function nationalReportMap() {
 
-                    if(_.isEmpty($scope.items))hideAreas();
+                    hideAreas();
                     restLegend($scope.leggends.aichiTarget);
                     var changed=null;
                     _.each($scope.items,function(country){
@@ -182,12 +204,13 @@ app.directive('ammap3',[ function () {
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalReport')
                                 {
-                                      if(schema.length >= 1 && country.identifier!='pw' && country.identifier!='mh' && country.identifier!='va' && country.identifier!='ws' && country.identifier!='vc' && country.identifier!='tv' && country.identifier!='to' && country.identifier!='st' && country.identifier!='sc' && country.identifier!='sg' && country.identifier!='nu' && country.identifier!='nu' && country.identifier!='mu' && country.identifier!='mv' && country.identifier!='mt' && country.identifier!='mc'  && country.identifier!='li'  && country.identifier!='lc'  && country.identifier!='km' && country.identifier!='ki' && country.identifier!='fm' && country.identifier!='gd'  && country.identifier!='eur'  && country.identifier!='eur' && country.identifier!='dm' && country.identifier!='cv' && country.identifier!='ck' && country.identifier!='bh' && country.identifier!='bb'&& country.identifier!='ag')  // must account for va
+                                      if(schema.length >= 1  && country.identifier!='eur')  // must account for va
                                       {
                                       var doc =schema[0];//get first doc from sorted list
                               //if(!changed)hideAreas();
                                           changeAreaColor(country.identifier,'#428bca');
                                         //  buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
+                                          buildNRBaloon(country.identifier,country);
                                           changed=1;//flag not to recolor entire map again
                                       }
                                 }
@@ -201,7 +224,7 @@ app.directive('ammap3',[ function () {
               // //
               // //=======================================================================
               function changeAreaColor(id,color) {
-console.log('id',id);
+//console.log('id',id);
                         var area =  getMapObject(id);
                         area.colorReal=area.originalColor=color;
 
@@ -223,6 +246,15 @@ console.log('id',id);
                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress,target)+"</div> </div>";
 //console.log('id',area);
                 }//getMapObject
+
+                // //=======================================================================
+                // // c
+                // //=======================================================================
+                function buildNRBaloon(id,country) {
+                             var area = getMapObject(id);
+                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
+ //console.log('id',area);
+                 }//getMapObject
 
                 // //=======================================================================
                 // // c
@@ -367,7 +399,7 @@ console.log('id',id);
 
 
 
-
+              this.getMapObject=getMapObject;
               this.writeMap=writeMap;
               this.getMapData =getMapData;
               this.setMapData =setMapData;

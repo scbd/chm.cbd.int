@@ -48,7 +48,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     $timeout(function(){
                         reportingDIsplay.showCountryResultList('show');
                     });
-               });
+                });
 
                //=======================================================================
                //
@@ -206,7 +206,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                                 {
                                       if(schema.length >= 1  && country.identifier!='eur')  // must account for va
                                       {
-                                      var doc =schema[0];//get first doc from sorted list
+                                          var doc =schema[0];//get first doc from sorted list
                               //if(!changed)hideAreas();
                                           changeAreaColor(country.identifier,'#428bca');
                                         //  buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);

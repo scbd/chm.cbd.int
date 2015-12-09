@@ -10,6 +10,19 @@
 	font-size: 11px;
 	color: black;
  }
+ /* line 263, reports/default.scss */
+.nav-sidebar > .active > a {
+  background: #fafafa;
+  color: #333;
+  font-weight: normal;
+  border-left: 3px solid #428bca;
+}
+.nav-sidebar > .nactive > a {
+  background: #fafafa;
+  color: #333;
+  font-weight: normal;
+  border-left: 3px solid #ffffff;
+}
 </style>
 	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#reports">
 		<div class="panel-heading" >
@@ -22,8 +35,8 @@
 		<div class="panel-body" style="padding-top: 0px;">
 			<div class="row">
 				<lu class="nav nav-sidebar">
-					<li ng-repeat="term in terms track by $index" class="reportRow" ng-class="{active:selectedQuery === term.id}" ng-click="loadReports(term.id);">
-						<a src="#" >{{term.title}}</a>
+					<li ng-repeat="term in terms track by $index" class="reportRow" ng-class="term.selected ? 'active' : 'nactive'" ng-click="loadReports(term.id); termsNotSelected(); term.selected = !term.selected;">
+						<a src="#" >{{term.title}}</a>{{selected}}
 					</li>
 				</lu>
 			</div>

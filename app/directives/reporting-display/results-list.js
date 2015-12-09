@@ -7,9 +7,8 @@ app.directive('resultsList',['$timeout', function ($timeout) {
         replace: true,
         require : '^reportingDisplay',
         scope: {
-          title: '@title',
-          items: '=ngModel',
-          facet: '@facet',
+          show: '=show',
+          items:       '=ngModel',
           numRecords: '=count' // total count of all children subquires needed for 0 result combinations
         },
           link : function ($scope, $element, $attr, reportingDisplayCtrl)
@@ -17,10 +16,12 @@ app.directive('resultsList',['$timeout', function ($timeout) {
             $scope.expanded = false;
             $scope.schemaNameMap={
 
-                'nationalAssessment':'National Assesment'
+                'nationalAssessment':'National Assessments',
+                'nationalReport':'National Reports'
 
             };
             $scope.$watch('items',function(){init();});
+            $scope.$watch('show',function(){showCountry($scope.show);});
 
             //=======================================================================
     				//
@@ -28,19 +29,57 @@ app.directive('resultsList',['$timeout', function ($timeout) {
     				function init() {
                   $scope.numCountries=_.size($scope.items);
                   if(!$scope.numRecords)$scope.numRecords=0;
-
     				}//
 
+            //=======================================================================
+    				//
+    				//=======================================================================
+    				function showCountry(showCountry) {
 
+                  if(showCountry==='show') return showAllCountry();
+
+                  _.each($scope.items,function(country){
+                      if(country.identifier.toUpperCase()==showCountry.toUpperCase())
+                          country.hidden=false;
+                      else
+                          country.hidden=true;
+                  });
+
+    				}//
+            //=======================================================================
+            //
+            //=======================================================================
+            function showAllCountry() {
+                  _.each($scope.items,function(country){
+                          country.hidden=false;
+                  });
+
+            }//
               //=======================================================================
               //
               //=======================================================================
-              $scope.fixURI =function (uri) {
+              $scope.zoomToCountry =function (id) {
 //console.log(uri);
-
+                    reportingDisplayCtrl.zoomToCountry(id);
 
               }//
 
+
+
+            //=======================================================================
+            //
+            //=======================================================================
+            $scope.closeAllCountries =function (keepOpen) {
+
+                  _.each($scope.items,function(country){
+
+                    if(country.identifier==keepOpen)
+                        country.expanded=true;
+                    else
+                        country.expanded=false;
+                  });
+
+            }//
 
             //=======================================================================
     				//

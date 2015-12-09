@@ -147,12 +147,12 @@
 
 	<div class="tree">
 		<ul>
-			<li ng-repeat="country in items track by $index" >
-				<span class="country" ng-click="expanded=toggleHide(expanded);"><i class="flag-icon flag-icon-{{country.identifier}}"></i> &nbsp;{{country.name}}
+			<li ng-repeat="country in items track by $index" ng-if="!country.hidden">
+				<span class="country" ng-click="country.expanded=toggleHide(country.expanded);zoomToCountry(country.identifier);closeAllCountries(country.identifier);"><i class="flag-icon flag-icon-{{country.identifier}}"></i> &nbsp;{{country.name}}
 					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:3px;">{{country.numDocs}}</span>
 				</span>
 				<ul>
-					<li ng-repeat="(schemaName,schema) in country.docs" ng-if="expanded"  >
+					<li ng-repeat="(schemaName,schema) in country.docs" ng-if="country.expanded"  >
 						<span class="badge  schema" ng-mouseover="expandedDoc=toggleHide(expandedDoc);"> <i class="fa fa-folder-open"></i> {{schemaNameMap[schemaName]}}
 							<span class="badge badge-schema" style="float: right;  padding: 1px 4px;">{{schema.length}}</span>
 						</span>
@@ -164,6 +164,7 @@
 
 								</script>
 								<span ng-if="schemaName=='nationalAssessment'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.nationalTarget_EN_t}} ({{doc.year_i}})</a></span>
+								<span ng-if="schemaName=='nationalReport'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.reportType_EN_t}}</a></span>
 							</li>
 						</ul>
 					</li>

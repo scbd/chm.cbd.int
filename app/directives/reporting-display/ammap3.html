@@ -25,12 +25,18 @@
 
   <div class="panel panel-default">
     <div class="panel-body" style="padding-top:3px; ">
+
+<!-- Legend tittle       -->
       <div class="col-md-12" style="text-align:center; margin-top:0; margin-bottom:0;">
-          <h4 style="text-align:center; margin-top:0; margin-bottom:0; padding-bottom:5px;">Title of the leggend</h4>
+          <h4 style="text-align:center; margin-top:0; margin-bottom:0; padding-bottom:5px;">{{legendTitle}}</h4>
       </div>
-      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="schema=='nationalAssessment'">
-        <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
+
+<!-- Aichi Target Legend       -->
+      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="schema=='nationalAssessment'"  >
+        <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible" ></div> {{item.title}}
       </div>
+
+<!-- NationalReport Legend       -->
       <div class="col-md-4 leggendItem"   ng-if="schema=='nationalReport'">
       </div>
       <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
@@ -39,7 +45,28 @@
         </div>
       </div>
       <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
+      </div>
 
+<!-- NBSAP Legend       -->
+      <div class="col-md-4 leggendItem"   ng-if="schema=='nationalReport'">
+      </div>
+      <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
+        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='nbsap'">
+          <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
+        </div>
+      </div>
+      <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
+      </div>
+
+<!-- Default Legend       -->
+      <div class="col-md-4 leggendItem"   ng-if="schema=='nationalReport'">
+      </div>
+      <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
+        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='default'">
+          <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
+        </div>
+      </div>
+      <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
       </div>
 
 

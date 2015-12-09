@@ -15,7 +15,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
         {
                var reportingDIsplay = requiredDirectives[0];
                var ammap3= requiredDirectives[1];
-
+               $scope.legendTitle= "All Reporting to the CBD";
                $scope.leggends={
                  aichiTarget:[
                    {id:0, title:'No Data', visible:true, color:'#dddddd'},
@@ -25,12 +25,16 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                    {id:4, title:'Meet Target', visible:true, color:'#109e49'},
                    {id:5, title:'Exceeded Target', visible:true, color:'#1074bc'},
                ],
-               nationalReport:{body:[
+               nationalReport:[
 
-                 {id:0, title:'No Data', visible:true, color:'#dddddd'},
-                 {id:1, title:'Reports Submitted', visible:true, color:'#428bca'},
+                 {id:0, title:'Not Reported', visible:true, color:'#dddddd'},
+                 {id:1, title:'Reported', visible:true, color:'#428bca'},
 
-               ],title:"%th National Report "},
+               ],
+               default:[
+                 {id:0, title:'Not Reported', visible:true, color:'#dddddd'},
+                 {id:1, title:'Reported', visible:true, color:'#428bca'},
+               ],
              };
                $scope.$watch('items',function(){ammap3.generateMap($scope.schema);});
                $scope.$watch('zoomTo',function(){zoomTo();});//
@@ -170,12 +174,13 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                     if(_.isEmpty($scope.items))hideAreas();
                     restLegend($scope.leggends.aichiTarget);
+                    $scope.legendTitle=""; // rest legend title
                     var changed=null;
                     _.each($scope.items,function(country){
-
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalAssessment')
                                 {
+
                                       if(schema.length >= 1 &&  country.identifier!='eur')  // must account for va
                                       {
                                       var doc =schema[0];//get first doc from sorted list
@@ -183,6 +188,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                                           changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
                                           buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
                                           changed=1;//flag not to recolor entire map again
+                                          if(!$scope.legendTitle)$scope.legendTitle="National Assessments "+aichiTargetReadable(doc.nationalTarget_EN_t);
                                       }
                                 }
                           });
@@ -198,6 +204,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                     hideAreas();
                     restLegend($scope.leggends.aichiTarget);
+                    $scope.legendTitle=""; // rest legend title
                     var changed=null;
                     _.each($scope.items,function(country){
 
@@ -212,6 +219,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                                         //  buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
                                           buildNRBaloon(country.identifier,country);
                                           changed=1;//flag not to recolor entire map again
+                                          if(!$scope.legendTitle)$scope.legendTitle=doc.reportType_EN_t;
                                       }
                                 }
                           });

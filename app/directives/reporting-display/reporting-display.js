@@ -7,7 +7,7 @@ define(['text!./reporting-display.html',
 //	"./rd-result-list",
 //	"./rd-filter-countries",
 	"./results-list",
-	"./filter-assesment",
+	"./filter-assessment",
 	"./filter-report",
 
 	], function(template, app, $, _) { 'use strict';
@@ -36,7 +36,7 @@ define(['text!./reporting-display.html',
 	            $scope.itemsPerPage    = 25;
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
-
+	            $scope.zoomToMap   		 = [];
 							$scope.subQueries = {};
 
 							$http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) {
@@ -257,7 +257,7 @@ define(['text!./reporting-display.html',
 //console.log('data.response.docs',data.response.docs);
 								$scope.count=data.response.docs.length;
 								$scope.documents = groupByCountry(data.response.docs);
-console.log($scope.documents);
+
 // console.log('reporting-display.js $scope.documents',$scope.documents);
 // console.log('reporting-display.js $scope.countries ',$scope.countries);
 
@@ -284,6 +284,8 @@ console.log($scope.documents);
 										if(!docsByCountry[doc.government_s].docs[doc.schema_s]) //order docs by schema
 											docsByCountry[doc.government_s].docs[doc.schema_s]=[];
 
+									  docsByCountry[doc.government_s].expanded=false;
+										docsByCountry[doc.government_s].hidden=false;
 										docsByCountry[doc.government_s].docs[doc.schema_s].push(doc); // insert doc
 
 										if(docsByCountry[doc.government_s].docs[doc.schema_s].length > 1 && doc.schema_s==='nationalAssessment')
@@ -511,6 +513,25 @@ console.log($scope.documents);
 						}
 				}//buildQuery
 
+				//=======================================================================
+				//
+				//=======================================================================
+				function zoomToCountry(id) {
+							$scope.zoomToMap=[];
+							$scope.zoomToMap.push(id);
+				}//buildQuery
+
+
+				//=======================================================================
+				//
+				//=======================================================================
+				function showCountryResultList(id){
+							$scope.showCountry=id;
+				}//showCountryResultList
+
+
+				this.showCountryResultList=showCountryResultList;
+				this.zoomToCountry=zoomToCountry;
 				this.deleteAllSubQuery=deleteAllSubQuery;
 				this.refresh =refresh;
 				this.buildChildQuery =buildChildQuery;

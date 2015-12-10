@@ -10,10 +10,17 @@
     }
   </style>
 <div class="col-md-2">
-    <filter-assessment title='Aichi Assessments' ng-model='nationalAssessment' facet='nationalTarget_s' count='count' style="padding-right:15px;background-color: #FAFAFA;"></filter-assessment>
-    <filter-report title='National Reports' ng-model='nationalReports' facet='reportType_s' count='count' style="padding-right:15px;background-color: #FAFAFA;"></filter-report>
+      <filter-all title='All Reports' ng-model='allRecords'  count='count'></filter-all>
+      <filter-report title='National Reports' ng-model='nationalReports' facet='reportType_s' count='count' style="padding-right:15px;background-color: #FAFAFA;"></filter-report>
+      <filter-nbsap title='NBSAPs' ng-model='nbsaps'  count='count' style="padding-right:15px;background-color: #FAFAFA;"></filter-nbsap>
+      <filter-assessment title='Aichi Assessments' ng-model='nationalAssessment' facet='nationalTarget_s' count='count' style="padding-right:15px;background-color: #FAFAFA;"></filter-assessment>
+      <filter-all title='All Reports' ng-model='allRecords'  count='count'></filter-all>
+      <filter-all title='All Reports' ng-model='allRecords'  count='count'></filter-all>
 </div>
-  <ammap3 ng-model='documents' schema='selectedSchema' zoom-to='zoomToMap'></ammap3>
 
+  <ammap3 ng-model='documents' schema='selectedSchema' zoom-to='zoomToMap'></ammap3>
+<div class="col-md-3 " style="padding-left:0; padding-right:0;">
+  <eumap ng-model='euData' schema='selectedSchema' ></eumap>
   <results-list ng-model='documents' count='count' show="showCountry"></results-list>
+<div>
 </div>

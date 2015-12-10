@@ -3,12 +3,15 @@ define(['text!./reporting-display.html',
 		'jquery',
 		'lodash',
     './ammap3',
+		    './eumap',
 		"utilities/km-utilities",
 //	"./rd-result-list",
 //	"./rd-filter-countries",
 	"./results-list",
 	"./filter-assessment",
 	"./filter-report",
+		"./filter-nbsap",
+		"./filter-all",
 
 	], function(template, app, $, _) { 'use strict';
 
@@ -272,6 +275,7 @@ define(['text!./reporting-display.html',
 				//=======================================================================
 				function groupByCountry (list) {
 							var docsByCountry ={};
+							$scope.euData = {};
 							_.each(list,function(doc){
 
 										if(!docsByCountry[doc.government_s]) // if country object not created created
@@ -300,6 +304,9 @@ define(['text!./reporting-display.html',
 														return progressToNum(b.progress_EN_t) - progressToNum(a.progress_EN_t);
 												}); // sort sort by progress
 							});
+							if(docsByCountry.eur)
+									$scope.euData = docsByCountry['eur'];
+
 							setNumDocumentsInCountry();
 							return docsByCountry;
 				}//readQueryString

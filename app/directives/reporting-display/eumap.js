@@ -24,7 +24,7 @@ app.directive('eumap',['$timeout',  function ($timeout) {
 
                $scope.map.addListener("clickMapObject", function(event) {
                         $timeout(function(){
-                            reportingDIsplay.showCountryResultList(event.mapObject.id);
+                            reportingDIsplay.showCountryResultList('eur');
     console.log('test');
                         });
                });

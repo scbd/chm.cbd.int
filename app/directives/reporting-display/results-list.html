@@ -1,4 +1,4 @@
-<div class="col-md-3 panel panel-default " style="padding-left:0; padding-right:0; overflow-y:scroll; overflow-x:hidden; max-height:400px;">
+<div class="panel panel-default" style="padding-left:0; padding-right:0; overflow-y:scroll; overflow-x:hidden; width:100%; max-height:345px;">
 	<style>
 		.resultsListHeader {
 			font-size: 14px;
@@ -148,7 +148,7 @@
 	<div class="tree">
 		<ul>
 			<li ng-repeat="country in items track by $index" ng-if="!country.hidden">
-				<span class="country" ng-click="country.expanded=toggleHide(country.expanded);zoomToCountry(country.identifier);closeAllCountries(country.identifier);"><i class="flag-icon flag-icon-{{country.identifier}}"></i> &nbsp;{{country.name}}
+				<span class="country" ng-click="country.expanded=toggleHide(country.expanded);zoomToCountry(country.identifier);closeAllCountries(country.identifier);"><i class="flag-icon flag-icon-{{country.identifier}}" ng-if="country.identifier!=='eur'"></i><img src="app/images/flags/Flag_of_Europe.svg" style="width:20px;hight:16px;" ng-if="country.identifier==='eur'"> &nbsp;{{country.name}}
 					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:3px;">{{country.numDocs}}</span>
 				</span>
 				<ul>

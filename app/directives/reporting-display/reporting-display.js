@@ -304,9 +304,12 @@ define(['text!./reporting-display.html',
 														return progressToNum(b.progress_EN_t) - progressToNum(a.progress_EN_t);
 												}); // sort sort by progress
 							});
-							if(docsByCountry.eur)
-									$scope.euData = docsByCountry['eur'];
+							if(docsByCountry.eur){
+								$timeout(function(){
+										$scope.euData = docsByCountry.eur;
+								});
 
+							}
 							setNumDocumentsInCountry();
 							return docsByCountry;
 				}//readQueryString

@@ -46,7 +46,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                         $timeout(function(){
                             reportingDIsplay.showCountryResultList(event.mapObject.id);
                         });
-               });
+               });//
 
                 $scope.map.addListener("homeButtonClicked", function(event) {
                     $timeout(function(){
@@ -172,7 +172,8 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //=======================================================================
               function progressColorMap() {
 
-                    if(_.isEmpty($scope.items))hideAreas();
+                    //if(_.isEmpty($scope.items))hideAreas();
+                    hideAreas();
                     restLegend($scope.leggends.aichiTarget);
                     $scope.legendTitle=""; // rest legend title
                     var changed=null;
@@ -180,12 +181,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalAssessment')
                                 {
-
                                       if(schema.length >= 1 &&  country.identifier!='eur')  // must account for va
                                       {
-
-aichiMap(country,schema,changed);
-
+                                          aichiMap(country,schema,changed);
                                       }
                                 }
                           });
@@ -198,12 +196,10 @@ aichiMap(country,schema,changed);
               //
               //=======================================================================
               function aichiMap(country,schema,changed) {
-                var doc =schema[0];
-                if(!changed)hideAreas();
-                changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
-                buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
-                changed=1;//flag not to recolor entire map again
-                if(!$scope.legendTitle)$scope.legendTitle=aichiTargetReadable(doc.nationalTarget_EN_t)+" Assessments" ;
+                    var doc =schema[0];
+                    changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
+                    buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
+                    if(!$scope.legendTitle)$scope.legendTitle=aichiTargetReadable(doc.nationalTarget_EN_t)+" Assessments" ;
               }
 
               //=======================================================================

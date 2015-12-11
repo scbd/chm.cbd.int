@@ -130,12 +130,9 @@ console.log();
               // //
               // //=======================================================================
               function changeAreaColor(color) {
-console.log('eu areas',$scope.map.dataProvider.areas);
-console.log('color ',color);
                     _.each($scope.map.dataProvider.areas,function (area){
                           area.colorReal=area.originalColor=color;
                     });
-console.log('eu areas',$scope.map.dataProvider.areas);
                }//changeAreaColor
 
                // //=======================================================================

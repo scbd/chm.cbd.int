@@ -1,4 +1,4 @@
-<div class="panel panel-default" style="padding-left:0; padding-right:0; overflow-y:scroll; overflow-x:hidden; width:100%; max-height:345px;">
+<div class="panel panel-default" style="padding-left:0; padding-right:0; overflow-y:scroll; overflow-x:hidden; width:100%; max-height:475px;">
 	<style>
 		.resultsListHeader {
 			font-size: 14px;
@@ -153,12 +153,12 @@
 				</span>
 				<ul>
 					<li ng-repeat="(schemaName,schema) in country.docs" ng-if="country.expanded"  >
-						<span class="badge  schema" ng-mouseover="expandedDoc=toggleHide(expandedDoc);"> <i class="fa fa-folder-open"></i> {{schemaNameMap[schemaName]}}
+						<span class="badge  schema" ng-click="schema.expandedDoc=toggleHide(schema.expandedDoc);"> <i class="fa fa-folder-open"></i> {{schemaNameMap[schemaName]}}
 							<span class="badge badge-schema" style="float: right;  padding: 1px 4px;">{{schema.length}}</span>
 						</span>
 
 						<ul>
-							<li class="doc" ng-repeat="doc in schema" ng-if="expandedDoc" >
+							<li class="doc" ng-repeat="doc in schema" ng-if="schema.expandedDoc" >
 								<!-- <li > style="border-top:1px solid #999;height:20px;top:25px;width:50px;" -->
 								<script>
 

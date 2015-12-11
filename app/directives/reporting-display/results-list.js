@@ -39,19 +39,28 @@ app.directive('resultsList',['$timeout', function ($timeout) {
                   if(showCountry==='show') return showAllCountry();
 
                   _.each($scope.items,function(country){
-                      if(country.identifier.toUpperCase()==showCountry.toUpperCase())
-                          country.hidden=false;
+                      if(country.identifier.toUpperCase()===showCountry.toUpperCase()){
+                          country.hidden=0;
+                          country.expanded=1;
+                          _.each(country.docs, function(schema){
+                                  schema.expandedDoc=1;
+                          });
+                      }
                       else
-                          country.hidden=true;
+                          country.hidden=1;
                   });
-
     				}//
+            
             //=======================================================================
             //
             //=======================================================================
             function showAllCountry() {
                   _.each($scope.items,function(country){
                           country.hidden=false;
+                          country.expanded=0;
+                          _.each(country.docs, function(schema){
+                                  schema.expandedDoc=0;
+                          });
                   });
 
             }//

@@ -24,15 +24,16 @@
 </select> -->
 
   <div class="panel panel-default">
-    <div class="panel-body" style="padding-top:3px; ">
+    <div class="row" style="padding-top:3px; ">
 
 <!-- Legend tittle       -->
       <div class="col-md-12" style="text-align:center; margin-top:0; margin-bottom:0;">
-          <h4 style="text-align:center; margin-top:0; margin-bottom:0; padding-bottom:5px;">{{legendTitle}}</h4>
+          <h4 style="text-align:center; margin-top:0; margin-bottom:0; padding-bottom:0px;">{{legendTitle}}</h4>
+          <h7 style="text-align:center; font-style: italic; margin-top:0; margin-bottom:0; padding-bottom:0px;">(Interactive Legend)</h7>
       </div>
 
 <!-- Aichi Target Legend       -->
-      <div class="col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="schema=='nationalAssessment'"  >
+      <div class="col-xs-4 col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="schema=='nationalAssessment'"  >
         <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible" ></div> {{item.title}}
       </div>
 

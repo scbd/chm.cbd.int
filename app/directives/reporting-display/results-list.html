@@ -9,8 +9,9 @@
 		.resultsListSubHeader {
 			font-size: 10px;
 			color: #403e45;
-			float: right;
+padding-bottom:0;
 			line-height: 90%;
+			width:100%;
 		}
 
 		.badge {
@@ -138,11 +139,15 @@
 		}
 	</style>
 	<div class="resultsListHeader">
-		Source Records
+		Source Records <hr style="margin-top:1px; margin-bottom:4px;">
 	</div>
-	<div class="resultsListSubHeader">Country(s):
-		<span class="badge badge-blue">{{numCountries}}</span> Record(s):
-		<span class="badge badge-blue">{{numRecords}}</span>
+	<div class="resultsListSubHeader">
+		<a src='#' id="customHome" style="float:left;padding-left:3px;" ><span class="badge badge-blue"><i class="fa fa-home fa-lg" style="float:left;" ></i></span></a>
+
+		<span style="float:right;padding-left:4px;"> Record(s):
+		<span class="badge badge-blue" >{{numRecords}}</span></span>
+		<span style="float:right;"> Country(s):
+		<span class="badge badge-blue" >{{numCountries}}</span></span>
 	</div>
 
 	<div class="tree">

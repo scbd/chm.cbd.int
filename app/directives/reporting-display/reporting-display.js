@@ -49,7 +49,9 @@ define(['text!./reporting-display.html',
 							if($location.search().currentPage >=0)
 									$scope.currentPage=$location.search().currentPage;
 
-
+									$element.find("#customHome").on('click',function(event){
+							       $scope.$broadcast('customHome', 'show');
+							    });
 
 
              //=======================================================================
@@ -538,6 +540,7 @@ define(['text!./reporting-display.html',
 				function showCountryResultList(id){
 							$scope.showCountry=id;
 				}//showCountryResultList
+
 
 
 				this.showCountryResultList=showCountryResultList;

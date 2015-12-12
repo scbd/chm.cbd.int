@@ -42,6 +42,12 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                ammap3.writeMap();
 
+               $scope.$on('customHome',function(event) {
+                   $timeout(function(){
+                        $scope.map.clickMapObject($scope.map.dataProvider);
+                    });
+               });
+
                $scope.map.addListener("clickMapObject", function(event) {
                         $timeout(function(){
                             reportingDIsplay.showCountryResultList(event.mapObject.id);
@@ -409,9 +415,15 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               }//setLegendMapData
 
 
+              function homeButton() {
+                $scope.map.fire("homeButtonClicked", {
+                  type: "homeButtonClicked",
+                  chart: $scope.map
+                });
+              }
 
-
-
+              this.homeButton=homeButton;
+              this.getMapObject=getMapObject;
               this.getMapObject=getMapObject;
               this.writeMap=writeMap;
               this.getMapData =getMapData;

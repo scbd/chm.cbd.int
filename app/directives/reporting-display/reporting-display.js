@@ -311,11 +311,14 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 													if(b.progress_EN_t && a.progress_EN_t)
 														return progressToNum(b.progress_EN_t) - progressToNum(a.progress_EN_t);
 												}); // sort sort by progress
+										docsByCountry[doc.government_s].isEUR=false;
 							});
+
 							if(docsByCountry.eur){
-								$timeout(function(){
-										$scope.euData = docsByCountry.eur;
-								});
+								docsByCountry.eur.isEUR=true;
+								// $timeout(function(){
+								// 		$scope.euData = docsByCountry.eur;
+								// });
 
 							}
 							setNumDocumentsInCountry();

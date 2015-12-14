@@ -64,7 +64,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                //
                //=======================================================================
                function zoomTo() {
-                    if($scope.zoomTo[0] && $scope.zoomTo[0]!=='eur')
+                    if($scope.zoomTo[0])
                       $scope.map.clickMapObject(ammap3.getMapObject($scope.zoomTo[0]));
                };//$scope.legendHide
 
@@ -80,7 +80,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                           "enabled": true
                         },
                       "dataProvider": {
-                        "map": "worldHigh",
+                        "map": "worldEUHigh",
                         "getAreasFromMap": true
                       },
                       "areasSettings": {
@@ -222,7 +222,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalReport')
                                 {
-                                      if(schema.length >= 1  && country.identifier!='eur')  // must account for va
+                                      if(schema.length >= 1  )  // must account for va
                                       {
                                           var doc =schema[0];//get first doc from sorted list
                               //if(!changed)hideAreas();

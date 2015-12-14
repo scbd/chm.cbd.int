@@ -124,7 +124,7 @@ define(['text!./reporting-display.html',
 										var subQueries = _.compact([
                                                 //getFormatedSubQuery('schema_s'),
 																							//	getFormatedSubQuery('government_s'),
-																							//	getFormatedSubQuery('government_REL_ss'),
+																							  getFormatedSubQuery('all'),
 																							  getFormatedSubQuery('nationalReport'),
 																								getFormatedSubQuery('nationalAssessment'),
 																							//	getFormatedSubQuery('createdDate_s'),
@@ -185,7 +185,8 @@ define(['text!./reporting-display.html',
 								//
 								//=======================================================================
 								function getFormatedSubQuery (name) {
-
+console.log('name',name);
+console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 										var subQ='';
 										if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
 												if(name==='nationalAssessment' && $scope.subQueries[name][0])
@@ -195,8 +196,13 @@ define(['text!./reporting-display.html',
 										  	else 	if(name==='nationalReport' && $scope.subQueries[name][0])
 												{
 															subQ +=  $scope.subQueries[name][0] ;
+												}else 	if(name==='all' && $scope.subQueries[name][0])
+												{
+															subQ +=  $scope.subQueries[name][0] ;
+
 												}else
 													subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
+	console.log('subQ',subQ);
 												subQ = '('+subQ+')';
 										}
 										return subQ;
@@ -223,7 +229,7 @@ define(['text!./reporting-display.html',
 								'fl': 'documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,nationalTarget_EN_t,government_s',
 								'wt': 'json',
 								'start': $scope.currentPage * $scope.itemsPerPage,
-'rows': 500,
+'rows': 5000,
 								'facet': true,
 								'facet.field': ['nationalTarget_s','schema_s', 'government_s', 'aichiTarget_ss'],
 								'facet.limit': 999999,
@@ -236,7 +242,7 @@ define(['text!./reporting-display.html',
 
 						canceler = $q.defer();
 
-						$http.get('/api/v2013/index/select', { params: queryParameters, timeout: canceler.promise }).success(function (data) {
+						$http.get('/api/v2013/index/select', { params: queryParameters, timeout: canceler.promise, cache:true}).success(function (data) {
 
 								canceler = null;
 

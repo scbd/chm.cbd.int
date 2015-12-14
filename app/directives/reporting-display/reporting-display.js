@@ -123,7 +123,7 @@ define(['text!./reporting-display.html',
 //console.log('getFormatedSubQuery("nationalTarget_s")',getFormatedSubQuery('nationalTarget_s'));
 										var subQueries = _.compact([
                                                 //getFormatedSubQuery('schema_s'),
-																							//	getFormatedSubQuery('government_s'),
+																							  getFormatedSubQuery('nbsaps'),
 																							  getFormatedSubQuery('all'),
 																							  getFormatedSubQuery('nationalReport'),
 																								getFormatedSubQuery('nationalAssessment'),
@@ -196,13 +196,17 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 										  	else 	if(name==='nationalReport' && $scope.subQueries[name][0])
 												{
 															subQ +=  $scope.subQueries[name][0] ;
-												}else 	if(name==='all' && $scope.subQueries[name][0])
+												}else 	if(name==='nbsaps' && $scope.subQueries[name][0])
+												{
+															subQ +=  $scope.subQueries[name][0] ;
+												}
+												else 	if(name==='all' && $scope.subQueries[name][0])
 												{
 															subQ +=  $scope.subQueries[name][0] ;
 
 												}else
 													subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
-	console.log('subQ',subQ);
+	// console.log('subQ',subQ);
 												subQ = '('+subQ+')';
 										}
 										return subQ;
@@ -229,7 +233,7 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 								'fl': 'reportType_s,documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,nationalTarget_EN_t,government_s',
 								'wt': 'json',
 								'start': $scope.currentPage * $scope.itemsPerPage,
-'rows': 5000,
+								'rows': 5000,
 								'facet': true,
 								'facet.field': ['nationalTarget_s','schema_s', 'government_s', 'aichiTarget_ss'],
 								'facet.limit': 999999,

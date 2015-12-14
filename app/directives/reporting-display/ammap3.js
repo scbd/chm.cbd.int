@@ -31,10 +31,6 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                  {id:1, title:'Reported', visible:true, color:'#428bca'},
 
                ],
-               all:[
-                 {id:0, title:'Not Reported', visible:true, color:'#dddddd'},
-                 {id:1, title:'Reported', visible:true, color:'#428bca'},
-               ],
                default:[
                  {id:0, title:'Not Reported', visible:true, color:'#dddddd'},
                  {id:1, title:'Reported', visible:true, color:'#428bca'},
@@ -111,21 +107,19 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
             function generateMap(schema) {
 
                   switch (schema){
-                    case 'all':
-
-                        progressColorMap(defaultMap);
-                    return;
+                      case 'all':
+                            progressColorMap(defaultMap);
+                            return;
                       case 'nationalAssessment':
 
-                          progressColorMap(aichiMap);
-                      return;
+                            progressColorMap(aichiMap);
+                            return;
                       case 'nationalReport':
-
-                          nationalReportMap();
-                      return;
-                    //  default:
-                    //      ammap3.allRecordsMap();
-
+                            progressColorMap(defaultMap);
+                            return;
+                      case 'nbsaps':
+                            progressColorMap(defaultMap);
+                            return;
                   }
             } //$scope.legendHide
 
@@ -234,45 +228,21 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //=======================================================================
               function legendTitle(country,schema,schemaName) {
                     //if(!$scope.legendTitle)
+  console.log('schemaName',schemaName);
                     if(schemaName=="nationalAssessment"){
                           $scope.legendTitle=aichiTargetReadable(schema[0].nationalTarget_EN_t)+" Assessments" ;
                     } else if (schemaName=='nationalReport'){
                           $scope.legendTitle=schema[0].reportType_EN_t;
 
-                    } else if(schemaName=='all'){
+                    } else if(schemaName=='nbsaps'){
+                          $scope.legendTitle='National Biodiversity Strategies and Action Plans';
+                    }
+                    else if(schemaName=='all'){
                           $scope.legendTitle='All Reporting';
                     }
               }//legendTitle
 
-              //=======================================================================
-              //
-              //=======================================================================
-              function nationalReportMap() {
 
-                    hideAreas();
-                    restLegend($scope.leggends.aichiTarget);
-                    $scope.legendTitle=""; // rest legend title
-                    var changed=null;
-                    _.each($scope.items,function(country){
-
-                          _.each(country.docs,function(schema,schemaName){
-                                if(schemaName=='nationalReport')
-                                {
-                                      if(schema.length >= 1  )  // must account for va
-                                      {
-
-                                          legendTitle(country,schema,schemaName);
-                                          changeAreaColor(country.identifier,'#428bca');
-                                        //  buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
-                                          buildNRBaloon(country,country);
-                                          changed=1;//flag not to recolor entire map again
-                                      }
-                                }
-                          });
-                    });
-                    $scope.map.validateData(); // updates map with color changes
-
-              }//progressColorMap
 
               // //=======================================================================
               // //

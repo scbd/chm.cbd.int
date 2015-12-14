@@ -226,7 +226,7 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 						var queryParameters = {
 								'q': $scope.buildQuery(),
 								'sort': 'createdDate_dt desc, title_t asc',
-								'fl': 'documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,nationalTarget_EN_t,government_s',
+								'fl': 'reportType_s,documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,nationalTarget_EN_t,government_s',
 								'wt': 'json',
 								'start': $scope.currentPage * $scope.itemsPerPage,
 'rows': 5000,
@@ -296,9 +296,15 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 										if(!docsByCountry[doc.government_s].docs[doc.schema_s]) //order docs by schema
 											docsByCountry[doc.government_s].docs[doc.schema_s]=[];
 
+										if(doc.reportType_s && doc.reportType_s=='B0EBAE91-9581-4BB2-9C02-52FCF9D82721'){
+												if(!docsByCountry[doc.government_s].docs['nbsaps'])
+														docsByCountry[doc.government_s].docs['nbsaps']=[];
+												docsByCountry[doc.government_s].docs['nbsaps'].push(doc);
+										}else
+												docsByCountry[doc.government_s].docs[doc.schema_s].push(doc); // insert doc
+
 									  docsByCountry[doc.government_s].expanded=false;
 										docsByCountry[doc.government_s].hidden=false;
-										docsByCountry[doc.government_s].docs[doc.schema_s].push(doc); // insert doc
 
 										if(docsByCountry[doc.government_s].docs[doc.schema_s].length > 1 && doc.schema_s==='nationalAssessment')
 												docsByCountry[doc.government_s].docs[doc.schema_s].sort(

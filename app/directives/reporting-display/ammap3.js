@@ -187,7 +187,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                           _.each(country.docs,function(schema,schemaName){
                                 if(schemaName=='nationalAssessment')
                                 {
-                                      if(schema.length >= 1 &&  country.identifier!='eur')  // must account for va
+                                      if(schema.length >= 1)  // must account for va
                                       {
                                           aichiMap(country,schema,changed);
                                       }
@@ -204,7 +204,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               function aichiMap(country,schema,changed) {
                     var doc =schema[0];
                     changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
-                    buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
+                    buildProgressBaloon(country,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
                     if(!$scope.legendTitle)$scope.legendTitle=aichiTargetReadable(doc.nationalTarget_EN_t)+" Assessments" ;
               }
 
@@ -228,7 +228,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                               //if(!changed)hideAreas();
                                           changeAreaColor(country.identifier,'#428bca');
                                         //  buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
-                                          buildNRBaloon(country.identifier,country);
+                                          buildNRBaloon(country,country);
                                           changed=1;//flag not to recolor entire map again
                                           if(!$scope.legendTitle)$scope.legendTitle=doc.reportType_EN_t;
                                       }
@@ -243,7 +243,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               // //
               // //=======================================================================
               function changeAreaColor(id,color) {
-//console.log('id',id);
+
                         var area =  getMapObject(id);
                         area.colorReal=area.originalColor=color;
 
@@ -260,18 +260,32 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                // //=======================================================================
                // // c
                // //=======================================================================
-               function buildProgressBaloon(id,progress,target) {
-                            var area = getMapObject(id);
-                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress,target)+"</div> </div>";
+               function buildProgressBaloon(country,progress,target) {
+
+                            var area = getMapObject(country.identifier);
+                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+country.id+" ng-if='country.isEUR'></i>&nbsp;";
+                            var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
+                            var balloonText2 = area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress,target)+"</div> </div>";
+                            if(country.isEUR)
+                               area.balloonText+=euImg;
+
+                             area.balloonText+=balloonText2;
 //console.log('id',area);
                 }//getMapObject
 
                 // //=======================================================================
                 // // c
                 // //=======================================================================
-                function buildNRBaloon(id,country) {
-                             var area = getMapObject(id);
-                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+id+"'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
+                function buildNRBaloon(country) {
+                             var area = getMapObject(country.identifier);
+                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
+                             var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
+                             var balloonText2="<i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
+
+                             if(country.isEUR)
+                                area.balloonText+=euImg;
+
+                              area.balloonText+=balloonText2;
  //console.log('id',area);
                  }//getMapObject
 
@@ -322,7 +336,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     _.each($scope.map.dataProvider.areas,function(area){
                           area.colorReal=area.originalColor=color;
                           area.mouseEnabled=true;
-                          area.balloonText='[[title]]'
+                          area.balloonText='[[title]]';
                     });
                }//getMapObject
 
@@ -330,8 +344,8 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               // //
               // //=======================================================================
               function getMapObject(id) {
-                   var index = _.findIndex($scope.map.dataProvider.areas, function(area) {
 
+                   var index = _.findIndex($scope.map.dataProvider.areas, function(area) {
                           return area.id === id.toUpperCase();
                     });
                     return $scope.map.dataProvider.areas[index];

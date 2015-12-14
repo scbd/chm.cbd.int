@@ -17,8 +17,8 @@ app.directive('resultsList',['$timeout', function ($timeout) {
             $scope.schemaNameMap={
 
                 'nationalAssessment':'National Assessments',
-                'nationalReport':'National Reports'
-
+                'nationalReport':'National Reports',
+                'nbsaps':'Nat. Bio. Strategies and Action Plans'
             };
             $scope.$watch('items',function(){init();});
             $scope.$watch('show',function(){showCountry($scope.show);});
@@ -92,7 +92,7 @@ app.directive('resultsList',['$timeout', function ($timeout) {
                           });
                   });
                   $scope.numCountries=_.size($scope.items);
-                  $scope.numRecords=_.clone($scope.totalRecords);  
+                  $scope.numRecords=_.clone($scope.totalRecords);
 
             }//
               //=======================================================================

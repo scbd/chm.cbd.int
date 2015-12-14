@@ -165,11 +165,9 @@ padding-bottom:0;
 						<ul>
 							<li class="doc" ng-repeat="doc in schema" ng-if="schema.expandedDoc" >
 								<!-- <li > style="border-top:1px solid #999;height:20px;top:25px;width:50px;" -->
-								<script>
-
-								</script>
 								<span ng-if="schemaName=='nationalAssessment'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.nationalTarget_EN_t}} ({{doc.year_i}})</a></span>
 								<span ng-if="schemaName=='nationalReport'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.reportType_EN_t}}</a></span>
+								<span ng-if="schemaName=='nbsaps'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
 							</li>
 						</ul>
 					</li>

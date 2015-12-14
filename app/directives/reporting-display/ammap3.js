@@ -31,6 +31,10 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                  {id:1, title:'Reported', visible:true, color:'#428bca'},
 
                ],
+               all:[
+                 {id:0, title:'Not Reported', visible:true, color:'#dddddd'},
+                 {id:1, title:'Reported', visible:true, color:'#428bca'},
+               ],
                default:[
                  {id:0, title:'Not Reported', visible:true, color:'#dddddd'},
                  {id:1, title:'Reported', visible:true, color:'#428bca'},
@@ -107,11 +111,16 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
             function generateMap(schema) {
 
                   switch (schema){
+                    case 'all':
 
+                        progressColorMap(defaultMap);
+                    return;
                       case 'nationalAssessment':
-                          progressColorMap();
+
+                          progressColorMap(aichiMap);
                       return;
                       case 'nationalReport':
+
                           nationalReportMap();
                       return;
                     //  default:
@@ -176,7 +185,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //=======================================================================
               //
               //=======================================================================
-              function progressColorMap() {
+              function progressColorMap(mapTypeFunction) {
 
                     //if(_.isEmpty($scope.items))hideAreas();
                     hideAreas();
@@ -185,13 +194,14 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     var changed=null;
                     _.each($scope.items,function(country){
                           _.each(country.docs,function(schema,schemaName){
-                                if(schemaName=='nationalAssessment')
-                                {
-                                      if(schema.length >= 1)  // must account for va
-                                      {
-                                          aichiMap(country,schema,changed);
-                                      }
-                                }
+                                if(mapTypeFunction)mapTypeFunction(country,schema,$scope.schema);
+                                // if(schemaName=='nationalAssessment')
+                                // {
+                                //       if(schema.length >= 1)  // must account for va
+                                //       {
+                                //           aichiMap(country,schema,schemaName);
+                                //       }
+                                // }
                           });
                     });
                     $scope.map.validateData(); // updates map with color changes
@@ -201,12 +211,38 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //=======================================================================
               //
               //=======================================================================
-              function aichiMap(country,schema,changed) {
+              function aichiMap(country,schema,schemaName) {
                     var doc =schema[0];
                     changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
                     buildProgressBaloon(country,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
-                    if(!$scope.legendTitle)$scope.legendTitle=aichiTargetReadable(doc.nationalTarget_EN_t)+" Assessments" ;
+                    legendTitle(country,schema,schemaName);
+                  //  if(!$scope.legendTitle)$scope.legendTitle=aichiTargetReadable(doc.nationalTarget_EN_t)+" Assessments" ;
               }
+
+              //=======================================================================
+              //
+              //=======================================================================
+              function defaultMap(country,schema,schemaName) {
+                    var doc =schema[0];
+                    changeAreaColor(country.identifier,'#428bca');
+                    buildBaloon(country);
+                    legendTitle(country,schema,schemaName);
+              }
+
+              //=======================================================================
+              //
+              //=======================================================================
+              function legendTitle(country,schema,schemaName) {
+                    //if(!$scope.legendTitle)
+                    if(schemaName=="nationalAssessment"){
+                          $scope.legendTitle=aichiTargetReadable(schema[0].nationalTarget_EN_t)+" Assessments" ;
+                    } else if (schemaName=='nationalReport'){
+                          $scope.legendTitle=schema[0].reportType_EN_t;
+
+                    } else if(schemaName=='all'){
+                          $scope.legendTitle='All Reporting';
+                    }
+              }//legendTitle
 
               //=======================================================================
               //
@@ -224,13 +260,12 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                                 {
                                       if(schema.length >= 1  )  // must account for va
                                       {
-                                          var doc =schema[0];//get first doc from sorted list
-                              //if(!changed)hideAreas();
+
+                                          legendTitle(country,schema,schemaName);
                                           changeAreaColor(country.identifier,'#428bca');
                                         //  buildProgressBaloon(country.identifier,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
                                           buildNRBaloon(country,country);
                                           changed=1;//flag not to recolor entire map again
-                                          if(!$scope.legendTitle)$scope.legendTitle=doc.reportType_EN_t;
                                       }
                                 }
                           });
@@ -288,6 +323,22 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                               area.balloonText+=balloonText2;
  //console.log('id',area);
                  }//getMapObject
+
+                 // //=======================================================================
+                 // // c
+                 // //=======================================================================
+                 function buildBaloon(country) {
+                              var area = getMapObject(country.identifier);
+                              area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
+                              var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
+                              var balloonText2="<i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+"country.docs.nationalReport[0].reportType_EN_t"+"</div>";
+
+                              if(country.isEUR)
+                                 area.balloonText+=euImg;
+
+                               area.balloonText+=balloonText2;
+  //console.log('id',area);
+                  }//getMapObject
 
                 // //=======================================================================
                 // // c
@@ -410,23 +461,23 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                       $scope.mapData[name]=value;
               }
 
-              //=======================================================================
-              //
-              //=======================================================================
-              function setLegendMapData(name,value) {
-                    if(name && !value)$scope.mapData.legend=name;
-                    else
-                      $scope.mapData.legend[name]=value;
-              }//setLegendMapData
+              // //=======================================================================
+              // //
+              // //=======================================================================
+              // function setLegendMapData(name,value) {
+              //       if(name && !value)$scope.mapData.legend=name;
+              //       else
+              //         $scope.mapData.legend[name]=value;
+              // }//setLegendMapData
 
-              //=======================================================================
-              //
-              //=======================================================================
-              function setResponsiveMapData(name,value) {
-                    if(name && !value)$scope.mapData.responsive=name;
-                    else
-                      $scope.mapData.responsive[name]=value;
-              }//setLegendMapData
+              // //=======================================================================
+              // //
+              // //=======================================================================
+              // function setResponsiveMapData(name,value) {
+              //       if(name && !value)$scope.mapData.responsive=name;
+              //       else
+              //         $scope.mapData.responsive[name]=value;
+              // }//setLegendMapData
 
 
               function homeButton() {
@@ -442,8 +493,8 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               this.writeMap=writeMap;
               this.getMapData =getMapData;
               this.setMapData =setMapData;
-              this.setLegendMapData=setLegendMapData;
-              this.setResponsiveMapData=setResponsiveMapData;
+              // this.setLegendMapData=setLegendMapData;
+              // this.setResponsiveMapData=setResponsiveMapData;
               this.generateMap=generateMap;
               this.progressColorMap=progressColorMap;
           }],

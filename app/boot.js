@@ -28,7 +28,7 @@ require.config({
       'ngMaterial'       : 'libs/angular-material/angular-material.min',
       'ngSmoothScroll'   : 'libs/ngSmoothScroll/angular-smooth-scroll.min',
       'ammapEU'          : 'directives/reporting-display/eu',
-      'ammap3WorldHigh'  : 'libs/ammap3/ammap/maps/js/worldHigh',
+      'ammap3WorldHigh'  : 'directives/reporting-display/worldEUHigh',
       'ammap3'           : 'libs/ammap3/ammap/ammap',
       'ammap-theme'      : 'libs/ammap3/ammap/themes/light',
       'ammap-resp'       : 'libs/ammap3/ammap/plugins/responsive/responsive',

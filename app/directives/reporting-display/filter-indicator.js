@@ -8,9 +8,8 @@ define(['app','text!./filter-indicator.html'], function(app,template) {
       require: '^reportingDisplay',
       scope: {
         title: '@title',
-        items: '=ngModel',
-        facet: '@facet',
-        count: '=count' // total count of all children subquires needed for 0 result combinations
+        //items: '=ngModel',
+      //  count: '=count' // total count of all children subquires needed for 0 result combinations
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
 

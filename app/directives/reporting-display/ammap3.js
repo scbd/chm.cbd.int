@@ -238,7 +238,10 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                     } else if(schemaName=='nbsaps'){
                           $scope.legendTitle='National Biodiversity Strategies and Action Plans';
-                    }
+
+                  } else if(schemaName=='nationalIndicator'){
+                        $scope.legendTitle='National Indicators';
+                  }
                     else if(schemaName=='all'){
                           $scope.legendTitle='All Reporting';
                     }

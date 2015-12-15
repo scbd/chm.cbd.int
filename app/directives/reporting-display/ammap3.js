@@ -250,7 +250,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                     } else if (schemaName == 'nationalTarget') {
                       $scope.legendTitle = 'National Targets';
-                    
+
                     } else if (schemaName == 'resourceMobilisation') {
                       $scope.legendTitle = 'Resource Mobilisation';
                     }
@@ -285,8 +285,8 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                function buildProgressBaloon(country,progress,target) {
 
                             var area = getMapObject(country.identifier);
-                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''><i class='flag-icon flag-icon-"+country.id+" ng-if='country.isEUR'></i>&nbsp;";
-                            var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
+                            area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:medium; white-space: nowrap;'><i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;";
+                            var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>&nbsp;";
                             var balloonText2 = area.title+"</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='"+getProgressIcon(progress)+"' >"+getProgressText(progress,target)+"</div> </div>";
                             if(country.isEUR)
                                area.balloonText+=euImg;

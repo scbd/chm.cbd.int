@@ -226,7 +226,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //
               //=======================================================================
               function defaultMap(country,schema,schemaName) {
-                    var doc =schema[0];
+                    //var doc =schema[0];
                     changeAreaColor(country.identifier,'#428bca');
                     buildBaloon(country);
                     legendTitle(country,schema,schemaName);
@@ -299,6 +299,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                 // // c
                 // //=======================================================================
                 function buildNRBaloon(country) {
+
                              var area = getMapObject(country.identifier);
                              area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
                              var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
@@ -315,15 +316,41 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                  // // c
                  // //=======================================================================
                  function buildBaloon(country) {
+//console.log(country);
                               var area = getMapObject(country.identifier);
                               area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
                               var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
-                              var balloonText2="<i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+"country.docs.nationalReport[0].reportType_EN_t"+"</div>";
-
                               if(country.isEUR)
-                                 area.balloonText+=euImg;
+                                 area.balloonText+=euImg+area.title+"</div>";
+                              else
+                                area.balloonText +="<i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;"+area.title+"</div>";
+                              var balloonBody='';
 
-                               area.balloonText+=balloonText2;
+                              if(country.docs.nationalReport && !country.docs.nationalReport.length)
+                                  delete country.docs.nationalReport;
+
+//console.log('Object.keys(country.docs).length',Object.keys(country.docs).length);
+                              if(Object.keys(country.docs).length==1){
+
+                                    _.each(country.docs,function(schema,schemaName){
+//console.log('schemaName',schemaName);
+                                        switch(schemaName){
+                                           case 'nationalReport':
+                                                  balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
+                                           break;
+                                        }
+                                    });
+
+                              }else{
+
+
+                              }
+
+
+
+
+
+                               area.balloonText+=balloonBody;
   //console.log('id',area);
                   }//getMapObject
 

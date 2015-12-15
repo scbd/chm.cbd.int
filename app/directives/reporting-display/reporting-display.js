@@ -12,6 +12,7 @@ define(['text!./reporting-display.html',
       "./filter-all",
       "./filter-indicator",
       "./filter-target",
+      "./filter-resource-mobilisation",
     ], function(template, app, $, _) {
       'use strict';
 
@@ -128,7 +129,7 @@ define(['text!./reporting-display.html',
 																							  getFormatedSubQuery('nationalReport'),
 																								getFormatedSubQuery('nationalAssessment'),
 																							  getFormatedSubQuery('nationalIndicator'),
-																							//	getFormatedSubQuery('keywords')
+																							  getFormatedSubQuery('resourceMobilisation')
                                             ]);
 
 										if(subQueries.length)
@@ -215,6 +216,11 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 															subQ +=  $scope.subQueries[name][0] ;
 
 												}
+                        else 	if(name==='resourceMobilisation' && $scope.subQueries[name][0])
+                        {
+                              subQ +=  $scope.subQueries[name][0] ;
+
+                        }
 												else
 													subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
 	// console.log('subQ',subQ);

@@ -186,8 +186,7 @@ define(['text!./reporting-display.html',
 								//
 								//=======================================================================
 								function getFormatedSubQuery (name) {
-console.log('name',name);
-console.log('$scope.subQueries[name]',$scope.subQueries[name]);
+
 										var subQ='';
 										if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
 												if(name==='nationalAssessment' && $scope.subQueries[name][0])

@@ -18,7 +18,9 @@ app.directive('resultsList',['$timeout', function ($timeout) {
 
                 'nationalAssessment':'National Assessments',
                 'nationalReport':'National Reports',
-                'nbsaps':'Nat. Bio. Strategies and Action Plans'
+                'nbsaps':'Nat. Bio. Strategies and Action Plans',
+                'nationalIndicator':'National Indicators',
+
             };
             $scope.$watch('items',function(){init();});
             $scope.$watch('show',function(){showCountry($scope.show);});

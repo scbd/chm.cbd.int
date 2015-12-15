@@ -157,7 +157,7 @@ padding-bottom:0;
 					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:3px;">{{country.numDocs}}</span>
 				</span>
 				<ul>
-					<li ng-repeat="(schemaName,schema) in country.docs" ng-if="country.expanded"  >
+					<li ng-repeat="(schemaName,schema) in country.docs" ng-if="country.expanded && schema.length"  >
 						<span class="badge  schema" ng-click="schema.expandedDoc=toggleHide(schema.expandedDoc);"> <i class="fa fa-folder-open"></i> {{schemaNameMap[schemaName]}}
 							<span class="badge badge-schema" style="float: right;  padding: 1px 4px;">{{schema.length}}</span>
 						</span>
@@ -168,6 +168,7 @@ padding-bottom:0;
 								<span ng-if="schemaName=='nationalAssessment'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.nationalTarget_EN_t}} ({{doc.year_i}})</a></span>
 								<span ng-if="schemaName=='nationalReport'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.reportType_EN_t}}</a></span>
 								<span ng-if="schemaName=='nbsaps'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
+								<span ng-if="schemaName=='nationalIndicator'"   ><i class="fa fa-file" ></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
 							</li>
 						</ul>
 					</li>

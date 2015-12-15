@@ -21,6 +21,7 @@ app.directive('resultsList',['$timeout', function ($timeout) {
                 'nbsaps':'Nat. Bio. Strategies and Action Plans',
                 'nationalIndicator':'National Indicators',
                 'nationalTarget':'National Targets',
+                'resourceMobilisation':'Financial Resource Mobilization'
             };
             $scope.$watch('items',function(){init();});
             $scope.$watch('show',function(){showCountry($scope.show);});

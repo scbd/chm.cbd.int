@@ -123,9 +123,12 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                       case 'nbsaps':
                             progressColorMap(defaultMap);
                             return;
-                            case 'nationalTarget':
-                                        progressColorMap(defaultMap);
-                                        return;
+                      case 'nationalTarget':
+                                  progressColorMap(defaultMap);
+                                  return;
+                      case 'resourceMobilisation':
+                                  progressColorMap(defaultMap);
+                                  return;
                   }
             } //$scope.legendHide
 
@@ -230,7 +233,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               }
 
               //=======================================================================
-              //
+              //resourceMobilisation
               //=======================================================================
               function legendTitle(country, schema, schemaName) {
 
@@ -247,6 +250,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                     } else if (schemaName == 'nationalTarget') {
                       $scope.legendTitle = 'National Targets';
+                    
+                    } else if (schemaName == 'resourceMobilisation') {
+                      $scope.legendTitle = 'Resource Mobilisation';
                     }
                     else if (schemaName == 'all') {
                       $scope.legendTitle = 'All Reporting';

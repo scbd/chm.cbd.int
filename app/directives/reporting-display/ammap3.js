@@ -123,6 +123,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                       case 'nbsaps':
                             progressColorMap(defaultMap);
                             return;
+                            case 'nationalTarget':
+                                        progressColorMap(defaultMap);
+                                        return;
                   }
             } //$scope.legendHide
 
@@ -229,23 +232,26 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //=======================================================================
               //
               //=======================================================================
-              function legendTitle(country,schema,schemaName) {
+              function legendTitle(country, schema, schemaName) {
 
-                    if(schemaName=="nationalAssessment"){
-                          $scope.legendTitle=aichiTargetReadable(schema[0].nationalTarget_EN_t)+" Assessments" ;
-                    } else if (schemaName=='nationalReport'){
-                          $scope.legendTitle=schema[0].reportType_EN_t;
+                    if (schemaName == "nationalAssessment") {
+                      $scope.legendTitle = aichiTargetReadable(schema[0].nationalTarget_EN_t) + " Assessments";
+                    } else if (schemaName == 'nationalReport') {
+                      $scope.legendTitle = schema[0].reportType_EN_t;
 
-                    } else if(schemaName=='nbsaps'){
-                          $scope.legendTitle='National Biodiversity Strategies and Action Plans';
+                    } else if (schemaName == 'nbsaps') {
+                      $scope.legendTitle = 'National Biodiversity Strategies and Action Plans';
 
-                  } else if(schemaName=='nationalIndicator'){
-                        $scope.legendTitle='National Indicators';
-                  }
-                    else if(schemaName=='all'){
-                          $scope.legendTitle='All Reporting';
+                    } else if (schemaName == 'nationalIndicator') {
+                      $scope.legendTitle = 'National Indicators';
+
+                    } else if (schemaName == 'nationalTarget') {
+                      $scope.legendTitle = 'National Targets';
                     }
-              }//legendTitle
+                    else if (schemaName == 'all') {
+                      $scope.legendTitle = 'All Reporting';
+                    }
+              } //legendTitle
 
 
 

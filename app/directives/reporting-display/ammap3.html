@@ -65,14 +65,14 @@
       </div>
 
 <!-- NBSAP Legend       -->
-      <div class="col-md-4 leggendItem"   ng-if="schema=='nbsaps'">
+      <div class="col-md-4 leggendItem"   ng-if="schema=='nbsaps' || schema=='nationalIndicator' ">
       </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='nbsaps'">
-        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='nbsaps'">
+      <div class="col-md-4 leggendItem"  ng-if="schema=='nbsaps' || schema=='nationalIndicator' ">
+        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='nbsaps' || schema=='nationalIndicator' ">
           <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
         </div>
       </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='nbsaps'">
+      <div class="col-md-4 leggendItem"  ng-if="schema=='nbsaps' || schema=='nationalIndicator' ">
       </div>
 
 <!-- Default Legend       -->

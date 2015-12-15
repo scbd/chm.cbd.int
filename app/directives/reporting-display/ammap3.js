@@ -117,6 +117,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                       case 'nationalReport':
                             progressColorMap(defaultMap);
                             return;
+                      case 'nationalIndicator':
+                                  progressColorMap(defaultMap);
+                                  return;
                       case 'nbsaps':
                             progressColorMap(defaultMap);
                             return;
@@ -227,8 +230,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //
               //=======================================================================
               function legendTitle(country,schema,schemaName) {
-                    //if(!$scope.legendTitle)
-  console.log('schemaName',schemaName);
+
                     if(schemaName=="nationalAssessment"){
                           $scope.legendTitle=aichiTargetReadable(schema[0].nationalTarget_EN_t)+" Assessments" ;
                     } else if (schemaName=='nationalReport'){

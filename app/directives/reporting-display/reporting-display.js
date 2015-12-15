@@ -12,7 +12,7 @@ define(['text!./reporting-display.html',
 	"./filter-report",
 		"./filter-nbsap",
 		"./filter-all",
-
+		"./filter-indicator",
 	], function(template, app, $, _) { 'use strict';
 
 	app.directive('reportingDisplay', ['$http', 'realm', '$q', '$timeout', '$location','$filter', function ($http, realm, $q, $timeout, $location,$filter) {
@@ -127,7 +127,7 @@ define(['text!./reporting-display.html',
 																							  getFormatedSubQuery('all'),
 																							  getFormatedSubQuery('nationalReport'),
 																								getFormatedSubQuery('nationalAssessment'),
-																							//	getFormatedSubQuery('createdDate_s'),
+																							  getFormatedSubQuery('nationalIndicator'),
 																							//	getFormatedSubQuery('keywords')
                                             ]);
 
@@ -204,7 +204,13 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 												{
 															subQ +=  $scope.subQueries[name][0] ;
 
-												}else
+												}
+												else 	if(name==='nationalIndicator' && $scope.subQueries[name][0])
+												{
+															subQ +=  $scope.subQueries[name][0] ;
+
+												}
+												else
 													subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
 	// console.log('subQ',subQ);
 												subQ = '('+subQ+')';

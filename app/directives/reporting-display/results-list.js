@@ -20,7 +20,7 @@ app.directive('resultsList',['$timeout', function ($timeout) {
                 'nationalReport':'National Reports',
                 'nbsaps':'Nat. Bio. Strategies and Action Plans',
                 'nationalIndicator':'National Indicators',
-
+                'nationalTarget':'National Targets',
             };
             $scope.$watch('items',function(){init();});
             $scope.$watch('show',function(){showCountry($scope.show);});

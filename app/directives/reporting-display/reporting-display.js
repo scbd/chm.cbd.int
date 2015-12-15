@@ -1,19 +1,19 @@
 define(['text!./reporting-display.html',
-		'app',
-		'jquery',
-		'lodash',
-    './ammap3',
-		    './eumap',
-		"utilities/km-utilities",
-//	"./rd-result-list",
-//	"./rd-filter-countries",
-	"./results-list",
-	"./filter-assessment",
-	"./filter-report",
-		"./filter-nbsap",
-		"./filter-all",
-		"./filter-indicator",
-	], function(template, app, $, _) { 'use strict';
+      'app',
+      'jquery',
+      'lodash',
+      './ammap3',
+      './eumap',
+      "utilities/km-utilities",
+      "./results-list",
+      "./filter-assessment",
+      "./filter-report",
+      "./filter-nbsap",
+      "./filter-all",
+      "./filter-indicator",
+      "./filter-target",
+    ], function(template, app, $, _) {
+      'use strict';
 
 	app.directive('reportingDisplay', ['$http', 'realm', '$q', '$timeout', '$location','$filter', function ($http, realm, $q, $timeout, $location,$filter) {
 	    return {
@@ -122,7 +122,7 @@ define(['text!./reporting-display.html',
 										var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() ;//+ ' AND schema_s:* '
 //console.log('getFormatedSubQuery("nationalTarget_s")',getFormatedSubQuery('nationalTarget_s'));
 										var subQueries = _.compact([
-                                                //getFormatedSubQuery('schema_s'),
+                                                getFormatedSubQuery('nationalTarget'),
 																							  getFormatedSubQuery('nbsaps'),
 																							  getFormatedSubQuery('all'),
 																							  getFormatedSubQuery('nationalReport'),
@@ -206,6 +206,11 @@ console.log('$scope.subQueries[name]',$scope.subQueries[name]);
 
 												}
 												else 	if(name==='nationalIndicator' && $scope.subQueries[name][0])
+												{
+															subQ +=  $scope.subQueries[name][0] ;
+
+												}
+												else 	if(name==='nationalTarget' && $scope.subQueries[name][0])
 												{
 															subQ +=  $scope.subQueries[name][0] ;
 

@@ -42,7 +42,7 @@ app.directive('filterAll',['$http','Thesaurus','$timeout', function ($http,thesa
               $scope.loadRecords = function () {
 
 
-                reportingDisplayCtrl.addSubQuery('all','(schema_s:nationalReport OR schema_s:nationalAssessment)  AND _latest_s:true AND _state_s:public ',true);
+                reportingDisplayCtrl.addSubQuery('all','(schema_s:nationalReport OR schema_s:nationalAssessment OR schema_s:resourceMobilisation OR (schema_s:nationalReport AND reportType_s:B0EBAE91-9581-4BB2-9C02-52FCF9D82721) OR schema_s:nationalIndicator OR schema_s:nationalTarget)  AND _latest_s:true AND _state_s:public ',true);
 
                 reportingDisplayCtrl.search();
 

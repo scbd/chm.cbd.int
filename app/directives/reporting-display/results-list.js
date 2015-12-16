@@ -67,7 +67,6 @@ app.directive('resultsList',['$timeout', function ($timeout) {
     				//
     				//=======================================================================
     				function showCountry(showCountry) {
-
                   if(showCountry==='show' || !showCountry) return showAllCountry();
                         _.each($scope.items,function(country){
                               if(country.identifier.toUpperCase()===showCountry.toUpperCase()){
@@ -162,4 +161,19 @@ app.directive('resultsList',['$timeout', function ($timeout) {
         }//link
     }; // return
   }]);  //app.directive('searchFilterCountries
+
+  app.filter('orderObjectBy', function() {
+    return function(items, field, reverse) {
+      var filtered = [];
+      _.each(items, function(item) {
+        filtered.push(item);
+      });
+      filtered.sort(function (a, b) {
+        return (a[field] > b[field] ? 1 : -1);
+      });
+      if(reverse) filtered.reverse();
+      return filtered;
+    };
+  });
+
 });// define

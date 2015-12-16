@@ -41,6 +41,7 @@ define(['text!./reporting-display.html',
 	            $scope.pageCount       = 0;
 	            $scope.currentPage     = 0;
 	            $scope.zoomToMap   		 = [];
+              $scope.showCountry     ='';
 							$scope.subQueries = {};
 
 							$http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) {

@@ -9,10 +9,13 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
         scope: {
               items: '=ngModel',
               schema:'=schema',
-              zoomTo:'=zoomTo'
+              zoomTo:'=zoomTo',
+              debug:'=debug'
+
         },
           link : function ($scope, $element, $attr, requiredDirectives)
         {
+
                var reportingDIsplay = requiredDirectives[0];
                var ammap3= requiredDirectives[1];
                $scope.legendTitle= "All Reporting to the CBD";
@@ -49,9 +52,19 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                });
 
                $scope.map.addListener("clickMapObject", function(event) {
+                //  $scope.$apply(function(){
+                //      reportingDIsplay.showCountryResultList(event.mapObject.id);
+                //  });
+                        $scope.$applyAsync(function(){
+                            reportingDIsplay.showCountryResultList(event.mapObject.id);
+                        });
                         $timeout(function(){
                             reportingDIsplay.showCountryResultList(event.mapObject.id);
                         });
+                        $scope.$evalAsync(function(){
+                            reportingDIsplay.showCountryResultList(event.mapObject.id);
+                        });
+
                });//
 
                 $scope.map.addListener("homeButtonClicked", function(event) {
@@ -59,6 +72,18 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                         reportingDIsplay.showCountryResultList('show');
                     });
                 });
+
+                if($scope.debug){
+                    $scope.map.addListener("click", function(event) {
+                          var info = event.chart.getDevInfo();
+                          $timeout(function(){
+                            console.log({
+                              "latitude": info.latitude,
+                              "longitude": info.longitude
+                            });
+                          });
+                    });
+                }
 
                //=======================================================================
                //
@@ -81,7 +106,13 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                         },
                       "dataProvider": {
                         "map": "worldEUHigh",
-                        "getAreasFromMap": true
+                        "getAreasFromMap": true,
+                        images: [{
+                        label: "EU",
+                        latitude: -5.02,
+                        longitude: -167.66
+                            }],
+
                       },
                       "areasSettings": {
                         "autoZoom": true,
@@ -150,10 +181,10 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
             //=======================================================================
             $scope.legendHide = function (legendItem) {
                     _.each($scope.map.dataProvider.areas,function(area){
-                          if(legendItem.color===area.originalColor && area.mouseEnabled==true){
+                          if(legendItem.color===area.originalColor && area.mouseEnabled===true){
                                 area.colorReal='#FFFFFF';
                                 area.mouseEnabled=false;
-                          }else if(legendItem.color===area.originalColor && area.mouseEnabled==false){
+                          }else if(legendItem.color===area.originalColor && area.mouseEnabled===false){
                                 area.colorReal=legendItem.color;
                                 area.mouseEnabled=true;
                           }
@@ -168,7 +199,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
             //=======================================================================
             //
             //=======================================================================
-            function toggleLegend(legend,color) {
+            function toggleLegend(legend,color) { //jshint ignore:line
                     var index = _.findIndex(legend, function(legendItem) {
                         return legendItem.color == 'color';
                     });
@@ -194,17 +225,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     hideAreas();
                     restLegend($scope.leggends.aichiTarget);
                     $scope.legendTitle=""; // rest legend title
-                    var changed=null;
                     _.each($scope.items,function(country){
-                          _.each(country.docs,function(schema,schemaName){
+                          _.each(country.docs,function(schema){
                                 if(mapTypeFunction)mapTypeFunction(country,schema,$scope.schema);
-                                // if(schemaName=='nationalAssessment')
-                                // {
-                                //       if(schema.length >= 1)  // must account for va
-                                //       {
-                                //           aichiMap(country,schema,schemaName);
-                                //       }
-                                // }
                           });
                     });
                     $scope.map.validateData(); // updates map with color changes
@@ -329,14 +352,25 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                               if(country.docs.nationalReport && !country.docs.nationalReport.length)
                                   delete country.docs.nationalReport;
 
-//console.log('Object.keys(country.docs).length',Object.keys(country.docs).length);
+// console.log('Object.keys(country.docs).length',Object.keys(country.docs).length);
                               if(Object.keys(country.docs).length==1){
 
                                     _.each(country.docs,function(schema,schemaName){
-//console.log('schemaName',schemaName);
                                         switch(schemaName){
                                            case 'nationalReport':
                                                   balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
+                                           break;
+                                           case 'nbsaps':
+                                                  balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nbsaps[0].title_t+"</div>";
+                                           break;
+                                           case 'nationalIndicator':
+                                                  balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalIndicator[0].title_t+"</div>";
+                                           break;
+                                           case 'nationalTarget':
+                                                  balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalTarget[0].title_t+"</div>";
+                                           break;
+                                           case 'resourceMobilisation':
+                                                  balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalTarget[0].title_t+"</div>";
                                            break;
                                         }
                                     });
@@ -345,11 +379,6 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
 
                               }
-
-
-
-
-
                                area.balloonText+=balloonBody;
   //console.log('id',area);
                   }//getMapObject
@@ -399,9 +428,11 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     // Walkthrough areas
                     if(!color) color= '#dddddd';
                     _.each($scope.map.dataProvider.areas,function(area){
-                          area.colorReal=area.originalColor=color;
-                          area.mouseEnabled=true;
-                          area.balloonText='[[title]]';
+                          if(area.id !== 'divider1'){
+                              area.colorReal=area.originalColor=color;
+                              area.mouseEnabled=true;
+                              area.balloonText='[[title]]';
+                          }
                     });
                }//getMapObject
 

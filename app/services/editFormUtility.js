@@ -113,7 +113,7 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 		//==================================
 		documentExists: function(identifier) {
 
-			return storage.documents.get(identifier, { info: "" }).then(function() {
+			return storage.documents.get(identifier).then(function() {
 				return true;
 			},function(error) {
 				if (error.status == 404)

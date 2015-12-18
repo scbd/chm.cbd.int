@@ -46,17 +46,17 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
             }];
 
 
-            $scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
-
-            //=======================================================================
+          //  $scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
+reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
+            // //=======================================================================
+            // //
+            // //=======================================================================
+            // function buildTermsAndQuery() {
             //
-            //=======================================================================
-            function buildTermsAndQuery() {
-
-
-              $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet);
-              searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
-            }//buildTermsAndQuery()
+            //
+            //   $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet);
+            //   searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet);
+            // }//buildTermsAndQuery()
 
 
             //=======================================================================
@@ -66,28 +66,7 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
                   _.each($scope.terms, function (term) {
                       term.selected=0;
                   });
-            }//buildTermsAndQuery()
-
-
-            //============================================================
-        		//
-        		//
-        		//============================================================
-        		function getAichiTargets() {
-
-          			var  queryParameters = {
-          							'q': 'schema_s:nationalReport',
-          							'fl': '*',
-          							'wt': 'json',
-          							'start': 0,
-          							'rows': 20,
-          			};
-          			//return defer;
-          			return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters, cache:true })				.then(function (data) {
-                					return {'data':data.data.response.docs};
-                });
-
-        		}// getOrganizations
+            };//buildTermsAndQuery()
 
 
 
@@ -97,11 +76,11 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
               $scope.loadReports = function (type) {
 
                 if(type)
-                    reportingDisplayCtrl.addSubQuery('nationalReport','schema_s:nationalReport AND _latest_s:true AND _state_s:public AND reportType_s:'+type+' ',true);
-                else
-                    reportingDisplayCtrl.deleteAllSubQuery('nationalReport');
+                  reportingDisplayCtrl.addSubQuery('reportType_s',type);
+                reportingDisplayCtrl.addSubQuery('schema_s', 'nationalReport');
+                reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
+                reportingDisplayCtrl.addSubQuery('_state_s', 'public');
                 reportingDisplayCtrl.search();
-
               };// flatten
 
         }//link

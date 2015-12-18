@@ -23,7 +23,7 @@ app.directive('resultsList',['$timeout', function ($timeout) {
                 'nationalTarget':'National Targets',
                 'resourceMobilisation':'Financial Resource Mobilization'
             };
-            $scope.$watch('items',function(){init();});
+            $scope.$watch('items',function(){console.log($scope.items);init();});
             $scope.$watch('show',function(){showCountry($scope.show);});
           //  $scope.home = function () {alert('here');reportingDisplayCtrl.showCountryResultList('show')};
             //=======================================================================

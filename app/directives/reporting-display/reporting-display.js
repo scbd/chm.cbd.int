@@ -26,36 +26,38 @@ define(['text!./reporting-display.html',
 			link : function($scope, $element, $attr,reportingDisplay) {  // jshint ignore:line
 
 
-	            var iconMap = {
-
-	                'nationalReport'        : 'icon-quote-left',
-	                'nationalTarget'        : 'fa fa-flag',
-	                'nationalIndicator'     : 'icon-signal',
-	                'nationalAssessment'    : 'icon-eye-open',
-	                'nationalSupportTool'   : 'icon-wrench',
-//									'resourceMobilisation'  : 'fa fa-university'
-	            };
 
 	            $scope.loaded          = false;
-	            $scope.itemsPerPage    = 25;
-	            $scope.pageCount       = 0;
-	            $scope.currentPage     = 0;
+
 	            $scope.zoomToMap   		 = [];
               $scope.showCountry     ='';
 							$scope.subQueries = {};
+              $scope.queriesStrings={};
 
 							$http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) {
 											$scope.countries=$filter('orderBy')(o.data, 'title|lstring');
 								 			return ;
 							 });
-							if($location.search().currentPage >=0)
-									$scope.currentPage=$location.search().currentPage;
+
 
 									$element.find("#customHome").on('click',function(event){
 							       $scope.$broadcast('customHome', 'show');
 							    });
+$scope.urlStrings = {
+    'all': {
+      'schema_s': [
+        'nationalReport',
+        'nationalAssessment',
+        'resourceMobilisation',
+        'nationalIndicator',
+        'nationalTarget'
+      ],
+    '_latest_s':['true'],
+    '_state_s':['public']
+    }
 
-
+};
+              reportingDisplay.search();
              //=======================================================================
 					   //
 						 //=======================================================================
@@ -122,110 +124,90 @@ define(['text!./reporting-display.html',
 								{
 										// NOT version_s:* remove non-public records from resultset
 										var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() ;//+ ' AND schema_s:* '
+                    var filters = ['all','rm','nt','ni','aa','ap','nr'];
 //console.log('getFormatedSubQuery("nationalTarget_s")',getFormatedSubQuery('nationalTarget_s'));
-										var subQueries = _.compact([
-                                                getFormatedSubQuery('nationalTarget'),
-																							  getFormatedSubQuery('nbsaps'),
-																							  getFormatedSubQuery('all'),
-																							  getFormatedSubQuery('nationalReport'),
-																								getFormatedSubQuery('nationalAssessment'),
-																							  getFormatedSubQuery('nationalIndicator'),
-																							  getFormatedSubQuery('resourceMobilisation')
-                                            ]);
+                    var subQueries =[];
+                    _.each(filters,function(filter){
+//console.log('getFormatedSubQuery(filter,schema_s) ',getFormatedSubQuery(filter,'schema_s'));
+                      subQueries.push(getFormatedSubQuery(filter,'schema_s'));
+                      subQueries.push(getFormatedSubQuery(filter,'reportType_s'));
+                      subQueries.push(getFormatedSubQuery(filter,'_latest_s'));
+                      subQueries.push(getFormatedSubQuery(filter,'_state_s'));
+                    });
+                    // subQueries.concat(_.compact([
+                    //                 getFormatedSubQuery(filter,'schema_s'),
+                    //                 getFormatedSubQuery(filter,'reportType_s'),
+                    //                 getFormatedSubQuery(filter,'_latest_s'),
+                    //                 getFormatedSubQuery(filter,'_state_s'),
+                    // ]));
+subQueries=_.compact(subQueries);
+
+
+                                                // getFormatedSubQuery('nationalTarget'),
+																							  // getFormatedSubQuery('nbsaps'),
+																							  // getFormatedSubQuery('all'),
+																							  // getFormatedSubQuery('nationalReport'),
+																								// getFormatedSubQuery('nationalAssessment'),
+																							  // getFormatedSubQuery('nationalIndicator'),
+																							  // getFormatedSubQuery('resourceMobilisation')
+
 
 										if(subQueries.length)
 											q += " AND " + subQueries.join(" AND ");
 										return q;
 								};//$scope.buildQuery
 
-								//======================================================================
-							  //hides filter if parent search result in no hits for this filter
-								//======================================================================
-								$scope.isFilterEmpty = function (filter) {
 
-											var total=0;
-											if($location.url()==='/database') {return 0;}
-										  _.each(filter,function (filterElement){
-															if (filterElement.count) total++;
-											});
-			              	if(total)
-												return 0;
-											else
-												return 1;
-			          };//$scope.isFilterEmpty
+
+
 
 								//=======================================================================
 								//
 								//=======================================================================
-		            $scope.range = function (start, end) {
-
-		                var ret = [];
-		                if (!end) {
-		                    end = start;
-		                    start = 0;
-		                }
-
-		                var maxCount = 10;
-		                var middle = 5;
-		                var count = end - start;
-
-		                if (count > maxCount) {
-		                    if ($scope.currentPage > middle)
-		                        start = $scope.currentPage - middle;
-
-		                    end = Math.min(count, start + maxCount);
-		                    start = Math.max(0, end - maxCount);
-		                }
-
-		                for (var i = start; i < end; i++) {
-		                    ret.push(i);
-		                }
-		                return ret;
-			          };//$scope.range
-
-								//=======================================================================
-								//
-								//=======================================================================
-								function getFormatedSubQuery (name) {
+								function getFormatedSubQuery (filter,name) {
 
 										var subQ='';
-										if($scope.subQueries[name] && _.isArray($scope.subQueries[name]) && $scope.subQueries[name].length){
-												if(name==='nationalAssessment' && $scope.subQueries[name][0])
-												{
-															subQ +=  $scope.subQueries[name][0] ;
-												}
-										  	else 	if(name==='nationalReport' && $scope.subQueries[name][0])
-												{
-															subQ +=  $scope.subQueries[name][0] ;
-												}else 	if(name==='nbsaps' && $scope.subQueries[name][0])
-												{
-															subQ +=  $scope.subQueries[name][0] ;
-												}
-												else 	if(name==='all' && $scope.subQueries[name][0])
-												{
-															subQ +=  $scope.subQueries[name][0] ;
+                    if($scope.subQueries[filter])
+										if($scope.subQueries[filter][name] && _.isArray($scope.subQueries[filter][name]) && $scope.subQueries[filter][name].length){
+												// if(name==='all' && $scope.subQueries[name][0])
+												// {
+												// 			subQ +=  $scope.subQueries[name][0] ;
+												// }
 
-												}
-												else 	if(name==='nationalIndicator' && $scope.subQueries[name][0])
-												{
-															subQ +=  $scope.subQueries[name][0] ;
 
-												}
-												else 	if(name==='nationalTarget' && $scope.subQueries[name][0])
-												{
-															subQ +=  $scope.subQueries[name][0] ;
-
-												}
-                        else 	if(name==='resourceMobilisation' && $scope.subQueries[name][0])
-                        {
-                              subQ +=  $scope.subQueries[name][0] ;
-
-                        }
-												else
-													subQ +=  name+':'+$scope.subQueries[name].join(" OR "+name+":");
+										  	// else 	if(name==='nationalReport' && $scope.subQueries[name][0])
+												// {
+												// 			subQ +=  $scope.subQueries[name][0] ;
+												// }else 	if(name==='nbsaps' && $scope.subQueries[name][0])
+												// {
+												// 			subQ +=  $scope.subQueries[name][0] ;
+												// }
+												// else 	if(name==='all' && $scope.subQueries[name][0])
+												// {
+												// 			subQ +=  $scope.subQueries[name][0] ;
+                        //
+												// }
+												// else 	if(name==='nationalIndicator' && $scope.subQueries[name][0])
+												// {
+												// 			subQ +=  $scope.subQueries[name][0] ;
+                        //
+												// }
+												// else 	if(name==='nationalTarget' && $scope.subQueries[name][0])
+												// {
+												// 			subQ +=  $scope.subQueries[name][0] ;
+                        //
+												// }
+                        // else 	if(name==='resourceMobilisation' && $scope.subQueries[name][0])
+                        // {
+                        //       subQ +=  $scope.subQueries[name][0] ;
+                        //
+                        // }
+											//	else
+													subQ +=  name+':'+$scope.subQueries[filter][name].join(" OR "+name+":");
 	// console.log('subQ',subQ);
 												subQ = '('+subQ+')';
 										}
+console.log('subQueries ',$scope.subQueries);
 										return subQ;
 								}//function getFormatedSubQuery (name)
 
@@ -242,19 +224,15 @@ define(['text!./reporting-display.html',
 				//
 				//=======================================================================
 				function query($scope) {
-//console.log('$scope.buildQuery()',$scope.buildQuery());
 						readQueryString ();
+
 						var queryParameters = {
 								'q': $scope.buildQuery(),
 								'sort': 'createdDate_dt desc, title_t asc',
 								'fl': 'reportType_s,documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,nationalTarget_EN_t,government_s',
 								'wt': 'json',
-								'start': $scope.currentPage * $scope.itemsPerPage,
-								'rows': 5000,
-								'facet': true,
-								'facet.field': ['nationalTarget_s','schema_s', 'government_s', 'aichiTarget_ss'],
-								'facet.limit': 999999,
-								'facet.mincount' : 1
+								'start': 0,
+								 'rows': 1000000,
 						};
 
 						if (canceler) {
@@ -262,40 +240,16 @@ define(['text!./reporting-display.html',
 						}
 
 						canceler = $q.defer();
+          //  $location.path().replace();
+            updateQueryString();
 
 						$http.get('/api/v2013/index/select', { params: queryParameters, timeout: canceler.promise, cache:true}).success(function (data) {
-
 								canceler = null;
-
-								if(data.response.start && data.response.numFound && data.response.start>=data.response.numFound ){
-										$scope.actionSetPage(1);
-										query($scope);
-								}
-
 								$scope.count = data.response.numFound;
-								$scope.start = data.response.start;
-								$scope.stop  = data.response.start+data.response.docs.length-1;
-								$scope.rows  = data.response.docs.length;
-
-
-
-							//	$scope.schemas       = $scope.readFacets2(data.facet_counts.facet_fields.schema_s);
-								$scope.governments   = $scope.readFacets2(data.facet_counts.facet_fields.government_s);
-							//	$scope.regions       = $scope.readFacets2(data.facet_counts.facet_fields.government_REL_ss);
-								$scope.aichiTargets  = $scope.readFacets2(data.facet_counts.facet_fields.aichiTarget_ss);
-							//	$scope.thematicAreas = $scope.readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
-								$scope.nationalAssesments = $scope.readFacets2(data.facet_counts.facet_fields.aichiTarget_ss.nationalAssesments);
-
-//console.log('data.response.docs',data.response.docs);
 								$scope.count=data.response.docs.length;
 								$scope.documents = groupByCountry(data.response.docs);
 
-// console.log('reporting-display.js $scope.documents',$scope.documents);
-// console.log('reporting-display.js $scope.countries ',$scope.countries);
-
-								$scope.pageCount = Math.ceil(data.response.numFound / $scope.itemsPerPage);
-								updateQueryString();
-						});//$http.get('/ap
+						});
 				}// query
 
 
@@ -306,7 +260,6 @@ define(['text!./reporting-display.html',
 							var docsByCountry ={};
 							$scope.euData = {};
 							_.each(list,function(doc){
-
 										if(!docsByCountry[doc.government_s]) // if country object not created created
 										{
 												docsByCountry[doc.government_s]=[];
@@ -341,13 +294,9 @@ define(['text!./reporting-display.html',
 										docsByCountry[doc.government_s].isEUR=false;
 							});
 
-							if(docsByCountry.eur){
+							if(docsByCountry.eur)
 								docsByCountry.eur.isEUR=true;
-								// $timeout(function(){
-								// 		$scope.euData = docsByCountry.eur;
-								// });
 
-							}
 							setNumDocumentsInCountry();
 							return docsByCountry;
 				}//readQueryString
@@ -404,16 +353,19 @@ define(['text!./reporting-display.html',
 				//=======================================================================
 				function readQueryString () {
 
-						var qsSchema = _([$location.search().schema_s]).flatten().compact().value(); // takes query string into array
-						var qsCountry = _([$location.search().government_s]).flatten().compact().value(); // takes query string into array
+						var filter = _([$location.search().schema_s]).flatten().compact().value(); // takes query string into array
+$scope.subQueries[filter]=_.cloneDeep($scope.queriesStrings[filter]);
+  					// var qsReportType_s = _([$location.search().reportType_s]).flatten().compact().value(); // takes query string into array
+            // var qs_latest_s= _([$location.search()._latest_s]).flatten().compact().value();
+            // var qs_state_s = _([$location.search()._state_s]).flatten().compact().value();
 
-						var qsArrByField = {'schema_s':qsSchema,'government_s':qsCountry};
+					//	var qsArrByField = {'schema_s':qsSchema,'reportType_s':qsReportType_s,'_state_s':qs_state_s,'_latest_s':qs_latest_s};
 
-						_.each(qsArrByField,function (idArr,schemaKey){
-								_.each(idArr,function(id){
-										addSubQuery(schemaKey,id);
-								});//_.each
-						});//_.each
+						// _.each(qsArrByField,function (idArr,schemaKey){
+						// 		_.each(idArr,function(id){
+						// 				addSubQuery(schemaKey,id);
+						// 		});//_.each
+						// });//_.each
 				}//readQueryString
 
 				//=======================================================================
@@ -421,13 +373,26 @@ define(['text!./reporting-display.html',
 				//=======================================================================
 				function updateQueryString () {
 
-						_.each($scope.subQueries,function(itemIdArr,schemaKey){
-											if(schemaKey!=='createdDate_s' && schemaKey!=='keywords'){ // exlusions should be handled better
-													$location.replace();
-													$location.search(schemaKey, itemIdArr);
-											}
-						});
-				}//getFormatedSubQuery
+
+
+
+//$location.search({});
+console.log('111111$location.search',$location.absUrl());
+console.log('11111111$scope.subQueries',$scope.subQueries);
+console.log('---------------------------------');
+	_.each($scope.subQueries,function(filter,filterName){
+          	_.each(filter,function(itemIdArr,schemaKey){
+
+                          $location.replace();
+													$location.search('filter',filterName);
+                          $scope.queriesStrings[filterName]=_.cloneDeep($scope.subQueries[filterName]);
+
+						}); 	});
+console.log('---------------------------------');
+console.log('222222after -$location.search',$location.absUrl());
+//deleteAllSubQuery();
+console.log('2222222$scope.subQueries',$scope.subQueries);
+				}//updateQueryString
 
 				//=======================================================================
 				//
@@ -436,25 +401,28 @@ define(['text!./reporting-display.html',
 
 						if(queryScheduled)
 								$timeout.cancel($scope.queryScheduled);
-						queryScheduled = $timeout(function () { query($scope); }, 100);
+						queryScheduled = $timeout(function () {  query($scope); }, 100);
 				}//search
 
 				//=======================================================================
 				//
 				//=======================================================================
-				function addSubQuery (name, query,singleTon) {
+				function addSubQuery (filter,name, query,singleTon) {
 						$scope.selectedSchema=name;
-
+//console.log(' query', query);
 						//if(!$scope.subQueries) // if called from controler without link ex4ecuting first
-						$scope.subQueries=[];
-						if(!_.isArray($scope.subQueries[name])) // initialize
-							$scope.subQueries[name]=[];
+            if(!$scope.subQueries[filter]) // initialize
+							$scope.subQueries[filter]={};
+						if(!_.isArray($scope.subQueries[filter][name])) // initialize
+							$scope.subQueries[filter][name]=[];
 						if(singleTon){  // allows for only one of that type ie date or keyword
-								$scope.subQueries[name]=[];
-								$scope.subQueries[name].push(query);
+								$scope.subQueries[filter][name]=[];
+								$scope.subQueries[filter][name].push(query);
 						}
-						else if($scope.subQueries[name].indexOf(query)<0) // if not already there add
-									$scope.subQueries[name].push(query);
+						else if($scope.subQueries[filter][name].indexOf(query)<0) // if not already there add
+									$scope.subQueries[filter][name].push(query);
+
+
 				}//addSubQuery
 
 				//=======================================================================
@@ -478,8 +446,8 @@ define(['text!./reporting-display.html',
 				//
 				//=======================================================================
 				function deleteAllSubQuery(name) {
-						if($scope.subQueries)
-							$scope.subQueries[name]=[];
+
+							$scope.subQueries=[];
 				}//deleteSubQuery
 
 				//=======================================================================

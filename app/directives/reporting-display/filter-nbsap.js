@@ -1,38 +1,30 @@
-define(['text!./filter-nbsap.html', 'app', 'lodash','angular','jquery'], function(template, app, _,angular,$) { 'use strict';
+define(['text!./filter-nbsap.html', 'app'], function(template, app) {
+  'use strict';
 
-app.directive('filterNbsap',['$http','Thesaurus','$timeout', function ($http,thesaurus,$timeout) {
+  app.directive('filterNbsap', [function() {
     return {
-        restrict: 'EAC',
-        template: template,
-        replace: true,
-        require : '^reportingDisplay',
-        scope: {
-              title: '@title',
-              items: '=ngModel',
-              facet: '@facet',
-              count: '=count' // total count of all children subquires needed for 0 result combinations
-        },
-          link : function ($scope, $element, $attr, reportingDisplayCtrl)
-        {
-
-
-
-
-
+      restrict: 'E',
+      template: template,
+      replace: true,
+      require: '^reportingDisplay',
+      scope: {
+        title: '@title',
+      },
+      link: function($scope, $element, $attr, reportingDisplayCtrl) {
 
           //=======================================================================
           //
           //=======================================================================
-          $scope.loadRecords = function () {
+          $scope.loadRecords = function() {
 
-
-            reportingDisplayCtrl.addSubQuery('nbsaps','schema_s:nationalReport AND reportType_s:B0EBAE91-9581-4BB2-9C02-52FCF9D82721  AND _latest_s:true AND _state_s:public ',true);
-
+            reportingDisplayCtrl.addSubQuery('schema_s', 'nationalReport');
+            reportingDisplayCtrl.addSubQuery('reportType_s', 'B0EBAE91-9581-4BB2-9C02-52FCF9D82721');
+            reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
+            reportingDisplayCtrl.addSubQuery('_state_s', 'public');
             reportingDisplayCtrl.search();
+          }; // loadRecords
 
-          };// flatten
-
-        }//link
+        } //link
     }; // return
-  }]);  //app.directive('searchFilterCountries
-});// define
+  }]); //app.directive('sfilterNbsap
+}); // define

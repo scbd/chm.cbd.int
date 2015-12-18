@@ -1,15 +1,13 @@
-define(['app','text!./filter-target.html'], function(app,template) {
+define(['app', 'text!./filter-target.html'], function(app, template) {
   'use strict';
   app.directive('filterTarget', [function() {
     return {
-      restrict: 'EAC',
+      restrict: 'E',
       template: template,
       replace: true,
       require: '^reportingDisplay',
       scope: {
         title: '@title',
-        //items: '=ngModel',
-      //  count: '=count' // total count of all children subquires needed for 0 result combinations
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
 
@@ -18,9 +16,11 @@ define(['app','text!./filter-target.html'], function(app,template) {
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery('nationalTarget', 'schema_s:nationalTarget AND _latest_s:true AND _state_s:public ', true);
+            reportingDisplayCtrl.addSubQuery('schema_s', 'nationalTarget');
+            reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
+            reportingDisplayCtrl.addSubQuery('_state_s', 'public');
             reportingDisplayCtrl.search();
-          }; // flatten
+          }; // loadRecords
 
         } //link
     }; // return

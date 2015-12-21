@@ -1,4 +1,4 @@
-define(['text!./ammap3.html', 'app', 'lodash','ammap3','ammap3WorldHigh','ammap-theme'], function(template, app, _,ammap3) { 'use strict';
+define(['text!./ammap3.html', 'app', 'lodash','ammap3','ammap3WorldHigh','ammap-theme','ammap-export'], function(template, app, _) { 'use strict';
 
 app.directive('ammap3',['$timeout',  function ($timeout) {
     return {
@@ -55,6 +55,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                 //  $scope.$apply(function(){
                 //      reportingDIsplay.showCountryResultList(event.mapObject.id);
                 //  });
+                //                 $scope.$apply();
+                // reportingDIsplay.showCountryResultList(event.mapObject.id);
+
                         $scope.$applyAsync(function(){
                             reportingDIsplay.showCountryResultList(event.mapObject.id);
                         });
@@ -104,6 +107,8 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                       "responsive": {
                           "enabled": true
                         },
+
+                        "libs": { "path": "/app/libs/" },
                       "dataProvider": {
                         "map": "worldEUHigh",
                         "getAreasFromMap": true,
@@ -339,22 +344,29 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                               if(Object.keys(country.docs).length==1){
 
                                     _.each(country.docs,function(schema,schemaName){
+
                                         switch(schemaName){
                                            case 'nationalReport':
+                                                  if($scope.schema!=='all')
                                                   balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
                                            break;
                                            case 'nbsaps':
+                                                  if($scope.schema!=='all')
                                                   balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nbsaps[0].title_t+"</div>";
                                            break;
                                            case 'nationalIndicator':
+                                                  if($scope.schema!=='all')
                                                   balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalIndicator[0].title_t+"</div>";
                                            break;
                                            case 'nationalTarget':
+                                                  if($scope.schema!=='all')
                                                   balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalTarget[0].title_t+"</div>";
                                            break;
                                            case 'resourceMobilisation':
+                                                  if($scope.schema!=='all')
                                                   balloonBody=" <div class='panel-body' style='text-align:left;'>"+country.docs.nationalTarget[0].title_t+"</div>";
                                            break;
+
                                         }
                                     });
 

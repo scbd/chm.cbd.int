@@ -9,7 +9,7 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
         scope: {
               title: '@title',
               items: '=ngModel',
-              facet: '@facet',
+              schema:'=schema',
               count: '=count' // total count of all children subquires needed for 0 result combinations
         },
           link : function ($scope, $element, $attr, reportingDisplayCtrl)
@@ -19,32 +19,58 @@ app.directive('filterReport',['$http','Thesaurus','$timeout', function ($http,th
             $scope.termsModal = {};
 
             $scope.terms = [{
-              id: 'B3079A36-32A3-41E2-BDE0-65E4E3A51601',
+              id: 'nr5',
               title: '5th National Report',
-              count:0,
               selected: 0
             }, {
-              id: '272B0A17-5569-429D-ADF5-2A55C588F7A7',
+              id: 'nr4',
               title: '4th National Report',
-              count:0,
               selected: 0
             }, {
-              id: 'DA7E04F1-D2EA-491E-9503-F7923B1FD7D4',
+              id: 'nr3',
               title: '3rd National Report',
-              count:0,
               selected: 0
             }, {
-              id: 'A49393CA-2950-4EFD-8BCC-33266D69232F',
+              id: 'nr2',
               title: '2nd National Report',
-              count:0,
               selected: 0
             }, {
-              id: 'F27DBC9B-FF25-471B-B624-C0F73E76C8B3',
+              id: 'nr1',
               title: '1st National Report',
-              count:0,
               selected: 0
             }];
-
+            $scope.queries = {
+                'nr5': {
+                  'schema_s': ['nationalReport'],
+                  'reportType_s': ['B3079A36-32A3-41E2-BDE0-65E4E3A51601'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'nr4': {
+                  'schema_s': ['nationalReport'],
+                  'reportType_s': ['272B0A17-5569-429D-ADF5-2A55C588F7A7'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'nr3': {
+                  'schema_s': ['nationalReport'],
+                  'reportType_s': ['DA7E04F1-D2EA-491E-9503-F7923B1FD7D4'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'nr2': {
+                  'schema_s': ['nationalReport'],
+                  'reportType_s': ['A49393CA-2950-4EFD-8BCC-33266D69232F'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'nr1': {
+                  'schema_s': ['nationalReport'],
+                  'reportType_s': ['F27DBC9B-FF25-471B-B624-C0F73E76C8B3'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                }
+            };
 
           //  $scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
 reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
@@ -75,11 +101,11 @@ reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);
               //=======================================================================
               $scope.loadReports = function (type) {
 
-                if(type)
-                  reportingDisplayCtrl.addSubQuery('reportType_s',type);
-                reportingDisplayCtrl.addSubQuery('schema_s', 'nationalReport');
-                reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
-                reportingDisplayCtrl.addSubQuery('_state_s', 'public');
+                var query={};
+                $scope.schema=type;
+                query[type]=$scope.queries[type];
+
+                reportingDisplayCtrl.addSubQuery(_.cloneDeep(query),type);
                 reportingDisplayCtrl.search();
               };// flatten
 

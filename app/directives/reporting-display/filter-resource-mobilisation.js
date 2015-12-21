@@ -10,15 +10,20 @@ define(['app','text!./filter-resource-mobilisation.html'], function(app,template
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-
+        $scope.queries = {
+            'resourceMobilisation': {
+              'schema_s': ['resourceMobilisation'],
+              '_latest_s': ['true'],
+              '_state_s': ['public']
+            }
+          };
           //=======================================================================
           //
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery('schema_s', 'resourceMobilisation');
-            reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
-            reportingDisplayCtrl.addSubQuery('_state_s', 'public');
+
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'resourceMobilisation');
             reportingDisplayCtrl.search();
           }; // flatten
 

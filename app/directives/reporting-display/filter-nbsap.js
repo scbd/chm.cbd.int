@@ -1,4 +1,4 @@
-define(['text!./filter-nbsap.html', 'app'], function(template, app) {
+define(['text!./filter-nbsap.html', 'app','lodash'], function(template, app,_) {
   'use strict';
 
   app.directive('filterNbsap', [function() {
@@ -11,16 +11,20 @@ define(['text!./filter-nbsap.html', 'app'], function(template, app) {
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-
+        $scope.queries = {
+            'nbsaps': {
+              'schema_s': ['nationalReport'],
+              'reportType_s': ['B0EBAE91-9581-4BB2-9C02-52FCF9D82721'],
+              '_latest_s': ['true'],
+              '_state_s': ['public']
+            }
+          };
           //=======================================================================
           //
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery('schema_s', 'nationalReport');
-            reportingDisplayCtrl.addSubQuery('reportType_s', 'B0EBAE91-9581-4BB2-9C02-52FCF9D82721');
-            reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
-            reportingDisplayCtrl.addSubQuery('_state_s', 'public');
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'nbsaps');
             reportingDisplayCtrl.search();
           }; // loadRecords
 

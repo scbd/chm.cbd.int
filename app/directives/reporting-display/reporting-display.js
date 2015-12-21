@@ -37,27 +37,203 @@ define(['text!./reporting-display.html',
 							$http.get("/api/v2013/thesaurus/domains/countries/terms",{ cache: true }).then(function (o) {
 											$scope.countries=$filter('orderBy')(o.data, 'title|lstring');
 								 			return ;
-							 });
+							 }).then(function() {
+                  reportingDisplay.search();
+                });
+
+
 
 
 									$element.find("#customHome").on('click',function(event){
 							       $scope.$broadcast('customHome', 'show');
 							    });
 $scope.urlStrings = {
-    'all': {
-      'schema_s': [
-        'nationalReport',
-        'nationalAssessment',
-        'resourceMobilisation',
-        'nationalIndicator',
-        'nationalTarget'
-      ],
-    '_latest_s':['true'],
-    '_state_s':['public']
-    }
+      'all': {
+        'schema_s': [
+          'nationalReport',
+          'nationalAssessment',
+          'resourceMobilisation',
+          'nationalIndicator',
+          'nationalTarget'
+        ],
+      '_latest_s':['true'],
+      '_state_s':['public']
+    },
+    'nr5': {
+      'schema_s': ['nationalReport'],
+      'reportType_s': ['B3079A36-32A3-41E2-BDE0-65E4E3A51601'],
+      '_latest_s':['true'],
+      '_state_s':['public']
+    },
+    'nr4': {
+      'schema_s': ['nationalReport'],
+      'reportType_s': ['272B0A17-5569-429D-ADF5-2A55C588F7A7'],
+      '_latest_s':['true'],
+      '_state_s':['public']
+    },
+    'nr3': {
+      'schema_s': ['nationalReport'],
+      'reportType_s': ['DA7E04F1-D2EA-491E-9503-F7923B1FD7D4'],
+      '_latest_s':['true'],
+      '_state_s':['public']
+    },
+    'nr2': {
+      'schema_s': ['nationalReport'],
+      'reportType_s': ['A49393CA-2950-4EFD-8BCC-33266D69232F'],
+      '_latest_s':['true'],
+      '_state_s':['public']
+    },
+    'nr1': {
+      'schema_s': ['nationalReport'],
+      'reportType_s': ['F27DBC9B-FF25-471B-B624-C0F73E76C8B3'],
+      '_latest_s':['true'],
+      '_state_s':['public']
+    },
+    'nbsaps': {
+      'schema_s': ['nationalReport'],
+      'reportType_s': ['B0EBAE91-9581-4BB2-9C02-52FCF9D82721'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'nationalIndicator': {
+      'schema_s': ['nationalIndicator'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'nationalTarget': {
+      'schema_s': ['nationalTarget'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'resourceMobilisation': {
+      'schema_s': ['resourceMobilisation'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-01': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-01"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-02': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-02"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-03': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-03"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-04': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-04"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-05': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-05"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-06': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-06"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-07': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-07"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-08': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-08"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-09': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-09"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-10': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-10"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-11': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-11"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-12': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-12"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-13': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-13"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-14': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-14"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-15': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-15"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-16': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-16"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-17': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-17"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-18': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-18"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-19': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-19"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+    'AICHI-TARGET-20': {
+      'schema_s': ['nationalAssessment'],
+      'nationalTarget_EN_t': ['"AICHI-TARGET-20"'],
+      '_latest_s': ['true'],
+      '_state_s': ['public']
+    },
+
 
 };
-              reportingDisplay.search();
+
              //=======================================================================
 					   //
 						 //=======================================================================
@@ -79,16 +255,16 @@ $scope.urlStrings = {
 		              return iconMap[schema];
 		          };//$scope.icon
 
-							//======================================================================
-						  //
-							//======================================================================
-							$scope.actionSetPage = function (pageNumber) {
-
-			            $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
-									searchCtrl.search();
-									$location.replace();
-									$location.search("currentPage", $scope.currentPage);
-			        };//$scope.actionSetPage
+							// //======================================================================
+						  // //
+							// //======================================================================
+							// $scope.actionSetPage = function (pageNumber) {
+              //
+			        //     $scope.currentPage = Math.min($scope.pageCount-1, Math.max(0, pageNumber));
+							// 		searchCtrl.search();
+							// 		$location.replace();
+							// 		$location.search("currentPage", $scope.currentPage);
+			        // };//$scope.actionSetPage
 
 						  //=======================================================================
 						  //
@@ -124,23 +300,29 @@ $scope.urlStrings = {
 								{
 										// NOT version_s:* remove non-public records from resultset
 										var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() ;//+ ' AND schema_s:* '
-                    var filters = ['all','rm','nt','ni','aa','ap','nr'];
-//console.log('getFormatedSubQuery("nationalTarget_s")',getFormatedSubQuery('nationalTarget_s'));
+
+
                     var subQueries =[];
-                    _.each(filters,function(filter){
+              //  _.each(subQueries,function(filterObject){
+                    _.each($scope.subQueries,function(filter,filterName){
 //console.log('getFormatedSubQuery(filter,schema_s) ',getFormatedSubQuery(filter,'schema_s'));
-                      subQueries.push(getFormatedSubQuery(filter,'schema_s'));
-                      subQueries.push(getFormatedSubQuery(filter,'reportType_s'));
-                      subQueries.push(getFormatedSubQuery(filter,'_latest_s'));
-                      subQueries.push(getFormatedSubQuery(filter,'_state_s'));
+
+                        subQueries=_.compact([
+                                        getFormatedSubQuery(filterName,'schema_s'),
+                                        getFormatedSubQuery(filterName,'reportType_s'),
+                                        getFormatedSubQuery(filterName,'nationalTarget_EN_t'),
+                                        getFormatedSubQuery(filterName,'_latest_s'),
+                                        getFormatedSubQuery(filterName,'_state_s'),
+                        ]);
                     });
+              //      });
                     // subQueries.concat(_.compact([
                     //                 getFormatedSubQuery(filter,'schema_s'),
                     //                 getFormatedSubQuery(filter,'reportType_s'),
                     //                 getFormatedSubQuery(filter,'_latest_s'),
                     //                 getFormatedSubQuery(filter,'_state_s'),
                     // ]));
-subQueries=_.compact(subQueries);
+//subQueries=_.compact(subQueries);
 
 
                                                 // getFormatedSubQuery('nationalTarget'),
@@ -151,7 +333,7 @@ subQueries=_.compact(subQueries);
 																							  // getFormatedSubQuery('nationalIndicator'),
 																							  // getFormatedSubQuery('resourceMobilisation')
 
-
+console.log('subQueries',subQueries);
 										if(subQueries.length)
 											q += " AND " + subQueries.join(" AND ");
 										return q;
@@ -165,49 +347,28 @@ subQueries=_.compact(subQueries);
 								//
 								//=======================================================================
 								function getFormatedSubQuery (filter,name) {
+console.log('getFormatedSubQuery (filter',filter);
+ console.log('getFormatedSubQuery (name',name);
 
+console.log('$scope.subQueries[filter]',$scope.subQueries[filter]);
+
+console.log('fil',fil);
+if(!filter)return'';
+var fil =$scope.subQueries[filter];
+console.log('fil',fil);
+if(!fil)return'';
+if(!fil[name])return'';
+
+                    //$scope.subQueries=_.compact($scope.subQueries);
 										var subQ='';
-                    if($scope.subQueries[filter])
-										if($scope.subQueries[filter][name] && _.isArray($scope.subQueries[filter][name]) && $scope.subQueries[filter][name].length){
-												// if(name==='all' && $scope.subQueries[name][0])
-												// {
-												// 			subQ +=  $scope.subQueries[name][0] ;
-												// }
+                    //if($scope.subQueries[filter])
+									//	if($scope.subQueries[filter][name] ){
 
-
-										  	// else 	if(name==='nationalReport' && $scope.subQueries[name][0])
-												// {
-												// 			subQ +=  $scope.subQueries[name][0] ;
-												// }else 	if(name==='nbsaps' && $scope.subQueries[name][0])
-												// {
-												// 			subQ +=  $scope.subQueries[name][0] ;
-												// }
-												// else 	if(name==='all' && $scope.subQueries[name][0])
-												// {
-												// 			subQ +=  $scope.subQueries[name][0] ;
-                        //
-												// }
-												// else 	if(name==='nationalIndicator' && $scope.subQueries[name][0])
-												// {
-												// 			subQ +=  $scope.subQueries[name][0] ;
-                        //
-												// }
-												// else 	if(name==='nationalTarget' && $scope.subQueries[name][0])
-												// {
-												// 			subQ +=  $scope.subQueries[name][0] ;
-                        //
-												// }
-                        // else 	if(name==='resourceMobilisation' && $scope.subQueries[name][0])
-                        // {
-                        //       subQ +=  $scope.subQueries[name][0] ;
-                        //
-                        // }
-											//	else
-													subQ +=  name+':'+$scope.subQueries[filter][name].join(" OR "+name+":");
-	// console.log('subQ',subQ);
+													subQ +=  name+':'+fil[name].join(' OR '+name+":");
+ //console.log('---------------subQ',subQ);
 												subQ = '('+subQ+')';
-										}
-console.log('subQueries ',$scope.subQueries);
+									//	}
+//console.log('subQueries ',$scope.subQueries);
 										return subQ;
 								}//function getFormatedSubQuery (name)
 
@@ -225,7 +386,9 @@ console.log('subQueries ',$scope.subQueries);
 				//=======================================================================
 				function query($scope) {
 						readQueryString ();
-
+            if(_.isEmpty($scope.subQueries)) return;
+// console.log('$scope.subQueries',$scope.subQueries);
+// console.log('$scope.buildQuery()',$scope.buildQuery());
 						var queryParameters = {
 								'q': $scope.buildQuery(),
 								'sort': 'createdDate_dt desc, title_t asc',
@@ -259,6 +422,7 @@ console.log('subQueries ',$scope.subQueries);
 				function groupByCountry (list) {
 							var docsByCountry ={};
 							$scope.euData = {};
+              if(!$scope.countries) return '';
 							_.each(list,function(doc){
 										if(!docsByCountry[doc.government_s]) // if country object not created created
 										{
@@ -307,6 +471,7 @@ console.log('subQueries ',$scope.subQueries);
 				function getCountryById(id) {
 
 					var index = _.findIndex($scope.countries, function(country) {
+
 								 return country.identifier.toUpperCase() === id.toUpperCase();
 					 });
 					 return $scope.countries[index];
@@ -353,8 +518,19 @@ console.log('subQueries ',$scope.subQueries);
 				//=======================================================================
 				function readQueryString () {
 
-						var filter = _([$location.search().schema_s]).flatten().compact().value(); // takes query string into array
-$scope.subQueries[filter]=_.cloneDeep($scope.queriesStrings[filter]);
+						var filter = _([$location.search().filter]).flatten().compact().value()[0]; // takes query string into array
+
+// console.log('filter',filter);
+// console.log('!_.isEmpty(filter)',!_.isEmpty(filter));
+// console.log('!$scope.subQueries[filter]',!$scope.subQueries[filter]);
+            if(!_.isEmpty(filter) && (_.isEmpty($scope.subQueries))){
+$scope.subQueries={};
+$scope.subQueries[filter]=_.cloneDeep($scope.urlStrings[filter]);
+$scope.selectedSchema=filter;
+}
+// console.log('$scope.urlStrings[filter]',$scope.urlStrings[filter]);
+// console.log('$scope.subQueries',$scope.subQueries);
+//console.log('$scope.subQueries[filter]',$scope.subQueries[filter]);
   					// var qsReportType_s = _([$location.search().reportType_s]).flatten().compact().value(); // takes query string into array
             // var qs_latest_s= _([$location.search()._latest_s]).flatten().compact().value();
             // var qs_state_s = _([$location.search()._state_s]).flatten().compact().value();
@@ -377,21 +553,22 @@ $scope.subQueries[filter]=_.cloneDeep($scope.queriesStrings[filter]);
 
 
 //$location.search({});
-console.log('111111$location.search',$location.absUrl());
-console.log('11111111$scope.subQueries',$scope.subQueries);
-console.log('---------------------------------');
+// console.log('111111$location.search',$location.absUrl());
+// console.log('11111111$scope.subQueries',$scope.subQueries);
+// console.log('---------------------------------');
 	_.each($scope.subQueries,function(filter,filterName){
           	_.each(filter,function(itemIdArr,schemaKey){
 
                           $location.replace();
 													$location.search('filter',filterName);
-                          $scope.queriesStrings[filterName]=_.cloneDeep($scope.subQueries[filterName]);
+                          $scope.selectedSchema=filterName;
+                          //$scope.queriesStrings[filterName]=_.cloneDeep($scope.subQueries[filterName]);
 
 						}); 	});
-console.log('---------------------------------');
-console.log('222222after -$location.search',$location.absUrl());
-//deleteAllSubQuery();
-console.log('2222222$scope.subQueries',$scope.subQueries);
+// console.log('---------------------------------');
+// console.log('222222after -$location.search',$location.absUrl());
+deleteAllSubQuery();
+// console.log('2222222$scope.subQueries',$scope.subQueries);
 				}//updateQueryString
 
 				//=======================================================================
@@ -408,19 +585,29 @@ console.log('2222222$scope.subQueries',$scope.subQueries);
 				//
 				//=======================================================================
 				function addSubQuery (filter,name, query,singleTon) {
-						$scope.selectedSchema=name;
-//console.log(' query', query);
+
+//console.log('filter', filter);
+            $scope.subQueries={};
+            $scope.selectedSchema='';
+            $location.replace();
+            $location.search('filter',null);
+            if(filter && name && !query && !singleTon){
+                //$scope.subQueries=[];
+                $scope.subQueries=_.cloneDeep(filter);
+
+            }
+//console.log('$scope.subQueries', $scope.subQueries);
 						//if(!$scope.subQueries) // if called from controler without link ex4ecuting first
-            if(!$scope.subQueries[filter]) // initialize
-							$scope.subQueries[filter]={};
-						if(!_.isArray($scope.subQueries[filter][name])) // initialize
-							$scope.subQueries[filter][name]=[];
-						if(singleTon){  // allows for only one of that type ie date or keyword
-								$scope.subQueries[filter][name]=[];
-								$scope.subQueries[filter][name].push(query);
-						}
-						else if($scope.subQueries[filter][name].indexOf(query)<0) // if not already there add
-									$scope.subQueries[filter][name].push(query);
+            // if(!$scope.subQueries[filter]) // initialize
+						// 	$scope.subQueries[filter]={};
+						// if(!_.isArray($scope.subQueries[filter][name])) // initialize
+						// 	$scope.subQueries[filter][name]=[];
+						// if(singleTon){  // allows for only one of that type ie date or keyword
+						// 		$scope.subQueries[filter][name]=[];
+						// 		$scope.subQueries[filter][name].push(query);
+						// }
+						// else if($scope.subQueries[filter][name].indexOf(query)<0) // if not already there add
+						// 			$scope.subQueries[filter][name].push(query);
 
 
 				}//addSubQuery

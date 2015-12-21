@@ -9,7 +9,7 @@ var thesaurus   = require('../app/js/libs/thesaurus.js');
 var config =
 var sqldatabase = new SqlDatabase(config.connectionStrings['cbd']);
 
-var headers = { 'Accept': 'application/json', 'Content-Type': 'application/json;Charset=utf-8', 'Realm':'CHM-DEV','Authorization': 'Ticket B65CA6CD5B178A584EF2E85349B25EA7B42A325CD666AB1B8D1A63F0140EFD0C057E17268FEEA161486F184E7ED1699401C6BC0EEF016129200154B4F1C08ADDCD633E084DC844E53EBFC0BF4ECA8F5178A2FD81A88902D8949B5D061243105B5CC31E9D2EC8FEF155F980037D2C60FD991F6E01E097C0F54B3E7F5B1C344192' };
+var headers = { 'Accept': 'application/json', 'Content-Type': 'application/json;Charset=utf-8', 'Realm':'CHM-DEV','Authorization': '' };
 
 var documentUrl   = 'https://chm.cbd.int/api/v2013/documents/';
 

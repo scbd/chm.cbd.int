@@ -136,31 +136,12 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
             //
             //=======================================================================
             function generateMap(schema) {
+              if(!schema)return;
+              if (schema.indexOf('AICHI-TARGET-') > -1)
+                  progressColorMap(aichiMap);
+              else
+                  progressColorMap(defaultMap);
 
-                  switch (schema){
-                      case 'all':
-                            progressColorMap(defaultMap);
-                            return;
-                      case 'nationalAssessment':
-
-                            progressColorMap(aichiMap);
-                            return;
-                      case 'nationalReport':
-                            progressColorMap(defaultMap);
-                            return;
-                      case 'nationalIndicator':
-                                  progressColorMap(defaultMap);
-                                  return;
-                      case 'nbsaps':
-                            progressColorMap(defaultMap);
-                            return;
-                      case 'nationalTarget':
-                                  progressColorMap(defaultMap);
-                                  return;
-                      case 'resourceMobilisation':
-                                  progressColorMap(defaultMap);
-                                  return;
-                  }
             } //$scope.legendHide
 
 
@@ -223,7 +204,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 
                     //if(_.isEmpty($scope.items))hideAreas();
                     hideAreas();
-                    restLegend($scope.leggends.aichiTarget);
+
                     $scope.legendTitle=""; // rest legend title
                     _.each($scope.items,function(country){
                           _.each(country.docs,function(schema){
@@ -242,6 +223,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     changeAreaColor(country.identifier,progressToColor(progressToNumber(doc.progress_EN_t)));
                     buildProgressBaloon(country,progressToNumber(doc.progress_EN_t),doc.nationalTarget_EN_t);
                     legendTitle(country,schema,schemaName);
+                    restLegend($scope.leggends.aichiTarget);
                   //  if(!$scope.legendTitle)$scope.legendTitle=aichiTargetReadable(doc.nationalTarget_EN_t)+" Assessments" ;
               }
 
@@ -253,6 +235,7 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
                     changeAreaColor(country.identifier,'#428bca');
                     buildBaloon(country);
                     legendTitle(country,schema,schemaName);
+                    restLegend($scope.leggends.default);
               }
 
               //=======================================================================
@@ -260,9 +243,9 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
               //=======================================================================
               function legendTitle(country, schema, schemaName) {
 
-                    if (schemaName == "nationalAssessment") {
+                    if (schemaName.indexOf('AICHI-TARGET-') > -1 ) {
                       $scope.legendTitle = aichiTargetReadable(schema[0].nationalTarget_EN_t) + " Assessments";
-                    } else if (schemaName == 'nationalReport') {
+                    } else if (schemaName == 'nr5' || schemaName == 'nr4' || schemaName == 'nr3' || schemaName == 'nr2' || schemaName == 'nr1') {
                       $scope.legendTitle = schema[0].reportType_EN_t;
 
                     } else if (schemaName == 'nbsaps') {
@@ -318,22 +301,22 @@ app.directive('ammap3',['$timeout',  function ($timeout) {
 //console.log('id',area);
                 }//getMapObject
 
-                // //=======================================================================
-                // // c
-                // //=======================================================================
-                function buildNRBaloon(country) {
-
-                             var area = getMapObject(country.identifier);
-                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
-                             var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
-                             var balloonText2="<i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
-
-                             if(country.isEUR)
-                                area.balloonText+=euImg;
-
-                              area.balloonText+=balloonText2;
- //console.log('id',area);
-                 }//getMapObject
+ //                // //=======================================================================
+ //                // // c
+ //                // //=======================================================================
+ //                function buildNRBaloon(country) {
+ //
+ //                             var area = getMapObject(country.identifier);
+ //                             area.balloonText="<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
+ //                             var euImg="<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
+ //                             var balloonText2="<i class='flag-icon flag-icon-"+country.identifier+" ng-if='country.isEUR'></i>&nbsp;"+area.title+"</div> <div class='panel-body' style='text-align:left;'>"+country.docs.nationalReport[0].reportType_EN_t+"</div>";
+ //
+ //                             if(country.isEUR)
+ //                                area.balloonText+=euImg;
+ //
+ //                              area.balloonText+=balloonText2;
+ // //console.log('id',area);
+ //                 }//getMapObject
 
                  // //=======================================================================
                  // // c

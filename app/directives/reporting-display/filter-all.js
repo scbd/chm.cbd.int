@@ -1,4 +1,4 @@
-define(['text!./filter-all.html', 'app'], function(template, app) {
+define(['text!./filter-all.html', 'app','lodash'], function(template, app,_) {
   'use strict';
   app.directive('filterAll', [function() {
     return {
@@ -10,19 +10,25 @@ define(['text!./filter-all.html', 'app'], function(template, app) {
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-
+        $scope.queries = {
+              'all': {
+                'schema_s': [
+                  'nationalReport',
+                  'nationalAssessment',
+                  'resourceMobilisation',
+                  'nationalIndicator',
+                  'nationalTarget'
+                ],
+              '_latest_s':['true'],
+              '_state_s':['public']
+            }
+        };
           //=======================================================================
           //
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery('all','schema_s', 'nationalReport');
-            reportingDisplayCtrl.addSubQuery('all','schema_s', 'nationalAssessment');
-            reportingDisplayCtrl.addSubQuery('all','schema_s', 'resourceMobilisation');
-            reportingDisplayCtrl.addSubQuery('all','schema_s', 'nationalIndicator');
-            reportingDisplayCtrl.addSubQuery('all','schema_s', 'nationalTarget');
-            reportingDisplayCtrl.addSubQuery('all','_latest_s', 'true');
-            reportingDisplayCtrl.addSubQuery('all','_state_s', 'public');
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'all');
             reportingDisplayCtrl.search();
           }; // loadRecords
         } //link

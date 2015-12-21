@@ -10,15 +10,19 @@ define(['app','text!./filter-indicator.html'], function(app,template) {
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-
+        $scope.queries = {
+            'nationalIndicator': {
+              'schema_s': ['nationalIndicator'],
+              '_latest_s': ['true'],
+              '_state_s': ['public']
+            }
+          };
           //=======================================================================
           //
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery('schema_s', 'nationalIndicator');
-            reportingDisplayCtrl.addSubQuery('_latest_s', 'true');
-            reportingDisplayCtrl.addSubQuery('_state_s', 'public');
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'nationalIndicator');
             reportingDisplayCtrl.search();
           }; // loadRecords
 

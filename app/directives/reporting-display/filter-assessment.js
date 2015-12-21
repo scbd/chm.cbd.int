@@ -15,35 +15,164 @@ app.directive('filterAssessment',['$http','Thesaurus','$timeout', function ($htt
           link : function ($scope, $element, $attr, reportingDisplayCtrl)
         {
             $scope.expanded = false;
-            var progresses = $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", { cache: true }).then(function (o) { return o.data; });
+          //  var progresses = $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", { cache: true }).then(function (o) { return o.data; });
             var termsMap =[];
 
             $scope.termsModal = {};
             $scope.aichiTargets=[];
             $scope.disabledTarget=0;
-            buildTermsAndQuery();
-            $scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
+          //  buildTermsAndQuery();
+            //$scope.$watch('items',function(){reportingDisplayCtrl.updateTerms(termsMap,$scope.items,$scope.facet);});
 
-            //=======================================================================
-            //
-            //=======================================================================
-            function buildTermsAndQuery() {
+            $scope.queries = {
+                'AICHI-TARGET-01': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-01"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-02': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-02"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-03': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-03"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-04': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-04"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-05': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-05"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-06': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-06"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-07': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-07"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-08': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-08"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-09': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-09"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-10': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-10"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-11': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-11"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-12': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-12"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-13': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-13"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-14': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-14"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-15': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-15"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-16': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-16"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-17': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-17"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-18': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-18"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-19': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-19"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
+                'AICHI-TARGET-20': {
+                  'schema_s': ['nationalAssessment'],
+                  'nationalTarget_EN_t': ['"AICHI-TARGET-20"'],
+                  '_latest_s': ['true'],
+                  '_state_s': ['public']
+                },
 
-                  //  if(_.isEmpty(termsMap)){ // get terms once and save
-                        getAichiTargets().then(function (data) {
+            };
+            getAichiTargets().then(function (data) {
 
-                            $scope.aichiTargets=_.toArray(_.indexBy(data.data, 'number_d'));
-                            makeLocalIcons($scope.aichiTargets);
-                    //        $scope.terms=reportingDisplayCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets,1);
-                    //        reportingDisplayCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets);
+                $scope.aichiTargets=_.toArray(_.indexBy(data.data, 'number_d'));
+                makeLocalIcons($scope.aichiTargets);
 
-                        });//getAichiTargets
-                //    }else{
-//console.log('termsMap',termsMap);
-              //              $scope.terms = reportingDisplayCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets,1);
-              //              reportingDisplayCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets);
-              //      }
-            }//buildTermsAndQuery()
+            });//getAichiTargets
+//             //=======================================================================
+//             //
+//             //=======================================================================
+//             function buildTermsAndQuery() {
+//
+//                   //  if(_.isEmpty(termsMap)){ // get terms once and save
+//                         getAichiTargets().then(function (data) {
+//
+//                             $scope.aichiTargets=_.toArray(_.indexBy(data.data, 'number_d'));
+//                             makeLocalIcons($scope.aichiTargets);
+//                     //        $scope.terms=reportingDisplayCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets,1);
+//                     //        reportingDisplayCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets);
+//
+//                         });//getAichiTargets
+//                 //    }else{
+// //console.log('termsMap',termsMap);
+//               //              $scope.terms = reportingDisplayCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets,1);
+//               //              reportingDisplayCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,$scope.aichiTargets);
+//               //      }
+//             }//buildTermsAndQuery()
 
             //============================================================
         		//
@@ -60,7 +189,7 @@ app.directive('filterAssessment',['$http','Thesaurus','$timeout', function ($htt
           			};
           			//return defer;
           			return $http.get('https://api.cbd.int/api/v2013/index/select', { params: queryParameters, cache:true })				.then(function (data) {
-                					return {'data':data.data.response.docs};
+                          return {'data':data.data.response.docs};
                 });
 
         		}// getOrganizations
@@ -128,10 +257,11 @@ app.directive('filterAssessment',['$http','Thesaurus','$timeout', function ($htt
               //=======================================================================
               $scope.loadAssements = function (aichiNumber) {
 
-                if(aichiNumber)
-                    reportingDisplayCtrl.addSubQuery('nationalAssessment','schema_s:nationalAssessment AND _latest_s:true AND _state_s:public AND nationalTarget_EN_t:"'+aichiNumber+'"',true);
-                else
-                    reportingDisplayCtrl.deleteAllSubQuery('nationalAssessments');
+                var query={};
+                $scope.schema=aichiNumber;
+                query[aichiNumber]=$scope.queries[aichiNumber];
+
+                reportingDisplayCtrl.addSubQuery(_.cloneDeep(query),aichiNumber);
                 reportingDisplayCtrl.search();
 
               };// flatten

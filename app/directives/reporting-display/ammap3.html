@@ -49,42 +49,22 @@
       </div>
 
 <!-- Aichi Target Legend       -->
-      <div class="col-xs-4 col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="schema=='nationalAssessment'"  >
+      <div class="col-xs-4 col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="(schema.indexOf('AICHI-TARGET-') > -1)"  >
         <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible" ></div> {{item.title}}
       </div>
 
 <!-- NationalReport Legend       -->
-      <div class="col-md-4 leggendItem"   ng-if="schema=='nationalReport'">
+      <div class="col-md-4 leggendItem"   ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
       </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
-        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='nationalReport'">
+      <div class="col-md-4 leggendItem"  ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
+        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
           <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
         </div>
       </div>
       <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
       </div>
 
-<!-- NBSAP Legend       -->
-      <div class="col-md-4 leggendItem"   ng-if="schema=='nbsaps' || schema=='nationalIndicator' ||  schema=='nationalTarget'">
-      </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='nbsaps' || schema=='nationalIndicator' ||  schema=='nationalTarget'">
-        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="schema=='nbsaps' || schema=='nationalIndicator' ||  schema=='nationalTarget'">
-          <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
-        </div>
-      </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='nbsaps' || schema=='nationalIndicator' ||  schema=='nationalTarget'">
-      </div>
 
-<!-- Default Legend       -->
-      <div class="col-md-4 leggendItem"   ng-if="schema=='all'">
-      </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='all'">
-        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);">
-          <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
-        </div>
-      </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='all'">
-      </div>
 
 
     </div>

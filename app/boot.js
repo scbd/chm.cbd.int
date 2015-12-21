@@ -32,7 +32,7 @@ require.config({
       'ammap3'           : 'libs/ammap3/ammap/ammap',
       'ammap-theme'      : 'libs/ammap3/ammap/themes/light',
       'ammap-resp'       : 'libs/ammap3/ammap/plugins/responsive/responsive',
-
+      'ammap-export'     : 'libs/ammap3/ammap/plugins/export/export.min',
 
 
 
@@ -58,7 +58,8 @@ require.config({
       'ammapEU'                  : { deps: ['ammap3'] },
       'ammap3WorldHigh'          : { deps: ['ammap3'] },
       'ammap-theme'              : { deps: ['ammap3']},
-      'ammap-resp'               : { deps: ['ammap3']}
+      'ammap-resp'               : { deps: ['ammap3']},
+      'ammap-export'             : { deps: ['ammap3']}
     },
 });
 

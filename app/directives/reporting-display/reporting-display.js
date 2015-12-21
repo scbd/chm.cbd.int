@@ -333,7 +333,7 @@ $scope.urlStrings = {
 																							  // getFormatedSubQuery('nationalIndicator'),
 																							  // getFormatedSubQuery('resourceMobilisation')
 
-console.log('subQueries',subQueries);
+
 										if(subQueries.length)
 											q += " AND " + subQueries.join(" AND ");
 										return q;
@@ -347,15 +347,10 @@ console.log('subQueries',subQueries);
 								//
 								//=======================================================================
 								function getFormatedSubQuery (filter,name) {
-console.log('getFormatedSubQuery (filter',filter);
- console.log('getFormatedSubQuery (name',name);
 
-console.log('$scope.subQueries[filter]',$scope.subQueries[filter]);
-
-console.log('fil',fil);
 if(!filter)return'';
 var fil =$scope.subQueries[filter];
-console.log('fil',fil);
+
 if(!fil)return'';
 if(!fil[name])return'';
 

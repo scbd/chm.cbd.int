@@ -165,7 +165,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             },
             "areasSettings": {
               "autoZoom": true,
-              "selectedColor": "#423f3f",
+              "selectedColor": "#7fc3f4",
               "rollOverColor": "#423f3f",
               "selectable": true,
               "color": "#428bca",

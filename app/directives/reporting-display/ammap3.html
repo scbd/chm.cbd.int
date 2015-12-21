@@ -1,4 +1,4 @@
-<div class="col-md-7" >
+<div class="col-md-7">
   <style>
     .square {
       width: 18px;
@@ -10,8 +10,9 @@
       text-align: center;
       font-size: 10px;
       white-space: nowrap;
-      cursor:pointer;
+      cursor: pointer;
     }
+
     .disclaimer {
       position: absolute;
       text-decoration: none;
@@ -20,16 +21,14 @@
       font-size: 11px;
       opacity: 0.7;
       display: block;
-      right: 19px;
+      right: 290px;
       top: 382px;
       cursor: pointer;
-}
-
-
+    }
   </style>
-
+<link  type="text/css" href="/app/libs/ammap3/ammap/plugins/export/export.css" rel="stylesheet">
   <div id="mapdiv" style="maxwidth: 900px; height: 400px;  "></div>
-  <div class="disclaimer tooltip" data-toggle="modal" href="#dialogDisclaimer" >Disclaimer</div>
+  <div class="disclaimer tooltip" data-toggle="modal" href="#dialogDisclaimer">Disclaimer</div>
   <!-- <select id="langselect" onchange="setLanguage(this.options[this.selectedIndex].value);">
     <option value="en" selected="selected">English (default)</option>
     <option value="ar" >Arabic</option>
@@ -42,42 +41,42 @@
   <div class="panel panel-default">
     <div class="row" style="padding-top:3px; ">
 
-<!-- Legend tittle       -->
+      <!-- Legend tittle       -->
       <div class="col-md-12" style="text-align:center; margin-top:0; margin-bottom:0;" ng-if="items">
-          <h4 style="text-align:center; margin-top:0; margin-bottom:0; padding-bottom:0px;">{{legendTitle}}</h4>
-          <h7 style="text-align:center; font-style: italic; margin-top:0; margin-bottom:0; padding-bottom:0px;">(Interactive Legend)</h7>
+        <h4 style="text-align:center; margin-top:0; margin-bottom:0; padding-bottom:0px;">{{legendTitle}}</h4>
+        <h7 style="text-align:center; font-style: italic; margin-top:0; margin-bottom:0; padding-bottom:0px;">(Interactive Legend)</h7>
       </div>
 
-<!-- Aichi Target Legend       -->
-      <div class="col-xs-4 col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="(schema.indexOf('AICHI-TARGET-') > -1)"  >
-        <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible" ></div> {{item.title}}
+      <!-- Aichi Target Legend       -->
+      <div class="col-xs-4 col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="(schema.indexOf('AICHI-TARGET-') > -1)">
+        <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i>
+        <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
       </div>
 
-<!-- NationalReport Legend       -->
-      <div class="col-md-4 leggendItem"   ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
+      <!-- NationalReport Legend       -->
+      <div class="col-md-4 leggendItem" ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
       </div>
-      <div class="col-md-4 leggendItem"  ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
-        <div class="col-md-6 leggendItem"  ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
-          <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i> <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
+      <div class="col-md-4 leggendItem" ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
+        <div class="col-md-6 leggendItem" ng-repeat="item in leggends.nationalReport" ng-click="legendHide(item);" ng-if="!(schema.indexOf('AICHI-TARGET-') > -1)">
+          <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i>
+          <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
         </div>
       </div>
-      <div class="col-md-4 leggendItem"  ng-if="schema=='nationalReport'">
+      <div class="col-md-4 leggendItem" ng-if="schema=='nationalReport'">
       </div>
-
-
-
 
     </div>
   </div>
   <div id="dialogDisclaimer" class="modal fade">
     <div class="modal-dialog">
-      <div class="modal-content" style="width:760px">
+      <div class="modal-content">
         <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h2 class="modal-title">Disclaimer</h2>
-</div>
-        <div class="modal-body" style="padding-left:20px">
-The designations employed and the presentation of material in this map do not imply the expression of any opinion whatsoever on the part of the Secretariat concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2 class="modal-title">Disclaimer</h2>
+        </div>
+        <div class="modal-body">
+          The designations employed and the presentation of material in this map do not imply the expression of any opinion whatsoever on the part of the Secretariat concerning the legal status of any country, territory, city or area or of its authorities, or concerning
+          the delimitation of its frontiers or boundaries.
 
         </div>
         <div class="modal-footer" style="text-align:left;">

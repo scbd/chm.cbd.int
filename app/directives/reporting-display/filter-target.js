@@ -1,4 +1,4 @@
-define(['app', 'text!./filter-target.html','lodash'], function(app, template,_) {
+define(['app', 'text!./filter-target.html', 'lodash'], function(app, template, _) {
   'use strict';
   app.directive('filterTarget', [function() {
     return {
@@ -10,7 +10,7 @@ define(['app', 'text!./filter-target.html','lodash'], function(app, template,_) 
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-        $scope.queries = {
+          $scope.queries = {
             'nationalTarget': {
               'schema_s': ['nationalTarget'],
               '_latest_s': ['true'],
@@ -22,7 +22,7 @@ define(['app', 'text!./filter-target.html','lodash'], function(app, template,_) 
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'nationalTarget');
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries), 'nationalTarget');
             reportingDisplayCtrl.search();
           }; // loadRecords
 

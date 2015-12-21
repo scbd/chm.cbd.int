@@ -78,9 +78,11 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             color: '#428bca'
           }, ],
         };
+        //generates new map with new data
         $scope.$watch('items', function() {
           ammap3.generateMap($scope.schema);
         });
+        //external zoomToMap
         $scope.$watch('zoomTo', function() {
           zoomTo();
         }); //
@@ -155,12 +157,11 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             "dataProvider": {
               "map": "worldEUHigh",
               "getAreasFromMap": true,
-              images: [{
-                label: "EU",
-                latitude: -5.02,
-                longitude: -167.66
+              "images": [{
+                "label": "EU",
+                "latitude": -5.02,
+                "longitude": -167.66
               }],
-
             },
             "areasSettings": {
               "autoZoom": true,
@@ -183,12 +184,12 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         //
         //=======================================================================
         function generateMap(schema) {
+
           if (!schema) return;
           if (schema.indexOf('AICHI-TARGET-') > -1)
             progressColorMap(aichiMap);
           else
             progressColorMap(defaultMap);
-
         } //$scope.legendHide
 
         //=======================================================================
@@ -204,7 +205,27 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         //=======================================================================
         //
         //=======================================================================
+        function progressToNumber(progress) {
+
+          switch (progress.trim()) {
+            case "On track to exceed target":
+              return 5;
+            case "On track to achieve target":
+              return 4;
+            case "Progress towards target but at an  insufficient rate":
+              return 3;
+            case "No significant change":
+              return 2;
+            case "Moving away from target":
+              return 1;
+          }
+        } //progressToNumber(progress)
+
+        //=======================================================================
+        //
+        //=======================================================================
         $scope.legendHide = function(legendItem) {
+
           _.each($scope.map.dataProvider.areas, function(area) {
             if (legendItem.color === area.originalColor && area.mouseEnabled === true) {
               area.colorReal = '#FFFFFF';
@@ -236,6 +257,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         //
         //=======================================================================
         function writeMap(mapData) {
+
           if (!mapData) mapData = getMapData();
           $scope.map = AmCharts.makeChart("mapdiv", mapData); //jshint ignore:line
           $scope.map.write("mapdiv");
@@ -247,7 +269,6 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         function progressColorMap(mapTypeFunction) {
 
           hideAreas();
-
           $scope.legendTitle = ""; // rest legend title
           _.each($scope.items, function(country) {
             _.each(country.docs, function(schema) {
@@ -272,7 +293,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         //
         //=======================================================================
         function defaultMap(country, schema, schemaName) {
-          //var doc =schema[0];
+
           changeAreaColor(country.identifier, '#428bca');
           buildBaloon(country);
           legendTitle(country, schema, schemaName);
@@ -312,7 +333,6 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
 
           var area = getMapObject(id);
           area.colorReal = area.originalColor = color;
-
         } //getMapObject
 
         // //=======================================================================
@@ -336,7 +356,6 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           var balloonText2 = area.title + "</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='" + getProgressIcon(progress) + "' >" + getProgressText(progress, target) + "</div> </div>";
           if (country.isEUR)
             area.balloonText += euImg;
-
           area.balloonText += balloonText2;
         } //buildProgressBaloon
 
@@ -344,7 +363,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         // // c
         // //=======================================================================
         function buildBaloon(country) {
-          //console.log(country);
+
           var area = getMapObject(country.identifier);
           area.balloonText = "<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:large;''>";
           var euImg = "<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>";
@@ -383,10 +402,8 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
                   if ($scope.schema !== 'all')
                     balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.nationalTarget[0].title_t + "</div>";
                   break;
-
               }
-            });
-
+            }); //_.each
           }
           area.balloonText += balloonBody;
         } //getMapObject
@@ -454,25 +471,6 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           });
           return $scope.map.dataProvider.areas[index];
         } //getMapObject
-
-        //=======================================================================
-        //
-        //=======================================================================
-        function progressToNumber(progress) {
-
-          switch (progress.trim()) {
-            case "On track to exceed target":
-              return 5;
-            case "On track to achieve target":
-              return 4;
-            case "Progress towards target but at an  insufficient rate":
-              return 3;
-            case "No significant change":
-              return 2;
-            case "Moving away from target":
-              return 1;
-          }
-        } //progressToNumber(progress)
 
         //=======================================================================
         //

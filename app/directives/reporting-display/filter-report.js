@@ -1,6 +1,5 @@
 define(['text!./filter-report.html', 'app', 'lodash'], function(template, app, _) {
   'use strict';
-
   app.directive('filterReport', ['$http', 'Thesaurus', '$location', function($http, thesaurus, $location) {
     return {
       restrict: 'EAC',
@@ -13,7 +12,6 @@ define(['text!./filter-report.html', 'app', 'lodash'], function(template, app, _
         schema: '=schema',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-
 
           $scope.classPanelCollapse = "panel-collapse";
           $scope.classCollapse = "collapse";

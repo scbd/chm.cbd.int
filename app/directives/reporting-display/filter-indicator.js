@@ -25,7 +25,7 @@ define(['app','text!./filter-indicator.html'], function(app,template) {
             reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'nationalIndicator');
             reportingDisplayCtrl.search();
           }; // loadRecords
-
+          
         } //link
     }; // return
   }]); //app.directive('searchFilterCountries

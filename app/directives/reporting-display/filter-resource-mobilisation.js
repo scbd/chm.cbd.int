@@ -1,4 +1,4 @@
-define(['app','text!./filter-resource-mobilisation.html'], function(app,template) {
+define(['app', 'text!./filter-resource-mobilisation.html','lodash'], function(app, template,_) {
   'use strict';
   app.directive('filterResourceMobilisation', [function() {
     return {
@@ -10,7 +10,7 @@ define(['app','text!./filter-resource-mobilisation.html'], function(app,template
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-        $scope.queries = {
+          $scope.queries = {
             'resourceMobilisation': {
               'schema_s': ['resourceMobilisation'],
               '_latest_s': ['true'],
@@ -22,8 +22,7 @@ define(['app','text!./filter-resource-mobilisation.html'], function(app,template
           //=======================================================================
           $scope.loadRecords = function() {
 
-
-            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'resourceMobilisation');
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries), 'resourceMobilisation');
             reportingDisplayCtrl.search();
           }; // flatten
 

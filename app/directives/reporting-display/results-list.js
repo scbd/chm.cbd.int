@@ -24,7 +24,7 @@ app.directive('resultsList',['$timeout', function ($timeout) {
                 'resourceMobilisation':'Financial Resource Mobilization'
             };
             $scope.$watch('items',function(){console.log($scope.items);init();});
-            $scope.$watch('show',function(){showCountry($scope.show);});
+            $scope.$watch('show',function(){showCountry($scope.show);},true);
           //  $scope.home = function () {alert('here');reportingDisplayCtrl.showCountryResultList('show')};
             //=======================================================================
     				//

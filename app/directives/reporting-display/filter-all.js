@@ -23,6 +23,7 @@ define(['text!./filter-all.html', 'app','lodash'], function(template, app,_) {
               '_state_s':['public']
             }
         };
+
           //=======================================================================
           //
           //=======================================================================
@@ -31,6 +32,8 @@ define(['text!./filter-all.html', 'app','lodash'], function(template, app,_) {
             reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'all');
             reportingDisplayCtrl.search();
           }; // loadRecords
+
+
         } //link
     }; // return
   }]); //app.directive('searchFilterCountries

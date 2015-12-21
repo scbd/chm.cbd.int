@@ -149,6 +149,7 @@ define(['text!./filter-assessment.html', 'app', 'lodash'], function(template, ap
             $scope.aichiTargets = _.toArray(_.indexBy(data.data, 'number_d'));
             makeLocalIcons($scope.aichiTargets);
             var filter = _([$location.search().filter]).flatten().compact().value()[0];
+            if(filter)
             if (filter.indexOf('AICHI-TARGET') > -1) {
               var term = _.find($scope.aichiTargets, function(term) {
                 return term.identifier_s === filter;

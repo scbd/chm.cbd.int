@@ -1,4 +1,4 @@
-define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'ammap-theme', 'ammap-export'], function(template, app, _) {
+define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'ammap-theme', 'ammap-export','ammap-ex-fabric','ammap-ex-filesaver','ammap-ex-pdfmake','ammap-ex-vfs-fonts','ammap-ex-jszip','ammap-ex-xlsx'], function(template, app, _) {
   'use strict';
 
   app.directive('ammap3', ['$timeout', function($timeout) {
@@ -139,7 +139,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         function zoomTo() {
           if ($scope.zoomTo[0])
             $scope.map.clickMapObject(ammap3.getMapObject($scope.zoomTo[0]));
-        }; //$scope.legendHide
+        } //$scope.legendHide
 
         //=======================================================================
         //
@@ -151,9 +151,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             "responsive": {
               "enabled": true
             },
-            "libs": {
-              "path": "/app/libs/"
-            },
+
             "dataProvider": {
               "map": "worldEUHigh",
               "getAreasFromMap": true,
@@ -171,10 +169,11 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
               "color": "#428bca",
             },
             "smallMap": {},
-            // "export": {
-            //   "enabled": true,
-            //   "position": "bottom-right"
-            // },
+            "export": {
+              "libs": { "autoLoad": false},
+              "enabled": true,
+              "position": "bottom-right"
+            },
           }; //
         } //$scope.initMap
       }, //link
@@ -200,7 +199,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           _.each(legend, function(legendItem) {
             legendItem.visible = true;
           });
-        }; //$scope.legendHide
+        } //$scope.legendHide
 
         //=======================================================================
         //

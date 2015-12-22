@@ -171,10 +171,10 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
               "color": "#428bca",
             },
             "smallMap": {},
-            "export": {
-              "enabled": true,
-              "position": "bottom-right"
-            },
+            // "export": {
+            //   "enabled": true,
+            //   "position": "bottom-right"
+            // },
           }; //
         } //$scope.initMap
       }, //link

@@ -18,7 +18,7 @@ require.config({
       'jquery'           : 'libs/jquery/dist/jquery.min',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
-      'ng-breadcrumbs'   : 'libs/ng-breadcrumbs/dist/ng-breadcrumbs.min',
+      'ng-breadcrumbs'   : 'js/libs/ng-breadcrumbs/dist/ng-breadcrumbs.min',
       'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
       'ionsound'         : 'libs/ionsound/js/ion.sound.min',
       'jqvmap'           : 'js/libs/jqvmap/jqvmap/jquery.vmap',

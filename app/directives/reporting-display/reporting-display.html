@@ -1,0 +1,27 @@
+<div>
+  <style>
+    .resultList {
+      font-size: 10px;
+      margin-top: 1px;
+      width: 100%;
+      ;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  </style>
+  <div class="col-md-2">
+    <div class="panel-group" id="accordion">
+      <filter-report title='National Reports' ng-model='nationalReports' schema='selectedSchema' scope.style="padding-right:15px;background-color: #FAFAFA;"></filter-report>
+      <filter-nbsap title='NBSAPs' count='count'></filter-nbsap>
+      <filter-assessment title='Aichi Assessments' ng-model='nationalAssessment' facet='nationalTarget_s' count='count' style="padding-right:15px;background-color: #FAFAFA;"></filter-assessment>
+      <filter-indicator title='National Indicators'></filter-indicator>
+      <filter-target title='National Targets'></filter-target>
+      <filter-resource-mobilisation title='Resource Mobilisation'></filter-resource-mobilisation>
+      <filter-all title='All Reports' ng-model='allRecords' count='count'></filter-all>
+    </div>
+  </div>
+  <ammap3 ng-model='documents' schema='selectedSchema' zoom-to='zoomToMap' debug="false"></ammap3>
+  <div class="col-md-3 " style="padding-left:0; padding-right:0;">
+    <results-list ng-model='documents' count='count' show="showCountry"></results-list>
+  </div>
+</div>

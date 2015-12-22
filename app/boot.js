@@ -18,7 +18,7 @@ require.config({
       'jquery'           : 'libs/jquery/dist/jquery.min',
       'moment'           : 'libs/moment/moment',
       'leaflet-directive': 'js/libs/leaflet/angular-leaflet-directive',
-      'ng-breadcrumbs'   : 'libs/ng-breadcrumbs/dist/ng-breadcrumbs.min',
+      'ng-breadcrumbs'   : 'js/libs/ng-breadcrumbs/dist/ng-breadcrumbs.min',
       'bootstrap-datepicker': 'libs/bootstrap-datepicker/js/bootstrap-datepicker',
       'ionsound'         : 'libs/ionsound/js/ion.sound.min',
       'jqvmap'           : 'js/libs/jqvmap/jqvmap/jquery.vmap',
@@ -27,6 +27,13 @@ require.config({
       'ngAria'           : 'libs/angular-aria/angular-aria.min',
       'ngMaterial'       : 'libs/angular-material/angular-material.min',
       'ngSmoothScroll'   : 'libs/ngSmoothScroll/angular-smooth-scroll.min',
+      'ammapEU'          : 'directives/reporting-display/eu',
+      'ammap3WorldHigh'  : 'directives/reporting-display/worldEUHigh',
+      'ammap3'           : 'libs/ammap3/ammap/ammap',
+      'ammap-theme'      : 'libs/ammap3/ammap/themes/light',
+      'ammap-resp'       : 'libs/ammap3/ammap/plugins/responsive/responsive',
+      'ammap-export'     : 'libs/ammap3/ammap/plugins/export/export.min',
+
 
 
     },
@@ -48,7 +55,11 @@ require.config({
       'ngAria'                   : { deps: ['angular'] },
       'ngMaterial'               : { deps: ['angular', 'ngAnimate', 'ngAria'] },
       'ngSmoothScroll'           : { deps: ['angular'] },
-
+      'ammapEU'                  : { deps: ['ammap3'] },
+      'ammap3WorldHigh'          : { deps: ['ammap3'] },
+      'ammap-theme'              : { deps: ['ammap3']},
+      'ammap-resp'               : { deps: ['ammap3']},
+      'ammap-export'             : { deps: ['ammap3']}
     },
 });
 

@@ -3,7 +3,7 @@ define(['text!./reporting-display.html',
   'jquery',
   'lodash',
   './ammap3',
-  './eumap',
+
   "utilities/km-utilities",
   "./results-list",
   "./filter-assessment",

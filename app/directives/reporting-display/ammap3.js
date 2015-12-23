@@ -399,7 +399,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
                   break;
                 case 'resourceMobilisation':
                   if ($scope.schema !== 'all')
-                    balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.nationalTarget[0].title_t + "</div>";
+                    balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.resourceMobilisation[0].title_t + "</div>";
                   break;
               }
             }); //_.each

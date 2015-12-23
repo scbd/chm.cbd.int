@@ -57,7 +57,6 @@ require.config({
       'ngAria'                   : { deps: ['angular'] },
       'ngMaterial'               : { deps: ['angular', 'ngAnimate', 'ngAria'] },
       'ngSmoothScroll'           : { deps: ['angular'] },
-      'ammapEU'                  : { deps: ['ammap3'] },
       'ammap3WorldHigh'          : { deps: ['ammap3'] },
       'ammap-theme'              : { deps: ['ammap3']},
       'ammap-resp'               : { deps: ['ammap3']},

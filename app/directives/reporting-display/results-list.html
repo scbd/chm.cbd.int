@@ -187,7 +187,7 @@
 								<span ng-if="schemaName=='nbsaps'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.startDate_s}}</a></span>
 								<span ng-if="schemaName=='nationalIndicator'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
 								<span ng-if="schemaName=='nationalTarget'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
-								<span ng-if="schemaName=='resourceMobilisation'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
+								<span ng-if="schemaName=='resourceMobilisation'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t.substring(doc.title_t.length-4)}}</a></span>  
 							</li>
 						</ul>
 					</li>

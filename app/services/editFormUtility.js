@@ -9,6 +9,7 @@ app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route
 		"marineEbsa"             : { name : "publishReferenceRecord", version : undefined },
 		"strategicPlanIndicator" : { name : "publishReferenceRecord", version : undefined },
 		"resource"               : { name : "publishReferenceRecord", version : undefined },
+		"capacityBuildingInitiative" : { name : "publishReferenceRecord", version : undefined },
 		"organization"           : { name : "publishReferenceRecord", version : undefined },
 		"lwCampaigns"            : { name : "publishReferenceRecord", version : undefined },
 

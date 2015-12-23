@@ -37,6 +37,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "contact") return "Contact";
             if (schema == "database") return "National Database";
             if (schema == "resource") return "Virtual Library Resource";
+            if (schema == "capacityBuildingInitiative") return "Capacity-building Initiative";
             if (schema == "organization") return "Organization";
             if (schema == "measure") return "National Regulation";
             if (schema == "marineEbsa") return "Ecologically or Biologically Significant Areas (EBSAs)";
@@ -92,7 +93,7 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             editUrl : function(schema, uid, type){
 
                 var url = '/submit/';
-                
+
                 if(_(['nationalReport', 'resourceMobilisation']).contains(schema)) {
                     url = '/submit/';
                 }

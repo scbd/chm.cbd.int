@@ -52,7 +52,8 @@ define(['text!./search.html',
 	                'nationalAssessment'    : 'icon-eye-open',
 	                'implementationActivity': 'icon-retweet',
 	                'nationalSupportTool'   : 'icon-wrench',
-									'resourceMobilisation'  : 'fa fa-university'
+					'resourceMobilisation'  : 'fa fa-university',
+					'capacityBuildingInitiative' : 'fa fa-book'
 	            };
 
 	            $scope.loaded          = false;
@@ -290,7 +291,7 @@ define(['text!./search.html',
 				//
 				//=======================================================================
 				function search () {
-					
+
 						if(queryScheduled)
 								$timeout.cancel($scope.queryScheduled);
 						queryScheduled = $timeout(function () { query($scope); }, 100);

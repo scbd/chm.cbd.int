@@ -65,6 +65,9 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/strategicPlanIndicator/new',                   { templateUrl: 'views/management/edit/strategic-plan-indicator.html',   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/strategicPlanIndicator/:uid',                  { templateUrl: 'views/management/edit/strategic-plan-indicator.html',   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
+            when('/submit/capacityBuildingInitiative/new',             { templateUrl: 'views/management/edit/capacity-building-initiative.html', label: 'Form',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/capacityBuildingInitiative/:uid',            { templateUrl: 'views/management/edit/capacity-building-initiative.html', label: 'Form',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+
             // when('/management',                               { templateUrl: 'views/management/index.html',                  label : 'Management Centre', resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/national-reporting/:schema?',   { templateUrl: 'views/management/national-reporting.html',     label : 'National Reporting',resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/list/:schema?',                 { templateUrl: 'views/management/record-list.html',            label : 'My Records',        resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

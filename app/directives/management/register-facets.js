@@ -30,6 +30,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
                 { identifier: 'resource',               title: 'Virtual Library - CHM Resouces' ,             type:'Reference'  },
                 { identifier: 'organization',           title: 'Biodiversity Related Organizations'  ,  type:'Reference'  },
+                { identifier: 'capacityBuildingInitiative', title: { en: 'Capacity-building Initiatives',  type:'Reference' } },
 
                 { identifier: 'caseStudy',              title: 'Case Studies'  ,                                                 type:'SCBD'  },
                 { identifier: 'marineEbsa',             title: 'Marine Ecologically or Biologically Significant Areas (EBSA)'  , type:'SCBD'  },
@@ -66,8 +67,9 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             }
             //open section based on url
             if($location.url().indexOf("/resource") >= 0 ||
-               $location.url().indexOf("/organization") >= 0 ){
-                $scope.showReference = true;
+               $location.url().indexOf("/organization") >= 0 ||
+               $location.url().indexOf("/capacityBuildingInitiative") >= 0){
+                   $scope.showReference = true;
             }
 
             //open section based on url
@@ -106,7 +108,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
                     {
                         return true;
                     }
-             
+
                 return false;
             };
             //==============================
@@ -118,7 +120,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
                 {
                     return true;
                 }
-             
+
                 return false;
             };
             //==============================
@@ -241,7 +243,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
 
             $scope.loadVLRFacets = function(){
-                var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator";
+                var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator,capacityBuildingInitiative";
                 var published     = storage.documentQuery.facets(filter,{collection:"my"});
                 var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
                 var requests      = storage.documentQuery.facets(filter,{collection:"request"});
@@ -251,7 +253,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
                   _.each(results, function(facets){
                       _.each(facets.data, function(count, format){
-                          if(_.indexOf(["resource","organization","caseStudy","marineEbsa","aichiTarget","strategicPlanIndicator"],format)>=0){
+                          if(_.indexOf(["resource","organization","capacityBuildingInitiative","caseStudy","marineEbsa","aichiTarget","strategicPlanIndicator"],format)>=0){
                                 var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
                                 if(schemaTypeFacet.length>0){
                                     if(index===0)

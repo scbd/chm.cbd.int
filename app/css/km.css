@@ -43,6 +43,10 @@ ol.km-value > li
 	border-radius: 4px;
 }
 
+div.km-value
+{
+		white-space: pre-wrap;
+}
 ul.km-value,
 ol.km-value
 {

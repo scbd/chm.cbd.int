@@ -10,7 +10,7 @@
 			</ul>
 		</div>
 
-		<div ng-show="document.reportType">
+		<div ng-if="document.reportType.identifier!='nr'">
 			<label>Type of Document</label>
 			<ul class="km-value">
 				<li>{{document.reportType | term:locale}} </li>

@@ -38,6 +38,10 @@ require.config({
       'ammap-ex-vfs-fonts'  : 'libs/ammap3/ammap/plugins/export/libs/pdfmake/vfs_fonts',
       'ammap-ex-jszip'      : 'libs/ammap3/ammap/plugins/export/libs/jszip/jszip.min',
       'ammap-ex-xlsx'       : 'libs/ammap3/ammap/plugins/export/libs/xlsx/xlsx.min',
+      'amchart3'            : 'libs/amcharts3/amcharts/amcharts',
+      'amchart3-serial'     : 'libs/amcharts3/amcharts/serial',
+      'amchart3-pie'        : 'libs/amcharts3/amcharts/pie',
+      'amchart3-theme-light': 'libs/amcharts3/amcharts/themes/light'
     },
     shim: {
       'libs/angular/angular'     : { deps: ['jquery'] },
@@ -57,11 +61,12 @@ require.config({
       'ngAria'                   : { deps: ['angular'] },
       'ngMaterial'               : { deps: ['angular', 'ngAnimate', 'ngAria'] },
       'ngSmoothScroll'           : { deps: ['angular'] },
-      'ammapEU'                  : { deps: ['ammap3'] },
       'ammap3WorldHigh'          : { deps: ['ammap3'] },
       'ammap-theme'              : { deps: ['ammap3']},
       'ammap-resp'               : { deps: ['ammap3']},
-      'ammap-export'             : { deps: ['ammap3']}
+      'amchart3-serial'          : { deps: ['amchart3']},
+      'amchart3-pie'             : { deps: ['amchart3']},
+      'amchart3-theme-light'     : { deps: ['amchart3']},
     },
 });
 

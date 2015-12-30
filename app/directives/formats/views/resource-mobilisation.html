@@ -33,7 +33,7 @@
 
 			<div ng-show="document.respondentOrganization">
 				<label>Organization</label>
-				<div class="km-value">{{document.respondentOrganization | lstring:locale}}</div>
+				<div class="km-value km-pre">{{document.respondentOrganization | lstring:locale}}</div>
 			</div>
 
 			<div ng-show="document.respondentDepartment">
@@ -169,7 +169,7 @@
 
 			<div ng-show="document.internationalResources.baselineData.methodologicalComments">
 				<label>Other methodological observations/comments, including sources of data:</label>
-				<div class="km-value">{{document.internationalResources.baselineData.methodologicalComments | lstring:locale}}</div>
+				<div class="km-value km-pre">{{document.internationalResources.baselineData.methodologicalComments | lstring:locale}}</div>
 			</div>
 		</div>
 
@@ -398,7 +398,7 @@
 
 					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
 						<label>Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data:</label>
-						<div class="km-value">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyComments | lstring:locale}}</div>
+						<div class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyComments | lstring:locale}}</div>
 					</div>
 				</div>
 			</div>
@@ -444,7 +444,7 @@
 		</table>
 		<div ng-show="document.fundingNeedsData.additionalComments">
 			<label>Additional methodological observations/comments, including sources of data:</label>
-			<div class="km-value">{{document.fundingNeedsData.additionalComments | lstring:locale}}</div>
+			<div class="km-value km-pre">{{document.fundingNeedsData.additionalComments | lstring:locale}}</div>
 		</div>
 	</div>
 
@@ -510,7 +510,7 @@
 		</table>
 		<div ng-show="document.nationalPlansData.additionalComments">
 			<label>Additional methodological observations/comments, including sources of data:</label>
-			<div class="km-value">{{document.nationalPlansData.additionalComments | lstring:locale}}</div>
+			<div class="km-value km-pre">{{document.nationalPlansData.additionalComments | lstring:locale}}</div>
 		</div>
 	</div>
 
@@ -556,7 +556,7 @@
 		<legend>Additional Information</legend>
 
 		<div ng-show="document.relevantInformation">
-			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+			<div class="km-value km-pre" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
 		</div>
 
 		<div ng-show="document.relevantDocuments">

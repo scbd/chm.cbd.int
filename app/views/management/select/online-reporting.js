@@ -110,7 +110,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                        "url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, jurisdiction_*, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : 0,
-                "row"   : 500,
+                "rows"   : 500,
             };
 
             return $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {

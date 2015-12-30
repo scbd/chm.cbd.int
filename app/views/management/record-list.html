@@ -72,7 +72,7 @@
             	</thead>
             	<tbody>
             		<tr ng-repeat="record in records">
-            			<td class="type">
+            			<td class="type" style="max-width:150px;">
                             <b>{{record.schemaName | lstring}}
                                 <span ng-switch="subSchema">
                                     <span ng-switch-when="nr"></span>

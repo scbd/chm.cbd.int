@@ -11,14 +11,14 @@ define(['app', "directives/stats-display/amchart3","directives/stats-display/res
           return;
         });
         $timeout(function(){
-          $http.get("http://localhost:8000/api/v2015/rm-stats/chart-data", {cache: true}).then(function(o) {
+          $http.get("api/v2015/rm-stats/chart-data", {cache: true}).then(function(o) {
 
               $scope.chartData= o.data;
             return;
           });
         });
 
-        $http.get("http://localhost:8000/api/v2015/rm-stats/source-docs", {cache: true}).then(function(o) {
+        $http.get("api/v2015/rm-stats/source-docs", {cache: true}).then(function(o) {
             $scope.documents= o.data;
           return;
         });

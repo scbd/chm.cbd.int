@@ -85,8 +85,8 @@
                         </td>
             			<td class="descr">
                             <h5 class="title" style="margin:0;padding:0;">
-                                <span ng-hide="record.url">{{(record.title ||  record.identifier_s) | lstring}}</span>
-                                <a    ng-show="record.url" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
+                                <span ng-if="record._state_s=='draft'">{{(record.title ||  record.identifier_s) | lstring}}</span>
+                                <a    ng-if="record._state_s=='public'" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
                                 <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
                             </h5>
                             <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>

@@ -36,9 +36,9 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //
         //==============================
         $scope.isNationalUser = function(){
-            return $rootScope.user && $rootScope.user.government && (realmConfig.isChmNationalFocalPoint($rootScope.user) 
+            return $rootScope.user && $rootScope.user.government && (realmConfig.isChmNationalFocalPoint($rootScope.user)
                         || realmConfig.isChmNationalAuthorizedUser($rootScope.user)
-                        || realmConfig.isAdministrato($rootScope.user) 
+                        || realmConfig.isAdministrato($rootScope.user)
                         || realmConfig.isChmAdministrator($rootScope.user));
         };
 
@@ -206,7 +206,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
                 $q.when(published)
                   .then(function(result){
                    var pivotResult = result.data.facet_counts.facet_pivot['reportType_s,_state_s'];
-                   console.log(pivotResult);
+
                    calculateFacet(pivotResult, 'publishCount');
                 });
 
@@ -263,8 +263,6 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
 
             var otherReport = _.where($scope.schemasList, {'identifier':'otherReport'})[0];
             facetSummation(qqOthers,otherReport);
-
-            console.log($scope.schemasList);
 
         }
 

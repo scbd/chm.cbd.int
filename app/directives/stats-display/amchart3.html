@@ -1,0 +1,64 @@
+<div class="col-md-9" style="padding-left:30px;">
+  <style>
+    #chartdiv {
+      width: 100%;
+      height: 300px;
+      font-size: 11px;
+    }
+
+    #chartdivpie {
+      width: 100%;
+      height: 300px;
+      font-size: 11px;
+    }
+
+    .table-chart {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+  <!-- <link  type="text/css" href="/app/libs/ammap3/ammap/plugins/export/export.css" rel="stylesheet"> -->
+  <div class="type-selector">
+    Select chart type:
+    <label>
+      <input type="radio" name="type" value="line" ng-click="setType('line');" /> Line</label>
+    <label>
+      <input type="radio" name="type" value="area" ng-click="setType('area');" /> Area</label>
+    <label>
+      <input type="radio" name="type" value="column" ng-click="setType('column');" /> Column</label>
+    <label>
+      <input type="radio" name="type" value="column" ng-click="setType('table');" /> Table</label>
+    <label>
+      <input type="radio" name="type" ng-click="setType('pie');" checked="checked" /> Pie</label>
+  </div>
+  <div id="chartdiv" ng-show="showChart"></div>
+  <div id="chartdivpie" ng-show="showPie"></div>
+  <div ng-show="showTable">
+    <table class="table-chart table table-striped" style="width:200px;">
+      <thead>
+        <tr>
+          <th style="white-space:nowrap;width:50px;text-align:left;">Country</th>
+          <th style="white-space:nowrap;width:50px;text-align:center;">Published</th>
+          <th style="white-space:nowrap;width:50px;text-align:center;">Drafts</th>
+          <th style="white-space:nowrap;width:50px;text-align:center;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="country in items">
+          <td>
+            {{country.name | lstring}}
+          </td>
+          <td>
+            {{country.numPublic}}
+          </td>
+          <td>
+            {{country.numDraft}}
+          </td>
+          <td>
+            {{country.numDocs}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

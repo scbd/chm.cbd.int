@@ -102,15 +102,14 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           //  });
           //                 $scope.$apply();
           // reportingDIsplay.showCountryResultList(event.mapObject.id);
-
-          $scope.$applyAsync(function() {
-            reportingDIsplay.showCountryResultList(event.mapObject.id);
-          });
-          $timeout(function() {
-            reportingDIsplay.showCountryResultList(event.mapObject.id);
-          });
+          var id = event.mapObject.id;
+          if(event.mapObject.id === 'GL')
+          {
+              $scope.map.clickMapObject(ammap3.getMapObject('DK'));
+              id = 'DK';
+          }
           $scope.$evalAsync(function() {
-            reportingDIsplay.showCountryResultList(event.mapObject.id);
+            reportingDIsplay.showCountryResultList(id);
           });
 
         }); //
@@ -224,15 +223,25 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         //
         //=======================================================================
         $scope.legendHide = function(legendItem) {
+          var area2 ={};
+
 
           _.each($scope.map.dataProvider.areas, function(area) {
-            if (legendItem.color === area.originalColor && area.mouseEnabled === true) {
+
+            if (legendItem.color === area.originalColor && area.mouseEnabled === true && 'GL' !==area.id) {
               area.colorReal = '#FFFFFF';
               area.mouseEnabled = false;
-            } else if (legendItem.color === area.originalColor && area.mouseEnabled === false) {
+
+            } else if (legendItem.color === area.originalColor && area.mouseEnabled === false && 'GL' !==area.id) {
               area.colorReal = legendItem.color;
               area.mouseEnabled = true;
-            }
+
+          }            if(area.id.toUpperCase()==='DK'){
+                          area2 = getMapObject('gl');
+                          //area2.originalColor = area.originalColor;
+                          area2.colorReal = area.colorReal;
+                          area2.mouseEnabled = area.mouseEnabled;
+                      }
           });
           if (legendItem.visible)
             legendItem.visible = false;
@@ -328,10 +337,16 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         // //=======================================================================
         // //
         // //=======================================================================
-        function changeAreaColor(id, color) {
+        function changeAreaColor(id, color,area) {
+          if(!area)
+            area = getMapObject(id);
+            area.colorReal = area.originalColor = color;
+          if(id.toUpperCase()==='DK'){
+              var area2 = getMapObject('GL');
+              area2.colorReal = area.colorReal;
+              area2.originalColor = area.originalColor;
+          }
 
-          var area = getMapObject(id);
-          area.colorReal = area.originalColor = color;
         } //getMapObject
 
         // //=======================================================================

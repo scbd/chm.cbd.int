@@ -1,6 +1,6 @@
 define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], function(app, angular, _, $, template) { 'use strict';
 
-	app.directive('kmReference', [function ()
+	app.directive('kmReference', ['$timeout',function ($timeout)
 	{
 		return {
 			restrict: 'EAC',
@@ -13,30 +13,46 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 				loaderFn  : "&loader",
 				orderByFn : "&orderBy"
 			},
-			link: function ($scope, $element, $attr, ngModelController)
+			link: function($scope, $element, $attr, ngModelController, transcludeFn) {
+			    $scope.multiple = $attr.multiple !== undefined;
+			    $scope.$watch('binding', function() {
+			      ngModelController.$setViewValue($scope.binding);
+			    });
+
+			    $scope.$watch("editor.visible", function(_new, _old) {
+			      if (_new != _old && _new) $element.find("#editReference").modal("show");
+			      if (_new != _old && !_new) $element.find("#editReference").modal("hide");
+			    });
+
+					// Issue - transclude interpolation is not happening, needs to be done in
+					// transcution funciton below however $element.find is not finding correct  tag element
+					// to append transcluded, interpolated data too.  If we get find working and still not
+					// interpolating then we may need to run the transclude funciton in the compile function
+					// if ng-repeat is not compiled yet.
+			    // transcludeFn($scope, function(clone) {
+			    //   var el = $element.find('span');
+			    //   console.log('tds', $element.children('span'));
+			    //   el.append(clone);
+			    // }); //transcludeFn
+
+			},//link
+			controller: function ($scope)
 			{
-				//Init
+
+				//Watchers
 				$scope.references = [];
-				$scope.multiple = $attr.multiple!==undefined;
+
+
 				$.extend($scope.editor, {
 					references  : null,
 					visible     : false
 				});
-
-				//Watchers
-
 				$scope.$watch("binding", $scope.load);
-				$scope.$watch('binding', function() {
-					ngModelController.$setViewValue($scope.binding);
-				});
 
-				$scope.$watch("editor.visible", function(_new, _old)
-				{
-					if(_new!=_old &&  _new) $element.find("#editReference").modal("show");
-					if(_new!=_old && !_new) $element.find("#editReference").modal("hide");
-				});
+
 
 				$scope.editor = {};
+				$scope.editor.search = ' ';
 
 				//====================
 				//
@@ -139,12 +155,16 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 					$scope.loaderFn({ identifier: null }).then(
 						function(data) {
 							$scope.isLoading = false;
-							$scope.editor.references = $scope.clone(data);
+							$timeout(function(){
+								$scope.editor.references = $scope.clone(data);
+								$scope.editor.search = ' ';
+							});
 						},
 						function(err) {
 							$scope.isLoading = false;
 							$scope.editor.error = err;
 						});
+
 				};
 
 				//====================

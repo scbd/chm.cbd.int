@@ -4,7 +4,8 @@
 			<tr ng-repeat="reference in references">
 				<td>
 					<div ng-show="!reference.__loading && !reference.__errorCode">
-						<div ng-transclude></div>
+						<div><strong>{{reference.title | lstring}}</strong>
+							<div ng-bind-html="reference.summary | lstring"></div>
 					</div>
 
 					<div ng-show="reference.__loading">
@@ -50,8 +51,9 @@
 							<td>
 								<input type="checkbox" ng-model="reference.__checked"/>
 							</td>
-							<td>
-								<div ng-transclude></div>
+							<td class="reference-summary-cell">
+								<div><strong>{{reference.title | lstring}}</strong>
+									<div ng-bind-html="reference.summary | lstring"></div>
 							</td>
 						</tr>
 
@@ -68,7 +70,7 @@
 
 				</div>
 				<div class="modal-footer">
-					
+
 					<div class="row">
 
 					<div class="col-sm-8">

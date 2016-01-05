@@ -147,6 +147,28 @@
 		<div class="km-value km-pre">{{document.totalBudget | currency:"USD$"}}</div>
 	</div>
 
+	<div ng-show="document.resultsAchievements || document.resultsOutputs || document.bestPractices">
+		<legend>Capacity-building outcomes</legend>
+
+		<div ng-show="document.resultsAchievements">
+			<label>Results</label>
+			<div class="km-value km-pre">{{document.resultsAchievements | lstring:locale}}</div>
+		</div>
+
+		<div ng-show="document.resultsOutputs">
+			<label>Main outputs</label>
+			<div class="km-value" ng-repeat="item in document.resultsOutputs">
+				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+			</div>
+		</div>
+
+		<div ng-show="document.bestPractices">
+			<label>Best practices and lessons learned</label>
+			<div class="km-value km-pre">{{document.bestPractices | lstring:locale}}</div>
+		</div>
+	</div>
+
 	<div ng-show="document.cbdSubjects || document.aichiTargets">
 
 		<legend>Convention on Biological Diversity (CBD)</legend>

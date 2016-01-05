@@ -1,6 +1,6 @@
 define(['text!./capacity-building-initiative.html', 'app', 'angular', 'lodash', 'authentication', '../views/capacity-building-initiative', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage'], function(template, app, angular, _) { 'use strict';
 
-app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", "authentication", "editFormUtility", "siteMapUrls", "IStorage", "$route", "Thesaurus", function ($http, $rootScope, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, siteMapUrls, storage, $route, Thesaurus) {
+app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", "authentication", "editFormUtility", "siteMapUrls", "IStorage", "$route", function ($http, $rootScope, Enumerable, $filter, $q, guid, $location, Thesaurus, authentication, editFormUtility, siteMapUrls, storage, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -17,7 +17,7 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			$scope.options  = {
 				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();});},
 				languages     : function() { return $http.get("/api/v2013/thesaurus/domains/52AFC0EE-7A02-4EFA-9277-8B6C327CE21F/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-				cbiTypes : function() { return $http.get("/api/v2013/thesaurus/domains/D935D0C8-F5A5-43B8-9E06-45A57BF3C731/terms", 	 { cache: true }).then(function(o){ return thesaurus.buildTree(o.data); }); },
+				cbiTypes : function() { return $http.get("/api/v2013/thesaurus/domains/D935D0C8-F5A5-43B8-9E06-45A57BF3C731/terms", 	 { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
 
 				cbdSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CBD-SUBJECTS/terms",                         { cache: true }).then(function(o){
 

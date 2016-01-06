@@ -80,14 +80,14 @@
 						<div class="row" ng-show="isSubnational()">
 							<div class="col-md-10">
 								<div class="km-control-group" required="isSubnational()" name="jurisdiction" caption="Jusrisdiction">
-									<div km-textbox-ml required="isSubnational()" name="jurisdiction" ng-model="document.geographicScope.jurisdiction" placeholder="" locales="document.header.languages"></div>
+									<div km-textbox-ml required="isSubnational()" name="jurisdiction" ng-model="document.geographicScope.jurisdiction" placeholder="" locales="document.header.languages" ng-change="clearCommunity()"></div>
 								</div>
 							</div>
 						</div>
 						<div class="row" ng-show="isCommunity()">
 							<div class="col-md-10">
 								<div class="km-control-group" required="isCommunity()" name="community" caption="Community">
-									<div km-textbox-ml required="isCommunity()" name="community" ng-model="document.geographicScope.community" placeholder="" locales="document.header.languages"></div>
+									<div km-textbox-ml required="isCommunity()" name="community" ng-model="document.geographicScope.community" placeholder="" locales="document.header.languages" ng-change="clearJurisdiction()"></div>
 								</div>
 							</div>
 						</div>

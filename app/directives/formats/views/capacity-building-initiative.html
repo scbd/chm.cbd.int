@@ -21,9 +21,14 @@
 		</ul>
 	</div>
 
-	<div ng-show="ocument.geographicScope && document.geographicScope.jurisdictionOrCommunity">
-		<label>Geographic Scope</label>
-		<span class="km-value">{{document.geographicScope.jurisdictionOrCommunity | term:locale}} </span>
+	<div ng-show="document.geographicScope && document.geographicScope.jurisdiction">
+		<label>Jurisdiction</label>
+		<span class="km-value km-pre">{{document.geographicScope.jurisdiction | lstring:locale}} </span>
+	</div>
+
+	<div ng-show="document.geographicScope && document.geographicScope.community">
+		<label>Community</label>
+		<span class="km-value km-pre">{{document.geographicScope.community | lstring:locale}} </span>
 	</div>
 
 	<div ng-show="document.status">

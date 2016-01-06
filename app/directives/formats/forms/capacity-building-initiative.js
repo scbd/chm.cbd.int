@@ -104,11 +104,29 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//============================================================
 			//
 			//============================================================
+			$scope.clearJurisdiction = function () {
+				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.jurisdiction)
+					$scope.document.geographicScope.jurisdiction = undefined;
+
+			};
+
+
+			//============================================================
+			//
+			//============================================================
 			$scope.isCommunity = function () {
 				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.scope){
 					return $scope.document.geographicScope.scope.identifier == "9627DF2B-FFAC-4F85-B075-AF783FF2A0B5";
 				}
 				return false;
+			};
+
+			//============================================================
+			//
+			//============================================================
+			$scope.clearCommunity = function () {
+				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.community)
+					$scope.document.geographicScope.community = undefined;
 			};
 
 			//============================================================
@@ -135,7 +153,7 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//
 			//============================================================
 			$scope.clearDates = function () {
-				if($scope.document && ($scope.document.startDate ||$scope.document.endDate))
+				if($scope.document && ($scope.document.startDate || $scope.document.endDate))
 				{
 					$scope.document.startDate = undefined;
 					$scope.document.endDate   = undefined;
@@ -373,7 +391,7 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
-
+console.log(oDocument);
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {

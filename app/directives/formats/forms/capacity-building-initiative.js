@@ -110,7 +110,6 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 
 			};
 
-
 			//============================================================
 			//
 			//============================================================
@@ -366,7 +365,7 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 					document.aichiTargets = undefined;
 				}
 
-				if (!$scope.isInLibrary("abs-ch", document)) {
+				if (!$scope.isInLibrary("absch", document)) {
 					document.absKeyAreas  = undefined;
 				}
 
@@ -391,7 +390,7 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 
 				if (clone !== false)
 					oDocument = angular.fromJson(angular.toJson(oDocument));
-console.log(oDocument);
+
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {

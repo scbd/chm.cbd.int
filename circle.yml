@@ -4,6 +4,9 @@ machine:
     - docker
 
 dependencies:
+    post:
+    - wget https://saucelabs.com/downloads/sc-4.3-linux.tar.gz
+    - tar -xzf sc-4.3-linux.tar.gz
   override:
     - docker info
     - docker build -t chm-cbd-int .

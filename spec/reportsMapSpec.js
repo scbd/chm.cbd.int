@@ -5,7 +5,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
   beforeEach(function() {
     browser.get('/search/reporting-map?filter=all');
-    //browser.driver.sleep(1);
+    browser.driver.sleep(3);
     browser.waitForAngular();
     //       spyOn(console, 'error');
   }); // it

@@ -19,7 +19,7 @@ exports.config = {
   }, {
     browserName: 'internet explorer',
     platform: 'Windows 7',
-    opts:{IntroduceInstabilityByIgnoringProtectedModeSettings:'TURE'}
+
   }, {
     browserName: 'safari',
     platform: 'OS X 10.10',

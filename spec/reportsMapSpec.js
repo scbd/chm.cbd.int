@@ -23,8 +23,8 @@ describe('Sign-In Page', function() { //jshint ignore:line
   // }); // it
 
   it('should not report errors when the page is loaded', function() {
-if(true){
-      //if (browser.browserName !== 'firefox' && browser.browserName !== 'firefox' !== 'IE') {
+
+      if (browser.browserName !== 'internet explorer') {
         var count = 0;
         browser.manage().logs().get('browser').then(function(browserLog) {
 

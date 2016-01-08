@@ -1,4 +1,4 @@
-FROM node:4.2
+FROM node:0.10
 
 RUN npm install -g -q protractor
 

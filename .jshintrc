@@ -9,5 +9,5 @@
     "devel"    : true,
     "smarttabs": true,
     "trailing" : true,
-    "predef"   : ["define", "require"]
+    "predef"   : ["define", "require","browser","element","by","expect","protractor","beforeEach"]
 }

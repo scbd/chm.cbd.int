@@ -13,10 +13,10 @@
 		</div>
 		<div style="font-size:13px;">
 			<a style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
-			<i ng-if="!userGovernment();" class="fa fa-pencil-square-o"></i>
+			<!-- <i ng-if="!userGovernment();" class="fa fa-pencil-square-o"></i> -->
 		</div>
-			<div style="float:left" ng-if="getRowIcon()"><img style="margin:1px 4px 2px 0" ng-src="http://www.cbd.int/images/aichi/48/abt-{{document.number_d | integer:10:2}}-48.png"></div>
-			<div style="float:left" ng-if="!getRowIcon()"><i style="color:#ccc" class="fa fa-map-marker"></i></div>
+			<!-- <div style="float:left" ng-if="getRowIcon()"><img style="margin:1px 4px 2px 0" ng-src="http://www.cbd.int/images/aichi/48/abt-{{document.number_d | integer:10:2}}-48.png"></div>
+			<div style="float:left" ng-if="!getRowIcon()"><i style="color:#ccc" class="fa fa-map-marker"></i></div> -->
 		<div style="font-size:13px;margin:2px 0">{{(description.split('.')[0]) | htmlToTextPerSentance}} {{(description.split('.')[1]) | htmlToTextPerSentance}}</div>
 		<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{(description2.split('.')[0]) | htmlToTextPerSentance}} {{(description2.split('.')[1]) | htmlToTextPerSentance}}</div>
 		<div ng-if="false">

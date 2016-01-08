@@ -67,14 +67,18 @@ require.config({
       'amchart3-serial'          : { deps: ['amchart3']},
       'amchart3-pie'             : { deps: ['amchart3']},
       'amchart3-theme-light'     : { deps: ['amchart3']},
+      'ammap-export'         : { deps: ['ammap3']},
     },
 });
 
 // BOOT
-
-require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'index'], function(ng, doc){
-
-    ng.bootstrap(doc, ['kmApp']);
+require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'index'], function(ng, doc) {
+  //this is for spec tests with selenium as it starts angular first
+  // this tests if angualr has been bootstrapped and if it has it resumes
+  ng.bootstrap(doc, ['kmApp']);
+  try {
+    $(document.body).attr("ng-app", "kmApp");  //jshint ignore:line
+  } catch (e) {
     ng.resumeBootstrap();
-
+  }
 });

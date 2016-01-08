@@ -1,4 +1,6 @@
-FROM node:0.10
+FROM node:4.2
+
+RUN npm install -g -q protractor
 
 WORKDIR /usr/src/app
 

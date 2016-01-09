@@ -1,5 +1,3 @@
-window.name = 'NG_DEFER_BOOTSTRAP!';
-
 require.config({
     waitSeconds: 120,
     baseUrl : '/app',
@@ -8,7 +6,6 @@ require.config({
       'angular'             : 'libs/angular-flex/angular-flex',
       'ngRoute'             : 'libs/angular-route/angular-route.min',
       'ngSanitize'          : 'libs/angular-sanitize/angular-sanitize.min',
-      'domReady'            : 'libs/requirejs-domready/domReady',
       'text'                : 'libs/requirejs-text/text',
       'bootstrap'           : 'libs/bootstrap/dist/js/bootstrap.min',
       'lodash'              : 'libs/lodash/lodash.min',
@@ -72,13 +69,8 @@ require.config({
 });
 
 // BOOT
-require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'index'], function(ng, doc) {
-  //this is for spec tests with selenium as it starts angular first
-  // this tests if angualr has been bootstrapped and if it has it resumes
-  ng.bootstrap(doc, ['kmApp']);
-  try {
-    $(document.body).attr("ng-app", "kmApp");  //jshint ignore:line
-  } catch (e) {
-    ng.resumeBootstrap();
-  }
+require(['angular', 'app', 'bootstrap', 'routes', 'index'], function(ng, app) {
+      ng.element(document).ready(function () {
+         ng.bootstrap(document, [app.name]);
+    });
 });

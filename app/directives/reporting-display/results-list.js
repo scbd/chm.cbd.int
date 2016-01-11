@@ -27,7 +27,9 @@ define(['text!./results-list.html', 'app', 'lodash'], function(template, app, _)
             init();
           });
           $scope.$watch('show', function() {
+            $scope.numRecords = 0;
             showCountry($scope.show);
+
           }, true);
 
           //=======================================================================

@@ -44,6 +44,9 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 									 {identifier:'other', 	      title: {en:'Other'}}]
 
 			};
+			$q.when($http.get("/api/v2013/thesaurus/domains/6BDB1F2A-FDD8-4922-BB40-D67C22236581/terms", { cache: true })).then(function (o) {
+					$scope.options.odaOofTypes = o.data;
+			});
 
 			$q.when($http.get("/api/v2013/thesaurus/domains/AB782477-9942-4C6B-B9F0-79A82915A069/terms", { cache: true })).then(function (o) {
 					$scope.options.confidences = o.data;
@@ -271,6 +274,9 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 
 						if(document.internationalResources.baselineData.otherConfidenceLevel && _.isEmpty( document.internationalResources.baselineData.otherConfidenceLevel))
 							document.internationalResources.baselineData.otherConfidenceLevel = undefined;
+
+						if(document.internationalResources.baselineData.odaOofType && _.isEmpty( document.internationalResources.baselineData.odaOofType))
+							document.internationalResources.baselineData.odaOofType = undefined;
 					}
 
 					if(document.internationalResources && document.internationalResources.progressData){
@@ -345,7 +351,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
 				}
-
+				//console.log(document);
 				return document;
 			};
 
@@ -596,6 +602,42 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//==================================
 			var isSomeOrComprehensive = function(val){
 				return (val == 'some' || val=='comprehensive');
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.hasBaselineAmount = function (key) {
+
+				if($scope.document && $scope.document.internationalResources &&
+				   					  $scope.document.internationalResources.baselineData &&
+				   					  $scope.document.internationalResources.baselineData.baselineFlows
+								  ){
+
+					var flows = $scope.document.internationalResources.baselineData.baselineFlows;
+				 	var avg = $scope.typeAverageAmount(flows, key);
+
+					return (avg > 0);
+				}
+				return false;
+			};
+
+			//==================================
+			//
+			//==================================
+			$scope.hasProgressAmount = function (key) {
+
+				if($scope.document && $scope.document.internationalResources &&
+				   					  $scope.document.internationalResources.progressData &&
+				   					  $scope.document.internationalResources.progressData.progressFlows
+								  ){
+
+					var flows = $scope.document.internationalResources.progressData.progressFlows;
+				 	var avg = $scope.typeAverageAmount(flows, key);
+
+					return (avg > 0);
+				}
+				return false;
 			};
 
 			//==================================

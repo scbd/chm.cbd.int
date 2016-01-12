@@ -90,17 +90,17 @@
 					<tbody>
 						<tr ng-repeat="flow in document.internationalResources.baselineData.baselineFlows|orderBy:'year' track by $index" >
 							<td>{{flow.year}}</td>
-							<td>{{flow.odaAmount}}</td>
-							<td>{{flow.oofAmount}}</td>
-							<td>{{flow.otherAmount}}</td>
-							<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount}}</td>
+							<td>{{flow.odaAmount | number:0}}</td>
+							<td>{{flow.oofAmount | number:0}}</td>
+							<td>{{flow.otherAmount | number:0}}</td>
+							<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount  | number:0}}</td>
 						</tr>
 						<tr class="active">
 							<td><strong>Average (baseline)</strong></td>
-							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'odaAmount')}}</strong></td>
-							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'oofAmount')}}</strong></td>
-							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'otherAmount')}}</strong></td>
-							<td><strong>{{totalAverageAmount()}}</strong></td>
+							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'odaAmount')  | number:0}}</strong></td>
+							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'oofAmount')  | number:0}}</strong></td>
+							<td><strong>{{typeAverageAmount(document.internationalResources.baselineData.baselineFlows,'otherAmount')  | number:0}}</strong></td>
+							<td><strong>{{totalAverageAmount() | number:0}}</strong></td>
 						</tr>
 					</tbody>
 				</table>
@@ -191,10 +191,10 @@
 					<tbody>
 						<tr ng-repeat="flow in document.internationalResources.progressData.progressFlows|orderBy:'year' track by $index" >
 							<td>{{flow.year}}</td>
-							<td>{{flow.odaAmount}}</td>
-							<td>{{flow.oofAmount}}</td>
-							<td>{{flow.otherAmount}}</td>
-							<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount}}</td>
+							<td>{{flow.odaAmount | number:0}}</td>
+							<td>{{flow.oofAmount | number:0}}</td>
+							<td>{{flow.otherAmount | number:0}}</td>
+							<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount | number:0}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -374,12 +374,12 @@
 					<tbody>
 						<tr ng-repeat="contribution in document.domesticExpendituresData.contributions|orderBy:'year' track by $index">
 							<td>{{contribution.year}}</td>
-							<td>{{contribution.amount}}</td>
+							<td>{{contribution.amount | number:0}}</td>
 							<td>{{contribution.confidenceLevel | term:locale}}</td>
 						</tr>
 						<tr class="active">
 							<td><strong>Average</strong></td>
-							<td>{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount')}}</td>
+							<td>{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount') | number:0}}</td>
 							<td>{{confidenceAverage(document.domesticExpendituresData.contributions)}}</td>
 						</tr>
 					</tbody>
@@ -435,9 +435,9 @@
 			<tbody>
 				<tr ng-repeat="estimate in document.fundingNeedsData.annualEstimates|orderBy:'year' track by $index">
 					<td>{{estimate.year}}</td>
-					<td>{{estimate.fundingNeedAmount}}</td>
-					<td>{{estimate.availableResourcesAmount}}</td>
-					<td>{{estimate.fundingGapAmount}}</td>
+					<td>{{estimate.fundingNeedAmount | number:0}}</td>
+					<td>{{estimate.availableResourcesAmount | number:0}}</td>
+					<td>{{estimate.fundingGapAmount | number:0}}</td>
 					<td>{{estimate.action | lstring:locale}}</td>
 				</tr>
 			</tbody>
@@ -495,13 +495,13 @@
 				</tr>
 				<tr ng-repeat="source in document.nationalPlansData.internationalSources|orderBy:'name' track by $index">
 					<td>{{source.name | lstring:locale}}</td>
-					<td ng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014}}</td>
-					<td ng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015}}</td>
-					<td ng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016}}</td>
-					<td ng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017}}</td>
-					<td ng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018}}</td>
-					<td ng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019}}</td>
-					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020}}</td>
+					<td ng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
 				<tr class="active">
 					<td><strong>Remaining gap<strong></td>
 					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)}}<strong></td>

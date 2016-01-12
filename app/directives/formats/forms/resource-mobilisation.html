@@ -1,5 +1,5 @@
 ﻿<div>
-<style type="text/css">.popover {font-weight: normal; max-width: 400px;} </style>
+<style type="text/css">.popover {font-weight: normal; max-width: 400px;}</style>
 	<h1 style="margin-bottom: 5px">Financial Reporting Framework <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
 	<h2 style="margin-top: 5px; border-bottom: none">Reporting on baseline and progress towards 2015</h2>
 	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
@@ -26,10 +26,6 @@
 							<li><a href="http://www.cbd.int/doc/frf/annex/cop-12/cop-12-dec-03-es.doc">Español</a></li>
 
 						</ul>
-
-					<!-- <div class="pagination">
-						<span km-form-languages ng-model="document.header.languages"></span>
-					</div> -->
 				</div>
 
 				<div class="col-md-6" style="text-align:right">
@@ -40,7 +36,17 @@
 					</div>
 				</div>
 
+			</div>
 
+			<div class="row">
+			  	<div class="col-xs-12">
+			  	  	<strong>In completing the framework, please also refer to the additional explanations provided under the information icons, by directing your mouse over the</strong> (<button type="button" class="btn btn-link" style="padding:2px;cursor: default"><i class="fa fa-info-circle"></i></button>)
+			  	</div>
+			</div>
+			<div class="row" ng-show="tab=='review'">
+			  	<div class="col-xs-12 bold">
+					You can print out the completed framework provided on this page by using the print function of your browser.
+			  	</div>
 			</div>
 
 			<div class="row">
@@ -99,7 +105,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="km-control-group" required name="hasAuthority" required caption="Authority">
-							<input type="checkbox" required name="hasAuthority" ng-model="document.hasAuthority" aria-label="" /> I have the authority to submit the information provided in this framework for publication<a rm-popover data-content="You need to check this box if you want to submit the completed framework for publication." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
+							<input type="checkbox" required name="hasAuthority" ng-model="document.hasAuthority" /> I have the authority to submit the information provided in this framework for publication<a rm-popover data-content="You need to check this box if you want to submit the completed framework for publication." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
 						</div>
 				  	</div>
 				</div>
@@ -199,7 +205,7 @@
 					<div class="col-md-12">
 
 						<legend>1. International financial resource flows</legend>
-						<p><strong>1.1 Please indicate the amount of resources provided by your country in support of biodiversity in developing countries, in particular least developed countries and small island developing States, as well as countries with economies in transition.</strong></p>
+						<p><strong>1.1 Please indicate the amount of resources <u>provided by your country</u> in support of biodiversity in developing countries, in particular least developed countries and small island developing States, as well as countries with economies in transition.</strong></p>
 						<p class="help-block">Please indicate, as appropriate, the nominal amount of financial resources provided by source as well as the total amount. Please also indicate your degree of confidence in the estimated amount or, alternatively, provide a range of estimates.</p>
 				</div>
 				</div>
@@ -316,23 +322,27 @@
 
 							<div class="row">
 								<div class="col-md-6">
-									<km-control-group name="baselineOda" caption="">
-										<strong>ODA includes:</strong> <a rm-popover data-original-title="" data-content="ODA can be bilateral or multilateral. Bilateral ODA refers to contributions of donor government agencies, at all levels, to developing countries. Multilateral ODA refers to funds provided through international financial institutions such as the Global Environment Facility, the World Bank and United Nations funds and programmes. Please include both categories as feasible. Please tick the appropriate box if ODA numbers provided include bilateral and/or multilateral ODA related to biodiversity. If the numbers include both categories, tick both boxes."><i class="fa fa-info-circle"></i></a>
-										<km-term-check ng-model="document.internationalResources.baselineData.odaCategories" terms="options.categories()" binding-type="term[]"></km-term-check>
+
+									<km-control-group name="baselineData.odaCategories" required={{hasBaselineAmount('odaAmount')}} caption="ODA includes: ">
+										<a rm-popover data-original-title="" data-content="ODA can be bilateral or multilateral. Bilateral ODA refers to contributions of donor government agencies, at all levels, to developing countries. Multilateral ODA refers to funds provided through international financial institutions such as the Global Environment Facility, the World Bank and United Nations funds and programmes. Please include both categories as feasible. Please tick the appropriate box if ODA numbers provided include bilateral and/or multilateral ODA related to biodiversity. If the numbers include both categories, tick both boxes.">Additional explanation <i class="fa fa-info-circle"></i></a>
+										<km-term-check ng-model="document.internationalResources.baselineData.odaCategories" terms="options.categories()" binding-type="term[]" required={{hasOdaAmount()}} name="baselineData.odaCategories"></km-term-check>
 									</km-control-group>
 
-									<km-control-group name="baselineOdaOof" caption="">
-										<strong>ODA/OOF includes:</strong> <a rm-popover data-original-title="" data-content="You may report on either ODA/OOF commitments or actual disbursements, but please apply the same category for all years, including when reporting progress."><i class="fa fa-info-circle"></i></a>
-										<div km-term-radio name="baselineOdaOof"  ng-model="document.internationalResources.baselineData.odaOofType"  terms="options.types()" description="true" binding-type="term"></div>
+									<km-control-group name="baselineData.odaOofType" required={{hasBaselineAmount('odaAmount')||hasBaselineAmount('oofAmount')}} caption="ODA/OOF includes:">
+										<a rm-popover data-original-title="" data-content="You may report on either ODA/OOF commitments or actual disbursements, but please apply the same category for all years, including when reporting progress.">Additional explanation <i class="fa fa-info-circle"></i></a>
+										<!-- <div km-select name="baselineOdaOof" ng-model="document.internationalResources.baselineData.odaOofType.identifier" binding-type="string" placeholder="Select type..." items="options.types()"></div> -->
+										<div class="radio" ng-repeat="term in options.odaOofTypes">
+											<label><input type="radio" ng-model="document.internationalResources.baselineData.odaOofType" ng-value="{'identifier':term.identifier}">{{term | term:locale}}</label>
+										</div>
 									</km-control-group>
 
-									<km-control-group name="baselineOof" caption="">
-										<strong>ODA/OOF includes:</strong> <a rm-popover data-original-title="" data-content="Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation). See section 5 below for a compilation of descriptions of activities that relate to biodiversity as provided in different methodological frameworks. Please tick the appropriate box if numbers provided include resources directly related or indirectly related to biodiversity."><i class="fa fa-info-circle"></i></a>
-										<km-term-check ng-model="document.internationalResources.baselineData.odaoofActions" terms="options.actions()" binding-type="term[]"></km-term-check>
+									<km-control-group name="baselineData.odaoofActions" required={{hasBaselineAmount('odaAmount')||hasBaselineAmount('oofAmount')}}  caption="ODA/OOF includes:">
+										<a rm-popover data-original-title="" data-content="Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation). See section 5 below for a compilation of descriptions of activities that relate to biodiversity as provided in different methodological frameworks. Please tick the appropriate box if numbers provided include resources directly related or indirectly related to biodiversity.">Additional explanation <i class="fa fa-info-circle"></i></a>
+										<km-term-check ng-model="document.internationalResources.baselineData.odaoofActions" terms="options.actions()" binding-type="term[]" name="baselineData.odaoofActions"></km-term-check>
 									</km-control-group>
 
-									<km-control-group name="baselineOther" caption="Other flows include:">
-										<km-term-check name="baselineOther" ng-model="document.internationalResources.baselineData.otherActions" terms="options.actions()" binding-type="term[]"></km-term-check>
+									<km-control-group name="baselineData.otherActions" required={{hasBaselineAmount('otherAmount')}} caption="Other flows include:">
+										<km-term-check name="baselineData.otherActions" ng-model="document.internationalResources.baselineData.otherActions" terms="options.actions()" binding-type="term[]"></km-term-check>
 									</km-control-group>
 								</div>
 
@@ -356,16 +366,16 @@
 
 									<km-control-group name="" caption="">
 										<div><strong>Average confidence levels:</strong> <a rm-popover data-content="Please provide (average) confidence levels (high, medium, low)" data-original-title=""><i class="fa fa-info-circle"></i></a></div>
-										<km-control-group name="baselineoData.odaConfidenceLevel" caption="ODA:">
-											<div km-select name="baselineoData.odaConfidenceLevel" ng-model="document.internationalResources.baselineData.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										<km-control-group name="baselineData.odaConfidenceLevel" required={{hasBaselineAmount('odaAmount')}} caption="ODA:">
+											<div km-select name="baselineData.odaConfidenceLevel" ng-model="document.internationalResources.baselineData.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
 										</km-control-group>
 
-										<km-control-group name="baselineoData.oofConfidenceLevel" caption="OOF:">
-											<div km-select name="baselineoData.oofConfidenceLevel" ng-model="document.internationalResources.baselineData.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										<km-control-group name="baselineData.oofConfidenceLevel" required={{hasBaselineAmount('oofAmount')}} caption="OOF:">
+											<div km-select name="baselineData.oofConfidenceLevel" ng-model="document.internationalResources.baselineData.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
 										</km-control-group>
 
-										<km-control-group name="baselineoData.otherConfidenceLevel" caption="Other flows:">
-											<div km-select name="baselineoData.otherConfidenceLevel" ng-model="document.internationalResources.baselineData.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										<km-control-group name="baselineData.otherConfidenceLevel" required={{hasBaselineAmount('otherAmount')}} caption="Other flows:">
+											<div km-select name="baselineData.otherConfidenceLevel" ng-model="document.internationalResources.baselineData.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
 										</km-control-group>
 									</km-control-group>
 								</div>
@@ -387,7 +397,8 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<p><strong>1.1.2 Monitoring progress in mobilizing international financial flows For the purposes of monitoring progress, please provide data for years after 2010</strong></p>
+								<p><strong>1.1.2 Monitoring progress in mobilizing international financial flows.</strong></p>
+								<p class="help-block">For the purposes of monitoring progress, please provide data for years after 2010</p>
 								<table id="transactionTable" class="table table-hover table-responsive">
 									<thead>
 										<tr>
@@ -443,16 +454,16 @@
 								<div class="col-lg-12">
 									<km-control-group name="progressConfidenceLevels" caption="">
 										<div><strong>Average confidence levels</strong> <a rm-popover data-content="Please provide (average) confidence levels (high, medium, low)" data-original-title=""><i class="fa fa-info-circle"></i></a></div>
-										<km-control-group name="progressOdaConfidenceLevel" caption="ODA">
-											<div km-select name="progressOdaConfidenceLevel" ng-model="document.internationalResources.progressData.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										<km-control-group name="progressData.odaConfidenceLevel" required={{hasProgressAmount('odaAmount')}} caption="ODA">
+											<div km-select name="progressData.odaConfidenceLevel" ng-model="document.internationalResources.progressData.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
 										</km-control-group>
 
-										<km-control-group name="progressOofConfidenceLevel" caption="OOF">
-											<div km-select name="progressOofConfidenceLevel" ng-model="document.internationalResources.progressData.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										<km-control-group name="progressData.oofConfidenceLevel" required={{hasProgressAmount('oofAmount')}} caption="OOF">
+											<div km-select name="progressData.oofConfidenceLevel" ng-model="document.internationalResources.progressData.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
 										</km-control-group>
 
-										<km-control-group name="progressOtherConfidenceLevel" caption="Other flows">
-											<div km-select name="progressOtherConfidenceLevel" ng-model="document.internationalResources.progressData.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										<km-control-group name="progressData.otherConfidenceLevel" required={{hasProgressAmount('otherAmount')}} caption="Other flows">
+											<div km-select name="progressData.otherConfidenceLevel" ng-model="document.internationalResources.progressData.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
 										</km-control-group>
 									</km-control-group>
 								</div>
@@ -643,20 +654,29 @@
 														<!-- <div class="km-control-group" name="govCentralDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.govCentralDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
-																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.govCentralDirectlyRelated" aria-label=""></md-checkbox>
+																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.govCentralDirectlyRelated"></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label>
+															  	<input type="checkbox" ng-model="document.domesticExpendituresData.govCentralDirectlyRelated">
+															</label>
 														</div>
+
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="govCentralIndirectlyRelated"  caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.govCentralIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
-																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.govCentralIndirectlyRelated" aria-label=""></md-checkbox>
+																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.govCentralIndirectlyRelated"></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.govCentralIndirectlyRelated"></label>
 														</div>
 													</td>
 												</tr>
@@ -666,20 +686,26 @@
 														<!-- <div class="km-control-group" name="provincialDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.provincialDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
-																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.provincialDirectlyRelated" aria-label=""></md-checkbox>
+																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.provincialDirectlyRelated"></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.provincialDirectlyRelated"></label>
 														</div>
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="provincialIndirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.provincialIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
-																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.provincialIndirectlyRelated" aria-label=""></md-checkbox>
+																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.provincialIndirectlyRelated"></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.provincialIndirectlyRelated"></label>
 														</div>
 													</td>
 												</tr>
@@ -691,20 +717,27 @@
 														<!-- <div class="km-control-group" name="municipalDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.municipalDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
-																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.municipalDirectlyRelated" aria-label=""></md-checkbox>
+																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.municipalDirectlyRelated"></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.municipalDirectlyRelated"></label>
 														</div>
+													</td>
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="municipalIndirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.municipalIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.municipalIndirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.municipalIndirectlyRelated"></label>
 														</div>
 													</td>
 												</tr>
@@ -716,20 +749,26 @@
 														<!-- <div class="km-control-group" name="extraDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.extraDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.extraDirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.extraDirectlyRelated"></label>
 														</div>
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="extraIndirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.extraIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.extraIndirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.extraIndirectlyRelated"></label>
 														</div>
 													</td>
 												</tr>
@@ -741,20 +780,26 @@
 														<!-- <div class="km-control-group" name="privateDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.privateDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.privateDirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.privateDirectlyRelated"></label>
 														</div>
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="privateIndirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.privateIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.privateIndirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.privateIndirectlyRelated"></label>
 														</div>
 													</td>
 												</tr>
@@ -766,20 +811,26 @@
 														<!-- <div class="km-control-group" name="otherDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.otherDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.otherDirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.otherDirectlyRelated"></label>
 														</div>
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="otherIndirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.otherIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.otherIndirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.otherIndirectlyRelated"></label>
 														</div>
 													</td>
 												</tr>
@@ -791,20 +842,26 @@
 														<!-- <div class="km-control-group" name="ilcDirectlyRelated" caption="">
 															<div km-yes-no ng-model="document.domesticExpendituresData.ilcDirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.ilcDirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.ilcDirectlyRelated"></label>
 														</div>
 													</td>
 													<td>
 														<!-- <div class="km-control-group" name="ilcDirectlyRelated" caption="">
 															<div km-yes-no name="ilcIndirectlyRelated" ng-model="document.domesticExpendituresData.ilcIndirectlyRelated" locales="document.header.languages"></div>
 														</div> -->
-														<div layout="row">
+														<!-- <div layout="row">
 															<div flex offset="33">
 																<md-checkbox class="md-primary" ng-model="document.domesticExpendituresData.ilcIndirectlyRelated" aria-label=""></md-checkbox>
 															</div>
+														</div> -->
+														<div class="text-center">
+															<label><input type="checkbox" ng-model="document.domesticExpendituresData.ilcIndirectlyRelated"></label>
 														</div>
 												</td>
 												</tr>

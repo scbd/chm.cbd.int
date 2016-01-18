@@ -144,5 +144,9 @@ define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/no
             $rootScope.placeholderRecords.push({'recID':recID,'schema':schema});
         });
 
+        $rootScope.$on('event:auth-emailVerification', function(evt, data){
+            $scope.showEmailVerificationMessage = data.message;
+        });
+
      }]);
 });

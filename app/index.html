@@ -17,6 +17,12 @@
 <iframe id="authenticationFrame" src="https://accounts.cbd.int/app/authorize.html" style="display:none" onload="(event.target || event.srcElement).ready = true"></iframe>
 
 <nav class="navbar navbar-cbd navbar-default bg-cbdgreen navbar-static-top" id="anchorTop" ng-class="{'bg-cbdgreen': !test_env, 'bg-orange': test_env}">
+        <div class="alert alert-info" style="margin-bottom: 0px; text-align: center" ng-show="showEmailVerificationMessage">
+            <button type="button" ng-click="showEmailVerificationMessage = undefined" class="close" style="opacity: 1;">&times;</button>
+            <strong>{{showEmailVerificationMessage}}</strong>
+            <br/>
+            Please click on the verification link in the email sent on {{user.email}}. Click <a href="https://accounts.cbd.int/activate/resend">here</a> to resend the activation email.
+        </div>
       <div class="container container-cbd">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">

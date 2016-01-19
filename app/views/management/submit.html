@@ -600,6 +600,58 @@
            </div>
        </div>
 
+       <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+          <div class="col-xs-12">
+             UNDB Records
+          </div>
+      </div>
+       <div class="row">
+           <div class="col-xs-3">
+               <h5 style="padding-top:0;margin-top:0;">UNDB Actors</h5>
+           </div>
+           <div class="col-xs-6">
+               <p style="font-size:12px;">
+
+               </p>
+           </div>
+           <div class="col-xs-2">
+               <div class="status-badge">
+                   <span class="badge bg-published">{{getFacet('undbPartner').public}}</span>
+                   <span class="badge bg-draft">{{getFacet('undbPartner').draft}}</span>
+                   <span class="badge bg-request">{{getFacet('undbPartner').workflow}}</span>
+               </div>
+           </div>
+           <div class="col-xs-1">
+               <div class="btn-group-xs pull-right">
+                   <a class="btn btn-info" href="/submit/undbPartner/"><i class="fa fa-list"></i></a>
+                   <a class="btn btn-primary" href="/submit/undbPartner/new"><i class="fa fa-plus-square"></i></a>
+               </div>
+           </div>
+       </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">UNDB Actions</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('undbAction').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('undbAction').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('undbAction').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a class="btn btn-info" href="/submit/undbAction/"><i class="fa fa-list"></i></a>
+                    <a class="btn btn-primary" href="/submit/undbAction/new"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
 
         <!--<div class="row">
 

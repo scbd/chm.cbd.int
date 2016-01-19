@@ -1,0 +1,77 @@
+<div class="viewForm">
+
+	<h2>{{document.title | lstring:locale}}</h2>
+
+
+	<div ng-show="document.startDate">
+		<label for="subTopic">Start Date</label>
+		<div class="km-value km-pre">{{document.startDate | datetime:'YYYY-MM-DD'}}</div>
+	</div>
+	<div ng-show="document.endDate">
+		<label for="subTopic">End Date</label>
+		<div class="km-value km-pre">{{document.endDate | datetime:'YYYY-MM-DD'}}</div>
+	</div>
+    <div ng-show="document.startTime">
+		<label for="subTopic">From Time</label>
+		<div class="km-value km-pre">{{document.startTime}}</div>
+	</div>
+
+	<div ng-show="document.endTime">
+		<label for="subTopic">To Time</label>
+		<div class="km-value km-pre">{{document.endTime}}</div>
+	</div>
+	<div ng-show="document.country">
+		<label for="subTopic">Country</label>
+		<div class="km-value km-pre">{{document.country | term:locale}}</div>
+	</div>
+    <div ng-show="document.address">
+        <label for="subTopic">Address</label>
+        <div class="km-value km-pre">{{document.address | lstring:locale}}</div>
+    </div>
+
+    <div ng-show="document.Website">
+        <label for="subTopic">Website</label>
+        <div class="km-value km-pre">{{document.Website}}</div>
+    </div>
+    <div ng-show="document.googleMaps">
+        <label for="subTopic">Google maps link</label>
+        <div class="km-value km-pre">{{document.googleMaps}}</div>
+    </div>
+
+    <div ng-show="document.email">
+        <label for="subTopic">Email</label>
+        <div class="km-value km-pre">{{document.email}}</div>
+    </div>
+    <div ng-show="document.phone">
+        <label for="subTopic">Telephone</label>
+        <div class="km-value km-pre">{{document.phone}}</div>
+    </div>
+    <div ng-show="document.facebook">
+        <label for="subTopic">Facebook</label>
+        <div class="km-value km-pre">{{document.facebook}}</div>
+    </div>
+    <div ng-show="document.twitter">
+        <label for="subTopic">Twitter</label>
+        <div class="km-value km-pre">{{document.twitter}}</div>
+    </div>
+    <div ng-show="document.youtube">
+        <label for="subTopic">Youtube</label>
+        <div class="km-value km-pre">{{document.youtube}}</div>
+    </div>
+    <div ng-show="document.description">
+        <label for="subTopic">Short description of the Action in one of the 6 United Nations languages</label>
+        <div class="km-value km-pre">{{document.description | lstring:locale}}</div>
+    </div>
+    <div ng-show="document.descriptionNative">
+        <label for="subTopic">Short description of your Action in your official language</label>
+        <div class="km-value km-pre">{{document.descriptionNative | lstring:locale}}</div>
+    </div>
+    <div ng-show="document.notes">
+        <label for="subTopic">Comments or additional information</label>
+        <div class="km-value km-pre">{{document.notes | lstring:locale}}</div>
+    </div>
+    <div ng-show="document.logo">
+        <label for="subTopic">logo</label>
+    </div>
+
+</div>

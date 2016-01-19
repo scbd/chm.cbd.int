@@ -32,6 +32,8 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'lwDonor'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'dossier'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'capacityBuildingInitiative' ,public:0, draft:0, workflow:0 },
+            { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 },
+            { identifier: 'undbAction'                 ,public:0, draft:0, workflow:0 }
         ];
 
         $scope.government = userGovernment();
@@ -87,7 +89,9 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource', 'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator','lwEvent','lwProject','lwDonor'];
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource',
+            'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
+            'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
 
@@ -115,14 +119,6 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
                   _.each(results.data.facet_counts.facet_pivot['schema_s,_state_s'], function(facet){
                        var schema = facet.value;
-                        // if(_.indexOf(['resourceMobilisation'],schema)>=0){
-                        //     schema = 'nationalReport';
-                        // }
-
-                        // if(_.indexOf(['nationalTarget','nationalIndicator'],schema)>=0){
-                        //     schema = 'nationalAssessment';
-                        // }
-
                     	var reportType = _.first(_.where($scope.schemasList, {'identifier':schema}));
             	        if(reportType)
                     	   facetSummation(facet,reportType);
@@ -135,6 +131,26 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
            loadOtherNRFacets ();
            loadNationalReportFacets();
         };// $scope.loadFacets = function(){
+
+        function facetsQuery (qSchema){
+
+            var userGroups = [];
+                user.userGroups.map(function(group){
+                    userGroups.push(solr.escape(group));
+                });
+            var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
+            var q = qSchema +'AND (realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))' +   ownershipQuery + ')';
+
+            var qsFacetParams =
+            {
+                "q"  : q,
+                "rows" : 0,
+                "facet":true,
+                "facet.field":"_state_s"
+            };
+
+            return $http.get('/api/v2013/index', { params : qsFacetParams});
+        }
 
         function loadNBSAPSFacets (){
 
@@ -158,7 +174,6 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                         var OtherSchemaFacet     = $http.get('/api/v2013/index', { params : qsOtherSchemaFacetParams});
                         var schemaFacet = null;
                         $q.when(OtherSchemaFacet).then(function(results) {
-//
 
                        schemaFacet= $scope.getFacet('nationalStrategicPlan');
 
@@ -264,6 +279,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                     console.log(error );
                     });
         }//loadNBSAPS
+
 
         $scope.loadFacets();
 

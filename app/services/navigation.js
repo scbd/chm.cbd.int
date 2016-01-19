@@ -57,6 +57,8 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "lwEvent") return "LifeWeb Events";
             if (schema == "lwDonor") return "LifeWeb Donors";
             if (schema == "dossier") return "Aichi Target Dossiers";
+            if (schema == "undbAction") return "UNDB Action";
+            if (schema == "undbPartner") return "UNDB Partner";
 
             return (schema || "") + "*";
         };

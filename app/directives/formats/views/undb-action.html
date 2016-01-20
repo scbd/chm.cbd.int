@@ -29,9 +29,8 @@
         <div class="km-value km-pre">{{document.address | lstring:locale}}</div>
     </div>
 
-    <div ng-show="document.Website">
-        <label for="subTopic">Website</label>
-        <div class="km-value km-pre">{{document.Website}}</div>
+    <div ng-show="document.onlineEvent">
+        <label for="subTopic">Event is Online</label>
     </div>
     <div ng-show="document.googleMaps">
         <label for="subTopic">Google maps link</label>
@@ -72,6 +71,9 @@
     </div>
     <div ng-show="document.logo">
         <label for="subTopic">logo</label>
+		<div class="km-value">
+			<img ng-src="{{document.logo}}/thumbnail"/>
+		</div>
     </div>
 
 </div>

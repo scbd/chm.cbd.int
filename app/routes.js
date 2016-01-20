@@ -28,6 +28,11 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/online-reporting/:schema',                    { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
+            when('/submit/undbAction/new',                              { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-action',          resolveUser: true }).
+            when('/submit/undbAction/:uid',                             { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-action',          resolveUser: true }).
+            when('/submit/undbPartner/new',                             { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
+            when('/submit/undbPartner/:uid',                            { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
+
             when('/submit/cbd-reporting/national/',                     { templateUrl: 'views/management/cbdReporting/national.html',         label: 'Reporting on Progress in Achieving National Targets',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
     //      when('/submit/online-reporting/:schema/:id',                <= final implementation goal

@@ -263,7 +263,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //======================================================
         function edit(record)
         {
-            $location.url(navigation.editUrl(record.schema_s, record.identifier_s, $scope.qs.type));
+            $location.url(navigation.editUrl(record.schema_s, record.identifier_s, $scope.qs.type));        
         }
 
 

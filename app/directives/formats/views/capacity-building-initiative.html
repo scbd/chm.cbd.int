@@ -61,24 +61,30 @@
 	<div ng-show="document.isImplementedByAgencies || document.isExecutededByAgencies || document.isCollaboratededByPartners">
 
 		<div ng-show="document.isImplementedByAgencies && document.implementingAgencies">
-		  	<label>Agency(ies) or organisation(s) implementing and/or executing the initiative</label>
-			<ul class="km-value" ng-show="document.implementingAgencies" ng-repeat="organization in document.implementingAgencies">
-				<div view-organization-reference ng-model="organization" locale="locale"></div>
-			</ul>
+		  	<label>Agency(ies) or organisation(s) implementing the initiative</label>
+
+			<div class="km-value" ng-repeat="org in implementingOrganizations">
+				<strong>{{org.name | lstring:locale}} <i ng-show="org.acronym">({{org.acronym | lstring:locale}})</i></strong>
+				<div>{{org.organizationType | term:locale}}</div>
+			</div>
 		</div>
 
-		<div ng-show="document.isImplementedByAgencies && document.executingAgencies">
-		  	<label>Agency(ies) or organisation(s) implementing and/or executing the initiative</label>
-			<ul class="km-value" ng-show="document.executingAgencies" ng-repeat="organization in document.executingAgencies">
-				<div view-organization-reference ng-model="organization" locale="locale"></div>
-			</ul>
+		<div ng-show="document.isExecutededByAgencies && document.executingAgencies">
+		  	<label>Agency(ies) or organisation(s) executing the initiative</label>
+
+			<div class="km-value" ng-repeat="org in executingOrganizations">
+				<strong>{{org.name | lstring:locale}} <i ng-show="org.acronym">({{org.acronym | lstring:locale}})</i></strong>
+				<div>{{org.organizationType | term:locale}}</div>
+			</div>
 		</div>
 
 		<div ng-show="document.collaboratingPartners && document.collaboratingPartners">
-			<label>Agency(ies) or organisation(s) implementing and/or executing the initiative</label>
-			<ul class="km-value" ng-show="document.collaboratingPartners" ng-repeat="organization in document.collaboratingPartners">
-				<div view-organization-reference ng-model="organization" locale="locale"></div>
-			</ul>
+			<label>Collaborating partner(s)</label>
+
+			<div class="km-value" ng-repeat="org in collaboratingOrganizations">
+				<strong>{{org.name | lstring:locale}} <i ng-show="org.acronym">({{org.acronym | lstring:locale}})</i></strong>
+				<div>{{org.organizationType | term:locale}}</div>
+			</div>
 		</div>
 
 	</div>
@@ -133,18 +139,23 @@
 		</ul>
 	</div>
 
-	<div class="row" ng-show="document.coreFundingSources">
+	<div ng-show="document.coreFundingSources">
 		<label>Core funding-source(s)</label>
-		<ul class="km-value" ng-repeat="organization in document.coreFundingSources">
-			<div view-organization-reference ng-model="organization" locale="locale"></div>
-		</ul>
+
+		<div class="km-value" ng-repeat="org in coreFundingOrganizations">
+			<strong>{{org.name | lstring:locale}} <i ng-show="org.acronym">({{org.acronym | lstring:locale}})</i></strong>
+			<div>{{org.organizationType | term:locale}}</div>
+		</div>
+
 	</div>
 
-	<div class="row" ng-show="document.coFinancingSources">
+	<div xng-show="document.coFinancingSources">
 		<label>Co-financing source(s)</label>
-		<ul class="km-value" ng-repeat="organization in document.coFinancingSources">
-			<div view-organization-reference ng-model="organization" locale="locale"></div>
-		</ul>
+
+		<div class="km-value" ng-repeat="org in coFinancingOrganizations">
+			<strong>{{org.name | lstring:locale}} <i ng-show="org.acronym">({{org.acronym | lstring:locale}})</i></strong>
+			<div>{{org.organizationType | term:locale}}</div>
+		</div>
 	</div>
 
 	<div ng-show="document.totalBudget">

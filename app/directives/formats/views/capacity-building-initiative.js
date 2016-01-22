@@ -1,4 +1,4 @@
-define(['app', 'angular', 'text!./capacity-building-initiative.html', 'utilities/km-storage', 'lodash'], function(app, angular, template, _){
+define(['app', 'angular', 'text!./capacity-building-initiative.html', './organization-reference', 'utilities/km-storage', 'lodash'], function(app, angular, template, _){
 
 	app.directive('viewCapacityBuildingInitiative', ["IStorage", "$http", "Enumerable", "$filter", "$q", function (storage, $http, Enumerable, $filter, $q) {
 		return {
@@ -23,50 +23,126 @@ define(['app', 'angular', 'text!./capacity-building-initiative.html', 'utilities
 															   }); }
 				};
 
-
+				$scope.implementingOrganizations  = [];
 				//====================
 				//
 				//====================
-				$scope.$watch("document.organizations", function(_new)
+				$scope.$watch("document.implementingAgencies", function(newVal, oldVal)
 				{
-					$scope.organizations = angular.fromJson(angular.toJson(_new || []));
+					if(newVal !== oldVal){
+						var orgs = angular.fromJson(angular.toJson(newVal || []));
+						var loadRecords = [];
+						angular.forEach(orgs, function(org){
+							loadRecords.push($scope.loadRecords(org.identifier));
+						});
 
-					if($scope.organizations)
-						$scope.loadReferences($scope.organizations);
+						$q.all(loadRecords).then(function(data){
+							$scope.implementingOrganizations  = data;
+						});
+					}
 				});
 
+				$scope.executingOrganizations = [];
 				//====================
 				//
 				//====================
-				$scope.loadReferences = function(targets) {
+				$scope.$watch("document.executingAgencies", function(newVal, oldVal)
+				{
+					if(newVal !== oldVal){
+						var orgs = angular.fromJson(angular.toJson(newVal || []));
+						var loadRecords = [];
+						angular.forEach(orgs, function(org){
+							loadRecords.push($scope.loadRecords(org.identifier));
+						});
 
-					angular.forEach(targets, function(ref){
+						$q.all(loadRecords).then(function(data){
+							$scope.executingOrganizations  = data;
+						});
+					}
+				});
 
-						storage.documents.get(ref.identifier, { cache : true})
-							.success(function(data){
-								ref.document = data;
-							})
-							.error(function(error, code){
-								if (code == 404 && $scope.allowDrafts == "true") {
+				$scope.collaboratingOrganizations = [];
+				//====================
+				//
+				//====================
+				$scope.$watch("document.collaboratingPartners", function(newVal, oldVal)
+				{
+					if(newVal !== oldVal){
+						var orgs = angular.fromJson(angular.toJson(newVal || []));
+						var loadRecords = [];
+						angular.forEach(orgs, function(org){
+							loadRecords.push($scope.loadRecords(org.identifier));
+						});
 
-									storage.drafts.get(ref.identifier, { cache : true})
-										.success(function(data){
-											ref.document = data;
-										})
-										.error(function(){
-											ref.document  = undefined;
-											ref.error     = error;
-											ref.errorCode = code;
-										});
+						$q.all(loadRecords).then(function(data){
+							$scope.collaboratingOrganizations  = data;
+						});
+					}
+				});
+
+				$scope.coreFundingOrganizations = [];
+				//====================
+				//
+				//====================
+				$scope.$watch("document.coreFundingSources", function(newVal, oldVal)
+				{
+					if(newVal !== oldVal){
+						var orgs = angular.fromJson(angular.toJson(newVal || []));
+						var loadRecords = [];
+						angular.forEach(orgs, function(org){
+							loadRecords.push($scope.loadRecords(org.identifier));
+						});
+
+						$q.all(loadRecords).then(function(data){
+							$scope.coreFundingOrganizations  = data;
+						});
+					}
+				});
+
+				$scope.coFinancingOrganizations = [];
+				//====================
+				//
+				//====================
+				$scope.$watch("document.coFinancingSources", function(newVal, oldVal)
+				{
+					if(newVal !== oldVal){
+						var orgs = angular.fromJson(angular.toJson(newVal || []));
+						var loadRecords = [];
+						angular.forEach(orgs, function(org){
+							loadRecords.push($scope.loadRecords(org.identifier));
+						});
+
+						$q.all(loadRecords).then(function(data){
+							$scope.coFinancingOrganizations  = data;
+						});
+					}
+				});
+
+				//============================================================
+				//
+				//============================================================
+				$scope.loadRecords = function(identifier) {
+
+					if (identifier) { //lookup single record
+						var deferred = $q.defer();
+
+						storage.documents.get(identifier)
+							.then(function(r) {
+								deferred.resolve(r.data);
+							}, function(e) {
+								if (e.status == 404) {
+									storage.drafts.get(identifier)
+										.then(function(r) { deferred.resolve(r.data);},
+											function(e) { deferred.reject (e);});
 								}
-
-								ref.document  = undefined;
-								ref.error     = error;
-								ref.errorCode = code;
-
+								else {
+									deferred.reject (e);
+								}
 							});
-					});
+						return deferred.promise;
+					}
 				};
+
 			}
 		};
 	}]);

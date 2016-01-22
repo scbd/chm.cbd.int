@@ -162,6 +162,23 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//============================================================
 			//
 			//============================================================
+			$scope.$watch('document.geographicScope', function(geographicScope) {
+			  	if(geographicScope && geographicScope.scope){
+					if(geographicScope.scope.identifier !=  "DEBB019D-8647-40EC-8AE5-10CA88572F6E" &&  geographicScope.scope.identifier !=  "9627DF2B-FFAC-4F85-B075-AF783FF2A0B5")// subnational
+					{
+						$scope.clearJurisdiction();
+						$scope.clearCommunity();
+					}
+				}
+				else {
+					$scope.document.geographicScope = undefined;
+				}
+
+			}, true);
+
+			//============================================================
+			//
+			//============================================================
 			$scope.clearDuration = function () {
 				if($scope.document && $scope.document.duration)
 					$scope.document.duration = undefined;
@@ -444,7 +461,6 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//
 			//============================================================
 			$scope.loadRecords = function(identifier, schema) {
-
 
 				if (identifier) { //lookup single record
 					var deferred = $q.defer();

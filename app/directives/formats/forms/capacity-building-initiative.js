@@ -352,7 +352,7 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//
 			//============================================================
 			function gotoManager() {
-				$location.url("/submit/capacity-building-initiative");
+				$location.url("/submit/capacityBuildingInitiative");
 			}
 
 			//============================================================

@@ -90,7 +90,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource',
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource', 'capacityBuildingResource',
             'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
             'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";

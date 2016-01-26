@@ -32,6 +32,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'lwDonor'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'dossier'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'capacityBuildingInitiative' ,public:0, draft:0, workflow:0 },
+            { identifier: 'capacityBuildingResource'   ,public:0, draft:0, workflow:0 },
             { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 },
             { identifier: 'undbAction'                 ,public:0, draft:0, workflow:0 }
         ];

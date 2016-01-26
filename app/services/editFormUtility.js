@@ -4,75 +4,25 @@ define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km
   app.factory('editFormUtility', ["IStorage", "IWorkflows", "$q", "realm", "$route", function(storage, workflows, $q, realm, $route) {
 
     var schemasWorkflowTypes = {
-      "aichiTarget": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "contact": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "caseStudy": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "marineEbsa": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "strategicPlanIndicator": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "resource": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "capacityBuildingInitiative": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "organization": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
-      "lwCampaigns": {
-        name: "publishReferenceRecord",
-        version: undefined
-      },
+      "aichiTarget"               : { name: "publishReferenceRecord", version: undefined },
+      "contact"                   : { name: "publishReferenceRecord", version: undefined },
+      "caseStudy"                 : { name: "publishReferenceRecord", version: undefined },
+      "marineEbsa"                : { name: "publishReferenceRecord", version: undefined },
+      "strategicPlanIndicator"    : { name: "publishReferenceRecord", version: undefined },
+      "resource"                  : { name: "publishReferenceRecord", version: undefined },
+      "capacityBuildingInitiative": { name: "publishReferenceRecord", version: undefined },
+      "capacityBuildingResource"  : { name: "publishReferenceRecord", version: undefined },
+      "organization"              : { name: "publishReferenceRecord", version: undefined },
+      "lwCampaigns"               : { name: "publishReferenceRecord", version: undefined },
 
-      "database": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "implementationActivity": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "nationalIndicator": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "nationalReport": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "nationalSupportTool": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "nationalTarget": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "nationalAssessment": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      },
-      "resourceMobilisation": {
-        name: "publishNationalRecord",
-        version: "0.4"
-      }
+      "database"                  : { name: "publishNationalRecord", version: "0.4" },
+      "implementationActivity"    : { name: "publishNationalRecord", version: "0.4" },
+      "nationalIndicator"         : { name: "publishNationalRecord", version: "0.4" },
+      "nationalReport"            : { name: "publishNationalRecord", version: "0.4" },
+      "nationalSupportTool"       : { name: "publishNationalRecord", version: "0.4" },
+      "nationalTarget"            : { name: "publishNationalRecord", version: "0.4" },
+      "nationalAssessment"        : { name: "publishNationalRecord", version: "0.4" },
+      "resourceMobilisation"      : { name: "publishNationalRecord", version: "0.4" }
     };
 
     var _self = {

@@ -15,27 +15,28 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
 
             $scope.schemasList = [
-                { identifier: 'nationalStrategicPlan',   title: 'National Biodiversity Strategies and Action Plans (NBSAPS)',  type:'nationalReports',  schema:"nationalReport" ,editType:"nbsap"  },
-                { identifier: 'nationalReport',        title: 'National Reports',                                      type:'nationalReports' , schema:"nationalReport"  ,editType:"nr" },
-                { identifier: 'otherReport',   title: 'Other Reports',                                               type:'nationalReports' , schema:"nationalReport" ,editType:"other"  },
+                { identifier: 'nationalStrategicPlan',      title: 'National Biodiversity Strategies and Action Plans (NBSAPS)',  type:'nationalReports',  schema:"nationalReport" ,editType:"nbsap"  },
+                { identifier: 'nationalReport',             title: 'National Reports',                         type:'nationalReports' , schema:"nationalReport"  ,editType:"nr" },
+                { identifier: 'otherReport',                title: 'Other Reports',                            type:'nationalReports' , schema:"nationalReport" ,editType:"other"  },
 
-                { identifier: 'aichiTarget',     title: 'Aichi Biodiversity Targets' ,           type:'Progress'  },
-                { identifier: 'nationalTarget',         title: 'National Targets' ,                     type:'Progress'  },
-                { identifier: 'nationalIndicator',      title: 'National Indicators' ,                  type:'Progress'  },
+                { identifier: 'aichiTarget',                title: 'Aichi Biodiversity Targets' ,              type:'Progress'  },
+                { identifier: 'nationalTarget',             title: 'National Targets' ,                        type:'Progress'  },
+                { identifier: 'nationalIndicator',          title: 'National Indicators' ,                     type:'Progress'  },
 
-                { identifier: 'nationalSupportTool',    title: 'Guidance and Support Tools'  ,          type:'Activities'  },
-                { identifier: 'implementationActivity', title: 'Implementation Activities'  ,           type:'Activities'  },
+                { identifier: 'nationalSupportTool',        title: 'Guidance and Support Tools'  ,             type:'Activities'  },
+                { identifier: 'implementationActivity',     title: 'Implementation Activities'  ,              type:'Activities'  },
 
-                { identifier: 'resourceMobilisation',   title: 'Preliminary Reporting Framework' ,      type:'Finance'  },
+                { identifier: 'resourceMobilisation',       title: 'Preliminary Reporting Framework' ,         type:'Finance'  },
 
-                { identifier: 'resource',               title: 'Virtual Library - CHM Resouces' ,             type:'Reference'  },
-                { identifier: 'organization',           title: 'Biodiversity Related Organizations'  ,  type:'Reference'  },
-                { identifier: 'capacityBuildingInitiative', title: { en: 'Capacity-building Initiatives',  type:'Reference' } },
+                { identifier: 'resource',                   title: 'Virtual Library - CHM Resouces' ,          type:'Reference'  },
+                { identifier: 'organization',               title: 'Biodiversity Related Organizations'  ,     type:'Reference'  },
+                { identifier: 'capacityBuildingInitiative', title: 'Capacity-building Initiatives',            type:'Reference'  },
+                { identifier: 'capacityBuildingResouce',    title: 'Capacity-building Resouces',               type:'Reference'  },
 
-                { identifier: 'caseStudy',              title: 'Case Studies'  ,                                                 type:'SCBD'  },
-                { identifier: 'marineEbsa',             title: 'Marine Ecologically or Biologically Significant Areas (EBSA)'  , type:'SCBD'  },
-                //{ identifier: 'nationalAssessment',            title: 'Aichi Targets' ,                                                type:'SCBD'  },
-                { identifier: 'strategicPlanIndicator', title: 'Strategic Plan Indicators' ,                                    type:'SCBD'  },
+                { identifier: 'caseStudy',                  title: 'Case Studies'  ,                                                 type:'SCBD'  },
+                { identifier: 'marineEbsa',                 title: 'Marine Ecologically or Biologically Significant Areas (EBSA)'  , type:'SCBD'  },
+                //{ identifier: 'nationalAssessment',                title: 'Aichi Targets' ,                                                type:'SCBD'  },
+                { identifier: 'strategicPlanIndicator',     title: 'Strategic Plan Indicators' ,                                    type:'SCBD'  },
 
                 // { identifier: 'database',               title: 'National Database'  ,                   type:'SCBD'  },
                 // { identifier: 'contact',                title: 'Contacts' },
@@ -68,7 +69,8 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             //open section based on url
             if($location.url().indexOf("/resource") >= 0 ||
                $location.url().indexOf("/organization") >= 0 ||
-               $location.url().indexOf("/capacityBuildingInitiative") >= 0){
+               $location.url().indexOf("/capacityBuildingInitiative") >= 0 ||
+               $location.url().indexOf("/capacityBuildingResource") >= 0) {
                    $scope.showReference = true;
             }
 
@@ -243,7 +245,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
 
             $scope.loadVLRFacets = function(){
-                var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator,capacityBuildingInitiative";
+                var filter = "filter=resource,organization,caseStudy,marineEbsa,aichiTarget,strategicPlanIndicator,capacityBuildingInitiative,capacityBuildingResource";
                 var published     = storage.documentQuery.facets(filter,{collection:"my"});
                 var drafts    	  = storage.documentQuery.facets(filter,{collection:"mydraft"});
                 var requests      = storage.documentQuery.facets(filter,{collection:"request"});
@@ -253,7 +255,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
 
                   _.each(results, function(facets){
                       _.each(facets.data, function(count, format){
-                          if(_.indexOf(["resource","organization","capacityBuildingInitiative","caseStudy","marineEbsa","aichiTarget","strategicPlanIndicator"],format)>=0){
+                          if(_.indexOf(["resource","organization","capacityBuildingInitiative","caseStudy","marineEbsa","aichiTarget","strategicPlanIndicator","capacityBuildingResource"],format)>=0){
                                 var schemaTypeFacet = _.where($scope.schemasList,{"identifier":format});
                                 if(schemaTypeFacet.length>0){
                                     if(index===0)

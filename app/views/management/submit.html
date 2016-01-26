@@ -570,15 +570,15 @@
         </div>
 
 
-        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;" ng-show="test_env">
            <div class="col-xs-12">
               Capacity-building
            </div>
        </div>
 
-       <div class="row">
+       <div class="row" ng-show="test_env">
            <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">Capacity-building Initiative</h5>
+               <h5 style="padding-top:0;margin-top:0;">Capacity-building Initiatives</h5>
            </div>
            <div class="col-xs-6">
                <p style="font-size:12px;">
@@ -596,6 +596,29 @@
                <div class="btn-group-xs pull-right">
                    <a class="btn btn-info" href="/submit/capacityBuildingInitiative/"><i class="fa fa-list"></i></a>
                    <a class="btn btn-primary" href="/submit/capacityBuildingInitiative/new"><i class="fa fa-plus-square"></i></a>
+               </div>
+           </div>
+       </div>
+       <div class="row" ng-show="test_env">
+           <div class="col-xs-3">
+               <h5 style="padding-top:0;margin-top:0;">Capacity-building Resources</h5>
+           </div>
+           <div class="col-xs-6">
+               <p style="font-size:12px;">
+
+               </p>
+           </div>
+           <div class="col-xs-2">
+               <div class="status-badge">
+                   <span class="badge bg-published">{{getFacet('capacityBuildingResource').public}}</span>
+                   <span class="badge bg-draft">{{getFacet('capacityBuildingResource').draft}}</span>
+                   <span class="badge bg-request">{{getFacet('capacityBuildingResource').workflow}}</span>
+               </div>
+           </div>
+           <div class="col-xs-1">
+               <div class="btn-group-xs pull-right">
+                   <a class="btn btn-info" href="/submit/capacityBuildingResource/"><i class="fa fa-list"></i></a>
+                   <a class="btn btn-primary" href="/submit/capacityBuildingResource/new"><i class="fa fa-plus-square"></i></a>
                </div>
            </div>
        </div>

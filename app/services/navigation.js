@@ -2,7 +2,7 @@
 define(['app', 'lodash'], function(app, _) { 'use strict';
 
     app.value("realm", "CHM");
-    app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "nationalAssessment", "resource", "resourceMobilisation", "strategicPlanIndicator"]);
+    app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "nationalAssessment", "resource", "capacityBuildingResource", "capacityBuildingInitiative", "resourceMobilisation", "strategicPlanIndicator"]);
     app.value("siteMapUrls", { //legacy
 
         management: {
@@ -37,7 +37,8 @@ define(['app', 'lodash'], function(app, _) { 'use strict';
             if (schema == "contact") return "Contact";
             if (schema == "database") return "National Database";
             if (schema == "resource") return "Virtual Library Resource";
-            if (schema == "capacityBuildingInitiative") return "Capacity-building Initiative";
+            if (schema == "capacityBuildingResource") return "Capacity-building Resources";
+            if (schema == "capacityBuildingInitiative") return "Capacity-building Initiatives";
             if (schema == "organization") return "Organization";
             if (schema == "measure") return "National Regulation";
             if (schema == "marineEbsa") return "Ecologically or Biologically Significant Areas (EBSAs)";

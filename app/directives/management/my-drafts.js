@@ -11,22 +11,23 @@ app.directive("myDrafts", ["$location", "IStorage", "schemaTypes", '$timeout', '
 		link : function($scope) {
 			$scope.drafts  = null;
 			$scope.schemasList = [
-                { identifier: 'caseStudy', title: { en: 'Case Studies' } },
-                { identifier: 'resource', title: { en: 'Virtual Library Resouces' } },
+                { identifier: 'caseStudy', 					title: { en: 'Case Studies' } },
+                { identifier: 'resource', 					title: { en: 'Virtual Library Resouces' } },
+				{ identifier: 'capacityBuildingResouce', 	title: { en: 'Capacity-building Resouces' } },
 				{ identifier: 'capacityBuildingInitiative', title: { en: 'Capacity-building Initiatives' } },
-                { identifier: 'resourceMobilisation', title: { en: 'Resource Mobilisation' } },
-                { identifier: 'marineEbsa', title: { en: 'Marine EBSA' } },
-                { identifier: 'database', title: { en: 'National Database' } },
-                { identifier: 'aichiTarget', title: { en: 'Aichi Biodiversity Target' } },
-                { identifier: 'strategicPlanIndicator', title: { en: 'Strategic Plan Indicator' } },
-                { identifier: 'nationalReport', title: { en: 'National Reports and Strategic Plans' } },
-                { identifier: 'nationalTarget', title: { en: 'National Targets' } },
-                { identifier: 'nationalIndicator', title: { en: 'National Indicator' } },
-                { identifier: 'nationalAssessment', title: { en: 'Progress Assessment' } },
-                { identifier: 'nationalSupportTool', title: { en: 'Guidance and Support Tools' } },
-                { identifier: 'implementationActivity', title: { en: 'Implementation Activity' } },
-                { identifier: 'organization', title: { en: 'Biodiversity Related Organizations' } },
-                { identifier: 'contact', title: { en: 'Contacts' } },
+                { identifier: 'resourceMobilisation', 		title: { en: 'Resource Mobilisation' } },
+                { identifier: 'marineEbsa', 				title: { en: 'Marine EBSA' } },
+                { identifier: 'database', 					title: { en: 'National Database' } },
+                { identifier: 'aichiTarget', 				title: { en: 'Aichi Biodiversity Target' } },
+                { identifier: 'strategicPlanIndicator', 	title: { en: 'Strategic Plan Indicator' } },
+                { identifier: 'nationalReport', 			title: { en: 'National Reports and Strategic Plans' } },
+                { identifier: 'nationalTarget', 			title: { en: 'National Targets' } },
+                { identifier: 'nationalIndicator', 			title: { en: 'National Indicator' } },
+                { identifier: 'nationalAssessment', 		title: { en: 'Progress Assessment' } },
+                { identifier: 'nationalSupportTool', 		title: { en: 'Guidance and Support Tools' } },
+                { identifier: 'implementationActivity', 	title: { en: 'Implementation Activity' } },
+                { identifier: 'organization', 				title: { en: 'Biodiversity Related Organizations' } },
+                { identifier: 'contact', 					title: { en: 'Contacts' } },
         	].sort(function(a,b){
 			  var aName = a.title.en.toLowerCase();
 			  var bName = b.title.en.toLowerCase();

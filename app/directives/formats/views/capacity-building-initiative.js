@@ -27,95 +27,85 @@ define(['app', 'angular', 'text!./capacity-building-initiative.html', './organiz
 				//====================
 				//
 				//====================
-				$scope.$watch("document.implementingAgencies", function(newVal, oldVal)
+				$scope.$watch("document.implementingAgencies", function(newVal)
 				{
-					if(newVal !== oldVal){
-						var orgs = angular.fromJson(angular.toJson(newVal || []));
-						var loadRecords = [];
-						angular.forEach(orgs, function(org){
-							loadRecords.push($scope.loadRecords(org.identifier));
-						});
+					var orgs = angular.fromJson(angular.toJson(newVal || []));
+					var loadRecords = [];
+					angular.forEach(orgs, function(org){
+						loadRecords.push($scope.loadRecords(org.identifier));
+					});
 
-						$q.all(loadRecords).then(function(data){
-							$scope.implementingOrganizations  = data;
-						});
-					}
+					$q.all(loadRecords).then(function(data){
+						$scope.implementingOrganizations  = data;
+					});
 				});
 
 				$scope.executingOrganizations = [];
 				//====================
 				//
 				//====================
-				$scope.$watch("document.executingAgencies", function(newVal, oldVal)
+				$scope.$watch("document.executingAgencies", function(newVal)
 				{
-					if(newVal !== oldVal){
-						var orgs = angular.fromJson(angular.toJson(newVal || []));
-						var loadRecords = [];
-						angular.forEach(orgs, function(org){
-							loadRecords.push($scope.loadRecords(org.identifier));
-						});
+					var orgs = angular.fromJson(angular.toJson(newVal || []));
+					var loadRecords = [];
+					angular.forEach(orgs, function(org){
+						loadRecords.push($scope.loadRecords(org.identifier));
+					});
 
-						$q.all(loadRecords).then(function(data){
-							$scope.executingOrganizations  = data;
-						});
-					}
+					$q.all(loadRecords).then(function(data){
+						$scope.executingOrganizations  = data;
+					});
 				});
 
 				$scope.collaboratingOrganizations = [];
 				//====================
 				//
 				//====================
-				$scope.$watch("document.collaboratingPartners", function(newVal, oldVal)
+				$scope.$watch("document.collaboratingPartners", function(newVal)
 				{
-					if(newVal !== oldVal){
-						var orgs = angular.fromJson(angular.toJson(newVal || []));
-						var loadRecords = [];
-						angular.forEach(orgs, function(org){
-							loadRecords.push($scope.loadRecords(org.identifier));
-						});
+					var orgs = angular.fromJson(angular.toJson(newVal || []));
+					var loadRecords = [];
+					angular.forEach(orgs, function(org){
+						loadRecords.push($scope.loadRecords(org.identifier));
+					});
 
-						$q.all(loadRecords).then(function(data){
-							$scope.collaboratingOrganizations  = data;
-						});
-					}
+					$q.all(loadRecords).then(function(data){
+						$scope.collaboratingOrganizations  = data;
+					});
 				});
 
 				$scope.coreFundingOrganizations = [];
 				//====================
 				//
 				//====================
-				$scope.$watch("document.coreFundingSources", function(newVal, oldVal)
+				$scope.$watch("document.coreFundingSources", function(newVal)
 				{
-					if(newVal !== oldVal){
-						var orgs = angular.fromJson(angular.toJson(newVal || []));
-						var loadRecords = [];
-						angular.forEach(orgs, function(org){
-							loadRecords.push($scope.loadRecords(org.identifier));
-						});
+					var orgs = angular.fromJson(angular.toJson(newVal || []));
+					var loadRecords = [];
+					angular.forEach(orgs, function(org){
+						loadRecords.push($scope.loadRecords(org.identifier));
+					});
 
-						$q.all(loadRecords).then(function(data){
-							$scope.coreFundingOrganizations  = data;
-						});
-					}
+					$q.all(loadRecords).then(function(data){
+						$scope.coreFundingOrganizations  = data;
+					});
 				});
 
 				$scope.coFinancingOrganizations = [];
 				//====================
 				//
 				//====================
-				$scope.$watch("document.coFinancingSources", function(newVal, oldVal)
+				$scope.$watch("document.coFinancingSources", function(newVal)
 				{
-					if(newVal !== oldVal){
-						var orgs = angular.fromJson(angular.toJson(newVal || []));
-						var loadRecords = [];
-						angular.forEach(orgs, function(org){
-							loadRecords.push($scope.loadRecords(org.identifier));
-						});
+					var orgs = angular.fromJson(angular.toJson(newVal || []));
+					var loadRecords = [];
+					angular.forEach(orgs, function(org){
+						loadRecords.push($scope.loadRecords(org.identifier));
+					});
 
-						$q.all(loadRecords).then(function(data){
-							$scope.coFinancingOrganizations  = data;
-						});
-					}
+					$q.all(loadRecords).then(function(data){
+						$scope.coFinancingOrganizations  = data;
+					});
 				});
 
 				//============================================================

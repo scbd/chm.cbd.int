@@ -251,7 +251,7 @@ app.directive('editCapacityBuildingResource', ['$http',"$rootScope", "Enumerable
 				}
 
 				if (!$scope.isInLibrary("bch", document)) {
-					document.cpbThematicAreas = undefined;
+					document.bchSubjects = undefined;
 				}
 
 				if (/^\s*$/g.test(document.notes))

@@ -19,19 +19,17 @@ define(['app', 'angular', 'text!./capacity-building-resource.html', 'utilities/k
 				//====================
 				//
 				//====================
-				$scope.$watch("document.organizations", function(newVal, oldVal)
+				$scope.$watch("document.organizations", function(newVal)
 				{
-					if(newVal !== oldVal){
-						var orgs = angular.fromJson(angular.toJson(newVal || []));
-						var loadRecords = [];
-						angular.forEach(orgs, function(org){
-							loadRecords.push($scope.loadRecords(org.identifier));
-						});
+					var orgs = angular.fromJson(angular.toJson(newVal || []));
+					var loadRecords = [];
+					angular.forEach(orgs, function(org){
+						loadRecords.push($scope.loadRecords(org.identifier));
+					});
 
-						$q.all(loadRecords).then(function(data){
-							$scope.authoringOrganizations  = data;
-						});
-					}
+					$q.all(loadRecords).then(function(data){
+						$scope.authoringOrganizations  = data;
+					});
 				});
 
 				//============================================================

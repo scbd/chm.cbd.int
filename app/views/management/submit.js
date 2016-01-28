@@ -43,7 +43,8 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
            
         $scope.abschLink = "absch.cbd.int";
         $scope.absrealm = "ABS";
-        if($rootScope.test_env){
+       
+        if($scope.test_env){
             $scope.absrealm = "ABS-TRG";
             $scope.abschLink = "training-absch.cbd.int";
         }

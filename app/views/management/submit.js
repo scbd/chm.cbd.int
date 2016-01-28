@@ -40,7 +40,13 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         $scope.government = userGovernment();
 
         $scope.loadScheduled = null;
-
+           
+        $scope.abschLink = "absch.cbd.int";
+        $scope.absrealm = "ABS";
+        if($rootScope.test_env){
+            $scope.absrealm = "ABS-TRG";
+            $scope.abschLink = "training-absch.cbd.int";
+        }
 
 
         //==============================
@@ -59,9 +65,9 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             // ABS Facets
             ///////////////
 
-            var publishedQuery  = $http.get("/api/v2013/documents/query/facets", { params : {collection:"my",      realm:'ABS-DEV'}});
-            var draftQuery      = $http.get("/api/v2013/documents/query/facets", { params : {collection:"mydraft", realm:'ABS-DEV'}});
-            var requestQuery    = $http.get("/api/v2013/documents/query/facets", { params : {collection:"request", realm:'ABS-DEV'}});
+            var publishedQuery  = $http.get("/api/v2013/documents/query/facets", { params : {collection:"my",      realm:$scope.absrealm}});
+            var draftQuery      = $http.get("/api/v2013/documents/query/facets", { params : {collection:"mydraft", realm:$scope.absrealm}});
+            var requestQuery    = $http.get("/api/v2013/documents/query/facets", { params : {collection:"request", realm:$scope.absrealm}});
 
             $q.all([publishedQuery,draftQuery,requestQuery])
             .then(function(results){

@@ -982,7 +982,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
 
 				$location.url("/submit/resourceMobilisation");
 			};

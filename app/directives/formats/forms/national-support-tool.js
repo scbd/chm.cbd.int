@@ -292,7 +292,7 @@ app.directive("editNationalSupportTool", ["$http","$rootScope", "$q", "$location
             //==================================
             $scope.onPostPublish = function() {
                 $scope.$root.showAcknowledgement = true;
-                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the pubishing process could take up to 1 minute before your record appears.");
+                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
                 gotoManager();
             };
 

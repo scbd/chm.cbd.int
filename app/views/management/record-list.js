@@ -39,7 +39,12 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             refreshPager();
             loadPage(0);
             refreshFacetCounts();
+            
+            if($scope.schema = 'nationalIndicator'){
+                getAllAssessments();
+            }
         }
+
 
         //======================================================
         //
@@ -93,7 +98,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             {
                 qFacets = refreshFacetCounts();
             }
-
+            
             return $q.all([qRecords, qFacets]).catch(function(res){
 
                 $scope.records     = [];
@@ -106,7 +111,68 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 delete $scope.loading;
             });
         }
+        
+        
+       
+  
+        //======================================================
+        //
+        //
+        //======================================================
+        $scope.isIndicatorIsUsed = function(record) {
+            
+         // if(!$scope.assessmentRecordCount)
+         //   return false;
+          
+          var indicatorID = record.identifier_s;
+          
+          var found = false; 
+          
+           _.each($scope.assessmentRecords, function(rec) {     
+                if(rec.nationalIndicators_ss == indicatorID )
+                    found = true;
+           });
 
+          return found;
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function getAllAssessments() {
+          
+            $scope.loading = true;
+            
+            var options = _.assign({
+                schema    : 'nationalAssessment',
+            }, options || {});
+
+            // Execute query
+            var qsParams =
+            {
+                "q"  : buildQuery(options),
+                "fl" : "nationalIndicators_ss, identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s"
+            };
+
+            var qRecords = $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
+                $scope.assessmentRecordCount = res.data.response.numFound;
+                $scope.assessmentRecords     = res.data.response.docs;
+ 
+            });
+            return $q.all([qRecords]).catch(function(res){
+
+                $scope.assessmentRecords     = [];
+                $scope.assessmentRecordCount = -1;
+                $scope.error       = res.data || res;
+
+                console.error($scope.error);
+
+            }).finally(function(){
+                   
+                delete $scope.loading;
+            });
+        }
 
         //======================================================
         //

@@ -6,7 +6,7 @@ define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/no
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
 
-        $scope.test_env        = realm != 'CHM';
+        $rootScope.test_env = $scope.test_env        = realm != 'CHM';
         $scope.breadcrumbs     = breadcrumbs;
         $scope.$root.pageTitle = { text: "" };
         $rootScope.placeholderRecords=[];

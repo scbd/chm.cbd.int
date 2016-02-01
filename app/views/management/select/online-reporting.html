@@ -114,8 +114,8 @@
                             <div class="btn-group btn-group-xs pull-right">
                                 <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
                                 <button ng-if="nationalTarget._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
-                                <button ng-if="nationalTarget._state_s == 'draft' || nationalTarget.assessments.length <= 0 " ng-hide    ="nationalTarget._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
-                                <button ng-if="nationalTarget._state_s == 'draft' || nationalTarget.assessments.length <= 0" ng-hide="nationalTarget._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o"></i></button>
+                                <button ng-disabled="nationalTarget._state_s != 'draft' && nationalTarget.assessments.length > 0 " ng-hide="nationalTarget._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
+                                <button ng-disabled="nationalTarget._state_s != 'draft' && nationalTarget.assessments.length > 0" ng-hide="nationalTarget._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o" ></i></button>
                             </div>
                             <div ng-if="nationalTarget.isAichiTarget_b">
                                 <strong>Aichi Target {{nationalTarget.aichiTargets_EN_txt ? nationalTarget.aichiTargets_EN_txt[0]:""}}  </strong>
@@ -161,10 +161,10 @@
                                     <button ng-if="nationalTarget.assessments[0]._state_s=='workflow'" title="Locked for edit" type="button"
                                         class="btn btn-default" ng-click="onWorkflow(nationalTarget.assessments[0])"><i class="fa fa-lock"></i></button>
         
-                                    <button ng-if="nationalTarget.assessments[0]._state_s == 'draft' && nationalTarget.assessments[0]._state_s!='workflow'" title="Edit" type="button"
+                                    <button ng-if="nationalTarget.assessments[0]._state_s!='workflow'" title="Edit" type="button"
                                         class="btn btn-default" ng-click="onEdit(nationalTarget.assessments[0], 'nationalAssessment')"><i class="fa fa-edit"></i></button>
         
-                                    <button ng-if="nationalTarget.assessments[0]._state_s == 'draft'" ng-hide="nationalTarget.assessments[0]._state_s=='workflow'" title="Delete" type="button"
+                                    <button ng-if="nationalTarget.assessments[0]._state_s!='workflow'" title="Delete" type="button"
                                         class="btn btn-default" ng-click="onDelete(nationalTarget.assessments[0], 'nationalAssessment', $event)"><i class="fa fa-trash-o"></i></button>
                                 </div>
                                 <div>

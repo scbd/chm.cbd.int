@@ -40,7 +40,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             loadPage(0);
             refreshFacetCounts();
             
-            if($scope.schema = 'nationalIndicator'){
+            if($scope.schema == 'nationalIndicator'){
                 getAllAssessments();
             }
         }

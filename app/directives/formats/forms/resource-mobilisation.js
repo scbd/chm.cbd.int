@@ -277,6 +277,8 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 
 						if(document.internationalResources.baselineData.odaOofType && _.isEmpty( document.internationalResources.baselineData.odaOofType))
 							document.internationalResources.baselineData.odaOofType = undefined;
+						else
+							document.internationalResources.baselineData.odaOofType = setTerm(document.internationalResources.baselineData.odaOofType);
 					}
 
 					if(document.internationalResources && document.internationalResources.progressData){
@@ -425,6 +427,13 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					currentValue = Math.round(parseFloat(currentValue + (currentValue*rate/100) || 0));
 				}
 				return currentValue;
+			};
+
+			//==================================
+			//
+			//==================================
+			var setTerm = function (identifier) {
+				return {'identifier': identifier};
 			};
 
 			//==================================

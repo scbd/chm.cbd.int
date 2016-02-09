@@ -337,7 +337,7 @@
 										<a rm-popover data-original-title="" data-content="You may report on either ODA/OOF commitments or actual disbursements, but please apply the same category for all years, including when reporting progress.">Additional explanation <i class="fa fa-info-circle"></i></a>
 										<!-- <div km-select name="baselineOdaOof" ng-model="document.internationalResources.baselineData.odaOofType.identifier" binding-type="string" placeholder="Select type..." items="options.types()"></div> -->
 										<div class="radio" ng-repeat="term in options.odaOofTypes">
-											<label><input type="radio" ng-model="document.internationalResources.baselineData.odaOofType" ng-value="{'identifier':term.identifier}">{{term | term:locale}}</label>
+											<label><input type="radio" ng-model="document.internationalResources.baselineData.odaOofType" value={{term.identifier}}>{{term | term:locale}}</label>
 										</div>
 									</km-control-group>
 

@@ -433,6 +433,9 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			//
 			//==================================
 			var setTerm = function (identifier) {
+				if(_.has(identifier, 'identifier'))
+					return identifier;
+
 				return {'identifier': identifier};
 			};
 

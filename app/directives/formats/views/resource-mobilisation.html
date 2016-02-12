@@ -520,9 +520,10 @@
 
 	<div ng-show="document.hasDomesticPrivateSectorMeasures">
 		<div><label>7. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?</label></div>
-		<ul class="km-value">
+		<!-- <ul class="km-value"> {{document.hasDomesticPrivateSectorMeasures}}
 			<li ng-repeat="term in measures | filter:{identifier:document.hasDomesticPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
-		</ul>
+		</ul> -->
+		<span class="km-value km-pre">{{document.hasDomesticPrivateSectorMeasures | lstring:locale}}</span>
 		<div ng-show="document.hasDomesticPrivateSectorMeasuresComments">
 			<label>Please provide additional information below:</label>
 			<div class="km-value km-pre">{{document.hasDomesticPrivateSectorMeasuresComments | lstring:locale}}</div>

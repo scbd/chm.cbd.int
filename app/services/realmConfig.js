@@ -1,48 +1,41 @@
-define(['app', 'lodash'], function (app,_) { 'use strict';
+define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 
-	app.factory('realmConfig',  ["$http","$location", function($http,$location) {
-
-	var realmConfigurations =
-                        [
-                            //Production
-                            {'host':'chm.cbd.int', 'realm' : 'CHM', 'roles': [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint'},{'ChmAdministrator':'ChmAdministrator'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser'},{'ChmRmNAU':'ChmRmNAU'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint'},{'ChmRmFocalPoint':'ChmRmFocalPoint'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
-
-                            //Development
-                            {'host':'localhost', 'realm' : 'CHM-DEV', 'roles': [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
-
-                            {'host':'127.0.0.1', 'realm' : 'CHM-DEV', 'roles':  [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
-
-                            {'host':'dev-chm.cbd.int', 'realm' : 'CHM-DEV', 'roles':  [{'User':'User'},{'Administrator':'Administrator'},{'ChmNationalAuthorizedUser':'ChmNationalAuthorizedUser-dev'},{'ChmNationalFocalPoint':'ChmNationalFocalPoint-dev'},{'ChmAdministrator':'ChmAdministrator-dev'},{'ChmNrNationalAuthorizedUser':'ChmNrNationalAuthorizedUser-dev'},{'ChmRmNAU':'ChmRmNAU-dev'},{'ChmNrNationalFocalPoint':'ChmNrNationalFocalPoint-dev'},{'ChmRmFocalPoint':'ChmRmFocalPoint-dev'},{'ScbdStaff':'ScbdStaff'},{'NFP-CBD':'NFP-CBD'}] },
-
-                        ];
+	app.factory('realmConfig',  ["realm", function(realm) {
 
 
+    	var realmConfigurations = {
+    	    'CHM': { //Production
+                //no overrides
+    	    },
+    	    'CHM-DEV': { //Development / Test
+    	        overrides: {
+    	            'ChmNationalAuthorizedUser':   'ChmNationalAuthorizedUser-dev',
+    	            'ChmNationalFocalPoint':       'ChmNationalFocalPoint-dev',
+    	            'ChmAdministrator':            'ChmAdministrator-dev',
+    	            'ChmNrNationalAuthorizedUser': 'ChmNrNationalAuthorizedUser-dev',
+    	            'ChmRmNAU':                    'ChmRmNAU-dev',
+    	            'ChmNrNationalFocalPoint':     'ChmNrNationalFocalPoint-dev',
+    	            'ChmRmFocalPoint':             'ChmRmFocalPoint-dev',
+    	        }
+    	    }
+    	};
 
         //======================================================
         //
         //
         //======================================================
-        function getRoleName(roleName) {
-                if (roleName) {
-                    var realmConfig = _.where(realmConfigurations, {
-                        host: $location.$$host
-                    });
+        function getRoleName(role) {
 
-                    if (realmConfig.length > 0) {
-                        var role = _.find(realmConfig[0].roles, function(key) {
+            var config = realmConfigurations[realm];
 
-                            return _.keys(key)[0] == roleName;
-                        });
-                        // console.log(realmConfig, role)
-                        if (role)
-                            return _.values(role)[0];
-                        else
-                            throw roleName + ' role is not configured for realm ' + realmConfig[0].realm + ', please update app\js\realmConfig.js';
-                    } else
-                        throw 'Realm not configured, please update app\js\realmConfig.js';
-                }
-            }//  function getRoleName(roleName) {
+            if(!config)
+                throw 'Realm not configured';
 
+            if(config.overrides && config.overrides[role])
+                return config.overrides[role];
+
+            return role;
+        }
 
         //======================================================
         //

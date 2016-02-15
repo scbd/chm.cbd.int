@@ -1,7 +1,6 @@
 // FROM https://github.com/angular/angular.js/blob/v1.1.4/src/ng/directive/ngView.js
-define(['app', 'lodash'], function(app, _) { 'use strict';
+define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
 
-    app.value("realm", "CHM");
     app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "nationalAssessment", "resource", "capacityBuildingResource", "capacityBuildingInitiative", "resourceMobilisation", "strategicPlanIndicator"]);
     app.value("siteMapUrls", { //legacy
 

@@ -1,0 +1,50 @@
+<div class="container">
+    <style>
+        .ngdialog-content { background: transparent !important; }
+        .ngdialog.ngdialog-theme-default.wide .ngdialog-content { width: 750px !important; }
+    </style>
+
+    <h1>National Users</h1>
+{{X}}
+    <div class="row">
+        <div class="col-xs-12">
+
+            <table class="table table-striped">
+              <tr>
+                  <th>#</th>
+                  <th>User</th>
+                  <th>Organization/Division</th>
+                  <th style="max-width:200px">Roles</th>
+                  <th>
+                      <button class="btn btn-default" ng-click="search()">Nominate</button>
+                  </th>
+              </tr>
+              <tr ng-repeat="u in users | filter:hasRoleManageable | orderBy:'lastName' ">
+                  <td></td>
+                  <td>
+                      <b>{{u.firstName}} {{u.lastName}}</b><br>
+                      <a href="mailto:{{u.email}}">{{u.email}}</a>
+                  </td>
+                  <td>
+                      {{u.organization}}
+                  </td>
+                  <td>
+                      <span ng-repeat="rid in u.roles|filter:isRoleManageable">
+                          <span  class="label label-default" style="font-size:10px;margin-right:4px">{{roles[rid].name}}</span>
+                          <br>
+                      </span>
+
+                      <span ng-repeat="rid in u.roles|filter:isRoleNotManageable">
+                          <span  class="label label-warning" style="font-size:10px;margin-right:4px">{{roles[rid].name}}</span>
+                          <br>
+                      </span>
+                  </td>
+                  <td>
+                      <button class="btn btn-default" ng-click="edit(u)"><i class="fa fa-edit  fa-fw"></i></button>
+                      <button class="btn btn-default"><i class="fa fa-trash fa-fw"></i></button>
+                  </td>
+              </tr>
+            </table>
+        </div>
+    </div>
+</div>

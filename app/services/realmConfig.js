@@ -2,6 +2,15 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 
 	app.factory('realmConfig',  ["realm", function(realm) {
 
+        var nationalRoles = [
+            'CBD_NFP',
+            'ChmNationalFocalPoint',
+            'ChmNationalAuthorizedUser',
+            'ChmNrNationalFocalPoint',
+            'ChmNrNationalAuthorizedUser',
+            'ChmRmFocalPoint',
+            'ChmRmNAU'
+        ];
 
     	var realmConfigurations = {
     	    'CHM': { //Production
@@ -19,6 +28,13 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
     	        }
     	    }
     	};
+        //======================================================
+        //
+        //
+        //======================================================
+        function getNationalRoles() {
+            return _.map(nationalRoles, getRoleName);
+        }
 
         //======================================================
         //
@@ -130,6 +146,7 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 
 
            return {
+                    nationalRoles : getNationalRoles,
                     getRoleName : getRoleName,
                     isAdministrator:isAdministrator,
                     isChmRmFocalPoint:isChmRmFocalPoint,

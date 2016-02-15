@@ -83,6 +83,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/register',                      { redirectTo:  '/management/' }).
 
+            when('/management/national-users', { templateUrl: 'views/management/national-users/index.html',label : 'National Users',  resolveController: true, resolve : { user : securize(['User']) } }).
+
             when('/signin',                                             { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
 ///////////////
             //lifeWeb Routes

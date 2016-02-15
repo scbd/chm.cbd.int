@@ -11,6 +11,7 @@
     "requirejs-domready": "latest",
     "requirejs-text": "latest",
     "requirejs-plugins": "latest",
+    "require-css": "~0.1.8",
     "lodash": "3.6.0",
     "uri.js": "1.13.x",
     "moment": "latest",
@@ -28,6 +29,7 @@
     "ngSmoothScroll": "1.7.1",
     "ammap3": "3.17.1",
     "amcharts3": "3.18.3",
+    "ng-dialog": "0.5.6",
     "ng-breadcrumbs": "es-breadcrumbs#~0.4.1"
   },
   "resolutions": {

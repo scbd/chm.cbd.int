@@ -13,7 +13,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <h3 class="modal-title">
-            Roles - {{editRolesDialogCtrl.user.firstName}} {{editRolesDialogCtrl.user.lastName}}
+            Grant / Revoke Roles - {{editRolesDialogCtrl.user.firstName}} {{editRolesDialogCtrl.user.lastName}}
         </h3>
         {{editRolesDialogCtrl.user.email}}
     </div>
@@ -21,6 +21,8 @@
     <div class="modal-body">
 
         <!-- ROLES -->
+        <p>Please select which functions you want assign to the user</p>
+
 
         <table class="table table-striped">
             <tr ng-repeat="role in editRolesDialogCtrl.roles" ng-class="editRolesDialogCtrl.rowClasses(role)">
@@ -35,10 +37,15 @@
                 </td>
             </tr>
         </table>
-        Grant: {{editRolesDialogCtrl.stats().grant}} / Revoke: {{editRolesDialogCtrl.stats().revoke}}
     </div>
 
     <div class="modal-footer">
+
+        <div class="pull-left" ng-if="editRolesDialogCtrl.stats().grant || editRolesDialogCtrl.stats().revoke">
+            <div ng-show="editRolesDialogCtrl.stats().grant" ><em>{{editRolesDialogCtrl.stats().grant}} role(s) will be granted</em></div>
+            <div ng-show="editRolesDialogCtrl.stats().revoke"><em>{{editRolesDialogCtrl.stats().revoke}} role(s) will be revoked</em></div>
+        </div>
+
         <button type="button" class="btn btn-default" aria-label="Close" ng-click="closeThisDialog()">Cancel</button>
         <button type="button" class="btn btn-primary" aria-label="Save" ng-click="editRolesDialogCtrl.save()" ng-disabled="!editRolesDialogCtrl.stats().changes">Next »</button>
     </div>

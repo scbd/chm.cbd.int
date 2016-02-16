@@ -54,21 +54,23 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeThisDialog()">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Nominate</h4>
+        <h3 class="modal-title">Search for a nominee</h3>
     </div>
 
     <div class="modal-body">
         <form name="form" novalidate ng-submit="searchUserDialogCtrl.search()">
 
-            <p>Please enter the email address of the person you want to nominate and click the search button(<i class="fa fa-search"></i>).</p>
+            <p>Please enter the email address of the person you want to nominate and click the search button <i class="fa fa-search"></i>.</p>
 
             <div class="form-group" ng-class="{ 'has-warning': form.email.$invalid }">
-                <label>Email</label>
+                <label>Email address of the nominee</label>
                 <div class="input-group" style="margin-bottom:2px; padding-left: 0px">
                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                    <input type="email" name="email" class="form-control" ng-model="searchUserDialogCtrl.email" ng-change='searchUserDialogCtrl.user=null' placeholder="email@domain.xyz" required>
+                    <input type="email" name="email" class="form-control" ng-model="searchUserDialogCtrl.email" ng-change='searchUserDialogCtrl.search()' ng-keydown="searchUserDialogCtrl.user=null" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 300, 'blur': 0 } }" placeholder="email@domain.xyz" required>
                     <span class="input-group-btn">
-                        <button class="btn btn-default" aria-label="Search" type="submit"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-default" aria-label="Search" type="submit">
+                            <i class="fa fa-fw" ng-class="{ 'fa-search' : !searchUserDialogCtrl.loading, 'fa-cog fa-spin' : searchUserDialogCtrl.loading  }"></i>
+                        </button>
                     </span>
                 </div>
                 <p class="help-block error" ng-show="form.email.$invalid && !form.email.$error.email">This field is mandatory</p>
@@ -86,21 +88,22 @@
 
                     <div class="alert alert-warning" role="alert">
                         <p>
-                            <b>User not found!</b> Please note the specified email address does not correspond to any existing User Account.
+                            <b>User not found: </b> <i>{{searchUserDialogCtrl.email}}</i>
+                        </p>
+                        <p>
+                            Please note the specified email address does not correspond to any existing User Account.
                             You can however proceed with nomination by initiating the creation of a new User Account.
                             The new user will be asked to confirm his/her participation and complete contact details.
                         </p>
-
-                        <p class="text-center">
-                            <button class="btn btn-lg btn-success" ng-click="searchUserDialogCtrl.save()">Proceed with nomination of a new user »</button>
-                        </p>
-
-                        <p class="text-center">
-                            Using the following email address: <b>{{searchUserDialogCtrl.user.email}}</b>
-                        </p>
-
                     </div>
+
+                    <button class="btn btn-lg btn-block btn-success" ng-click="searchUserDialogCtrl.save()">
+                        Nominate a new user using following email address<br>
+                        <b>{{searchUserDialogCtrl.user.email}}</b>
+                    </button>
+
                 </div>
+
             </div>
 
             <div class="panel panel-default panel-identity" ng-show="searchUserDialogCtrl.user.userID" style="position:relative;">
@@ -146,6 +149,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-lg btn-block btn-primary" ng-click="searchUserDialogCtrl.save()">
+                        Continue with <b>{{searchUserDialogCtrl.user.firstName}} {{searchUserDialogCtrl.user.lastName}}</b><br>
+                        <b>{{searchUserDialogCtrl.user.email}}</b>
+                    </button>
                 </div>
 
             </div>
@@ -153,6 +161,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" aria-label="Close" ng-click="closeThisDialog()">Cancel</button>
-        <button type="button" class="btn btn-primary" aria-label="Save" ng-click="searchUserDialogCtrl.save()" ng-disabled="form.$invalid || !searchUserDialogCtrl.user">Proceed with nomination »</button>
+        <button type="button" class="btn btn-primary" aria-label="Save" ng-click="searchUserDialogCtrl.save()" ng-disabled="form.$invalid || !searchUserDialogCtrl.user">Next »</button>
     </div>
 </div>

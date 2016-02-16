@@ -9,24 +9,15 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
         $scope.edit                = edit;
         $scope.search              = search;
-        $scope.hasRoleManageable   = hasRoleManageable;
+        $scope.defaultFilter       = filter;
         $scope.isRoleManageable    = isRoleManageable;
+        $scope.sortKey             = sortKey;
         $scope.isRoleNotManageable = function(id) { return !isRoleManageable(id); };
 
-        init().then(function(){
-            $scope.roles = roles;
-            $scope.users = users;
-        });
+        loadRoles();
+        loadUsers();
 
-        return;
-
-        //========================
-        //
-        //========================
-        function init() {
-
-            return $q.all([loadRoles(), loadUsers()]);
-        }
+        return this;
 
         //========================
         //
@@ -36,10 +27,13 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             // All Roles
 
             var q1 = $http.get('https://api.cbd.int/api/v2013/roles').then(function (res) {
-                roles = _.reduce(res.data, function(ret, role){
+
+                $scope.roles = roles = _.reduce(res.data, function(ret, role){
                     ret[role.roleId] = role;
                     return ret;
                 }, {});
+
+                return roles;
             });
 
             // Manageable Roles
@@ -50,12 +44,13 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             };
 
             var q2 = $http.get('https://api.cbd.int/api/v2013/roles', { params : { q : query } }).then(function (res) {
-                manageableRoles = _.reduce(res.data, function(ret, role){
+
+                $scope.manageableRoles = manageableRoles = _.reduce(res.data, function(ret, role){
                     ret[role.roleId] = role;
                     return ret;
                 }, {});
 
-                $scope.manageableRoles = manageableRoles;
+                return manageableRoles;
             });
 
             return $q.all([q1, q2]);
@@ -66,10 +61,9 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         //========================
         function loadUsers() {
 
-            // Users
             return $http.get('https://api.cbd.int/api/v2013/users/national').then(function (res) {
-                users = res.data;
-                return res.data;
+                $scope.users = users = res.data;
+                return users;
             });
         }
 
@@ -158,10 +152,6 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
                 return loadUsers();
 
-            }).then(function(users){
-
-                $scope.users = users;
-
             }).catch(function(err) {
 
                 if(err=="$BREAK")
@@ -174,7 +164,30 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         //========================
         //
         //========================
-        function hasRoleManageable(user) {
+        function sortKey(user) {
+            return (hasManageableRoles(user) ? "0" : "1") +
+                   (user.lastName ||"").toLowerCase()+
+                   (user.firstName||"").toLowerCase();
+        }
+
+        //========================
+        //
+        //========================
+        function filter(user) {
+
+            if($scope.searchText && $scope.searchText.$)
+                return true;
+
+            if($scope.showAll)
+                return true;
+
+            return hasManageableRoles(user);
+        }
+
+        //========================
+        //
+        //========================
+        function hasManageableRoles(user) {
             return _.some(user.roles, isRoleManageable);
         }
 
@@ -184,7 +197,6 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         function isRoleManageable(roleId) {
             return manageableRoles && !!manageableRoles[roleId];
         }
-
 
         /////////////////////////////////////////////////////
         /////////////////////////////////////////////////////

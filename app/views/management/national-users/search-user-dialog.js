@@ -1,10 +1,17 @@
 define([], function() {
 
-    return ['$scope', '$http', 'government', function ($scope, $http, government) {
+    return ['$scope', '$http', 'government', '$q', function ($scope, $http, government, $q) {
 
         var _ctrl = this;
 
+        var pendingRequest = null;
+
         _ctrl.search = function() {
+
+            if(pendingRequest) {
+                pendingRequest.resolve();
+                pendingRequest = null;
+            }
 
             if($scope.form.$invalid || !_ctrl.email)
                 return;
@@ -13,7 +20,9 @@ define([], function() {
 
             var email = _ctrl.email.toLowerCase();
 
-            $http.get('https://api.cbd.int/api/v2013/users/national', { params : { q : { email : email } } }).then(function(res) {
+            pendingRequest = $q.defer();
+
+            $http.get('https://api.cbd.int/api/v2013/users/national', { params : { q : { email : email } }, timeout:  pendingRequest.promise }).then(function(res) {
                 _ctrl.user = res.data[0] || {
                     government : government,
                     email : email,
@@ -22,6 +31,9 @@ define([], function() {
                 };
 
             }).catch(function(err){
+
+                if(err && err.status==-1)
+                    return; // request canceled
 
                 _ctrl.error = err.data || err;
 

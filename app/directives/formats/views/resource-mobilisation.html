@@ -125,7 +125,7 @@
 
 			<div ng-show="document.internationalResources.baselineData.odaOofType">
 				<label>ODA/OOF includes: </label>
-				<span class="km-value">{{document.internationalResources.baselineData.odaOofType.identifier | term:locale}} </span>
+				<span class="km-value">{{document.internationalResources.baselineData.odaOofType | term:locale}} </span>
 			</div>
 
 			<div ng-show="document.internationalResources.baselineData.odaoofActions">
@@ -223,7 +223,7 @@
 
 			<div ng-show="document.internationalResources.hasPrivateSectorMeasures">
 				<label>1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?</label>
-				<ul class="km-value">
+				<ul class="km-value" style="list-style-type: none;">
 					<li ng-repeat="term in options.measures | filter:{identifier:document.internationalResources.hasPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
 				</ul>
 				<div ng-show="document.internationalResources.hasPrivateSectorMeasuresComments">
@@ -248,7 +248,7 @@
 	<div ng-show="document.hasBiodiversityAssessment">
 		<legend>3. Assessment and/or evaluation of values</legend>
 		<div><label>Has your country assessed and/or evaluated the intrinsic, ecological, genetic, socioeconomic, scientific, educational, cultural, recreational and aesthetic values of biological diversity and its components?</label></div>
-		<ul class="km-value">
+		<ul class="km-value"  style="list-style-type: none;">
 			<li ng-repeat="term in options.assessments | filter:{identifier:document.hasBiodiversityAssessment}">{{term.title | lstring:locale}}</li>
 		</ul>
 		<div ng-show="document.hasBiodiversityAssessmentComments">
@@ -280,12 +280,12 @@
 			<tbody>
 				<tr ng-repeat="expenditure in document.domesticExpendituresData.expenditures|orderBy:'year' track by $index">
 					<td>{{expenditure.year}}</td>
-					<td>{{expenditure.amount}}</td>
+					<td>{{expenditure.amount | number:0}}</td>
 					<td>{{expenditure.confidenceLevel | term:locale}}</td>
 				</tr>
 				<tr class="active">
 					<td><strong>Average</strong></td>
-					<td>{{typeAverageAmount(document.domesticExpendituresData.expenditures,'amount')}}</td>
+					<td>{{typeAverageAmount(document.domesticExpendituresData.expenditures,'amount')  | number:0}}</td>
 					<td>{{confidenceAverage(document.domesticExpendituresData.expenditures)}}</td>
 				</tr>
 			</tbody>
@@ -485,13 +485,13 @@
 
 				<tr ng-repeat="source in document.nationalPlansData.domesticSources|orderBy:'name' track by $index">
 					<td>{{source.name | lstring:locale}}</td>
-					<td ng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014}} {{}}</td>
-					<td ng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015}}</td>
-					<td ng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016}}</td>
-					<td ng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017}}</td>
-					<td ng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018}}</td>
-					<td ng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019}}</td>
-					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020}}</td>
+					<td ng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
 				</tr>
 				<tr class="active">
 					<td><strong>International sources (total)<strong></td>
@@ -520,10 +520,10 @@
 
 	<div ng-show="document.hasDomesticPrivateSectorMeasures">
 		<div><label>7. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?</label></div>
-		<!-- <ul class="km-value"> {{document.hasDomesticPrivateSectorMeasures}}
-			<li ng-repeat="term in measures | filter:{identifier:document.hasDomesticPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
-		</ul> -->
-		<span class="km-value km-pre">{{document.hasDomesticPrivateSectorMeasures | lstring:locale}}</span>
+		<ul class="km-value" style="list-style-type: none;">
+			<li ng-repeat="term in options.measures | filter:{identifier:document.hasDomesticPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
+		</ul>
+		<!-- <span class="km-value km-pre">{{document.hasDomesticPrivateSectorMeasures | lstring:locale}}</span> -->
 		<div ng-show="document.hasDomesticPrivateSectorMeasuresComments">
 			<label>Please provide additional information below:</label>
 			<div class="km-value km-pre">{{document.hasDomesticPrivateSectorMeasuresComments | lstring:locale}}</div>

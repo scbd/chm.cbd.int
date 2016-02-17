@@ -1,4 +1,4 @@
-/* jshint node: true, browser: false */
+/* jshint node: true, browser: false, esnext: true */
 'use strict';
 
 // CREATE HTTP SERVER AND PROXY
@@ -38,3 +38,5 @@ app.get('/*', function (req, res) {
 app.listen(app.get('port'), function () {
 	console.log('Server listening on %j', this.address());
 });
+
+process.on('SIGTERM', ()=>process.exit());

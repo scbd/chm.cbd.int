@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery"], function(app, _, Enumerable, URI, $) { 'use strict';
+define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery", 'ngCookies'], function(app, _, Enumerable, URI, $) { 'use strict';
 
 app.filter("lstring", function() {
 	return function(ltext, locale) {
@@ -179,7 +179,7 @@ app.filter("term", ["$http","$filter", function($http, $filter) {
 }]);
 
 
-app.factory('localization', ["$browser", function($browser) {
+app.factory('localization', ["$cookies", function($cookies) {
 	return {
 		locale: function(newLocale) {
 
@@ -198,12 +198,12 @@ app.factory('localization', ["$browser", function($browser) {
 			if (newLocale)
 				internal_SetLocale(newLocale);
 
-			var sPreferences = $browser.cookies().Preferences;
+			var sPreferences = $cookies.getAll("Preferences");
 			var sLocale      = "en";
 			var oLocaleRegex = /;?Locale=([a-z]{2,3});?/;
 
 			if (sPreferences && oLocaleRegex.test(sPreferences))
-				sLocale = $browser.cookies().Preferences.replace(oLocaleRegex, "$1");
+				sLocale = sPreferences.replace(oLocaleRegex, "$1");
 			else
 				internal_SetLocale(sLocale);
 

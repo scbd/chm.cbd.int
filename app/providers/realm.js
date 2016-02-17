@@ -1,4 +1,4 @@
-define(['app'], function (app) { 'use strict';
+define(['app', 'angular'], function (app, angular) { 'use strict';
 
     app.provider("realm", {
 
@@ -7,10 +7,10 @@ define(['app'], function (app) { 'use strict';
             if($location.$$host!= "chm.cbd.int"){
                 return 'CHM-DEV';
             }
-            return $delegate;
+            return 'CHM';
         }]
     });
-    
+
     app.factory('realmHttpIntercepter', ['realm', function(realm) {
 
 		return {

@@ -15,13 +15,27 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         $scope.sortKey             = sortKey;
         $scope.isRoleNotManageable = function(id) { return !isRoleManageable(id); };
 
-        $q.all([loadRoles(), loadUsers()]).then(function(){
-            users.forEach(function(u){
-                u.canBeDropped = canDropUser(u);
-            });
-        });
+        refresh();
 
         return this;
+
+        //========================
+        //
+        //========================
+        function refresh() {
+            $scope.loading = true;
+
+            $q.all([loadUsers(), loadRoles()]).then(function(){
+                users.forEach(function(u){
+                    u.canBeDropped = canDropUser(u);
+                });
+            }).catch(function(err){
+                $scope.error = err.data || err;
+                console.log($scope.error);
+            }).finally(function(){
+                delete $scope.loading;
+            });
+        }
 
         //========================
         //
@@ -156,7 +170,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
             }).then(function(){
 
-                return loadUsers();
+                return refresh();
 
             }).catch(function(err) {
 
@@ -206,7 +220,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
             }).then(function(){
 
-                return loadUsers();
+                return refresh();
 
             }).catch(function(err) {
 

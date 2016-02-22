@@ -34,8 +34,14 @@
             </p>
         </div>
 
-        <div class="col-sm-offset-8 col-sm-4 col-xs-12">
+        <div class="col-xs-12" ng-show="error">
+            <div class="alert alert-danger">
+                <b>TODO CLEAN ERROR:<b/><br>
+                {{error}}
+            </div>
+        </div>
 
+        <div class="col-sm-offset-8 col-sm-4 col-xs-12" ng-hide="error">
 
             <div class="input-group" style="margin-bottom:2px; padding-left: 0px">
                 <input type="text" class="form-control" ng-model="searchText.$" placeholder="Search within national the user list..." />
@@ -43,7 +49,7 @@
             </div>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-xs-12" ng-hide="error">
 
             <table class="table table-striped">
                 <tr>

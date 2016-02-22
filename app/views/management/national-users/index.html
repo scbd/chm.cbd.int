@@ -44,7 +44,7 @@
         <div class="col-sm-offset-8 col-sm-4 col-xs-12" ng-hide="error">
 
             <div class="input-group" style="margin-bottom:2px; padding-left: 0px">
-                <input type="text" class="form-control" ng-model="searchText.$" placeholder="Search within national the user list..." />
+                <input type="text" class="form-control" ng-model="searchText.$" ng-disabled="loading" placeholder="Search within national the user list..." />
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
             </div>
         </div>
@@ -57,7 +57,7 @@
                     <th>Organization/Division</th>
                     <th style="max-width:200px">Roles</th>
                     <th class="text-right">
-                        <button class="btn btn-default" ng-click="search()">Add Authorized User <i class="fa fa-plus-circle"></i></button>
+                        <button class="btn btn-default" ng-click="search()" ng-disabled="loading">Add Authorized User <i class="fa fa-plus-circle"></i></button>
                     </th>
                 </tr>
                 <tr ng-repeat="u in users | filter:defaultFilter | filter:searchText | orderBy:sortKey ">
@@ -108,7 +108,7 @@
                         <a href="#" ng-show=" $parent.showAll" ng-click="$parent.showAll=false;$parent.searchText={}">Show less <i class="fa fa-caret-up"></i></a>
                     </td>
                     <td class="text-right">
-                        <button class="btn btn-default" ng-click="search()">Add Authorized User <i class="fa fa-plus-circle"></i></button>
+                        <button class="btn btn-default" ng-click="search()" ng-disabled="loading">Add Authorized User <i class="fa fa-plus-circle"></i></button>
                     </td>
                 </tr>
             </table>

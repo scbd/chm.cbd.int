@@ -22,7 +22,7 @@ define([], function() {
 
             pendingRequest = $q.defer();
 
-            $http.get('https://api.cbd.int/api/v2013/users/national', { params : { q : { email : email } }, timeout:  pendingRequest.promise }).then(function(res) {
+            $http.get('/api/v2013/users/national', { params : { q : { email : email } }, timeout:  pendingRequest.promise }).then(function(res) {
                 _ctrl.user = res.data[0] || {
                     government : government,
                     email : email,

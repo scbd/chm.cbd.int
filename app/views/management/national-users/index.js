@@ -29,7 +29,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
             // All Roles
 
-            var q1 = $http.get('https://api.cbd.int/api/v2013/roles').then(function (res) {
+            var q1 = $http.get('/api/v2013/roles', { cache:true }).then(function (res) {
 
                 $scope.roles = roles = _.reduce(res.data, function(ret, role){
                     ret[role.roleId] = role;
@@ -46,7 +46,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
                 roles : realmConfig.nationalRoles()
             };
 
-            var q2 = $http.get('https://api.cbd.int/api/v2013/roles', { params : { q : query } }).then(function (res) {
+            var q2 = $http.get('/api/v2013/roles', { params : { q : query } }).then(function (res) {
 
                 $scope.manageableRoles = manageableRoles = _.reduce(res.data, function(ret, role){
                     ret[role.roleId] = role;
@@ -64,7 +64,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         //========================
         function loadUsers() {
 
-            return $http.get('https://api.cbd.int/api/v2013/users/national').then(function (res) {
+            return $http.get('/api/v2013/users/national').then(function (res) {
                 $scope.users = users = res.data;
                 return users;
             });

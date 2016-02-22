@@ -8,6 +8,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         var government = authenticatedUser.government;
 
         $scope.edit                = edit;
+        $scope.dropUser            = dropUser;
         $scope.search              = search;
         $scope.defaultFilter       = filter;
         $scope.isRoleManageable    = isRoleManageable;

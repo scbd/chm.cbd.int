@@ -1,69 +1,128 @@
-define(['lodash'], function(_) {
+define(['lodash', 'utilities/km-utilities'], function(_) {
 
-    return ['$scope', '$http', '$q', 'user', 'grantRoles', 'revokeRoles', 'roles', 'government', function ($scope, $http, $q, user, rolesToGrant, rolesToRevoke, roles, government) {
+    return  ['$scope', '$http', '$q', 'user',       'government',     'grantRoles',   'revokeRoles',
+    function ($scope,   $http,   $q,   targetUser,   targetGovernment, rolesToGrant,   rolesToRevoke) {
 
         var _ctrl = this;
 
-        _ctrl.user  = user;
-        _ctrl.roles = roles;
-        _ctrl.government = government;
-        _ctrl.rolesToGrant  = _.map(rolesToGrant,  function(roleId) { return { roleId : roleId }; });
-        _ctrl.rolesToRevoke = _.map(rolesToRevoke, function(roleId) { return { roleId : roleId }; });
+        _ctrl.save  = commit;
+        _ctrl.user  = targetUser;
 
-        _ctrl.save = function() {
+        init().then(function(transactions){
+            _ctrl.transactions = transactions;
+        });
 
-            _ctrl.loading = true;
+        //========================
+        //
+        //========================
+        function init() {
 
-            $q.when(_ctrl.user).then(function(user) {
+            var gov_code = (targetUser.government || targetGovernment);
 
-                _ctrl.user.loading=true;
+            var qRoles   = $http.get('/api/v2013/roles', { cache:true }).then(res_data);
+            var qCountry = $http.get('/api/v2013/countries/'+gov_code.toUpperCase(), { cache:true }).then(res_data);
 
-                if(!user.userID)
-                    return createUser(user);
+            return $q.all([qRoles, qCountry]).then(function(res){
 
-                return user;
+                var roles = res[0];
+                var country = res[1];
+                var transactions = [];
 
-            }).then(function(user) {
-
-                if(user.government!=government) {
-                    return setUserGovernment(user, government);
+                if(!targetUser.userID) {
+                    transactions.push({
+                        type : "createUser",
+                        user : targetUser,
+                        action : action_createUser
+                    });
                 }
 
-                return user;
+                if(!targetUser.government && targetGovernment) {
+                    transactions.push({
+                        type : "addGovernment",
+                        government : targetGovernment,
+                        governmentName : country.name,
+                        action : action_setUserGovernment
+                    });
+                }
 
-            }).then(function(user) {
-
-                _ctrl.user = user;
-                _ctrl.user.success = true;
-                delete _ctrl.user.loading;
-
-                return user;
-
-            }).then(function(user) {
-
-                var grantActions = _.map(_ctrl.rolesToGrant, function (r) {
-                    return grantRole(user.userID, r);
+                rolesToGrant.forEach(function(roleId) {
+                    transactions.push({
+                        type : "grantRole",
+                        roleId : roleId,
+                        role : _.findWhere(roles, {roleId : roleId}),
+                        action : action_grantRole,
+                    });
                 });
 
-                var revokeActions = _.map(_ctrl.rolesToRevoke, function (r) {
-                    return revokeRole(user.userID, r);
+                rolesToRevoke.forEach(function(roleId) {
+                    transactions.push({
+                        type : "revokeRoles",
+                        roleId : roleId,
+                        role : _.findWhere(roles, {roleId : roleId}),
+                        action : action_revokeRole,
+                    });
                 });
 
+                if(targetUser.government && !targetGovernment) { // must be executed at the end. otherwise we will not be able to revoke roles
+                    transactions.push({
+                        type : "deleteGovernment",
+                        government : null,
+                        governmentName : country.name,
+                        action : action_setUserGovernment
+                    });
+                }
 
-                return $q.all(grantActions.concat(revokeActions));
+                return transactions;
+            });
+        }
 
-            }).then(function(roles) {
+        //========================
+        //
+        //========================
+        function commit() {
 
-                var success = !roles.length || _.every(roles, function(r) {
-                    return r.success;
+            delete _ctrl.error;
+            _ctrl.loading = true;
+
+            var promise = _(_ctrl.transactions).reduce(function(promise, tran){
+
+                if(tran.success)
+                    return promise;
+
+                delete tran.error;
+
+                return promise.then(function(user){
+
+                    tran.loading = true;
+
+                    return $q.when(tran.action(tran, user)).catch(function(err){
+
+                        delete tran.loading;
+                        tran.error = err;
+
+                        throw err;
+                    });
+
+                }).then(function(user){
+
+                    delete tran.loading;
+                    tran.success = true;
+
+                    _ctrl.user = user; //update user
+
+                    return user;
                 });
 
-                if(success)
-                    $scope.closeThisDialog();
+            }, $q.when(_ctrl.user));
+
+
+            return promise.then(function(){
+
+                return $scope.closeThisDialog();
 
             }).catch(function(err){
 
-                _ctrl.error = err.data || err;
+                _ctrl.error = err;
 
                 console.log(err);
 
@@ -71,28 +130,20 @@ define(['lodash'], function(_) {
 
                 delete _ctrl.loading;
             });
-        };
-
+        }
 
         //========================
         //
         //========================
-        function createUser(user) {
+        function action_createUser(tran, user) {
 
-            delete user.error;
-            delete user.success;
+            return $http.post('/api/v2013/users/national', user).then(function(res){
 
-            user.loading = true;
-
-            return $http.post('https://api.cbd.int/api/v2013/users/national', user).then(function(res){
-
-                user = res.data;
-                return user;
+                return res.data;
 
             }).catch(function(err){
 
-                user.error = err.data || err;
-                throw user.error;
+                throw err.data || err;
 
             });
         }
@@ -100,27 +151,36 @@ define(['lodash'], function(_) {
         //========================
         //
         //========================
-        function setUserGovernment(user, government) {
-
-            delete user.error;
-            delete user.success;
-
-            user.loading = true;
+        function action_setUserGovernment(tran, user) {
 
             var patchData = {
                 userID : user.userID,
-                government : government
+                government : tran.government
             };
 
-            return $http.patch('https://api.cbd.int/api/v2013/users/national', patchData).then(function(res){
+            return $http.patch('/api/v2013/users/national', patchData).then(function(res){
 
-                user = res.data;
+                return res.data;
+
+            }).catch(function(err){
+
+                throw err.data || err;
+
+            });
+        }
+
+        //========================
+        //
+        //========================
+        function action_grantRole(tran, user) {
+
+            return $http.put('/api/v2013/users/'+user.userID+'/roles/'+tran.roleId, {}).then(function(){
+
                 return user;
 
             }).catch(function(err){
 
-                user.error = err.data || err;
-                throw user.error;
+                throw err.data || err;
 
             });
         }
@@ -128,56 +188,23 @@ define(['lodash'], function(_) {
         //========================
         //
         //========================
-        function grantRole(userId, role) {
+        function action_revokeRole(tran, user) {
 
-            delete role.error;
-            delete role.success;
+            return $http.delete('/api/v2013/users/'+user.userID+'/roles/'+tran.roleId).then(function(){
 
-            role.loading = true;
-
-            return $http.put('https://api.cbd.int/api/v2013/users/'+userId+'/roles/'+role.roleId, {}).then(function(){
-
-                role.success = true;
-                return role;
+                return user;
 
             }).catch(function(err){
 
-                role.error = err.data || err;
-                return role;
-
-            }).finally(function(){
-
-                delete role.loading;
+                throw err.data || err;
 
             });
         }
 
         //========================
-        //
         //========================
-        function revokeRole(userId, role) {
-
-            delete role.error;
-            delete role.success;
-
-            role.loading = true;
-
-            return $http.delete('https://api.cbd.int/api/v2013/users/'+userId+'/roles/'+role.roleId).then(function(){
-
-                role.success = true;
-                return role;
-
-            }).catch(function(err){
-
-                role.error = err.data || err;
-                return role;
-
-            }).finally(function(){
-
-                delete role.loading;
-
-            });
-        }
+        //========================
+        function res_data(res) { return res.data; }
 
 	}];
 });

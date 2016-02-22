@@ -1,11 +1,14 @@
 <div class="modal-content">
 
     <style>
-    .text-nowrap.btn-group { white-space: nowrap; }
-    .text-nowrap.btn-group > .btn {
-        float: none;
-        display: inline-block;
-    }
+        .text-nowrap.btn-group {
+            white-space: nowrap;
+        }
+
+        .text-nowrap.btn-group > .btn {
+            float: none;
+            display: inline-block;
+        }
     </style>
 
     <div class="modal-header">
@@ -20,67 +23,112 @@
 
     <div class="modal-body">
 
-        <!-- ROLES -->
-
         <table class="table">
 
-
-            <tr ng-if="!commitDialogCtrl.user.userID">
+            <!-- CREATE USER -->
+            <tr ng-if="(commitDialogCtrl.transactions | filter:{type:'createUser'}).length">
                 <td colspan="3">
                     <b>User to be created:</b>
                 </td>
             </tr>
 
-            <tr ng-if="!commitDialogCtrl.user.userID" ng-class="{ success : commitDialogCtrl.user.success, danger : commitDialogCtrl.user.error }">
+            <tr ng-repeat="tran in commitDialogCtrl.transactions | filter:{type:'createUser'}" ng-class="{ success : tran.success, danger : tran.error }">
                 <td style="vertical-align:middle;width:2em">
-                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : commitDialogCtrl.user.loading, 'fa-spin' : commitDialogCtrl.user.loading, 'fa-check' : commitDialogCtrl.user.success, 'fa-plus-circle' : !(commitDialogCtrl.user.loading||commitDialogCtrl.user.success) }" style="font-size:150%"></i>
+                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : tran.loading, 'fa-spin' : tran.loading, 'fa-check' : tran.success, 'fa-plus-circle' : !(tran.loading||tran.success) }" style="font-size:150%"></i>
                 </td>
                 <td style="width:90%">
-                        {{commitDialogCtrl.user.firstName}} {{commitDialogCtrl.user.lastName}} ({{commitDialogCtrl.user.email}})<br>
-                        {{commitDialogCtrl.user.organization}}
-                    </i>
+                    {{tran.user.firstName}} {{tran.user.lastName}} ({{tran.user.email}})
+                    <br> {{tran.user.organization}}
                 </td>
                 <td style="width:5%">
-                    {{commitDialogCtrl.user.error}}
+                    {{tran.error}}
                 </td>
             </tr>
 
-            <tr ng-if="commitDialogCtrl.rolesToGrant.length">
+            <!--ADD Government-->
+
+            <tr ng-if="(commitDialogCtrl.transactions | filter:{type:'addGovernment'}).length">
+                <td colspan="3">
+                    <b>Government affiliation will be granted:</b>
+                </td>
+            </tr>
+
+            <tr ng-repeat="tran in commitDialogCtrl.transactions | filter:{type:'addGovernment'}" ng-class="{ success : tran.success, danger : tran.error }">
+                <td style="vertical-align:middle;width:2em">
+                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : tran.loading, 'fa-spin' : tran.loading, 'fa-check' : tran.success, 'fa-plus-circle' : !(tran.loading||tran.success) }" style="font-size:150%"></i>
+                </td>
+                <td style="width:90%">
+                    {{tran.governmentName|lstring}}
+                </td>
+                <td style="width:5%">
+                    {{tran.error}}
+                </td>
+            </tr>
+
+            <!-- GRANT -->
+            <tr ng-if="(commitDialogCtrl.transactions | filter:{type:'grantRole'}).length">
                 <td colspan="3">
                     <b>Role(s) to be granted:</b>
                 </td>
             </tr>
 
-            <tr ng-repeat="role in commitDialogCtrl.rolesToGrant" ng-class="{ success : role.success, danger : role.error }">
+            <tr ng-repeat="tran in commitDialogCtrl.transactions | filter:{type:'grantRole'}" ng-class="{ success : tran.success, danger : tran.error }">
                 <td style="vertical-align:middle;width:2em">
-                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : role.loading, 'fa-spin' : role.loading, 'fa-check' : role.success, 'fa-plus-circle' : !(role.loading||role.success) }" style="font-size:150%"></i>
+                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : tran.loading, 'fa-spin' : tran.loading, 'fa-check' : tran.success, 'fa-plus-circle' : !(tran.loading||tran.success) }" style="font-size:150%"></i>
                 </td>
                 <td style="width:90%">
-                    <i>{{commitDialogCtrl.roles[role.roleId].name}}</i>
+                    {{tran.role.name}}
+                    <br>
+                    <i>{{tran.role.description}}</i>
                 </td>
                 <td style="width:5%">
-                    {{role.error}}
+                    {{tran.error}}
                 </td>
             </tr>
 
-            <tr ng-if="commitDialogCtrl.rolesToRevoke.length">
+            <!-- REVOKE -->
+            <tr ng-if="(commitDialogCtrl.transactions | filter:{type:'revokeRoles'}).length">
                 <td colspan="3">
                     <b>Role(s) to be revoked:</b>
                 </td>
             </tr>
 
-            <tr ng-repeat="role in commitDialogCtrl.rolesToRevoke" ng-class="{ success : role.success, danger : role.error }">
+            <tr ng-repeat="tran in commitDialogCtrl.transactions | filter:{type:'revokeRoles'}" ng-class="{ success : tran.success, danger : tran.error }">
                 <td style="vertical-align:middle;width:2em">
-                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : role.loading, 'fa-spin' : role.loading, 'fa-check' : role.success, 'fa-minus-circle' : !(role.loading||role.success) }" style="font-size:150%"></i>
+                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : tran.loading, 'fa-spin' : tran.loading, 'fa-check' : tran.success, 'fa-minus-circle' : !(tran.loading||tran.success) }" style="font-size:150%"></i>
                 </td>
                 <td style="width:90%">
-                    <i>{{commitDialogCtrl.roles[role.roleId].name}}</i>
+                    {{tran.role.name}}
+                    <br>
+                    <i>{{tran.role.description}}</i>
                 </td>
                 <td style="width:5%">
-                    {{role.error}}
+                    {{tran.error}}
                 </td>
             </tr>
+
+            <!--DELETE Government-->
+
+            <tr ng-if="(commitDialogCtrl.transactions | filter:{type:'deleteGovernment'}).length">
+                <td colspan="3">
+                    <b>Government affiliation will be revoked:</b>
+                </td>
+            </tr>
+
+            <tr ng-repeat="tran in commitDialogCtrl.transactions | filter:{type:'deleteGovernment'}" ng-class="{ success : tran.success, danger : tran.error }">
+                <td style="vertical-align:middle;width:2em">
+                    <i class="fa fa-fw" ng-class="{ 'fa-cog' : tran.loading, 'fa-spin' : tran.loading, 'fa-check' : tran.success, 'fa-minus-circle' : !(tran.loading||tran.success) }" style="font-size:150%"></i>
+                </td>
+                <td style="width:90%">
+                    {{tran.governmentName|lstring}}
+                </td>
+                <td style="width:5%">
+                    {{tran.error}}
+                </td>
+            </tr>
+
         </table>
+
     </div>
 
     <div class="modal-footer">

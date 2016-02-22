@@ -14,8 +14,11 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         $scope.sortKey             = sortKey;
         $scope.isRoleNotManageable = function(id) { return !isRoleManageable(id); };
 
-        loadRoles();
-        loadUsers();
+        $q.all([loadRoles(), loadUsers()]).then(function(){
+            users.forEach(function(u){
+                u.canBeDropped = canDropUser(u);
+            });
+        });
 
         return this;
 
@@ -158,6 +161,79 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
                     return;
 
                 console.log(err.data || err);
+            });
+        }
+
+        //===========================
+        //
+        //===========================
+        function dropUser(editedUser) {
+
+            var managedRoleIds = _.map(manageableRoles, function(role, roleId) { return parseInt(roleId); });
+            var user = ng.fromJson(ng.toJson(editedUser||{})); // clean & clone object
+
+            //Excludes managed roles;
+
+            user.roles = _.difference(user.roles, managedRoleIds);
+
+            var rolesToRevoke = _.difference(editedUser.roles, user.roles);
+
+            // Excludes government, if no more national roles;
+
+            var stillHaveNationalRoles =  _.some(user.roles, function(roleId){
+                return roles[roleId] && roles[roleId].isNational;
+            });
+
+            var government = stillHaveNationalRoles ? user.government : null;
+
+            // Show transaction
+
+            return openDialog('./commit-dialog', {
+                className : 'ngdialog-theme-default wide',
+                resolve : {
+                    user : _literal(user),
+                    government : _literal(government),
+                    grantRoles : _literal([]),
+                    revokeRoles : _literal(rolesToRevoke)
+                }
+
+            }).then(function(dialog) {
+
+                return dialog.closePromise;
+
+            }).then(function(){
+
+                return loadUsers();
+
+            }).catch(function(err) {
+
+                if(err=="$BREAK")
+                    return;
+
+                console.log(err.data || err);
+            });
+        }
+
+        //===========================
+        //
+        //===========================
+        function canDropUser(user) {
+
+            if(_.isEmpty(manageableRoles))
+                return false;
+
+            if(!user.government || user.government!=government)
+                return false;
+
+            if(!user.roles.length)
+                return true;
+
+            return _.some(user.roles, function(roleId){
+
+                var role      = roles[roleId.toString()];
+                var canManage = !!manageableRoles[roleId.toString()];
+
+                return canManage || !role || !role.isNational;
             });
         }
 

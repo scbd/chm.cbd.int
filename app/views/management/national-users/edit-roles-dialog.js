@@ -1,6 +1,6 @@
 define([], function() {
 
-    return ['$scope', 'user', 'roles', 'manageableRoles', function ($scope, user, allRoles, manageableRoles) {
+    return ['$scope', 'user', 'manageableRoles', function ($scope, user, manageableRoles) {
 
         var _ctrl = this;
 

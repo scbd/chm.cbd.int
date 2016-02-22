@@ -123,7 +123,10 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             return openDialog('./edit-roles-dialog', {
 
                 className : 'ngdialog-theme-default wide',
-                resolve : { user : _literal(user), roles : _literal(roles), manageableRoles : _literal(manageableRoles) }
+                resolve : {
+                    user : _literal(user),
+                    manageableRoles : _literal(manageableRoles)
+                }
 
             }).then(function(dialog) {
 
@@ -142,8 +145,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
                         user : _literal(user),
                         government : _literal(government),
                         grantRoles : _literal(rolesToGrant),
-                        revokeRoles : _literal(rolesToRevoke),
-                        roles : _literal(roles)
+                        revokeRoles : _literal(rolesToRevoke)
                     }
                 });
 

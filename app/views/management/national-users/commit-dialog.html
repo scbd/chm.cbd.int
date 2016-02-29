@@ -55,7 +55,7 @@
                     <br> {{tran.user.organization}}
                 </td>
                 <td style="width:5%">
-                    {{tran.error}}
+                    {{tran.error.code || tran.error}}
                 </td>
             </tr>
 
@@ -75,7 +75,7 @@
                     {{tran.governmentName|lstring}}
                 </td>
                 <td style="width:5%">
-                    {{tran.error}}
+                    {{tran.error.code || tran.error}}
                 </td>
             </tr>
 
@@ -96,7 +96,7 @@
                     <i>{{tran.role.description}}</i>
                 </td>
                 <td style="width:5%">
-                    {{tran.error}}
+                    {{tran.error.code || tran.error}}
                 </td>
             </tr>
 
@@ -117,7 +117,7 @@
                     <i>{{tran.role.description}}</i>
                 </td>
                 <td style="width:5%">
-                    {{tran.error}}
+                    {{tran.error.code || tran.error}}
                 </td>
             </tr>
 
@@ -137,7 +137,7 @@
                     {{tran.governmentName|lstring}}
                 </td>
                 <td style="width:5%">
-                    {{tran.error}}
+                    {{tran.error.code || tran.error}}
                 </td>
             </tr>
 

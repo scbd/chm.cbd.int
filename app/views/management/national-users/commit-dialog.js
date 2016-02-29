@@ -103,7 +103,7 @@ define(['lodash', 'utilities/km-utilities'], function(_) {
                         delete tran.loading;
                         tran.error = err;
 
-                        throw err;
+                        throw "$BREAK";
                     });
 
                 }).then(function(user){
@@ -124,6 +124,9 @@ define(['lodash', 'utilities/km-utilities'], function(_) {
                 return $scope.closeThisDialog();
 
             }).catch(function(err){
+
+                if(err=="$BREAK")
+                    return;
 
                 _ctrl.error = err;
 

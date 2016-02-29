@@ -31,7 +31,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
                 });
             }).catch(function(err){
                 $scope.error = err.data || err;
-                console.log($scope.error);
+                $scope.error.url = ((err||{}).config||{}).url;
             }).finally(function(){
                 delete $scope.loading;
             });

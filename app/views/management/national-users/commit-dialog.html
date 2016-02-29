@@ -23,7 +23,21 @@
 
     <div class="modal-body">
 
-        <table class="table">
+        <div ng-if="commitDialogCtrl.error">
+
+            <div ng-switch="commitDialogCtrl.error.code">
+                <div class="alert alert-warning" ng-switch-when="forbidden">
+                    <b>Oups...</b> We're sorry, but you are not authorized to nominate a user.
+                </div>
+                <div class="alert alert-danger" ng-switch-default>
+                    <b>Oops...</b> We're sorry, but something went wrong.
+                    <br> {{commitDialogCtrl.error|json}}
+                </div>
+            </div>
+
+        </div>
+
+        <table ng-if="!commitDialogCtrl.error" class="table">
 
             <!-- CREATE USER -->
             <tr ng-if="(commitDialogCtrl.transactions | filter:{type:'createUser'}).length">

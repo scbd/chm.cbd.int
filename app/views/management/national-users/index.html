@@ -35,10 +35,20 @@
         </div>
 
         <div class="col-xs-12" ng-show="error">
-            <div class="alert alert-danger">
-                <b>TODO CLEAN ERROR:<b/><br>
-                {{error}}
-            </div>
+
+            <div ng-switch="error.code + '-' + error.field">
+              <div class="alert alert-warning" ng-switch-when="mandatory-government">
+                  <b>Oops...</b> We're sorry, but you are not member of any government.
+              </div>
+              <div class="alert alert-warning" ng-switch-when="forbidden-">
+                  <b>Oups...</b> We're sorry, but you are not authorized access this page.
+              </div>
+              <div class="alert alert-danger" ng-switch-default>
+                  <b>Oops...</b> We're sorry, but something went wrong.
+                  {{error|json}}
+              </div>
+          </div>
+
         </div>
 
         <div class="col-sm-offset-8 col-sm-4 col-xs-12" ng-hide="error">

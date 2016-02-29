@@ -10,6 +10,9 @@ define(['lodash', 'utilities/km-utilities'], function(_) {
 
         init().then(function(transactions){
             _ctrl.transactions = transactions;
+        }).catch(function(err){
+            _ctrl.error = err.data || err;
+            _ctrl.error.url = ((err||{}).config||{}).url;
         });
 
         //========================

@@ -32,6 +32,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             $q.all([loadUsers(), loadRoles()]).then(function(){
                 users.forEach(function(u){
                     u.canBeDropped = canDropUser(u);
+                    u.showExtraRoles = true;
                 });
             }).catch(function(err){
                 $scope.error = err.data || err;

@@ -358,8 +358,8 @@ define(['text!./reporting-display.html',
               docsByCountry[doc.government_s].isEUR = false;
             });
 
-            if (docsByCountry.eur)
-              docsByCountry.eur.isEUR = true;
+            if ( docsByCountry.eu)
+              docsByCountry.eu.isEUR = true;
 
             setNumDocumentsInCountry();
             return docsByCountry;

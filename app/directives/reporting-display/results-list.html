@@ -169,8 +169,9 @@
 	<div class="tree">
 		<ul>
 			<li ng-repeat="country in items | orderObjectBy:'name':false" ng-if="!country.hidden">
-				<span class="country" ng-click="country.expanded=toggleHide(country.expanded);zoomToCountry(country.identifier);closeAllCountries(country.identifier);"><i class="flag-icon flag-icon-{{country.identifier}}" ng-if="country.identifier!=='eur'"></i>
-					<img src="app/images/flags/Flag_of_Europe.svg" style="width:20px;hight:16px;" ng-if="country.identifier==='eur'"> &nbsp;{{country.name}}
+				<span class="country" ng-click="country.expanded=toggleHide(country.expanded);zoomToCountry(country.identifier);closeAllCountries(country.identifier);"><i class="flag-icon flag-icon-{{country.identifier}}" ng-if="country.identifier!=='eu'"></i>
+					<img src="app/images/flags/Flag_of_Europe.svg" style="width:20px;hight:16px;" ng-if="country.identifier==='eu'"> &nbsp;{{country.name}}
+					<i class="flag-icon flag-icon-eu" ng-if="country.identifier==='eur'"></i>
 					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:3px;">{{country.numDocs}}</span>
 				</span>
 				<ul>
@@ -187,7 +188,7 @@
 								<span ng-if="schemaName=='nbsaps'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.startDate_s}}</a></span>
 								<span ng-if="schemaName=='nationalIndicator'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
 								<span ng-if="schemaName=='nationalTarget'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
-								<span ng-if="schemaName=='resourceMobilisation'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t.substring(doc.title_t.length-4)}}</a></span>  
+								<span ng-if="schemaName=='resourceMobilisation'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t.substring(doc.title_t.length-4)}}</a></span>
 							</li>
 						</ul>
 					</li>

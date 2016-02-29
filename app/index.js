@@ -1,7 +1,7 @@
-define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/notifications'], function(app, $) {
+define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directives/users/notifications', 'services/realmConfig'], function(app, $, _) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
@@ -56,6 +56,28 @@ define(['app', 'jquery', 'authentication', 'ng-breadcrumbs','directives/users/no
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////
+
+        //============================================================
+        //
+        //
+        //============================================================
+        $scope.canManageNationalUser = false;
+
+        $rootScope.$watch('user', function(user){
+
+            $scope.canManageNationalUser = false;
+
+            if(!user || !user.isAuthenticated || !user.government)
+                return;
+
+            var nationalRoles = _.map(['ChmAdministrator'].concat(realmConfig.nationalRoles()), function(role) {
+                return realmConfig.getRoleName(role).toLowerCase();
+            });
+
+            $scope.canManageNationalUser = _.some(user.roles, function(role){
+                return ~nationalRoles.indexOf(role.toLowerCase());
+            });
+        });
 
         //============================================================
         //

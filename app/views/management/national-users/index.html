@@ -77,18 +77,18 @@
                         {{u.organization}}
                     </td>
                     <td>
-                        <span ng-repeat="rid in u.roles|filter:isRoleManageable">
+                        <span ng-repeat="rid in u.roles|filter:isContextRole">
                             <span class="label label-default" style="font-size:10px;margin-right:4px">{{roles[rid].name}}</span>
                             <br>
                         </span>
 
-                        <a href="#" style="font-size:75%" ng-click="u.showExtraRoles=!u.showExtraRoles" ng-show="(u.roles|filter:isRoleNotManageable).length">
+                        <a href="#" style="font-size:75%" ng-click="u.showExtraRoles=!u.showExtraRoles" ng-show="(u.roles|filter:isNotContextRole).length">
                             <span ng-show="!u.showExtraRoles">Show additional roles <i class="fa fa-caret-down"></i></span>
                             <span ng-show=" u.showExtraRoles">Hide additional roles <i class="fa fa-caret-up"></i></span>
                         </a>
 
                         <div ng-if="u.showExtraRoles">
-                            <span ng-repeat="rid in u.roles|filter:isRoleNotManageable">
+                            <span ng-repeat="rid in u.roles|filter:isNotContextRole">
                                 <span class="label label-info" style="font-size:10px;margin-right:4px">{{roles[rid].name}}</span>
                                 <br>
                             </span>

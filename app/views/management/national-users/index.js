@@ -9,6 +9,9 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
         $scope.edit                = edit;
         $scope.dropUser            = dropUser;
+        $scope.canAdd              = function()  { return !_.isEmpty(manageableRoles); };
+        $scope.canEdit             = function()  { return !_.isEmpty(manageableRoles); };
+        $scope.canDrop             = function(u) { return u.canBeDropped; };
         $scope.search              = search;
         $scope.defaultFilter       = filter;
         $scope.isRoleManageable    = isRoleManageable;

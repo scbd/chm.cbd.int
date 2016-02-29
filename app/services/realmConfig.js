@@ -3,7 +3,7 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 	app.factory('realmConfig',  ["realm", function(realm) {
 
         var nationalRoles = [
-            'CBD_NFP',
+            'NFP-CBD',
             'ChmNationalFocalPoint',
             'ChmNationalAuthorizedUser',
             'ChmNrNationalFocalPoint',

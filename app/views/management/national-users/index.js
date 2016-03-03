@@ -3,17 +3,21 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
     return ['$scope', '$http', '$q', 'ngDialog', 'user', 'realm', 'realmConfig', function($scope, $http, $q, ngDialog, authenticatedUser, realm, realmConfig) {
 
         var users;
-        var roles;
-        var manageableRoles;
+        var roles = {};
+        var contextRoles = {};
+        var manageableRoles = {};
         var government = authenticatedUser.government;
 
         $scope.edit                = edit;
         $scope.dropUser            = dropUser;
+        $scope.canAdd              = function()  { return !_.isEmpty(manageableRoles); };
+        $scope.canEdit             = function()  { return !_.isEmpty(manageableRoles); };
+        $scope.canDrop             = function(u) { return u.canBeDropped; };
         $scope.search              = search;
         $scope.defaultFilter       = filter;
-        $scope.isRoleManageable    = isRoleManageable;
+        $scope.isContextRole       = isContextRole;
+        $scope.isNotContextRole    = function(id) { return !isContextRole(id); };
         $scope.sortKey             = sortKey;
-        $scope.isRoleNotManageable = function(id) { return !isRoleManageable(id); };
 
         refresh();
 
@@ -28,10 +32,11 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             $q.all([loadUsers(), loadRoles()]).then(function(){
                 users.forEach(function(u){
                     u.canBeDropped = canDropUser(u);
+                    u.showExtraRoles = true;
                 });
             }).catch(function(err){
                 $scope.error = err.data || err;
-                console.log($scope.error);
+                $scope.error.url = ((err||{}).config||{}).url;
             }).finally(function(){
                 delete $scope.loading;
             });
@@ -48,6 +53,16 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
                 $scope.roles = roles = _.reduce(res.data, function(ret, role){
                     ret[role.roleId] = role;
+                    return ret;
+                }, {});
+
+                var contextRoleCodes = _.map(realmConfig.nationalRoles(), function(code) { return code.toLowerCase(); });
+
+                contextRoles = _.reduce(res.data, function(ret, role) {
+
+                    if(~contextRoleCodes.indexOf(role.code.toLowerCase()))
+                        ret[role.roleId] = role;
+
                     return ret;
                 }, {});
 
@@ -248,7 +263,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             return _.some(user.roles, function(roleId){
 
                 var role      = roles[roleId.toString()];
-                var canManage = !!manageableRoles[roleId.toString()];
+                var canManage = isRoleManageable(roleId);
 
                 return canManage || !role || !role.isNational;
             });
@@ -258,7 +273,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         //
         //========================
         function sortKey(user) {
-            return (hasManageableRoles(user) ? "0" : "1") +
+            return (hasContextRoles(user) ? "0" : "1") +
                    (user.lastName ||"").toLowerCase()+
                    (user.firstName||"").toLowerCase();
         }
@@ -274,14 +289,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
             if($scope.showAll)
                 return true;
 
-            return hasManageableRoles(user);
-        }
-
-        //========================
-        //
-        //========================
-        function hasManageableRoles(user) {
-            return _.some(user.roles, isRoleManageable);
+            return hasContextRoles(user);
         }
 
         //========================
@@ -289,6 +297,20 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
         //========================
         function isRoleManageable(roleId) {
             return manageableRoles && !!manageableRoles[roleId];
+        }
+
+        //========================
+        //
+        //========================
+        function hasContextRoles(user) {
+            return _.some(user.roles, isContextRole);
+        }
+
+        //========================
+        //
+        //========================
+        function isContextRole(roleId) {
+            return contextRoles && !!contextRoles[roleId];
         }
 
         /////////////////////////////////////////////////////

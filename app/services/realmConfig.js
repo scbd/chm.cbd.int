@@ -3,7 +3,7 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 	app.factory('realmConfig',  ["realm", function(realm) {
 
         var nationalRoles = [
-            'CBD_NFP',
+            'NFP-CBD',
             'ChmNationalFocalPoint',
             'ChmNationalAuthorizedUser',
             'ChmNrNationalFocalPoint',
@@ -18,13 +18,13 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
     	    },
     	    'CHM-DEV': { //Development / Test
     	        overrides: {
-    	            'ChmNationalAuthorizedUser':   'ChmNationalAuthorizedUser-dev',
-    	            'ChmNationalFocalPoint':       'ChmNationalFocalPoint-dev',
     	            'ChmAdministrator':            'ChmAdministrator-dev',
-    	            'ChmNrNationalAuthorizedUser': 'ChmNrNationalAuthorizedUser-dev',
-    	            'ChmRmNAU':                    'ChmRmNAU-dev',
+    	            'ChmNationalFocalPoint':       'ChmNationalFocalPoint-dev',
+    	            'ChmNationalAuthorizedUser':   'ChmNationalAuthorizedUser-dev',
     	            'ChmNrNationalFocalPoint':     'ChmNrNationalFocalPoint-dev',
+    	            'ChmNrNationalAuthorizedUser': 'ChmNrNationalAuthorizedUser-dev',
     	            'ChmRmFocalPoint':             'ChmRmFocalPoint-dev',
+    	            'ChmRmNAU':                    'ChmRmNAU-dev',
     	        }
     	    }
     	};

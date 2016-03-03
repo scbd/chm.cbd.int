@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.html',  'providers/extended-route', 'services/navigation'], function(app, _, rootTemplate, searchTemplate) { 'use strict';
+define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.html',  'providers/extended-route', 'services/navigation', 'services/realmConfig'], function(app, _, rootTemplate, searchTemplate) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
@@ -83,7 +83,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             // when('/management/register',                      { redirectTo:  '/management/' }).
 
-            when('/management/national-users', { templateUrl: 'views/management/national-users/index.html',label : 'National Users',  resolveController: true, resolve : { user : securize(['User']) } }).
+            when('/management/national-users', { templateUrl: 'views/management/national-users/index.html',label : 'National Users',  resolveController: true, resolve : { user : securizeNational() } }).
 
             when('/signin',                                             { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
 ///////////////
@@ -136,27 +136,34 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
     //
     //
     //============================================================
-    function securize(roles)
+    function securize(roles, requireGovernment)
     {
+        var requireRoles  = !_.isEmpty(roles);
+
         return ["$location", "authentication", "siteMapUrls", function ($location, authentication, siteMapUrls) {
 
             return authentication.getUser().then(function (user) {
 
                 if (!user.isAuthenticated) {
 
-                    console.log("securize: force sign in");
-
                     if (!$location.search().returnUrl)
                         $location.search({ returnUrl: $location.url() });
 
                     $location.path(siteMapUrls.user.signIn);
 
+                    throw "securize: force sign in";
                 }
-                else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
-                    console.log("securize: not authorized");
 
+                if(requireRoles && !_.intersection(roles||[], user.roles).length) {
                     $location.search({ path: $location.url() });
                     $location.path(siteMapUrls.errors.notAuthorized);
+                    throw "securize: not authorized";
+                }
+
+                if(requireGovernment && !user.government) {
+                    $location.search({ path: $location.url() });
+                    $location.path(siteMapUrls.errors.notAuthorized);
+                    throw "securize: no government";
                 }
 
                 return user;
@@ -168,68 +175,17 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
     //
     //
     //============================================================
-    function legacyResolver(deps)
-    {
-        return ['$q', function($q) {
+    function securizeNational(roles) {
 
-            var deferred = $q.defer();
+        return ['$injector', 'realmConfig', function ($injector, realmConfig) {
 
-            require(deps, function () {
-                deferred.resolve();
+            roles = (roles || []).concat(['ChmAdministrator']).concat(realmConfig.nationalRoles());
+
+            roles = _.map(roles, function(role) {
+                return realmConfig.getRoleName(role);
             });
 
-            return deferred.promise;
+            return $injector.invoke(securize(roles, true), {});
         }];
     }
-
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-
-    //============================================================
-    //
-    //
-    //============================================================
-    function LEGACY_ManagementPageController($rootScope, $scope, $route, $location, siteMapUrls, navigation, user) {
-
-        $rootScope.homePage = false;
-        $rootScope.userGovernment = user.government;
-        $rootScope.portal = 'management';
-        $rootScope.navigation = [
-        { url: '/management/',           title: 'My Dashboard' },
-        { url: '/management/register',   title: 'Register a new record' },
-        { url: '/management/my-records', title: 'Edit a published record' },
-        { url: '/management/my-drafts',  title: 'Edit a draft record' },
-        ];
-
-        var subMenu = '';  // use ng-breadcrumbs instead
-
-        switch ($location.path()) {
-            case '/management/': {
-                subMenu = 'My Dashboard';  // use ng-breadcrumbs instead
-                break;
-            }
-            case '/management/register': {
-                subMenu = 'Register a new record';  // use ng-breadcrumbs instead
-                break;
-            }
-            case '/management/my-records': {
-                subMenu = 'Edit a published record';  // use ng-breadcrumbs instead
-                break;
-            }
-            case '/management/my-drafts': {
-                subMenu = 'Edit a draft record';  // use ng-breadcrumbs instead
-                break;
-            }
-            default: subMenu = '';  // use ng-breadcrumbs instead
-        }
-
-        $rootScope.navigationTree = {
-            mainMenu: 'Registering Information', subMenu: subMenu  // use ng-breadcrumbs instead
-        };
-    }
-    LEGACY_ManagementPageController.$inject = ['$rootScope', '$scope', '$route', '$location', 'siteMapUrls', 'navigation', 'user'];
 });

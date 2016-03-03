@@ -135,6 +135,10 @@
 <!-- PORTAL LINKS-->
     <nav class="navbar navbar-links navbar-default navbar-static-top" ng-class="{'bg-blue': !test_env, 'bg-orange': test_env}">
         <div class="container container-links color-grey">
+
+                <div class="pull-right" style="display:inline">
+                    <a href="/management/national-users" ng-cloak ng-if="canManageNationalUser"><i class="fa fa-users"></i> National users</a>
+                </div>
                 <div style="display:inline">
                     <a href="/"><i class="fa fa-home" ></i> Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="/search" ><i class="fa fa-search"></i> Search</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -149,7 +153,7 @@
         <div class="container container-breadcrumbs">
 
             <a href="http://www.cbd.int" class="margin-right-xs">CBD</a>
-            <span ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }">
+            <span ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-cloak ng-class="{ active: $last }">
 
                 <span ng-show="!breadcrumb.param">
                     &nbsp;&nbsp;<i class="fa fa-chevron-right color-litegrey"></i>&nbsp;&nbsp;

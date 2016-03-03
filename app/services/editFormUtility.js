@@ -14,6 +14,7 @@ define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km
       "capacityBuildingResource"  : { name: "publishReferenceRecord", version: undefined },
       "organization"              : { name: "publishReferenceRecord", version: undefined },
       "lwCampaigns"               : { name: "publishReferenceRecord", version: undefined },
+      "lwProject"                 : { name: "publishReferenceRecord", version: undefined },
 
       "database"                  : { name: "publishNationalRecord", version: "0.4" },
       "implementationActivity"    : { name: "publishNationalRecord", version: "0.4" },

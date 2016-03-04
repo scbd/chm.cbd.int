@@ -62,6 +62,31 @@ define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directive
         //
         //
         //============================================================
+        $rootScope.$watch('user', _.debounce(function(user) {
+
+            if (!user)
+                return;
+
+            require(["utilities/slaask"], function(_slaask) {
+
+                if (user.isAuthenticated) {
+                    _slaask.identify(user.name, {
+                        'user-id' : user.userID,
+                        'name' : user.name,
+                        'email' : user.email,
+                    });
+                }
+
+                if(!_slaask.initialized) {
+                    _slaask.init('2aa724f97b4c0b41a2752528214cccb2');
+                    _slaask.initialized = true;
+                }
+            });
+        }, 1000));
+        //============================================================
+        //
+        //
+        //============================================================
         $scope.canManageNationalUser = false;
 
         $rootScope.$watch('user', function(user){

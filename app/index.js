@@ -13,7 +13,8 @@ define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directive
 
         $scope.$on("$routeChangeSuccess", function(evt, current){
             $scope.routeLoaded = true;
-            $("head > title").text(current.$$route.label || "Clearing-House Mechanism");
+            if(current.$$route)
+                $("head > title").text(current.$$route.label || "Clearing-House Mechanism");
         });
 
         //============================================================

@@ -77,10 +77,7 @@ define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directive
                     });
                 }
 
-                if(!_slaask.initialized) {
-                    _slaask.init('2aa724f97b4c0b41a2752528214cccb2');
-                    _slaask.initialized = true;
-                }
+                _slaask.init('2aa724f97b4c0b41a2752528214cccb2');
             });
         }, 1000));
         //============================================================

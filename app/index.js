@@ -75,6 +75,10 @@ define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directive
                         'name' : user.name,
                         'email' : user.email,
                     });
+
+                    if(_slaask.initialized) {
+                        _slaask.slaaskSendUserInfos();
+                    }
                 }
 
                 if(!_slaask.initialized) {

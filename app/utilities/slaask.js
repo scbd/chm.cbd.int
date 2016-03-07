@@ -1,22 +1,29 @@
-define([], function() { // add https://cdn.slaask.com/chat.js as <script>
+define(['require', 'https://cdn.slaask.com/chat.js'], function(require) {
 
-    // slaask use AMD compatble modules. since it's not required() the value 'window.Pusher' never get define
+    // Slaask use 'Pusher' & 'emoji-parser' AMD compatible modules.
+    // Since they are not required() 'Pusher' & 'emoji-parser' never get defined
+    // 'emoji-parser' is defined inline & 'Pusher' injected using script-tag
+    // AMD module never get loaded using require([...]) and the value 'window.Pusher' && 'window.emojiParser' never get defined
+    // Overring slaask createScriptTag to use require([]) instead to fix the problem
 
-    window.slaaskApp.prototype.createScriptTag = createScriptTag;
-    window._slaask.createScriptTag = createScriptTag;
+    window.slaaskApp.prototype.createScriptTag = function (url) {
 
-    return window._slaask;
+        var app = this;
+        var virtualStriptTag = {};
 
-    function createScriptTag(url) {
+        require(['emoji-parser', url], function(emoji) {
 
-        var virtualDomElement = {};
+            if(!app.emoji)
+                app.emoji = emoji;
 
-        require([url], function() {
-            if(virtualDomElement.onload) {
-                virtualDomElement.onload();
-            }
+            if(virtualStriptTag.onload)
+                virtualStriptTag.onload();
         });
 
-        return virtualDomElement;
-    }
+        return virtualStriptTag;
+    };
+
+    window._slaask = new window.slaaskApp();
+
+    return window._slaask;
 });

@@ -67,7 +67,7 @@ define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directive
             if (!user)
                 return;
 
-            require(["utilities/slaask"], function(_slaask) {
+            require(["_slaask"], function(_slaask) {
 
                 if (user.isAuthenticated) {
                     _slaask.identify(user.name, {

@@ -73,6 +73,8 @@ require.config({
     },
 });
 
+define("_slaask", window._slaask);
+
 // BOOT
 require(['angular', 'app', 'bootstrap', 'routes', 'index'], function(ng, app) {
       ng.element(document).ready(function () {

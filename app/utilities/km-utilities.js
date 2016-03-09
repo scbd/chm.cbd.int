@@ -155,6 +155,9 @@ app.filter("term", ["$http","$filter", function($http, $filter) {
 
 		var identifier = _.isString(term) ? term : term.identifier;
 
+        if(!identifier)
+            return "";
+
 		if(!termsCache[identifier]) {
 
 			return (termsCache[identifier] = $http.get('/api/v2013/thesaurus/terms/'+encodeURI(identifier), { cache:true }).then(function(res) {
@@ -165,7 +168,7 @@ app.filter("term", ["$http","$filter", function($http, $filter) {
 
 			}).catch(function(){
 
-				termsCache[identifier] = identifier;
+				termsCache[identifier] = identifier || "UNKNOWN-TERM";
 
 				return identifier;
 			}));

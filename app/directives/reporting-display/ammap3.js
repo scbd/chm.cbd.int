@@ -113,6 +113,22 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
               $scope.map.clickMapObject(ammap3.getMapObject('DK'));
               id = 'DK';
           }
+          if(event.mapObject.id === 'SJ')
+          {
+              $scope.map.clickMapObject(ammap3.getMapObject('NO'));
+              id = 'NO';
+          }
+          if(event.mapObject.id === 'EH')
+          {
+              $scope.map.clickMapObject(ammap3.getMapObject('MA'));
+              id = 'MA';
+          }
+          if(event.mapObject.id === 'TW')
+          {
+              $scope.map.clickMapObject(ammap3.getMapObject('CN'));
+              id = 'CN';
+          }
+
           $scope.$evalAsync(function() {
             reportingDIsplay.showCountryResultList(id);
           });
@@ -243,6 +259,24 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
                            area3.colorReal = area.colorReal;
                            area3.mouseEnabled = area.mouseEnabled;
                   }
+                  if (area.id.toUpperCase() === 'NO') {
+                    area2 = getMapObject('sj');
+                    //area2.originalColor = area.originalColor;
+                    area2.colorReal = area.colorReal;
+                    area2.mouseEnabled = area.mouseEnabled;
+                  }
+                  if (area.id.toUpperCase() === 'MA') {
+                    area2 = getMapObject('eh');
+                    //area2.originalColor = area.originalColor;
+                    area2.colorReal = area.colorReal;
+                    area2.mouseEnabled = area.mouseEnabled;
+                  }
+                  if (area.id.toUpperCase() === 'CN') {
+                    area2 = getMapObject('tw');
+                    //area2.originalColor = area.originalColor;
+                    area2.colorReal = area.colorReal;
+                    area2.mouseEnabled = area.mouseEnabled;
+                  }
 
                   if (legendItem.color === area.originalColor && area.mouseEnabled === true)  {
                     area.colorReal = '#FFFFFF';
@@ -361,7 +395,21 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
               area3.colorReal = area.colorReal;
               area3.originalColor = area.originalColor;
           }
-
+          if (area.id.toUpperCase() === 'NO') {
+            var area4 = getMapObject('SJ');
+            area4.colorReal = area.colorReal;
+            area4.originalColor = area.originalColor;
+          }
+          if (area.id.toUpperCase() === 'MA') {
+            var area5 = getMapObject('EH');
+            area5.colorReal = area.colorReal;
+            area5.originalColor= area.originalColor;
+          }
+          if(area.id.toUpperCase()==='CN'){
+            var area6 = getMapObject('TW');
+            area6.colorReal = area.colorReal;
+            area6.originalColor = area.originalColor;
+          }
         } //getMapObject
 
         // //=======================================================================

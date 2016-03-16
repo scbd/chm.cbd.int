@@ -258,9 +258,11 @@
 										<tbody>
 											<tr ng-repeat="flow in document.internationalResources.baselineData.baselineFlows track by $index">
 												<td>
-													<div class="input-group"  ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) }">
-														<select class="form-control" ng-model="flow.year" ng-change="refreshYears('baselineFlowsYears', document.internationalResources.baselineData.baselineFlows)">
-															<option ng-repeat="year in options.baselineYears" ng-disabled="isSelectedYear('baselineFlowsYears', year)">{{year}}</option>
+													<div class="input-group"  ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) || hasDuplicateYear(flow.year, document.internationalResources.baselineData.baselineFlows)}">
+														<select class="form-control"
+																ng-model="flow.year"
+																ng-change="refreshYears('baselineFlowsYears', document.internationalResources.baselineData.baselineFlows)"
+																ng-options="o for o in options.baselineYears">
 														</select>
 													</div>
 												</td>
@@ -418,10 +420,15 @@
 									<tbody>
 										<tr ng-repeat="flow in document.internationalResources.progressData.progressFlows track by $index">
 											<td>
-												<div class="input-group" ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) }" >
-													<select class="form-control" ng-model="flow.year" ng-change="refreshYears('progressFlowsYears', document.internationalResources.progressData.progressFlows)">
-														<option ng-repeat="year in options.progressYears" ng-disabled="isSelectedYear('progressFlowsYears', year)">{{year}}</option>
+												<div class="input-group" ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) || hasDuplicateYear(flow.year, document.internationalResources.progressData.progressFlows) }" >
+													<select class="form-control"
+																ng-model="flow.year"
+																ng-change="refreshYears('progressFlowsYears', document.internationalResources.progressData.progressFlows)"
+																ng-options="o for o in options.progressYears">
 													</select>
+													<!-- <select class="form-control" ng-model="flow.year" ng-change="refreshYears('progressFlowsYears', document.internationalResources.progressData.progressFlows)">
+														<option ng-repeat="year in options.progressYears" ng-disabled="isSelectedYear('progressFlowsYears', year)">{{year}}</option>
+													</select> -->
 												</div>
 											</td>
 											<td>
@@ -593,10 +600,15 @@
 											<tbody>
 												<tr ng-repeat="expenditure in document.domesticExpendituresData.expenditures track by $index">
 													<td>
-														<div class="input-group" ng-class="{ 'has-error': expenditure.year && !isValidNumber(expenditure.year)}">
-															<select class="form-control" ng-model="expenditure.year" ng-change="refreshYears('expendituresYears', document.domesticExpendituresData.expenditures)">
-																<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('expendituresYears', year)">{{year}}</option>
+														<div class="input-group" ng-class="{ 'has-error': expenditure.year && !isValidNumber(expenditure.year) || hasDuplicateYear(expenditure.year, document.domesticExpendituresData.expenditures) }">
+															<select class="form-control"
+																	ng-model="expenditure.year"
+																	ng-change="refreshYears('expendituresYears', document.domesticExpendituresData.expenditures)"
+																	ng-options="o for o in options.domesticYears">
 															</select>
+															<!-- <select class="form-control" ng-model="expenditure.year" ng-change="refreshYears('expendituresYears', document.domesticExpendituresData.expenditures)">
+																<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('expendituresYears', year)">{{year}}</option>
+															</select> -->
 														</div>
 													</td>
 													<td>
@@ -923,10 +935,15 @@
 														<tbody>
 															<tr ng-repeat="contribution in document.domesticExpendituresData.contributions track by $index">
 																<td>
-																	<div class="input-group" ng-class="{ 'has-error': contribution.year && !isValidNumber(contribution.year) }">
-																		<select class="form-control" ng-model="contribution.year" ng-change="refreshYears('contributionsYears', document.domesticExpendituresData.contributions)">
-																			<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('contributionsYears', year)">{{year}}</option>
+																	<div class="input-group" ng-class="{ 'has-error': contribution.year && !isValidNumber(contribution.year) || hasDuplicateYear(contribution.year, document.domesticExpendituresData.contributions) }">
+																		<select class="form-control"
+																				ng-model="contribution.year"
+																				ng-change="refreshYears('contributionsYears', document.domesticExpendituresData.contributions)"
+																				ng-options="o for o in options.domesticYears">
 																		</select>
+																		<!-- <select class="form-control" ng-model="contribution.year" ng-change="refreshYears('contributionsYears', document.domesticExpendituresData.contributions)">
+																			<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('contributionsYears', year)">{{year}}</option>
+																		</select> -->
 																	</div>
 																</td>
 																<td>
@@ -1066,12 +1083,17 @@
 							        	</tr>
 									</thead>
 									<tbody>
-										<tr ng-repeat="estimate in document.fundingNeedsData.annualEstimates track by $index">
+										<tr ng-repeat="estimate in document.fundingNeedsData.annualEstimates track by estimate.year">
 											<td>
-												<div class="input-group"  ng-class="{ 'has-error': estimate.year && !isValidNumber(estimate.year)}">
-													<select class="form-control" ng-model="estimate.year" ng-change="refreshYears('fundingNeedsYears', document.fundingNeedsData.annualEstimates)">
-														<option ng-repeat="year in options.fundingNeedsYears" ng-disabled="isSelectedYear('fundingNeedsYears', year)">{{year}}</option>
+												<div class="input-group"  ng-class="{ 'has-error': estimate.year && !isValidNumber(estimate.year) || hasDuplicateYear(estimate.year, document.fundingNeedsData.annualEstimates) }">
+													<select class="form-control"
+															ng-model="estimate.year"
+															ng-change="refreshYears('fundingNeedsYears', document.fundingNeedsData.annualEstimates)"
+															ng-options="o for o in options.domesticYears">
 													</select>
+													<!-- <select class="form-control" ng-model="estimate.year" ng-change="refreshYears('fundingNeedsYears', document.fundingNeedsData.annualEstimates)">
+														<option ng-repeat="year in options.fundingNeedsYears" ng-disabled="isSelectedYear('fundingNeedsYears', year)">{{year}}</option>
+													</select> -->
 												</div>
 											</td>
 											<td>

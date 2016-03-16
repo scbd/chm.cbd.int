@@ -386,13 +386,14 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					if($scope.document && $scope.document.domesticExpendituresData && $scope.document.domesticExpendituresData.expenditures){
 						lastYear = parseInt(_.max(_.pluck($scope.document.domesticExpendituresData.expenditures, 'year')));
 					}
-
+console.log(items);
 					for(var i=0; i<items.length; i++) {
 
 						var item     = items[i];
 
 						if(!_.isEmpty(item))
 						{
+console.log(lastYear, item);							
 							var year = _.result(item, 'year', lastYear);
 
 							if(year > lastYear){
@@ -454,7 +455,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				$scope.temp.annualPercentage = 0;
 
 				var items = [];
-				var years = $scope.options.fundingNeedsYears;
+				var years = $scope.expendituresYears;
 				var availableAmount = getEstimateAverageAmount(); //average from 4.1
 				var estimates = {};
 
@@ -498,9 +499,11 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 			$scope.refreshYears = function(arrayName, source){
 				if(!arrayName) return;
 
-				$scope[arrayName] = _.map(_.pluck(source, 'year'), function (year) {
-										return parseInt(year);
-									});
+				$scope[arrayName] = _.compact(_.map(source, 'year'));
+
+				// _.map(_.pluck(source, 'year'), function (year) {
+				// 						return parseInt(year);
+				// 					});
 			};
 
 			//==================================
@@ -517,6 +520,22 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				$scope[arrayName] = _.without($scope[arrayName], year);
 			};
 
+			//==================================
+			//
+			//==================================
+			$scope.hasDuplicateYear = function (year, source) {
+
+				var arr = _.compact(_.map(source, 'year'));
+
+				var count = 0;
+
+				for(var i = 0; i < arr.length; ++i){
+					if(arr[i] === year)
+						count++;
+				}
+
+				return count > 1;
+			};
 
             //==================================
 			//

@@ -84,20 +84,6 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
                 $scope.showSCBD = true;
             }
 
-
-            //==============================
-            //
-            //==============================
-            $scope.isAdmin = function(){
-
-                	if(realmConfig.isAdministrator($rootScope.user) || realmConfig.isChmAdministrator($rootScope.user))//if($rootScope.user.roles[i] == 'Administrator' || $rootScope.user.roles[i] == 'ChmAdministrator')
-                    {
-                        return true;
-                    }
-
-                return false;
-            };
-
             //==============================
             //
             //==============================

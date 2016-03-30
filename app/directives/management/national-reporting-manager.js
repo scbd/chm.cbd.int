@@ -79,11 +79,7 @@ app.directive('nationalReportingManager', ['$rootScope', "$routeParams", '$q', '
 			}
 
 			 navigation.securize();
-//["Administrator", "ChmAdministrator", "ChmNationalFocalPoint", "ChmNationalAuthorizedUser"]
-			// if(userGovernment() && userGovernment()!=$routeParams.country) {
-			// 	$location.path("/management/national-reporting/"+userGovernment());
-			// 	return;
-			// }
+
             if($routeParams.schema)
                 $scope.schema = $routeParams.schema;
             else

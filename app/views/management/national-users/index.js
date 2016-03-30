@@ -56,7 +56,9 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
                     return ret;
                 }, {});
 
-                var contextRoleCodes = _.map(realmConfig.nationalRoles(), function(code) { return code.toLowerCase(); });
+                var contextRoleCodes = _.map(realmConfig.nationalRoles(), function(code) {
+                    return realmConfig.getRoleName(code).toLowerCase();
+                });
 
                 contextRoles = _.reduce(res.data, function(ret, role) {
 
@@ -73,7 +75,7 @@ define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], fun
 
             var query = {
                 isManageable : true,
-                roles : realmConfig.nationalRoles()
+                roles : _.map(realmConfig.nationalRoles(), realmConfig.getRoleName)
             };
 
             var q2 = $http.get('/api/v2013/roles', { params : { q : query } }).then(function (res) {

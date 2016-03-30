@@ -35,11 +35,7 @@ define(['lodash', 'app', 'authentication', 'utilities/km-storage', 'utilities/km
         //
         //==============================
         $scope.isNationalUser = function(){
-                        return $rootScope.user && $rootScope.user.government && 
-                        (realmConfig.isChmNationalFocalPoint($rootScope.user) 
-                        || realmConfig.isChmNationalAuthorizedUser($rootScope.user)
-                        || realmConfig.isAdministrato($rootScope.user) 
-                        || realmConfig.isChmAdministrator($rootScope.user));
+            return $rootScope.user && $rootScope.user.government && (realmConfig.isNationalUser($rootScope.user) || realmConfig.isAdministrato($rootScope.user));
         };
 
         $scope.government =  userGovernment();

@@ -88,40 +88,19 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
             //
             //==============================
             $scope.isNationalUser = function(){
-
-                    if( realmConfig.isChmNationalFocalPoint($rootScope.user) || //$rootScope.user.roles[i] == 'ChmNationalFocalPoint' ||
-                        realmConfig.isChmNationalAuthorizedUser($rootScope.user) || //$rootScope.user.roles[i] == 'ChmNationalAuthorizedUser' ||
-                        realmConfig.isAdministrato($rootScope.user) || //$rootScope.user.roles[i] == 'Administrator' ||
-                        realmConfig.isChmAdministrator($rootScope.user) && $rootScope.user.government) //$rootScope.user.roles[i] == 'ChmAdministrator' && $rootScope.user.government)
-                    {
-                        return true;
-                    }
-
-                return false;
+                return realmConfig.isNationalUser($rootScope.user) || realmConfig.isChmAdministrator($rootScope.user);
             };
             //==============================
             //
             //==============================
             $scope.isReferenceUser = function(){
-
-                if(realmConfig.isUser($rootScope.user) )
-                {
-                    return true;
-                }
-
-                return false;
+                return realmConfig.isUser($rootScope.user);
             };
             //==============================
             //
             //==============================
             $scope.isSCBDUser = function(){
-
-                if(realmConfig.isScbdStaff($rootScope.user))
-                {
-                    return true;
-                }
-
-                return false;
+                return realmConfig.isScbdStaff($rootScope.user);
             };
 
             //==============================

@@ -75,7 +75,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'User Notifications and Requests',           resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
-            when('/management/national-users', { templateUrl: 'views/management/national-users/index.html',label : 'National Users',  resolveController: true, resolve : { user : securizeNational() } }).
+            when('/management/national-users', { templateUrl: 'views/management/national-users/index.html',label : 'National Users',  resolveController: true, resolve : { user : securizeNational(['Administrator', 'ChmAdministrator']) } }).
 
             when('/signin',                                             { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).
 
@@ -109,7 +109,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
     {
         var requireRoles  = !_.isEmpty(roles);
 
-        return ["$location", "authentication", "siteMapUrls", function ($location, authentication, siteMapUrls) {
+        return ["$location", "authentication", "siteMapUrls", 'realmConfig', function ($location, authentication, siteMapUrls, realmConfig) {
 
             return authentication.getUser().then(function (user) {
 
@@ -122,6 +122,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
                     throw "securize: force sign in";
                 }
+
+                roles = _.union(roles||[], _.map(roles||[], realmConfig.getRoleName)); // Remap on test/training;
 
                 if(requireRoles && !_.intersection(roles||[], user.roles).length) {
                     $location.search({ path: $location.url() });
@@ -148,11 +150,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
         return ['$injector', 'realmConfig', function ($injector, realmConfig) {
 
-            roles = (roles || []).concat(['ChmAdministrator']).concat(realmConfig.nationalRoles());
-
-            roles = _.map(roles, function(role) {
-                return realmConfig.getRoleName(role);
-            });
+            roles = (roles || []).concat(realmConfig.nationalRoles());
 
             return $injector.invoke(securize(roles, true), {});
         }];

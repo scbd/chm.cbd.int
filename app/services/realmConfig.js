@@ -4,8 +4,6 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 
         var nationalRoles = [
             'NFP-CBD',
-            'ChmNationalFocalPoint',
-            'ChmNationalAuthorizedUser',
             'ChmNrNationalFocalPoint',
             'ChmNrNationalAuthorizedUser',
             'ChmRmFocalPoint',
@@ -19,8 +17,6 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
     	    'CHM-DEV': { //Development / Test
     	        overrides: {
     	            'ChmAdministrator':            'ChmAdministrator-dev',
-    	            'ChmNationalFocalPoint':       'ChmNationalFocalPoint-dev',
-    	            'ChmNationalAuthorizedUser':   'ChmNationalAuthorizedUser-dev',
     	            'ChmNrNationalFocalPoint':     'ChmNrNationalFocalPoint-dev',
     	            'ChmNrNationalAuthorizedUser': 'ChmNrNationalAuthorizedUser-dev',
     	            'ChmRmFocalPoint':             'ChmRmFocalPoint-dev',
@@ -33,7 +29,7 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
         //
         //======================================================
         function getNationalRoles() {
-            return _.map(nationalRoles, getRoleName);
+            return nationalRoles;
         }
 
         //======================================================
@@ -44,10 +40,12 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
 
             var config = realmConfigurations[realm];
 
-            if(!config)
-                throw 'Realm not configured';
+            if (!config) {
+                config = {};
+                console.log('Realm not configured');
+            }
 
-            if(config.overrides && config.overrides[role])
+            if (config.overrides && config.overrides[role])
                 return config.overrides[role];
 
             return role;
@@ -57,110 +55,108 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
         //
         //
         //======================================================
+        function isInAnyRole(user, roles) {
+
+            roles = _.union(roles, _.map(roles, getRoleName));
+
+            return !!_.intersection(roles || [], user.roles).length;
+
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
         function isAdministrator(user) {
-                        return (user.roles.indexOf(getRoleName("Administrator")) >=0);
-        }// isAdministrator(user)
+            return isInAnyRole(user, ["Administrator"]);
+        }
+
 
         //======================================================
         //
         //
         //======================================================
         function isChmAdministrator(user) {
-                        return (user.roles.indexOf(getRoleName("ChmAdministrator")) >=0);
-        }// isChmAdministrator(user)
-
-
-        //======================================================
-        //
-        //
-        //======================================================
-        function isUser(user) {
-                        return (user.roles.indexOf(getRoleName("User")) >=0);
-        }// isUser(user)
+            return isInAnyRole(user, ["Administrator", "ChmAdministrator"]);
+        }
 
         //======================================================
         //
         //
         //======================================================
-        function isChmNationalAuthorizedUser(user) {
-                        return (user.roles.indexOf(getRoleName("ChmNationalAuthorizedUser")) >=0);
-        }// isChmNationalAuthorizedUser(user)
+        function isNationalUser(user) {
+            return isInAnyRole(user, nationalRoles);
+        }
 
         //======================================================
         //
         //
         //======================================================
-        function isChmNationalFocalPoint(user) {
-                        return (user.roles.indexOf(getRoleName("ChmNationalFocalPoint")) >=0);
-        }// isChmNationalFocalPoint(user)
+        function isChmPublishingAuthority(user) {
+            return isInAnyRole(user, ["NFP-CBD"]);
+        }
 
         //======================================================
         //
         //
         //======================================================
-        function isChmNrNationalAuthorizedUser(user) {
-                        return (user.roles.indexOf(getRoleName("ChmNrNationalAuthorizedUser")) >=0);
-        }// isChmNrNationalAuthorizedUser(user)
-
-
-        //======================================================
-        //
-        //
-        //======================================================
-        function isChmRmNAU(user) {
-                        return (user.roles.indexOf(getRoleName("ChmRmNAU")) >=0);
-        }// isChmRmNAU(user)
-
+        function isChmNrPublishingAuthority(user) {
+            return isChmPublishingAuthority(user) || isInAnyRole(user, ["ChmNrNationalFocalPoint"]);
+        }
 
         //======================================================
         //
         //
         //======================================================
-        function isChmNrNationalFocalPoint(user) {
-                        return (user.roles.indexOf(getRoleName("ChmNrNationalFocalPoint")) >=0);
-        }// isChmNrNationalFocalPoint(user)
+        function isChmNrUser(user) {
+            return isChmNrPublishingAuthority(user) || isInAnyRole(user, ["ChmNrNationalAuthorizedUser"]);
+        }
 
         //======================================================
         //
         //
         //======================================================
-        function isChmRmFocalPoint(user) {
-                        return (user.roles.indexOf(getRoleName("ChmRmFocalPoint")) >=0);
-        }// isChmRmFocalPoint(user)
+        function isChmRmPublishingAuthority(user) {
+            return isChmPublishingAuthority(user) || isInAnyRole(user, ["ChmRmFocalPoint"]);
+        }
+
+        //======================================================
+        //
+        //
+        //======================================================
+        function isChmRmUser(user) {
+            return isChmRmPublishingAuthority(user) || isInAnyRole(user, ["ChmRmNAU"]);
+        }
 
         //======================================================
         //
         //
         //======================================================
         function isScbdStaff(user) {
-                        return (user.roles.indexOf(getRoleName("ScbdStaff")) >=0);
-        }// ScbdStaff(user)
+            return isInAnyRole(user, ["ScbdStaff"]);
+        }
 
-         //======================================================
+        //======================================================
         //
         //
         //======================================================
-        function isNFPCBD(user) {
-                        return (user.roles.indexOf(getRoleName("NFP-CBD")) >=0);
-        }// isNFPCBD(user)
+        function isUser(user) {
+            return isInAnyRole(user, ["User"]);
+        }
 
-
-           return {
-                    nationalRoles : getNationalRoles,
-                    getRoleName : getRoleName,
-                    isAdministrator:isAdministrator,
-                    isChmRmFocalPoint:isChmRmFocalPoint,
-                    isChmNrNationalFocalPoint:isChmNrNationalFocalPoint,
-                    isChmRmNAU:isChmRmNAU,
-                    isChmNrNationalAuthorizedUser:isChmNrNationalAuthorizedUser,
-                    isChmNationalFocalPoint:isChmNationalFocalPoint,
-                    isChmNationalAuthorizedUser:isChmNationalAuthorizedUser,
-                    isUser:isUser,
-                    isChmAdministrator:isChmAdministrator,
-                    isNFPCBD:isNFPCBD,
-                    isScbdStaff:isScbdStaff
-            };
-	}]);//app factory
-
-
+        return {
+            nationalRoles: getNationalRoles,
+            getRoleName: getRoleName,
+            isAdministrator: isAdministrator,
+            isChmAdministrator: isChmAdministrator,
+            isChmPublishingAuthority: isChmPublishingAuthority,
+            isNationalUser: isNationalUser,
+            isChmRmPublishingAuthority: isChmRmPublishingAuthority,
+            isChmRmUser: isChmRmUser,
+            isChmNrPublishingAuthority: isChmNrPublishingAuthority,
+            isChmNrUser: isChmNrUser,
+            isScbdStaff: isScbdStaff,
+            isUser: isUser
+        };
+    }]);
 }); //define

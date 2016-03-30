@@ -326,11 +326,11 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             return _.find($scope.schemasList,{"identifier":schema});
         }
 
-        var isAdmin         = realmConfig.isAdministrator(user); //user.roles.indexOf('Administrator')>=0;
-        var isNationalAdmin = realmConfig.isNFPCBD(user) || realmConfig.isChmNationalFocalPoint(user) || realmConfig.isChmNationalAuthorizedUser(user)>=0;
+        var isAdmin         = realmConfig.isChmAdministrator(user); //user.roles.indexOf('Administrator')>=0;
+        var isNationalAdmin = realmConfig.isChmPublishingAuthority(user);
 
-        $scope.enableNr = isAdmin || isNationalAdmin || realmConfig.isChmNrNationalFocalPoint(user) || realmConfig.isChmNrNationalAuthorizedUser(user);
-        $scope.enableRm = isAdmin || isNationalAdmin || realmConfig.isChmRmFocalPoint(user) || realmConfig.isChmRmNAU(user);
+        $scope.enableNr = isAdmin || isNationalAdmin || realmConfig.isChmNrUser(user);
+        $scope.enableRm = isAdmin || isNationalAdmin || realmConfig.isChmRmUser(user);
 
 
     }];

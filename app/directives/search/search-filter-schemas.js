@@ -33,7 +33,6 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'organization'               , title: 'Organizations'                 , count: 0 },
                 { identifier: 'resource'                   , title: 'Virtual Library Resources'     , count: 0 },
                 { identifier: 'capacityBuildingInitiative' , title: 'Capacity-building Initiatives' , count: 0 },
-                { identifier: 'capacityBuildingResource'   , title: 'Capacity-building Resources'   , count: 0 }
             ];
 
              $scope.copRecords = [

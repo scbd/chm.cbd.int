@@ -32,7 +32,6 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'lwDonor'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'dossier'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'capacityBuildingInitiative' ,public:0, draft:0, workflow:0 },
-            { identifier: 'capacityBuildingResource'   ,public:0, draft:0, workflow:0 },
             { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 },
             { identifier: 'undbAction'                 ,public:0, draft:0, workflow:0 }
         ];
@@ -40,10 +39,10 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         $scope.government = userGovernment();
 
         $scope.loadScheduled = null;
-           
+
         $scope.abschLink = "absch.cbd.int";
         $scope.absrealm = "ABS";
-       
+
         if($scope.test_env){
             $scope.absrealm = "ABS-TRG";
             $scope.abschLink = "training-absch.cbd.int";
@@ -97,7 +96,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource', 'capacityBuildingResource',
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource',
             'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
             'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";

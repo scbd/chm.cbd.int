@@ -1,7 +1,7 @@
 // FROM https://github.com/angular/angular.js/blob/v1.1.4/src/ng/directive/ngView.js
 define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
 
-    app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "nationalAssessment", "resource", "capacityBuildingResource", "capacityBuildingInitiative", "resourceMobilisation", "strategicPlanIndicator"]);
+    app.value("schemaTypes", ["aichiTarget", "contact", "caseStudy", "database", "implementationActivity", "marineEbsa", "nationalIndicator", "nationalReport", "nationalSupportTool", "nationalTarget", "organization", "nationalAssessment", "resource", "capacityBuildingInitiative", "resourceMobilisation", "strategicPlanIndicator"]);
     app.value("siteMapUrls", { //legacy
 
         management: {
@@ -36,7 +36,6 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
             if (schema == "contact") return "Contact";
             if (schema == "database") return "National Database";
             if (schema == "resource") return "Virtual Library Resource";
-            if (schema == "capacityBuildingResource") return "Capacity-building Resources";
             if (schema == "capacityBuildingInitiative") return "Capacity-building Initiatives";
             if (schema == "organization") return "Organization";
             if (schema == "measure") return "National Regulation";

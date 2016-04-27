@@ -54,7 +54,6 @@ define(['text!./search.html',
 	                'nationalSupportTool'        : 'icon-wrench',
 					'resourceMobilisation'       : 'fa fa-university',
 					'capacityBuildingInitiative' : 'fa fa-book',
-					'capacityBuildingResource'   : 'fa fa-book',
 	            };
 
 	            $scope.loaded          = false;

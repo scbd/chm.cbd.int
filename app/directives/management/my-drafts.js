@@ -13,7 +13,6 @@ app.directive("myDrafts", ["$location", "IStorage", "schemaTypes", '$timeout', '
 			$scope.schemasList = [
                 { identifier: 'caseStudy', 					title: { en: 'Case Studies' } },
                 { identifier: 'resource', 					title: { en: 'Virtual Library Resouces' } },
-				{ identifier: 'capacityBuildingResouce', 	title: { en: 'Capacity-building Resouces' } },
 				{ identifier: 'capacityBuildingInitiative', title: { en: 'Capacity-building Initiatives' } },
                 { identifier: 'resourceMobilisation', 		title: { en: 'Resource Mobilisation' } },
                 { identifier: 'marineEbsa', 				title: { en: 'Marine EBSA' } },

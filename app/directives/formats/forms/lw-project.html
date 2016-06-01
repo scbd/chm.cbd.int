@@ -43,17 +43,17 @@
     <!--- FORM Start    <div km-textbox-ml name="name" required ng-model="document.name" placeholder="enter name here" locales="document.header.languages"></div>-->
     <form name="editForm">
       <div km-tab="general">
-        
+
         <legend>Project Information</legend>
-        
+
         <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="document.title" required caption="Project Title">
                 <textarea  class="form-control" ng-required="true" ng-model="document.title" placeholder="Enter project title" rows="1" style="display:inline-block"></textarea>
             </div>
           </div>
-        </div>        
-         
+        </div>
+
          <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="document.leadContact" required caption="Lead Contact">
@@ -68,13 +68,13 @@
                 <div km-yes-no name="document.expired" ng-model="document.expired" locales="document.header.languages"></div>
             </div>
           </div>
-          
+
           <div class="col-md-3" >
             <div class="km-control-group" name="document.featured" required caption="Is Project the Featured 6?">
                 <div km-select name="document.featured" ng-model="document.featured" items="options.availableFeaturePositions()"  ></div>
             </div>
           </div>
-    
+
             <div class="col-md-3">
             <div class="km-control-group" name="document.startDate" caption="Project Start Date" required >
               <div km-date style="width:200px" name="startDate" ng-model="document.startDate" placeholder="YYYY-MM-DD" required></div>
@@ -87,15 +87,15 @@
           </div>
 
         </div>
-        
+
          <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="document.campaigns" caption="Associated Campaign">
                <div km-select name="document.campaigns" ng-model="document.campaigns" items="options.getCampaigns()" multiple></div>
             </div>
           </div>
-        </div> 
-               
+        </div>
+
         <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="country" caption="Country or Countries">
@@ -103,10 +103,10 @@
               items="lifeWebServices.getCountries(query)" cache="true" km-type="ETerm" multiple> </div>
             </div>
           </div>
-        </div> 
+        </div>
 
 
-                       
+
         <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="projectAbstract" caption="Abstract">
@@ -114,7 +114,7 @@
             </div>
           </div>
         </div>
-        
+
        <div class="row">
           <div class="col-md-12">
             <div class="km-control-group" name="description" caption="Description">
@@ -122,7 +122,7 @@
             </div>
           </div>
         </div>
-        
+
           <div class="row">
             <div class="col-md-12">
               <legend>Project Images</legend>
@@ -133,15 +133,15 @@
               </div>
             </div>
           </div>
-    
+
           <div class="row">
               <div class="col-md-12">
                 <div class="km-control-group" required name="document.thumbnail.url" caption="Select a Thumbnail">
                   <div km-select name="document.thumbnail" ng-model="document.thumbnail" items="options.images()" watch-items='true' ng-change="eLinkCoverImage()"></div>
                 </div>
               </div>
-          </div>        
-        
+          </div>
+
 
           <div class="row">
             <div class="col-md-12">
@@ -153,7 +153,7 @@
                 items="lifeWebServices.getAichiTargets(query)" cache="true" km-type="ETerm"  multiple> </div>
               </div>
             </div>
-          
+
             <div class="col-md-12">
               <div class="km-control-group" name="aichiTabs" caption="Aichi Tabs">
                 <ul class="pagination">
@@ -170,26 +170,26 @@
                 </div>
               </div>
             </div>
-          </div>        
-        
- 
+          </div>
+
+
         <div class="row">
           <div class="col-md-12">
             <legend>Alignment with National Planning</legend>
             Consistent with the decision X/31, please indicate the relevance between this submission and the following planning processes.
 
           </div>
-        </div>  
-              
+        </div>
+
       <div class="row">
         <div class="col-md-12">
           <div class="km-control-group" name="nationalAlignements" caption="National Alignments">
-            
+
             <ul class="pagination">
               <li ng-class="{ disabled: natAliSelectedTab=='NBSAPs'}"><a href="" ng-click="setNatAliSelectedTab(natAliPrevTab)">&laquo;</a></li>
               <li ng-class="{ active  : natAliSelectedTab=='NBSAPs'}"><a href="" ng-click="setNatAliSelectedTab('NBSAPs')">NBSAPs</a></li>
-              <li ng-class="{ active  : natAliSelectedTab=='climateChange'}"><a href="" ng-click="setNatAliSelectedTab('climateChange')">National Climate</a></li>      
-              <li ng-class="{ active  : natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab('o_n_s')">Other National Strategies</a></li>     
+              <li ng-class="{ active  : natAliSelectedTab=='climateChange'}"><a href="" ng-click="setNatAliSelectedTab('climateChange')">National Climate</a></li>
+              <li ng-class="{ active  : natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab('o_n_s')">Other National Strategies</a></li>
               <li ng-class="{ disabled: natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab(natAliNextTab)">&raquo;</a></li>
             </ul>
             <div>
@@ -201,17 +201,17 @@
                   <textarea class="form-control" ng-model="document.nationalAlignment[1].comment" placeholder=" Alignment with National Climate Change Strategies"
                   rows="5" ></textarea>
                 </div>
-                
+
                 <div  ng-show="natAliSelectedTab=='o_n_s'">
-    
+
                   <textarea class="form-control" ng-model="document.nationalAlignment[2].comment" placeholder="             Such as:  Programme of WOrk on Protected Areas (PoWPA), Poverty Reduction Strategies (PRSPs), National Climate Change Strategies, REDD+ Strategies, National Adaptation Plans of Action (NAPAs), economic and sustainable development plans, national resource mobilization strategy, infrastructure plans, land use plans, strategies for achieving the Millennium Development Goals, etc."
                   rows="5" ></textarea>
                 </div>
             </div>
           </div>
         </div>
-      </div>         
-        
+      </div>
+
 
           <div class="row">
             <div class="col-md-12">
@@ -221,7 +221,7 @@
                 items="lifeWebServices.getContributionsClimateChange(query)" cache="true" km-type="ETerm" multiple> </div>
               </div>
             </div>
-          
+
             <div class="col-md-12">
               <div class="km-control-group" name="climateContributionTabs" caption="Contribution Tabs">
                 <ul class="pagination">
@@ -231,14 +231,14 @@
                 </ul>
                 <div ng-repeat="target in document.climateContribution" >
                   <div ng-show="showClimateContributionTab(target.identifier)">
-                   
+
                       <textarea class="form-control" ng-model="climateContributionComments[target.identifier]" placeholder="Describe the project's contribution to ecological change"
                       rows="5" style="display:inline-block"></textarea>
                     </div>
                 </div>
               </div>
             </div>
-          </div> 
+          </div>
 
           <div class="row">
             <div class="col-md-12">
@@ -249,11 +249,11 @@
               </div>
             </div>
            </div>
-            
+
            <div class="row">
             <div class="col-md-12">
               <legend>Institutional Context</legend>
-             
+
               <div class="km-control-group" name="document.institutionalContext" caption="Add and edit partners to be involved, their roles, and any additional information">
 
                   <table class="table table-hover table-condensed" >
@@ -269,7 +269,7 @@
 										<tr ng-repeat="partner in document.institutionalContext track by $index">
 											<td>
 												<div class="input-group" >
-                           <input type="text" class="form-control" ng-model="partner.partner" ng-change="addRowInstitutionalContext();" " >
+                           <input type="text" class="form-control" ng-model="partner.partner" ng-change="addRowInstitutionalContext();" >
 												</div>
 											</td>
 											<td>
@@ -311,19 +311,19 @@
 									<tbody>
 										<tr ng-repeat="budgetRow in document.budget track by $index">
 											<td>
-											
+
                            <textarea type="text" class="form-control" ng-model="budgetRow.activity" ng-change="addRowBudget();"  rows="2" style="width:100%;"></textarea>
-										
+
 											</td>
 											<td>
-									
+
 													<textarea type="text" class="form-control" ng-model="budgetRow.result"  rows="2" style="width:100%;"></textarea>
-										
+
 											</td>
 											<td>
-											
+
 													<input type="number" class="form-control" ng-model="budgetRow.cost" placeholder="USD">
-										
+
 											</td>
 											<td>
 												<span class="btn btn-default" ng-click="document.budget.splice($index, 1);" ng-show="!$last || isNotEmpty(objective)"><i class="fa fa-trash-o"></i></span>
@@ -349,7 +349,7 @@
         <div class="row">
             <div class="col-md-12">
               <legend>Donations</legend>
-         
+
               <div class="km-control-group" name="document.donations" caption="Add and edit donations.">
 
                   <table class="table table-hover table-condensed">
@@ -373,7 +373,7 @@
                           </div>
 												</div>
 											</td>
-                      
+
                       <td>
                         <div >
                             <div km-select placeholder="Search for a Donor" ng-model="donation.donor"
@@ -381,39 +381,39 @@
                             </div >
                          </div>
                       </td>
-                      
+
                       <td>
 												<div  >
-                          
+
                             <textarea class="form-control"  ng-model="donation.description"  rows="2" style="width:100%;"></textarea>
 												</div>
 											</td>
-                      
+
 											<td>
 												<div  >
 													<input type="number"  ng-model="donation.funding" min="1" required>
 												</div>
 											</td>
-                        
+
                         <td>
                           <div style="background:white">
                         
-                          
-                          
+
+
                                 <input type="radio" name="isdomestic{{$index}}" ng-model="donation.domestic" ng-value="true" />Domestic
                                 <input type="radio" name="isdomestic{{$index}}" ng-model="donation.domestic" ng-value="false" />International
                        </div>
                        <div style="background:white;  border-top: thin double #000000; white-space:nowrap; ">
                                 <input type="radio" name="lifewebFacilitated{{$index}}" ng-model="donation.lifeweb_facilitated" ng-value="true" />Secured
                                 <input type="radio" name="lifewebFacilitated{{$index}}" ng-model="donation.lifeweb_facilitated" ng-value="false" />Unsecured
-                       
-                            
+
+
                           </div>
                                 <div style="background:white;  border-top: thin double #000000;white-space:nowrap; ">
-                                <input type="checkbox" name="donation.lifewebPrevFunded" ng-model="donation.lifewebPrevFunded" ng-value="true" />Previous Secured Funding <br>Not a LifeWeb Match 
-                              
-                       
-                            
+                                <input type="checkbox" name="donation.lifewebPrevFunded" ng-model="donation.lifewebPrevFunded" ng-value="true" />Previous Secured Funding <br>Not a LifeWeb Match
+
+
+
                           </div>
                         </td>
 											<td>
@@ -434,7 +434,7 @@
           <div class="row">
             <div class="col-md-12">
               <legend>Links with the World Database on Protected Areas</legend>
-              
+
               <div class="km-control-group" name="document.protectedAreas" caption="If this project's scope involved protected areas registered in the World Database on Protected Areas (WDPA), please include the URL links where the sites appear on http://www.protectedplanet.net of all the areas involved in this project. If the area(s) are not registered in the WDPA, please indicate the complete name(s).">
 						      	<div km-link name="document.protectedAreas" allow-link="true" allow-file="false" ng-model="document.protectedAreas" identifier="document.header.identifier"></div>
               </div>
@@ -448,7 +448,7 @@
 						      	<div km-link name="document.maps" allow-link="false" allow-file="true" ng-model="document.maps" identifier="document.header.identifier"></div>
               </div>
             </div>
-          </div>       
+          </div>
 
 
           <div class="row">
@@ -460,7 +460,7 @@
             </div>
           </div>
 
-          
+
           <div class="row ">
             <div class="col-md-12">
               <legend>Project Documents and Links</legend>
@@ -469,10 +469,10 @@
               </div>
             </div>
           </div>
-       
+
        </div>
-    </form> 
-  
+    </form>
+
         <!--- FORM end  -->
 
         <div km-tab="review">
@@ -482,8 +482,8 @@
           </div>
           <view-lw-project ng-model="document" locale="review.locale" target="_blank" allow-drafts="true"></view-lw-project>
         </div>
-        
-        
+
+
           <!--- review tab buttons start -->
           <div class="row">
               <div class="col-sm-9 col-xs-12">
@@ -494,7 +494,7 @@
                   <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
                 </ul>
               </div>
-              
+
               <!--- review tab buttons end -->
               <div class="col-sm-3 hidden-xs" style="text-align:right">
                 <div class="pagination">
@@ -502,7 +502,7 @@
                   on-pre-publish="onPrePublish()"></span>
                 </div>
               </div>
-    
+
               <div class="col-xs-12 visible-xs">
                 <div class="">
                   <span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"

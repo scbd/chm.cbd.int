@@ -536,6 +536,8 @@ app.directive('editLwProject', ['$http', '$filter', '$q', 'guid', '$location', '
 																if(dataRole.title === role.role || dataRole.identifier === role.role)
 																	role.role = {identifier:dataRole.identifier,title:dataRole.title};
 															});
+                              if(!_.isObject(role.role))
+                                role.role = {identifier:role.role,title:role.role};
 													});//lifeWebServices.getRoles()
 										}//if(_.isObject(type.role)){
 							});//_.each(document.institutionalContext

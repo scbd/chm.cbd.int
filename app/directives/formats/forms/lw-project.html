@@ -215,15 +215,15 @@
 
           <div class="row">
             <div class="col-md-12">
-              <legend>Contribution to Climate Change</legend>
-              <div class="km-control-group" name="climateContribution" caption="Conritbutions">
-                <div km-auto-complete-server-select placeholder="Add an Ecological Contribution attributed to this project by typing its name" ng-model="document.climateContribution"
+              <legend>Project Benefits</legend>
+              <div class="km-control-group" name="climateContribution" caption="Benefits">
+                <div km-auto-complete-server-select placeholder="Add a benefit attributed to this project by typing its name" ng-model="document.climateContribution"
                 items="lifeWebServices.getContributionsClimateChange(query)" cache="true" km-type="ETerm" multiple> </div>
               </div>
             </div>
 
             <div class="col-md-12">
-              <div class="km-control-group" name="climateContributionTabs" caption="Contribution Tabs">
+              <div class="km-control-group" name="climateContributionTabs" caption="Benifit Tabs">
                 <ul class="pagination">
                   <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionFirstTab}"><a href="" ng-click="setClimateContributionTab(prevClimateContributionTab);">&laquo;  </a></li>
                   <li ng-repeat="target in climateContributionTabs" ng-class="{ active  : climateContributionSelectedTab==target.identifier}" ><a href="" ng-click="setClimateContributionTab(target.identifier);">{{target.title}}</a></li>

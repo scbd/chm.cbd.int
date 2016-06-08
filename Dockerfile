@@ -12,4 +12,7 @@ ENV PORT 8000
 
 EXPOSE 8000
 
+ARG COMMIT
+ENV COMMIT $COMMIT
+
 CMD [ "node", "server" ]

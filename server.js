@@ -29,7 +29,7 @@ app.all('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://ap
 // Configure index.html
 
 app.get('/*', function (req, res) {
-    res.cookie('cachetag', cacheTag);
+    res.cookie('VERSION', process.env.COMMIT || '');
     res.sendFile(__dirname + '/app/index.html');
 });
 

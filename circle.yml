@@ -18,7 +18,7 @@ deployment:
     owner: scbd
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker tag www-cbd-int scbd/chm-cbd-int:${CIRCLE_TAG//v/}
-      - docker tag www-cbd-int scbd/chm-cbd-int:latest
+      - docker tag chm-cbd-int scbd/chm-cbd-int:${CIRCLE_TAG//v/}
+      - docker tag chm-cbd-int scbd/chm-cbd-int:latest
       - docker push scbd/chm-cbd-int:${CIRCLE_TAG//v/}
       - docker push scbd/chm-cbd-int:latest

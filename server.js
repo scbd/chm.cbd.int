@@ -23,7 +23,7 @@ app.all('/api/*', (req, res)=>proxy.web(req, res, { target: 'https://api.cbddev.
 // Configure template
 
 app.get('/*', function (req, res) {
-    res.cookie('cachetag', cacheTag);
+    res.cookie('VERSION', process.env.COMMIT || '');
     res.sendFile(__dirname + '/app/index.html');
 });
 

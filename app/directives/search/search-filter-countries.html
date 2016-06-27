@@ -1,7 +1,7 @@
 <li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectCountries" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
-		<div ng-animate="'animate'" ng-repeat="item in terms | orderBy:'title' | filter:{selected:true}"  ng-click="refresh(this,true)">
+		<div ng-animate="'animate'" ng-repeat="item in terms | toArray | orderBy:'title' | filter:{selected:true}"  ng-click="refresh(this,true)">
 			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)  " >
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove" ></div>
 						<div class="truncate" >
@@ -19,7 +19,7 @@
 						<a style="padding-right:10px" ng-class="{'label label-letter-search': $index == selectedIndex}" ng-click='selectedLetter($index)' ng-repeat="letter in alphabet">{{letter}}</a>
 					</div>
 					<div style="height:360px;overflow-y:auto" >
-						<div class="col-md-4 col-md-4 col-md-4" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" ng-repeat="item in (filtered =(terms  | filterByLetter:sLetter | orderBy:'title.en'))" >
+						<div class="col-md-4 col-md-4 col-md-4" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" ng-repeat="item in (filtered =(terms  | toArray| filterByLetter:sLetter | orderBy:'title.en'))" >
 							<div class="checkbox" style="margin-top:2px;margin-bottom:2px" ng-if="termsModal[item.identifier].count">
 								<div ><label ng-disabled="!item.count"><input type="checkbox" ng-model="item.selected" ng-change="refresh(item)" ng-disabled="!termsModal[item.identifier].count"> {{item.title.en}} <span class="bg-blue badge">{{termsModal[item.identifier].count}}</span></label></div>
 							</div>

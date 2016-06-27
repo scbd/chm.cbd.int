@@ -1,42 +1,43 @@
-/* jshint node: true, browser: false, esnext: true */
 'use strict';
 
-// CREATE HTTP SERVER AND PROXY
+var express   = require('express');
+var httpProxy = require('http-proxy');
 
-var app     = require('express')();
-var proxy   = require('http-proxy').createProxyServer({});
+// Create server & proxy
 
-proxy.on('error', function(e) {
-    console.error(e);
-}); //ignore errors
+var app   = express();
+var proxy = httpProxy.createProxyServer({});
 
-// LOAD CONFIGURATION
-
-var oneDay   = 86400000;
-var cacheTag = Math.random() * 0x80000000 | 0;
+// Configure options
 
 app.use(require('morgan')('dev'));
 
-app.set('port', process.env.PORT || 2000);
-app.use('/favicon.ico', require('serve-static')(__dirname + '/favicon.ico', { maxAge:    oneDay }));
-
 // Configure routes
 
-app.use('/app',   require('serve-static')(__dirname + '/app'));
-app.all('/app/*', function(req, res) { res.status(404).send(); } );
-app.all('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbddev.xyz', changeOrigin: true } ); } );
+app.use('/favicon.ico', express.static(__dirname + '/favicon.ico'));
+app.use('/app',         express.static(__dirname + '/app'));
 
-// Configure index.html
+app.all('/app/*', (req, res)=>res.status(404).send() );
+app.all('/api/*', (req, res)=>proxy.web(req, res, { target: 'https://api.cbddev.xyz', changeOrigin: true }) );
+
+// Configure template
 
 app.get('/*', function (req, res) {
-    res.cookie('cachetag', cacheTag);
+    res.cookie('VERSION', process.env.COMMIT || '');
     res.sendFile(__dirname + '/app/index.html');
 });
 
-// Start server
+// Start HTTP server
 
-app.listen(app.get('port'), function () {
+app.listen(process.env.PORT || 8000, '0.0.0.0', function () {
 	console.log('Server listening on %j', this.address());
+});
+
+// Handle proxy errors ignore
+
+proxy.on('error', function (error, req, res) {
+    console.error('proxy error:', error);
+    res.status(502).send();
 });
 
 process.on('SIGTERM', ()=>process.exit());

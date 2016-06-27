@@ -1,7 +1,7 @@
 <li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectRegions" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
-		<div ng-animate="'animate'" ng-repeat="item in allTerms | orderBy:'title' | filter:{selected:true}" ng-click="refresh(this,true)">
+		<div ng-animate="'animate'" ng-repeat="item in allTerms | toArray | orderBy:'title' | filter:{selected:true}" ng-click="refresh(this,true)">
 			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)  ">
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove"></div>
 					<div class="truncate">

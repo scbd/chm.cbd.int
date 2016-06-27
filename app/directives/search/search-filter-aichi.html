@@ -3,7 +3,7 @@
 		<strong>{{title}}</strong>
 	</div>
 	<div class="list-group-item-expand">
-		<div ng-repeat="item in termsArray | filter:{selected:true}" ng-click="refresh(this,true)">
+		<div ng-repeat="item in termsArray | toArray | filter:{selected:true}" ng-click="refresh(this,true)">
 			<div class="label label-selected-facet" ng-show="(item.selected && item.count) || (item.selected && !item.count && !count)">
 				<div style="position:absolute;right:6px;top:6px" class="fa fa-remove"></div>
 				<div class="truncate">

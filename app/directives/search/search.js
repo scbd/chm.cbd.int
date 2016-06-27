@@ -346,10 +346,7 @@ define(['text!./search.html',
 				//@ qsSelection -
 				//=======================================================================
 				function updateTerms(terms,items,facet,data) {
-// console.log('items',items);
-// console.log('terms',terms);
-// console.log('facet',facet);
-// console.log('data',data);
+					
 						var qsSelection = _([$location.search()[facet]]).flatten().compact().value(); // takes query string into array
 						var termsx = {};
 
@@ -447,4 +444,23 @@ define(['text!./search.html',
 	        }
 	    };
 	}]); //directive
+
+	app.filter('toArray', function () {
+	  return function (obj, addKey) {
+	    if (!_.isObject(obj)) return obj;
+	    if ( addKey === false ) {
+	      return Object.keys(obj).map(function(key) {
+	        return obj[key];
+	      });
+	    } else {
+	      return Object.keys(obj).map(function (key) {
+	        var value = obj[key];
+	        return _.isObject(value) ?
+	          Object.defineProperty(value, '$key', { enumerable: false, value: key}) :
+	          { $key: key, $value: value };
+	      });
+	    }
+	  };
+	});
+
 });//define

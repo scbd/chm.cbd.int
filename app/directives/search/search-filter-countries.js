@@ -36,7 +36,8 @@ define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], f
                     if(!rawCountries){
                         $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
                             rawCountries = data;
-                            $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,data);
+
+                            $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,data);        
                             searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,data);
                         });
                     }else{

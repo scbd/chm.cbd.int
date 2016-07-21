@@ -5,6 +5,7 @@ return ['$scope', '$route', function ($scope, $route) {
 		        var id = $route.current.params.uid||'';
 		        if(id=='new')
 		            id = '';
-            window.location.href = 'https://www.cbd.int/undb-new/actions/submit-form/' + id;
+				var workflowId = $location.search().workflowid ? '?workflowId=' + $location.search().workflowid : '';
+		        window.location.href = 'https://www.cbd.int/undb-new/actions/submit-form/' + id + workflowId;
         }];
 });

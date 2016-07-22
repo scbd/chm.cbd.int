@@ -330,7 +330,9 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
         $scope.enableNr = isAdmin || isNationalAdmin || realmConfig.isChmNrUser(user);
         $scope.enableRm = isAdmin || isNationalAdmin || realmConfig.isChmRmUser(user);
-
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
 
     }];
 });

@@ -89,7 +89,9 @@
 						</div>
 						<h4 ng-hide="isAssignedToMe(activity)">
                             <p class="alert alert-danger">
-							Waiting for <em>{{activity.assignedTo_info[0].firstName}} {{activity.assignedTo_info[0].lastName}}</em> to approve or reject this request.
+    							Waiting for one of the users below to approve or reject this request.
+                                </br></br>
+                                <em ng-repeat="user in activity.assignedTo_info">{{user.firstName}} {{user.lastName}}</br></em>
                             </p>
 						</h4>
 					</span>

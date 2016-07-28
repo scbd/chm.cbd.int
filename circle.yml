@@ -13,6 +13,11 @@ test:
     - curl --retry 10 --retry-delay 5 -v http://localhost:8000
 
 deployment:
+  staging:
+    branch: staging
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker tag chm-cbd-int scbd/chm-cbd-int:staging
+      - docker push scbd/chm-cbd-int:staging
   hub:
     tag: /^v[0-9]+(\.[0-9]+)*$/
     owner: scbd

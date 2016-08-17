@@ -58,7 +58,12 @@
                 </li>
               </ul>
             </nav>
-
+            <div class="col-xs-6" style="color:#333;font-size:14px;padding:25px 0 15px 0;">
+              <span>Showing
+                <span class="badge">{{records.length}}</span> of
+                <span class="badge">{{recordCount}}</span> results
+              </span>
+            </div>
             <table class="table table-striped">
             	<thead>
             		<tr>
@@ -125,7 +130,29 @@
 
 
             </table>
-
+            <div class="col-xs-6" style="color:#333;font-size:14px;padding:25px 0 15px 0;">
+              <span>Showing
+                <span class="badge">{{records.length}}</span> of
+                <span class="badge">{{recordCount}}</span> results
+              </span>
+            </div>
+            <nav ng-show="pages.length>1">
+              <ul class="pagination">
+                <li>
+                  <a ng-click="onPage(currentPage-1)"  href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
+                    <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
+                </li>
+                <li>
+                  <a ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
         </div>
     </div>
 

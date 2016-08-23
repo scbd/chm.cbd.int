@@ -40,30 +40,55 @@
 
     <div class="container">
         <div class="row" >
+            <section ng-show="recordCount">
+                <div class="col-xs-3 text-no-wrap" style="color:#333;font-size:14px;padding-left:0px;">
+                    <div style="margin-top:25px;">
+                        <span>
+                                  <span class="badge">{{((currentPage*pageSize)+1)}}</span>
+                        <span ng-if="((currentPage+1)*(records.length))===((currentPage+1)*(pageSize))">  -  <span class="badge" >{{(currentPage+1)*(records.length)}}</span></span>
+                        <span ng-if="((currentPage+1)*(records.length))!==((currentPage+1)*(pageSize))">  -  <span class="badge" >{{recordCount}}</span></span>
+                        of
+                        <span class="badge">{{recordCount}}</span> records
+                        <span ng-if="freetext"><br> for <span class="color-cbdgreen">{{freetext}}</span></span>
+                        </span>
+                    </div>
+                </div>
 
-            <nav ng-show="pages.length>1">
-              <ul class="pagination">
-                <li>
-                  <a ng-click="onPage(currentPage-1)"  href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
-                    <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
-                </li>
-                <li>
-                  <a ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-            <div class="col-xs-6" style="color:#333;font-size:14px;padding:25px 0 15px 0;">
-              <span>Showing
-                <span class="badge">{{records.length}}</span> of
-                <span class="badge">{{recordCount}}</span> results
-              </span>
-            </div>
+                <div class="col-xs-7 ">
+                    <nav class="pull-right" ng-show="pages.length>1">
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="onPage(currentPage-1)" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
+                                <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
+                            </li>
+                            <li>
+                                <a ng-click="onPage(currentPage+1)" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="col-xs-2 text-nowrap">
+                    <div class="form-group form-inline" style="color:#333;font-size:14px;margin-top:20px;">
+                        <span style="color:#333;font-size:14px;">Records per page:</span>
+                        <select style="display:inline;" class="form-control" ng-model="pageSize" ng-change="onPage(0)" convert-to-number>
+                            <option ng-value="5" ng-selected="pageSize===5">5</option>
+                            <option ng-value="10" ng-selected="pageSize===10">10</option>
+                            <option ng-value="15" ng-selected="pageSize===15" ng-selected="true">15</option>
+                            <option ng-value="20" ng-selected="pageSize===20">20</option>
+                            <option ng-value="50" ng-selected="pageSize===50">50</option>
+                            <option ng-value="100" ng-selected="pageSize===100">100</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
             <table class="table table-striped">
             	<thead>
             		<tr>
@@ -130,32 +155,56 @@
 
 
             </table>
-            <div class="col-xs-6" style="color:#333;font-size:14px;padding:25px 0 15px 0;">
-              <span>Showing
-                <span class="badge">{{records.length}}</span> of
-                <span class="badge">{{recordCount}}</span> results
-              </span>
-            </div>
-            <nav ng-show="pages.length>1">
-              <ul class="pagination">
-                <li>
-                  <a ng-click="onPage(currentPage-1)"  href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
-                    <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
-                </li>
-                <li>
-                  <a ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+
+            <section ng-show="recordCount">
+                <div class="col-xs-3 text-no-wrap" style="color:#333;font-size:14px;padding-left:0px;">
+                    <div style="margin-top:25px;">
+                        <span>
+                                      <span class="badge">{{((currentPage*pageSize)+1)}}</span>
+                        <span ng-if="((currentPage+1)*(records.length))===((currentPage+1)*(pageSize))">  -  <span class="badge" >{{(currentPage+1)*(records.length)}}</span></span>
+                        <span ng-if="((currentPage+1)*(records.length))!==((currentPage+1)*(pageSize))">  -  <span class="badge" >{{recordCount}}</span></span>
+                        of
+                        <span class="badge">{{recordCount}}</span> records
+                        <span ng-if="freetext"><br> for <span class="color-cbdgreen">{{freetext}}</span></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-7 ">
+                    <nav class="pull-right" ng-show="pages.length>1">
+                        <ul class="pagination">
+                            <li>
+                                <a ng-click="onPage(currentPage-1)" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
+                                <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
+                            </li>
+                            <li>
+                                <a ng-click="onPage(currentPage+1)" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="col-xs-2 text-nowrap">
+                    <div class="form-group form-inline" style="color:#333;font-size:14px;margin-top:20px;">
+                        <span style="color:#333;font-size:14px;">Records per page:</span>
+                        <select style="display:inline;" class="form-control" ng-model="pageSize" ng-change="onPage(0)" convert-to-number>
+                            <option ng-value="5" ng-selected="pageSize===5">5</option>
+                            <option ng-value="10" ng-selected="pageSize===10">10</option>
+                            <option ng-value="15" ng-selected="pageSize===15" >15</option>
+                            <option ng-value="20" ng-selected="pageSize===20">20</option>
+                            <option ng-value="50" ng-selected="pageSize===50">50</option>
+                            <option ng-value="100" ng-selected="pageSize===100">100</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
-
-
-
 </div>

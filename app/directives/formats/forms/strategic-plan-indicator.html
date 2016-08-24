@@ -41,124 +41,52 @@
 
 							<div  class="row">
 								<div class="col-md-11">
-									<div class="km-control-group" name="title" caption="Indicator Operational Text">
-										<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="headline" caption="Indicator Headline Text">
-										<div km-textbox-ml name="headline" ng-model="document.headline" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="icon" caption="Indicator Icon">
-										<div km-link name="icon" ng-model="document.icon" allow-file="true" allow-link="false" mime-types="image/jpeg;image/png" identifier="document.header.identifier"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="subTopic" caption="Sub-topic Text">
-										<div km-textbox-ml rows=6 name="subTopic" ng-model="document.subTopic" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="communicationQuestion" caption="Communication Question">
-										<div km-textbox-ml rows=6 name="communicationQuestion" ng-model="document.communicationQuestion" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="operationalClassification" caption="Operational Classification">
-										<div km-textbox-ml rows=6 name="operationalClassification" ng-model="document.operationalClassification" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="developmentStatus" caption="Status of development">
-										<div km-textbox-ml rows=6 name="developmentStatus" ng-model="document.developmentStatus" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="sensitivity" caption="Sensitivity (can it be used to make assessment by 2015?)">
-										<div km-select required name="sensitivity" ng-model="document.sensitivity" items="options.sensitivity()" binding-type="term[]"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="scales" caption="Scale">
-										<div km-select multiple required name="scales" ng-model="document.scales" items="options.scales()" binding-type="term[]"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="scientificValidity" caption="Scientific Validity">
-										<div km-select required name="scientificValidity" ng-model="document.scientificValidity" items="options.scientificValidity()" binding-type="term[]"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="communicationLevel" caption="How easy can it be communicated?">
-										<div km-select required name="communicationLevel" ng-model="document.communicationLevel" items="options.easyCommunicated()" binding-type="term[]"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="dataSources" caption="Data Sources">
-										<div km-textbox-ml rows=6 name="dataSources" ng-model="document.dataSources" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="dataRequirements" caption="Data Requirements">
-										<div km-textbox-ml rows=6 name="dataRequirements" ng-model="document.dataRequirements" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="organizations" caption="Who's responsible for measuring">
-										<div km-reference name="organizations" ng-model="document.organizations" loader="loadRecords(identifier, 'organization')">
-											<div>
-												<div><strong>{{reference.title | lstring}}</strong></div>
-												<div>{{reference.summary | lstring}}</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="progressStatus" caption="Status of progress">
-										<div km-textbox-ml rows=6 name="progressStatus" ng-model="document.progressStatus" locales="document.header.languages"></div>
+									<div class="km-control-group" name="title" required caption="Specific Indicator">
+										<div km-textbox-ml name="title" required ng-model="document.title" locales="document.header.languages"></div>
 									</div>
 								</div>
 							</div>
 
-							<div  class="row">
-								<div class="col-md-11">
-									<div class="km-control-group" name="linkToResources" caption="Link to resources">
-										<div km-link name="linkToResources" ng-model="document.linkToResources" allow-file="true" allow-link="true" identifier="document.header.identifier"></div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="km-control-group" required name="aichiTarget" caption="Aichi Biodiversity Target">
+										<div km-select required  name="aichiTarget" ng-model="document.aichiTarget" placeholder="Please select an Aichi Biodiversity Target" items="options.aichiTargets()"></div>
 									</div>
 								</div>
 							</div>
 
-							<legend>Additional Information</legend>
+
+							<div class="row">
+								<div class="col-md-11">
+									<div class="km-control-group" name="availability" caption="Availability of Indicator">
+										<div km-select required name="availability" ng-model="document.availabilityStatus" items="options.availability()" binding-type="term[]"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="km-control-group" name="isEasyToCommunicate" caption="Is easy to communicate?">
+								<div km-yes-no ng-model="document.isEasyToCommunicate" locales="document.header.languages"></div>
+							</div>
+
+
+							<div class="km-control-group" name="isFromGlobalToNationalIndicator" caption="Global indicator can be disaggregated to create national indicator or is aggregated from national data?">
+								<div km-yes-no ng-model="document.isFromGlobalToNationalIndicator" locales="document.header.languages"></div>
+							</div>
+							<div class="km-control-group" name="isFromNationalToGlobalIndicator" caption="National data are aggregated to form global indicator?">
+								<div km-yes-no ng-model="document.isFromNationalToGlobalIndicator" locales="document.header.languages"></div>
+							</div>
+							<div class="km-control-group" name="usedInGbo3OrGbo4" caption="Used in GBO3/ GBO4?">
+								<div km-yes-no ng-model="document.usedInGbo3OrGbo4" locales="document.header.languages"></div>
+							</div>
+
+
+							<div class="km-control-group" name="source" caption="Source">
+								<div km-link name="source" allow-file="false" ng-model="document.source" identifier="document.header.identifier"></div>
+							</div>
+
+
+							<!-- <legend>Additional Information</legend>
 							<div class="row">
 								<div class="col-md-11">
 									<div class="km-control-group" name="relevantInformation" caption="Additional Information">
@@ -185,7 +113,7 @@
 										<div km-notes name="notes" ng-model="document.notes"></div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 					</div>
 				</form>

@@ -1,4 +1,4 @@
-define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'authentication', '../views/strategic-plan-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular) { 'use strict';
+define(['text!./strategic-plan-indicator.html', 'app', 'angular', 'lodash', 'authentication',  '../views/strategic-plan-indicator', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
 
 app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '$location', 'IStorage', 'Enumerable', 'editFormUtility', 'authentication', 'siteMapUrls', '$route', function ($http, $filter, $q, guid, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, $route) {
 	return {
@@ -15,10 +15,8 @@ app.directive('editStrategicPlanIndicator', ['$http', '$filter', '$q', 'guid', '
 			$scope.tab      = 'general';
 			$scope.review   = { locale : "en" };
 			$scope.options  = {
-				sensitivity:			function () { return $http.get("/api/v2013/thesaurus/domains/9BDB8DAD-C87E-4D4D-BA0B-B405EBB4F51D/terms", { cache: true }).then(function (o) { return o.data; }); },
-				scales:					function () { return $http.get("/api/v2013/thesaurus/domains/AC5C283E-6D16-46A0-B7F5-4DB2973BC45F/terms", { cache: true }).then(function (o) { return o.data; }); },
-				scientificValidity:		function () { return $http.get("/api/v2013/thesaurus/domains/9BDB8DAD-C87E-4D4D-BA0B-B405EBB4F51D/terms", { cache: true }).then(function (o) { return o.data; }); },
-				easyCommunicated:		function () { return $http.get("/api/v2013/thesaurus/domains/9BDB8DAD-C87E-4D4D-BA0B-B405EBB4F51D/terms", { cache: true }).then(function (o) { return o.data; }); },
+				availability:			function () { return $http.get("/api/v2013/thesaurus/domains/1FEF5AB7-3C90-4AE7-859F-787949FA9046/terms", { cache: true }).then(function (o) { return o.data; }); },
+				aichiTargets  : 		function()  { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",                        { cache: true }).then(function(o){ return o.data; }); },
 			};
 
 			//==================================

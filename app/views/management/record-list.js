@@ -3,7 +3,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
     return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog','realm',
      function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog, realm) {
 
-        var pageSize = 15;
+        $scope.pageSize = 15;
 
         $scope.schema      = _.camelCase($route.current.params.schema);
         $scope.subSchema   = $route.current.params.type;
@@ -31,7 +31,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
 
        reloadList();
 
-        $scope.$on("RefreshList", function(ev) {
+        $scope.$on("RefreshList", function() {
            reloadList();
         });
 
@@ -39,7 +39,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             refreshPager();
             loadPage(0);
             refreshFacetCounts();
-            
+
             if($scope.schema == 'nationalIndicator'){
                 getAllAssessments();
             }
@@ -71,8 +71,8 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 "q"  : buildQuery(),
                 "fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
                 "sort"  : "updatedDate_dt desc",
-                "start" : pageIndex*pageSize,
-                "row"   : pageSize,
+                "start" : pageIndex*Number($scope.pageSize),
+                "rows"   : Number($scope.pageSize),
             };
 
             var qRecords = $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
@@ -98,7 +98,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             {
                 qFacets = refreshFacetCounts();
             }
-            
+
             return $q.all([qRecords, qFacets]).catch(function(res){
 
                 $scope.records     = [];
@@ -111,24 +111,24 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 delete $scope.loading;
             });
         }
-        
-        
-       
-  
+
+
+
+
         //======================================================
         //
         //
         //======================================================
         $scope.isIndicatorIsUsed = function(record) {
-            
+
          // if(!$scope.assessmentRecordCount)
          //   return false;
-          
+
           var indicatorID = record.identifier_s;
-          
-          var found = false; 
-          
-           _.each($scope.assessmentRecords, function(rec) {     
+
+          var found = false;
+
+           _.each($scope.assessmentRecords, function(rec) {
                 if(rec.nationalIndicators_ss == indicatorID )
                     found = true;
            });
@@ -141,9 +141,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //
         //======================================================
         function getAllAssessments() {
-          
+
             $scope.loading = true;
-            
+
             var options = _.assign({
                 schema    : 'nationalAssessment',
             }, options || {});
@@ -158,7 +158,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             var qRecords = $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
                 $scope.assessmentRecordCount = res.data.response.numFound;
                 $scope.assessmentRecords     = res.data.response.docs;
- 
+
             });
             return $q.all([qRecords]).catch(function(res){
 
@@ -169,7 +169,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 console.error($scope.error);
 
             }).finally(function(){
-                   
+
                 delete $scope.loading;
             });
         }
@@ -284,19 +284,25 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             // freetext
 
             if(options.freetext)
-            {
-                var escapedWords = _(_.words(options.freetext)).map(function(w){
-                    return solr.escape(w)+"*";
-                }).value();
+              {
+                  var escapedWords = null;
+                  options.freetext = options.freetext.trim();
 
-                query.push([
-                    'title_t:('       +escapedWords.join(' AND ')+ ')',
-                    'description_t:(' +escapedWords.join(' AND ')+ ')',
-                    'text_EN_txt:('   +escapedWords.join(' AND ')+ ')',
-                    'title_EN_t:('    +escapedWords.join(' AND ')+ ')',
-                    'summary_EN_t:('  +escapedWords.join(' AND ')+ ')',
-                ]);
-            }
+
+
+
+                        escapedWords = _(_.words(options.freetext)).map(function(w){
+                            return solr.escape(w);
+                        }).value();
+                        query.push([
+                            'title_t:("'       +escapedWords.join(' ')+ '")',
+                            'description_t:("' +escapedWords.join(' ')+ '")',
+                            'text_EN_txt:("'   +escapedWords.join(' ')+ '")',
+                            'title_EN_t:("'    +escapedWords.join(' ')+ '")',
+                            'summary_EN_t:("'  +escapedWords.join(' ')+ '")',
+                        ]);
+
+              }
 
             // AND / OR everything
 
@@ -311,7 +317,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         {
             currentPage = currentPage || 0;
 
-            var pageCount = Math.ceil(Math.max($scope.recordCount||0, 0) / pageSize);
+            var pageCount = Math.ceil(Math.max($scope.recordCount||0, 0) / Number($scope.pageSize));
             var pages     = [];
 
             for (var i = 0; i < pageCount; i++) {
@@ -329,7 +335,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //======================================================
         function edit(record)
         {
-            $location.url(navigation.editUrl(record.schema_s, record.identifier_s, $scope.qs.type));        
+            $location.url(navigation.editUrl(record.schema_s, record.identifier_s, $scope.qs.type));
         }
 
 

@@ -294,10 +294,11 @@
 		<div ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated) || hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated) ||
 					  hasValue(document.domesticExpendituresData.provincialDirectlyRelated) || hasValue(document.domesticExpendituresData.provincialIndirectlyRelated) ||
 					  hasValue(document.domesticExpendituresData.municipalDirectlyRelated)  || hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)  ||
-				      hasValue(document.domesticExpendituresData.extraDirectlyRelated)      || hasValue(document.domesticExpendituresData.extraIndirectlyRelated)      ||
+				    hasValue(document.domesticExpendituresData.extraDirectlyRelated)      || hasValue(document.domesticExpendituresData.extraIndirectlyRelated)      ||
 					  hasValue(document.domesticExpendituresData.privateDirectlyRelated)    || hasValue(document.domesticExpendituresData.privateIndirectlyRelated)    ||
 					  hasValue(document.domesticExpendituresData.otherDirectlyRelated)      || hasValue(document.domesticExpendituresData.otherIndirectlyRelated)      ||
-					  hasValue(document.domesticExpendituresData.ilcDirectlyRelated)        || hasValue(document.domesticExpendituresData.ilcIndirectlyRelated)">
+					  hasValue(document.domesticExpendituresData.ilcDirectlyRelated)        || hasValue(document.domesticExpendituresData.ilcIndirectlyRelated) ||
+						document.domesticExpendituresData.sourcesAdditionalComments  ">
 
 			<label>4.2 Information on sources and categories</label>
 
@@ -347,6 +348,10 @@
 					</tr>
 				</tbody>
 			</table>
+			<div ng-show="document.domesticExpendituresData.sourcesAdditionalComments">
+				<label>Additional methodological information, including sources of data</label>
+				<div>{{document.domesticExpendituresData.sourcesAdditionalComments| lstring:locale}}</div>
+			</div>
 		</div>
 
 		<div ng-show="document.domesticExpendituresData.domesticCollectiveAction">

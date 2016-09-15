@@ -481,11 +481,11 @@
 			<tbody>
 				<tr class="active">
 					<td><strong>Expected funding gap</strong></td>
-					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getFundingGapYear(estimate.year)}}<strong></td>
+					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getFundingGapYear(estimate.year) | number:0}}<strong></td>
 				</tr>
 				<tr class="active">
 					<td><strong>Domestic sources (total)<strong></td>
-					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year)}}<strong></td>
+					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year)| number:0}}<strong></td>
 				</tr>
 
 				<tr ng-repeat="source in document.nationalPlansData.domesticSources|orderBy:'name' track by $index">
@@ -500,7 +500,7 @@
 				</tr>
 				<tr class="active">
 					<td><strong>International sources (total)<strong></td>
-					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year)}}<strong></td>
+					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year) | number:0}}<strong></td>
 				</tr>
 				<tr ng-repeat="source in document.nationalPlansData.internationalSources|orderBy:'name' track by $index">
 					<td>{{source.name | lstring:locale}}</td>
@@ -513,7 +513,7 @@
 					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
 				<tr class="active">
 					<td><strong>Remaining gap<strong></td>
-					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)}}<strong></td>
+					<td ng-repeat="estimate in document.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && document.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)| number:0}}<strong></td>
 				</tr>
 			</tbody>
 		</table>

@@ -14,7 +14,14 @@
 </head>
 <body ng-controller="TemplateController" ng-class="{'home-page':homePage}">
 
-<iframe id="authenticationFrame" src="https://accounts.cbd.int/app/authorize.html" style="display:none" onload="(event.target || event.srcElement).ready = true"></iframe>
+<iframe id="authenticationFrame" style="display:none" onload="(event.target || event.srcElement).ready = true"></iframe>
+<script>
+    var domain = document.location.hostname.replace(/[^\.]+\./, '');
+
+    if(domain=='localhost') domain = 'cbddev.xyz';
+
+    document.getElementById('authenticationFrame').src = 'https://accounts.'+domain+'/app/authorize.html';
+</script>
 
 <nav class="navbar navbar-cbd navbar-default bg-cbdgreen navbar-static-top" id="anchorTop" ng-class="{'bg-cbdgreen': !test_env, 'bg-orange': test_env}">
         <div class="alert alert-info" style="margin-bottom: 0px; text-align: center" ng-if="showEmailVerificationMessage" ng-cloak>

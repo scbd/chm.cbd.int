@@ -4,6 +4,10 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 	app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", "$timeout", function($q, $rootScope, $window, $document, $timeout) {
 
+		var ISSUER = 'https://' + document.location.hostname.replace(/[^\.]+\./, 'accounts.');
+
+		if(document.location.hostname=='localhost') ISSUER = 'https://accounts.cbddev.xyz';
+
 		var pToken;
 		//============================================================
 		//
@@ -33,8 +37,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 			{
 				$timeout.cancel(unauthorizedTimeout);
 
-				if(event.origin!='https://accounts.cbd.int')
-					return;
+				if(event.origin!=ISSUER) return;
 
 				var message = JSON.parse(event.data);
 
@@ -71,7 +74,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 			});
 
-			authenticationFrame.contentWindow.postMessage(JSON.stringify({ type : 'getAuthenticationToken' }), 'https://accounts.cbd.int');
+			authenticationFrame.contentWindow.postMessage(JSON.stringify({ type : 'getAuthenticationToken' }), ISSUER);
 
 			return pToken;
 		}
@@ -94,7 +97,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 					authenticationEmail : email
 				};
 
-				authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), 'https://accounts.cbd.int');
+				authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), ISSUER);
 			}
 
 			if(email) {

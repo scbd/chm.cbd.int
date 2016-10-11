@@ -122,13 +122,136 @@
 						<div  ng-show="document.targetPursued">
 							<div class="section section-default">
 								<div class="section-header" style="border-bottom: 1px solid #ddd">
-									<h3>National Targets</h3>
+									<h3>National Target</h3>
 								</div>
 								<div class="section-body">
 									<div class="row">
 										<div class="col-md-12">
-											<span ng-model="document.nationalTargets" reference-selector schema="nationalTarget" government="document.government" type="checkbox"
-												disabled="!document.government"></span>
+											<div class="km-control-group" name="title" required caption="Title">
+												<div class="help-block">
+													Please use the official title, if available.
+													<a rm-popover data-content="Please enter the wording for your country’s national target in one of the six official languages of the United
+												Nations. Please include the national target’s complete wording, including its number if one exists. This field,
+												and the remaining fields in this section, should be filled for each of your country’s national targets." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
+												</div>
+												<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="km-control-group" name="rationale" required caption="Rationale for the national target">
+												<div class="help-block">
+													Please provide the rationale for the national target. This could include what national challenges the target is attempting to address, how the target relates to the Aichi Biodiversity Targets or the Strategic Plan for Biodiversity or reasons for differences
+													between the relevant Aichi Biodiversity Target(s) and the national target. Parties may also wish to indicate if this national target is related or linked to other international or regional processes, such as other multilateral environmental
+													agreements. Parties may also wish to comment on any national compliance mechanisms associated with the target. The information entered here is meant to provide the national context for the target. Your country’s national biodiversity strategy
+													and action plan may contain part of this information.
+												</div>
+												<div km-textbox-ml required name="rationale" ng-model="document.summary" locales="document.header.languages"></div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="km-control-group" name="jurisdiction" caption="Level of application">
+												<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Please select one option" watch-items items="options.jurisdictions"></div>
+											</div>
+										</div>
+										<div class="col-md-8">
+											<div class="km-control-group" name="jurisdictionInfo" caption="Please indicate area concerned" ng-show="document.jurisdiction && document.jurisdiction.identifier!='7437F880-7B12-4F26-AA91-CED37250DD0A'">
+												<div km-textbox-ml name="jurisdictionInfo" ng-model="document.jurisdictionInfo" locales="document.header.languages" placeholder=""></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="section section-default">
+								<div class="section-header" style="border-bottom: 1px solid #ddd">
+									<h3>Relevance of the national targets to the Aichi Biodiversity Targets</h3></div>
+								<div class="section-body">
+
+									<div class="km-control-group" required name="picGranted" caption="Confirmation if the national target is related to an Aichi Biodiversity Target">
+										<span class="help-block">If the national target is not related to an Aichi Biodiversity Target, please tick this box and provide information indicating how the target relates to the Strategic Plan for Biodiversity 2011-2020 or to other issues addressed under the Convention on Biological Diversity. For example, the national target may be relevant to the Vision or Mission of the Strategic Plan or to one of its Strategic Goals. Alternatively, the national target may be related to one of the objectives of the Convention or to one of its programmes of work.</span><br/>
+										<button data-toggle="buttons-checkbox" type="button" ng-class="{'btn-primary':document.aichiTargetNotApplicable==false, 'btn-default': document.aichiTargetNotApplicable}" class="btn btn-default" ng-click="document.aichiTargetNotApplicable=false">Yes</button>
+										<button data-toggle="buttons-checkbox" type="button" ng-class="{'btn-primary':document.aichiTargetNotApplicable, 'btn-default': document.aichiTargetNotApplicable==false}" class="btn btn-default" ng-click="document.aichiTargetNotApplicable=true">No</button>
+									</div>
+									<div class="row" ng-show="document.aichiTargetNotApplicable==false">
+										<div class="col-md-12">
+											<div class="km-control-group" required name="aichiTarget" caption="Main related Aichi Biodiversity Targets ">
+												<div km-select multiple required name="aichiTarget" ng-model="document.aichiTargets" placeholder="Please select Aichi Biodiversity Targets" items="options.aichiTargets()"></div>
+											</div>
+										</div>
+									</div>
+									<div class="row" ng-show="document.aichiTargetNotApplicable==false">
+										<div class="col-md-12">
+											<div class="km-control-group" required name="relatedAichiTarget" caption="Other related Aichi Biodiversity Targets ">
+												<div km-select multiple required name="relatedAichiTarget" ng-model="document.relatedAichiTargets" placeholder="Please select other Aichi Biodiversity Targets" items="options.aichiTargets()"></div>
+											</div>
+										</div>
+									</div>
+									<div class="row" ng-show="document.aichiTargetNotApplicable">
+										<div class="col-md-12">
+											<div class="km-control-group" required name="aichiTargetNotApplicableReason" caption="Please explain why national target has no corresponding Aichi Biodiversity Target or relates to other parts of the Strategic Plan for Biodiversity">
+												<div km-textbox-ml required name="aichiTargetNotApplicableReason" ng-model="document.aichiTargetNotApplicableReason" locales="document.header.languages" placeholder="" rows="3"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="section section-default">
+								<div class="section-header">
+									<h3>Main relevant document(s)</h3>
+								</div>
+								<div class="section-body">
+									<div class="row  bottom-spacing">
+										<div class="col-md-12">
+											<div class="km-control-group" name="documentText" caption="Relevant information">
+												<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
+											</div>
+										</div>
+									</div>
+									<div class="row  bottom-spacing">
+										<div class="col-md-12">
+											<div class="km-control-group" name="documentLinks" caption="Relevant websites, links, and files">
+												<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="section section-default">
+								<div class="section-header">
+									<h3>Other relevant information</h3>
+								</div>
+								<div class="section-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="km-control-group" name="relevantInformation" caption="Additional Information">
+												<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+												<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+												<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="km-control-group" name="notes">
+												<h3>Notes</h3>
+												<span class="help-block">
+												The field “Notes” is for personal reference and can be seen only when the record is being edited.
+											</span>
+												<div km-notes name="notes" ng-model="document.notes"></div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -167,9 +290,6 @@
 				<div class="panel panel-default" ng-repeat="implementationMeasure in document.implementationMeasures">
 					<div class="panel-header clearfix">
 						<h3>Implementation measure {{$index+1}}
-							<span ng-if="implementationMeasure.nationalTarget">
-								for national target {{getNationalTargetTitle(implementationMeasure.nationalTarget.identifier)|lstring:locale}}
-							</span>
 							<div class="pull-right" style="padding-right:10px"> 	
 								<a ng-href="#" ng-click="removeImplementationMeasure(measure)"><i class="fa fa-remove" aria-hidden="true"></i></a>	
 								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>	
@@ -201,7 +321,7 @@
 										Please indicate the effectiveness of the measure in bringing about the change anticipated. Anticipated changes could include, among other things, changes to the status and trends of biodiversity, changes to the drivers of biodiversity loss, changes in
 										behaviour, or changes in policies.
 									</div>
-									<div km-term-radio name="implementationMeasureAssessment" ng-model="implementationMeasure.assessment" terms="options.assessment()" description="true" binding-type="term" ng-click="save()" required></div>
+									<div km-term-radio name="implementationMeasureAssessment" ng-model="implementationMeasure.assessment" terms="options.assessmentx()" description="true" binding-type="term" ng-click="save()" required></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -286,9 +406,6 @@
 				<div class="panel panel-default" ng-repeat="progressAssessment in document.progressAssessments">
 					<div class="panel-header clearfix">
 						<h3>Progress Assessment for AICHI target {{progressAssessment.aichiTarget | term:locale}}
-							<span ng-if="progressAssessment.nationalTarget">
-								of national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
-							</span>
 							<!--<div class="pull-right" style="padding-right:10px"> 	
 								<a ng-href="#" ng-click="removeprogressAssessment(measure)"><i class="fa fa-remove" aria-hidden="true"></i></a>	
 								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>	
@@ -311,7 +428,7 @@
 										For the selected national target, please indicate the current level of progress that has been made towards its attainment using the categories below. The categories below are the same as those used in the fourth edition of the Global Biodiversity Outlook.
 										The assessment should take into account the year established as the deadline for the national target.
 									</div>
-									<div km-term-radio name="progressAssessmentCategory" ng-model="progressAssessment.category" terms="options.categoryProgress()" description="true" binding-type="term" ng-click="save()" required></div>
+									<div km-term-radio name="progressAssessmentCategory" ng-model="progressAssessment.category" terms="options.progressAssessmentCategories()" description="true" binding-type="term" ng-click="save()" required></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -345,7 +462,7 @@
 										In recommendation XIX/4 , SBSTTA took note of a proposed list of generic and specific indicators for the Strategic Plan for Biodiversity 2011-2020 identified by the Ad Hoc Technical Expert Group. In assessing progress towards their national
 										targets, countries may wish to make use of this list of indicators, if appropriate. Further information on indicators, including tools for national indicator development, is available from the Biodiversity Indicators Partnership (http://www.bipindicators.net/).
 									</div>
-									<div km-textbox-ml required name="indicator" ng-model="progressAssessment.indicator" locales="document.header.languages"  placeholder="Please select indicators used in this assessment"></div>
+									<div km-select multiple required name="indicator" ng-model="progressAssessment.indicator" placeholder="Please select indicators used in this assessment" items="options.indicators()"></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -361,7 +478,7 @@
 									<div class="help-block">
 										Please indicate your country’s level of confidence in the assessment undertaken above
 									</div>
-									<div km-select  name="progressAssessmentConfidenceLevel" ng-model="progressAssessment.confidenceLevel" placeholder="Please select level of confidence of the above assessment" items="options.categoryProgress()"></div>
+									<div km-select multiple required name="progressAssessmentConfidenceLevel" ng-model="progressAssessment.confidenceLevel" placeholder="Please select level of confidence of the above assessment" items="options.confidenceLevels()"></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -386,7 +503,7 @@
 									<div class="help-block">
 										Please indicate the adequacy of the national monitoring systems in place for this national target
 									</div>
-									<div km-select multiple required name="adequacy" ng-model="progressAssessment.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacyMonitoring()"></div>
+									<div km-select multiple required name="adequacy" ng-model="progressAssessment.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacies()"></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -479,28 +596,24 @@
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row" ng-show="document.gspcNationalContribution.hasGSPCTargets">
 							<div class="col-md-12">
-								<div class="km-control-group" name="plantConservationNetwork" required caption="Please provide information on any active networks for plant conservation present in your country.">
+								<div class="km-control-group" name="gspcTargetDescription" required caption="Please provide information on any active networks for plant conservation present in your country.">
 									<div class="help-block">
 										Please list any plant conservation groups or botanical garden networks working on plant conservation.
 									</div>
-									<div km-textbox-ml required name="plantConservationNetwork" ng-model="document.gspcNationalContribution.plantConservationNetwork" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml required name="gspcTargetDescription" ng-model="document.gspcNationalContribution.gspcTargetDescription" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row" ng-show="document.gspcNationalContribution.hasGSPCTargets">
 							<div class="col-md-12">
-								<div class="km-control-group" name="implemantationMeasures" required 
-								caption="Please describe the major measures taken by your country for the implementation of the Global Strategy for Plant Conservation. 
-								(Parties can report on actions taken to implement these targets if they are not covered in sections II, III or IV)">
+								<div class="km-control-group" name="gspcTargetDescription" required caption="Please provide information on any active networks for plant conservation present in your country.">
 									<div class="help-block">
-										If your country has adopted national targets or similar commitments related to the targets contained in the
-										Global Strategy for Plant Conservation, please describe the actions taken and their contribution towards the
-										attainment of the GSPC.
+										Please list any plant conservation groups or botanical garden networks working on plant conservation.
 									</div>
-									<div km-textbox-ml required name="implemantationMeasures" ng-model="document.gspcNationalContribution.implemantationMeasures" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml required name="gspcTargetDescription" ng-model="document.gspcNationalContribution.gspcTargetDescription" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 						</div>
@@ -548,7 +661,7 @@
 				<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 			</div>
 
-			<view-national-report-6 ng-model="reviewDocument" locale="review.locale" link-target="_blank"></view-national-report-6>
+			<view-national-report ng-model="reviewDocument" locale="review.locale" link-target="_blank"></view-national-report>
 		</div>
 
 		<div class="row" style="padding-bottom:30px;">

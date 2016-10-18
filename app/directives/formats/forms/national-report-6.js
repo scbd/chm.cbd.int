@@ -1,6 +1,6 @@
-define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', //'../views/national-report-6',
+define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
  'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 
- 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], 
+ 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector'], 
 function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
@@ -81,6 +81,15 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			                aichiTargets  : function()  { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							gspcTargets   : function()  { return $http.get("/api/v2013/thesaurus/domains/8D405050-50AF-45EA-95F7-A31A11196424/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							
+							assessment   		: function()  { return $http.get("/api/v2013/thesaurus/domains/8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0/terms",{ cache: true }).then(function(o){ return o.data; }); },
+							categoryProgress   	: function()  { return $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms",{ cache: true }).then(function(o){ return o.data; }); },
+							confidenceLevel   	: function()  { return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms",{ cache: true }).then(function(o){ return o.data; }); },
+							adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },
+							//8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0 assessment
+							//EF99BEFD-5070-41C4-91F0-C051B338EEA6//Category of progress towards the implementation of the selected target:
+							//B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D//Level of confidence of the above assessment
+							//23643DAC-74BB-47BC-A603-123D20EAB824 //adequacy monitoring
+							//EF99BEFD-5070-41C4-91F0-C051B338EEA6//Category of progress towards the target of the Global Strategy for Plant Conservation at the
 			            };
 						if(!doc.nationalContributions){
 							$q.when($scope.options.aichiTargets())
@@ -293,6 +302,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			//
 			//==================================
 			$scope.defaultGovernment = function() {
+
 				var qsGovernment = $location.search().government;
 
 				if (qsGovernment)
@@ -421,15 +431,76 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				
 				if(!$scope.document || newVal === undefined)
 					return;
-		
 				$scope.document.progressAssessments = [];
-				
-				var aichiTargets = _.pluck($scope.document.aichiTargets, 'identifier');				
-				_.map(aichiTargets, function(target){
-						$scope.document.progressAssessments.push({ aichiTarget : { identifier : target }});
-				});
+				if(newVal===false){					
+					//nationalContributions contains preloaded aichiTargets just use instead of reloading
+					var aichiTargets = _.pluck($scope.document.nationalContributions, 'identifier');				
+					_.map(aichiTargets, function(target){
+							$scope.document.progressAssessments.push({ aichiTarget : { identifier : target }});
+					});
+				}
 			});
+
+			$scope.$watch('document.nationalTargets', function(newVal, old){
+				
+				if(!$scope.document)
+					return;
+				
+				var existingAssesments = angular.copy($scope.document.progressAssessments||[]);
+				var existingMeasures   = angular.copy($scope.document.implementationMeasures||[]);
+
+				$scope.document.progressAssessments 	= _.filter(existingAssesments, 	function(assessment){ return !assessment.nationalTarget});
+				$scope.document.implementationMeasures	= _.filter(existingMeasures, 	function(measure){ return !measure.nationalTarget});
+
+				var nationalTargets=[];
+				_.each($scope.document.nationalTargets, function (mod) {
+					if(mod.identifier)
+						nationalTargets.push(storage.documents.get(mod.identifier));
+				});					
+
+				$q.all(nationalTargets)
+				.then(function(results){
+					
+					var documents = _.map(results, function(result){ return result.data || {}; });
+					$scope.selectedNationalTargets = documents;
+
+					_.each(documents, function(nationalTarget){
+
+						_.each(nationalTarget.aichiTargets, function(target){
+								
+							var existingAssesment = _.find(existingAssesments, function(progress){
+														return progress.aichiTarget.identifier == target.identifier 
+																&& progress.nationalTarget == nationalTarget.identifier;
+													});
+							if(existingAssesment)
+								$scope.document.progressAssessments.push(existingAssesment);
+							else
+								$scope.document.progressAssessments.push({ aichiTarget : target, nationalTarget : { identifier : nationalTarget.header.identifier }   });
+
+							var existingMeasure = _.find(existingMeasures, function(progress){
+														return progress.aichiTarget.identifier == target.identifier 
+																&& progress.nationalTarget == nationalTarget.identifier;
+													});
+							if(existingMeasure)
+								$scope.document.implementationMeasures.push(existingMeasure);
+							else
+								$scope.document.implementationMeasures.push({ aichiTarget : target, nationalTarget : { identifier : nationalTarget.header.identifier } });
+						
+						});
+					});
+				});
+			}, true);
 			
+			$scope.getNationalTargetTitle = function(identifier){
+
+				if($scope.selectedNationalTargets){
+					var nationalTarget = _.find($scope.selectedNationalTargets, function(target){
+											return target && target.header.identifier == identifier; 
+										 });
+					if(nationalTarget)
+						return nationalTarget.title
+				}	
+			}
         }
     };
 }]);

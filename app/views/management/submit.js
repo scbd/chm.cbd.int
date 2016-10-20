@@ -4,6 +4,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
      function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr,realmConfig) {
 
         $scope.schemasList = [
+            { identifier: 'nationalReport6'            ,public:0, draft:0, workflow:0 },
             { identifier: 'nationalReport'             ,public:0, draft:0, workflow:0 },
             { identifier: 'nationalStrategicPlan'      ,public:0, draft:0, workflow:0 },
             { identifier: 'otherReport'                ,public:0, draft:0, workflow:0 },
@@ -98,7 +99,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
             var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource',
             'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
-            'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction'];
+            'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction', 'nationalReport6'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
 

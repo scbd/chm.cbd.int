@@ -1,11 +1,11 @@
 define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
  'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 
- 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector'], 
+ 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr"],
 function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
- "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", 
- function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route) {
+ "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm",
+ function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, thesaurus, guid, $route, solr, realm) {
     return {
         restrict: 'E',
         template : template,
@@ -14,13 +14,14 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
         scope: {},
         link: function ($scope) {
 
+			var targetAssessments = [];
             $scope.status = "";
             $scope.error = null;
             $scope.tab = "general";
             $scope.document = null;
             $scope.review = { locale: "en" };
 			$scope.qs = $location.search();
-
+			$scope.user
 			// Ensure user as signed in
 			navigation.securize();
 
@@ -35,12 +36,11 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				$scope.status = "loading";
 
 				var qs = $route.current.params;
-				var schema  = "nationalReport";
+				var schema  = "nationalReport6";
 				var reportType  = qs.type;
 				var promise = null;
 				var keepTypeOptions= null;
 				var rmTypeOptions= null;
-
 
 				if(qs.uid) { // Load
 					promise = editFormUtility.load(qs.uid, schema);
@@ -65,7 +65,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 								languages: ["en"]
 							},
 							government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
-							document : { targetPursued : undefined }
+							targetPursued : undefined 
 						};
 							
 					});
@@ -84,12 +84,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 							assessment   		: function()  { return $http.get("/api/v2013/thesaurus/domains/8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							categoryProgress   	: function()  { return $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							confidenceLevel   	: function()  { return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms",{ cache: true }).then(function(o){ return o.data; }); },
-							adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },
-							//8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0 assessment
-							//EF99BEFD-5070-41C4-91F0-C051B338EEA6//Category of progress towards the implementation of the selected target:
-							//B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D//Level of confidence of the above assessment
-							//23643DAC-74BB-47BC-A603-123D20EAB824 //adequacy monitoring
-							//EF99BEFD-5070-41C4-91F0-C051B338EEA6//Category of progress towards the target of the Global Strategy for Plant Conservation at the
+							adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },							
 			            };
 						if(!doc.nationalContributions){
 							$q.when($scope.options.aichiTargets())
@@ -123,51 +118,6 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			//==================================
 			//
 			//==================================
-			$scope.hasAdoptionDate = function (document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.status && (
-					document.status.identifier == "1C37E358-5295-46EB-816C-0A7EF2437EC9" ||
-					document.status.identifier == "851B10ED-AE62-4F28-B178-6D40389CC8DB");
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.hasApprovedStatus = function (document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.status && document.status.identifier == "851B10ED-AE62-4F28-B178-6D40389CC8DB";
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.hasApprovedStatusInfo = function (document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.approvingBody && (
-					document.approvingBody.identifier == "D3A4624E-21D9-4E49-953F-529734538E56" ||
-					document.approvingBody.identifier == "E7398F2B-FA36-4F42-85C2-5D0044440476" ||
-					document.approvingBody.identifier == "905C1F7F-C2F4-4DCE-A94E-BE6D6CE6E78F");
-			};
-
-			//==================================
-			//
-			//==================================
-			$scope.isJurisdictionSubNational = function(document) {
-
-				document = document || $scope.document;
-
-				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
-			};
-
-			//==================================
-			//
-			//==================================
 			$scope.getCleanDocument = function(document) {
 				document = document || $scope.document;
 
@@ -178,68 +128,12 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 
 				if (!document)
 					return $q.when(true);
-
-				if (!$scope.isJurisdictionSubNational(document))
-					document.jurisdictionInfo  = undefined;
-
-				if (/^\s*$/g.test(document.notes))
-					document.notes = undefined;
-				if (!$scope.hasAdoptionDate(document)) {
-					document.adoptionDate      = undefined;
-				}
-				if (!$scope.hasApprovedStatus(document)) {
-					document.approvedStatus    = undefined;
-					document.approvingBody     = undefined;
-					document.approvingBodyInfo = undefined;
-				}
-
-				if (!$scope.hasApprovedStatusInfo(document)) {
-					document.approvingBodyInfo = undefined;
-				}
+				
+				if(_.isEmpty(document.progressAssessments))
+					document.progressAssessments = undefined;
 
 				return document;
 			};
-
-			//==================================
-			//
-			//==================================
-			$scope.loadRecords = function(identifier, schema) {
-
-				if (identifier) { //lookup single record
-
-					return storage.documents.get(identifier, { info: "" })
-						.then(function(r) {
-							return r.data;
-						})
-						//otherwise
-						.then(null, function(e) {
-							if (e.status != 404)
-								throw e;
-
-							return storage.drafts.get(identifier, { info: "" })
-								.then(function(r) {
-									return r.data;
-								});
-						});
-				}
-				else { //Load all record of specified schema;
-
-					var sQuery = "type eq '" + encodeURI(schema) + "'";
-
-					return $q.all([storage.documents.query(sQuery, null, { cache: true }),
-								   storage.drafts.query(sQuery, null, { cache: true })])
-						.then(function(results) {
-							var qDocs = results[0].data.Items;
-							var qDrafts = results[1].data.Items;
-							var qUids = _.pluck(qDocs, "identifier");
-
-							return _.union(qDocs, _.filter(qDrafts, function(draft) {
-								return qUids.indexOf(draft.identifier);
-							}));
-						});
-				}
-			};
-
 
 			//======================================================================
 			//======================================================================
@@ -334,7 +228,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			//==================================
 			$scope.onPostWorkflow = function() {
                 $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
-                $location.url("/submit/nationalReport?type=" + $scope.qs.type);
+                $location.url("/submit/nationalReport6");
 			};
 
 			//==================================
@@ -343,7 +237,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
                 $rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
-                $location.url("/submit/nationalReport?type=" + $scope.qs.type);
+                $location.url("/submit/nationalReport6");
 			};
 
 			//==================================
@@ -358,7 +252,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			//==================================
 			$scope.onPostClose = function() {
                 $rootScope.$broadcast("onPostClose", "Record closed.");
-                $location.url("/submit/nationalReport?type=" + $scope.qs.type);
+                $location.url("/submit/nationalReport6");
 			};
 
 
@@ -465,28 +359,33 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					$scope.selectedNationalTargets = documents;
 
 					_.each(documents, function(nationalTarget){
-
-						_.each(nationalTarget.aichiTargets, function(target){
 								
-							var existingAssesment = _.find(existingAssesments, function(progress){
-														return progress.aichiTarget.identifier == target.identifier 
-																&& progress.nationalTarget == nationalTarget.identifier;
-													});
-							if(existingAssesment)
-								$scope.document.progressAssessments.push(existingAssesment);
-							else
-								$scope.document.progressAssessments.push({ aichiTarget : target, nationalTarget : { identifier : nationalTarget.header.identifier }   });
-
-							var existingMeasure = _.find(existingMeasures, function(progress){
-														return progress.aichiTarget.identifier == target.identifier 
-																&& progress.nationalTarget == nationalTarget.identifier;
-													});
-							if(existingMeasure)
-								$scope.document.implementationMeasures.push(existingMeasure);
-							else
-								$scope.document.implementationMeasures.push({ aichiTarget : target, nationalTarget : { identifier : nationalTarget.header.identifier } });
-						
+						var existingAssesment = _.find(existingAssesments, function(progress){
+													return  progress.nationalTarget.identifier == nationalTarget.identifier;
+												});
+						if(!existingAssesment)
+							existingAssesment = { nationalTarget : { identifier : nationalTarget.header.identifier }   };						
+												
+						$q.when(loadReferenceRecords({schema:'nationalAssessment',nationaTargetId:nationalTarget.header.identifier, rows:1}))
+						.then(function(result){
+							if(result && result.length>0){
+								existingAssesment.assessment = {identifier : result[0].identifier_s};
+								if(!_.find(targetAssessments, function(progress){return  progress.identifier_s == existingAssesment.identifier;})){
+									targetAssessments.push(result[0]);
+								}
+							}
+							$scope.document.progressAssessments.push(existingAssesment);
+							
 						});
+						
+						var existingMeasure = _.find(existingMeasures, function(progress){
+													return progress.nationalTarget.identifier == nationalTarget.identifier;
+												});
+						if(!existingMeasure)
+							existingMeasure = { nationalTarget : { identifier : nationalTarget.header.identifier } }
+						
+						$scope.document.implementationMeasures.push(existingMeasure);
+						
 					});
 				});
 			}, true);
@@ -500,6 +399,69 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					if(nationalTarget)
 						return nationalTarget.title
 				}	
+			}
+
+			$scope.getAssessmentInfo = function(assessment, field){
+				var existingAssesment = _.find(targetAssessments, function(progress){
+													return  progress.identifier_s == assessment.identifier;
+												});
+				if(existingAssesment)
+					return existingAssesment[field];
+
+			}
+			function loadReferenceRecords(options) {
+				
+				options = _.assign({
+					schema    : options.schema,
+					target    : options.nationaTargetId,
+					latest    : true,
+					rows	  : 500
+				}, options || {});
+
+				var query  = [];
+
+				// Add Schema
+				query.push("schema_s:" + solr.escape(options.schema));
+
+				if(options.target)
+					query.push("nationalTarget_s:"+solr.escape(options.target));
+
+				// Apply ownership
+				query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
+
+				// Apply ownership
+				query.push(_.map(($rootScope.user||{}).userGroups, function(v){
+					return "_ownership_s:"+solr.escape(v);
+				}));
+
+				if(options.latest!==undefined){
+					query.push("_latest_s:" + (options.latest ? "true" : "false"));
+				}
+
+				// AND / OR everything
+
+				var query =  solr.andOr(query);
+				var qsParams =
+				{
+					"q"  : query,
+					"fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, " +
+						"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, jurisdiction_*, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+					"sort"  : "updatedDate_dt desc",
+					"start" : 0,
+					"rows"   : options.rows,
+				};
+
+				return $http.get("/api/v2013/index", { params : qsParams }).then(function(res) {
+
+					return _.map(res.data.response.docs, function(v){
+						return _.defaults(v, {
+							schemaName     : solr.lstring(v, "schema_*_t",     "schema_EN_t",     "schema_s"),
+							title          : solr.lstring(v, "title_*_t",      "title_EN_t",      "title_t"),
+							summary        : solr.lstring(v, "summary_*_t",    "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t")
+						});
+					});
+
+				});
 			}
         }
     };

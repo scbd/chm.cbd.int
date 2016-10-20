@@ -160,7 +160,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 		//==============================
 		function LEGACY_user() {
 
-		    console.warn("authentication.user() is DEPRECATED. Use: getUser()");
+		    // console.warn("authentication.user() is DEPRECATED. Use: getUser()");
 
 			return $rootScope.user;
 		}

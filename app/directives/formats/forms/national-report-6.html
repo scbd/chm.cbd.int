@@ -67,7 +67,6 @@
 			</div>
 		</div>
 
-		{{document}}
 		<form name="editForm" style="margin-top:10px">
 			<div km-tab="general">
 
@@ -102,12 +101,12 @@
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<div class="km-control-group" required name="targetPursued" required>
-											<input type="radio" required name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="true"/> My country has adopted national biodiversity targets or equivalent commitments in line with the Strategic Plan for Biodiversity 2011-2020
+										<div class="km-control-group"  name="targetPursued" >
+											<input type="radio"  name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="true"/> My country has adopted national biodiversity targets or equivalent commitments in line with the Strategic Plan for Biodiversity 2011-2020
 											and the Aichi Targets
 											<a rm-popover data-content="If your country has adopted national biodiversity targets or equivalent commitments in its NBSAP or similar policy documents, please tick this box." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
 											<br/>
-											<input type="radio" required name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="false"/> My country has not adopted national biodiversity targets and is reporting progress using the Aichi Biodiversity Targets. (Move to section
+											<input type="radio"  name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="false"/> My country has not adopted national biodiversity targets and is reporting progress using the Aichi Biodiversity Targets. (Move to section
 											II. In section III, the Aichi Biodiversity Targets should be considered as the national targets and progress should be assessed towards their achievement in the national context.)
 											<a rm-popover data-content="If your country has not (yet) adopted national biodiversity targets in line with the Aichi Biodiversity Targets,
 									please tick this box. In section II your country will be asked to link its implementation measures to the Aichi
@@ -116,7 +115,21 @@
 
 										</div>
 									</div>
-								</div>								
+								</div>		  									
+								<div class="row">
+									<div class="col-md-12">		  	
+										<div class="km-control-group" name="title"  caption="Title">												
+											<div km-textbox-ml  name="title" ng-model="document.title" locales="document.header.languages"></div>		
+										</div>		
+									</div>		
+								</div>									 
+								<div class="row">		
+									<div class="col-md-12">		
+										<div class="km-control-group" name="summary"  caption="Summary of sixth national report">
+											<div km-textbox-ml  name="summary" ng-model="document.summary" locales="document.header.languages" rows="3"></div>		
+										</div>		
+									</div>		
+								</div>							
 							</div>
 						</div>
 						<div  ng-show="document.targetPursued">
@@ -170,47 +183,47 @@
 							<span ng-if="implementationMeasure.nationalTarget">
 								for national target {{getNationalTargetTitle(implementationMeasure.nationalTarget.identifier)|lstring:locale}}
 							</span>
-							<div class="pull-right" style="padding-right:10px"> 	
+							<div class="pull-right" style="padding-right:10px" ng-if="!implementationMeasure.nationalTarget"> 	
 								<a ng-href="#" ng-click="removeImplementationMeasure(measure)"><i class="fa fa-remove" aria-hidden="true"></i></a>	
-								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>	
-								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a>	
+								<!--<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>	
+								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a>	-->
 							</div>
 						</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="implementationMeasureDescription" required caption="Describe a measure taken to contribute to the implementation of your country’s national biodiversity strategy and action plan ">
+								<div class="km-control-group" name="implementationMeasureDescription"  caption="Describe a measure taken to contribute to the implementation of your country’s national biodiversity strategy and action plan ">
 									<div class="help-block">
 										This template should be replicated for each main measure or category of measures taken. Parties should indicate a main measure that has been taken to implement their national biodiversity strategy and action plan and/or to attain their national biodiversity
 										targets. These could include policies, legislation and/or programmes and initiatives. Parties may also wish to report on the measures taken by indigenous peoples and local communities and stakeholders. When describing the measure, Parties may
 										wish to provide information on the issue(s) the measure is attempting to address, actions planned and implemented, mainstreaming, timeframes and actors involved. Parties may also wish to indicate if the measure taken is linked to other international
 										processes, such as other multilateral environmental agreements and/or regional processes.
 									</div>
-									<div km-textbox-ml required name="implementationMeasureDescription" ng-model="implementationMeasure.description" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="implementationMeasureDescription" ng-model="implementationMeasure.description" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" required name="implementationMeasureAichiTarget" caption="For the implementation measure, please indicate to which national target or targets it contributes ">
-									<div km-select required name="implementationMeasureAichiTarget" ng-model="implementationMeasure.aichiTarget" placeholder="Please select Aichi Biodiversity Targets" items="options.aichiTargets()"></div>
+							<div class="col-md-12" ng-if="!implementationMeasure.nationalTarget">
+								<div class="km-control-group"  name="implementationMeasureAichiTarget" caption="For the implementation measure, please indicate to which national target or targets it contributes ">
+									<div km-select  name="implementationMeasureAichiTarget" ng-model="implementationMeasure.aichiTarget" placeholder="Please select Aichi Biodiversity Targets" items="options.aichiTargets()"></div>
 								</div>
 							</div>
 							<div class="col-sm-12">
-								<div class="km-control-group" required name="implementationMeasureAssessment" caption="Assessment of the effectiveness of the implementation measure taken in achieving desired outcomes">
+								<div class="km-control-group"  name="implementationMeasureAssessment" caption="Assessment of the effectiveness of the implementation measure taken in achieving desired outcomes">
 									<div class="help-block">
 										Please indicate the effectiveness of the measure in bringing about the change anticipated. Anticipated changes could include, among other things, changes to the status and trends of biodiversity, changes to the drivers of biodiversity loss, changes in
 										behaviour, or changes in policies.
 									</div>
-									<div km-term-radio name="implementationMeasureAssessment" ng-model="implementationMeasure.assessment" terms="options.assessment()" description="true" binding-type="term" ng-click="save()" required></div>
+									<div km-term-radio name="implementationMeasureAssessment" ng-model="implementationMeasure.assessment" terms="options.assessment()" description="true" binding-type="term" ng-click="save()" ></div>
 								</div>
 							</div>
 							<div class="col-md-12">
-								<div class="km-control-group" name="implementationMeasureAssessmentDescription" required caption="Please explain the selection and where possible indicate the tools or methodology used for the assessment of effectiveness above">
+								<div class="km-control-group" name="implementationMeasureAssessmentDescription"  caption="Please explain the selection and where possible indicate the tools or methodology used for the assessment of effectiveness above">
 									<div class="help-block">
 										Please provide substantiating information for the selection above on the measure’s effectiveness. For example, this could include information related to changes to the status and trends of biodiversity or changes to pressures on biodiversity or the drivers
 										of its loss. It could also include changes to socio-economic conditions, such as awareness of biodiversity, changes in resource availability, changes to government policies, or changes in the behaviour of major sectors in the country.
 									</div>
-									<div km-textbox-ml required name="implementationMeasureAssessmentDescription" ng-model="implementationMeasure.assessmentDescription" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="implementationMeasureAssessmentDescription" ng-model="implementationMeasure.assessmentDescription" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -245,7 +258,7 @@
 								<div class="km-control-group" name="implementationMeasureObstacles" caption="Obstacles and scientific and technical needs related to the measure taken">
 									<div class="help-block">
 										Please describe what obstacles have been encountered and any scientific and technical needs for addressing these, including technical and scientific cooperation, capacity development activities or the need for guidance materials. Please describe any implementation
-										needs or obstacles identified or encountered when taking this measure. For example, your country could include specific issues/thematic areas for which support is needed, the type of support required, what the support would allow the country
+										needs or obstacles identified or encountered when taking this measure. For example, your country could include specific issues/thematic areas for which support is needed, the type of support , what the support would allow the country
 										to achieve, and which societal groups would be the principal beneficiaries of support. Specific issues that your country may wish to comment on are needs associated with training, and/or the development of laws, technologies, tools, guides or
 										studies. Your country may also wish to comment on any obstacles that could be addressed through a better understanding or dialogue between traditional knowledge systems and modern science. Parties may also wish to comment on which obstacles
 										or needs are priorities to address. Information from this section of the national report will help to further enhance capacity building, technical and scientific cooperation and technology transfer to support the implementation of the Strategic
@@ -285,117 +298,42 @@
 				</div>
 				<div class="panel panel-default" ng-repeat="progressAssessment in document.progressAssessments">
 					<div class="panel-header clearfix">
-						<h3>Progress Assessment for AICHI target {{progressAssessment.aichiTarget | term:locale}}
+						<h3>Progress Assessment for
 							<span ng-if="progressAssessment.nationalTarget">
 								of national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
 							</span>
-							<!--<div class="pull-right" style="padding-right:10px"> 	
-								<a ng-href="#" ng-click="removeprogressAssessment(measure)"><i class="fa fa-remove" aria-hidden="true"></i></a>	
-								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>	
-								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a>	
-							</div>-->
 						</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<!--<div class="col-md-12">
-									<div class="km-control-group" name="progressAssessmentTarget" required caption="Target">
-										<div ng-show="progressAssessment.aichiTarget">
-											<div class="km-value">{{progressAssessment.aichiTarget | term:locale}}</div>
+							<div class="col-md-12">								
+								<div class="km-control-group"  name="progressAssessmentAdequacy" caption="Current assessment for the national target">
+									<div ng-if="progressAssessment.assessment">
+										<img ng-src="/app/img/ratings/{{getAssessmentInfo(progressAssessment.assessment, 'progress_s')}}.png" class="pull-left"></img>
+										<div>
+											<strong>Latest Assessment</strong>
+											<div><h3>{{getAssessmentInfo(progressAssessment.assessment, 'title_EN_t')}}</h3></div>
+											<div>{{getAssessmentInfo(progressAssessment.assessment, 'description_s')}}</div>
 										</div>
 									</div>
-								</div>-->
-							<div class="col-sm-12">
-								<div class="km-control-group" required name="progressAssessmentCategory" caption="Category of progress towards the implementation of the selected target">
-									<div class="help-block">
-										For the selected national target, please indicate the current level of progress that has been made towards its attainment using the categories below. The categories below are the same as those used in the fourth edition of the Global Biodiversity Outlook.
-										The assessment should take into account the year established as the deadline for the national target.
-									</div>
-									<div km-term-radio name="progressAssessmentCategory" ng-model="progressAssessment.category" terms="options.categoryProgress()" description="true" binding-type="term" ng-click="save()" required></div>
+									<div  ng-if="!progressAssessment.assessment"><strong>Asseessment missing for the national target.</strong></div>
 								</div>
 							</div>
 							<div class="col-md-12">
-								<div class="km-control-group" name="progressAssessmentDate" caption="Date the assessment was done">
-									<div class="help-block">Please indicate the date when this assessment of progress towards the target was undertaken.</div>
-									<div km-date style="width: 200px" name="progressAssessmentDate" ng-model="progressAssessment.date"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" name="progressAssessmentSummary" required caption="Summary of evidence used">
-									<div class="help-block">
-										(Please provide information on the evidence used in the assessment of this target, drawing upon relevant information provided in section II). Please provide substantiating information for the selection above. For example, this could include information
-										related to the overall impact of the measure taken, changes to the status and trends of biodiversity, changes to pressures on biodiversity or the drivers of its loss, changes to socio-economic conditions, such as awareness of biodiversity, changes
-										in resource availability, changes to government policies, or changes in the behaviour of major sectors in the country. For national targets which are quantitative in nature, Parties may also wish to consider reporting on the extent of achievement
-										in relation to the target value. For example, for some types of targets, this could be done with the use of percentages.
-									</div>
-									<div km-textbox-ml required name="progressAssessmentSummary" ng-model="progressAssessment.summary" locales="document.header.languages" rows="3"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" required name="indicatorUsed" caption="Confirmation if any indicators were used to assess progress towards this national target">
-									<span class="help-block">If the national target is not related to an Aichi Biodiversity Target, please tick this box and provide information indicating how the target relates to the Strategic Plan for Biodiversity 2011-2020 or to other issues addressed under the Convention on Biological Diversity. For example, the national target may be relevant to the Vision or Mission of the Strategic Plan or to one of its Strategic Goals. Alternatively, the national target may be related to one of the objectives of the Convention or to one of its programmes of work.</span><br/>
-									<button data-toggle="buttons-checkbox" type="button" ng-class="{'btn-primary':progressAssessment.indicatorNotUsed==false, 'btn-default': progressAssessment.indicatorNotUsed}" class="btn btn-default" ng-click="progressAssessment.indicatorNotUsed=false">Yes</button>
-									<button data-toggle="buttons-checkbox" type="button" ng-class="{'btn-primary':progressAssessment.indicatorNotUsed, 'btn-default': progressAssessment.indicatorNotUsed==false}" class="btn btn-default" ng-click="progressAssessment.indicatorNotUsed=true">No indicated used</button>
-								</div>
-							</div>
-							<div class="col-md-12" ng-show="progressAssessment.indicatorNotUsed==false">
-								<div class="km-control-group" required name="indicator" caption="Indicators used in this assessment">
-									<div class="help-block">
-										Please indicate any indicators used to assess progress towards the attainment of this target. These indicators could include indicators contained in your country’s national biodiversity strategy and action plan or indicators developed for other processes.
-										In recommendation XIX/4 , SBSTTA took note of a proposed list of generic and specific indicators for the Strategic Plan for Biodiversity 2011-2020 identified by the Ad Hoc Technical Expert Group. In assessing progress towards their national
-										targets, countries may wish to make use of this list of indicators, if appropriate. Further information on indicators, including tools for national indicator development, is available from the Biodiversity Indicators Partnership (http://www.bipindicators.net/).
-									</div>
-									<div km-textbox-ml required name="indicator" ng-model="progressAssessment.indicator" locales="document.header.languages"  placeholder="Please select indicators used in this assessment"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" name="progressAssessmentOtherTools" required caption="Please describe any other tools or means used for assessing progress">
-									<div class="help-block">
-										Please describe any tools or approaches your country has used to assess its progress towards this national target. This could include case studies, desk studies, expert opinions, and stakeholder consultations, among other things.
-									</div>
-									<div km-textbox-ml required name="progressAssessmentOtherTools" ng-model="progressAssessment.otherTools" locales="document.header.languages" rows="3"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" required name="progressAssessmentConfidenceLevel" caption="Level of confidence of the above assessment">
-									<div class="help-block">
-										Please indicate your country’s level of confidence in the assessment undertaken above
-									</div>
-									<div km-select  name="progressAssessmentConfidenceLevel" ng-model="progressAssessment.confidenceLevel" placeholder="Please select level of confidence of the above assessment" items="options.categoryProgress()"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" name="progressAssessmentConfidenceLevelDescription" required caption="Please provide an explanation for the level of confidence indicated above.">
-									<div class="help-block">
-										Please describe why the assessment has been given the level of confidence selected above. Parties may wish to comment on the types of information or indicators used, their representativeness and coverage, as well as any limitations they may have.
-									</div>
-									<div km-textbox-ml required name="progressAssessmentConfidenceLevelDescription" ng-model="progressAssessment.confidenceLevelDescription" locales="document.header.languages" rows="3"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" name="progressAssessmentRelevantDocuments" caption="Relevant websites, links, and files">
-									<div class="help-block">
-										(Please use this field to indicate any relevant websites, web links or documents where additional information related to this assessment can be found). Please provide any relevant documents or links to additional information related to the assessment
-										of progress towards this national target. This could include information, such as methodologies and data, underpinning the indicators and tools identified above.
-									</div>
-									<div km-link name="progressAssessmentRelevantDocuments" ng-model="progressAssessment.relevantDocuments" identifier="document.header.identifier"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="km-control-group" required name="progressAssessmentAdequacy" caption="Adequacy of monitoring information to support assessment">
+								<div class="km-control-group"  name="progressAssessmentAdequacy" caption="Adequacy of monitoring information to support assessment">
 									<div class="help-block">
 										Please indicate the adequacy of the national monitoring systems in place for this national target
 									</div>
-									<div km-select multiple required name="adequacy" ng-model="progressAssessment.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacyMonitoring()"></div>
+									<div km-select  name="adequacy" ng-model="progressAssessment.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacyMonitoring()"></div>
 								</div>
 							</div>
 							<div class="col-md-12">
-								<div class="km-control-group" name="progressAssessmentAdequacyDescription" required caption="Please describe the monitoring system for the target if one exists.">
+								<div class="km-control-group" name="progressAssessmentAdequacyDescription"  caption="Please describe the monitoring system for the target if one exists.">
 									<div class="help-block">
 										If one of the two first answers has been selected in the question above (i.e. Monitoring related to this target is adequate or monitoring related to this target is partial), please describe the monitoring system that exists. Issues that your country may
 										wish to include in its response are the characteristics of the monitoring system, the organizations responsible for it, how the information or data is collected, the type of data collected and how frequently data are updated.
 									</div>
-									<div km-textbox-ml required name="progressAssessmentAdequacyDescription" ng-model="progressAssessment.adequacyDescription" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="progressAssessmentAdequacyDescription" ng-model="progressAssessment.adequacyDescription" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -458,7 +396,7 @@
 							</div>
 						</div>
 
-						<div class="km-control-group" required name="gspcTarget" 
+						<div class="km-control-group"  name="gspcTarget" 
 							caption="Does your country have national targets related to the GSPC Targets?">
 							<span class="help-block">
 								If your country has adopted national targets or equivalent commitments related to the Global Strategy for Plant Conservation, please tick this box and indicate the wording of the targets in the sections below
@@ -470,29 +408,29 @@
 						</div>
 						<div class="row" ng-show="document.gspcNationalContribution.hasGSPCTargets">
 							<div class="col-md-12">
-								<div class="km-control-group" name="gspcTargetDescription" required caption="Please provide information on any active networks for plant conservation present in your country.">
+								<div class="km-control-group" name="gspcTargetDescription"  caption="Please provide information on any active networks for plant conservation present in your country.">
 									<div class="help-block">
 										Please list any plant conservation groups or botanical garden networks working on plant conservation.
 									</div>
-									<div km-textbox-ml required name="gspcTargetDescription" ng-model="document.gspcNationalContribution.gspcTargetDescription" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="gspcTargetDescription" ng-model="document.gspcNationalContribution.gspcTargetDescription" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="plantConservationNetwork" required caption="Please provide information on any active networks for plant conservation present in your country.">
+								<div class="km-control-group" name="plantConservationNetwork"  caption="Please provide information on any active networks for plant conservation present in your country.">
 									<div class="help-block">
 										Please list any plant conservation groups or botanical garden networks working on plant conservation.
 									</div>
-									<div km-textbox-ml required name="plantConservationNetwork" ng-model="document.gspcNationalContribution.plantConservationNetwork" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="plantConservationNetwork" ng-model="document.gspcNationalContribution.plantConservationNetwork" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="implemantationMeasures" required 
+								<div class="km-control-group" name="implemantationMeasures"  
 								caption="Please describe the major measures taken by your country for the implementation of the Global Strategy for Plant Conservation. 
 								(Parties can report on actions taken to implement these targets if they are not covered in sections II, III or IV)">
 									<div class="help-block">
@@ -500,7 +438,7 @@
 										Global Strategy for Plant Conservation, please describe the actions taken and their contribution towards the
 										attainment of the GSPC.
 									</div>
-									<div km-textbox-ml required name="implemantationMeasures" ng-model="document.gspcNationalContribution.implemantationMeasures" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="implemantationMeasures" ng-model="document.gspcNationalContribution.implemantationMeasures" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 						</div>
@@ -532,7 +470,65 @@
 								</span>
 							</div>
 							<div class="col-md-12">
-
+								<div class="km-control-group" name="statusAndTrends"  
+								caption="Biodiversity facts : Status and trends of biodiversity, including benefits from biodiversity and ecosystem services and functions:">
+									<div class="help-block">
+										Please review the text currently displayed in your Biodiversity Country Profile on the Convention’s Clearing
+										House Mechanism and update it as necessary.
+									</div>
+									<div km-textbox-ml  name="statusAndTrends" ng-model="document.biodiversityCountryProfile.statusAndTrends" locales="document.header.languages" rows="3"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="mainDriversofChange"  
+								caption="Main pressures on and drivers of change to biodiversity (direct and indirect)">
+									<div class="help-block">
+										Please review the text currently displayed in your Biodiversity Country Profile on the Convention’s Clearing
+										House Mechanism and update it as necessary.
+									</div>
+									<div km-textbox-ml  name="mainDriversofChange" ng-model="document.biodiversityCountryProfile.mainDriversofChange" locales="document.header.languages" rows="3"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="nbsapImplementation"  
+								caption="Implementation of the NBSAP">
+									<div class="help-block">
+										Please review the text currently displayed in your Biodiversity Country Profile on the Convention’s Clearing
+										House Mechanism and update it as necessary.										
+									</div>
+									<div km-textbox-ml  name="nbsapImplementation" ng-model="document.biodiversityCountryProfile.nbsapImplementation" locales="document.header.languages" rows="3"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="strategicPlanActions"  
+								caption="Overall actions taken to contribute to the implementation of the Strategic Plan for Biodiversity 2011-2020">
+									<div class="help-block">
+										Please review the text currently displayed in your Biodiversity Country Profile on the Convention’s Clearing
+										House Mechanism and update it as necessary.										
+									</div>
+									<div km-textbox-ml  name="strategicPlanActions" ng-model="document.biodiversityCountryProfile.strategicPlanActions" locales="document.header.languages" rows="3"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="supportMechanisms"  
+								caption="Support mechanisms for national implementation (legislation, funding, capacity-building,
+										 coordination, mainstreaming, etc.)">
+									<div class="help-block">
+										Please review the text currently displayed in your Biodiversity Country Profile on the Convention’s Clearing
+										House Mechanism and update it as necessary.										
+									</div>
+									<div km-textbox-ml  name="supportMechanisms" ng-model="document.biodiversityCountryProfile.supportMechanisms" locales="document.header.languages" rows="3"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="monitoringReviewingMechanisms"  
+								caption="Mechanisms for monitoring and reviewing implementation">
+									<div class="help-block">
+										Please review the text currently displayed in your Biodiversity Country Profile on the Convention’s Clearing
+										House Mechanism and update it as necessary.										
+									</div>
+									<div km-textbox-ml  name="monitoringReviewingMechanisms" ng-model="document.biodiversityCountryProfile.monitoringReviewingMechanisms" locales="document.header.languages" rows="3"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -584,11 +580,11 @@
 				By 2020, at the latest, biodiversity values have been integrated into national and local development and poverty reduction strategies and planning processes and are being incorporated into national accounting, as appropriate, and reporting systems.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-01" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-01"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What valuation studies have been undertaken and which ecosystems do these cover? To what extent are these valuation studies being used to inform decision-making? To what extent have biodiversity considerations been integrated into national planning processes? To what extent has biodiversity been integrated into national reporting and accounting systems? To what extent is your country implementing natural resource accounts within the System of Environmental-Economic Accounting (SEEA)? In describing progress towards this target, Parties may wish to make use of information found on the United Nations Statistics Division website on Environmental-Economic Accounts (http://unstats.un.org/unsd/envaccounting/default.asp)
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-01" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-01" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -598,11 +594,11 @@
 				By 2020, at the latest, incentives, including subsidies, harmful to biodiversity are eliminated, phased out or reformed in order to minimize or avoid negative impacts, and positive incentives for the conservation and sustainable use of biodiversity are developed and applied, consistent and in harmony with the Convention and other relevant international obligations, taking into account national socio economic conditions.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-02" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-02"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What harmful incentives, including subsidies, have been eliminated, phased out or reformed? What impact has this had on biodiversity? What other harmful incentives exist in the country and how are these affecting biodiversity? What positive incentives for biodiversity have been implemented and what biodiversity issues are these addressing? In describing progress towards this target, Parties may wish to make use of information found in the OECD Producer and Consumer Support Estimates database (http://www.oecd.org/tad/agricultural- policies/producerandconsumersupportestimates database.htm).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-02" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-02" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -611,10 +607,10 @@
 				<div class="col-md-12 help-block">By 2020, at the latest, incentives, including subsidies, harmful to biodiversity are eliminated, phased out or reformed in order to minimize or avoid negative impacts, and positive incentives for the conservation and sustainable use of biodiversity are developed and applied, consistent and in harmony with the Convention and other relevant international obligations, taking into account national socio economic conditions.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-03" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-03"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What harmful incentives, including subsidies, have been eliminated, phased out or reformed? What impact has this had on biodiversity? What other harmful incentives exist in the country and how are these affecting biodiversity? What positive incentives for biodiversity have been implemented and what biodiversity issues are these addressing? In describing progress towards this target, Parties may wish to make use of information found in the OECD Producer and Consumer Support Estimates database (http://www.oecd.org/tad/agricultural- policies/producerandconsumersupportestimates database.htm).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-03" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-03" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -623,10 +619,10 @@
 				<div class="col-md-12 help-block">By 2020, at the latest, Governments, business and stakeholders at all levels have taken steps to achieve or have implemented plans for sustainable production and consumption and have kept the impacts of use of natural resources well within safe ecological limits.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-04" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-04"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What actions have been taken to reduce the impact of production sectors on biodiversity? How has the natural resource demand in the country changed and is it currently sustainable? What actions have been taken to reduce resource consumption and/or to make it more sustainable? What plans for sustainable consumption and production have been put in place? In describing progress towards this target, Parties may wish to make use of information found on the website of CITES (https://cites.org/eng), the IUCN Red List of Threatened Species (http://www.iucnredlist.org), the Global Footprint Network (http://www.footprintnetwork.org/en/index.php/GFN/page/footprint_for_nations/), the Water Footprint Network (http://waterfootprint.org/en/water-footprint/national-water-footprint/) and TRAFFIC (http://www.traffic.org/).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-04" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-04" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -635,10 +631,10 @@
 				<div class="col-md-12 help-block">By 2020, the rate of loss of all natural habitats, including forests, is at least halved and where feasible brought close to zero, and degradation and fragmentation is significantly reduced.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-05" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-05"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How has the rate of loss of major habitats in the country changed? How has the rate of habitat degradation and fragmentation changed? What has caused these changes? What actions have been taken to address the underlying causes of biodiversity loss? In describing progress towards this target, Parties may wish to make use of information in assessments and on various websites. This could include FAO’s Global Forest Resources Assessment (http://www.fao.org/forest-resources-assessment/en/), Global Forest Watch (http://www.wri.org/our-work/project/global-forest-watch/maps_data), UNCCD (http://www.unccd.int/en/Pages/default.aspx), the Global Mountain Biodiversity Assessment (http://www.gmba.unibe.ch/), and Ramsar (http://www.ramsar.org/).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-05" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-05" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -647,10 +643,10 @@
 				<div class="col-md-12 help-block">By 2020 all fish and invertebrate stocks and aquatic plants are managed and harvested sustainably, legally and applying ecosystem based approaches, so that overfishing is avoided, recovery plans and measures are in place for all depleted species, fisheries have no significant adverse impacts on threatened species and vulnerable ecosystems and the impacts of fisheries on stocks, species and ecosystems are within safe ecological limits.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-06" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-06"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How has the status of fish and invertebrate stocks and aquatic plants changed in the country? What has brought about these changes? How sustainable are the fishing techniques used in the country? What management plans have been put in place for depleted fish stocks? What regulations or policies related to the recovery of depleted species exist in the country? What provisions exist to minimize the impacts of fisheries on threatened species? What provisions exist to account for significant indirect adverse impacts on non-target species? What provisions related to the protection of vulnerable marine habitats and threats to ecosystem structure and function exist? What management measures are in place to reduce bycatch and discards? In describing progress towards this target, Parties may wish to make use of information found in the FAO’s publication on the State of the World’s Fisheries and Aquaculture (http://www.fao.org/fishery/sofia/en), FAO’s Fisheries Statistics (http://www.fao.org/fishery/statistics/en), on the Marine Stewardship Council website (https://www.msc.org), the Sea Around Us website (http://www.seaaroundus.org), in the IUCN Red List of Threatened Species (http://www.iucnredlist.org) and on the FishBase website (http://www.fishbase.ca/).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-06" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-06" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -659,10 +655,10 @@
 				<div class="col-md-12 help-block">By 2020 areas under agriculture, aquaculture and forestry are managed sustainably, ensuring conservation of biodiversity.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-07" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-07"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What measures have been put in place to ensure the sustainability of agriculture, aquaculture and forestry? How effective have these been? In describing progress towards this target, Parties may wish to make use of information found in FAOSTAT (http://faostat3.fao.org/home/E), the Programme for the Endorsement of Forest Certification (PEFC) website (http://www.pefc.org), and the Forest Stewardship Council website (https://ca.fsc.org/en-ca),).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-07" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-07" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -671,10 +667,10 @@
 				<div class="col-md-12 help-block">By 2020, pollution, including from excess nutrients, has been brought to levels that are not detrimental to ecosystem function and biodiversity.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-08" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-08"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How have pollutant and nutrient loads in the country’s ecosystems changed? Which ecosystems have experienced significant change? Which pollutants remain concerns in the country? What measures or controls have been put in place to limit point sources of pollution? What measures or controls have been put in place to address diffuse sources of pollution? In describing progress towards this target, Parties may wish to make use of information found on the websites of the Basel, Rotterdam and Stockholm Conventions (http://chm.pops.int), the Minamata Convention on Mercury (http://www.mercuryconvention.org), the International Nitrogen Initiative (http://www.initrogen.org/), FAOSTAT (http://faostat3.fao.org/home/E), and the Global Environment Monitoring System (GEMS Water) (http://www.unep.org/gemswater/).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-08" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-08" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -683,10 +679,10 @@
 				<div class="col-md-12 help-block">By 2020, invasive alien species and pathways are identified and prioritized, priority species are controlled or eradicated, and measures are in place to manage pathways to prevent their introduction and establishment.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-09" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-09"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How has the number of invasive alien species in the country changed? What actions have been taken to eradicate or control existing invasive alien species? What border control and quarantine measures have been put in place to prevent the introduction of new invasive alien species? How have existing border control and quarantine measures been strengthened? In describing progress towards this target, Parties may wish to make use of information found in the GIASIPartnership Gateway (http://giasipartnership.myspecies.info/en).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-09" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-09" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -695,10 +691,10 @@
 				<div class="col-md-12 help-block">By 2015, the multiple anthropogenic pressures on coral reefs, and other vulnerable ecosystems impacted by climate change or ocean acidification are minimized, so as to maintain their integrity and functioning.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-10" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-10"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What actions have been taken to reduce pressures on ecosystems vulnerable to climate change and/or ocean acidification? How have these pressures been reduced? In describing progress towards this target, Parties may wish to make use of information available from FAO’s Vulnerable Marine Ecosystem Database (http://www.fao.org/in-action/vulnerable-marine-ecosystems/en/), from the International Coral Reef Initiative () and </div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-10" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-10" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -707,7 +703,7 @@
 				<div class="col-md-12 help-block">By 2020, at least 17 per cent of terrestrial and inland water areas, and 10 per cent of coastal and marine areas, especially areas of particular importance for biodiversity and ecosystem services, are conserved through effectively and equitably managed, ecologically representative and well connected systems of protected areas and other effective area-based conservation measures, and integrated into the wider landscapes and seascapes.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-11" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-11"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards this target, Parties should consider the following guidance: 
 							Decision XI/24 (Protected areas) - Paragraph 1. Invites Parties to:(j) Report on the implementation of national action plans for the programme of work on protected areas, including incorporation of the results of implementing projects funded by the Global Environment Facility and other donors, through the reporting framework for the programme of work, which is integrated into the fifth and sixth national reports, as called for in paragraphs 33 (a) and (e) of decision X/31, in order to track progress towards achieving Aichi Biodiversity Target 11 and implementing the programme of work;
@@ -715,7 +711,7 @@
 							Some questions that your country may wish to consider responding to are: What is the current extent of protected areas on land and in marine areas (overall, by ecoregion, by habitat type, etc.)? Do these figures include effective indigenous and community conserved areas? What areas of importance for biodiversity and ecosystem services are not currently protected? What areas are underrepresented? How effective are existing protected areas? How has their management effectiveness changed? Are indigenous peoples and local communities involved in protected areas management? What support or processes have been established to support indigenous and local communities in documenting, mapping, or registering community conservation areas and/or developing, implementing or monitoring community conservation plans? 
 							In describing progress towards this target, Parties may wish to make use of information found on the websites of Protected Planet (http://www.protectedplanet.net), and the protected area management effectiveness information portal (http://www.wdpa.org/ME/).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-11" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-11" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -724,10 +720,10 @@
 				<div class="col-md-12 help-block">By 2020 the extinction of known threatened species has been prevented and their conservation status, particularly of those most in decline, has been improved and sustained.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-12" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-12"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: Have any species gone extinct in your country since the Strategic Plan for Biodiversity 2011-2020 was adopted? How has the conservation status of species been changing? What percentage of species are threatened in your country? What actions have been taken to address this? How have the main threats to species changed since the Strategic Plan for Biodiversity 2011-2020 was adopted? What are the main threats to the threatened species in your country? What actions have been taken to address these? In describing progress towards this target, Parties may wish to make use of information found in the IUCN Red List of Threatened Species (http://www.iucnredlist.org), the Living Planet Index (http://www.livingplanetindex.org/home/index), and from the Tropical, Ecology Assessment and Monitoring Network (http://www.teamnetwork.org)</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-12" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-12" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -736,10 +732,10 @@
 				<div class="col-md-12 help-block">By 2020, the genetic diversity of cultivated plants and farmed and domesticated animals and of wild relatives, including other socio-economically as well as culturally valuable species, is maintained, and strategies have been developed and implemented for minimizing genetic erosion and safeguarding their genetic diversity.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-13" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-13"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What actions have been taken to safeguard the genetic diversity of species of cultivated plants and farmed and domesticated animals, their wild relatives and socio-economically or culturally valuable species? Are species being maintained in situ or ex situ? What species management plans or strategies have been put in place to maintain the genetic diversity in situ and ex situ? In describing progress towards this target, Parties may wish to make use of information found in FAO’s Global Databank for Animal Genetic Resources, the Domestic Animal Diversity Information System (DAD-IS) (http://dad.fao.org/), and FAO’s State of the World’s Forest Genetic Resources (http://www.fao.org/forestry/fgr/64582/en/).</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-13" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-13" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -748,13 +744,13 @@
 				<div class="col-md-12 help-block">By 2020, ecosystems that provide essential services, including services related to water, and contribute to health, livelihoods and well-being, are restored and safeguarded, taking into account the needs of women, indigenous and local communities, and the poor and vulnerable.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-14" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-14"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards this target, Parties should bear in mind the following guidance: 
 							Decision XII/5 (Biodiversity for poverty eradication and sustainable development) - Paragraph 3. Encourages Parties to integrate biodiversity and nature’s benefits to people, including ecosystem services and functions, into poverty eradication and development strategies, initiatives and processes at all levels, and vice versa, to integrate poverty eradication and development concerns and priorities into national biodiversity strategies and action plans and other appropriate plans, policies and programmes for the implementation of the Strategic Plan for Biodiversity 2011-2020 and the achievement of the Aichi Biodiversity Targets, and to monitor, evaluate and report on these integration efforts, through appropriate indicators and tools, and include this information, inter alia, in their national report;
 							Some questions that your country may wish to consider responding to are: How has the condition of ecosystems important for the provision of ecosystem services changed? How have the pressures on ecosystems important for the provision of ecosystem services changed? How do these ecosystems contribute to human wellbeing? What is the condition of important ecosystems in your country? Which ecosystems are degrading the quickest? Which ecosystems are improving? Does further degradation of some ecosystems risk passing tipping points? Which ecosystems are in need of restoration? Which ecosystems are in need of safeguarding? What are the main pressures on the ecosystems that provide services essential for human wellbeing? Which ecosystems are particularly important for the wellbeing of women, indigenous and local communities, and the poor and vulnerable? What factors are driving or causing the loss of ecosystem services? In describing progress towards this target, Parties may wish to make use of information found in the Ocean Health Index (http://www.oceanhealthindex.org), and the World Resources Institute’s Aqueduct Projected Water Stress data and rankings (http://www.wri.org/resources/data-sets/aqueduct-projected-water-stress-country-rankings).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-14" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-14" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -763,7 +759,7 @@
 				<div class="col-md-12 help-block">By 2020, ecosystem resilience and the contribution of biodiversity to carbon stocks has been enhanced, through conservation and restoration, including restoration of at least 15 per cent of degraded ecosystems, thereby contributing to climate change mitigation and adaptation and to combating desertification.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-15" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-15"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards this target Parties should consider the following guidance: 
 							Decision XI/19 (Biodiversity and climate change related issues: Advice on the application of relevant safeguards for biodiversity with regard to policy approaches and positive incentives on issues relating to reducing emissions from deforestation and forest degradation and the role of conservation, sustainable management of forests and enhancement of forest carbon stocks in developing countries)
@@ -772,7 +768,7 @@
 
 							In describing progress towards this target, Parties may wish to make use of information found on the Bonn Challenge website (http://www.bonnchallenge.org/) and in the World Resources Institute’s Atlas of Forest and Landscape Restoration Opportunities (http://www.wri.org/resources/maps/atlas-forest-and-landscape-restoration-opportunities).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-15" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-15" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -781,10 +777,10 @@
 				<div class="col-md-12 help-block">By 2015, the Nagoya Protocol on Access to Genetic Resources and the Fair and Equitable Sharing of Benefits Arising from their Utilization is in force and operational, consistent with national legislation.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
-						<div class="help-block">Some questions that your country may wish to consider responding to are: If your country has not ratified or acceded to the Protocol, what actions are being taken to do so? If your country has ratified or acceded to the Protocol, what is being done to make it operational nationally? Has your country put institutional structures in place to implement the Protocol (national focal point, competent national authority(ies) and checkpoint(s))? Has your country put in place the ABS legislative, administrative or policy measures required to meet the obligations set out under the Protocol? If not, is your country currently reviewing or developing ABS measures or planning to do so with a view to implementing the Protocol? Countries may wish to make a reference to information provided to the ABS Clearing House.</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-16" 
+						<div class="help-block">Some questions that your country may wish to consider responding to are: If your country has not ratified or acceded to the Protocol, what actions are being taken to do so? If your country has ratified or acceded to the Protocol, what is being done to make it operational nationally? Has your country put institutional structures in place to implement the Protocol (national focal point, competent national authority(ies) and checkpoint(s))? Has your country put in place the ABS legislative, administrative or policy measures  to meet the obligations set out under the Protocol? If not, is your country currently reviewing or developing ABS measures or planning to do so with a view to implementing the Protocol? Countries may wish to make a reference to information provided to the ABS Clearing House.</div>
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-16" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -793,10 +789,10 @@
 				<div class="col-md-12 help-block">By 2015 each Party has developed, adopted as a policy instrument, and has commenced implementing an effective, participatory and updated national biodiversity strategy and action plan.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-17" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-17"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: If your country has not revised/updated its NBSAP since the adoption of the Strategic Plan, what actions are being taken to do so? If there are no plans to revise/update the NBSAP, are there any other national policies, plans, programmes or strategies that address the Strategic Plan for Biodiversity 2011-2020 and the Aichi Biodiversity Targets? Does your country have any regional or sub-national strategies? Are there any plans to develop these? What actions have been taken to adopt your country’s current NBSAP as a policy instrument? At what level has the NBSAP been adopted? What implications does this have?  How will this assist with mainstreaming biodiversity concerns into sectoral and cross-sectoral plans and policies that impact biodiversity? Which stakeholders were involved in NBSAP revision/updating and what was their role in this process? How will they contribute to NBSAP implementation? What measures are in place to evaluate how effective the NBSAP has been? Does the NBSAP have indicators and/or a monitoring mechanism to evaluate the effectiveness of its implementation?</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-17" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-17" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -805,7 +801,7 @@
 				<div class="col-md-12 help-block">By 2020, the traditional knowledge, innovations and practices of indigenous and local communities relevant for the conservation and sustainable use of biodiversity, and their customary use of biological resources, are respected, subject to national legislation and relevant international obligations, and fully integrated and reflected in the implementation of the Convention with the full and effective participation of indigenous and local communities, at all relevant levels.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-18" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-18"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards this target Parties, should bear in mind the following guidance: Decision XII/12: (Article 8(j) and related provisions) – 
 							A. Paragraph 9. Encourages Parties and indigenous and local communities to consider how indigenous and local communities might effectively participate in the development, collection and analysis of data, including through Community-Based Monitoring, and further explore how indigenous and local communities’ Community-Based Monitoring and Information Systems can contribute to monitoring of Aichi Biodiversity Target indicators, and how a Multiple Evidence Base approach be applied for validation of such data generated from diverse knowledge systems on equal terms. These efforts might contribute to future national reports and the review of the implementation of the Strategic Plan for Biodiversity 2011 2020 and the achievement of the Aichi Biodiversity Targets, in particular Target 18; 
@@ -815,7 +811,7 @@
 							In describing progress towards this target, you may wish to consult, as relevant, with Indigenous Peoples and Local Communities. Some questions that your country may wish to consider responding to are: What steps have been taken since the Strategic Plan for Biodiversity 2011-2020 was adopted to respect the knowledge, innovations, practices and customary use of biological resources? What processes or mechanisms have been put in place to promote this? How has traditional knowledge been integrated and reflected in the implementation of the Convention? Has a national focal point for Article 8(j) and related provisions been appointed? Has a national action plan to protect, preserve and promote the knowledge, innovations and practices of indigenous and local communities and encourage sustainable use of biodiversity been developed? Do community action plans exist? Has there been full and effective participation of indigenous peoples and/or local communities in relation to the integration of their knowledge in the implementation of the Convention? Are indigenous peoples and/or local communities, as appropriate, effectively participating in the implementation of the Convention, including in the revision/updating and implementation of NBSAPs? Have action plans or other national arrangements for the protection, preservation and promotion of indigenous and local community knowledge, innovations and practices been developed? Are systems in place for granting prior informed consent from indigenous and local communities regarding access to their knowledge, innovations and practices? Are measures in place at the national level which recognise and encourage the rights to customary sustainable use of biodiversity? What progress has been made in implementing the Plan of Action on Customary Sustainable Use of Biological Diversity, The Tkarihwaié:ri Code of Ethical Conduct to Ensure Respect for the Cultural and Intellectual Heritage of Indigenous and Local Communities, and the Akwé: Kon Voluntary Guidelines for the Conduct of Cultural, Environmental and Social Impact Assessment regarding Developments Proposed to Take Place on, or which are Likely to Impact on, Sacred Sites and on Lands and Waters Traditionally Occupied or Used by Indigenous and Local Communities? 
 							In describing progress towards this target, Parties may wish to make use of information found in the UNESCO Interactive Atlas of the World’s Languages in Danger (http://www.unesco.org/languages-atlas/).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-18" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-18" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -824,13 +820,13 @@
 				<div class="col-md-12 help-block">By 2020, knowledge, the science base and technologies relating to biodiversity, its values, functioning, status and trends, and the consequences of its loss, are improved, widely shared and transferred, and applied.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-19" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-19"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards this target, Parties should bear in mind the following guidance: Decision X/23 (Multi-Year Plan of Action for South-South Cooperation on Biodiversity for Development) - Paragraph 6.   Invites Parties to include in their future national reports information on how they have implemented or supported South-South cooperation; 
 							Decision XI/29 (Global Taxonomy Initiative) -Paragraph 9.  Requests Parties to report on the effectiveness of their capacity-building efforts to support the implementation of the Global Taxonomy Initiative through their fifth and sixth national reports under the Convention and requests the Executive Secretary to report on progress in implementing the Global Taxonomy Initiative, based on national reports submitted by Parties to the corresponding meetings of the Conference of the Parties; 
 							Some questions that your country may wish to consider responding to are: How has the availability of biodiversity information in the country changed since the Strategic Plan for Biodiversity 2011-2020 was adopted? What actions have been taken to improve the availability and quality of biodiversity information at the national level? What mechanisms have been put in place or further developed to share biodiversity information and technologies? How is biodiversity information being used to support policy development and decision-making in the country? In describing progress towards this target, Parties may wish to make use of information found on the website of the Global Biodiversity Information Facility (GBIF)( http://www.gbif.org).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-19" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-19" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -839,10 +835,10 @@
 				<div class="col-md-12 help-block">By 2020, at the latest, the mobilization of financial resources for effectively implementing the Strategic Plan for Biodiversity 2011-2020 from all sources, and in accordance with the consolidated and agreed process in the Strategy for Resource Mobilization, should increase substantially from the current levels. This target will be subject to changes contingent to resource needs assessments to be developed and reported by Parties.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-20" required 
+					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-20"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
 						<div class="help-block">In annex II of decision XII/3, the Conference of the Parties  adopted a financial reporting framework to provide information related to the global financial targets under Aichi Biodiversity Target 20. The Conference of the Parties also decided to integrate the financial reporting framework into the guidelines for the sixth national reports. The financial reporting framework is available online at http://chm.cbd.int/signin?returnUrl=% 2Fsubmit%2Fonline-reporting%2FresourceMobilisation. The online financial reporting framework and the online reporting tool for the sixth national reports are meant to be complementary. Parties are invited to complete the financial reporting framework in order to report on Aichi Biodiversity Target 20 in their sixth national report.</div>
-						<div km-textbox-ml required name="nationalContributions-AICHI-TARGET-20" 
+						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-20" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
@@ -856,176 +852,176 @@
 		<div ng-switch="target.identifier">
 			<div ng-switch-when="GSPC-TARGET-01" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-01" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-01"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: Is there a national or regional flora that provides descriptions to the plant species found in the country? Is work to digitize national/ regional flora taking place in the country? Does an institution in your country participate in or otherwise collaborate with the World Flora Online Consortium? In reporting on progress towards this target, countries may wish to refer to the website of The World Flora Online Consortium (www.worldfloraonline.org).</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-01" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-01" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-02" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-02" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-02"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How many plant species have had their conservation status assessed using either the IUCN 3.1 Categories and Criteria or a national system? What proportion of your country’s flora has been assessed? How is data from conservation assessments being used to guide conservation actions? In reporting on progress towards this target, countries may wish to make use of the following resources: The IUCN Red List of Species (http://www.iucnredlist.org) and Botanic Gardens Conservation International’s ThreatSearch database (www.bgci.org).</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-02" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-02" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-03" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-03" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-03"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How well surveyed is your country’s plant diversity? Which areas are under-surveyed? What progress has been made since 2010 to improve knowledge on plant diversity patterns? What proportions of plant specimen records that exist in national herbaria have been digitized? Are these records available for conservation assessment and land use planning? What proportion of the Flora has been revised since 1970? Are ex situ propagation techniques and case studies on species reintroductions documented and available?  Are resource assessments and sustainable offtake guidelines available for plant species harvested commercially?</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-03" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-03" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-04" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-04" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-04"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 4, countries may wish to cross-reference their responses related to Aichi Biodiversity Targets 11(Protected areas) and 15 (Ecosystem restoration and resilience) in section IV of the national report. If the issues covered by GSPC Target 4 are sufficiently addressed in section IV, there is no need to repeat this information here.</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-04" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-04" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-05" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-05" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-05"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: Have important plant areas been identified in your country? What percentage of important plant areas are located within protected areas? What additional management is taking place in important plant areas outside of protected areas?
 						In reporting on progress towards this target, countries may wish to make use of Plantlife’s Important Plant Area database  (www.plantlife.org.uk/international/wild_plants/IPA/ipa_online_database/).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-05" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-05" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-06" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-06" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-06"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 6, countries may wish to cross-reference their responses related to Aichi Biodiversity Target 7(sustainable agriculture, aquaculture and forestry) in section IV of  the national report. If the issues covered by GSPC Target 6 are sufficiently addressed in section IV, there is no need to repeat this information here.</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-06" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-06" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-07" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-07" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-07"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What percentage of threatened plant species have at least one population occurring in a protected area? How many additional threatened species have been conserved since 2010? Have priority sites for the conservation of unprotected threatened plants been identified? What interventions are in place to expand protected areas to sites with high concentrations of threatened plants? </div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-07" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-07" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-08" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-08" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-08"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: What percentage of threatened plant species is conserved ex situ either in seedbanks or living collections in botanical gardens or other plant collections? What percentage is available for restoration or recovery work? How many species are part of active recovery programmes? In how many different ecoregions is the recovery work taking place? Are any botanic gardens in your country members of the Ecological Restoration Alliance of Botanic Gardens? Your country may also wish to provide references to recovery case studies. In reporting on progress towards this target, countries may wish to make use of the following resources: BGCI’s PlantSearch database of ex situ collections (www.bgci.org/plant_search.php) and the website of the Ecological Restoration Alliance (www.erabg.org).  </div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-08" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-08" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-09" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-09" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-09"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 9, countries may wish to cross-reference their responses related to Aichi Biodiversity Target 13 (Safeguarding Genetic Diversity) in section IV of the national report.  If the issues covered by GSPC Target 9 are sufficiently addressed in section IV, there is no need to repeat this information here.
 						Some questions that your country may wish to consider responding to are: Does your country have a national inventory of crop wild relatives and other socio-economically important plant species (medicinal plants, fodder crops, useful tree species, etc.)? Does your country have a national strategy for the conservation of crop wild relatives / medicinal plants?  Is there a national programme for plant genetic resources for food and agriculture? What percentage of crop wild relatives and other socio-economically important species are conserved ex situ in seedbanks or in living collections in botanical gardens and other plant collections? What percentage of crop wild relatives and other socio-economically important species are conserved within Protected Areas or through on-farm conservation? In reporting on progress towards this target, countries may wish to make use of information provided to FAO through their national report for the Second State of the World’s Plant Genetic Resources for Food and Agriculture (http://www.fao.org/agriculture/crops/core-themes/theme/seeds-pgr/sow/sow2/country-reports/en/). 
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-09" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-09" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-10" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-10" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-10"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 10, countries may wish to cross- reference their responses related to Aichi Biodiversity Target 9 (Invasive alien species prevented and controlled) in section IV of the national report. If the issues covered by GSPC Target 10 are sufficiently addressed in section IV, there is no need to repeat this information here. Some additional questions that your country may wish to consider responding to are: Has your country identified important plant areas (this issue may have already been addressed as part of your country’s response to GSPC Target 5)? How many of these have management plans that address invasive species? </div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-10" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-10" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-11" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-11" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-11"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">GSPC Target 11 is implemented through the activities delivered under the implementation of the provisions and control measures of the Convention on Trade in Endangered Species of Wild Fauna and Flora (CITES).  In reporting on progress towards GSPC Target 11, countries may wish to refer to the respective CITES Management and Scientific Authorities, as well as the reports prepared within the framework of the CITES Plants Committee, Standing Committee, Conference of Parties, and other meetings relevant to trade in plants. 
 						In reporting on progress towards GSPC Target 11, countries may wish to cross-reference their responses related to Aichi Biodiversity Target 4 (Sustainable consumption and trade) in section IV of the national report. If the issues covered by GSPC Target 11 are sufficiently addressed in section IV, there is no need to repeat this information here.
 						In reporting on progress towards this target, countries may also wish to make use of information found on the Plants 2020 website (http://www.plants2020.net/target-11).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-11" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-11" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-12" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-12" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-12"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 12, countries may wish to cross-reference their responses related to Aichi Biodiversity Target 4 (Sustainable production and consumption) in section IV of the national report. If the issues covered by GSPC Target 12 are sufficiently addressed in section IV, there is no need to repeat this information here.
 						Some additional questions that your country may wish to consider responding to are: Does your country have an inventory of plant-based products that are sourced from the wild? What percentage of wild-harvested commercially traded plants have resource assessments, management plans, and sustainable offtake guidelines? Are there specific regulations or policies encouraging and enforcing the sustainable wild-harvesting, sustainable use and trade in plants (please specify)? Are any products, species or companies in your country certified under sustainability certification, such as the FairWild Standard (please specify)?  What interventions are in place to ensure sustainable wild-harvest and use of plant species by indigenous communities? Parties may also wish to cross-reference responses included under section IV related to Aichi Biodiversity Target 4 (Sustainable production and consumption). 
 						In reporting on progress towards this target, your country may wish to make use of information from the Plants 2020 (http://www.plants2020.net/index/) and FairWild Foundation (http://www.fairwild.org) websites. 
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-12" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-12" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-13" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-13" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-13"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 13, countries may wish to cross-reference their responses related to Aichi Biodiversity Target 18 (Traditional knowledge respected) in section IV of the national report. If the issues covered by GSPC Target 13 are sufficiently addressed in section IV, there is no need to repeat this information here.</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-13" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-13" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-14" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-14" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-14"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">In reporting on progress towards GSPC Target 14, countries may wish to cross-reference their responses related to Aichi Biodiversity Target 1 (Awareness increased) in section IV of the national report. If the issues covered by GSPC Target 14 are sufficiently addressed in section IV, there is no need to repeat this information here. For plant-specific activities, countries may also wish to make use of Botanic Gardens Conservation International’s GardenSearch database (www.bgci.org/garden_search.php).  
 						Some additional questions that your country may wish to consider responding to are: Does your country have citizen science programmes that include collecting data on plants? Do your botanic gardens run education programmes? Are there other nature-based NGOs that provide non-formal education on plants? 
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-14" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-14" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-15" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-15" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-15"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: How many universities/colleges offer tertiary-level education in plant science/plant conservation? Do plant conservation-based organizations offer internships/short courses etc. to support on-the-job training and skills development? 
 						In reporting on progress towards this target, countries may wish to make contact with relevant members of the Global Partnership for Plant Conservation (http://www.plants2020.net/gppcpartners/).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-15" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-15" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
 			<div ng-switch-when="GSPC-TARGET-16" class="row">
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-16" required 
+					<div class="km-control-group" name="nationalContributions-GSPC-TARGET-16"  
 					caption="Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description:">
 						<div class="help-block">Some questions that your country may wish to consider responding to are: Is there a national botanic garden network in your country? Is there a national plant conservation network or a national botanical society that is actively addressing the targets of the GSPC?
 						In reporting on progress towards this target, countries may wish to make use of Botanic Gardens Conservation International’s list of botanic garden networks (www.bgci.org/about-us/networks/).
 						</div>
-						<div km-textbox-ml required name="nationalContributions-GSPC-TARGET-16" 
+						<div km-textbox-ml  name="nationalContributions-GSPC-TARGET-16" 
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>

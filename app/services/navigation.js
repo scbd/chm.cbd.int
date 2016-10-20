@@ -57,7 +57,8 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
             if (schema == "lwDonor") return "LifeWeb Donors";
             if (schema == "dossier") return "Aichi Target Dossiers";
             if (schema == "undbAction") return "UNDB Action";
-            if (schema == "undbPartner") return "UNDB Partner";
+            if (schema == "undbPartner") return "UNDB Partner"; 
+            if (schema == "nationalReport6") return "Sixth National Report";
 
             return (schema || "") + "*";
         };

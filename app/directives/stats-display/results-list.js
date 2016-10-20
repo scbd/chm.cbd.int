@@ -15,7 +15,7 @@ define(['text!./results-list.html', 'app', 'lodash'], function(template, app, _)
 
           $scope.expanded = false;
           $scope.schemaNameMap = {
-
+            'nationalReport6': 'Sixth National Report',
             'nationalAssessment': 'National Assessments',
             'nationalReport': 'National Reports',
             'nbsaps': 'Nat. Bio. Strategies and Action Plans',

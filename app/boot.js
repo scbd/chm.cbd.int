@@ -69,7 +69,7 @@ require.config({
       'amchart3-serial'          : { deps: ['amchart3']},
       'amchart3-pie'             : { deps: ['amchart3']},
       'amchart3-theme-light'     : { deps: ['amchart3']},
-      'ammap-export'         : { deps: ['ammap3']},
+      'ammap-export'             : { deps: ['ammap3']}
     },
 });
 

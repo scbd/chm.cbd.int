@@ -16,6 +16,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',     label :'CBD Implementation',   resolveController: true}).
             when('/search/financial-reporting',               { templateUrl: 'views/search/financial-reporting.html',  label :'CBD Implementation',   resolveController: true}).
             when('/search/reporting-map',                     { templateUrl: 'views/search/reporting-map.html',        label :'CBD Implementation',   resolveController: true, reloadOnSearch : false}).
+            when('/search/financial-analyzer',                { templateUrl: 'views/reporting/resource-mobilization/index.html', label :'Search', resolveController: true }).
             // SUBMIT SECTION
 
             when('/submit',                                             { templateUrl: 'views/management/submit.html',                          label: 'Management Center',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

@@ -24,6 +24,56 @@
 			border-top: 1px solid #ddd;
 			background-color: #ddd;
 		}
+
+		.panel-header a.collapse-icon, .panel-header a.trash {
+			padding: 12px 35px 12px 15px;
+			display: inline-block;
+			width: 100%;
+			position: relative;
+			text-decoration: none;
+		}
+		.panel-header a.collapse-icon:after {
+			font-family: "FontAwesome";
+			content: "\f01b";
+			position: absolute;
+			right: 20px;
+			font-size: 20px;
+			font-weight: 400;
+			top: 50%;
+			line-height: 1;
+			margin-top: -10px;
+		}
+		.panel-header a.collapse-icon.collapsed:after {
+			content: "\f01a";
+		}
+		.panel-header a.trash, .panel-header a.measure{
+			width: 0% !important;
+    		padding-right: 0px;
+    		padding-left: 0px;
+		}
+		.panel-header a.trash:after {
+			font-family: "FontAwesome";
+			content: "\f014";
+			position: absolute;
+			right: 40px;
+			font-size: 20px;
+			font-weight: 400;
+			top: 50%;
+			line-height: 1;
+			margin-top: -10px;
+		}
+
+		/*.panel-header a.trash:after {
+			font-family: "FontAwesome";
+			content: "\f014";
+			position: absolute;
+			right: 40px;
+			font-size: 20px;
+			font-weight: 400;
+			top: 50%;
+			line-height: 1;
+			margin-top: -10px;
+		}*/
 	</style>
 	<h1>
     	<span ng-switch="qs.type">
@@ -115,21 +165,7 @@
 
 										</div>
 									</div>
-								</div>		  									
-								<div class="row">
-									<div class="col-md-12">		  	
-										<div class="km-control-group" name="title"  caption="Title">												
-											<div km-textbox-ml  name="title" ng-model="document.title" locales="document.header.languages"></div>		
-										</div>		
-									</div>		
-								</div>									 
-								<div class="row">		
-									<div class="col-md-12">		
-										<div class="km-control-group" name="summary"  caption="Summary of sixth national report">
-											<div km-textbox-ml  name="summary" ng-model="document.summary" locales="document.header.languages" rows="3"></div>		
-										</div>		
-									</div>		
-								</div>							
+								</div>					
 							</div>
 						</div>
 						<div  ng-show="document.targetPursued">
@@ -137,11 +173,31 @@
 								<div class="section-header" style="border-bottom: 1px solid #ddd">
 									<h3>National Targets</h3>
 								</div>
-								<div class="section-body">
+								<div class="section-body">									
 									<div class="row">
-										<div class="col-md-12">
-											<span ng-model="document.nationalTargets" reference-selector schema="nationalTarget" government="document.government" type="checkbox"
-												disabled="!document.government"></span>
+										<div class="col-xs-12">
+											<ul class="list-group ng-scope" style="margin-top: 10px;">
+												<li class="list-group-item ng-scope" style="min-height: 50px;" >
+													<a target="_blank" class="btn btn-default pull-right" ng-href="/submit/online-reporting/nationalTarget/new">Add Target</a>
+													<button class="btn btn-primary pull-right" ng-click="refreshNationaTargets()">Refresh</button>
+												</li>
+												<li class="list-group-item ng-scope" ng-repeat="item in nationalTargets">
+													<table style="width:100%">
+														<tbody>
+															<tr>
+																<td class="ng-binding">{{item.title|lstring:locale}}</td>
+															</tr>
+															<tr>
+																<td>   
+																	<ul>
+																		<li ng-repeat="target in item.aichiTargets_EN_ss">{{target}}</li>
+																	</ul>
+																<td>
+															</tr>
+														</tbody>
+													</table>
+												</li>
+											</ul>
 										</div>
 									</div>
 								</div>
@@ -172,26 +228,31 @@
 								</span>
 							</div>
 							<div class="col-md-12">
+								<a href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.implementationMeasure')">open all <i class="fa  fa-arrow-circle-o-up" /></a> 
+								<a href="#" class="btn closeall pull-right" ng-click="closeall('.implementationMeasure')">close all <i class="fa  fa-arrow-circle-o-down" /></a> 
 								<button type="button" class="btn btn-primary pull-right" ng-click="addImplementationMeasure()">Add Measure</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default" ng-repeat="implementationMeasure in document.implementationMeasures">
+				<div class="panel panel-default implementationMeasure" ng-repeat="implementationMeasure in document.implementationMeasures">
 					<div class="panel-header clearfix">
 						<h3>Implementation measure {{$index+1}}
-							<span ng-if="implementationMeasure.nationalTarget">
-								for national target {{getNationalTargetTitle(implementationMeasure.nationalTarget.identifier)|lstring:locale}}
-							</span>
 							<div class="pull-right" style="padding-right:10px" ng-if="!implementationMeasure.nationalTarget"> 	
-								<a ng-href="#" ng-click="removeImplementationMeasure(measure)"><i class="fa fa-remove" aria-hidden="true"></i></a>	
-								<!--<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i></a>	
-								<a ng-href="#" ng-click=""><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a>	-->
+								<a ng-href="#" class="trash" ng-click="removeImplementationMeasure(implementationMeasure)"></a>
+								<a ng-href="#" data-toggle="collapse" class="measure collapse-icon" data-target="#implementationMeasure{{$index}}"></a>
 							</div>
 						</h3>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body collapse in" id="implementationMeasure{{$index}}">
 						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" name="implementationMeasureTitle"  caption="Title of measure">
+									<div class="help-block">Please provide a short title for the measure which has been taken.
+									</div>
+									<div km-textbox-ml  name="implementationMeasureTitle" ng-model="implementationMeasure.title" locales="document.header.languages"></div>
+								</div>
+							</div>
 							<div class="col-md-12">
 								<div class="km-control-group" name="implementationMeasureDescription"  caption="Describe a measure taken to contribute to the implementation of your country’s national biodiversity strategy and action plan ">
 									<div class="help-block">
@@ -203,9 +264,14 @@
 									<div km-textbox-ml  name="implementationMeasureDescription" ng-model="implementationMeasure.description" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
-							<div class="col-md-12" ng-if="!implementationMeasure.nationalTarget">
-								<div class="km-control-group"  name="implementationMeasureAichiTarget" caption="For the implementation measure, please indicate to which national target or targets it contributes ">
+							<div class="col-md-12" ng-if="!document.targetPursued">
+								<div class="km-control-group"  name="implementationMeasureAichiTarget" caption="For the implementation measure, please indicate to which AICHI target or targets it contributes ">
 									<div km-select  name="implementationMeasureAichiTarget" ng-model="implementationMeasure.aichiTarget" placeholder="Please select Aichi Biodiversity Targets" items="options.aichiTargets()"></div>
+								</div>
+							</div>
+							<div class="col-md-12" ng-if="document.targetPursued">
+								<div class="km-control-group"  name="implementationMeasureAichiTarget" caption="For the implementation measure, please indicate to which national target or targets it contributes ">
+									<div km-select  name="implementationMeasureNationalTarget" ng-model="implementationMeasure.nationalTarget" placeholder="Please select national targets" items="options.nationalTargets()"></div>
 								</div>
 							</div>
 							<div class="col-sm-12">
@@ -292,19 +358,30 @@
 									Using the template below, please assess the level of progress made towards each of your country’s national targets or similar commitments. The template should be replicated for each national target. If your country has not set national targets please use the Aichi Biodiversity Targets.
 
 								</span>
+								<div class="col-md-12">
+									<a href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.progressAssessment')">open all <i class="fa  fa-arrow-circle-o-up" /></a> 
+									<a href="#" class="btn closeall pull-right" ng-click="closeall('.progressAssessment')">close all <i class="fa  fa-arrow-circle-o-down" /></a>								
+									<button class="btn btn-primary pull-right" ng-click="refreshAssessment()">Refresh</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default" ng-repeat="progressAssessment in document.progressAssessments">
+				<div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments">
 					<div class="panel-header clearfix">
-						<h3>Progress Assessment for
+						<h3>Progress assessment for
 							<span ng-if="progressAssessment.nationalTarget">
-								of national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
+								national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
 							</span>
+							<span ng-if="progressAssessment.aichiTarget">
+								AICHI target {{progressAssessment.aichiTarget|term:locale}}
+							</span>
+							<div class="pull-right" style="padding-right:10px"> 	
+								<a ng-href="#" data-toggle="collapse"  class="collapse-icon" data-target="#progressAssessment{{$index}}"></a>
+							</div>
 						</h3>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body collapse in" id="progressAssessment{{$index}}">
 						<div class="row">
 							<div class="col-md-12">								
 								<div class="km-control-group"  name="progressAssessmentAdequacy" caption="Current assessment for the national target">
@@ -316,7 +393,20 @@
 											<div>{{getAssessmentInfo(progressAssessment.assessment, 'description_s')}}</div>
 										</div>
 									</div>
-									<div  ng-if="!progressAssessment.assessment"><strong>Asseessment missing for the national target.</strong></div>
+									<div  ng-if="!progressAssessment.assessment">
+										<span ng-if="progressAssessment.nationalTarget">
+											Assessment missing for the national target.
+											<a target="_blank" class="btn btn-primary" ng-href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{progressAssessment.nationalTarget.identifier}}">Add Assessment</a>
+										</span>
+										<span ng-if="progressAssessment.aichiTarget">
+											Assessment missing for AICHI target.
+											<a target="_blank" class="btn btn-primary" ng-href="/submit/online-reporting/nationalAssessment/new?aichiTarget={{progressAssessment.aichiTarget.identifier}}">Add Assessment</a>
+										</span>
+									</div>
+									<div  ng-if="progressAssessment.assessment">	
+											<a target="_blank" class="btn btn-primary" 
+												ng-href="/submit/online-reporting/nationalAssessment/{{progressAssessment.assessment.identifier}}?type=nationalAssessment">Edit Assessment</a>									
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -351,7 +441,7 @@
 			<div km-tab="nationalContribution">
 				<div class="panel panel-default">
 					<div class="panel-header">
-						<h3>Section IV. Description of national contribution to the achievement of each Aichi Biodiversity Target</h3>
+						<h3>Section IV. Description of national contribution to the achievement of each Aichi Biodiversity Target</h3>						
 					</div>
 					<div class="panel-body">
 						<div class="row  bottom-spacing">
@@ -362,18 +452,22 @@
 								</span>
 							</div>
 							<div class="col-md-12">
-
+								<a href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.aichiTarget')">open all <i class="fa  fa-arrow-circle-o-up" /></a> 
+								<a href="#" class="btn closeall pull-right" ng-click="closeall('.aichiTarget')">close all <i class="fa  fa-arrow-circle-o-down" /></a>								
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default" ng-repeat="aichiTarget in document.nationalContributions">
+				<div class="panel panel-default aichiTarget" ng-repeat="aichiTarget in document.nationalContributions">
 					<div class="panel-header clearfix">
 						<h3>
 							Aichi Biodiversity Target {{aichiTarget | term:locale}}
+							<div class="pull-right" style="padding-right:10px"> 		
+								<a ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#{{aichiTarget.identifier}}"></a>
+							</div>
 						</h3>
 					</div>
-					<div class="panel-body" collapse="">
+					<div class="panel-body collapse in" id="{{aichiTarget.identifier}}">
 						<span ng-include src="'aichiTargetContribution'" onload="target=aichiTarget"></span>						
 					</div>
 				</div>
@@ -392,7 +486,8 @@
 								</span>
 							</div>
 							<div class="col-md-12">
-
+								<a href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.gspcTarget')">open all <i class="fa  fa-arrow-circle-o-up" /></a> 
+								<a href="#" class="btn closeall pull-right" ng-click="closeall('.gspcTarget')">close all <i class="fa  fa-arrow-circle-o-down" /></a>								
 							</div>
 						</div>
 
@@ -408,10 +503,7 @@
 						</div>
 						<div class="row" ng-show="document.gspcNationalContribution.hasGSPCTargets">
 							<div class="col-md-12">
-								<div class="km-control-group" name="gspcTargetDescription"  caption="Please provide information on any active networks for plant conservation present in your country.">
-									<div class="help-block">
-										Please list any plant conservation groups or botanical garden networks working on plant conservation.
-									</div>
+								<div class="km-control-group" name="gspcTargetDescription"  caption="Please provide details on the specific targets.">									
 									<div km-textbox-ml  name="gspcTargetDescription" ng-model="document.gspcNationalContribution.gspcTargetDescription" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
@@ -445,13 +537,16 @@
 					</div>
 
 				</div>
-				<div class="panel panel-default" ng-repeat="gspcTarget in document.gspcNationalContribution.targetContributions">
+				<div class="panel panel-default gspcTarget" ng-repeat="gspcTarget in document.gspcNationalContribution.targetContributions">
 					<div class="panel-header clearfix">
 						<h3>
 							GSPC Biodiversity Target {{gspcTarget | term:locale}}
+							<div class="pull-right" style="padding-right:10px"> 		
+								<a ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#{{gspcTarget.identifier}}"></a>
+							</div>
 						</h3>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body collapse in" id="{{gspcTarget.identifier}}">
 						<span ng-include src="'gspcNationalContribution'" onload="target=gspcTarget"></span>						
 					</div>
 				</div>
@@ -459,7 +554,8 @@
 			<div km-tab="countryProfile">
 				<div class="panel panel-default">
 					<div class="panel-header">
-						<h3>Section VI. Updated biodiversity country profile</h3>
+						<h3>Section VI. Updated biodiversity country profile
+						</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row  bottom-spacing">

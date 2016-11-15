@@ -1,4 +1,4 @@
-define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage'], function(app, template, _){
+define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog'], function(app, template, _){
 
 app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 	return {
@@ -17,31 +17,25 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 		},
 		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
- 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",
+ 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog', 
 			function ($scope, $http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, 
-			siteMapUrls, thesaurus, guid, $route, solr, realm) {
+			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog) {
 				
 				var nationalAssessments = [];
-				var nationalTargets = [];
+				$scope.nationalTargets = [];
 
-				$scope.$watch('document.nationalTargets', function(newVal, old){
+				$scope.$watch('document', function(document, old){
 					
-					if(!$scope.document)
+					if(!$scope.document||!document)
 						return;				
-					
-					var nationalTargetsQuery=[];
-					var nationalAssessmentQuery=[];
-					_.each($scope.document.nationalTargets, function (mod) {
-						if(mod.identifier){
-							nationalTargetsQuery.push(storage.documents.get(mod.identifier));
-						}
-					});		
-					$q.all(nationalTargetsQuery)
-					.then(function(results){					
-						var documents = _.map(results, function(result){ return result.data || {}; });
-						nationalTargets = documents;
-					});
+					if(document.targetPursued){
+						$q.when(loadReferenceRecords({schema : 'nationalTarget', government:document.government.identifier}))
+						  .then(function(data){
+							  $scope.nationalTargets = data;
+						  });
+					}
 
+					var nationalAssessmentQuery=[];
 					_.each($scope.document.progressAssessments, function (mod) {
 						if(mod.assessment && mod.assessment.identifier){
 							nationalAssessmentQuery.push(loadReferenceRecords({schema:'nationalAssessment', identifier:mod.assessment.identifier, rows:1}))
@@ -56,9 +50,9 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 				$scope.getNationalTargetTitle = function(identifier){
 
-					if(nationalTargets){
-						var nationalTarget = _.find(nationalTargets, function(target){
-												return target && target.header.identifier == identifier; 
+					if($scope.nationalTargets){
+						var nationalTarget = _.find($scope.nationalTargets, function(target){
+												return target && target.identifier_s == identifier; 
 											});
 						if(nationalTarget)
 							return nationalTarget.title
@@ -76,11 +70,12 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 				function loadReferenceRecords(options) {
 					
+					if(options.latest===undefined)
+						options.latest = true;
+
 					options = _.assign({
-						identifier: options.identifier,
 						schema    : options.schema,
 						target    : options.nationaTargetId,
-						latest    : true,
 						rows	  : 500
 					}, options || {});
 
@@ -89,11 +84,14 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					// Add Schema
 					query.push("schema_s:" + solr.escape(options.schema));
 					
-					if(options.identifier)
-						query.push("identifier_s:"+solr.escape(options.identifier));
+					if(options.government)
+						query.push("government_s:"+solr.escape(options.government));
 
 					if(options.target)
 						query.push("nationalTarget_s:"+solr.escape(options.target));
+					
+					if(options.identifier)
+						query.push("identifier_s:"+solr.escape(options.identifier));
 
 					// Apply ownership
 					query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
@@ -113,8 +111,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					var qsParams =
 					{
 						"q"  : query,
-						"fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, " +
-							"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, jurisdiction_*, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+						"fl" : "identifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
+							"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
 						"sort"  : "updatedDate_dt desc",
 						"start" : 0,
 						"rows"   : options.rows,
@@ -130,6 +128,46 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 							});
 						});
 
+					});
+				}
+
+				$scope.showReferenceRecordDetailss = function(documentId){
+					openDialog(documentId, {})
+				}
+				function openDialog(documentId, options) {
+
+					options = options || {};
+
+					return $q(function(resolve, reject) {
+
+						require(['directives/formats/views/form-loader'], function() {
+
+							var directiveHtml = '<DIRECTIVE document-id="@documentId"></DIRECTIVE><br/><div class="btn btn-primary" ng-click="close()">Close</div>'
+												.replace(/DIRECTIVE/g, 'view-form-loader')
+												.replace(/@documentId/g, documentId);
+
+							$scope.$apply(function(){
+								options.template = directiveHtml;
+							});
+							options.className = 'ngdialog-theme-default wide';
+							options.plain = true;
+							options.controller = ['$scope', function($scope){
+								$scope.close = ngDialog.closeAll;
+							}]
+							var dialogWindow = ngDialog.open(options);
+
+							dialogWindow.closePromise.then(function(res){
+
+								if(res.value=="$escape")      delete res.value;
+								if(res.value=="$document")    delete res.value;
+								if(res.value=="$closeButton") delete res.value;
+
+								return res;
+							});
+
+							resolve(dialogWindow);
+
+						}, reject);
 					});
 				}
 		}]

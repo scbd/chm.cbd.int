@@ -24,8 +24,12 @@
 			border-top: 1px solid #ddd;
 			background-color: #ddd;
 		}
-	</style>
 
+        .ngdialog.ngdialog-theme-default.wide .ngdialog-content {
+            width: 70% !important;
+        }
+    </style>
+	<!--{{document}}-->
 	<div class="section">
 		<div class="section-header">
 			<h3>General information</h3>
@@ -37,7 +41,7 @@
 					{{document.government | term:locale}}
 				</div>
 			</div>
-			<div ng-show="document.title">
+			<!--<div ng-show="document.title">
 				<label>Title</label>
 				<div class="km-value">
 					{{document.title | lstring:locale}}
@@ -48,22 +52,28 @@
 				<div class="km-value">
 					{{document.summary | lstring:locale}}
 				</div>
-			</div>			
-			<div class="row" ng-show="document.nationalTargets">
+			</div>			-->
+			<div class="row" ng-show="document.targetPursued">
 				<div class="col-xs-12">
+					<label>
+						{{document.government | term:locale}} has adopted national biodiversity targets or equivalent commitments in its NBSAP or similar policy documents
+					</label>
 					<ul class="list-group ng-scope" ng-if="nationalTargets.length>0" style="margin-top: 10px;">
 						<li class="list-group-item ng-scope" ng-repeat="item in nationalTargets">
 							<table style="width:100%">
 								<tbody>
 									<tr>
-										<td class="ng-binding">{{item.title|lstring:locale}}</td>
+										<td class="ng-binding">
+											{{item.title|lstring:locale}}
+											<button type="button" class="btn btn-primary pull-right" ng-click="showReferenceRecordDetailss(item.identifier_s)">More Details</button>
+										</td>
 									</tr>
 									<tr>
 										<td>
 											<ul>
-												<li ng-repeat="target in item.aichiTargets">{{target|term:locale}}</li>
+												<li ng-repeat="target in item.aichiTargets_EN_ss">{{target}}</li>
 											</ul>
-											<td>
+										<td>
 									</tr>
 								</tbody>
 							</table>
@@ -78,6 +88,13 @@
 			<h3>Section II</h3>
 		</div>
 		<div class="section-body">
+			<div class="row panel"ng-if="!document.implementationMeasures">
+				<div class="col-md-12 panel-body">
+					<span class="km-value">
+						No information available on implementation measures 
+					</span>
+				</div>
+			</div>
 			<div class="row " ng-repeat="implementationMeasure in document.implementationMeasures">
 				<div class="col-md-12 panel panel-default1">
 					<div class="panel-header clearfix">
@@ -88,6 +105,12 @@
 						</h3>
 					</div>
 					<div class="panel-body">
+						<div ng-show="implementationMeasure.title">
+							<label>Title</label>
+							<div class="km-value">
+								{{implementationMeasure.title | lstring:locale}}
+							</div>
+						</div>
 						<div ng-show="implementationMeasure.description">
 							<label>Measures taken to contribute to the implementation of your country’s national biodiversity strategy and action plan</label>
 							<div class="km-value km-pre">{{implementationMeasure.description | lstring:locale}}</div>
@@ -143,32 +166,43 @@
 		</div>
 		<div class="section-body">
 			<div class="section-body">
+				<div class="row">
+					<div class="col-md-12">
+						<span class="km-value" ng-if="!document.progressAssessments">
+							No information available on progress assessments 
+						</span>
+					</div>
+				</div>
 				<div class="row " ng-repeat="progressAssessment in document.progressAssessments">
 					<div class="col-md-12 panel panel-default1">
 						<div class="panel-header clearfix">
-							<h3>Progress Assessment for AICHI target {{progressAssessment.aichiTarget | term:locale}}
+							<h3>Progress Assessment for
 								<span ng-if="progressAssessment.nationalTarget">
-									of national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
+									national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
+								</span>
+								<span ng-if="progressAssessment.aichiTarget">
+									AICHI target {{progressAssessment.aichiTarget|term:locale}}
 								</span>
 							</h3>
 						</div>
 						<div class="panel-body">
 							<div class="col-md-12">								
-								<div class="km-control-group"  name="progressAssessmentAdequacy" caption="Current assessment for the national target">
+								<div class="km-control-group"  name="progressAssessmentAdequacy" caption="Current assessment for the target">
 									<div ng-if="progressAssessment.assessment">
 										<img ng-src="/app/img/ratings/{{getAssessmentInfo(progressAssessment.assessment, 'progress_s')}}.png" class="pull-left"></img>
 										<div>
 											<strong>Latest Assessment</strong>
 											<div><h3>{{getAssessmentInfo(progressAssessment.assessment, 'title_EN_t')}}</h3></div>
 											<div>{{getAssessmentInfo(progressAssessment.assessment, 'description_s')}}</div>
+											<button type="button" class="btn btn-primary pull-right" ng-click="showReferenceRecordDetailss(progressAssessment.assessment.identifier)">See assessment</button>
 										</div>
 									</div>
-									<div  ng-if="!progressAssessment.assessment"><strong>Asseessment missing for the national target.</strong></div>
+									<div  ng-if="!progressAssessment.assessment">Assessment missing for target.</div>
 								</div>
 							</div>
 							<div ng-show="progressAssessment.adequacy">
 								<label>Adequacy of monitoring information to support assessment</label>
-								<div class="km-value km-pre">{{progressAssessment.adequacy | lstring:locale}}</div>
+								<div class="km-value km-pre">{{progressAssessment.adequacy | term:locale}}</div>
 							</div>
 							<div ng-show="progressAssessment.adequacyDescription">
 								<label>Monitoring system for the target</label>
@@ -176,7 +210,9 @@
 							</div>
 							<div ng-show="progressAssessment.otherRelevantDocuments">
 								<label>Other relevant website address or attached documents</label>
-								<div class="km-value km-pre">{{progressAssessment.otherRelevantDocuments | lstring:locale}}</div>
+								<ul class="km-value">
+									<li ng-repeat="item in progressAssessment.otherRelevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+								</ul>
 							</div>
 						</div>
 						<br/>
@@ -192,13 +228,13 @@
 		<div class="section-body">
 			<div class="row">
 				<div class="panel panel-default">
-					<div class="panel-header clearfix">
-						<!--<h3>
-							Aichi Biodiversity Target {{aichiTarget | term:locale}}
-						</h3>-->
+					<div class="panel-header clearfix">					
 					</div>
-					<div class="panel-body" collapse="">					
-						<div ng-repeat="aichiTarget in document.nationalContributions" ng-show="aichiTarget.description">
+					<div class="panel-body" collapse="">						
+						<span class="km-value" ng-if="!document.nationalContributions">
+							No information available on national contributions 
+						</span>		
+						<div ng-repeat="aichiTarget in document.nationalContributions" ng-if="aichiTarget.description">
 							<label>Aichi Biodiversity Target {{aichiTarget | term:locale}}</label>								
 							<div class="km-value">
 								{{aichiTarget.description | lstring:locale}}
@@ -217,7 +253,7 @@
 			<div class="row">
 				<div class="col-md-12 panel panel-default1">							
 					<div class="panel-body">						
-						<div ng-show="!document.gspcNationalContribution.hasGSPCTargets">
+						<div ng-show="document.gspcNationalContribution.hasGSPCTargets!==undefined && !document.gspcNationalContribution.hasGSPCTargets">
 							<label>
 								Country does not have national targets related to the GSPC Targets
 							</label>
@@ -246,6 +282,7 @@
 									{{gspcTarget.description | lstring:locale}}
 								</div>
 							</div>	
+							<div ng-if="document.gspcNationalContribution.targetContributions.length==0">No information available</div>
 						</div>
 					</div>					
 					<br/>

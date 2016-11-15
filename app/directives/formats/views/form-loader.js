@@ -10,7 +10,8 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			linkTarget: "@",
 			hideButtons: "@",
 			document: "=",
-			locale  : "="
+			locale  : "=",
+			documentId  : "@"
 		},
 		link: function($scope, $element) {
 
@@ -54,7 +55,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				if ($scope.document || $scope.schema)
 					return;
 
-				var documentID  = $route.current.params.documentid || $route.current.params.documentID;
+				var documentID  = $route.current.params.documentid || $route.current.params.documentID || $scope.documentId;
 
 				if (documentID)
 					$scope.load(documentID);

@@ -143,3 +143,12 @@ legend{
     background-color: transparent!important;
     border-color: none!important;
 }
+.well-help {
+    background-color: rgba(25, 25, 25, 0.2);
+    border: 0;
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+#NotificationsPanel .row:first-child{
+    padding-top:15px!important;
+}

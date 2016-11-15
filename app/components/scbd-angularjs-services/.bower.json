@@ -1,0 +1,36 @@
+{
+  "name": "scbd-angularjs-services",
+  "version": "1.1.30",
+  "homepage": "https://github.com/scbd/scbd-angularjs-services",
+  "authors": [
+    "Blaise Fonseca <blaisefonseca@hotmail.com>"
+  ],
+  "description": "A collection of services used in SCBD AngularJS projects",
+  "main": "scbd-services.js",
+  "keywords": [
+    "AngularJS",
+    "SCBD"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "1.5.6",
+    "linqjs": "3.0.5",
+    "underscore": "1.7.0"
+  },
+  "_release": "1.1.30",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.30",
+    "commit": "2c0014eb9db74e5f42f5dfad46b224fab9f46404"
+  },
+  "_source": "https://github.com/scbd/scbd-angularjs-services.git",
+  "_target": "1.1.30",
+  "_originalSource": "scbd-angularjs-services"
+}

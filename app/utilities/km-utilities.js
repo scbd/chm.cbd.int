@@ -1,33 +1,4 @@
-define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery", 'ngCookies'], function(app, _, Enumerable, URI, $) { 'use strict';
-
-app.filter("lstring", function() {
-	return function(ltext, locale) {
-
-		if(!ltext)
-			return "";
-
-		if(_.isString(ltext))
-			return ltext;
-
-		var sText;
-
-		if(!sText && locale)
-			sText = ltext[locale];
-
-		if(!sText)
-			sText = ltext.en;
-
-		if(!sText) {
-			for(var key in ltext) {
-				sText = ltext[key];
-				if(sText)
-					break;
-			}
-		}
-
-		return sText||"";
-	};
-});
+define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery", 'ngCookies', 'scbd-angularjs-filters'], function(app, _, Enumerable, URI, $) { 'use strict';
 
 app.filter('integer', function () {
     return function (number, base, length) {
@@ -57,25 +28,6 @@ app.filter("markdown", ["$window", "htmlUtility", function($window, html) {
 	};
 }]);
 
-app.filter("truncate", function() {
-	return function(text, maxSize, suffix) {
-
-		if (!maxSize)
-			return text;
-
-		if (!suffix)
-			suffix = "";
-
-		if(!text)
-			return "";
-
-		if (text.length > maxSize)
-			text = text.substr(0, maxSize) + suffix;
-
-		return text;
-	};
-});
-
 app.factory("htmlUtility", function() {
 	return {
 		encode: function(srcText) {
@@ -93,6 +45,9 @@ app.factory('guid', function() {
 	};
 });
 
+app.factory('linqjs', [function() {
+	return Enumerable;
+}])
 app.factory('Enumerable', [function() {
 	return Enumerable;
 }]);
@@ -100,87 +55,6 @@ app.factory('Enumerable', [function() {
 app.factory('URI', [function() {
 	return URI;
 }]);
-
-app.factory('Thesaurus', ["Enumerable", function() {
-	return {
-		buildTree : function(terms) {
-			var oTerms    = [];
-			var oTermsMap = {};
-
-			Enumerable.From(terms).ForEach(function(value) {
-				var oTerm = {
-					identifier : value.identifier,
-					name       : value.name
-				};
-
-				oTerms.push(oTerm);
-				oTermsMap[oTerm.identifier] = oTerm;
-			});
-
-			for (var i = 0; i < oTerms.length; ++i) {
-				var oRefTerm = terms [i];
-				var oBroader = oTerms[i];
-
-				if (oRefTerm.narrowerTerms && oRefTerm.narrowerTerms.length > 0) {
-					_.each(oRefTerm.narrowerTerms, function(identifier) {
-						var oNarrower = oTermsMap[identifier];
-
-						if (oNarrower) {
-							oBroader.narrowerTerms = oBroader.narrowerTerms || [];
-							oNarrower.broaderTerms = oNarrower.broaderTerms || [];
-
-							oBroader.narrowerTerms.push(oNarrower);
-							oNarrower.broaderTerms.push(oBroader);
-						}
-					}); //jshint ignore:line
-				}
-			}
-
-			return Enumerable.From(oTerms).Where("o=>!o.broaderTerms").ToArray();
-		}
-	};
-}]);
-
-app.filter("term", ["$http","$filter", function($http, $filter) {
-
-	var termsCache = {};
-
-	return function(term, locale) {
-
-		if(!term)
-			return "";
-
-		if(term.customValue)
-			return $filter('lstring')(term.customValue, locale);
-
-		var identifier = _.isString(term) ? term : term.identifier;
-
-        if(!identifier)
-            return "";
-
-		if(!termsCache[identifier]) {
-
-			return (termsCache[identifier] = $http.get('/api/v2013/thesaurus/terms/'+encodeURI(identifier), { cache:true }).then(function(res) {
-
-				termsCache[identifier] = res.data.title;
-
-				return $filter('lstring')(res.data.title, locale);
-
-			}).catch(function(){
-
-				termsCache[identifier] = identifier || "UNKNOWN-TERM";
-
-				return identifier;
-			}));
-		}
-
-		if(termsCache[identifier] && termsCache[identifier].then)
-			return "";
-
-		return $filter('lstring')(termsCache[identifier] || identifier || "", locale);
-	};
-}]);
-
 
 app.factory('localization', ["$cookies", function($cookies) {
 	return {

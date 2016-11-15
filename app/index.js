@@ -1,63 +1,49 @@
-define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directives/users/notifications', 'services/realmConfig'], function(app, $, _) {
+define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs',
+'directives/users/notifications', 'services/realmConfig',
+ 'scbd-angularjs-services', 'scbd-angularjs-filters',
+'scbd-branding/directives/footer', '/app/directives/nav/portal-branding.js',
+'scbd-branding/directives/header/header', '/app/directives/nav/portal-nav.js'
+], function(app, $, _) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', 'cfgUserNotification',
+     function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig, cfgUserNotification) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
 
-        $rootScope.test_env = $scope.test_env        = realm != 'CHM';
-        $scope.breadcrumbs     = breadcrumbs;
-        $scope.$root.pageTitle = { text: "" };
         $rootScope.placeholderRecords=[];
+
+        $scope.goHome               = function() { $location.path('/'); };
+        $scope.currentPath          = function() { return $location.path(); };
+        $scope.hideSubmitInfoButton = function() { return $location.path()=="/management/register"; };
+
+        $scope.$on('signOut', function(evt, data) {
+
+            // var fields = logglyLogger.fields({ realm: realm.value, appVersion: appVersion })
+            // fields.user = undefined;
+            // logglyLogger.fields(fields)
+            $window.location.reload();
+        });
+
+        if(cfgUserNotification){
+            //TODO :convert to provider
+            cfgUserNotification
+            .notificationUrls = {
+                                documentNotificationUrl     : '/management/requests',
+                                viewAllNotificationUrl      : '/management/requests'
+                            };
+        }
+        
+        //////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////
 
         $scope.$on("$routeChangeSuccess", function(evt, current){
             $scope.routeLoaded = true;
             if(current.$$route)
                 $("head > title").text(current.$$route.label || "Clearing-House Mechanism");
         });
-
-        //============================================================
-        //
-        //
-        //============================================================
-        $scope.$on('signOut', function(){
-            $location.url('/');
-        });
-
-        //============================================================
-        //
-        //
-        //============================================================
-        $scope.signIn = function () {
-            $location.url('/signin');
-        };
-
-        //============================================================
-        //
-        //
-        //============================================================
-        $scope.signOut = function () {
-            authentication.signOut();
-        };
-
-        //========================================
-        //
-        //========================================
-        $scope.doSearch = function () {
-            $location.url('/database/').search('q', $scope.searchQuery);
-            $scope.searchQuery = '';
-        };
-
-
-        $scope.goHome               = function() { $location.path('/'); };
-        $scope.currentPath          = function() { return $location.path(); };
-        $scope.hideSubmitInfoButton = function() { return $location.path()=="/management/register"; };
-
-        //////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////
-
         //============================================================
         //
         //
@@ -201,4 +187,33 @@ define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs','directive
         });
 
      }]);
+
+    app.directive(
+            "mAppLoading",
+            function( $animate ) {
+                // Return the directive configuration.
+                return({
+                    link: link,
+                    restrict: "C"
+                });
+                // I bind the JavaScript events to the scope.
+                function link( scope, element, attributes ) {
+                    // Due to the way AngularJS prevents animation during the bootstrap
+                    // of the application, we can't animate the top-level container; but,
+                    // since we added "ngAnimateChildren", we can animated the inner
+                    // container during this phase.
+                    // --
+                    // NOTE: Am using .eq(1) so that we don't animate the Style block.
+                    $animate.leave( element.children().eq( 1 ) ).then(
+                        function cleanupAfterAnimation() {
+                            // Remove the root directive element.
+                            element.remove();
+                            // Clear the closed-over variable references.
+                            scope = element = attributes = null;
+                        }
+                    );
+                }
+            }
+        );
+
 });

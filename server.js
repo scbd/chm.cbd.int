@@ -18,6 +18,7 @@ app.use('/favicon.ico', express.static(__dirname + '/favicon.ico'));
 app.use('/app',         express.static(__dirname + '/app'));
 
 app.all('/app/*', (req, res)=>res.status(404).send() );
+
 app.all('/api/*', (req, res)=>proxy.web(req, res, { target: 'https://api.cbddev.xyz', changeOrigin: true }) );
 
 // Configure template

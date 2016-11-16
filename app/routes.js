@@ -51,6 +51,10 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/online-reporting/implementationActivity/new',  { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/implementationActivity/:uid', { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
+            when('/submit/nationalReport6/new',          { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/nationalReport6/:uid',         { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+           
+
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
     //      when('/submit/:schema/:id',                                 <= final implementation goal
             when('/submit/aichiTarget/new',                              { templateUrl: 'views/management/edit/aichi-target.html',               label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

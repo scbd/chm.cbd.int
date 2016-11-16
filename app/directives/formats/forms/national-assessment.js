@@ -21,7 +21,9 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             	strategicPlanIndicators: $http.get("/api/v2013/index", { params: { q:"schema_s:strategicPlanIndicator", fl:"identifier_s,title_t", sort:"title_s ASC", rows : 999999 }}).then(function(o) { return _.map(o.data.response.docs, function(o) { return { identifier:o.identifier_s, title : o.title_t }; });}).then(null, $scope.onError),
             	implementationActivities: [],
             	nationalIndicators: [],
-                nationalTargets:    []
+                nationalTargets:    [],
+				aichiTargets  : function()  { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",{ cache: true }).then(function(o){ return o.data; }); },
+							
             };
 
             $scope.$watch("document.government", function(term) {
@@ -101,6 +103,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
                     var year           = qs.year;
     				var nationalTarget = qs.nationalTarget;
+    				var aichiTarget    = qs.aichiTarget;
 
                     var dates = [new Date()];
 
@@ -117,16 +120,19 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 						});
 					}).then(function(identifier) {
 
-						return{ 
-						header: {
-							identifier: guid(),
-							schema   : "nationalAssessment",
-							languages: ["en"]
-						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
-						date : _.min(dates).toISOString().substr(0, 10),
-						nationalTarget : nationalTarget ? { identifier: nationalTarget } : undefined
-					}});
+						var nationalAssessment = { 
+													header: {
+														identifier: guid(),
+														schema   : "nationalAssessment",
+														languages: ["en"]
+													},
+													government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+													date : _.min(dates).toISOString().substr(0, 10),
+													nationalTarget : nationalTarget ? { identifier: nationalTarget } : undefined,
+													aichiTarget : aichiTarget ? { identifier: aichiTarget } : undefined
+												};
+						return nationalAssessment;
+					});
                 }
 
 				promise.then(
@@ -180,6 +186,15 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				if (!document)
 					return $q.when(true);
+				
+				if(!document.assessmentType)
+					document.assessmentType = $route.current.params.aichiTarget ? 1 : 0
+				
+				//if assessment is for aichi target deleted national target
+				if(document.assessmentType == 1)
+					document.nationalTarget = undefined;
+				else 
+					document.aichiTarget = undefined;
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;

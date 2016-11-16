@@ -22,7 +22,8 @@ define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km
       "nationalSupportTool"       : { name: "publishNationalRecord", version: "0.4" },
       "nationalTarget"            : { name: "publishNationalRecord", version: "0.4" },
       "nationalAssessment"        : { name: "publishNationalRecord", version: "0.4" },
-      "resourceMobilisation"      : { name: "publishNationalRecord", version: "0.4" }
+      "resourceMobilisation"      : { name: "publishNationalRecord", version: "0.4" },
+      "nationalReport6"           : { name: "publishNationalRecord", version: "0.4" },
     };
 
     var _self = {

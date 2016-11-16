@@ -41,7 +41,11 @@ require.config({
       'amchart3'            : 'libs/amcharts3/amcharts/amcharts',
       'amchart3-serial'     : 'libs/amcharts3/amcharts/serial',
       'amchart3-pie'        : 'libs/amcharts3/amcharts/pie',
-      'amchart3-theme-light': 'libs/amcharts3/amcharts/themes/light'
+      'amchart3-theme-light': 'libs/amcharts3/amcharts/themes/light',
+      'scbd-angularjs-services'   : 'libs/scbd-angularjs-services/scbd-services',
+      'scbd-angularjs-filters'    : 'libs/scbd-angularjs-services/filters/scbd-filters',
+      'socket.io'                 : 'libs/socket.io-1.4.5/index',
+      'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll'
     },
     shim: {
       'libs/angular/angular'     : { deps: ['jquery'] },
@@ -69,8 +73,15 @@ require.config({
       'amchart3-serial'          : { deps: ['amchart3']},
       'amchart3-pie'             : { deps: ['amchart3']},
       'amchart3-theme-light'     : { deps: ['amchart3']},
-      'ammap-export'             : { deps: ['ammap3']}
+      'ammap-export'             : { deps: ['ammap3']},
+      'scbd-angularjs-services'       : { 'deps': ['angular']},
+      'scbd-angularjs-filters'        : { 'deps': ['angular']}
     },
+    packages: [
+        { name: 'scbd-branding'          , location : 'components/scbd-branding' },
+        { name: 'scbd-angularjs-services', location : 'components/scbd-angularjs-services/services' },
+        { name: 'scbd-angularjs-filters',  location : 'components/scbd-angularjs-services/filters' }
+    ]
 });
 
 define("_slaask", window._slaask);

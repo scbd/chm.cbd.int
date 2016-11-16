@@ -51,6 +51,7 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
 
             $scope.nationalRecords = [
                 { identifier: 'focalPoint'              , title: 'National Focal Points'         , count: 0 },
+                { identifier: 'nationalReport6'         , title: 'Sixth National Report'         , count: 0 },
                 { identifier: 'nationalReport'          , title: 'National Reports and NBSAPs'   , count: 0 },
                 { identifier: 'nationalTarget'          , title: 'National Targets'              , count: 0 },
                 { identifier: 'nationalIndicator'       , title: 'National Indicators'           , count: 0 },

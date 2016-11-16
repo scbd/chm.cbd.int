@@ -1,4 +1,4 @@
-define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog'], function(app, template, _){
+define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', "utilities/solr"], function(app, template, _){
 
 app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 	return {
@@ -16,9 +16,9 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 		{
 
 		},
-		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
+		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage', 
  						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog', 
-			function ($scope, $http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, 
+			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication, 
 			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog) {
 				
 				var nationalAssessments = [];

@@ -1,13 +1,13 @@
-define(['app'], function(app) {
+define(['app','linqjs', 'utilities/km-utilities'], function(app, Enumerable) {
     'use strict';
 
-    app.factory('Thesaurus', ['linqjs', function(Enumerable) {
+    app.factory('Thesaurus', ['Enumerable', function() {
         return {
             buildTree: function(terms) {
                 var oTerms = [];
                 var oTermsMap = {};
-
-                Enumerable.from(terms).forEach(function(value) {
+                
+                Enumerable.From(terms).ForEach(function(value) {
                     var oTerm = {
                         identifier: value.identifier,
                         title: value.title,
@@ -38,7 +38,7 @@ define(['app'], function(app) {
                     }
                 }
 
-                return Enumerable.from(oTerms).where("o=>!o.broaderTerms").toArray();
+                return Enumerable.From(oTerms).Where("o=>!o.broaderTerms").ToArray();
             }
         }
     }]);

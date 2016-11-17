@@ -45,9 +45,6 @@ app.factory('guid', function() {
 	};
 });
 
-app.factory('linqjs', [function() {
-	return Enumerable;
-}])
 app.factory('Enumerable', [function() {
 	return Enumerable;
 }]);

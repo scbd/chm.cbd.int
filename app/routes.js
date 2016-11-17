@@ -16,7 +16,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/search/online-reporting',                  { templateUrl: 'views/search/online-reporting.html',     label :'CBD Implementation',   resolveController: true}).
             when('/search/financial-reporting',               { templateUrl: 'views/search/financial-reporting.html',  label :'CBD Implementation',   resolveController: true}).
             when('/search/reporting-map',                     { templateUrl: 'views/search/reporting-map.html',        label :'CBD Implementation',   resolveController: true, reloadOnSearch : false}).
-            when('/search/financial-analyzer',                { templateUrl: 'views/reporting/resource-mobilization/index.html', label :'Search', resolveController: true }).
+            when('/search/financial-analyzer',                { templateUrl: 'views/reporting/resource-mobilization/index.html', label :'Financial Reporting Framework Analyzer', resolveController: true }).
             // SUBMIT SECTION
 
             when('/submit',                                             { templateUrl: 'views/management/submit.html',                          label: 'Management Center',    resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
@@ -53,7 +53,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
             when('/submit/nationalReport6/new',          { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/nationalReport6/:uid',         { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-           
+
 
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
     //      when('/submit/:schema/:id',                                 <= final implementation goal

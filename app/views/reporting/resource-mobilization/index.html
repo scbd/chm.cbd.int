@@ -245,7 +245,7 @@
                         <tr ng-repeat="rec in records | orderBy:'government_EN_s' " ng-if="rec.Q1.progressFlows">
                             <td><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                             <td class="text-center" ng-if="progressDisplay=='amount'" ng-repeat="year in options.progressYears ">{{(rec.Q1.progressFlows[year] | number:0) ||'&mdash;'}}</td>
-                            <td class="text-center" ng-if="progressDisplay=='coefficient'" ng-repeat="year in options.progressYears ">{{(rec.Q1.progressIndicators[year] | number) ||'&mdash;'}}</td>
+                            <td class="text-center" ng-if="progressDisplay=='coefficient'" ng-repeat="year in options.progressYears ">{{(rec.Q1.progressIndicators[year] | number:1) ||'&mdash;'}}</td>
                             <td class="text-center" ng-if="progressDisplay=='amount'">
                                 <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressFlows', rec.government_s)">
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
@@ -263,7 +263,7 @@
                             <td ng-if="progressDisplay=='amount'"><strong>Total</strong></td>
                             <td ng-if="progressDisplay=='coefficient'"><strong>Total Aggregate</strong></td>
                             <td class="text-center" ng-if="progressDisplay=='amount'" ng-repeat="year in options.progressYears"><strong>{{getTotal('Q1', 'progressFlows', year) | number}}</strong></td>
-                            <td class="text-center" ng-if="progressDisplay=='coefficient'" ng-repeat="year in options.progressYears"><strong>{{getAggregateTotalCoefficient(year) | number:2}}</strong></td>
+                            <td class="text-center" ng-if="progressDisplay=='coefficient'" ng-repeat="year in options.progressYears"><strong>{{getAggregateTotalCoefficient(year) | number:1}}</strong></td>
                             <td class="text-center" ng-if="progressDisplay=='amount'">
                                 <a class="chartLink" href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressFlows', rec.government_s, true)">
                                     <i class="fa fa-bar-chart" style="color:red;" aria-hidden="true"></i>

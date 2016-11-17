@@ -134,7 +134,8 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				document = document || $scope.document;
 
-				return !!document && !!document.jurisdiction && document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
+				return !!document && !!document.jurisdiction && 
+				(document.jurisdiction.identifier == "7437F880-7B12-4F26-AA91-CED37250DD0A" || document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E");
 			};
 
 			//==================================

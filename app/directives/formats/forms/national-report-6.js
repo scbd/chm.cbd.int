@@ -379,7 +379,8 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				options = _.assign({
 					schema    : options.schema,
 					target    : options.nationaTargetId,
-					rows	  : 500
+					rows	  : 500,
+					government:$scope.document.government.identifier
 				}, options || {});
 
 				var query  = [];
@@ -389,7 +390,10 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 
 				if(options.target)
 					query.push("nationalTarget_s:"+solr.escape(options.target));
-				
+
+				if(options.government)
+						query.push("government_s:"+solr.escape(options.government));
+
 				if(options.identifier)
 					query.push("identifier_s:"+solr.escape(options.identifier));
 
@@ -397,9 +401,9 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
 				// Apply ownership
-				query.push(_.map(($rootScope.user||{}).userGroups, function(v){
-					return "_ownership_s:"+solr.escape(v);
-				}));
+				// query.push(_.map(($rootScope.user||{}).userGroups, function(v){
+				// 	return "_ownership_s:"+solr.escape(v);
+				// }));
 
 				if(options.latest!==undefined){
 					query.push("_latest_s:" + (options.latest ? "true" : "false"));
@@ -445,12 +449,12 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			function loadProgressAssessment(){
 				var existingAssesments = angular.copy($scope.document.progressAssessments||[]);
 
-				$scope.document.progressAssessments 	= _.filter(existingAssesments, 	function(assessment){ return !assessment.nationalTarget});
+				$scope.document.progressAssessments 	= [];//_.filter(existingAssesments, 	function(assessment){ return !assessment.nationalTarget});
 
 				_.each($scope.nationalTargets, function(nationalTarget){
 							
 					var existingAssesment = _.find(existingAssesments, function(progress){
-												return  progress.nationalTarget.identifier == nationalTarget.identifier_s;
+												return  progress.nationalTarget && progress.nationalTarget.identifier == nationalTarget.identifier_s;
 											});
 					if(!existingAssesment)
 						existingAssesment = { nationalTarget : { identifier : nationalTarget.identifier_s }   };						

@@ -50,7 +50,7 @@
 								</div>
 							</div>
 						</div>
-                        <legend>National Target Type</legend>
+                        <legend>Information on the targets being pursued at the national level</legend>
                         <div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" required name="isAichiTarget" caption="Target Type">
@@ -139,6 +139,12 @@
     									<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select other related Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
     								</div>
     							</div>
+
+    							<div class="col-md-10" ng-show="!document.otherAichiTargets || document.otherAichiTargets.length==0">
+    								<div class="km-control-group" name="noOtherAichiTargetsDescription" caption="National target has no corresponding Aichi Biodiversity Target or relates to other parts of the Strategic Plan for Biodiversity – please explain">
+    									<div km-textbox-ml name="noOtherAichiTargetsDescription" ng-model="document.noOtherAichiTargetsDescription" rows="3" locales="document.header.languages" placeholder=""></div>
+    								</div>
+    							</div>
     						</div>
 
     						<legend>Relevant Documents and Information</legend>
@@ -146,7 +152,7 @@
 
     						<div class="row">
     							<div class="col-md-12">
-    								<div class="km-control-group" name="relevantInformation" caption="Relevant information">
+    								<div class="km-control-group" name="relevantInformation" caption="Other relevant information">
     									<div class="help-block">Please use this field to provide any relevant information.</div>
     									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
     								</div>

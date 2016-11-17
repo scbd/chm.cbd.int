@@ -56,10 +56,19 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
             if(key ==="progressFlows")      years = $scope.options.progressYears;
             if(key ==="progressIndicators") years = $scope.options.progressYears;
 
-            _.forEach(years, function (year) {
-                var total = $scope.getTotal(Q, key, year);
-                $scope.chartData.push({'year': year, 'value':total});
-            });
+            if(key ==="baselineFlows" || key ==="progressFlows"){
+                _.forEach(years, function (year) {
+                    var total = $scope.getTotal(Q, key, year);
+                    $scope.chartData.push({'year': year, 'value':total});
+                });
+            }
+
+            if(key ==="progressIndicators") {
+                _.forEach(years, function (year) {
+                    var total = $scope.getAggregateTotalCoefficient(year);
+                    $scope.chartData.push({'year': year, 'value':total});
+                });
+            }
         };
 
         //============================================================
@@ -75,10 +84,25 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
 
             if(!rec) return;
 
+            var years;
+
+            if(key ==="baselineFlows")      years = $scope.options.baselineYears;
+            if(key ==="progressFlows")      years = $scope.options.progressYears;
+            if(key ==="progressIndicators") years = $scope.options.progressYears;
+            if(key ==="expenditures")       years = $scope.options.domesticYears;
+            if(key ==="contributions")      years = $scope.options.domesticYears;
+
             if(rec[Q] && rec[Q][key]){
-                _.forEach(rec[Q][key], function(value,year){
+
+                _.forEach(years, function(year){
+                    var value = 0;
+
+                    if(rec[Q][key] && rec[Q][key][year])
+                        value = rec[Q][key][year];
+
                     $scope.chartData.push({'year': year, 'value':value});
                 });
+
             }
         };
 
@@ -95,10 +119,17 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
 
             if(!rec) return;
 
-            if(rec[Q] && rec[Q][key]){
+            var years = $scope.options.fundingNeedsYears;
 
-                _.forEach(rec[Q][key], function(value,year){
-                    $scope.chartData.push({'year': year, 'value':value[subkey]});
+
+            if(rec[Q] && rec[Q][key]){
+                _.forEach(years, function (year) {
+                    var value = 0;
+
+                    if(rec[Q][key] && rec[Q][key][year] && rec[Q][key][year][subkey])
+                        value = rec[Q][key][year][subkey];
+
+                    $scope.chartData.push({'year': year, 'value': value});
                 });
             }
         };
@@ -317,14 +348,48 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
                 return 0;
 
             var total =     _.map($scope.records, function (rec) {
+
                     if(rec[Q] && rec[Q][key])
-                        return (rec[Q][key]);
+
+                        return rec[Q][key];
                     else
                         return 0;
                 });
 
-            return _.sum(total)/($scope.records.length);
+            return _.sum(total);
         };
+
+        //============================================================
+        //
+        //============================================================
+        $scope.getAggregateTotalCoefficient = function (year) {
+
+                if(!$scope.records || !year) return 0;
+
+                var Q   = 'Q1';
+                var key = 'progressFlows';
+
+                var progressYearTotal = $scope.getTotal('Q1', 'progressFlows', year) ;
+
+                var pCountries = _.map($scope.records, function (rec) {
+
+                                        if(rec[Q] && rec[Q][key] && rec[Q][key] && rec[Q][key][year])
+                                            if(rec[Q][key][year] > 0)
+                                                return rec.government_s;
+                                    });
+
+                var baselineAverageTotal = _.sum(_.map($scope.records, function (rec) {
+                                                if(_.includes(pCountries, rec.government_s) && rec[Q].baselineFlows_average)
+                                                    return rec[Q].baselineFlows_average;
+
+                                                })
+                                            );
+                if(baselineAverageTotal>0)
+                    return progressYearTotal/baselineAverageTotal;
+
+                return 0;
+        };
+
 
         //============================================================
         //
@@ -335,6 +400,7 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
                 return 0;
 
             var recs = _.filter($scope.records, function (rec) {
+
                             if(rec[Q] && (rec[Q][key] || _.isBoolean(rec[Q][key])))
                                 return rec[Q][key] === answer;
                         });
@@ -460,6 +526,27 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
                                 }));
         };
 
+        //============================================================
+        //
+        //============================================================
+        $scope.getComments2 = function (Q, key) {
+
+            if(!Q && !key) return;
+
+            var records = _.filter($scope.records, function (rec) {
+
+                                if(rec[Q] && rec[Q][key])
+                                    return rec[Q][key];
+                            });
+
+            if(records)
+                return _.compact(
+                                _.map(records, function (rec) {
+                                    var countryName = $scope.getCountryName(rec.government_s);
+                                    if(rec[Q] && rec[Q][key])
+                                        return {country: countryName, comment: rec[Q][key]};
+                                }));
+        };
 
         //============================================================
         //
@@ -474,6 +561,12 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
             $scope.comments_Q3_comprehensive   = $scope.getComments('Q3', 'hasBiodiversityAssessment', 'comprehensive');
             $scope.comments_Q7_some            = $scope.getComments('Q7', 'hasDomesticPrivateSectorMeasures', 'some');
             $scope.comments_Q7_comprehensive   = $scope.getComments('Q7', 'hasDomesticPrivateSectorMeasures', 'comprehensive');
+
+            // getComments2
+            $scope.comments_Q1_methodologicalComments                       = $scope.getComments2('Q1', 'methodologicalComments');
+            $scope.comments_Q4_sourcesAdditionalComments                    = $scope.getComments2('Q4', 'sourcesAdditionalComments');
+            $scope.comments_Q4_domesticCollectiveActionMethodologyComments  = $scope.getComments2('Q4', 'domesticCollectiveActionMethodologyComments');
+            $scope.comments_Q5_fundingNeedsDataAdditionalComments           = $scope.getComments2('Q5', 'fundingNeedsDataAdditionalComments');
         };
 
         //============================================================

@@ -59,7 +59,7 @@ define(['app', 'angular'], function(app, angular) { 'use strict';
         return {
                 restrict: 'A',
                 scope: {
-                    rmPopover: '@',
+                    rmPopover2: '@',
                 },
                 link: function(scope, element, attrs){ //jshint ignore:line
 
@@ -68,7 +68,7 @@ define(['app', 'angular'], function(app, angular) { 'use strict';
                                         trigger      : 'focus hover',
                                         placement    : 'auto',
                                         container    : 'body',
-                                        content      : scope.rmPopover
+                                        content      : scope.rmPopover2
                                     });
                     }
             };

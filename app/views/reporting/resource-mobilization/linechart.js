@@ -8,7 +8,8 @@ define(['text!./linechart.html', 'app', 'jquery', 'lodash', 'amchart3', 'amchart
       transclude: true,
       scope     : {
         chartData    : ' =chartData',
-        chartOptions : ' =chartOptions'
+        chartOptions : ' =chartOptions',
+        chartYears   : '='
       },
       link: function($scope, $element, $attr) { //jshint ignore:line
 

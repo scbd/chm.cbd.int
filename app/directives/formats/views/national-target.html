@@ -44,7 +44,11 @@
 			<label>Sub-Aichi Targets</label>
 			<div class="km-value" ng-repeat="item in document.otherAichiTargets">{{item | term:locale}}</div>
 		</div>
-
+		<div ng-show="document.noOtherAichiTargetsDescription">
+			<label>Explanation on national target has no corresponding Aichi Biodiversity Target or relates to other parts of the Strategic Plan for Biodiversity</label>
+			<div class="km-value km-pre" ng-bind="document.noOtherAichiTargetsDescription | lstring:locale"></div>
+		</div>
+		
 	</div>
 
 	<div ng-show="document.documentText||document.documentLinks">
@@ -52,7 +56,7 @@
 		<legend>Relevant documents and information</legend>
 
 		<div ng-show="document.documentText">
-			<label>Relevant information</label>
+			<label>Other relevant information</label>
 			<div class="km-value km-pre">{{document.documentText|lstring:locale}}</div>
 		</div>
 

@@ -157,13 +157,13 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 							title: {en: 'Financial Reporting Framework: Reporting on baseline and progress towards 2015'},
 							government: authentication.user().government ? { identifier: authentication.user().government } : undefined,
 							internationalResources:   {
-								multiplier: 'thousands',
+								multiplier: 'units',
 								baselineData: { baselineFlows: [{}], coefficient:0},
 								progressData:  {progressFlows:[{}]}
 							},
-							domesticExpendituresData: { expenditures:  [{}], contributions: [{}], multiplier: 'thousands'},
-							fundingNeedsData: 		  { annualEstimates: [{}], multiplier: 'thousands'},
-							nationalPlansData:		  { domesticSources: [{}], internationalSources: [{}], multiplier: 'thousands'}
+							domesticExpendituresData: { expenditures:  [{}], contributions: [{}], multiplier: 'units'},
+							fundingNeedsData: 		  { annualEstimates: [{}], multiplier: 'units'},
+							nationalPlansData:		  { domesticSources: [{}], internationalSources: [{}], multiplier: 'units'}
 						};
 					});
 				}
@@ -393,7 +393,7 @@ console.log(items);
 
 						if(!_.isEmpty(item))
 						{
-console.log(lastYear, item);							
+console.log(lastYear, item);
 							var year = _.result(item, 'year', lastYear);
 
 							if(year > lastYear){

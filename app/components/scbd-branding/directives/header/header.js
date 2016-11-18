@@ -37,7 +37,8 @@ function(app, template, $) {
                         connectWithToken();
                     });
 
-                    $rootScope.$on('signIn', function(){
+                    $rootScope.$on('signIn', function(evt, user){
+                        $scope.user = user;
                         socketioService.disconnect();
                         connectWithToken();
                     });

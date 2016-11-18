@@ -1,85 +1,82 @@
-define(['app', './apiUrl'], function(app) {
+define(['app'], function(app) {//, './apiUrl'
 
-    app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", "apiUrl", function($q, $rootScope, $window, $document, apiUrl) {
+    app.factory('apiToken', ["$q", "$rootScope", "$window", "$document", "$timeout",
+    function($q, $rootScope, $window, $document, $timeout) {//, apiUrl//"apiUrl", 
 
-        var domain = document.location.hostname.replace(/^[^\.]+\./, '');
-        if(domain=='localhost') domain = 'cbddev.xyz';
-        var pToken;
-        var ACCOUNTS_URL = apiUrl.devAccountsUrl() || 'https://accounts.'+domain;
+        var ISSUER = 'https://' + document.location.hostname.replace(/[^\.]+\./, 'accounts.');
 
-        //============================================================
-        //
-        //
-        //============================================================
-        function getToken() {
+		if(document.location.hostname=='localhost') ISSUER = 'https://accounts.cbddev.xyz';
 
-            var authenticationFrame = $document.find('#authenticationFrame')[0];
+		var pToken;
+		//============================================================
+		//
+		//
+		//============================================================
+		function getToken() {
+			//incase of iframe not found in $document object search the $ object (for Firefox)
+			var authenticationFrame = $document.find('#authenticationFrame')[0]||$('#authenticationFrame')[0];
 
-            if (!authenticationFrame) {
-                pToken = pToken || null;
-            }
+			if(!authenticationFrame) {
+				pToken = pToken || null;
+			}
 
-            if (pToken !== undefined) {
-                return $q.when(pToken || null)
-                         .then(checkTokenExpiration);
-            }
+			if(pToken!==undefined) {
+				return $q.when(pToken || null).then(checkTokenExpiration);
+			}
 
-            pToken = null
+			pToken = null;
 
-            var defer = $q.defer();
+			var defer = $q.defer();
+			var unauthorizedTimeout = $timeout(function(){
+				console.error('accounts.cbd.int is not available / call is made from an unauthorized domain');
+				defer.resolve(null);
+			}, 1000);
 
-            var receiveMessage = function(event) {
-                if (event.origin != ACCOUNTS_URL)
-                    return;
+			var receiveMessage = function(event)
+			{
+				$timeout.cancel(unauthorizedTimeout);
 
-                var message = JSON.parse(event.data);
+				if(event.origin!=ISSUER) return;
 
-                if (message.type == 'authenticationToken') {
-                    if(message.authenticationToken)
-                        defer.resolve({ token : message.authenticationToken, expiration : message.expiration });
-                    else
-                        defer.resolve(null);
+				var message = JSON.parse(event.data);
 
-                    if (message.authenticationEmail)
-                        $rootScope.lastLoginEmail = message.authenticationEmail;
-                    //                        console.log('signin called');
-                    //                    $rootScope.$broadcast('signIn', null);
+				if(message.type=='authenticationToken') {
+					defer.resolve({ token : message.authenticationToken, expiration : message.expiration });
 
-                }
-                else {
-                    defer.reject('unsupported message type');
-                }
-            };
+					if(message.authenticationEmail)
+						$rootScope.lastLoginEmail = message.authenticationEmail;
+				}
+				else {
+					defer.reject('unsupported message type');
+				}
+			};
 
-            $window.addEventListener('message', receiveMessage);
+			$window.addEventListener('message', receiveMessage);
 
-            pToken = defer.promise.then(function(t) {
+			pToken = defer.promise.then(function(t){
 
-                pToken = t;
+				pToken = t;
 
-                return t;
+				return t;
 
-            }).catch(function(error) {
+			}).catch(function(error){
 
-                pToken = null;
+				pToken = null;
 
-                console.error(error);
+				console.error(error);
 
-                throw error;
+				throw error;
 
-            }).finally(function() {
+			}).finally(function(){
 
-                $window.removeEventListener('message', receiveMessage);
+				$window.removeEventListener('message', receiveMessage);
 
-            });
+			});
 
-            authenticationFrame.contentWindow.postMessage(JSON.stringify({
-                type: 'getAuthenticationToken'
-            }), ACCOUNTS_URL);
+			authenticationFrame.contentWindow.postMessage(JSON.stringify({ type : 'getAuthenticationToken' }), ISSUER);
 
-            return pToken;
-        }
-
+			return pToken;
+		}
         //============================================================
         //
         //
@@ -94,7 +91,7 @@ define(['app', './apiUrl'], function(app) {
             else
                 pToken = undefined;
 
-            var authenticationFrame = $document.find('#authenticationFrame')[0];
+            var authenticationFrame = $document.find('#authenticationFrame')[0]||$('#authenticationFrame')[0];;
 
             if (authenticationFrame) {
 
@@ -105,7 +102,7 @@ define(['app', './apiUrl'], function(app) {
                     expiration        : expiration
                 };
 
-                authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), ACCOUNTS_URL);
+                authenticationFrame.contentWindow.postMessage(JSON.stringify(msg), ISSUER);
             }
 
             if (email) {

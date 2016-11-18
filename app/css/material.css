@@ -1,5 +1,5 @@
 
-@import url("../libs/angular-material/angular-material.css");
+@import url("../libs/angular-material/angular-material.min.css");
 
 md-toast{
     position:fixed!important;

@@ -49,7 +49,7 @@ require.config({
     },
     shim: {
       'libs/angular/angular'     : { deps: ['jquery'] },
-      'angular'                  : { deps: ['libs/angular/angular'] },
+      'angular'                  : { deps: ['libs/angular/angular.min'] },
       'ngRoute'                  : { deps: ['angular'] },
       'ngSanitize'               : { deps: ['angular'] },
       'ngCookies'                : { deps: ['angular'] },

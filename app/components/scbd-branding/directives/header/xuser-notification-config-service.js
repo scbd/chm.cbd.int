@@ -4,8 +4,8 @@ define(['app', 'lodash', 'moment'],
         app.service("cfgUserNotification", ['$location', '$window', '$filter', function ($location, $window, $filter) {
 
             var notificationUrls = {
-                documentNotificationUrl: '/register/requests/',
-                viewAllNotificationUrl: '/register/requests',
+                documentNotificationUrl: '/management/requests/',
+                viewAllNotificationUrl: '/management/requests',
                 documentMessageUrl: '/mailbox/'
             };
             var productionRealms = {
@@ -90,7 +90,7 @@ define(['app', 'lodash', 'moment'],
 
                 if (notification.type == 'documentNotification')
                     return notificationUrls.documentNotificationUrl
-                        + notification.data.workflowId;
+                        + notification.data.workflowId + '/publishRecord';
                 else
                     return notificationUrls.documentMessageUrl + notification.id;
             }

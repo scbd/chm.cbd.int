@@ -46,7 +46,7 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
             map.locate({ maxZoom: maxZoom });
 
             // Set tile layer
-            var tilelayer = scope.tilelayer || 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            var tilelayer = scope.tilelayer || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
             L.tileLayer(tilelayer, { maxZoom: maxZoom }).addTo(map);
 
             // Manage map bounds

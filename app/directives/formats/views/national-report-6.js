@@ -29,9 +29,13 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(!$scope.document||!document)
 						return;				
 					if(document.targetPursued){
-						$q.when(loadReferenceRecords({schema : 'nationalTarget', government:document.government.identifier}))
+						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier), revision:getRevisonNumber(target.identifier)})});
+						$q.all(nationalTargets)
 						  .then(function(data){
-							  $scope.nationalTargets = data;
+							  $scope.nationalTargets = [];
+							  _.each(data, function(target){
+								  $scope.nationalTargets.push(target[0]);
+							  })
 						  });
 					}
 
@@ -47,7 +51,6 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						nationalAssessments = documents;
 					});
 				});
-
 				$scope.getNationalTargetTitle = function(identifier){
 
 					if($scope.nationalTargets){
@@ -68,6 +71,20 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 				}
 
+				function removeRevisonNumber(identifier){
+					if(identifier && identifier.indexOf('@')>0)
+						return identifier.substr(0, identifier.indexOf('@'))
+					
+					return identifier;
+				}
+				
+				function getRevisonNumber(identifier){
+					if(identifier && identifier.indexOf('@')>0)
+						return identifier.substr(identifier.indexOf('@')+1, identifier.length - (identifier.indexOf('@')+1));
+					
+					return identifier;
+				}
+
 				function loadReferenceRecords(options) {
 					
 					if(options.latest===undefined)
@@ -82,6 +99,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					var query  = [];
 
 					// Add Schema
+					if(options.schema)
 					query.push("schema_s:" + solr.escape(options.schema));
 					
 					if(options.government)
@@ -92,7 +110,9 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					
 					if(options.identifier)
 						query.push("identifier_s:"+solr.escape(options.identifier));
-
+					
+					if(options.revision)
+						query.push("_revision_i:"+solr.escape(options.revision));
 					// Apply ownership
 					query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
 

@@ -23,7 +23,8 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             	nationalIndicators: [],
                 nationalTargets:    [],
 				aichiTargets  : function()  { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",{ cache: true }).then(function(o){ return o.data; }); },
-							
+				adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },							
+											
             };
 
             $scope.$watch("document.government", function(term) {
@@ -155,7 +156,14 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				return !!document && !!document.confidence && document.confidence.identifier == "DB41B07F-04ED-4446-82D4-6D1449D9527B";
 			};
+			$scope.isMonitoringNotRequired = function(document) {
 
+				document = document || $scope.document;
+
+				return !!document && !!document.adequacy && 
+						_.contains(['4C93B22D-E8A0-4070-AC88-DD8B18A5A4ED', '73DA7532-9D53-4101-B3C7-312FC13010FF'], document.confidence.identifier);
+			};
+			
 			//==================================
 			//
 			//==================================
@@ -195,6 +203,12 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 					document.nationalTarget = undefined;
 				else 
 					document.aichiTarget = undefined;
+				
+				if(!document.nationalIndicatorsUsed == 1)
+					document.nationalIndicators = undefined;
+					
+				if($scope.isMonitoringNotRequired())
+					document.adequacyDescription = undefined;
 
 				if (/^\s*$/g.test(document.notes))
 					document.notes = undefined;

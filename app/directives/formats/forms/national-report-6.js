@@ -85,7 +85,6 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 							assessment   		: function()  { return $http.get("/api/v2013/thesaurus/domains/8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							categoryProgress   	: function()  { return $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							confidenceLevel   	: function()  { return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms",{ cache: true }).then(function(o){ return o.data; }); },
-							adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },							
 							nationalTargets		: function()  { 
 																var targets = $scope.nationalTargets
 																if(!targets)
@@ -145,6 +144,14 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				
 				if(document.implementationMeasures && document.implementationMeasures.length ==0)
 					document.implementationMeasures = undefined;
+				else{
+					_.each(document.implementationMeasures, function(measure){						
+						if(document.targetPursued)						
+							measure.aichiTargets = undefined;
+						else
+							measure.nationalTargets = undefined;
+					})
+				}
 
 				return document;
 			};
@@ -161,6 +168,11 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			$scope.$watch('tab', function(tab) {
 				if (tab == 'review')
 					$scope.validate();
+				
+				// if(tab == 'implementation')$scope.closeall('.implementationMeasure');
+				// if(tab == 'progress')$scope.closeall('.progressAssessment');
+				// if(tab == 'nationalContribution')$scope.closeall('.aichiTarget');
+				// if(tab == 'gspcContribution')$scope.closeall('.gspcTarget');
 			});
 
 			//==================================
@@ -373,7 +385,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			}
 			function loadReferenceRecords(options) {
 				
-				if(options.latest===undefined)
+				if(!options.skipLatest && options.latest===undefined)
 					options.latest = true;
 
 				options = _.assign({
@@ -416,7 +428,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				{
 					"q"  : query,
 					"fl" : "identifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
-						"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+						"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
 					"sort"  : "updatedDate_dt desc",
 					"start" : 0,
 					"rows"   : options.rows,
@@ -437,13 +449,51 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 
 			function loadNationalTargets(){
 				
+				var existingnationalTargets = angular.copy($scope.document.nationalTargets||[]);
+				$scope.document.nationalTargets 	= [];
+				$scope.nationalTargets = undefined;
+				$scope.loadingNationalTargets = true;
 				var query = loadReferenceRecords({
-									schema : 'nationalTarget'
+									schema : 'nationalTarget', skipLatest:true
 								});
 				return $q.when(query)
 						.then(function(data){
-							$scope.nationalTargets = data;
-						}); 
+							var indexNationalTargets = [];
+							var nationalTargets = [];
+							//sort index data so darft reocrds are at top
+							data = $filter('orderBy')(data, ['identifier_s', '-_revision_i'])
+							//check for existing records, more preference is to drafts
+							_.each(existingnationalTargets, function(nationalTarget){
+								var indexRecord = _.find(data, function(nt){
+													return nt.identifier_s == removeRevisonNumber(nationalTarget.identifier) &&
+															(nt.version_s == 'draft' || nt._state_s == 'public')
+												});
+								if(indexRecord){
+									nationalTargets.push({identifier : indexRecord.identifier_s + '@' + indexRecord._revision_i})	
+									indexNationalTargets.push(indexRecord);
+								}							
+							});
+
+							var existingNTIds = _.map(_.pluck(nationalTargets, ['identifier']), removeRevisonNumber);
+							var newNationaTargets = _.filter(data, 	function(nationalTarget){ 
+														var indexRecord = _.find(data, function(nt){
+																			return  !_.contains(existingNTIds, nationalTarget.identifier_s) &&
+																					nt.identifier_s == nationalTarget.identifier_s &&
+																				(nt.version_s == 'draft' || nt._state_s == 'public')
+																		});
+														return indexRecord && indexRecord.identifier_s == nationalTarget.identifier_s && 
+															   indexRecord._revision_i == nationalTarget._revision_i
+													});
+
+							_.map(newNationaTargets||[], function(nt){
+								nationalTargets.push({identifier : nt.identifier_s + '@' + nt._revision_i})	
+								indexNationalTargets.push(nt);
+							});
+
+							$scope.document.nationalTargets = nationalTargets;
+							$scope.nationalTargets			= indexNationalTargets;
+						})
+						.finally(function(){ $scope.loadingNationalTargets = false;}); 
 			}
 
 			function loadProgressAssessment(){
@@ -459,7 +509,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					if(!existingAssesment)
 						existingAssesment = { nationalTarget : { identifier : nationalTarget.identifier_s }   };						
 											
-					$q.when(loadReferenceRecords({schema:'nationalAssessment',nationaTargetId:nationalTarget.identifier_s, rows:1}))
+					$q.when(loadReferenceRecords({schema:'nationalAssessment', nationaTargetId:nationalTarget.identifier_s, rows:1, skipLatest:true}))
 					.then(function(result){
 						if(result && result.length>0){
 							existingAssesment.assessment = {identifier : result[0].identifier_s};
@@ -473,7 +523,13 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					
 				});
 			}
-
+			
+			function removeRevisonNumber(identifier){
+				if(identifier && identifier.indexOf('@')>0)
+					return identifier.substr(0, identifier.indexOf('@'))
+				
+				return identifier;
+			}
 			var evtServerPushNotification = $rootScope.$on('event:server-pushNotification', function(evt,data){
 				if(data.type == 'workflowActivityStatus'
 					&& data.data && data.data.identifier  && (data.data.schema=='nationalTarget' || data.data.schema=="nationalAssessment") ){

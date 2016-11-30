@@ -14,7 +14,7 @@ var thesaurus = function() {
 
 		var deferred = when.defer();
 
-		request( { method: 'GET', uri: 'http://absch.local/api/v2013/thesaurus/domains/'+encodeURIComponent(domain)+'/terms', json: true }, function (error, response, body) {
+		request( { method: 'GET', uri: 'https://absch.local/api/v2013/thesaurus/domains/'+encodeURIComponent(domain)+'/terms', json: true }, function (error, response, body) {
 			return  (error || response.statusCode != 200) ? deferred.reject(error) : deferred.resolve(body);
 		});
 

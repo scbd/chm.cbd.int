@@ -48,7 +48,7 @@ require.config({
       'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll'
     },
     shim: {
-      'libs/angular/angular'     : { deps: ['jquery'] },
+      'libs/angular/angular.min'     : { deps: ['jquery'] },
       'angular'                  : { deps: ['libs/angular/angular.min'] },
       'ngRoute'                  : { deps: ['angular'] },
       'ngSanitize'               : { deps: ['angular'] },
@@ -74,8 +74,9 @@ require.config({
       'amchart3-pie'             : { deps: ['amchart3']},
       'amchart3-theme-light'     : { deps: ['amchart3']},
       'ammap-export'             : { deps: ['ammap3']},
-      'scbd-angularjs-services'       : { 'deps': ['angular']},
-      'scbd-angularjs-filters'        : { 'deps': ['angular']}
+      'scbd-branding'            : { 'deps': ['angular']},
+      'scbd-angularjs-services'  : { 'deps': ['angular']},
+      'scbd-angularjs-filters'   : { 'deps': ['angular']}
     },
     packages: [
         { name: 'scbd-branding'          , location : 'components/scbd-branding' },

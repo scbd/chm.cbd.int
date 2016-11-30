@@ -59,7 +59,7 @@ define(['app', 'lodash', 'moment'],
                         if ($location.absUrl().indexOf('http://localhost:') >= 0)
                             url = 'http://localhost:2000'
                         else
-                            url = 'https://dev-chm.cbd.int'; break;
+                            url = 'https://chm.cbddev.xyz'; break;
                     }
                 }
 
@@ -69,7 +69,10 @@ define(['app', 'lodash', 'moment'],
 
                 var path;
                 if (_.contains(['ABS', 'ABS-DEV', 'ABS-TRG'], notification.data.documentInfo.realm.toUpperCase())) {
-                    path = "/register/" + $filter("schemaShortName")(notification.data.documentInfo.metadata.schema) + "/" + notification.data.documentInfo.identifier + "/view";
+                    if(notification.data.type == 'documentNotification')
+                        path = "/register/" + $filter("urlSchemaShortName")(notification.data.documentInfo.metadata.schema) + "/" + notification.data.documentInfo.identifier + "/view";
+                    else
+                        path = '/database/' + $filter("urlSchemaShortName")(notification.data.documentInfo.metadata.schema) + "/" + notification.data.documentInfo.identifier;
                 }
                 else {
                     path = getURL(notification);

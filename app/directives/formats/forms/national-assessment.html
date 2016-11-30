@@ -93,7 +93,33 @@
 
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group" name="nationalIndicators" required="{{isBasedOnComprehensiveIndicators()}}" caption="Indicator(s) used in this assessment">
+								
+								<div class="km-control-group"  name="nationalIndicatorsUsed" 
+									caption="Has your country used indicators to assess progress towards this national target?">
+									<br/>
+									<button data-toggle="buttons-checkbox" type="button" 
+										ng-class="{'btn-primary':document.nationalIndicatorsUsed, 'btn-default': document.nationalIndicatorsUsed==false}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=true">Yes</button>
+									<button data-toggle="buttons-checkbox" type="button" 
+										ng-class="{'btn-primary':document.nationalIndicatorsUsed==false, 'btn-default': document.nationalIndicatorsUsed}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=false">No</button>
+								</div>
+								<div class="row" ng-show="document.nationalIndicatorsUsed">
+									<div class="col-md-12">
+										<div class="km-control-group" name="nationalIndicators"  caption="Please provide indicator(s)used in this assessment.">									
+											<span class="help-block">
+												Please indicate any indicators used to assess progress towards the attainment of this target. These indicators
+												could include indicators contained in your country’s national biodiversity strategy and action plan or
+												indicators developed for other processes. In recommendation XIX/4 1 , SBSTTA took note of a proposed list of
+												generic and specific indicators for the Strategic Plan for Biodiversity 2011-2020 identified by the Ad Hoc
+												Technical Expert Group. In assessing progress towards their national targets, countries may wish to make
+												use of this list of indicators, if appropriate. Further information on indicators, including tools for national
+												indicator development, is available from the Biodiversity Indicators Partnership
+												(http://www.bipindicators.net/).
+											</span>
+											<div km-textbox-ml  name="nationalIndicators" ng-model="document.nationalIndicators" locales="document.header.languages" rows="3"></div>
+										</div>
+									</div>
+								</div>
+								<!--<div class="km-control-group" name="nationalIndicators" required="{{isBasedOnComprehensiveIndicators()}}" caption="Indicator(s) used in this assessment">
 									<div class="btn-group" role="group">
 										<div class="btn-group" role="group">
 										    <button type="button" ng-disabled="!unselectedIndicators.length" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -105,7 +131,6 @@
 										    	<li ng-repeat="item in (unselectedIndicators = (options.nationalIndicators | filter:filterUnselectedIndicator))"><a href="#" ng-click="addIndicator(item)">{{item.title | lstring}}</a></li>
 										    </ul>
 										</div>
-										<!-- <button type="button" class="btn btn-default" ng-click="createIndicator($event)">+</button> -->
 									</div>
 
 									<ul class="list-group" ng-if="document.nationalIndicators.length" style="margin-top:10px">
@@ -133,7 +158,7 @@
 										</li>
 									</ul>
 
-								</div>
+								</div>-->
 							</div>
 						</div>
 
@@ -205,7 +230,31 @@
 								</div>
 							</div>
 						</div>-->
-
+						<div class="col-md-12">
+							<div class="km-control-group"  name="adequacy" caption="Adequacy of monitoring information to support assessment">
+								<div class="help-block">
+									Please indicate the adequacy of the national monitoring systems in place for this national target
+								</div>
+								<div km-select  name="adequacy" ng-model="document.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacyMonitoring()"></div>
+							</div>
+						</div>
+						<div class="col-md-12" ng-if="isMonitoringNotRequired()">
+							<div class="km-control-group" name="adequacyDescription"  caption="Please describe the monitoring system for the target if one exists.">
+								<div class="help-block">
+									If one of the two first answers has been selected in the question above (i.e. Monitoring related to this target is adequate or monitoring related to this target is partial), please describe the monitoring system that exists. Issues that your country may
+									wish to include in its response are the characteristics of the monitoring system, the organizations responsible for it, how the information or data is collected, the type of data collected and how frequently data are updated.
+								</div>
+								<div km-textbox-ml  name="adequacyDescription" ng-model="document.adequacyDescription" locales="document.header.languages" rows="3"></div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="km-control-group" name="otherRelevantDocuments" caption="Other relevant website address or attached documents">
+								<div class="help-block">
+									(Please use this field to indicate any relevant websites, web links or documents where additional information can be found) Please provide any relevant documents or web links to additional information related to this or other relevant information.
+								</div>
+								<div km-link name="otherRelevantDocuments" ng-model="document.otherRelevantDocuments" identifier="document.header.identifier"></div>
+							</div>
+						</div>
 
 
 						<div class="row">

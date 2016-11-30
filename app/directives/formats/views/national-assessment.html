@@ -48,26 +48,22 @@
 	</div>
 
 
-	<div ng-show="document.nationalIndicators || document.strategicPlanIndicators || document.implementationActivities">
+	<div ng-show="document.nationalIndicatorsuserd || document.nationalIndicators || document.strategicPlanIndicators || document.implementationActivities">
 		<legend>Indicators and Activities</legend>
-
-		<div ng-show="document.nationalIndicators">
-			<label>Link to National indicator(s) used in this assessment</label>
-			<ul class="list-group" ng-if="document.nationalIndicators.length" style="margin-top:10px">
-				<li class="list-group-item" ng-repeat="item in document.nationalIndicators">
-
-					<h4>{{docInfo(item).title | lstring}}</h4>
-
-					<p>{{docInfo(item).description | lstring}}</p>
-					<p><strong>Indicator Description:</strong><br/>{{item.description| lstring}}</p>
-					<ul class="list-group" ng-if="item.links.length" style="margin-top:10px">
-						<li class="list-group-item" ng-repeat="item in item.links">
-							<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
+		
+		<div ng-show="document.nationalIndicatorsuserd===false">
+			<label></label>
+			<div class="km-value">
+				The country has not used indicators to assess progress towards this national target.
+			</div>
 		</div>
+		<div ng-show="document.nationalIndicators">
+			<label>Indicator(s)used in this assessment</label>
+			<div class="km-value">
+				{{item.nationalIndicators | lstring:locale}}
+			</div>			
+		</div>
+		
 
 		<div ng-show="document.strategicPlanIndicators">
 			<label>Link to Indicator(s) used in this assessment</label>
@@ -117,7 +113,20 @@
 		</div>
 
 	</div>
-
+	<div ng-show="document.adequacy">
+		<label>Adequacy of monitoring information to support assessment</label>
+		<div class="km-value km-pre">{{document.adequacy | term:locale}}</div>
+	</div>
+	<div ng-show="document.adequacyDescription">
+		<label>Monitoring system for the target</label>
+		<div class="km-value km-pre">{{document.adequacyDescription | lstring:locale}}</div>
+	</div>
+	<div ng-show="document.otherRelevantDocuments">
+		<label>Other relevant website address or attached documents</label>
+		<ul class="km-value">
+			<li ng-repeat="item in document.otherRelevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+		</ul>
+	</div>
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
 
 		<legend>Additional Information</legend>

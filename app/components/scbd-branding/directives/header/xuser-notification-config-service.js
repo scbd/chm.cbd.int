@@ -4,6 +4,7 @@ define(['app', 'lodash', 'moment'],
         app.service("cfgUserNotification", ['$location', '$window', '$filter', function ($location, $window, $filter) {
 
             var notificationUrls = {
+                documentAlertUrl        : '/database/record?documentID=',
                 documentNotificationUrl: '/management/requests/',
                 viewAllNotificationUrl: '/management/requests',
                 documentMessageUrl: '/mailbox/'
@@ -92,8 +93,9 @@ define(['app', 'lodash', 'moment'],
                     throw "Invalid User Notification Configuration, documentNotificationUrl is missing.";
 
                 if (notification.type == 'documentNotification')
-                    return notificationUrls.documentNotificationUrl
-                        + notification.data.workflowId + '/publishRecord';
+                    return notificationUrls.documentNotificationUrl  + notification.data.workflowId + '/publishRecord';
+                else  if (notification.type == 'subscriptionNotification')
+                    return notificationUrls.documentAlertUrl + notification.data.documentInfo.identifier;
                 else
                     return notificationUrls.documentMessageUrl + notification.id;
             }

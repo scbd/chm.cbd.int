@@ -53,6 +53,10 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
             if (schema == "undbAction") return "UNDB Action";
             if (schema == "undbPartner") return "UNDB Partner"; 
             if (schema == "nationalReport6") return "Sixth National Report";
+            if (schema == "bbiProvider"   ) return 'BBI Provider Profiles';
+            if (schema == "bbiAssistance" ) return 'Assistance Request(s)';
+            if (schema == "bbiOpportunity") return 'Opportunity Offer(s)';
+            if (schema == "bbiContact"    ) return 'BBI Contact(s)';
 
             if(schema.toLowerCase()=="focalpoint"				            ) return "ABS National Focal Point";
 			if(schema.toLowerCase()=="authority"				            ) return "Competent National Authority";

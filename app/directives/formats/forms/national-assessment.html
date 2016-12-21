@@ -6,7 +6,7 @@
     </div>
   </md-toolbar>
   <md-content style="padding:20px;background-color:transparent;">
-
+	  
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>An error has occurred...</strong>
 		<div>{{error}}</div>
@@ -80,12 +80,12 @@
 
 						 <div class="row bottom-spacing">
 							<div class="col-md-12">
-								<div class="km-control-group"  name="assessmentText" caption="Assessment summary">
-									<div class="help-block">Please provide evidence for your assessment, such as actions taken to implement this target and outcomes achieved</div>
+								<div class="km-control-group"  name="assessmentText" caption="Additional information">
+									<div class="help-block">Please provide information on the evidence used in the assessment of this target, drawing upon relevant information provided in section II, including obstacles in undertaking the assessment.</div>
 									<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
 								</div>
 							</div>
-						</div>
+						</div> 
 
 
 
@@ -93,18 +93,18 @@
 
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
-
-								<div class="km-control-group"  name="nationalIndicatorsUsed"
+								
+								<div class="km-control-group"  name="nationalIndicatorsUsed" 
 									caption="Has your country used indicators to assess progress towards this national target?">
 									<br/>
-									<button data-toggle="buttons-checkbox" type="button"
+									<button data-toggle="buttons-checkbox" type="button" 
 										ng-class="{'btn-primary':document.nationalIndicatorsUsed, 'btn-default': document.nationalIndicatorsUsed==false}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=true">Yes</button>
-									<button data-toggle="buttons-checkbox" type="button"
+									<button data-toggle="buttons-checkbox" type="button" 
 										ng-class="{'btn-primary':document.nationalIndicatorsUsed==false, 'btn-default': document.nationalIndicatorsUsed}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=false">No</button>
 								</div>
 								<div class="row" ng-show="document.nationalIndicatorsUsed">
 									<div class="col-md-12">
-										<div class="km-control-group" name="nationalIndicators"  caption="Please provide indicator(s)used in this assessment.">
+										<div class="km-control-group" name="nationalIndicators"  caption="Please provide indicator(s)used in this assessment.">									
 											<span class="help-block">
 												Please indicate any indicators used to assess progress towards the attainment of this target. These indicators
 												could include indicators contained in your country’s national biodiversity strategy and action plan or
@@ -239,18 +239,18 @@
 							</div>
 						</div>
 						<div class="col-md-12" ng-if="isMonitoringNotRequired()">
-							<div class="km-control-group" name="adequacyDescription"  caption="Please describe how the target is monitored and indicate whether there is a monitoring system in place.">
-								<div class="help-block">
+							<div class="km-control-group" name="adequacyDescription"  caption="Please describe how the target is monitored and indicate whether there is a monitoring system in place">
+								<!--<div class="help-block">
 									If one of the two first answers has been selected in the question above (i.e. Monitoring related to this target is adequate or monitoring related to this target is partial), please describe the monitoring system that exists. Issues that your country may
 									wish to include in its response are the characteristics of the monitoring system, the organizations responsible for it, how the information or data is collected, the type of data collected and how frequently data are updated.
-								</div>
+								</div>-->
 								<div km-textbox-ml  name="adequacyDescription" ng-model="document.adequacyDescription" locales="document.header.languages" rows="3"></div>
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="km-control-group" name="otherRelevantDocuments" caption="Other relevant website address or attached documents">
 								<div class="help-block">
-									(Please use this field to indicate any relevant websites, web links or documents where additional information can be found) Please provide any relevant documents or web links to additional information related to this or other relevant information.
+									Please use this field to indicate any relevant websites, web links or documents where additional information related to the monitoring system can be found.
 								</div>
 								<div km-link name="otherRelevantDocuments" ng-model="document.otherRelevantDocuments" identifier="document.header.identifier"></div>
 							</div>

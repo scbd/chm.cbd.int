@@ -16,52 +16,68 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 		{
 
 		},
-		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage', 
- 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog', 
-			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication, 
+		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage',
+ 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog',
+			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication,
 			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog) {
-				
+
 				var nationalAssessments = [];
 				$scope.nationalTargets = [];
 
 				$scope.$watch('document', function(document, old){
-					
+
 					if(!$scope.document||!document)
-						return;				
+						return;
 					if(document.targetPursued){
-						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier), revision:getRevisonNumber(target.identifier)})});
+						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier), revision:getRevisonNumber(target.identifier)});});
 						$q.all(nationalTargets)
 						  .then(function(data){
 							  $scope.nationalTargets = [];
 							  _.each(data, function(target){
 								  $scope.nationalTargets.push(target[0]);
-							  })
+							  });
 						  });
 					}
 
 					var nationalAssessmentQuery=[];
 					_.each($scope.document.progressAssessments, function (mod) {
 						if(mod.assessment && mod.assessment.identifier){
-							nationalAssessmentQuery.push(loadReferenceRecords({schema:'nationalAssessment', identifier:mod.assessment.identifier, rows:1}))
+							nationalAssessmentQuery.push(loadReferenceRecords({schema:'nationalAssessment', identifier:mod.assessment.identifier, rows:1}));
 						}
-					});			
+					});
 					$q.all(nationalAssessmentQuery)
 					.then(function(results){
-						var documents = _.map(results, function(result){ return result[0] || {}; });					
+						var documents = _.map(results, function(result){ return result[0] || {}; });
 						nationalAssessments = documents;
 					});
 				});
+
+				//============================================================
+				//
+				//============================================================
 				$scope.getNationalTargetTitle = function(identifier){
 
 					if($scope.nationalTargets){
 						var nationalTarget = _.find($scope.nationalTargets, function(target){
-												return target && target.identifier_s == identifier; 
+												return target && target.identifier_s == identifier;
 											});
 						if(nationalTarget)
-							return nationalTarget.title
-					}	
-				}
+							return nationalTarget.title;
+					}
+				};
 
+				//============================================================
+				//
+				//============================================================
+				$scope.hasNationalContributions = function () {
+					if($scope.document && $scope.document.nationalContributions){
+						return _.has($scope.document.nationalContributions, 'description') || _.has($scope.document.nationalContributions, 'descriptionActivities');
+					}
+				};
+
+				//============================================================
+				//
+				//============================================================
 				$scope.getAssessmentInfo = function(assessment, field){
 					var existingAssesment = _.find(nationalAssessments, function(progress){
 														return  progress.identifier_s == assessment.identifier;
@@ -69,24 +85,27 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(existingAssesment)
 						return existingAssesment[field];
 
-				}
+				};
 
 				function removeRevisonNumber(identifier){
 					if(identifier && identifier.indexOf('@')>0)
-						return identifier.substr(0, identifier.indexOf('@'))
-					
-					return identifier;
-				}
-				
-				function getRevisonNumber(identifier){
-					if(identifier && identifier.indexOf('@')>0)
-						return identifier.substr(identifier.indexOf('@')+1, identifier.length - (identifier.indexOf('@')+1));
-					
+						return identifier.substr(0, identifier.indexOf('@'));
+
 					return identifier;
 				}
 
+				function getRevisonNumber(identifier){
+					if(identifier && identifier.indexOf('@')>0)
+						return identifier.substr(identifier.indexOf('@')+1, identifier.length - (identifier.indexOf('@')+1));
+
+					return identifier;
+				}
+
+				//============================================================
+				//
+				//============================================================
 				function loadReferenceRecords(options) {
-					
+
 					if(options.latest===undefined)
 						options.latest = true;
 
@@ -101,16 +120,16 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					// Add Schema
 					if(options.schema)
 					query.push("schema_s:" + solr.escape(options.schema));
-					
+
 					if(options.government)
 						query.push("government_s:"+solr.escape(options.government));
 
 					if(options.target)
 						query.push("nationalTarget_s:"+solr.escape(options.target));
-					
+
 					if(options.identifier)
 						query.push("identifier_s:"+solr.escape(options.identifier));
-					
+
 					if(options.revision)
 						query.push("_revision_i:"+solr.escape(options.revision));
 					// Apply ownership
@@ -152,8 +171,12 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				}
 
 				$scope.showReferenceRecordDetailss = function(documentId){
-					openDialog(documentId, {})
-				}
+					openDialog(documentId, {});
+				};
+
+				//============================================================
+				//
+				//============================================================
 				function openDialog(documentId, options) {
 
 					options = options || {};
@@ -173,7 +196,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 							options.plain = true;
 							options.controller = ['$scope', function($scope){
 								$scope.close = ngDialog.closeAll;
-							}]
+							}];
+
 							var dialogWindow = ngDialog.open(options);
 
 							dialogWindow.closePromise.then(function(res){

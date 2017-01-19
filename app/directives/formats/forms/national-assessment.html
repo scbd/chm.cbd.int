@@ -6,7 +6,7 @@
     </div>
   </md-toolbar>
   <md-content style="padding:20px;background-color:transparent;">
-	  
+
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>An error has occurred...</strong>
 		<div>{{error}}</div>
@@ -85,7 +85,7 @@
 									<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
 								</div>
 							</div>
-						</div> 
+						</div>
 
 
 
@@ -93,18 +93,18 @@
 
 						<div class="row bottom-spacing">
 							<div class="col-md-12">
-								
-								<div class="km-control-group"  name="nationalIndicatorsUsed" 
+
+								<div class="km-control-group"  name="nationalIndicatorsUsed"
 									caption="Has your country used indicators to assess progress towards this national target?">
 									<br/>
-									<button data-toggle="buttons-checkbox" type="button" 
+									<button data-toggle="buttons-checkbox" type="button"
 										ng-class="{'btn-primary':document.nationalIndicatorsUsed, 'btn-default': document.nationalIndicatorsUsed==false}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=true">Yes</button>
-									<button data-toggle="buttons-checkbox" type="button" 
+									<button data-toggle="buttons-checkbox" type="button"
 										ng-class="{'btn-primary':document.nationalIndicatorsUsed==false, 'btn-default': document.nationalIndicatorsUsed}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=false">No</button>
 								</div>
 								<div class="row" ng-show="document.nationalIndicatorsUsed">
 									<div class="col-md-12">
-										<div class="km-control-group" name="nationalIndicators"  caption="Please provide indicator(s)used in this assessment.">									
+										<div class="km-control-group" name="nationalIndicators"  caption="Please provide indicator(s)used in this assessment.">
 											<span class="help-block">
 												Please indicate any indicators used to assess progress towards the attainment of this target. These indicators
 												could include indicators contained in your country’s national biodiversity strategy and action plan or

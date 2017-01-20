@@ -23,8 +23,8 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
             	nationalIndicators: [],
                 nationalTargets:    [],
 				aichiTargets  : function()  { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",{ cache: true }).then(function(o){ return o.data; }); },
-				adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },							
-											
+				adequacyMonitoring  : function()  { return $http.get("/api/v2013/thesaurus/domains/23643DAC-74BB-47BC-A603-123D20EAB824/terms",{ cache: true }).then(function(o){ return o.data; }); },
+
             };
 
             $scope.$watch("document.government", function(term) {
@@ -121,7 +121,7 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 						});
 					}).then(function(identifier) {
 
-						var nationalAssessment = { 
+						var nationalAssessment = {
 													header: {
 														identifier: guid(),
 														schema   : "nationalAssessment",
@@ -156,14 +156,18 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				return !!document && !!document.confidence && document.confidence.identifier == "DB41B07F-04ED-4446-82D4-6D1449D9527B";
 			};
+
+            //============================================================
+            //
+            //============================================================
 			$scope.isMonitoringNotRequired = function(document) {
 
 				document = document || $scope.document;
 
-				return !!document && !!document.adequacy && 
-						_.contains(['4C93B22D-E8A0-4070-AC88-DD8B18A5A4ED', '73DA7532-9D53-4101-B3C7-312FC13010FF'], document.confidence.identifier);
+				return !!document && !!document.adequacy &&
+						_.contains(['4C93B22D-E8A0-4070-AC88-DD8B18A5A4ED', '73DA7532-9D53-4101-B3C7-312FC13010FF'], document.adequacy.identifier);
 			};
-			
+
 			//==================================
 			//
 			//==================================
@@ -194,19 +198,19 @@ app.directive("editNationalAssessment", ['$http',"$rootScope", "$filter", "$q", 
 
 				if (!document)
 					return $q.when(true);
-				
+
 				if(!document.assessmentType)
 					document.assessmentType = $route.current.params.aichiTarget ? 1 : 0
-				
+
 				//if assessment is for aichi target deleted national target
 				if(document.assessmentType == 1)
 					document.nationalTarget = undefined;
-				else 
+				else
 					document.aichiTarget = undefined;
-				
+
 				if(!document.nationalIndicatorsUsed == 1)
 					document.nationalIndicators = undefined;
-					
+
 				if($scope.isMonitoringNotRequired())
 					document.adequacyDescription = undefined;
 

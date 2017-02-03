@@ -33,7 +33,7 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 				multipliers : 	    [{identifier:'units',         title: {en:'in units'}},				{identifier:'thousands',     title: {en:'in thousands'}}, 		  {identifier:'millions', title: {en:'in millions'}}],
 				methodology : 	    [{identifier:'oecd_dac',      title: {en:'OECD DAC Rio markers'}},  {identifier:'other', 	 title: {en:'Other'       }}],
 				measures    : 	    [{identifier:'no', 	          title: {en:'No' }}, 		  	      {identifier:'some', title: {en:'Some measures taken'}}, {identifier:'comprehensive', title: {en:'Comprehensive measures taken'}}],
-				inclusions  : 	    [{identifier:'notyet', 	      title: {en:'Not yet stared'}},
+				inclusions  : 	    [{identifier:'notyet', 	      title: {en:'Not yet started'}},
 							   	     {identifier:'some', 	      title: {en:'Some inclusion achieved'}},
 							   	     {identifier:'comprehensive', title: {en:'Comprehensive inclusion'}}],
 				assessments:  	    [{identifier:'notnecessary',  title: {en:'No such assessment necessary'}},

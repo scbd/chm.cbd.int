@@ -10,7 +10,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 
 		IWorkflows.get(workflowID).then(function(workflow){
 
-			var activity = _.findWhere(workflow.activities, {name : activityName });
+			var activity = _.find(workflow.activities, function(activity){ return !activity.closedOn &&  activity.name == activityName });
 
 			if(!activity)
 				throw { code:404, message:"Activity not found" };

@@ -71,6 +71,8 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
                     console.log(error );
                 });
             }
+            else
+                $scope.nationalReport6 = { identifier_s : 'new'};
         }
 
         validateNR6();

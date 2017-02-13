@@ -7,20 +7,26 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 
 		var workflowID   = $route.current.params.id;
 		var activityName = $route.current.params.activity;
-
 		IWorkflows.get(workflowID).then(function(workflow){
+			var activity;
 
-			var activity = _.find(workflow.activities, function(activity){ return !activity.closedOn &&  activity.name == activityName });
+			if(workflow.closedOn)
+				activity = _.last(workflow.activities)
+			else
+				activity = _.find(workflow.activities, function(activity){ return activity.closedOn});
 
 			if(!activity)
 				throw { code:404, message:"Activity not found" };
 
 			if(workflow.data.identifier && !workflow.closedOn) {
-
-				IStorage.drafts.get(workflow.data.identifier).then(function(result){
+					IStorage.drafts.get(workflow.data.identifier).then(function(result){
+						$scope.document = result.data || result;
+					});
+			}
+			else
+				IStorage.documents.get(workflow.data.identifier).then(function(result){
 					$scope.document = result.data || result;
 				});
-			}
 
 			$scope.workflow = workflow;
 			$scope.activity = activity;

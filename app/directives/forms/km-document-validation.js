@@ -73,7 +73,8 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 				//
 				//====================
 				$scope.isValid = function() {
-					return $scope.report && (!$scope.report.errors || $scope.report.errors.length == 0);// jshint ignore:line
+					return $scope.report && (!$scope.report.errors || $scope.report.errors.length == 0)
+						&& (!$scope.report.warnings || $scope.report.warnings.length == 0);// jshint ignore:line
 				};
 
 				//====================
@@ -83,6 +84,13 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 					return $scope.report && $scope.report.errors && $scope.report.errors.length != 0;// jshint ignore:line
 				};
 
+
+				//====================
+				//
+				//====================
+				$scope.hasWarnings = function() {
+					return $scope.report && $scope.report.warnings && $scope.report.warnings.length != 0;// jshint ignore:line
+				};
 				//====================
 				//
 				//====================

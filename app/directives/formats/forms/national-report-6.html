@@ -74,6 +74,12 @@
 			line-height: 1;
 			margin-top: -10px;
 		}*/
+		.highlight, textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus {
+			border-color: #3498db;
+			outline: 0;
+			box-shadow: 0 0 0 1px #3498db;
+		}
+
 	</style>
 	<h1>
     	<span ng-switch="qs.type">
@@ -119,10 +125,12 @@
 					<li ng-class="{ active  : tab=='review'  }"> <a href="" ng-click="tab='review'">Review</a></li>
 					<li ng-class="{ disabled: tab=='review'  }"> <a href="" ng-click="tab='review'">&raquo;</a></li>
 				</ul>
-			</div>
+				<div km-document-validation ng-model="warningsReport" ng-show="(document.nationalContribution && !document.nationalContribution.aichiTarget16.includeNationalReport) && warningsReport && warningsReport.warnings"></div>
+			</div>			
 		</div>
-
+		
 		<form name="editForm" style="margin-top:10px">
+		
 			<div km-tab="general">
 
 				<div class="panel panel-default panelMain">
@@ -447,7 +455,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="panel panel-default aichiTarget" ng-repeat="aichiTarget in document.nationalContributions">
+				<div class="panel panel-default aichiTarget" ng-repeat="aichiTarget in document.nationalContribution" ng-if="aichiTarget.identifier">
 					<div class="panel-header clearfix">
 						<h3>
 							Aichi Biodiversity Target {{aichiTarget | term:locale}}
@@ -465,11 +473,11 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" name="nationalContributionsSDGs"
+								<div class="km-control-group" name="nationalContributionSDGs"
 								caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
 									<div class="help-block">Based on the information provided in section IV of the national report, please describe how biodiversity and your country’s contributions to the attainment of the Aichi Biodiversity Targets are helping to address the main themes addressed by the 17 Sustainable Development Goals (beyond biodiversity).</div>
-									<div km-textbox-ml  name="nationalContributionsSDGs"
-									ng-model="document.nationalContributionsSDGs" locales="document.header.languages" rows="3"></div>
+									<div km-textbox-ml  name="nationalContributionSDGs"
+									ng-model="document.nationalContribution.nationalContributionSDGs" locales="document.header.languages" rows="3"></div>
 								</div>
 							</div>
 						</div>
@@ -546,7 +554,7 @@
 					</div>
 
 				</div>
-				<div class="panel panel-default gspcTarget" ng-repeat="gspcTarget in document.gspcNationalContribution.targetContributions">
+				<div class="panel panel-default gspcTarget" ng-repeat="gspcTarget in document.gspcNationalContribution" ng-if="gspcTarget.identifier">
 					<div class="panel-header clearfix">
 						<h3>
 							GSPC Biodiversity Target {{gspcTarget | term:locale}}
@@ -1241,14 +1249,76 @@
 				</div>
 			</div>
 			<div ng-switch-when="AICHI-TARGET-16" class="row">
-				<div class="col-md-12 help-block">By 2015, the Nagoya Protocol on Access to Genetic Resources and the Fair and Equitable Sharing of Benefits Arising from their Utilization is in force and operational, consistent with national legislation.
+				<div class="col-md-12 help-block">
+					By 2015, the Nagoya Protocol on Access to Genetic Resources and the Fair and Equitable Sharing of Benefits Arising from their Utilization is in force and operational, consistent with national legislation.
 				</div>
 				<div class="col-md-12">
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16"
-					caption="Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:">
-						<div class="help-block">Some questions that your country may wish to consider responding to are: If your country has not ratified or acceded to the Protocol, what actions are being taken to do so? If your country has ratified or acceded to the Protocol, what is being done to make it operational nationally? Has your country put institutional structures in place to implement the Protocol (national focal point, competent national authority(ies) and checkpoint(s))? Has your country put in place the ABS legislative, administrative or policy measures  to meet the obligations set out under the Protocol? If not, is your country currently reviewing or developing ABS measures or planning to do so with a view to implementing the Protocol? Countries may wish to make a reference to information provided to the ABS Clearing House.</div>
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-16"
-						ng-model="target.description" locales="document.header.languages" rows="3"></div>
+					
+					<div class="panel panel-default" ng-if="absInterimNationalReport || target.nationalReport">
+						<div class="panel-header" 
+						ng-if="(absInterimNationalReport && target.nationalReport)||(absInterimNationalReport && target.linkedRecords && target.linkedRecords.length > 0 && target.includeNationalReport==undefined)">	
+							<div class="checkbox" name="absReportAvailable">
+								<label for="absReportAvailable">
+									<input type="checkbox" ng-model="target.includeNationalReport" ng-change="includeAbsNationalReport(target)">
+										The interim national report on the implementation of the Nagoya Protocol is available for your country, would you like to link it to sixth national report?
+								</label>
+							</div>
+						</div>
+						<div class="panel-body" ng-class="{'highlight':!target.nationalReport && !target.includeNationalReport}">
+								<div class="col-md-12" ng-if="absInterimNationalReport || target.nationalReport">
+									<div>
+										<label for="">Interim national report on the implementation of the Nagoya Protocol</label><br/>
+										<a target="_new" ng-href="{{getNationalReportDetails('url_ss')}}">
+											{{getNationalReportDetails('uniqueIdentifier_s')|uppercase}}</a> 
+										{{getNationalReportDetails('title_t')}}
+									</div>
+									<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16-nationalReportDescription"									
+									caption="Please provide any additional relevant information that has not been included in the interim national report on how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target:">
+										<div ng-disabled="!target.nationalReport && !target.includeNationalReport"
+											km-textbox-ml  name="nationalContributions--AICHI-TARGET-16-nationalReportDescription" ng-model="target.nationalReportDescription" locales="document.header.languages" rows="3"></div>
+									</div>
+								</div>
+						</div>
+					</div>
+					<div class="panel panel-default" ng-if="target.includeLinkedRecords || !target.nationalReport || target.linkedRecords">
+						<div class="panel-header" 
+						ng-if="target.includeNationalReport">	
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" ng-model="target.includeLinkedRecords">
+										Include below information too
+								</label>
+							</div>
+						</div>
+						<div class="panel-body" ng-class="{'highlight':target.includeNationalReport && !target.includeLinkedRecords}">
+							<div class="col-md-12">
+								<label for="">
+									Your country has not completed the interim national report on the implementation of the Nagoya Protocol, you may wish to consider doing so. 						
+								</label>
+								<div class="help-block">In decision NP-1/3, paragraph 4, Parties to the Nagoya Protocol are requested to submit an interim national report on the implementation of their obligations under the Nagoya Protocol twelve months prior to the third meeting of the COP-MOP (November 2017). In the same decision, COP-MOP also welcomed submissions of relevant information by non-Parties.  There is no need to repeat information in the sixth national report that has already been included in the interim national report on the implementation of obligations under the Nagoya Protocol</div>
+
+								<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16"
+								caption="Since your country has not completed the interim national report, please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description.:">
+									<div class="help-block">Some questions that your country may wish to consider responding to are:
+										<ul>
+											<li>If your country has not ratified or acceded to the Protocol, what actions are being taken to do so? </li>
+											<li>If your country has ratified or acceded to the Protocol, what is being done to make it operational nationally? </li>
+											<li>Has your country put institutional structures in place to implement the Protocol (national focal point, competent national authority(ies) and checkpoint(s))? </li>
+											<li>Has your country put in place the ABS legislative, administrative or policy measures (ABS measures) required to meet the obligations set out under the Protocol? </li>
+											<li>If no ABS measures are in place, is your country currently reviewing or developing ABS measures or planning to do so with a view to implementing the Protocol? </li>
+										</ul>
+									</div>
+									<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-16"
+									ng-disabled="target.includeNationalReport && !target.includeLinkedRecords"
+									ng-model="target.linkedRecordsDescription" locales="document.header.languages" rows="3"></div>
+								</div>
+								<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16-linkRecords"
+								caption="If desired, please to link to any of the relevant national records published in the ABS Clearing House:">
+									<span ng-model="target.linkedRecords" reference-selector government="document.government" type="checkbox"
+											ng-disabled="!document.government || (target.includeNationalReport && !target.includeLinkedRecords)"></span>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16"  
 					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
@@ -1262,6 +1332,7 @@
 						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
+				
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-16"
 					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional): ">
@@ -1269,7 +1340,8 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-16"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3">							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1384,6 +1456,12 @@
 			</div>
 			<div ng-switch-when="AICHI-TARGET-20" class="row">
 				<div class="col-md-12 help-block">By 2020, at the latest, the mobilization of financial resources for effectively implementing the Strategic Plan for Biodiversity 2011-2020 from all sources, and in accordance with the consolidated and agreed process in the Strategy for Resource Mobilization, should increase substantially from the current levels. This target will be subject to changes contingent to resource needs assessments to be developed and reported by Parties.
+				</div>
+				<div class="col-md-12" ng-if="getResourceMobilisationDetails('title_t')">
+					<label for="">Financial Reporting Framework</label><br/>
+					<a target="_new" ng-href="{{getResourceMobilisationDetails('url_ss')}}">
+						{{getResourceMobilisationDetails('url_ss')}}</a> 
+					{{getResourceMobilisationDetails('title_t')}}
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-20"

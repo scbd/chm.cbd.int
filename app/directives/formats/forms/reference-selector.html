@@ -23,64 +23,43 @@
     </div>
     <div class="row" ng-show="areVisible && !disabled">
         <div class="col-xs-12">
-            <ul class="list-group ng-scope" ng-if="selectedDocuments.length>0" style="margin-top: 10px;">
-                <li class="list-group-item ng-scope" ng-repeat="item in selectedDocuments">
-                    <table style="width:100%">
-                        <tbody>
-                            <tr>
-                                <td class="ng-binding">{{item.title|lstring:locale}}</td>
+            <div class="table-responsive"  ng-if="selectedDocuments.length>0" style="background-color:white">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr ng-repeat="item in selectedDocuments">
+                            <td class="ng-binding">{{item.title|lstring:locale}}</td>
                                 <td style="white-space:nowrap;text-align:right;vertical-align:top">
                                     <button type="button" class="btn btn-default" ng-click="removeDocument(item)"><i class="fa fa-trash-o"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>   
-                                    <ul>
-                                        <li ng-repeat="target in item.aichiTargets">{{target|term:locale}}</li>
-                                    </ul>
-                                <td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </li>
-            </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>  
         </div>
     </div>
 
     <script type="text/ng-template" id="documentSelectionModal">
         <div class="rounded" id="{{question}}">
             <div class="modal-header bg-grey">
-                <h3>Please select from the list of published record(s) below:</h3>
-                <div class="help-info">If the record is not yet listed, please save your current draft and go to ‘Dashboard’ and create a new record.</div>
+                <h3>Please select from the list of published record(s) below:</h3>                
                 <div ng-show="filter">
                     <input type="textbox" ng-model="keyword" placeholder="filter records by keywords or unique identifier" class="form-control">
                 </div>
             </div>
             <div class="modal-body">
                 <div style="max-height:400px;overflow-y:auto;margin:0;padding:0;" id="search-new">
-                    <ul class="list-group ng-scope" style="margin-top: 10px;">
-                        <li class="list-group-item ng-scope"  ng-show="!isLoading" ng-repeat="doc in rawDocuments.docs | filter:keyword">
-                            <table style="width:100%">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <input ng-if="type==='checkbox'" type="checkbox" ng-model="doc.__checked" style="width: 16px; height: 16px;" />
-                                            <input ng-if="type==='radio'" type="radio" name="{{question}}_selected" ng-model="doc.__checked" ng-value="true" style="width: 16px; height: 16px;" />                       
-                                        </td>
-                                        <td class="ng-binding">{{doc.title_s}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>   
-                                            <ul>
-                                                <li ng-repeat="target in doc.aichiTargets_ss">{{target|term:locale}}</li>
-                                            </ul>
-                                        <td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </li>
-                    </ul>
+                    <div class="table-responsive" ng-show="!isLoading" style="background-color:white">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr ng-repeat="doc in rawDocuments.docs | filter:keyword">
+                                    <td><input ng-if="type==='checkbox'" type="checkbox" ng-model="doc.__checked" style="width: 16px; height: 16px;" />
+                                            <input ng-if="type==='radio'" type="radio" name="{{question}}_selected" ng-model="doc.__checked" ng-value="true" style="width: 16px; height: 16px;" />  
+                                    </td>
+                                    <td>{{doc.uniqueIdentifier_s|uppercase}}: {{doc.title_s}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                  
                     <div ng-if="isLoading"> <i class="fa fa-spinner fa-spin"></i> Loading...</div>
                     <div ng-if="rawDocuments.numFound===0"> no records found.</div>
                 </div>

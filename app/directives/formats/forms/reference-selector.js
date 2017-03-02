@@ -1,8 +1,8 @@
 define(['text!./reference-selector.html','app', 'ngDialog'
 ], function (template, app, commonjs) { // jshint ignore:line
 
-app.directive("referenceSelector", ["$http",'$rootScope', "$filter", "$q", 'ngDialog', 'IStorage',
-function ($http, $rootScope, $filter, $q, ngDialog, IStorage) {
+app.directive("referenceSelector", ["$http",'$rootScope', "$filter", "$q", 'ngDialog', 'IStorage', 'realm',
+function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
 	return {
 		restrict   : "EA",
@@ -16,7 +16,6 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage) {
 			disabled  : "=ngDisabled",
             government: "=government",
             question  : "@question",
-            schema    : "@schema",
             type     : "@type",
             filter : "@filter",
             hideSelf : "=hideSelf",
@@ -86,13 +85,19 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage) {
 
 				var docs = []
                 if ($scope.model){
+                    var realmConfig = {params:{realm:realm}};                    
+                    if(realm == "CHM-DEV")
+                       realmConfig.params.realm = 'abs-dev';
+                    else
+                       realmConfig.params.realm = 'abs';
+
 					if($scope.type == 'radio'){
-						docs.push(IStorage.documents.get($scope.model.identifier));
+						docs.push(IStorage.documents.get($scope.model.identifier, null, realmConfig));
 					}
 					else{
 	                    _.each($scope.model, function (mod) {
 							if(mod.identifier)
-								docs.push(IStorage.documents.get(mod.identifier));
+								docs.push(IStorage.documents.get(mod.identifier, null, realmConfig));
 	                    });
 					}
 
@@ -206,7 +211,12 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage) {
                 if ($scope.schema)
                     schema = $scope.schema;
 
-                var q  = "schema_s:"+ schema;
+                var q  = "schema_s:(absPermit absCheckpoint absCheckpointCommunique authority measure database focalPoint)";
+
+                if(realm == "CHM-DEV")
+                    q += ' AND realm_ss:abs-dev'
+                else
+                    q += ' AND realm_ss:abs'
 
                 if($scope.government)
                     q  = q + " AND government_s:" + $scope.government.identifier;
@@ -219,7 +229,7 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage) {
 
                 var queryParameters = {
                     'q'         : q,
-                    'fl'            : 'title_s, identifier_s,aichiTargets_ss', 
+                    'fl'            : 'uniqueIdentifier_s, title_s, identifier_s, _revision_i', 
                     'start'   : 0,
                     'rows'   : 1000,
                     'wt': 'json',

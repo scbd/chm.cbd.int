@@ -1,6 +1,6 @@
 define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
  'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
- 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr",],
+ 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector"],
 function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
@@ -96,27 +96,42 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 															  },
 
 						};
-						if(!doc.nationalContributions){
-							$q.when($scope.options.aichiTargets())
-							.then(function(data){
-								doc.nationalContributions = _.map(data,function(target){ return {identifier: target.identifier};});
-							});
-						}
-						if(!doc.gspcNationalContribution){
-							$q.when($scope.options.gspcTargets())
-							.then(function(data){
-								doc.gspcNationalContribution = { targetContributions : _.map(data,function(target){ return {identifier: target.identifier};}) };
-							});
-						}
+						
 			        }
 
 			        return doc;
 
 				}).then(function(doc) {
+					if(!doc.nationalContribution){
+						return $q.when($scope.options.aichiTargets())
+						.then(function(data){
+							doc.nationalContribution = {};
+							for(var i=1;i<=20;i++){
+								doc.nationalContribution['aichiTarget'+ i] = {identifier:'AICHI-TARGET-' + (i < 10 ? '0'+i : i)};
+							}
+							return doc;
+						});
+					}
+					return doc;
 
+				}).then(function(doc) {
+					if(!doc.gspcNationalContribution){
+						return $q.when($scope.options.gspcTargets())
+						.then(function(data){
+							doc.gspcNationalContribution = {}
+							for(var i=1;i<=16;i++){
+								doc.gspcNationalContribution['gspcTarget'+ i] = {identifier:'GSPC-TARGET-' + (i < 10 ? '0'+i : i)};
+							}
+							return doc;
+						});
+					}
+					return doc;
+				}).then(function(doc) {
 					$scope.document = doc;
-					$scope.status = "ready";
-
+					$q.all([loadABSNationaReport(), loadResourceMobilasationReport()])
+					.then(function(){
+						$scope.status = "ready";
+					});
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
@@ -353,7 +368,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				if(newVal===false){	//if target not pursued by country than the country has to assess againts all AICHI targets
 					$scope.document.progressAssessments = [];
 					//nationalContributions contains preloaded aichiTargets just use instead of reloading
-					var aichiTargets = _.pluck($scope.document.nationalContributions, 'identifier');
+					var aichiTargets = _.pluck($scope.document.nationalContribution, 'identifier');
 					_.map(aichiTargets, function(target){
 							$scope.document.progressAssessments.push({ aichiTarget : { identifier : target }});
 					});
@@ -413,7 +428,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
             //============================================================
             //
             //============================================================
-			function loadReferenceRecords(options) {
+			function loadReferenceRecords(options, appRealm) {
 
 				if(!options.skipLatest && options.latest===undefined)
 					options.latest = true;
@@ -438,9 +453,11 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 
 				if(options.identifier)
 					query.push("identifier_s:"+solr.escape(options.identifier));
+				
+				if(options.state)
+					query.push("_state_s:"+solr.escape(options.state));
 
-				// Apply ownership
-				query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
+				query.push(["realm_ss:" + (appRealm||realm).toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
 				// Apply ownership
 				// query.push(_.map(($rootScope.user||{}).userGroups, function(v){
@@ -457,7 +474,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				var qsParams =
 				{
 					"q"  : query,
-					"fl" : "identifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
+					"fl" : "identifier_s, uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
 						"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
 					"sort"  : "updatedDate_dt desc",
 					"start" : 0,
@@ -502,7 +519,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 															(nt.version_s == 'draft' || nt._state_s == 'public');
 												});
 								if(indexRecord){
-									nationalTargets.push({identifier : indexRecord.identifier_s + '@' + indexRecord._revision_i});
+									nationalTargets.push({identifier : indexRecord.identifier_s});// + '@' + indexRecord._revision_i
 									indexNationalTargets.push(indexRecord);
 								}
 							});
@@ -651,8 +668,101 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					.collapse('show');
 			};
 
+			function loadABSNationaReport(){
+				var target16;
+				if($scope.document && $scope.document.nationalContribution){
+					target16 = _.findWhere($scope.document.nationalContribution, {identifier:'AICHI-TARGET-16'});
+					// if(target16 && target16.nationalReport)
+					// 	return;
+				}
 
-			//===========================
+				var realmConfig;                    
+				if(realm == "CHM-DEV")
+					realmConfig = 'abs-dev';
+				else
+					realmConfig = 'abs';
+
+				return $q.when(loadReferenceRecords({schema:'absNationalReport', state:'public'}, realmConfig))
+				.then(function(result){
+					if(result.length > 0){
+						var absNR = _.head(result);
+						if(target16 && !target16.nationalReport && (!target16.linkedRecords || target16.linkedRecords.length < 0)){
+							target16.nationalReport = {identifier : absNR.identifier_s + '@' + absNR._revision_i};
+						}
+						else{
+							if(!$scope.warningsReport)
+								$scope.warningsReport = {warnings:[]};
+							$scope.warningsReport.warnings.push({code:'National contribution for AICHI Target 16',
+																 property:'absReportAvailable'})
+							$scope.absInterimNationalReport = absNR;
+						}
+						$scope.getNationalReportDetails = function(field){
+							if(angular.isArray(absNR[field]))
+								return _.head(absNR[field]);
+							return absNR[field];
+						}
+					}
+					console.log(absNR);
+				})
+			}
+			
+			function loadResourceMobilasationReport(){
+				var target20;
+				if($scope.document && $scope.document.nationalContribution){
+					target20 = _.findWhere($scope.document.nationalContribution, {identifier:'AICHI-TARGET-20'});
+				}
+
+				return $q.when(loadReferenceRecords({schema:'resourceMobilisation', latest:true, state:'public'}))
+				.then(function(result){
+					if(result.length > 0){
+						var resourceMobilisation = _.head(result);
+						if(target20 && !target20.resourceMobilisationReport){
+							target20.resourceMobilisationReport = {identifier : resourceMobilisation.identifier_s};
+						}
+						$scope.getResourceMobilisationDetails = function(field){
+							if(angular.isArray(resourceMobilisation[field]))
+								return _.head(resourceMobilisation[field]);
+							return resourceMobilisation[field];
+						}
+					}
+				})
+			}			
+			$scope.includeAbsNationalReport = function(target){
+				if(target.includeNationalReport)
+					target.nationalReport = { identifier : $scope.absInterimNationalReport.identifier_s + '@' + $scope.absInterimNationalReport._revision_i};
+				else{
+					target.nationalReport = undefined;
+					target.includeNationalReport = undefined;
+				}
+			}
+
+			
+        }
+    };
+}]);
+
+//==================================
+//
+//==================================
+app.directive('nrPopover', function() {
+	return {
+		restrict: 'A',
+		link: function (scope, elem, attrs) {
+			elem.popover({
+				trigger: 'focus hover',
+				placement: attrs.dataPlacement || 'auto',
+				html: true,
+				container: 'body'
+			});
+		}
+	};
+});
+
+
+});
+
+
+//===========================
 			//
 			//===========================
 			// function openDialog(name, directiveName, options) {
@@ -689,26 +799,3 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 			// 		}, reject);
 			// 	});
 			// }
-        }
-    };
-}]);
-
-//==================================
-//
-//==================================
-app.directive('nrPopover', function() {
-	return {
-		restrict: 'A',
-		link: function (scope, elem, attrs) {
-			elem.popover({
-				trigger: 'focus hover',
-				placement: attrs.dataPlacement || 'auto',
-				html: true,
-				container: 'body'
-			});
-		}
-	};
-});
-
-
-});

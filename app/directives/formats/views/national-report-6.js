@@ -50,6 +50,48 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						var documents = _.map(results, function(result){ return result[0] || {}; });
 						nationalAssessments = documents;
 					});
+
+					if($scope.document.nationalContribution){
+						var queries = [];
+						
+						var target16 = $scope.document.nationalContribution.aichiTarget16;
+						var target20 = $scope.document.nationalContribution.aichiTarget20;
+
+						if(target16){
+							var queries = [];
+							var realmConfig;                    
+							if(realm == "CHM-DEV")
+								realmConfig = 'abs-dev';
+							else
+								realmConfig = 'abs';
+							$scope.absNationalReport = undefined;
+							if(target16.nationalReport)
+								loadReferenceRecords({identifier:removeRevisonNumber(target16.nationalReport.identifier), revision:getRevisonNumber(target16.nationalReport.identifier)}, realmConfig)
+								.then(function(data){
+									$scope.absNationalReport = _.head(data);
+								});
+
+							$scope.absLinkedRecords = undefined;
+							if((target16.includeLinkedRecords && target16.linkedRecords) || 
+							   (!target16.nationalReport && target16.includeLinkedRecords==undefined && target16.linkedRecords)){
+								var options = {
+									identifier : "(" + _.pluck(target16.linkedRecords, 'identifier').join(' ') + ")"
+								}								
+								loadReferenceRecords(options, realmConfig)
+								.then(function(data){
+									$scope.absLinkedRecords = data;
+								});;
+							}
+								
+						}
+						if(target20 && target20.resourceMobilisationReport){
+							$scope.resourceMobilisationReport = undefined;
+							loadReferenceRecords({identifier : target20.resourceMobilisationReport.identifier})
+							.then(function(data){								
+								$scope.resourceMobilisationReport = _.head(data)
+							})
+						}
+					}
 				});
 
 				//============================================================
@@ -104,7 +146,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				//============================================================
 				//
 				//============================================================
-				function loadReferenceRecords(options) {
+				function loadReferenceRecords(options, appRealm) {
 
 					if(options.latest===undefined)
 						options.latest = true;
@@ -128,17 +170,17 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						query.push("nationalTarget_s:"+solr.escape(options.target));
 
 					if(options.identifier)
-						query.push("identifier_s:"+solr.escape(options.identifier));
+						query.push("(identifier_s:"+solr.escape(options.identifier)+")");
 
 					if(options.revision)
 						query.push("_revision_i:"+solr.escape(options.revision));
 					// Apply ownership
-					query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
+					query.push(["realm_ss:" + (appRealm||realm).toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
 					// Apply ownership
-					query.push(_.map(($rootScope.user||{}).userGroups, function(v){
-						return "_ownership_s:"+solr.escape(v);
-					}));
+					// query.push(_.map(($rootScope.user||{}).userGroups, function(v){
+					// 	return "_ownership_s:"+solr.escape(v);
+					// }));
 
 					if(options.latest!==undefined){
 						query.push("_latest_s:" + (options.latest ? "true" : "false"));
@@ -150,7 +192,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					var qsParams =
 					{
 						"q"  : query,
-						"fl" : "identifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
+						"fl" : "identifier_s,uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
 							"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
 						"sort"  : "updatedDate_dt desc",
 						"start" : 0,

@@ -668,6 +668,10 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					.collapse('show');
 			};
 
+			$scope.setIncludeLinkedRecords = function(){
+				$scope.includeLinkedRecords = true;
+			}
+
 			function loadABSNationaReport(){
 				var target16;
 				if($scope.document && $scope.document.nationalContribution){
@@ -686,15 +690,15 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 				.then(function(result){
 					if(result.length > 0){
 						var absNR = _.head(result);
-						if(target16 && !target16.nationalReport && (!target16.linkedRecords || target16.linkedRecords.length < 0)){
-							target16.nationalReport = {identifier : absNR.identifier_s + '@' + absNR._revision_i};
-						}
-						else{
+
+						if(!target16.nationalReport && (!target16.linkedRecords || target16.linkedRecords.length < 0)){
 							if(!$scope.warningsReport)
 								$scope.warningsReport = {warnings:[]};
 							$scope.warningsReport.warnings.push({code:'National contribution for AICHI Target 16',
-																 property:'absReportAvailable'})
-							$scope.absInterimNationalReport = absNR;
+																 property:'nationalContributions-AICHI-TARGET-16-nationalReportDescription'})
+						}
+						if(target16){
+							target16.nationalReport = {identifier : absNR.identifier_s + '@' + absNR._revision_i};
 						}
 						$scope.getNationalReportDetails = function(field){
 							if(angular.isArray(absNR[field]))
@@ -726,14 +730,6 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 						}
 					}
 				})
-			}			
-			$scope.includeAbsNationalReport = function(target){
-				if(target.includeNationalReport)
-					target.nationalReport = { identifier : $scope.absInterimNationalReport.identifier_s + '@' + $scope.absInterimNationalReport._revision_i};
-				else{
-					target.nationalReport = undefined;
-					target.includeNationalReport = undefined;
-				}
 			}
 
 			

@@ -229,10 +229,12 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
                 var queryParameters = {
                     'q'         : q,
-                    'fl'            : 'uniqueIdentifier_s, title_s, identifier_s, _revision_i', 
-                    'start'   : 0,
-                    'rows'   : 1000,
-                    'wt': 'json',
+                    'fl'        : 'uniqueIdentifier_s, title_s, identifier_s, _revision_i, rec_countryName:government_EN_t, schema_EN_t,schema_s,'+
+                                  ' rec_title:title_EN_t, rec_summary:description_t, rec_type:type_EN_t, rec_meta1:meta1_EN_txt, rec_meta2:meta2_EN_txt,' +
+                                  ' rec_meta3:meta3_EN_txt,rec_meta4:meta4_EN_txt,rec_meta5:meta5_EN_txt, url_ss', 
+                    'start'     : 0,
+                    'rows'      : 1000,
+                    'wt'        : 'json',
                 };
 
                 searchOperation = $http.get('/api/v2013/index/select', { params: queryParameters});

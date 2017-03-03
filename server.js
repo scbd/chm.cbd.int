@@ -9,6 +9,11 @@ var app   = express();
 var proxy = httpProxy.createProxyServer({});
 
 // Configure options
+if(!process.env.API_URL) {
+    console.error("WARNING: evironment API_URL not set. USING default (https://api.cbddev.xyz) ");
+}
+
+var apiUrl = process.env.API_URL || 'https://api.cbddev.xyz';
 
 app.use(require('morgan')('dev'));
 

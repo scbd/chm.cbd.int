@@ -1,7 +1,103 @@
 <div>
     <style>
-        .ngdialog-content{
-            width:65%!important;
+        .ngdialog-content {
+            width: 65%!important;
+        }
+        
+        .card {
+            background-color: #eee;
+            border-radius: 0;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .card-1 {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.1s ease-in-out;
+        }
+        
+        .card-1-notrans {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+        
+        .card-1:hover {
+            background-color: #EEE!important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        }
+        
+        .card.flipped {
+            transform: rotatey(-180deg);
+            -ms-transform: rotatey(-180deg);
+            /* IE 9 */
+            -moz-transform: rotatey(-180deg);
+            /* Firefox */
+            -webkit-transform: rotatey(-180deg);
+            /* Safari and Chrome */
+            -o-transform: rotatey(-180deg);
+            /* Opera */
+        }
+        
+        .card {
+            width: 100%;
+            height: 100%;
+            -webkit-transform-style: preserve-3d;
+            -webkit-transition: 0.5s;
+            -moz-transform-style: preserve-3d;
+            -moz-transition: 0.5s;
+            -ms-transform-style: preserve-3d;
+            -ms-transition: 0.5s;
+            -o-transform-style: preserve-3d;
+            -o-transition: 0.5s;
+            transform-style: preserve-3d;
+            transition: 0.5s;
+        }
+        
+        .card .front {
+            position: absolute;
+            z-index: 1;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        
+        .cardMargin {
+            margin-left: 5px;
+        }
+        
+        .nationalRecords {
+            margin: 0;
+            padding: 5px;
+            border-left: 3px #428bca solid;
+            cursor: pointer;
+        }
+        
+        .recordDefault .title {
+            color: #333;
+            font-size: 14px;
+            padding: 0 10px 0 0;
+            display: inline!important;
+        }
+        
+        .recordDefault .metadata {
+            margin: 0;
+            padding: 0;
+            color: #111;
+        }
+        
+        .recordDefault .metadata li {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nationalRecords .schema {
+            color: #428bca;
+        }
+        
+        .recordDefault .metadata span {
+            color: #333;
+            text-transform: uppercase;
+            font-size: 10px;
+            margin: 0;
         }
     </style>
     <!-- existing documents display -->
@@ -23,52 +119,85 @@
     </div>
     <div class="row" ng-show="areVisible && !disabled">
         <div class="col-xs-12">
-            <div class="table-responsive"  ng-if="selectedDocuments.length>0" style="background-color:white">
+            <div class="table-responsive" ng-if="selectedDocuments.length>0" style="background-color:white;">
                 <table class="table table-hover">
                     <tbody>
                         <tr ng-repeat="item in selectedDocuments">
                             <td class="ng-binding">{{item.title|lstring:locale}}</td>
-                                <td style="white-space:nowrap;text-align:right;vertical-align:top">
-                                    <button type="button" class="btn btn-default" ng-click="removeDocument(item)"><i class="fa fa-trash-o"></i></button>
+                            <td style="white-space:nowrap;text-align:right;vertical-align:top">
+                                <button type="button" class="btn btn-default" ng-click="removeDocument(item)"><i class="fa fa-trash-o"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>  
+            </div>
         </div>
     </div>
 
     <script type="text/ng-template" id="documentSelectionModal">
         <div class="rounded" id="{{question}}">
             <div class="modal-header bg-grey">
-                <h3>Please select from the list of published record(s) below:</h3>                
+                <h3>Please select from the list of published record(s) below:</h3>
                 <div ng-show="filter">
                     <input type="textbox" ng-model="keyword" placeholder="filter records by keywords or unique identifier" class="form-control">
                 </div>
             </div>
-            <div class="modal-body">
-                <div style="max-height:400px;overflow-y:auto;margin:0;padding:0;" id="search-new">
-                    <div class="table-responsive" ng-show="!isLoading" style="background-color:white">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr ng-repeat="doc in rawDocuments.docs | filter:keyword">
-                                    <td><input ng-if="type==='checkbox'" type="checkbox" ng-model="doc.__checked" style="width: 16px; height: 16px;" />
-                                            <input ng-if="type==='radio'" type="radio" name="{{question}}_selected" ng-model="doc.__checked" ng-value="true" style="width: 16px; height: 16px;" />  
-                                    </td>
-                                    <td>{{doc.uniqueIdentifier_s|uppercase}}: {{doc.title_s}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>                  
-                    <div ng-if="isLoading"> <i class="fa fa-spinner fa-spin"></i> Loading...</div>
-                    <div ng-if="rawDocuments.numFound===0"> no records found.</div>
+
+            <div class="modal-body" style="background-color:white;max-height: 500px;overflow: scroll;">
+                <div ng-repeat="doc in rawDocuments.docs | filter:keyword" class="row" style=";margin-bottom: 10px;margin-right: 10px"> 
+                     <div class="col-md-1">
+                            <input ng-if="type==='checkbox'" type="checkbox" ng-model="doc.__checked" style="width: 16px; height: 16px;" />
+                            <input ng-if="type==='radio'" type="radio" name="{{question}}_selected" ng-model="doc.__checked" ng-value="true" style="width: 16px; height: 16px;" />                   
+                    </div>  
+                    <div style="max-height:400px;overflow-y:auto;margin:0;padding:0;" id="search-new" class="col-md-11">
+                        <a ng-href="{{doc.url_ss[0]}}" target="_new">
+                            <div class="recordDefault card card-1" style="padding:0!important;margin:0!important;">   
+                                <div style="padding:0!important;margin:0!important;">                               
+                                    <div class="nationalRecords" >
+
+                                        <div class="title bold">{{doc.rec_title}}
+                                        </div>
+
+                                        <span class="description hidden-xs descriptionSpan" ng-if="doc.rec_summary">{{doc.rec_summary|limitTo:250}}
+                                        <span ng-if="doc.rec_summary.length > 250">...</span>
+                                        </span>
+                                        <ul class="metadata bold">
+                                            <li>
+                                                <span class="schema bold">{{doc.schema_EN_t}}</span>
+                                            </li>
+
+                                            <li ng-if="doc.rec_countryName" class="hidden-xs">
+                                                <span>{{doc.rec_countryName}}</span>
+                                            </li>
+                                            <li ng-if="doc.uniqueIdentifier_s">
+                                                <span>{{doc.uniqueIdentifier_s|uppercase}}</span>
+                                            </li>
+                                            <li class="hidden-xs" ng-if="doc.rec_meta1 && doc.schema_s !=='database'" id="meta1">
+                                                <span ng-if="doc.schema_s ==='absCheckpointCommunique'" style="color:#666!important;">CP:</span>
+                                                <span ng-repeat="meta in doc.rec_meta1">{{meta}}{{$last ? '':', '}}</span>
+                                            </li>
+                                            <li class="hidden-xs" ng-if="doc.rec_meta2 && doc.schema_s !=='absPermit'" id="meta2">
+                                                <span ng-if="doc.schema_s ==='absCheckpointCommunique'" style="color:#666!important;">SOURCE:</span>
+                                                <span ng-repeat="meta in doc.rec_meta2">{{meta}}{{$last ? '':', '}}</span>
+                                            </li>
+                                            <li class="hidden-xs" ng-if="doc.rec_meta3" id="meta3">
+                                                <span ng-repeat="meta in doc.rec_meta3" ng-class="{'color-red':meta==='Revoked'}">{{meta}}{{$last ? '':', '}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
+                <div ng-if="isLoading"> <i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                <div ng-if="rawDocuments.numFound===0"> no records found.</div>
             </div>
 
             <div class="modal-footer bg-grey">
                 <div class="row">
                     <div class="col-xs-12">
-                        <a type="button" class="btn btn-primary bold pull-left" style="color:white;"  ng-click="saveDocuments()">Save</a>
+                        <a type="button" class="btn btn-primary bold pull-left" style="color:white;" ng-click="saveDocuments()">Save</a>
                         <a type="button" class="btn btn-warning bold" data-dismiss="modal" ng-click="closeDialog()">Close</a>
                     </div>
                 </div>

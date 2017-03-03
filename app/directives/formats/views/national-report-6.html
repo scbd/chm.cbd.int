@@ -220,12 +220,17 @@
 								{{absNationalReport.title_t}}
 							</div>
 							<div ng-show="aichiTarget.nationalReportDescription">
-								<label for="">Contribution description</label>
+								<label for="">Additional relevant information that has not been included in the interim national report</label>
 								<div class="km-value km-pre">{{aichiTarget.nationalReportDescription | lstring:locale}}</div>
 							</div>							
 						</div>
 						<div ng-if="absLinkedRecords">
-							<label for="">ABS linked records</label>
+
+							<div ng-show="aichiTarget.linkedRecordsDescription">
+								<label for="">Description of how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target</label>
+								<div class="km-value km-pre">{{aichiTarget.linkedRecordsDescription | lstring:locale}}</div>
+							</div>
+							<label for="">ABS Clearing-House records</label>
 							<table class="table table-hover">
 								<tbody>
 									<tr ng-repeat="item in absLinkedRecords">
@@ -238,11 +243,7 @@
 									</tr>
 								</tbody>
 							</table>
-							
-							<div ng-show="aichiTarget.linkedRecordsDescription">
-								<label for="">Linked records description</label>
-								<div class="km-value km-pre">{{aichiTarget.linkedRecordsDescription | lstring:locale}}</div>
-							</div>	
+								
 						</div>
 					</div>
 					<div ng-if="aichiTarget.identifier=='AICHI-TARGET-20' && resourceMobilisationReport">

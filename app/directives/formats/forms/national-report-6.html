@@ -167,12 +167,12 @@
 										<div class="km-control-group"  name="targetPursued" >
 											<input type="radio"  name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="true"/> My country has adopted national biodiversity targets or equivalent commitments in line with the Strategic Plan for Biodiversity 2011-2020
 											and the Aichi Targets
-											<a rm-popover data-content="If your country has adopted national biodiversity targets or equivalent commitments in its NBSAP or similar policy documents, please tick this box." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
+											<a nr-popover data-content="If your country has adopted national biodiversity targets or equivalent commitments in its NBSAP or similar policy documents, please tick this box." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
 											<br/><br/>
 											<input type="radio"  name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="false"/> 
 												My country has not adopted national biodiversity targets and is reporting progress using the Aichi Biodiversity Targets for reference. (
 												Move to section II. In section III, the Aichi Biodiversity Targets should be considered be used for the purpose of this report as the national targets and progress should be assessed towards their achievement in the national context.)
-											<a rm-popover data-content="If your country has not (yet) adopted national biodiversity targets in line with the Aichi Biodiversity Targets,									please tick this box. In section II your country will be asked to link its implementation measures to the Aichi
+											<a nr-popover data-content="If your country has not (yet) adopted national biodiversity targets in line with the Aichi Biodiversity Targets,									please tick this box. In section II your country will be asked to link its implementation measures to the Aichi
 												Biodiversity Targets. In section III, your country will be asked to assess national progress towards the Aichi
 												Biodiversity Targets." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
 
@@ -734,19 +734,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-01"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-01"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-01" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-01"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-01" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
-
 				</div>
 
 				<div class="col-md-12">
@@ -756,7 +743,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-01"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -772,19 +759,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-02"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-
-						<div class="km-control-group" name="nationalContributions-AICHI-TARGET-02"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-02" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-02"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-02" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
-
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-02"
@@ -793,7 +767,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-02"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -807,19 +781,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-03"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-						
-						<div class="km-control-group" name="nationalContributions-AICHI-TARGET-03"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-03" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-03"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-03" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
-
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-03"
@@ -828,7 +789,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-03"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -842,18 +803,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-04"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 						</div>	
-							<div class="km-control-group" name="nationalContributions-AICHI-TARGET-04"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-04" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-04"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-04" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
-
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-04"
@@ -862,7 +811,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-04"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -876,21 +825,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-05"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-05"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-05" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-05"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-05" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
-
-
-
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-05"
@@ -899,7 +833,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-05"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -913,19 +847,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-06"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-06"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-06" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-06"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-06" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
-
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-06"
@@ -934,7 +855,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-06"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -948,17 +869,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-07"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-07"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-07" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-07"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-07" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-07"
@@ -967,7 +877,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-07"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -981,18 +891,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-08"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-08"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-08" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-08"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-08" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-08"
@@ -1001,7 +899,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-08"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1015,17 +913,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-09"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-09"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-09" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-09"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-09" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-09"
@@ -1034,7 +921,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-09"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1048,17 +935,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-10"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-10"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-10" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-10"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-10" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-10"
@@ -1067,7 +943,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-10"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1086,17 +962,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-11"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-11"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-11" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-11"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-11" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-11"
@@ -1105,7 +970,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-11"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1119,17 +984,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-12"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-12"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-12" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-12"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-12" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-12"
@@ -1138,7 +992,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-12"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1152,17 +1006,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-13"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-13"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-13" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-13"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-13" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-13"
@@ -1171,7 +1014,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-13"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1188,17 +1031,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-14"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-14"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-14" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-14"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-14" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-14"
@@ -1207,7 +1039,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-14"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1227,17 +1059,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-15"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-15"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-15" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-15"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-15" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-15"
@@ -1246,7 +1067,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-15"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1321,17 +1142,7 @@
 						</div>
 						</div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-16" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
 
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-16"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-16" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				
 				<div class="col-md-12">
@@ -1341,7 +1152,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-16"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3">							
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3">							
 						</div>
 					</div>
 				</div>
@@ -1356,17 +1167,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-17"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-17"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-17" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-17"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-17" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-17"
@@ -1375,7 +1175,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-17"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1396,17 +1196,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-18"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-18"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-18" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-18"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-18" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-18"
@@ -1415,7 +1204,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-18"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1432,17 +1221,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-19"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-19"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-19" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-19"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-19" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-19"
@@ -1451,7 +1229,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-19"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>
@@ -1481,17 +1259,6 @@
 						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-20"
 						ng-model="target.description" locales="document.header.languages" rows="3"></div>
 					</div>
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-20"  
-					caption="Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-20" 
-						ng-model="target.descriptionActivity" locales="document.header.languages" rows="3"></div>
-					</div>
-
-					<div class="km-control-group" name="nationalContributions-AICHI-TARGET-20"  
-					caption="Based on the description of your country’s contributions to the achievement of the Aichi Biodiversity Targets, please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development and the Sustainable Development Goals:">
-						<div km-textbox-ml  name="nationalContributions-AICHI-TARGET-20" 
-						ng-model="target.descriptionSDGs" locales="document.header.languages" rows="3"></div>
-					</div>
 				</div>
 				<div class="col-md-12">
 					<div class="km-control-group" name="activitiesContributions-AICHI-TARGET-20"
@@ -1500,7 +1267,7 @@
 							As relevant, please provide information on actions which your country has taken and contribute to the attainment of this Aichi Biodiversity Target at the global level. This could include issues related to assistance provided to other countries or territories or organisations. It could also include issues related to regional or international cooperation, technology transfer and/or information sharing.
 						</div>
 						<div km-textbox-ml  name="activitiesContributions-AICHI-TARGET-20"
-						ng-model="target.descriptionActivities" locales="document.header.languages" rows="3"></div>
+						ng-model="target.achievementActivities" locales="document.header.languages" rows="3"></div>
 					</div>
 				</div>
 			</div>

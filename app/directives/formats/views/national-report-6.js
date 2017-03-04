@@ -113,7 +113,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				//============================================================
 				$scope.hasNationalContributions = function () {
 					if($scope.document && $scope.document.nationalContributions){
-						return _.has($scope.document.nationalContributions, 'description') || _.has($scope.document.nationalContributions, 'descriptionActivities');
+						return _.has($scope.document.nationalContributions, 'description') || _.has($scope.document.nationalContributions, 'achievementActivities');
 					}
 				};
 

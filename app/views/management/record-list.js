@@ -377,6 +377,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 }).then(function() {
                    $scope.recordCount--;
                    refreshFacetCounts();
+                   loadNR6Details();
                     _.remove($scope.records, function(r){
                        return r==record;
                     });
@@ -428,6 +429,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 var nationalReport6Query     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
 
                 $q.when(nationalReport6Query).then(function(results) {
+                    $scope.nationalReport6 = undefined;
                     if(results.data.response.numFound > 0){
                         $scope.nationalReport6 = results.data.response.docs[0]           
                     }

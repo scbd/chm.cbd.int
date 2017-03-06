@@ -1,6 +1,7 @@
 define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
  'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
- 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector"],
+ 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector",
+ ],
 function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
@@ -691,7 +692,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					if(result.length > 0){
 						var absNR = _.head(result);
 
-						if(!target16.nationalReport && (!target16.linkedRecords || target16.linkedRecords.length < 0)){
+						if(!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords){
 							if(!$scope.warningsReport)
 								$scope.warningsReport = {warnings:[]};
 							$scope.warningsReport.warnings.push({code:'National contribution for AICHI Target 16',

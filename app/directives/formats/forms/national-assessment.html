@@ -1,307 +1,295 @@
 ﻿<div layout="column" class="row md-whiteframe-z1">
-  <div smooth-scroll duration="100" offset="250" ></div>
-<md-toolbar>
-    <div class="md-toolbar-tools bg-darkgrey" >
-      <h2 class="md-flex">Online Reporting: Assessment of progress <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h2>
-    </div>
-  </md-toolbar>
-  <md-content style="padding:20px;background-color:transparent;">
+	<style>
+		.panel-header,
+		.section .section-header {
+			border-bottom: 1px solid #ddd;
+			padding-left: 10px;
+		}
+		
+		.help-block {
+			text-align: justify;
+		}
+		
+		.panelMain .panel-body {
+			padding: 0px
+		}
+		
+		.mainHeading,
+		.section .section-body,
+		.panel-body {
+			padding: 15px!important;
+		}
+	</style>
+	<div smooth-scroll duration="100" offset="250"></div>
+	<md-toolbar>
+		<div class="md-toolbar-tools bg-darkgrey">
+			<h2 class="md-flex">Online Reporting: Assessment of progress <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h2>
+		</div>
+	</md-toolbar>
+	<md-content style="padding:20px;background-color:transparent;">
 
-	<div class="alert alert-danger" ng-show="hasError()">
-		<strong>An error has occurred...</strong>
-		<div>{{error}}</div>
-	</div>
+		<div class="alert alert-danger" ng-show="hasError()">
+			<strong>An error has occurred...</strong>
+			<div>{{error}}</div>
+		</div>
 
-	<div ng-show="status!='hidden'">
+		<div ng-show="status!='hidden'">
 
-				<div class="row">
-					<div class="col-xs-6">
-						<span km-form-languages ng-model="document.header.languages"></span>
-					</div>
-		            <div class="col-xs-6 text-right">
-		                <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-		            </div>
-		        </div>
-
-		        <div class="row">
-					<div class="col-xs-12">
-						<ul class="pagination">
-							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-						</ul>
-					</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<span km-form-languages ng-model="document.header.languages"></span>
 				</div>
+				<div class="col-xs-6 text-right">
+					<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+									on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				</div>
+			</div>
 
-				<form name="editForm">
-					<div km-tab="general">
+			<div class="row">
+				<div class="col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+					</ul>
+				</div>
+			</div>
 
-						<legend>General Information</legend>
+			<form name="editForm">
+				<div km-tab="general">
+					<div class="panel panel-default panelMain">
+						<div class="panel-header">
+							<h3>General Information</h3>
+						</div>
+						<div class="panel-body">
 
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="government" caption="Country">
-									<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
+							<div class="row bottom-spacing">
+								<div class="col-md-12">
+									<div class="km-control-group" required name="government" caption="Country">
+										<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
+									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="panel panel-default panelMain">
+						<div class="panel-header">
+							<h3>Object of the assessment</h3>
+						</div>
+						<div class="panel-body">
 
-						<legend>Object of the assessment</legend>
+							<div class="row bottom-spacing">
 
-						<div class="row bottom-spacing">
-
-							<div class="col-md-12">
-								<div class="km-control-group" required name="nationalTarget" caption="Target" ng-show="document.nationalTarget">
-									<div km-select required displaycount="1" name="nationalTarget" ng-model="document.nationalTarget" placeholder="Please select one target..." watch-items items="options.nationalTargets"></div>
-								</div>
-								<div class="km-control-group" required name="aichiTarget" caption="Target" ng-show="document.aichiTarget">
-									<div km-select required displaycount="1" name="aichiTarget" ng-model="document.aichiTarget" placeholder="Please select one target..." items="options.aichiTargets()"></div>
+								<div class="col-md-12">
+									<div class="km-control-group" required name="nationalTarget" caption="Target" ng-show="document.nationalTarget">
+										<span class="help-block">Please select the national target or Aichi Biodiversity Target that is being assessed. If your country is using the online reporting tool, the national targets entered in section I will be automatically filled in this section of the national report.</span>
+										<div km-select required displaycount="1" name="nationalTarget" ng-model="document.nationalTarget" placeholder="Please select one target..." watch-items items="options.nationalTargets"></div>
+									</div>
+									<div class="km-control-group" required name="aichiTarget" caption="Target" ng-show="document.aichiTarget">
+										<span class="help-block">Please select the national target or Aichi Biodiversity Target that is being assessed. If your country is using the online reporting tool, the national targets entered in section I will be automatically filled in this section of the national report.</span>
+										<div km-select required displaycount="1" name="aichiTarget" ng-model="document.aichiTarget" placeholder="Please select one target..." items="options.aichiTargets()"></div>
+									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="panel panel-default panelMain">
+						<div class="panel-header">
+							<h3>Category of progress towards the implementation of the selected target</h3>
+						</div>
+						<div class="panel-body">
 
-						<legend>Assessment</legend>
+							<div class="row bottom-spacing">
 
-						<div class="row bottom-spacing">
+								<div class="col-md-8">
+									<div class="km-control-group" required name="progress" caption="Rate of progresses toward the implementation of the selected target">
+										<span class="help-block">For the selected national target, please indicate the current level of progress that has been made towards its attainment using the categories below. The categories below are the same as those used in the fourth edition of the Global Biodiversity Outlook. The assessment should take into account the deadline for the national target.</span>
+										<div km-select name="progress" required displaycount="1" ng-model="document.progress" placeholder="" watch-items items="options.progresses"></div>
+									</div>
+								</div>
 
-							<div class="col-md-8">
-								<div class="km-control-group" required name="progress" caption="Rate of progresses toward the implementation of the selected target">
-									<div km-select name="progress" required displaycount="1"  ng-model="document.progress" placeholder="" watch-items items="options.progresses"></div>
+								<div class="col-md-4">
+									<div class="km-control-group" required name="date" caption="Date the assessment was done">
+										<span class="help-block">Please indicate the date when this assessment of progress was undertaken.</span>
+										<div km-date name="date" required ng-model="document.date"></div>
+									</div>
 								</div>
 							</div>
 
-							<div class="col-md-4">
-								<div class="km-control-group" required name="date" caption="Date the assessment was done">
-									<div km-date name="date" required ng-model="document.date"></div>
+							<div class="row bottom-spacing">
+								<div class="col-md-12">
+									<div class="km-control-group" name="assessmentText" caption="Additional information">
+										<div class="help-block">
+											(Please provide information on the evidence used in the assessment of this target, drawing upon relevant information provided in section II, including obstacles in undertaking the assessment).
+											</br>Please provide substantiating information for the selection above. This could include information related to the overall impact of the measure taken, changes to the status and trends of biodiversity, changes to pressures on biodiversity
+											or the drivers of its loss, changes to socioeconomic conditions, such as awareness of biodiversity, changes in resource availability, changes to government policies, or changes in the behaviour of major sectors in the country. For national
+											targets which are quantitative in nature, Parties may also wish to consider reporting on the extent of achievement in relation to the target value. For example, for some types of targets, this could be done with the use of percentages. Parties
+											may also wish to describe the process they have used to assess progress towards the target, as well as report on any obstacles related to the assessment process for the target.
+										</div>
+										<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
+									</div>
 								</div>
 							</div>
 						</div>
-
-						 <div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group"  name="assessmentText" caption="Additional information">
-									<div class="help-block">Please provide information on the evidence used in the assessment of this target, drawing upon relevant information provided in section II, including obstacles in undertaking the assessment.</div>
-									<div km-textbox-ml required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
-								</div>
-							</div>
+					</div>
+					<div class="panel panel-default panelMain">
+						<div class="panel-header">
+							<h3>Indicators and other tools used in this Assessment</h3>
 						</div>
+						<div class="panel-body">
 
 
 
-						<legend>Indicators and other tools used in this Assessment</legend>
+							<div class="row bottom-spacing">
+								<div class="col-md-12">
+									<div class="km-control-group" name="nationalIndicatorsUsed" caption="Has your country used indicators to assess progress towards this national target?">
+										<span class="help-block">Please indicate any indicators used to assess progress towards the attainment of this target. These indicators could include indicators contained in your country’s national biodiversity strategy and action plan or indicators developed for other processes. In decision XIII/28, the Conference of the Parties to the Convention on Biological Diversity welcomed a list of generic and specific indicators for the Strategic Plan for Biodiversity 2011-2020. In assessing progress towards your country’s national targets, you may wish to make use of this list of indicators, if appropriate. Further information on indicators, including tools for national indicator development, is available from the Biodiversity Indicators Partnership 
+										(<a href="http://www.bipindicators.net/" target="_new">http://www.bipindicators.net/</a>) and the Group on Earth Observations Biodiversity Observation Network (<a href="http://geobon.org/" target="_new">http://geobon.org/</a>).</span>
 
-						<div class="row bottom-spacing">
-							<div class="col-md-12">
-
-								<div class="km-control-group"  name="nationalIndicatorsUsed"
-									caption="Has your country used indicators to assess progress towards this national target?">
-									<br/>
-									<button data-toggle="buttons-checkbox" type="button"
-										ng-class="{'btn-primary':document.nationalIndicatorsUsed, 'btn-default': document.nationalIndicatorsUsed==false}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=true">Yes</button>
-									<button data-toggle="buttons-checkbox" type="button"
-										ng-class="{'btn-primary':document.nationalIndicatorsUsed==false, 'btn-default': document.nationalIndicatorsUsed}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=false">No</button>
-								</div>
-								<div class="row" ng-show="document.nationalIndicatorsUsed">
-									<div class="col-md-12">
-										<div class="km-control-group" name="nationalIndicators"  caption="Please provide indicator(s)used in this assessment.">
-											<span class="help-block">
-												Please indicate any indicators used to assess progress towards the attainment of this target. These indicators
-												could include indicators contained in your country’s national biodiversity strategy and action plan or
-												indicators developed for other processes. In recommendation XIX/4 1 , SBSTTA took note of a proposed list of
-												generic and specific indicators for the Strategic Plan for Biodiversity 2011-2020 identified by the Ad Hoc
-												Technical Expert Group. In assessing progress towards their national targets, countries may wish to make
-												use of this list of indicators, if appropriate. Further information on indicators, including tools for national
-												indicator development, is available from the Biodiversity Indicators Partnership
-												(http://www.bipindicators.net/).
-											</span>
-											<div km-textbox-ml  name="nationalIndicators" ng-model="document.nationalIndicators" locales="document.header.languages" rows="3"></div>
+										<button data-toggle="buttons-checkbox" type="button" ng-class="{'btn-primary':document.nationalIndicatorsUsed, 'btn-default': document.nationalIndicatorsUsed==false}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=true">Yes</button>
+										<button data-toggle="buttons-checkbox" type="button" ng-class="{'btn-primary':document.nationalIndicatorsUsed==false, 'btn-default': document.nationalIndicatorsUsed}" class="btn btn-default" ng-click="document.nationalIndicatorsUsed=false">No</button>
+									</div>
+									<div class="row" ng-show="document.nationalIndicatorsUsed">
+										<div class="col-md-12">
+											<div class="km-control-group" name="nationalIndicators" caption="Please provide indicator(s)used in this assessment.">
+												<span class="help-block">
+													Please describe any tools or approaches your country has used to assess its progress towards this national target. This could include case studies, desk studies, expert opinions, and stakeholder consultations, among other things.
+												</span>
+												<div km-textbox-ml name="nationalIndicators" ng-model="document.nationalIndicators" locales="document.header.languages" rows="3"></div>
+											</div>
 										</div>
 									</div>
 								</div>
-								<!--<div class="km-control-group" name="nationalIndicators" required="{{isBasedOnComprehensiveIndicators()}}" caption="Indicator(s) used in this assessment">
-									<div class="btn-group" role="group">
-										<div class="btn-group" role="group">
-										    <button type="button" ng-disabled="!unselectedIndicators.length" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												<span ng-if="!unselectedIndicators.length">No indicator</span>
-												<span ng-if="unselectedIndicators.length">Select an indicator...</span>
-												<span class="caret"></span>
-										    </button>
-										    <ul class="dropdown-menu">
-										    	<li ng-repeat="item in (unselectedIndicators = (options.nationalIndicators | filter:filterUnselectedIndicator))"><a href="#" ng-click="addIndicator(item)">{{item.title | lstring}}</a></li>
-										    </ul>
-										</div>
+							</div>
+
+
+							<div class="row  bottom-spacing">
+								<div class="col-md-12">
+									<div class="km-control-group" name="documentText" caption="Please describe any other tools or means used for assessing progress.">
+										<span class="help-block">(Please use this field to indicate any relevant websites, web links or documents where additional information related to this assessment can be found).
+											</br>Please indicate any relevant websites, web links or documents to additional information related to the assessment of progress towards this national target. This could include information on methodologies and data underpinning the indicators and tools identified above.
+										</span>
+										<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
 									</div>
-
-									<ul class="list-group" ng-if="document.nationalIndicators.length" style="margin-top:10px">
-										<li class="list-group-item" ng-repeat="item in document.nationalIndicators">
-											<table style="width:100%">
-											  <tr>
-												<td>
-													<h4><span class="color-litegrey">INDICATOR:</span> {{docInfo(item).title | lstring}}</h4>
-													<p>{{docInfo(item).description | lstring}}</p>
-                                                    <p>
-                                                        <div class="km-control-group"  name="IndicatorDescriptionText" caption="Description">
-                        									<div class="help-block">Indicator description if any.</div>
-                            								<div km-textbox-ml required name="IndicatorDescription" ng-model="item.description" rows="5"
-                                                            locales="document.header.languages"></div>
-                							            </div>
-                                                    </p>
-                                                    <div km-link ng-model="item.links" identifier="document.header.identifier"></div>
-
-                                                </td>
-												<td style="white-space:nowrap;text-align:right;vertical-align:top">
-													<a ng-click="removeIndicator(item)"><i class="material-icons">close</i></a>
-												</td>
-											  </tr>
-											</table>
-										</li>
-									</ul>
-
-								</div>-->
+								</div>
+							</div>
+							<div class="row  bottom-spacing">
+								<div class="col-md-12">
+									<div class="km-control-group" name="documentLinks" caption="Please provide relevant web links and/or files where additional information can be found to support the assessment.">
+										<span class="help-block"></span>
+										<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
+									</div>
+								</div>
 							</div>
 						</div>
+					</div>
+					<div class="panel panel-default panelMain">
+						<div class="panel-header">
+							<h3>Level of confidence</h3>
+						</div>
+						<div class="panel-body">
 
-<!--						<div class="row bottom-spacing">
+							<div class="row bottom-spacing">
+								<div class="col-md-12">
+									<div class="km-control-group" required name="confidence" caption="Level of confidence of the above assessment">
+										<span class="help-block">Please indicate your country’s level of confidence in the assessment undertaken above.</span>
+										<div km-select name="confidence" required ng-model="document.confidence" placeholder="" watch-items items="options.confidences"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation for the level of confidence indicated.">
+										<span class="help-block">Please describe why the assessment has been given the level of confidence selected above. Parties may wish to comment on the types of information or indicators used, their representativeness, coverage, and any limitations these may have.</span>
+										<div km-textbox-ml required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
+									</div>
+								</div>
+							</div>
+
 							<div class="col-md-12">
-								<div class="km-control-group" name="strategicPlanIndicators" caption="Link to Indicator(s) used in this assessment">
-									<div km-select name="strategicPlanIndicators" multiple ng-model="document.strategicPlanIndicators" placeholder="" watch-items items="options.strategicPlanIndicators"></div>
+								<div class="km-control-group" name="adequacy" caption="Adequacy of monitoring information to support assessment">
+									<div class="help-block">
+										Please indicate the adequacy of the national monitoring systems in place for this national target
+									</div>
+									<div km-select name="adequacy" ng-model="document.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacyMonitoring()"></div>
 								</div>
 							</div>
-						</div>
-						<div class="row bottom-spacing">
+							<div class="col-md-12" ng-if="isMonitoringNotRequired()">
+								<div class="km-control-group" name="adequacyDescription" caption="Please describe how the target is monitored and indicate whether there is a monitoring system in place">
+									<span class="help-block">If one of the two first answers has been selected in the question above (i.e. monitoring related to this target is adequate or monitoring related to this target is partial), please describe how the target is monitored, including information on any relevant monitoring systems. Issues that your country may wish to include in its response are the characteristics of the monitoring system, the organizations responsible for it, how the information or data is collected, the type of data collected and how frequently data is updated.</span>
+									<div km-textbox-ml name="adequacyDescription" ng-model="document.adequacyDescription" locales="document.header.languages" rows="3"></div>
+								</div>
+							</div>
 							<div class="col-md-12">
-								<div class="km-control-group" name="implementationActivities" caption="Link to National Activity(ies) related to this assessment">
-									<div km-select name="implementationActivities" multiple ng-model="document.implementationActivities" placeholder="" watch-items items="options.implementationActivities"></div>
-								</div>
-							</div>
-						</div>-->
-
-<!--						<legend>Main Relevant Documents and Information</legend>-->
-
-						<div class="row  bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="documentText" caption="Please describe any other tools or means used for assessing progress.">
-									<div km-textbox-ml name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
+								<div class="km-control-group" name="otherRelevantDocuments" caption="Other relevant website address or attached documents">
+									<div class="help-block">
+										(Please use this field to indicate any relevant websites, web links or documents where additional information related to the monitoring system can be found.)
+										</br>If information on the monitoring system has been published in other sources, please include relevant files and/or web links. For example, this could include directly attaching reports or scientific articles, providing web links and/or publication
+										citations.
+									</div>
+									<div km-link name="otherRelevantDocuments" ng-model="document.otherRelevantDocuments" identifier="document.header.identifier"></div>
 								</div>
 							</div>
 						</div>
-						<div class="row  bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" name="documentLinks" caption="Please provide relevant web links and/or files where additional information can be found to support the assessment.">
-									<div km-link name="documents" ng-model="document.documentLinks" identifier="document.header.identifier"></div>
-								</div>
-							</div>
+					</div>
+
+
+					<div class="panel panel-default panelMain">
+						<div class="panel-header">
+							<h3>Notes</h3>
 						</div>
-
-						<legend>Level of confidence</legend>
-
- 						<div class="row bottom-spacing">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="confidence" caption="Level of confidence of the above assessment">
-									<div km-select name="confidence" required ng-model="document.confidence" placeholder="" watch-items items="options.confidences"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation for the level of confidence indicated.">
-									<div km-textbox-ml required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-<!--						<legend>Other Relevant Information</legend>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" name="relevantInformation" caption="Additional Information">
-									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
-									<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
-									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
-								</div>
-							</div>
-						</div>-->
-						<div class="col-md-12">
-							<div class="km-control-group"  name="adequacy" caption="Adequacy of monitoring information to support assessment">
-								<div class="help-block">
-									Please indicate the adequacy of the national monitoring systems in place for this national target
-								</div>
-								<div km-select  name="adequacy" ng-model="document.adequacy" placeholder="Please select level of confidence of the above assessment" items="options.adequacyMonitoring()"></div>
-							</div>
-						</div>
-						<div class="col-md-12" ng-if="isMonitoringNotRequired()">
-							<div class="km-control-group" name="adequacyDescription"  caption="Please describe how the target is monitored and indicate whether there is a monitoring system in place">
-								<!--<div class="help-block">
-									If one of the two first answers has been selected in the question above (i.e. Monitoring related to this target is adequate or monitoring related to this target is partial), please describe the monitoring system that exists. Issues that your country may
-									wish to include in its response are the characteristics of the monitoring system, the organizations responsible for it, how the information or data is collected, the type of data collected and how frequently data are updated.
-								</div>-->
-								<div km-textbox-ml  name="adequacyDescription" ng-model="document.adequacyDescription" locales="document.header.languages" rows="3"></div>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="km-control-group" name="otherRelevantDocuments" caption="Other relevant website address or attached documents">
-								<div class="help-block">
-									Please use this field to indicate any relevant websites, web links or documents where additional information related to the monitoring system can be found.
-								</div>
-								<div km-link name="otherRelevantDocuments" ng-model="document.otherRelevantDocuments" identifier="document.header.identifier"></div>
-							</div>
-						</div>
-
-
-						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" name="notes">
-									<legend>Notes</legend>
-									<span class="help-block">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="km-control-group" name="notes">
+										<span class="help-block">
 										The field “Notes” is for personal reference and can be seen only when the record is being edited.
 									</span>
-									<div km-notes name="notes" ng-model="document.notes"></div>
+										<div km-notes name="notes" ng-model="document.notes"></div>
+									</div>
 								</div>
 							</div>
 						</div>
-
-					</div>
-					<!--end addtional info tab-->
-				</form>
-
-
-				<div km-tab="review">
-					<div km-document-validation ng-model="validationReport"></div>
-
-					<div class="btn-group" ng-show="document.header.languages.length>1">
-						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
 
-					<view-national-assessment ng-model="document" locale="review.locale"></view-national-assessment>
+
+
+				</div>
+				<!--end addtional info tab-->
+			</form>
+
+
+			<div km-tab="review">
+				<div km-document-validation ng-model="validationReport"></div>
+
+				<div class="btn-group" ng-show="document.header.languages.length>1">
+					<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 				</div>
 
-				<div class="row" style="padding-bottom:30px;">
-					<div class="col-sm-9 col-xs-12">
-						<ul class="pagination">
-							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
-						</ul>
-					</div>
+				<view-national-assessment ng-model="document" locale="review.locale"></view-national-assessment>
+			</div>
 
-					<div class="col-xs-12 text-right">
-						<div class="">
-		                    <span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-						</div>
-					</div>
+			<div class="row" style="padding-bottom:30px;">
+				<div class="col-sm-9 col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+					</ul>
 				</div>
 
+				<div class="col-xs-12 text-right">
+					<div class="">
+						<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+										on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
 
-	</div>
-</md-content>
+
+		</div>
+	</md-content>
 </div>

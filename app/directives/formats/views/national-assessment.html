@@ -24,22 +24,22 @@
 		</div>
 	</div>
 
-	<div ng-show="document.date">
-		<label>Date the assessment was done</label>
-		<div class="span4">
-			<div class="km-value km-pre">{{document.date | lstring:locale}}</div>
-		</div>
-	</div>
+	
 
 
 	<div ng-show="document.assessmentText || document.progress">
-		<legend>Assessment</legend>
+		<legend>Category of progress towards the implementation of the selected target</legend>
 
 		<div ng-show="document.assessmentText">
 			<label>Assessment</label>
 			<div class="km-value km-pre">{{document.assessmentText | lstring:locale}}</div>
 		</div>
-
+		<div ng-show="document.date">
+			<label>Date the assessment was done</label>
+			<div class="span4">
+				<div class="km-value km-pre">{{document.date | lstring:locale}}</div>
+			</div>
+		</div>
 		<div ng-show="document.progress">
 			<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
 			<span class="km-value">{{document.progress | term:locale}} </span>

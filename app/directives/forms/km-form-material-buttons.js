@@ -27,9 +27,10 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 				$scope.status = "loading buttons";
 
 			},
-			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout)
+			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location",
+			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location)
 			{
-
+				var next_url;
 				//====================
 				//
 				//====================
@@ -70,9 +71,32 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						.ok('CLOSE RECORD')
 						.cancel('CANCEL')
 						.targetEvent(ev);
-						$mdDialog.show(confirm).then(function() {
-							$scope.close();
-					});
+						$mdDialog.show(confirm).then(function(a,b) {
+							console.log('yes')
+							$rootScope.originalDocument = undefined;
+							$rootScope.isFormLeaving = false;
+							if(next_url){
+								var url = angular.copy(next_url);
+								next_url = undefined;
+								$timeout(function(){
+									var absHosts = ['https://chm.cbddev.xyz/', 'https://chm.staging.cbd.int/',
+										'http://localhost:8000/', 'https://chm.cbd.int/'
+									]
+									url = url.replace($location.$$protocol + '://' +
+										$location.$$host + ($location.$$host != 'chm.cbd.int' ? ':' + $location.$$port : '') + '/', '');
+									_.each(absHosts, function(host) {
+										url = url.replace(host, '');
+									});
+									url = url.replace(/^(en|ar|fr|es|ru|zh)\//, '/');
+									$location.path(url);
+								},1);
+							}
+							else
+								$scope.close();
+						}, function() {
+								console.log('no')
+							$rootScope.isFormLeaving = false;
+						});
 				};
 
 				$scope.validateForPublishing = function(ev) {
@@ -218,6 +242,8 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 					if(status =="ready"){
 						$scope.updateSecurity();
 						$scope.status = "ready";
+
+						$rootScope.originalDocument = $scope.getDocumentFn();
 					}
 				});
 
@@ -289,7 +315,27 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						return angular.fromJson(angular.toJson(data));
 				};
 
+				$rootScope.isFormLeaving = false;
+				function confirmLeaving(evt, next, current) {
+					console.log(next, current, $rootScope.isFormLeaving);
+					if($rootScope.isFormLeaving)
+						return;
+					var formChanged = !angular.equals($scope.getDocumentFn(), $rootScope.originalDocument);
 
+					if(!$rootScope.originalDocument || !formChanged){
+						return;
+					}
+						$rootScope.isFormLeaving = true; 
+				// },1);
+					evt.preventDefault();
+					next_url = next;
+					$scope.new_cancel();
+				}
+
+				$scope.$on('$locationChangeStart', confirmLeaving);
+				// $scope.$on('$locationChangeSuccess', function(evt, data){
+				// 	next_url = undefined;
+				// });
 			}]
 		};
 	}]);

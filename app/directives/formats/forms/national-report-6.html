@@ -191,7 +191,7 @@
 
 			<h1>
 				<div class="alert alert-info">
-					The Sixth National report is currently open for Review and any data entered will be considered test data which will be deleted after final review
+					The Sixth national report is currently open for Review and any data entered will be considered test data which will be deleted after final review
 				</div>
 			</h1>
 
@@ -819,7 +819,7 @@
 				</div>
 			</div>
 
-			<script type="text/ng-template" id="aichiTargetContribution">
+			<script type="text/ng-template" id="aichiTargetContribution" trados-translation="true">
 
 				<div ng-switch="target.identifier">
 					<div ng-switch-when="AICHI-TARGET-01" class="row">
@@ -1396,7 +1396,7 @@
 
 			</script>
 
-			<script type="text/ng-template" id="gspcNationalContribution">
+			<script type="text/ng-template" id="gspcNationalContribution" trados-translation="true">
 
 				<div ng-switch="target.identifier">
 					<div ng-switch-when="GSPC-TARGET-01" class="row">
@@ -1574,7 +1574,16 @@
 
 			</script>
 
-
+			<script type="text/ng-template" id="recordExistsTemplate.html">
+					<h1>Sixth national report</h1>
+					<hr>
+					<div class=" alert alert-danger">
+						<label>The Sixth national report already esists for the government, would you like to open the existing record?</label>
+					</div>
+					<div class="ngdialog-buttons">
+						<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="openExisting()">Yes</button>
+					</div>				
+			</script>
 		</div>
 
 	</md-content>

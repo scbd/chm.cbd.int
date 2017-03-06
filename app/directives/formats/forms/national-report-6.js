@@ -1,13 +1,13 @@
 define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
  'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
- 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector",
+ 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog'
  ],
 function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
- "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm",  '$compile', "$timeout",
+ "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm",  '$compile', "$timeout", 'ngDialog',
  function ($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls,
- thesaurus, guid, $route, solr, realm,  $compile, $timeout) {
+ thesaurus, guid, $route, solr, realm,  $compile, $timeout, ngDialog) {
     return {
         restrict: 'E',
         template : template,
@@ -133,12 +133,32 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					.then(function(){
 						$scope.status = "ready";
 					});
+
+					if(!qs.uid) { 
+						$q.when(loadReferenceRecords({schema:'nationalReport6'}))
+						.then(function(nationalReport){
+							if(nationalReport && nationalReport.length > 0){
+								ngDialog.open({
+									template:'recordExistsTemplate.html', closeByDocument:false, closeByEscape: false, showClose: false, closeByNavigation:false,
+									controller: ['$scope', function($scope) {
+										
+										$scope.openExisting = function(){
+											ngDialog.close();
+											$location.path('/submit/nationalReport6/'+_.head(nationalReport)['identifier_s']);
+										}
+									}]
+								});
+							}
+						});
+					}
+
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
 					throw err;
 
 				});
+
 			};
 
 			//==================================
@@ -732,7 +752,6 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 					}
 				})
 			}
-
 			
         }
     };

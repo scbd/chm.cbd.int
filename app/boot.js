@@ -45,7 +45,8 @@ require.config({
       'scbd-angularjs-services'   : 'libs/scbd-angularjs-services/scbd-services',
       'scbd-angularjs-filters'    : 'libs/scbd-angularjs-services/filters/scbd-filters',
       'socket.io'                 : 'libs/socket.io-1.4.5/index',
-      'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll'
+      'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll',
+      'webui-popover'             : 'libs/webui-popover/dist/jquery.webui-popover.min'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -76,7 +77,8 @@ require.config({
       'ammap-export'             : { deps: ['ammap3']},
       'scbd-branding'            : { 'deps': ['angular']},
       'scbd-angularjs-services'  : { 'deps': ['angular']},
-      'scbd-angularjs-filters'   : { 'deps': ['angular']}
+      'scbd-angularjs-filters'   : { 'deps': ['angular']},
+      'webui-popover'            : { 'deps': ['jquery', 'css!libs/webui-popover/dist/jquery.webui-popover.min']}
     },
     packages: [
         { name: 'scbd-branding'          , location : 'components/scbd-branding' },

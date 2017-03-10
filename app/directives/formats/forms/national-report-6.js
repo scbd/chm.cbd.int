@@ -1,7 +1,6 @@
 define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
  'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
- 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog'
- ],
+ 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog', 'webui-popover'],
 function(template, app, angular, _) { 'use strict';
 
 app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
@@ -86,6 +85,7 @@ app.directive("editNationalReport6", ["$http","$rootScope", "$q", "$location", "
 							assessment   		: function()  { return $http.get("/api/v2013/thesaurus/domains/8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							categoryProgress   	: function()  { return $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms",{ cache: true }).then(function(o){ return o.data; }); },
 							confidenceLevel   	: function()  { return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms",{ cache: true }).then(function(o){ return o.data; }); },
+							gspcCategoryProgress   	: function()  { return $http.get("/api/v2013/thesaurus/domains/254B8AE2-05F2-43C7-8DB1-ADC702AE14A8/terms",{ cache: true }).then(function(o){ return o.data; }); },							
 							nationalTargets		: function()  {
 																var targets = $scope.nationalTargets;
 																if(!targets)
@@ -765,7 +765,7 @@ app.directive('nrPopover', function() {
 		restrict: 'A',
 		link: function (scope, elem, attrs) {
 			elem.popover({
-				trigger: 'focus hover',
+				trigger: 'click',
 				placement: attrs.dataPlacement || 'auto',
 				html: true,
 				container: 'body'
@@ -773,7 +773,42 @@ app.directive('nrPopover', function() {
 		}
 	};
 });
-
+app.directive('infoBar', [function() {
+	return {
+		restrict: 'EA',
+		replace: true,
+		template :   '<span>  '  
+					+'	<a href="#" class="show-pop" data-animation=\'pop\'>'
+					+'		<i class="fa fa-question-circle" aria-hidden="true"></i>'
+					+'  </a>'
+					+'</span>',
+		scope: { 
+			content : '@',
+			width: '@', 
+			height: '@'                  
+		},
+		link: function($scope, $element, attrs) {               
+		
+			var settings = {
+					trigger:'click',
+					title:'CHM Help: sixth national report',		
+					closeable:true,dismissible:true,
+					delay:0,
+					padding:true,
+					backdrop:false,trigger:'hover',
+					style:'popover-style1',
+					delay : {show:null, hide:500},
+					content: $scope.content||''
+			};
+// width: $scope.width || 600,
+					// height: $scope.height || 200,
+			$element.find('a.show-pop')
+					.webuiPopover('destroy')
+					.webuiPopover(settings);
+			
+		}
+	}
+}]);
 
 });
 

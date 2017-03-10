@@ -3,6 +3,7 @@
 		<label>
 			<input type="checkbox" ng-model="identifiers[term.identifier]" ng-click="save()" ng-required="IsRequired()" value="{{term.identifier}}" />
 				- {{term.title||term.name | lstring:locale}}
+				<span info-bar data-content="{{term.description}}" ng-if="term.description"></span>
 		</label>
 
 		<ul style="list-style:none">

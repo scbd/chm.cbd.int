@@ -11,7 +11,8 @@ define(['app', 'text!./km-control-group.html', 'lodash','jquery'], function(app,
 				name      : '@name',
 				caption   : '@caption',
 				required  : '@required',
-				isValidFn : "&isValid"
+				isValidFn : "&isValid",
+				content   : '@?'
 			},
 			link: function ($scope, $element, $attr)
 			{

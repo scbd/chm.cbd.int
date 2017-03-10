@@ -12,7 +12,7 @@
        </h4>
             </div>
             <div class="col-xs-2">
-              <h4 ng-if="isReview()"><span class="pull-right"><a translation-url class="btn btn-xs btn-default" href="platform/submit/bbi-contact/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
+              <h4 ng-if="isReview()"><span class="pull-right"><a class="btn btn-xs btn-default" href="platform/submit/bbi-contact/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
                         <div class="km-value">
 
                                 <div ng-repeat="item in document.emails">
-                                    <a translation-url translation-url ng-href="mailto:{{item}}">{{item}}</a></div>
+                                    <a translation-url ng-href="mailto:{{item}}">{{item}}</a></div>
 
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         <div class="km-value">
                             <div ng-repeat="item in document.websites">
 
-                                <a translation-url target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
+                                <a target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
 
                                     <i ng-switch-when="youtube" class="fa fa-youtube-square" aria-hidden="true"></i>
                                     <i ng-switch-when="twitter" class="fa fa-twitter-square" aria-hidden="true"></i>
@@ -121,7 +121,7 @@
                 <span ng-if="contactOrganization.emails"><br> </span>
                 <span ng-repeat="item in contactOrganization.emails">
                     <i class="fa fa-envelope" aria-hidden="true"></i>:
-                    <a translation-url target="_blank" ng-href="mailto:{{item}}" >
+                    <a target="_blank" ng-href="mailto:{{item}}" >
 
 
 
@@ -146,7 +146,7 @@
                 <span ng-if="contactOrganization.websites"><br><br></span>
                 <span class="small" ng-repeat="item in contactOrganization.websites">
 
-                    <a translation-url target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
+                    <a target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
 
                         <i ng-switch-when="youtube" class="fa fa-youtube-square" aria-hidden="true"></i>
                         <i ng-switch-when="twitter" class="fa fa-twitter-square" aria-hidden="true"></i>

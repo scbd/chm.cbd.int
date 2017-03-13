@@ -52,7 +52,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						return editFormUtility.saveDraft(document).then(function(draftInfo) {
 							$scope.onPostSaveDraftFn({ data: draftInfo });
 							$scope.status = "";
-
+							$rootScope.originalDocument = document;
 						});
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
@@ -144,6 +144,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 
 							var identifier = document.header.identifier;
 							var schema     = document.header.schema;
+							$rootScope.originalDocument = document;
 
 							$rootScope.$broadcast("ProcessingRecord", identifier, schema);
 
@@ -179,7 +180,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						return editFormUtility.publishRequest(document).then(function(workflowInfo) {
 
 							$scope.onPostWorkflowFn({ data: workflowInfo });
-
+							$rootScope.originalDocument = document;
 							return workflowInfo;
 						});
 

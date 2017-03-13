@@ -2,18 +2,18 @@
     max-width: 500px;
     max-height: 300px;
     text-align: justify;
-    color: #000;
+    color: #fff;
     font-weight: 400;
     font-size: large;
-    background: #2fa0ec;
+    background: #000;
 }
 
 .webui-popover {
     text-align: left;
-    background-color: #2fa0ec;
+    background-color: #000;
     padding: 0px!important;
-    font-family: "Indie Flower", cursive;
-    background: #2fa0ec!important;
+    /*font-family: "Indie Flower", cursive;*/
+    background: #000!important;
 }
 
 /*.webui-popover-content a:hover {
@@ -50,23 +50,23 @@
 .webui-popover.top> .webui-arrow:after,
 .webui-popover.top-right> .webui-arrow:after,
 .webui-popover.top-left> .webui-arrow:after {
-    border-top-color: #2fa0ec!important;
+    border-top-color: #000!important;
 }
 
 .webui-popover.right> .webui-arrow:after,
 .webui-popover.right-top> .webui-arrow:after,
 .webui-popover.right-bottom> .webui-arrow:after {
-    border-right-color: #2fa0ec!important;
+    border-right-color: #000!important;
 }
 
 .webui-popover.bottom> .webui-arrow:after,
 .webui-popover.bottom-right> .webui-arrow:after,
 .webui-popover.bottom-left> .webui-arrow:after {
-    border-bottom-color: #2fa0ec!important;
+    border-bottom-color: #000!important;
 }
 
 .webui-popover.left> .webui-arrow:after,
 .webui-popover.left-top> .webui-arrow:after,
 .webui-popover.left-bottom> .webui-arrow:after {
-    border-left-color: #2fa0ec!important;
+    border-left-color: #000!important;
 }

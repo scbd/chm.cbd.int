@@ -252,7 +252,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 					document = document || $scope.document;
 
 					return !!document && !!document.adequacy &&
-						_.contains(['4C93B22D-E8A0-4070-AC88-DD8B18A5A4ED', '73DA7532-9D53-4101-B3C7-312FC13010FF'], document.adequacy.identifier);
+						_.contains(["6108E892-CCF2-4870-B455-F8B887D7EEA0", "423CA4CE-23D4-4468-AE45-3A4AF503B1E8"], document.adequacy.identifier);
 				};
 
 				//==================================

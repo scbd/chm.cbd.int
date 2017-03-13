@@ -143,30 +143,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.cleanUp = function(document) {
 
-				document = document || $scope.document;
-
-				if (!document)
-					return $q.when(true);
-
-				if (!$scope.isJurisdictionSubNational(document))
-					document.jurisdictionInfo = undefined;
-
-				if (/^\s*$/g.test(document.notes))
-					document.notes = undefined;
-
-                if($scope.selectedAichi.target && document.isAichiTarget){
-                    document.aichiTargets = [];
-                    document.aichiTargets.push($scope.selectedAichi.target);
-                    document.title =  {en:$scope.selectedAichi.target.identifier};
-
-                    document.description = undefined;
-                    document.jurisdiction = undefined;
-                    document.jurisdictionInfo = undefined;
-                    document.relevantInformation = undefined;
-                    document.relevantDocuments = undefined;
-                }
-
-				return $q.when(false);
+				return $q.when($scope.getCleanDocument(document));
 			};
 			
 			//==================================
@@ -200,6 +177,10 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
                     document.relevantInformation = undefined;
                     document.relevantDocuments = undefined;
                 }
+				if(document.otherAichiTargets && document.otherAichiTargets.length>0){
+					document.noOtherAichiTargets = undefined;
+					document.noOtherAichiTargetsDescription = undefined;
+				}
 				return document;
 			};
 
@@ -257,22 +238,11 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				$scope.validationReport = null;
 
-				var oDocument = $scope.document;
-
-                if($scope.selectedAichi.target && oDocument.isAichiTarget){
-                    oDocument.aichiTargets = [];
-                    oDocument.aichiTargets.push($scope.selectedAichi.target);
-                    oDocument.title = {en:$scope.selectedAichi.target.identifier};
-                }
-
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
+				return $scope.cleanUp().then(function(oDocument) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {
 							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
+							return !!(success.data && success.data.errors && success.data.errors.length);
 						},
 						function(error) {
 							$scope.onError(error.data);

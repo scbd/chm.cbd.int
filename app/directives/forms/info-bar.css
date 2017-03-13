@@ -1,0 +1,72 @@
+.webui-popover-content {
+    max-width: 500px;
+    max-height: 300px;
+    text-align: justify;
+    color: #000;
+    font-weight: 400;
+    font-size: large;
+    background: #2fa0ec;
+}
+
+.webui-popover {
+    text-align: left;
+    background-color: #2fa0ec;
+    padding: 0px!important;
+    font-family: "Indie Flower", cursive;
+    background: #2fa0ec!important;
+}
+
+/*.webui-popover-content a:hover {
+    border-bottom: 1px solid red;
+}*/
+
+.webui-popover-content a {
+    color: #32434f;
+    border-bottom: 1px solid red;
+}
+
+.webui-popover-title,
+.webui-popover-inner .close {
+    border-bottom: 0px solid #f2f2f2!important;
+    background-color: #2a3035!important;
+    color: #fff!important;
+}
+
+
+/*.webui-popover.top > .webui-arrow:after,
+.webui-popover.top-right > .webui-arrow:after,
+.webui-popover.top-left > .webui-arrow:after {
+    color: #2fa0ec!important;
+}*/
+
+
+/*.webui-popover.top>.webui-arrow:after, .webui-popover.top-right>.webui-arrow:after, .webui-popover.top-left>.webui-arrow:after {
+    border-top-color: #2fa0ec!important;
+}*/
+
+
+/*.webui-popover-inner { background-color: #2fa0ec!important; color: #fff!important; }*/
+
+.webui-popover.top> .webui-arrow:after,
+.webui-popover.top-right> .webui-arrow:after,
+.webui-popover.top-left> .webui-arrow:after {
+    border-top-color: #2fa0ec!important;
+}
+
+.webui-popover.right> .webui-arrow:after,
+.webui-popover.right-top> .webui-arrow:after,
+.webui-popover.right-bottom> .webui-arrow:after {
+    border-right-color: #2fa0ec!important;
+}
+
+.webui-popover.bottom> .webui-arrow:after,
+.webui-popover.bottom-right> .webui-arrow:after,
+.webui-popover.bottom-left> .webui-arrow:after {
+    border-bottom-color: #2fa0ec!important;
+}
+
+.webui-popover.left> .webui-arrow:after,
+.webui-popover.left-top> .webui-arrow:after,
+.webui-popover.left-bottom> .webui-arrow:after {
+    border-left-color: #2fa0ec!important;
+}

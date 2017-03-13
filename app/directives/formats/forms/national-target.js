@@ -301,7 +301,6 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			};
 
 			//==================================

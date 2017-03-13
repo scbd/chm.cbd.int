@@ -29,7 +29,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(!$scope.document||!document)
 						return;
 					if(document.targetPursued){
-						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier), revision:getRevisonNumber(target.identifier)});});
+						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier)});});
 						$q.all(nationalTargets)
 						  .then(function(data){
 							  $scope.nationalTargets = [];
@@ -66,7 +66,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 								realmConfig = 'abs';
 							$scope.absNationalReport = undefined;
 							if(target16.nationalReport)
-								loadReferenceRecords({identifier:removeRevisonNumber(target16.nationalReport.identifier), revision:getRevisonNumber(target16.nationalReport.identifier)}, realmConfig)
+								loadReferenceRecords({identifier:removeRevisonNumber(target16.nationalReport.identifier)}, realmConfig)
 								.then(function(data){
 									$scope.absNationalReport = _.head(data);
 								});

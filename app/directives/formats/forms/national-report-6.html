@@ -523,12 +523,12 @@
 
 								<div class="row">
 									<div class="col-md-12">
-										<div class="km-control-group" name="implemantationMeasures" caption="Please describe the major measures taken by your country for the implementation of the Global Strategy for Plant Conservation.
+										<div class="km-control-group" name="implementationMeasures" caption="Please describe the major measures taken by your country for the implementation of the Global Strategy for Plant Conservation.
 								(Parties can report on actions taken to implement these targets if they are not covered in sections II, III or IV)">
 											<div class="help-block">
 												If your country has adopted national targets or similar commitments related to the targets contained in the Global Strategy for Plant Conservation, please describe the actions taken and their contribution towards the attainment of the GSPC.
 											</div>
-											<div km-textbox-ml name="implemantationMeasures" ng-model="document.gspcNationalContribution.implemantationMeasures" locales="document.header.languages" rows="3"></div>
+											<div km-textbox-ml name="implementationMeasures" ng-model="document.gspcNationalContribution.implementationMeasures" locales="document.header.languages" rows="3"></div>
 										</div>
 									</div>
 								</div>
@@ -1207,7 +1207,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="km-control-group" name="nationalContributions-GSPC-TARGET-Progress-Category" caption="Category of progress towards the target of the Global Strategy for Plant Conservation at the national level">
-							<div km-term-check name="nationalContributions-GSPC-TARGET-Progress-Category" ng-model="target.categoryProgress" terms="options.gspcCategoryProgress()" description="true" binding-type="term" ng-click="save()"></div>
+							<div km-term-radio name="nationalContributions-GSPC-TARGET-Progress-Category" ng-model="target.categoryProgress" terms="options.gspcCategoryProgress()" description="true" binding-type="term" ng-click="save()"></div>
 						</div>
 					</div>
 				</div>

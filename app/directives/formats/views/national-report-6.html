@@ -279,49 +279,57 @@
 			<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for Plant Conservation</h3>
 		</div>
 		<div class="section-body">
-			<div class="section-body">
-				<div class="section-body">
 					<div class="row">
-						<div class="col-md-12 panel panel-default1">							
-							<div class="panel-body">
-								<div ng-show="document.gspcNationalContribution.hasGSPCTargets">
-									<label></label>
-									<div class="km-value km-pre">Country has national targets related to the GSPC Targets</div>
-								</div>
-								<div ng-show="!document.gspcNationalContribution.hasGSPCTargets">
-									<label></label>
-									<div class="km-value km-pre">Country does not have national targets related to the GSPC Targets</div>
-								</div>
-								<div ng-show="document.gspcNationalContribution.gspcTargetDescription">
-									<label>Details on the specific targets</label>
-									<div class="km-value km-pre">{{document.gspcNationalContribution.gspcTargetDescription | lstring:locale}}</div>
-								</div>
-								<div ng-show="document.gspcNationalContribution.plantConservationNetwork">
-									<label>Information on any active networks for plant conservation</label>
-									<div class="km-value km-pre">{{document.gspcNationalContribution.plantConservationNetwork | lstring:locale}}</div>
-								</div>
-								<div ng-show="document.gspcNationalContribution.implemantationMeasures">
-									<label>Major measures taken by your country for the implementation of the Global Strategy for Plant Conservation</label>
-									<div class="km-value km-pre">{{document.gspcNationalContribution.implemantationMeasures | lstring:locale}}</div>
+						<div class="col-md-12">	
+							<div class="panel panel-default">						
+								<div class="panel-body">
+									<div ng-show="document.gspcNationalContribution.hasGSPCTargets">
+										<label></label>
+										<div class="km-value km-pre">Country has national targets related to the GSPC Targets</div>
+									</div>
+									<div ng-show="!document.gspcNationalContribution.hasGSPCTargets">
+										<label></label>
+										<div class="km-value km-pre">Country does not have national targets related to the GSPC Targets</div>
+									</div>
+									<div ng-show="document.gspcNationalContribution.gspcTargetDescription">
+										<label>Details on the specific targets</label>
+										<div class="km-value km-pre">{{document.gspcNationalContribution.gspcTargetDescription | lstring:locale}}</div>
+									</div>
+									<div ng-show="document.gspcNationalContribution.plantConservationNetwork">
+										<label>Information on any active networks for plant conservation</label>
+										<div class="km-value km-pre">{{document.gspcNationalContribution.plantConservationNetwork | lstring:locale}}</div>
+									</div>
+									<div ng-show="document.gspcNationalContribution.implementationMeasures">
+										<label>Major measures taken by your country for the implementation of the Global Strategy for Plant Conservation</label>
+										<div class="km-value km-pre">{{document.gspcNationalContribution.implementationMeasures | lstring:locale}}</div>
+									</div>
 								</div>
 							</div>
-							<div class="panel panel-default" ng-repeat="gspcTarget in document.gspcNationalContribution.targetContributions">
+							<div class="panel panel-default" ng-repeat="gspcTarget in document.gspcNationalContribution" ng-if="gspcTarget.identifier">
 								<div class="panel-header clearfix">
 									<h3>
 										GSPC Biodiversity Target {{gspcTarget | term:locale}}
 									</h3>
 								</div>
 								<div class="panel-body" collapse="">
-									<div ng-show="progressAssessment.otherRelevantDocuments">
-										<div class="km-value km-pre">{{aichiTarget.otherRelevadescriptionntDocuments | lstring:locale}}</div>
+
+									<div ng-show="gspcTarget.categoryProgress">
+										Category of progress towards the target of the Global Strategy for Plant Conservation at the national level
+										<div class="km-value km-pre">{{gspcTarget.categoryProgress | term:locale}}</div>
+									</div>
+									<div ng-show="gspcTarget.progressDescription">
+										Explanation on category of progress towards the target of the Global Strategy for Plant Conservation at the national level
+										<div class="km-value km-pre">{{gspcTarget.progressDescription | lstring:locale}}</div>
+									</div>
+									<div ng-show="gspcTarget.progressDescription">
+										Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description
+										<div class="km-value km-pre">{{gspcTarget.description | lstring:locale}}</div>
 									</div>
 								</div>
 							</div>
 							<br/>
 						</div>
 					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 	<div class="section">

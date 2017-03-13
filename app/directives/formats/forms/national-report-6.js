@@ -522,7 +522,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 
 							options = _.assign({
 								schema: options.schema,
-								target: options.nationaTargetId,
+								target: options.nationalTargetId,
 								rows: 500,
 								government: $scope.document.government.identifier
 							}, options || {});
@@ -599,41 +599,27 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 								.then(function(data) {
 									var indexNationalTargets = [];
 									var nationalTargets = [];
+
 									//sort index data so darft reocrds are at top
 									data = $filter('orderBy')(data, ['identifier_s', '-_revision_i']);
-									//check for existing records, more preference is to drafts
-									_.each(existingnationalTargets, function(nationalTarget) {
-										var indexRecord = _.find(data, function(nt) {
-											return nt.identifier_s == removeRevisonNumber(nationalTarget.identifier) &&
-												(nt.version_s == 'draft' || nt._state_s == 'public');
-										});
-										if (indexRecord) {
+									
+									//get all draft records
+									_.each(data, function(nationalTarget) {
+										if(nationalTarget.version_s == 'draft'){
 											nationalTargets.push({
-												identifier: indexRecord.identifier_s
-											}); // + '@' + indexRecord._revision_i
-											indexNationalTargets.push(indexRecord);
+												identifier: nationalTarget.identifier_s
+											});
+											indexNationalTargets.push(nationalTarget);
 										}
 									});
 
-									var existingNTIds = _.map(_.pluck(nationalTargets, ['identifier']), removeRevisonNumber);
-									var newNationaTargets = _.filter(data, function(nationalTarget) {
-										return !_.contains(existingNTIds, nationalTarget.identifier_s) &&
-											(nationalTarget.version_s == 'draft' || nationalTarget._state_s == 'public');
-										// var indexRecord = _.find(data, function(nt){
-										// 					return  !_.contains(existingNTIds, nationalTarget.identifier_s) &&
-										// 							nt.identifier_s == nationalTarget.identifier_s &&
-										// 						(nt.version_s == 'draft' || nt._state_s == 'public');
-										// 				});
-										// return indexRecord && indexRecord.identifier_s == nationalTarget.identifier_s 
-										//&& 
-										//	indexRecord._revision_i == nationalTarget._revision_i;
-									});
-
-									_.map(newNationaTargets || [], function(nt) {
-										nationalTargets.push({
-											identifier: nt.identifier_s
-										}); //+ '@' + nt._revision_i
-										indexNationalTargets.push(nt);
+									_.each(data, function(nationalTarget) {
+										if(nationalTarget._state_s == 'public' && !_.contains(nationalTargets, nationalTarget.identifier_s)){
+											nationalTargets.push({
+												identifier: nationalTarget.identifier_s
+											}); 
+											indexNationalTargets.push(nationalTarget);
+										}										
 									});
 
 									$scope.document.nationalTargets = nationalTargets;
@@ -648,41 +634,27 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//
 						//============================================================
 						function loadProgressAssessment() {
-							var existingAssesments = angular.copy($scope.document.progressAssessments || []);
-
-							$scope.document.progressAssessments = []; //_.filter(existingAssesments, 	function(assessment){ return !assessment.nationalTarget});
-
+							
+							$scope.document.progressAssessments = []; 
+							targetAssessments = [];
 							_.each($scope.nationalTargets, function(nationalTarget) {
 
-								var existingAssesment = _.find(existingAssesments, function(progress) {
-									return progress.nationalTarget && progress.nationalTarget.identifier == nationalTarget.identifier_s;
-								});
-								if (!existingAssesment)
-									existingAssesment = {
-										nationalTarget: {
-											identifier: nationalTarget.identifier_s
-										}
-									};
+							   var assessment = {
+													nationalTarget: { identifier: nationalTarget.identifier_s }
+												};
 
 								$q.when(loadReferenceRecords({
 										schema: 'nationalAssessment',
-										nationaTargetId: nationalTarget.identifier_s,
+										nationalTargetId: nationalTarget.identifier_s,
 										rows: 1,
 										skipLatest: true
 									}))
 									.then(function(result) {
-										if (result && result.length > 0) {
-											existingAssesment.assessment = {
-												identifier: result[0].identifier_s
-											};
-											if (!_.find(targetAssessments, function(progress) {
-													return progress.identifier_s == existingAssesment.identifier;
-												})) {
-												targetAssessments.push(result[0]);
-											}
+										if (result && result.length > 0) {											
+											targetAssessments.push(result[0]);
+											assessment.assessment = {identifier : result[0].identifier_s};
 										}
-										$scope.document.progressAssessments.push(existingAssesment);
-
+										$scope.document.progressAssessments.push(assessment);
 									});
 
 							});

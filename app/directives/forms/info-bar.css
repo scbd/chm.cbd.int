@@ -21,14 +21,14 @@
 }*/
 
 .webui-popover-content a {
-    color: #32434f;
+    /*color: #32434f;*/
     border-bottom: 1px solid red;
 }
 
 .webui-popover-title,
 .webui-popover-inner .close {
     border-bottom: 0px solid #f2f2f2!important;
-    background-color: #2a3035!important;
+    background-color: #000!important;
     color: #fff!important;
 }
 

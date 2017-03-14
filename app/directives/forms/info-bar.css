@@ -3,9 +3,9 @@
     max-height: 300px;
     text-align: justify;
     color: #fff;
-    font-weight: 400;
-    font-size: large;
     background: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
 }
 
 .webui-popover {

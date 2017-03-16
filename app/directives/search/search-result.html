@@ -3,16 +3,16 @@
 		<div style="font-size:10px;color:#777">{{schema}}
 			<span ng-show="source">|</span>
 			<strong ng-if="!sourceTooltip" style="color:#222">{{source}}</strong>
-			<a ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca">
+			<a translation-url ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca">
 				<strong>{{source}}</strong>
 			</a>
 		</div>
 		<div style="font-size:13px; font-weight:bold;" ng-show="type">{{type}}</div>
 		<div class="truncatex" style="font-weight:bold;">
-			<a ng-href="{{fixUrl(document.url_ss[0])}}">	{{title | limitTo:110}}</a>
+			<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}">	{{title | limitTo:110}}</a>
 		</div>
 		<div style="font-size:13px;">
-			<a style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
+			<a translation-url style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
 			<!-- <i ng-if="!userGovernment();" class="fa fa-pencil-square-o"></i> -->
 		</div>
 			<!-- <div style="float:left" ng-if="getRowIcon()"><img style="margin:1px 4px 2px 0" ng-src="http://www.cbd.int/images/aichi/48/abt-{{document.number_d | integer:10:2}}-48.png"></div>
@@ -36,20 +36,20 @@
 		<div ng-if="false">
 			<i style="color:#ccc" class="fa fa-file-o"></i>
 			<span style="font-size:12px;color:#444">
-				<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
-				<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
-				<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
-				<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
-				<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
-				<a style="color:#428bca;padding:0 3px">ZH</a> &nbsp; &nbsp;
+				<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
+				<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
+				<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
+				<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
+				<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
+				<a translation-url style="color:#428bca;padding:0 3px">ZH</a> &nbsp; &nbsp;
 				<i style="color:#ccc" class="fa fa-file-o"></i>
 				<span style="font-size:12px;color:#444">
-					<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
-					<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
-					<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
-					<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
-					<a style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
-					<a style="color:#428bca;padding:0 3px">ZH</a>
+					<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">AR</a>
+					<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">EN</a>
+					<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">ES</a>
+					<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">FR</a>
+					<a translation-url style="color:#428bca;border-right:1px solid #bbb;padding:0 3px">RU</a>
+					<a translation-url style="color:#428bca;padding:0 3px">ZH</a>
 		</div>
 		<div ng-if="{'meetingDocument':true}[schema_s]">
 			<i class="fa fa-tag"></i>

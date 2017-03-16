@@ -108,10 +108,10 @@
 
             <span ng-show="model.length==0 || !model"> <i class="color-blue"> No records have been linked. </i> </span>
 
-            <a class="bold" href="#" ng-click="areVisible = true" ng-show="!areVisible && model.length>0" name="showRecords">
+            <a translation-url class="bold" href="#" ng-click="areVisible = true" ng-show="!areVisible && model.length>0" name="showRecords">
                 <i class="fa fa-chevron-circle-right"></i> {{model.length}} linked records.
             </a>
-            <a class="bold" href="#" name="hideRecords" ng-click="areVisible=false" ng-show="areVisible && model.length>0 ">
+            <a translation-url class="bold" href="#" name="hideRecords" ng-click="areVisible=false" ng-show="areVisible && model.length>0 ">
                 <i class="fa fa-chevron-circle-down"></i> {{model.length}} linked records.
             </a>
 
@@ -150,7 +150,7 @@
                             <input ng-if="type==='radio'" type="radio" name="{{question}}_selected" ng-model="doc.__checked" ng-value="true" style="width: 16px; height: 16px;" />                   
                     </div>  
                     <div style="max-height:400px;overflow-y:auto;margin:0;padding:0;" id="search-new" class="col-md-11">
-                        <a ng-href="{{doc.url_ss[0]}}" target="_new">
+                        <a translation-url ng-href="{{doc.url_ss[0]}}" target="_new">
                             <div class="recordDefault card card-1" style="padding:0!important;margin:0!important;">   
                                 <div style="padding:0!important;margin:0!important;">                               
                                     <div class="nationalRecords" >
@@ -197,8 +197,8 @@
             <div class="modal-footer bg-grey">
                 <div class="row">
                     <div class="col-xs-12">
-                        <a type="button" class="btn btn-primary bold pull-left" style="color:white;" ng-click="saveDocuments()">Save</a>
-                        <a type="button" class="btn btn-warning bold" data-dismiss="modal" ng-click="closeDialog()">Close</a>
+                        <a translation-url type="button" class="btn btn-primary bold pull-left" style="color:white;" ng-click="saveDocuments()">Save</a>
+                        <a translation-url type="button" class="btn btn-warning bold" data-dismiss="modal" ng-click="closeDialog()">Close</a>
                     </div>
                 </div>
             </div>

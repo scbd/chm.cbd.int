@@ -11,9 +11,15 @@ function(app, template, $) {
                        ngModel: '=',
                      },
                   template: template,
-                  controller: ['$scope', '$window', '$location','authentication',
-                  function($scope, $window, $location,authentication) {
+                  controller: ['$scope', '$window', '$location','authentication', 'locale',
+                  function($scope, $window, $location,authentication, locale) {
                   // code for seling locale
+                      $scope.currentLanguage = locale||'en';
+                      $scope.changeLanguage = function(lang){
+                         
+                          $location.search({ returnUrl: $location.url() });
+                          $location.path('/lang/'+ lang);
+                      }
 
                   }],//controller
         };//return

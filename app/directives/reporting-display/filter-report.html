@@ -26,7 +26,7 @@
       border-left: 3px solid #ffffff;
     }
   </style>
-  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#reports">
+  <a translation-url class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#reports">
     <div class="panel-heading">
       <h4 class="panel-title" style="font-size: 13px;margin:0; white-space: nowrap; width:100%;">
         {{title}} <i class="fa fa-info-circle" style="float:right;"> </i>
@@ -38,7 +38,7 @@
       <div class="row">
         <lu class="nav nav-sidebar">
           <li ng-repeat="term in terms track by $index" class="reportRow" ng-class="term.selected ? 'active' : 'nactive'" ng-click="loadReports(term.id); termsNotSelected(); term.selected = !term.selected;">
-            <a src="#">{{term.title}}</a>{{selected}}
+            <a translation-url src="#">{{term.title}}</a>{{selected}}
           </li>
         </lu>
       </div>

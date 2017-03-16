@@ -48,7 +48,7 @@
                                 <tr><th colspan="3">Files</th></tr>
                                 <tr ng-repeat="(type, file) in document.languages[lang.code].files">
                                     <td>{{type}}</td>
-                                    <td><a target="_blank" ng-href="{{file.url}}">{{file.url}}</a></td>
+                                    <td><a translation-url target="_blank" ng-href="{{file.url}}">{{file.url}}</a></td>
                                     <td><button class='btn btn-danger btn-sm' ng-click="askDeleteFile(lang.code, type, file)"><i class="fa fa-times"></i></button></td>
                                 </tr>
                             </table>

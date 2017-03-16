@@ -7,21 +7,21 @@
 				<dt style="text-align:left">Name</dt><dd>{{user.name}}</dd>
 				<dt style="text-align:left;white-space:nowrap;">Primary email</dt><dd><strong>{{user.email}}</strong></dd>
 				<dt  style="text-align:left;white-space:nowrap;" ng-show="user.government">Country</dt>
-				<!-- <dd style="text-transform:uppercase;"><a href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
+				<!-- <dd style="text-transform:uppercase;"><a translation-url href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
 				<dt  style="text-align:left;white-space:nowrap;" ng-show="user.roles">Roles</dt>
-				<!-- <dd style="text-transform:uppercase;"><a href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
+				<!-- <dd style="text-transform:uppercase;"><a translation-url href="/countries/{{user.government | uppercase}}"><strong>{{user.government | term}}</strong></a></dd> -->
 				</dl>
 		</div>
 
 		<div class="col-xs-6 col-xs-height col-top bg-litegrey" style="border-left:3px solid #999;">
 
 			<div class="no-shadow" style="padding:10px;">
-				<h4 style="padding-top;0;margin-top:0;">Manage your account with <a href="http://accounts.cbd.int" class="color-green bold">accounts.cbd.int</a></h4>
+				<h4 style="padding-top;0;margin-top:0;">Manage your account with <a translation-url href="http://accounts.cbd.int" class="color-green bold">accounts.cbd.int</a></h4>
 				<ul>
-					<li><a href="#" ng-click="actionProfile()">Update your profile</a></li>
-					<li><a href="#" ng-click="actionPassword()" >Change your password</a></li>
-					<li><a href="mailto:chm@cbd.int" class="color-blue">Contact us: chm@cbd.int</a></li>
-					<li><a href="#" ng-click="signOut()" style="text-transform:uppercase;">sign out</a></li>
+					<li><a translation-url href="#" ng-click="actionProfile()">Update your profile</a></li>
+					<li><a translation-url href="#" ng-click="actionPassword()" >Change your password</a></li>
+					<li><a translation-url href="mailto:chm@cbd.int" class="color-blue">Contact us: chm@cbd.int</a></li>
+					<li><a translation-url href="#" ng-click="signOut()" style="text-transform:uppercase;">sign out</a></li>
 
 				</ul>
 			</div>

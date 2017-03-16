@@ -90,7 +90,7 @@
                     <thead>
                         <tr>
                             <td colspan="2">
-                                <a ng-show='records.length > 1' ng-click="isElemCollapsed('baselineRows')" aria-label="Left Align" data-toggle="collapse" data-target="#baselineRows" aria-expanded="false" aria-controls="baselineRows">
+                                <a translation-url ng-show='records.length > 1' ng-click="isElemCollapsed('baselineRows')" aria-label="Left Align" data-toggle="collapse" data-target="#baselineRows" aria-expanded="false" aria-controls="baselineRows">
                                     <span ng-show="baselineRows_show" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" rm-popover2="Display government(s)"></span>
                                     <span ng-hide="baselineRows_show" class="glyphicon glyphicon-triangle-top"    aria-hidden="true" rm-popover2="Hide government(s)"></span>
                                 </a>
@@ -105,11 +105,11 @@
                     <div>
                     <tbody id="baselineRows" ng-class="{collapse: isTotalVisible()}">
                         <tr ng-repeat="rec in records |  orderBy:'government_EN_s'" ng-if="rec.Q1.baselineFlows">
-                            <td colspan="2"><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
+                            <td colspan="2"><a translation-url ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                             <td class="text-center" ng-repeat="year in options.baselineYears">{{(rec.Q1.baselineFlows[year] |number:0) ||'&mdash;'}}</td>
                             <td class="text-center">{{ rec.Q1.baselineFlows_average | number:0}}</td>
                             <td class="text-center">
-                                <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'baselineFlows', rec.government_s)">
+                                <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'baselineFlows', rec.government_s)">
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                     <!--  chart insertion point -->
                                 </a>
@@ -124,7 +124,7 @@
                                 &mdash; <!-- <strong>{{getAverageTotal('Q1','baselineFlows_average')|number:0}}</strong> -->
                             </td>
                             <td class="text-center">
-                                <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'baselineFlows', rec.government_s, true)">
+                                <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'baselineFlows', rec.government_s, true)">
                                     <i class="fa fa-bar-chart" style="color:red;" aria-hidden="true"></i>
                                     <!--  chart insertion point -->
                                 </a>
@@ -144,7 +144,7 @@
                     <modal name= "Q1_methodologicalComments" comments="comments_Q1_methodologicalComments"
                             modal-header="Methodological observations/comments">
                     </modal>
-                    <a href="#Q1_methodologicalComments" ng-if='comments_Q1_methodologicalComments.length > 0' rm-popover count="{{comments_Q1_methodologicalComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                    <a translation-url href="#Q1_methodologicalComments" ng-if='comments_Q1_methodologicalComments.length > 0' rm-popover count="{{comments_Q1_methodologicalComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                 </div>
 
                 <table class="table table-condensed table-striped table-bordered" ng-if="getCountryCount('Q1', 'baselineFlows')==0">
@@ -230,7 +230,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a ng-show='records.length > 1' ng-click="isElemCollapsed('progressRows')" aria-label="Left Align" data-toggle="collapse" data-target="#progressRows" aria-expanded="false" aria-controls="progressRows">
+                                <a translation-url ng-show='records.length > 1' ng-click="isElemCollapsed('progressRows')" aria-label="Left Align" data-toggle="collapse" data-target="#progressRows" aria-expanded="false" aria-controls="progressRows">
                                     <span ng-show="progressRows_show" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" rm-popover2="Display government(s)"></span>
                                     <span ng-hide="progressRows_show" class="glyphicon glyphicon-triangle-top"    aria-hidden="true" rm-popover2="Hide government(s)"></span>
                                 </a>
@@ -243,16 +243,16 @@
                     </thead>
                     <tbody id="progressRows" ng-class="{collapse: isTotalVisible()}">
                         <tr ng-repeat="rec in records | orderBy:'government_EN_s' " ng-if="rec.Q1.progressFlows">
-                            <td><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
+                            <td><a translation-url ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                             <td class="text-center" ng-if="progressDisplay=='amount'" ng-repeat="year in options.progressYears ">{{(rec.Q1.progressFlows[year] | number:0) ||'&mdash;'}}</td>
                             <td class="text-center" ng-if="progressDisplay=='coefficient'" ng-repeat="year in options.progressYears ">{{(rec.Q1.progressIndicators[year] | number:1) ||'&mdash;'}}</td>
                             <td class="text-center" ng-if="progressDisplay=='amount'">
-                                <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressFlows', rec.government_s)">
+                                <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressFlows', rec.government_s)">
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 </a>
                             </td>
                             <td class="text-center" ng-if="progressDisplay=='coefficient'">
-                                <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressIndicators', rec.government_s)">
+                                <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressIndicators', rec.government_s)">
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -265,12 +265,12 @@
                             <td class="text-center" ng-if="progressDisplay=='amount'" ng-repeat="year in options.progressYears"><strong>{{getTotal('Q1', 'progressFlows', year) | number}}</strong></td>
                             <td class="text-center" ng-if="progressDisplay=='coefficient'" ng-repeat="year in options.progressYears"><strong>{{getAggregateTotalCoefficient(year) | number:1}}</strong></td>
                             <td class="text-center" ng-if="progressDisplay=='amount'">
-                                <a class="chartLink" href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressFlows', rec.government_s, true)">
+                                <a translation-url class="chartLink" href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressFlows', rec.government_s, true)">
                                     <i class="fa fa-bar-chart" style="color:red;" aria-hidden="true"></i>
                                 </a>
                             </td>
                             <td class="text-center" ng-if="progressDisplay=='coefficient'">
-                                <a class="chartLink" href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressIndicators', rec.government_s, true)">
+                                <a translation-url class="chartLink" href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q1', 'progressIndicators', rec.government_s, true)">
                                     <i class="fa fa-bar-chart" style="color:red;" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -303,7 +303,7 @@
                                             <modal  name= "Q1_2c" comments="comments_Q1_2_comprehensive"
                                                     modal-header="1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
                                             </modal>
-                                            <a href="#Q1_2c" ng-if='comments_Q1_2_comprehensive.length > 0' rm-popover count="{{comments_Q1_2_comprehensive.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                            <a translation-url href="#Q1_2c" ng-if='comments_Q1_2_comprehensive.length > 0' rm-popover count="{{comments_Q1_2_comprehensive.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q1', 'hasPrivateSectorMeasures' ,'comprehensive')}}</td>
                                     <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'comprehensive')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet']))*100) | number:2}}%</td>
@@ -314,7 +314,7 @@
                                                     modal-header="1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
                                             </modal>
 
-                                        <a href="#Q1_2s" ng-if='comments_Q1_2_some.length > 0' rm-popover count='{{comments_Q1_2_some.length}}' role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q1_2s" ng-if='comments_Q1_2_some.length > 0' rm-popover count='{{comments_Q1_2_some.length}}' role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q1', 'hasPrivateSectorMeasures' ,'some')}}</td>
                                     <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'some')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet']))*100) | number:2}}%</td>
@@ -364,7 +364,7 @@
                                         <modal name= "Q2c" comments="comments_Q2_comprehensive"
                                                modal-header="2. Has your country included biodiversity in national priorities or development plans?">
                                         </modal>
-                                        <a href="#Q2c" ng-if='comments_Q2_comprehensive.length > 0' rm-popover count="{{comments_Q2_comprehensive.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q2c" ng-if='comments_Q2_comprehensive.length > 0' rm-popover count="{{comments_Q2_comprehensive.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
 
                                     </td>
                                     <td class="text-center">{{getCount('Q2', 'hasNationalBiodiversityInclusion' ,'comprehensive')}}</td>
@@ -375,7 +375,7 @@
                                         <modal name= "Q2s" comments="comments_Q2_some"
                                                 modal-header="2. Has your country included biodiversity in national priorities or development plans?">
                                         </modal>
-                                        <a href="#Q2s" ng-if='comments_Q2_some.length > 0' rm-popover count="{{comments_Q2_some.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q2s" ng-if='comments_Q2_some.length > 0' rm-popover count="{{comments_Q2_some.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q2', 'hasNationalBiodiversityInclusion' ,'some')}}</td>
                                     <td class="text-center">{{((getCount('Q2', 'hasNationalBiodiversityInclusion' ,'some')/getCountM('Q2', 'hasNationalBiodiversityInclusion', ['comprehensive','some','notyet']))*100)|number:2}}%</td>
@@ -421,7 +421,7 @@
                                         <modal name= "Q3c" comments="comments_Q3_comprehensive"
                                                modal-header="3. Assessment and/or evaluation of values">
                                         </modal>
-                                        <a href="#Q3c" ng-if='comments_Q3_comprehensive.length > 0' rm-popover count="{{comments_Q3_comprehensive.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q3c" ng-if='comments_Q3_comprehensive.length > 0' rm-popover count="{{comments_Q3_comprehensive.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q3', 'hasBiodiversityAssessment' ,'comprehensive')}}</td>
                                     <td class="text-center">{{((getCount('Q3', 'hasBiodiversityAssessment' ,'comprehensive')/getCountM('Q3', 'hasBiodiversityAssessment', ['comprehensive','some','notyet', 'no']))*100)|number:2}}%</td>
@@ -431,7 +431,7 @@
                                         <modal name= "Q3s" comments="comments_Q3_some"
                                                modal-header="3. Assessment and/or evaluation of values">
                                         </modal>
-                                        <a href="#Q3s" ng-if='comments_Q3_some.length > 0' rm-popover count="{{comments_Q3_some.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q3s" ng-if='comments_Q3_some.length > 0' rm-popover count="{{comments_Q3_some.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q3', 'hasBiodiversityAssessment' ,'some')}}</td>
                                     <td class="text-center">{{((getCount('Q3', 'hasBiodiversityAssessment' ,'some')/getCountM('Q3', 'hasBiodiversityAssessment', ['comprehensive','some','notyet', 'no']))*100)|number:2}}%</td>
@@ -478,7 +478,7 @@
                         <thead>
                             <tr>
                                 <td class="col-xs-4">
-                                    <a ng-show='records.length > 1' ng-click="isElemCollapsed('domesticActivityRows')" aria-label="Left Align" data-toggle="collapse" data-target="#domesticActivityRows" aria-expanded="false" aria-controls="domesticActivityRows">
+                                    <a translation-url ng-show='records.length > 1' ng-click="isElemCollapsed('domesticActivityRows')" aria-label="Left Align" data-toggle="collapse" data-target="#domesticActivityRows" aria-expanded="false" aria-controls="domesticActivityRows">
                                         <span ng-show="domesticActivityRows_show" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" rm-popover2="Display government(s)"></span>
                                         <span ng-hide="domesticActivityRows_show" class="glyphicon glyphicon-triangle-top"    aria-hidden="true" rm-popover2="Hide government(s)"></span>
                                     </a>
@@ -493,11 +493,11 @@
                         </thead>
                         <tbody id="domesticActivityRows" ng-class="{collapse: isTotalVisible()}">
                             <tr ng-repeat="rec in records | orderBy:'government_EN_s'" ng-if="rec.Q4.expenditures">
-                                <td class="col-xs-4"><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
+                                <td class="col-xs-4"><a translation-url ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                                 <td class="text-center" ng-repeat="year in options.domesticYears ">{{(rec.Q4.expenditures[year] | number) ||'&mdash;'}}</td>
                                 <td class="text-center">{{ rec.Q4.expenditures_average||0 | number:0}}</td>
                                 <td class="text-center">
-                                    <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q4', 'expenditures', rec.government_s)">
+                                    <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q4', 'expenditures', rec.government_s)">
                                         <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                     </a>
                                 </td>
@@ -524,7 +524,7 @@
                     <modal name= "Q4_sourcesAdditionalComments" comments="comments_Q4_sourcesAdditionalComments"
                             modal-header="Methodological observations/comments">
                     </modal>
-                    <a href="#Q4_sourcesAdditionalComments" ng-if='comments_Q4_sourcesAdditionalComments.length > 0' rm-popover count="{{comments_Q4_sourcesAdditionalComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                    <a translation-url href="#Q4_sourcesAdditionalComments" ng-if='comments_Q4_sourcesAdditionalComments.length > 0' rm-popover count="{{comments_Q4_sourcesAdditionalComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                 </div>
                 <div class="panel-body">
                     <div class="col-xs-8">
@@ -660,7 +660,7 @@
                     <modal name= "Q4_domesticCollectiveActionMethodologyComments" comments="comments_Q4_domesticCollectiveActionMethodologyComments"
                             modal-header="Methodological observations/comments">
                     </modal>
-                    <a href="#Q4_domesticCollectiveActionMethodologyComments" ng-if='comments_Q4_domesticCollectiveActionMethodologyComments.length > 0' rm-popover count="{{comments_Q4_domesticCollectiveActionMethodologyComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                    <a translation-url href="#Q4_domesticCollectiveActionMethodologyComments" ng-if='comments_Q4_domesticCollectiveActionMethodologyComments.length > 0' rm-popover count="{{comments_Q4_domesticCollectiveActionMethodologyComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                 </div>
 
                 <div class="panel-body" ng-if="getCountKey('Q4', 'contributions')==0">
@@ -675,7 +675,7 @@
                     <thead>
                         <tr>
                             <td>
-                                <a ng-show='records.length > 1' ng-click="isElemCollapsed('contributionsRows')" aria-label="Left Align" data-toggle="collapse" data-target="#contributionsRows" aria-expanded="false" aria-controls="contributionsRows">
+                                <a translation-url ng-show='records.length > 1' ng-click="isElemCollapsed('contributionsRows')" aria-label="Left Align" data-toggle="collapse" data-target="#contributionsRows" aria-expanded="false" aria-controls="contributionsRows">
                                     <span ng-show="contributionsRows_show" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" rm-popover2="Display government(s)"></span>
                                     <span ng-hide="contributionsRows_show" class="glyphicon glyphicon-triangle-top"    aria-hidden="true" rm-popover2="Hide government(s)"></span>
                                 </a>
@@ -689,11 +689,11 @@
                     </thead>
                     <tbody id="contributionsRows" ng-class="{collapse: isTotalVisible()}">
                         <tr ng-repeat="rec in records | orderBy:'government_EN_s'" ng-if="rec.Q4.contributions">
-                            <td><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
+                            <td><a translation-url ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                             <td class="text-center" ng-repeat="year in options.domesticYears ">{{(rec.Q4.contributions[year] | number) ||'&mdash;'}}</td>
                             <td class="text-center">{{ rec.Q4.contributions_average||0 | number}}</td>
                             <td class="text-center">
-                                <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q4', 'contributions', rec.government_s)">
+                                <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart($event, 'Q4', 'contributions', rec.government_s)">
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -720,7 +720,7 @@
                     <modal name= "Q5_fundingNeedsDataAdditionalComments" comments="comments_Q5_fundingNeedsDataAdditionalComments"
                             modal-header="Methodological observations/comments">
                     </modal>
-                    <a href="#Q5_fundingNeedsDataAdditionalComments" ng-if='comments_Q5_fundingNeedsDataAdditionalComments.length > 0' rm-popover count="{{comments_Q5_fundingNeedsDataAdditionalComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                    <a translation-url href="#Q5_fundingNeedsDataAdditionalComments" ng-if='comments_Q5_fundingNeedsDataAdditionalComments.length > 0' rm-popover count="{{comments_Q5_fundingNeedsDataAdditionalComments.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                 </div>
 
                 <div class="panel-body" ng-if="getCountKey('Q5', 'estimates')==0">
@@ -749,7 +749,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a ng-show='records.length > 1' ng-click="isElemCollapsed('estimateRows')" aria-label="Left Align" data-toggle="collapse" data-target="#estimateRows" aria-expanded="false" aria-controls="estimateRows">
+                                <a translation-url ng-show='records.length > 1' ng-click="isElemCollapsed('estimateRows')" aria-label="Left Align" data-toggle="collapse" data-target="#estimateRows" aria-expanded="false" aria-controls="estimateRows">
                                     <span ng-show="estimateRows_show" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" rm-popover2="Display government(s)"></span>
                                     <span ng-hide="estimateRows_show" class="glyphicon glyphicon-triangle-top"    aria-hidden="true" rm-popover2="Hide government(s)"></span>
                                 </a>
@@ -762,16 +762,16 @@
                     </thead>
                     <tbody id="estimateRows" ng-class="{collapse: isTotalVisible()}">
                         <tr ng-repeat="rec in records | orderBy:'government_EN_s'" ng-if="rec.Q5.estimates">
-                            <td><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
+                            <td><a translation-url ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                             <td class="text-center" ng-repeat="year in options.fundingNeedsYears">
-                                <a href="#" rm-tooltip="<p>Need:{{(rec.Q5.estimates[year]['need'] | number:0) ||'&mdash;'}} <br />
+                                <a translation-url href="#" rm-tooltip="<p>Need:{{(rec.Q5.estimates[year]['need'] | number:0) ||'&mdash;'}} <br />
                                                         Available:{{(rec.Q5.estimates[year]['available'] | number:0) ||'&mdash;'}} <br />
                                                         Gap:{{(rec.Q5.estimates[year]['gap'] | number:0) ||'&mdash;'}}</p>" >
                                     {{(rec.Q5.estimates[year][availableNeedGapOption] | number:0) ||'&mdash;'}}
                                 </a>
                             </td>
                             <td class="text-center">
-                                <a class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart2($event, 'Q5', 'estimates', availableNeedGapOption, rec.government_s)">
+                                <a translation-url class="chartLink"  href="#" ng-mouseleave="unloadChart()" ng-mouseover="loadChart2($event, 'Q5', 'estimates', availableNeedGapOption, rec.government_s)">
                                     <i class="fa fa-bar-chart" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -824,7 +824,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a ng-show='records.length > 1' ng-click="isElemCollapsed('planRows')" aria-label="Left Align" data-toggle="collapse" data-target="#planRows" aria-expanded="false" aria-controls="planRows">
+                                <a translation-url ng-show='records.length > 1' ng-click="isElemCollapsed('planRows')" aria-label="Left Align" data-toggle="collapse" data-target="#planRows" aria-expanded="false" aria-controls="planRows">
                                     <span ng-show="planRows_show" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" rm-popover2="Display government(s)"></span>
                                     <span ng-hide="planRows_show" class="glyphicon glyphicon-triangle-top"    aria-hidden="true" rm-popover2="Hide government(s)"></span>
                                 </a>
@@ -836,10 +836,10 @@
                     </thead>
                     <tbody id="planRows" ng-class="{collapse: isTotalVisible()}">
                         <tr ng-repeat="rec in records | orderBy:'government_EN_s'" ng-if="rec.Q6.plans">
-                            <td><a ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
+                            <td><a translation-url ng-href="{{rec.url_ss[0]}}" target="_blank">{{rec.government_EN_s}}</a></td>
                             <td  class="text-center" ng-repeat="year in options.fundingNeedsYears">
 
-                                <a rm-tooltip="Expected gap:{{(rec.Q6.plans[year]['expectedGap']|number:0) ||'&mdash;'}}<br />
+                                <a translation-url rm-tooltip="Expected gap:{{(rec.Q6.plans[year]['expectedGap']|number:0) ||'&mdash;'}}<br />
                                                Domestic total:{{(rec.Q6.plans[year]['domesticTotal']|number:0) ||'&mdash;'}}<br />
                                                International total:{{(rec.Q6.plans[year]['internationalTotal']|number:0) ||'&mdash;'}} <br />
                                                Remaining gap:{{(rec.Q6.plans[year]['remainingGap']|number:0) ||'&mdash;'}}">
@@ -881,7 +881,7 @@
                                         <modal name= "Q7c" comments="comments_Q7_comprehensive"
                                                modal-header="7. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
                                         </modal>
-                                        <a href="#Q7c" ng-if='comments_Q7_comprehensive.length > 0' rm-popover count="{{comments_Q7_comprehensive.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q7c" ng-if='comments_Q7_comprehensive.length > 0' rm-popover count="{{comments_Q7_comprehensive.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
 
                                     </td>
                                     <td class="text-center">{{getCount('Q7', 'hasDomesticPrivateSectorMeasures' ,     'comprehensive')}}</td>
@@ -892,7 +892,7 @@
                                         <modal name= "Q7s" comments="comments_Q7_some"
                                                modal-header="7. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
                                         </modal>
-                                        <a href="#Q7s" ng-if='comments_Q7_some.length > 0' rm-popover count="{{comments_Q7_some.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
+                                        <a translation-url href="#Q7s" ng-if='comments_Q7_some.length > 0' rm-popover count="{{comments_Q7_some.length}}" role="button"  class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
 
                                     </td>
                                     <td class="text-center">{{getCount('Q7', 'hasDomesticPrivateSectorMeasures' ,     'some')}}</td>

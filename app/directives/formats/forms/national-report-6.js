@@ -1,14 +1,13 @@
 define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
-		'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
-		'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog'
+'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
+'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale'
 	],
 	function(template, app, angular, _) {
 		'use strict';
 
-		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility",
-			"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm", '$compile', "$timeout", 'ngDialog',
+		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm", '$compile', "$timeout", 'ngDialog', 'locale',
 			function($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls,
-				thesaurus, guid, $route, solr, realm, $compile, $timeout, ngDialog) {
+				thesaurus, guid, $route, solr, realm, $compile, $timeout, ngDialog, locale) {
 				return {
 					restrict: 'E',
 					template: template,
@@ -23,7 +22,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						$scope.tab = "general";
 						$scope.document = null;
 						$scope.review = {
-							locale: "en"
+							locale: locale
 						};
 						$scope.qs = $location.search();
 						$scope.user
@@ -70,7 +69,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 										header: {
 											identifier: identifier,
 											schema: schema,
-											languages: ["en"]
+											languages: [locale]
 										},
 										government: $scope.defaultGovernment() ? {
 											identifier: $scope.defaultGovernment()
@@ -408,7 +407,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 							} else if (status == "badSchema") {
 								$scope.status = "hidden";
 								$scope.error = "Record type is invalid.";
-							} else if (error.Message)
+							} else if (error && error.Message)
 								$scope.error = error.Message;
 							else
 								$scope.error = error;
@@ -517,69 +516,71 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//============================================================
 						function loadReferenceRecords(options, appRealm) {
 
-							if (!options.skipLatest && options.latest === undefined)
-								options.latest = true;
+							if($scope.document && $scope.document.government){
+								if (!options.skipLatest && options.latest === undefined)
+									options.latest = true;
+								
+								options = _.assign({
+									schema: options.schema,
+									target: options.nationalTargetId,
+									rows: 500,
+									government: $scope.document.government.identifier
+								}, options || {});
 
-							options = _.assign({
-								schema: options.schema,
-								target: options.nationalTargetId,
-								rows: 500,
-								government: $scope.document.government.identifier
-							}, options || {});
+								var query = [];
 
-							var query = [];
+								// Add Schema
+								query.push("schema_s:" + solr.escape(options.schema));
 
-							// Add Schema
-							query.push("schema_s:" + solr.escape(options.schema));
+								if (options.target)
+									query.push("nationalTarget_s:" + solr.escape(options.target));
 
-							if (options.target)
-								query.push("nationalTarget_s:" + solr.escape(options.target));
+								if (options.government)
+									query.push("government_s:" + solr.escape(options.government));
 
-							if (options.government)
-								query.push("government_s:" + solr.escape(options.government));
+								if (options.identifier)
+									query.push("identifier_s:" + solr.escape(options.identifier));
 
-							if (options.identifier)
-								query.push("identifier_s:" + solr.escape(options.identifier));
+								if (options.state)
+									query.push("_state_s:" + solr.escape(options.state));
 
-							if (options.state)
-								query.push("_state_s:" + solr.escape(options.state));
+								query.push(["realm_ss:" + (appRealm || realm).toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
-							query.push(["realm_ss:" + (appRealm || realm).toLowerCase(), "(*:* NOT realm_ss:*)"]);
+								// Apply ownership
+								// query.push(_.map(($rootScope.user||{}).userGroups, function(v){
+								// 	return "_ownership_s:"+solr.escape(v);
+								// }));
 
-							// Apply ownership
-							// query.push(_.map(($rootScope.user||{}).userGroups, function(v){
-							// 	return "_ownership_s:"+solr.escape(v);
-							// }));
+								if (options.latest !== undefined) {
+									query.push("_latest_s:" + (options.latest ? "true" : "false"));
+								}
 
-							if (options.latest !== undefined) {
-								query.push("_latest_s:" + (options.latest ? "true" : "false"));
-							}
+								// AND / OR everything
 
-							// AND / OR everything
+								var query = solr.andOr(query);
+								var qsParams = {
+									"q": query,
+									"fl": "identifier_s, uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
+										"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+									"sort": "updatedDate_dt desc",
+									"start": 0,
+									"rows": options.rows,
+								};
 
-							var query = solr.andOr(query);
-							var qsParams = {
-								"q": query,
-								"fl": "identifier_s, uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
-									"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
-								"sort": "updatedDate_dt desc",
-								"start": 0,
-								"rows": options.rows,
-							};
+								return $http.get("/api/v2013/index", {
+									params: qsParams
+								}).then(function(res) {
 
-							return $http.get("/api/v2013/index", {
-								params: qsParams
-							}).then(function(res) {
-
-								return _.map(res.data.response.docs, function(v) {
-									return _.defaults(v, {
-										schemaName: solr.lstring(v, "schema_*_t", "schema_EN_t", "schema_s"),
-										title: solr.lstring(v, "title_*_t", "title_EN_t", "title_t"),
-										summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t")
+									return _.map(res.data.response.docs, function(v) {
+										return _.defaults(v, {
+											schemaName: solr.lstring(v, "schema_*_t", "schema_EN_t", "schema_s"),
+											title: solr.lstring(v, "title_*_t", "title_EN_t", "title_t"),
+											summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t")
+										});
 									});
-								});
 
-							});
+								});
+							}
 						}
 
 						//============================================================
@@ -597,33 +598,35 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 							});
 							return $q.when(query)
 								.then(function(data) {
-									var indexNationalTargets = [];
-									var nationalTargets = [];
+									if(data){
+										var indexNationalTargets = [];
+										var nationalTargets = [];
 
-									//sort index data so darft reocrds are at top
-									data = $filter('orderBy')(data, ['identifier_s', '-_revision_i']);
-									
-									//get all draft records
-									_.each(data, function(nationalTarget) {
-										if(nationalTarget.version_s == 'draft'){
-											nationalTargets.push({
-												identifier: nationalTarget.identifier_s
-											});
-											indexNationalTargets.push(nationalTarget);
-										}
-									});
+										//sort index data so darft reocrds are at top
+										data = $filter('orderBy')(data, ['identifier_s', '-_revision_i']);
+										
+										//get all draft records
+										_.each(data, function(nationalTarget) {
+											if(nationalTarget.version_s == 'draft'){
+												nationalTargets.push({
+													identifier: nationalTarget.identifier_s
+												});
+												indexNationalTargets.push(nationalTarget);
+											}
+										});
 
-									_.each(data, function(nationalTarget) {
-										if(nationalTarget._state_s == 'public' && !_.contains(nationalTargets, nationalTarget.identifier_s)){
-											nationalTargets.push({
-												identifier: nationalTarget.identifier_s
-											}); 
-											indexNationalTargets.push(nationalTarget);
-										}										
-									});
+										_.each(data, function(nationalTarget) {
+											if(nationalTarget._state_s == 'public' && !_.contains(nationalTargets, nationalTarget.identifier_s)){
+												nationalTargets.push({
+													identifier: nationalTarget.identifier_s
+												}); 
+												indexNationalTargets.push(nationalTarget);
+											}										
+										});
 
-									$scope.document.nationalTargets = nationalTargets;
-									$scope.nationalTargets = indexNationalTargets;
+										$scope.document.nationalTargets = nationalTargets;
+										$scope.nationalTargets = indexNationalTargets;
+									}
 								})
 								.finally(function() {
 									$scope.loadingNationalTargets = false;
@@ -690,7 +693,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 										$timeout(function() {
 											$q.when(loadReferenceRecords(options))
 												.then(function(data) {
-													if (data.length > 0) {
+													if (data && data.length > 0) {
 														var document = _.findWhere($scope.nationalTargets, {
 															identifier_s: _.head(data).identifier_s
 														});
@@ -713,7 +716,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 										$timeout(function() {
 											$q.when(loadReferenceRecords(options))
 												.then(function(data) {
-													if (data.length > 0) {
+													if (data && data.length > 0) {
 														var newDoc = _.head(data);
 														var document = _.find($scope.document.progressAssessments, function(assessment) {
 															return assessment.nationalTarget.identifier == newDoc.nationalTarget_s;
@@ -790,7 +793,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 									state: 'public'
 								}, realmConfig))
 								.then(function(result) {
-									if (result.length > 0) {
+									if (result && result.length > 0) {
 										var absNR = _.head(result);
 
 										if (!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords) {
@@ -832,7 +835,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 									state: 'public'
 								}))
 								.then(function(result) {
-									if (result.length > 0) {
+									if (result && result.length > 0) {
 										var resourceMobilisation = _.head(result);
 										if (target20 && !target20.resourceMobilisationReport) {
 											target20.resourceMobilisationReport = {
@@ -873,26 +876,45 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 	});
 
 
-//===========================
-//
-//===========================
-// function openDialog(name, directiveName, options) {
+
+
+
+// //===========================
+// //
+// //===========================
+// $scope.openDialog = function(data, name, directiveName, options) {
 
 // 	options = options || {};
 
 // 	return $q(function(resolve, reject) {
 
-// 		require([name], function() {
+// 		require([name], function(controller) {
 
-// 			var directiveHtml = '<DIRECTIVE ></DIRECTIVE>'.replace(/DIRECTIVE/g, directiveName);
+// 			var params = {};
+// 			if(directiveName == 'edit-national-assessment-dialog'){
+// 				if(data.assessment)
+// 					params.uid = data.assessment.identifier; 
+// 				if(!data.assessment && data.aichiTarget)
+// 					params.aichiTarget = data.aichiTarget;
+// 				if(!data.assessment && data.nationalTarget)
+// 					params.nationalTarget = data.nationalTarget;
+// 			}
+// 			else if(directiveName == 'edit-national-target'){
 
+// 			}
+
+// 			var directiveHtml = '<span DIRECTIVE params qs="qs"></span>'.replace(/DIRECTIVE/g, directiveName)
+// 			//.replace('params', 'qs=\'' + JSON.stringify(params) + '\'');
+// 			console.log(directiveHtml);
 // 			$scope.$apply(function(){
 // 				options.template = directiveHtml;//$compile(directiveHtml)($scope);
 // 			});
-
+// 			options.controller = ['$scope', function($scope){
+// 				$scope.qs = params;
+// 			}]
 // 			options.plain = true;
-// 			options.closeByDocument = false;
-// 			options.showClose = false;
+// 			options.closeByDocument = true;
+// 			options.showClose = true;
 
 // 			var dialogWindow = ngDialog.open(options);
 
@@ -910,3 +932,4 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 // 		}, reject);
 // 	});
 // }
+// <button ng-if="!progressAssessment.assessment && progressAssessment.aichiTarget" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')">Add Assessment</button>

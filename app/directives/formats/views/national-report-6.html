@@ -95,7 +95,7 @@
 						<div ng-show="implementationMeasure.relevantDocuments">
 							<label>Relevant websites, links, and files</label>
 							<ul class="km-value">
-								<li ng-repeat="item in implementationMeasure.relevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+								<li ng-repeat="item in implementationMeasure.relevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
 							</ul>
 						</div>
 						<div ng-show="implementationMeasure.otherRelevantInformation">
@@ -106,7 +106,7 @@
 							<label>Other relevant website address or attached documents</label>
 							<ul class="km-value">
 								<li ng-repeat="item in implementationMeasure.otherRelevantDocuments">
-									<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+									<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 								</li>
 							</ul>
 							<!--<div class="km-value km-pre">{{implementationMeasure.otherRelevantDocuments | lstring:locale}}</div>-->
@@ -118,7 +118,7 @@
 						<div ng-show="document.obstaclesRelevantDocuments">
 							<label>Relevant websites, web links and files</label>
 							<ul class="km-value">
-								<li ng-repeat="item in implementationMeasure.obstaclesRelevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+								<li ng-repeat="item in implementationMeasure.obstaclesRelevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
 							</ul>
 						</div>
 					</div>
@@ -215,7 +215,7 @@
 						<div ng-if="absNationalReport">
 							<div>
 								<label for="">Interim national report on the implementation of the Nagoya Protocol</label><br/>
-								<a target="_new" ng-href="{{absNationalReport.url_ss[0]}}">
+								<a translation-url target="_new" ng-href="{{absNationalReport.url_ss[0]}}">
 													{{absNationalReport.uniqueIdentifier_s|uppercase}}</a> 
 								{{absNationalReport.title_t}}
 							</div>
@@ -235,7 +235,7 @@
 								<tbody>
 									<tr ng-repeat="item in absLinkedRecords">
 										<td class="ng-binding">
-											<a target="_new" ng-href="{{item.url_ss[0]}}">
+											<a translation-url target="_new" ng-href="{{item.url_ss[0]}}">
 												{{item.uniqueIdentifier_s|uppercase}}
 											</a> 
 											{{item.title_t|lstring:locale}}</td>											
@@ -248,7 +248,7 @@
 					</div>
 					<div ng-if="aichiTarget.identifier=='AICHI-TARGET-20' && resourceMobilisationReport">
 						<label for="">Financial Reporting Framework</label><br/>
-						<a target="_new" ng-href="{{resourceMobilisationReport.url_ss[0]}}">
+						<a translation-url target="_new" ng-href="{{resourceMobilisationReport.url_ss[0]}}">
 							{{resourceMobilisationReport.url_ss[0]}}</a> 
 						{{resourceMobilisationReport.title_t}}
 					</div>

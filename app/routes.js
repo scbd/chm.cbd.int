@@ -7,6 +7,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
         $routeProvider.
             when('/',                                         { template:    rootTemplate,                                   label :'CHM',                resolveController: 'views/index',          resolveUser: true }).
+            when('/lang/:langCode',  { templateUrl: 'views/shared/lang.html',label:'CHM', resolveController: true}).
+              
             when('/database',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index', resolveUser: true, reloadOnSearch : false }).
             when('/database/countries',                       { templateUrl: 'views/database/countries.html',                label :'Countries',          resolveController: true }).
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).

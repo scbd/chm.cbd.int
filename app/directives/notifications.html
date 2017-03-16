@@ -3,12 +3,12 @@
         <tr ng-repeat="doc in docs  | startFrom:currentPage*pageSize | limitTo:pageSize">
             <td>
                 <div>{{doc.symbol_s}} ({{doc.reference_s}})</div>
-                <div><a ng-href="{{doc.url_ss[0]}}">{{doc.title_t}}{{doc.url_ss[0]}}</a></div>
+                <div><a translation-url ng-href="{{doc.url_ss[0]}}">{{doc.title_t}}{{doc.url_ss[0]}}</a></div>
             </td>
         </tr>
         <tr ng-hide="isPagerVisible()">
             <td>
-                <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}">More notifications...</a></div>
+                <div ng-show="hasRecords()" class="text-right"><a translation-url ng-href="{{fullListUrl}}">More notifications...</a></div>
                 <div ng-hide="hasRecords()">Sorry, there are no notifications currently available.</div>
             </td>
         </tr>

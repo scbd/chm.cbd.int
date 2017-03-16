@@ -1,10 +1,10 @@
 <div>
 	<div style="font-size:10px;color:#777"><strong>AICHI BIODIVERSITY TARGET</strong></div>
 	<div class="truncatex" style="font-weight:bold;">
-		<a ng-href="{{fixUrl(document.url_ss[0])}}">Target {{document.number_d}}: {{document.title_t}}</a>
+		<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}">Target {{document.number_d}}: {{document.title_t}}</a>
 	</div>
 	<div style="font-size:13px;">
-		<a style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
+		<a translation-url style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
 		<i ng-if="!userGovernment();" class="fa fa-pencil-square-o"></i>
 	</div>
 	<div style="float:left"><img style="margin:1px 4px 2px 0" ng-src="http://www.cbd.int/images/aichi/48/abt-{{document.number_d | integer:10:2}}-48.png"></div>

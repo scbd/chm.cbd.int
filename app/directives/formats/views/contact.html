@@ -41,14 +41,14 @@
 		<div ng-show="document.emails">
 			<label>Emails</label>
 			<ul class="km-value">
-				<li ng-repeat="item in document.emails"><a ng-href="mailto:{{item}}">{{item}}</a></li>
+				<li ng-repeat="item in document.emails"><a translation-url ng-href="mailto:{{item}}">{{item}}</a></li>
 			</ul>
 		</div>
 
 		<div ng-show="document.websites">
 			<label>Web Sites</label>
 			<div class="km-value" ng-repeat="item in document.websites">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
 			</div>
 		</div>
@@ -69,7 +69,7 @@
 		<div ng-show="document.relevantDocuments">
 			<label>Other relevant website address or attached documents</label>
 			<div class="km-value" ng-repeat="item in document.relevantDocuments">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
 			</div>
 		</div>

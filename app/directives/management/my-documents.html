@@ -59,13 +59,13 @@
 
 	<ul class="pagination pull-right" style="margin:0">
 		<li ng-class="{disabled: currentPage == 0}">
-			<a href ng-click="actionSetPage(currentPage-1)">« Prev</a>
+			<a translation-url href ng-click="actionSetPage(currentPage-1)">« Prev</a>
 		</li>
         <li ng-repeat="n in pages" ng-class="{active: n == currentPage}" ng-click="actionSetPage(n)">
-			<a href>{{n+1}}</a>
+			<a translation-url href>{{n+1}}</a>
 		</li>
 		<li ng-class="{disabled: currentPage >= pageCount - 1}">
-			<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
+			<a translation-url href ng-click="actionSetPage(currentPage+1)">Next »</a>
 		</li>
 	</ul>
 	<table class="table table-condensed table-striped" ng-hide="__error">
@@ -80,7 +80,7 @@
 
 			<tr ng-repeat="document in documents">
 				<td>
-					<a ng-href="/database/record?documentID={{document.documentID}}">{{document.documentID}}</a>
+					<a translation-url ng-href="/database/record?documentID={{document.documentID}}">{{document.documentID}}</a>
 				</td>
 				<td>
 					<div ng-switch="document.type" >

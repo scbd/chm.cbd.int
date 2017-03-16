@@ -35,7 +35,7 @@
 			  <tr>
 			  	<td>Record ID</td>
 			  	<td>
-			  		<a    ng-show="workflow.result.documentID||workflow.data.documentID" ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.result.documentID||workflow.data.documentID}}</a>
+			  		<a translation-url    ng-show="workflow.result.documentID||workflow.data.documentID" ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.result.documentID||workflow.data.documentID}}</a>
 			  		<span ng-hide="workflow.result.documentID||workflow.data.documentID">[new]</span>
 			  		<span ng-show="workflow.result.revision">(rev. {{workflow.result.revision}})</span>
 				</td>
@@ -115,7 +115,7 @@
 			  	</td>
 
 			  	<td class="text-right">
-					<a ng-show="isAssignedToMe(activity)" class="btn btn-info"
+					<a translation-url ng-show="isAssignedToMe(activity)" class="btn btn-info"
                     ng-href="/management/requests/{{workflow._id}}/{{activity.name}}"  type="button">
                     <i class="fa fa-edit"></i></button>
 			  	</td>

@@ -172,8 +172,8 @@ define(['app', 'lodash',"utilities/solr"], function (app,_) { 'use strict';
 		function getCss() {
 				     var deferred = $q.defer();
 								deferred.resolve([
-											{key: 'ecoservices1', title: 'Climate Change Mitigation', help: 'Please indicate information about <a href="https://www.cbd.int/doc/publications/cbd-value-nature-en.pdf">carbon sequestration and/or storage benefits</a> from this project. If specific figures are currently available, please include them here.', },
-											{key: 'ecoservices2', title: 'Climate Change Adaptation', help: 'Please indicate information about <a href="http://adaptation.cbd.int/">climate change adaptation</a> benefits from this project, such as storm barriers, flood control, protection against sea level rise, enabling specific mobility in the face of climate change, etc.',},
+											{key: 'ecoservices1', title: 'Climate Change Mitigation', help: 'Please indicate information about <a translation-url href="https://www.cbd.int/doc/publications/cbd-value-nature-en.pdf">carbon sequestration and/or storage benefits</a> from this project. If specific figures are currently available, please include them here.', },
+											{key: 'ecoservices2', title: 'Climate Change Adaptation', help: 'Please indicate information about <a translation-url href="http://adaptation.cbd.int/">climate change adaptation</a> benefits from this project, such as storm barriers, flood control, protection against sea level rise, enabling specific mobility in the face of climate change, etc.',},
 											{key: 'ecoservices3', title: 'Freshwater Security',},
 											{key: 'ecoservices4', title: 'Food Security',},
 											{key: 'ecoservices5', title: 'Human Health',},

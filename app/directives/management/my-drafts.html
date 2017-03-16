@@ -56,13 +56,13 @@
 
 	<ul class="pagination pull-right" style="margin:0">
 		<li ng-class="{disabled: currentPage == 0}">
-			<a href ng-click="actionSetPage(currentPage-1)">« Prev</a>
+			<a translation-url href ng-click="actionSetPage(currentPage-1)">« Prev</a>
 		</li>
         <li ng-repeat="n in pages" ng-class="{active: n == currentPage}" ng-click="actionSetPage(n)">
-			<a href>{{n+1}}</a>
+			<a translation-url href>{{n+1}}</a>
 		</li>
 		<li ng-class="{disabled: currentPage >= pageCount - 1}">
-			<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
+			<a translation-url href ng-click="actionSetPage(currentPage+1)">Next »</a>
 		</li>
 	</ul>
 
@@ -81,7 +81,7 @@
 				<td>
 					<div ng-switch="draft.documentID">
 						<span ng-switch-when="null">new</span>
-						<a    ng-switch-default ng-href="/database/record?documentID={{draft.documentID}}">{{draft.documentID}}</a>
+						<a translation-url    ng-switch-default ng-href="/database/record?documentID={{draft.documentID}}">{{draft.documentID}}</a>
 					</div>
 					</td>
 				<td>

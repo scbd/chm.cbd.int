@@ -1,7 +1,8 @@
-define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './national-indicator', './inline-editor'], function(template, app, angular, _) {
+define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './national-indicator', './inline-editor',
+'scbd-angularjs-services/locale'], function(template, app, angular, _) {
 	'use strict';
 
-	app.directive("editNationalAssessment", ['$http', "$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', 'inlineEditor', function($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route, inlineEditor) {
+	app.directive("editNationalAssessment", ['$http', "$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', 'inlineEditor', 'locale', function($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route, inlineEditor, locale) {
 		return {
 			restrict: 'E',
 			template: template,
@@ -14,7 +15,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				$scope.document = null;
 				$scope.tab = 'general';
 				$scope.review = {
-					locale: "en"
+					locale: locale
 				};
 				$scope.qs = $location.search();
 				$scope.checkbox = {
@@ -206,7 +207,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 								header: {
 									identifier: guid(),
 									schema: "nationalAssessment",
-									languages: ["en"]
+									languages: [locale]
 								},
 								government: $scope.defaultGovernment() ? {
 									identifier: $scope.defaultGovernment()

@@ -113,7 +113,7 @@
                                 <i   ng-if="!nationalTarget.isAichiTarget_b" class="fa fa-dot-circle-o big-icon" style="position:relative;left:4px;"></i>
                             </div>
                             <div class="btn-group btn-group-xs pull-right">
-                                <a title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
+                                <a translation-url title="View" ng-if="nationalTarget._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{nationalTarget.url}}"><i class="fa fa-search"></i></a>
                                 <button ng-if="nationalTarget._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(nationalTarget)"><i class="fa fa-lock"></i></button>
                                 <button ng-disabled="nationalTarget._state_s != 'draft' && nationalTarget.assessments.length > 0 " ng-hide="nationalTarget._state_s=='workflow'" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(nationalTarget,'nationalTarget')"><i class="fa fa-edit"></i></button>
                                 <button ng-disabled="nationalTarget._state_s != 'draft' && nationalTarget.assessments.length > 0" ng-hide="nationalTarget._state_s=='workflow'" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(nationalTarget,'nationalTargets', $event)"><i class="fa fa-trash-o" ></i></button>
@@ -156,7 +156,7 @@
                             <div style="padding-left:35px;">
                                 <div ng-if="nationalTarget.assessments[0]" class="btn-group btn-group-xs pull-right">
                                     <!-- You can only edit if not published. -->
-                                    <a title="View" ng-if="nationalTarget.assessments[0]._state_s == 'public'"  class="btn btn-default"
+                                    <a translation-url title="View" ng-if="nationalTarget.assessments[0]._state_s == 'public'"  class="btn btn-default"
                                         ng-href="{{nationalTarget.assessments[0].url}}"><i class="fa fa-search"></i></a>
         
                                     <button ng-if="nationalTarget.assessments[0]._state_s=='workflow'" title="Locked for edit" type="button"
@@ -177,8 +177,8 @@
                         </div>
 
                         <!--<div ng-show="nationalTarget.assessments.length > 1">
-                            <a style="font-size:10px;text-transform:uppercase;" href="#" ng-show="!show_past_assessments" ng-click="show_past_assessments=!show_past_assessments">+ show past assessments</a>
-                            <a style="font-size:10px;text-transform:uppercase;" href="#" ng-show="show_past_assessments" ng-click="show_past_assessments=!show_past_assessments">- hide past assessments</a>
+                            <a translation-url style="font-size:10px;text-transform:uppercase;" href="#" ng-show="!show_past_assessments" ng-click="show_past_assessments=!show_past_assessments">+ show past assessments</a>
+                            <a translation-url style="font-size:10px;text-transform:uppercase;" href="#" ng-show="show_past_assessments" ng-click="show_past_assessments=!show_past_assessments">- hide past assessments</a>
                         </div>-->
                         
                         <div ng-if="nationalTarget.assessments.length > 1">
@@ -193,7 +193,7 @@
                              
                                  <div ng-if="ass" class="btn-group btn-group-xs pull-right">
                                     <!-- You can only edit if not published. -->
-                                    <a title="View" ng-if="ass._state_s == 'public'"  class="btn btn-default"
+                                    <a translation-url title="View" ng-if="ass._state_s == 'public'"  class="btn btn-default"
                                         ng-href="{{ass.url}}"><i class="fa fa-search"></i></a>
         
                                     <button ng-if="ass._state_s=='workflow'" title="Locked for edit" type="button"
@@ -217,7 +217,7 @@
                     </td>
 
                     <td style="border-left:1px #DDD solid;">
-                        <a ng-if="nationalTarget._state_s == 'public'" class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{nationalTarget.identifier_s}}"> <i class="fa fa-plus-square"></i> Add </a>
+                        <a translation-url ng-if="nationalTarget._state_s == 'public'" class="btn btn-primary btn-xs"  href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{nationalTarget.identifier_s}}"> <i class="fa fa-plus-square"></i> Add </a>
                         <span ng-if="nationalTarget._state_s == 'draft' || nationalTarget._state_s == 'request'" class="btn btn-default btn-xs bg-grey disabled"> <i class="fa fa-plus-square"></i> Add </a>
                     </td>
                 </tr>
@@ -225,15 +225,15 @@
 
                 <tr>
                     <td>
-                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Add National Target or Aichi Target </a>
-                        <!-- <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Aichi Target </a> -->
+                        <a translation-url class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Add National Target or Aichi Target </a>
+                        <!-- <a translation-url class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalTarget/new"> <i class="fa fa-plus-square"></i> Aichi Target </a> -->
                     </td>
                     <!-- <td>
                         <md-button  class="md-raised">List Indicators</md-button>
                     </td> -->
                     <td  colspan="3" style="border-left:1px #DDD solid;">
-                        <a class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalIndicator/new"> <i class="fa fa-plus-square"></i> Add New Indicator</a>
-                        <a class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalIndicator"> <i class="fa fa-list"></i> List Indicators </a>
+                        <a translation-url class="btn btn-primary btn-sm"  ng-href="/submit/online-reporting/nationalIndicator/new"> <i class="fa fa-plus-square"></i> Add New Indicator</a>
+                        <a translation-url class="btn btn-info btn-sm"  ng-href="/submit/online-reporting/nationalIndicator"> <i class="fa fa-list"></i> List Indicators </a>
                     </td>
                 </tr>
             </table>
@@ -259,13 +259,13 @@
                         <span class="badge bg-request">{{getFacet('nationalTarget').workflow}}</span>
                     </div>
 
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">National Targets</h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">National Targets</h4></a>
                     <p style="font-size:12px;">In decision X/2, the Conference of the Parties adopted the Strategic Plan for Biodiversity (2011-2020) and urged Parties and other Governments to develop national and regional targets in the framework of the Aichi Biodiversity Targets. </p>
                         <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/nationalTarget"> view records </a>
-                        <a class="btn btn-primary"  href="/submit/online-reporting/nationalTarget/new"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/online-reporting/nationalTarget"> view records </a>
+                        <a translation-url class="btn btn-primary"  href="/submit/online-reporting/nationalTarget/new"> add new </a>
                     </div>
 
               </div>
@@ -278,13 +278,13 @@
                         <span class="badge bg-draft">{{getFacet('nationalIndicator').draft}}</span>
                         <span class="badge bg-request">{{getFacet('nationalIndicator').workflow}}</span>
                     </div>
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">National Indicators </h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">National Indicators </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
                         <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/nationalIndicator"> view records </a>
-                        <a class="btn btn-primary"  href="/submit/online-reporting/nationalIndicator/new"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/online-reporting/nationalIndicator"> view records </a>
+                        <a translation-url class="btn btn-primary"  href="/submit/online-reporting/nationalIndicator/new"> add new </a>
                     </div>
               </div>
             </div>
@@ -296,13 +296,13 @@
                         <span class="badge bg-draft">{{getFacet('nationalAssessment').draft}}</span>
                         <span class="badge bg-request">{{getFacet('nationalAssessment').workflow}}</span>
                     </div>
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">Assessments</h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">Assessments</h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
                        <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/online-reporting/nationalAssessment"> view records </a>
-                        <a class="btn btn-primary"  href="/submit/online-reporting/nationalAssessment/new"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/online-reporting/nationalAssessment"> view records </a>
+                        <a translation-url class="btn btn-primary"  href="/submit/online-reporting/nationalAssessment/new"> add new </a>
                     </div>
               </div>
             </div>
@@ -324,13 +324,13 @@
                         <span class="badge bg-draft">{{getFacet('nationalSupportTool').draft}}</span>
                         <span class="badge bg-request">{{getFacet('nationalSupportTool').workflow}}</span>
                     </div>
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">Guidance and Support Tools </h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">Guidance and Support Tools </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
                         <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                      <a class="btn btn-info" href="/submit/online-reporting/nationalSupportTool"> view records </a>
-                      <a class="btn btn-primary"  href="/submit/online-reporting/nationalSupportTool/new"> add new </a>
+                      <a translation-url class="btn btn-info" href="/submit/online-reporting/nationalSupportTool"> view records </a>
+                      <a translation-url class="btn btn-primary"  href="/submit/online-reporting/nationalSupportTool/new"> add new </a>
                     </div>
               </div>
             </div>
@@ -342,13 +342,13 @@
                         <span class="badge bg-draft">{{getFacet('implementationActivity').draft}}</span>
                         <span class="badge bg-request">{{getFacet('implementationActivity').workflow}}</span>
                     </div>
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">Implementation Activities </h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">Implementation Activities </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
                        <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                      <a class="btn btn-info" href="/submit/online-reporting/implementationActivity"> view records </a>
-                      <a class="btn btn-primary"  href="/submit/online-reporting/implementationActivity/new"> add new </a>
+                      <a translation-url class="btn btn-info" href="/submit/online-reporting/implementationActivity"> view records </a>
+                      <a translation-url class="btn btn-primary"  href="/submit/online-reporting/implementationActivity/new"> add new </a>
                     </div>
               </div>
             </div>

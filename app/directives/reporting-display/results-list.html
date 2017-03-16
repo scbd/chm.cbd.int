@@ -150,7 +150,7 @@
 		<hr style="margin-top:1px; margin-bottom:4px;">
 	</div>
 	<div class="resultsListSubHeader row">
-		<a src='#' id="customHome" style="float:left;padding-left:3px;cursor:pointer;z-index:10;">
+		<a translation-url src='#' id="customHome" style="float:left;padding-left:3px;cursor:pointer;z-index:10;">
 			<div>
 				<span class="badge badge-blue"><i class="fa fa-home fa-lg" style="float:left;"></i></span>
 			</div>
@@ -183,12 +183,12 @@
 						<ul>
 							<li class="doc" ng-repeat="doc in schema" ng-if="schema.expandedDoc">
 								<!-- <li > style="border-top:1px solid #999;height:20px;top:25px;width:50px;" -->
-								<span ng-if="schemaName=='nationalAssessment'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.nationalTarget_EN_t}} ({{doc.year_i}})</a></span>
-								<span ng-if="schemaName=='nationalReport'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.reportType_EN_t}}</a></span>
-								<span ng-if="schemaName=='nbsaps'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.startDate_s}}</a></span>
-								<span ng-if="schemaName=='nationalIndicator'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
-								<span ng-if="schemaName=='nationalTarget'"><i class="fa fa-file"></i><a href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
-								<span ng-if="schemaName=='resourceMobilisation'"><i class="fa fa-file"></i> <a href="/database/record/{{doc.identifier_s}}"> 2015</a></span>
+								<span ng-if="schemaName=='nationalAssessment'"><i class="fa fa-file"></i><a translation-url href="/database/record/{{doc.identifier_s}}"> {{doc.nationalTarget_EN_t}} ({{doc.year_i}})</a></span>
+								<span ng-if="schemaName=='nationalReport'"><i class="fa fa-file"></i><a translation-url href="/database/record/{{doc.identifier_s}}"> {{doc.reportType_EN_t}}</a></span>
+								<span ng-if="schemaName=='nbsaps'"><i class="fa fa-file"></i><a translation-url href="/database/record/{{doc.identifier_s}}"> {{doc.startDate_s}}</a></span>
+								<span ng-if="schemaName=='nationalIndicator'"><i class="fa fa-file"></i><a translation-url href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
+								<span ng-if="schemaName=='nationalTarget'"><i class="fa fa-file"></i><a translation-url href="/database/record/{{doc.identifier_s}}"> {{doc.title_t}}</a></span>
+								<span ng-if="schemaName=='resourceMobilisation'"><i class="fa fa-file"></i> <a translation-url href="/database/record/{{doc.identifier_s}}"> 2015</a></span>
 							</li>
 						</ul>
 					</li>

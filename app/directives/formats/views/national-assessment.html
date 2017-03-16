@@ -93,7 +93,7 @@
 		<div ng-show="document.documentLinks">
 			<label>Relevant websites, links, and files</label>
 			<div class="km-value" ng-repeat="item in document.documentLinks">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 			</div>
 		</div>
 	</div>
@@ -124,7 +124,7 @@
 	<div ng-show="document.otherRelevantDocuments">
 		<label>Other relevant website address or attached documents</label>
 		<ul class="km-value">
-			<li ng-repeat="item in document.otherRelevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+			<li ng-repeat="item in document.otherRelevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
 		</ul>
 	</div>
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
@@ -138,7 +138,7 @@
 		<div ng-show="document.relevantDocuments">
 			<label>Other relevant website address or attached documents</label>
 			<div class="km-value" ng-repeat="item in document.relevantDocuments">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 			</div>
 		</div>
 

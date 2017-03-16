@@ -13,7 +13,7 @@
 		<tr ng-repeat="workflow in workflows|orderBy:'-closedOn'">
 
 			<td>
-				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
+				<a translation-url style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{workflow._id}}"  type="button">{{formatWID(workflow._id)}}</a>
 				<div ng-switch="workflow.type.name">
 					<em ng-switch-when="publishNationalRecord">Publishing request</em>
 					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
@@ -22,7 +22,7 @@
 			</td>
 
 			<td>
-				<strong ng-show="workflow.result.documentID||workflow.data.documentID"><a ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.data.metadata.schema|schemaName}}</a></strong>
+				<strong ng-show="workflow.result.documentID||workflow.data.documentID"><a translation-url ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.data.metadata.schema|schemaName}}</a></strong>
 				<strong ng-hide="workflow.result.documentID||workflow.data.documentID">{{workflow.data.metadata.schema|schemaName}}</strong>
 
 				<div>{{workflow.data.title | lstring}}</div>

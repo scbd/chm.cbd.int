@@ -3,8 +3,12 @@
   "description": "Clearing-House Mechanism Website",
   "dependencies": {
     "bower": "1.7.9",
+    "co": "^4.6.0",
+    "co-fs": "^1.2.0",
+    "ejs": "^2.5.6",
     "express": "4.13.4",
     "http-proxy": "1.13.3",
+    "lodash": "^4.17.4",
     "morgan": "1.7.0"
   },
   "license": "MIT",

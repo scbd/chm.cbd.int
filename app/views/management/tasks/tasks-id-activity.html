@@ -40,7 +40,7 @@
 			  <tr>
 			  	<td>Record ID</td>
 			  	<td>
-			  		<a    ng-show="workflow.result.documentID||workflow.data.documentID" ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.result.documentID||workflow.data.documentID}}</a>
+			  		<a translation-url    ng-show="workflow.result.documentID||workflow.data.documentID" ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.result.documentID||workflow.data.documentID}}</a>
 			  		<span ng-hide="workflow.result.documentID||workflow.data.documentID">[new]</span>
 			  		<span ng-show="workflow.result.revision">(rev. {{workflow.result.revision}})</span>
 				</td>
@@ -83,7 +83,7 @@
 						<div ng-show="isAssignedToMe(activity)" class="text-right">
 
 							<button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="fa fa-remove"></i> Request Changes / Reject </button>
-                            <a type="button" class="btn btn-default bg-draft" ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema}}/{{workflow.data.identifier}}?workflowId={{workflow._id}}"
+                            <a translation-url type="button" class="btn btn-default bg-draft" ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema}}/{{workflow.data.identifier}}?workflowId={{workflow._id}}"
                             ><i class="fa fa-edit"></i> Edit</a>
                             <button type="button" class="btn btn-default bg-published" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
 						</div>

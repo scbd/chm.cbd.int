@@ -1,0 +1,393 @@
+<div id="Record" class="record panel panel-default">
+    <div id="view-header" class="panel-heading bg-blue" ng-if="header">
+        <div class="row">
+            <div class="col-xs-10">
+                <h4>
+                <span ng-if="!loading"> Opportunity
+                 <!-- <span class="text-small" style="font-size:.75em;color:#ddd;"> (BBIOPP) </span> -->
+                </span>
+                <span ng-if="loading" style="margin:auto">
+                    <i class="fa fa-spin fa-spinner " /> Loading...
+                </span>
+                 </h4>
+            </div>
+            <div class="col-xs-2">
+              <h4 ng-if="isReview()"><span class="pull-right"><a translation-url class="btn btn-xs btn-default" ng-href="platform/submit/bbi-opportunity/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
+            </div>
+        </div>
+    </div>
+    <div class="record-body panel-body">
+        <div class="row">
+
+            <div class="col-xs-12" ng-show="document.title">
+                <label class="view">Title</label>
+                <div class="km-value">
+                    <span>
+                      {{document.title | lstring}}<br/>
+                  </span>
+                </div>
+            </div>
+
+            <div class="col-xs-12" ng-show="document.description">
+                <label class="view">Description</label>
+                <div class="km-value">
+                    <span>
+                      {{document.description | lstring:locale}}<br/>
+                  </span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Opportunity Information -->
+        <div ng-if="document.areasBenifited || document.assistanceTypes || document.otherAssistanceType || document.relevantInfo || document.relevantDocuments">
+            <legend class="view">Opportunity Information</legend>
+            <div class="row">
+                <div class="col-xs-12 col-md-6" ng-show="document.areasBenifited">
+                    <label class="view">Geographic coverage of the opportunity</label>
+                    <div class="km-value">
+                        <span ng-repeat="item in document.areasBenifited">
+                              {{item| term:locale}}<br/>
+                          </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6" ng-show="document.assistanceTypes">
+                    <label class="view">Type(s) of opportunity</label>
+                    <div class="km-value">
+                        <span ng-repeat="item in document.assistanceTypes">
+                              {{item| term:locale}}<br/>
+                          </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6" ng-show="document.otherAssistanceType">
+                    <label class="view">Other type(s) of opportunity</label>
+                    <div class="km-value">
+                        <span>
+                              {{document.otherAssistanceType | lstring:locale}}<br/>
+                          </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6" ng-show="document.relevantInfo ">
+                    <label class="view">Other information describing the opportunity  </label>
+                    <div class="km-value">
+                        <span>
+                              {{document.relevantInfo  | lstring:locale}}<br/>
+                          </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6" ng-show="document.relevantDocuments">
+                    <label class="view">Any other relevant documents</label>
+                    <div class="km-value">
+                        <div ng-repeat="item in document.relevantDocuments">
+                            <a translation-url translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+                            <i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Detailed Opportunity Information -->
+      <div ng-if="document.primaryBeneficiary ||  document.primaryBeneficiaries || document.potentialOutcomes || document.eligibility || document.applicationProcess || document.startDate || document.endDate || document.applicationDeadline || document.applicationDocuments || document.active" >
+          <legend class="view">Detailed Opportunity Information</legend>
+
+          <div class="row">
+
+              <div class="col-xs-12" ng-show="document.primaryBeneficiary">
+                  <label class="view">Primary Beneficiary</label>
+                  <div class="km-value">
+                      <span>{{document.primaryBeneficiary| lstring:locale}}<br/></span>
+                  </div>
+              </div>
+
+              <div class="col-xs-12" ng-show="document.primaryBeneficiaries">
+                  <label class="view">Other Beneficiaries</label>
+                  <div class="km-value">
+                      <span>{{document.primaryBeneficiaries| lstring:locale}}<br/></span>
+                  </div>
+              </div>
+              <div class="col-xs-12" ng-show="document.potentialOutcomes">
+                  <label class="view">Potential Outcomes</label>
+                  <div class="km-value">
+                      <span>{{document.potentialOutcomes| lstring:locale}}</span>
+                  </div>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-show="document.eligibility">
+                  <label class="view">Eligibility</label>
+                  <div class="km-value">
+                    {{document.eligibility| lstring:locale}}
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-6" ng-show="document.applicationProcess">
+                  <label class="view">Application Process</label>
+                  <div class="km-value">
+                    {{document.applicationProcess | lstring:locale}}
+                  </div>
+              </div>
+              <div class="col-xs-12 col-md-3" ng-show="document.startDate">
+                  <label class="view">Start Date</label>
+                  <div class="km-value">
+                      <span>{{document.startDate}}<br/></span>
+                  </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-show="document.endDate">
+                  <label class="view">End Date</label>
+                  <div class="km-value">
+                      <span>{{document.endDate}}<br/></span>
+                  </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-show="document.applicationDeadline">
+                  <label class="view">Application Deadline</label>
+                  <div class="km-value">
+                      <span>{{document.applicationDeadline}}<br/></span>
+                  </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3" ng-show="document.applicationDocuments">
+                  <label class="view">Application Documents</label>
+                  <div class="km-value" ng-repeat="item in document.applicationDocuments">
+                      <a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+                      <i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+                  </div>
+              </div>
+
+              <div ng-show="document.active">
+                  <legend class="view">Active</legend>
+                  <div class="km-value">
+                      <span>{{document.active}}<br/></span>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+<!-- Linkages to CBD Inititives -->
+        <div ng-show="document.aichiTargets || document.cbdSubjects">
+                        <legend class="view">Linkages to CBD Inititives</legend>
+          <div class="row">
+
+              <div class="col-xs-12 col-md-6" ng-show="document.aichiTargets">
+                  <label class="view">Related Aichi Biodiversity Target(s)</label>
+                <div class="km-value">
+                    <div  ng-repeat="term in document.aichiTargets">{{term | term:locale}} </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-show="document.cbdSubjects">
+                <label class="view">Related CBD thematic areas(s)</label>
+                  <div class="km-value">
+                      <div ng-repeat="term in document.cbdSubjects">{{term | term:locale}} </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+
+<!-- Contact Person          -->
+        <div ng-show="contact">
+          <legend class="view">Contact Person </legend>
+          <div class="col-xs-12 km-value">
+
+              <div class="col-xs-12">
+                  <div class="label label-warning pull-right" ng-show="contact.header.state==='draft'">Pending Approval</div>
+
+                  <strong><b>{{contact.prefix| lstring:locale}}
+                              {{contact.firstName | lstring:locale}}
+                              {{contact.middleName | lstring:locale}}
+                              {{contact.lastName | lstring:locale}} </b></strong> <a translation-url target="_blank" ng-href="/biobridge/submit/bbi-contact/{{contact.header.identifier}}/view"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                  <span class="small" ng-show="contact.designation || contact.department">
+                                <br>
+                              <span ng-show="contact.designation">{{contact.designation | lstring:locale}}</span><span ng-show="contact.designation && contact.department">,</span>
+                  <span ng-show="contact.department">{{contact.department | lstring:locale}}</span>
+                  </span>
+                  <span ng-show="contactOrg.name"><br><br><strong>{{contactOrg.name | lstring:locale}}</strong></span>
+                  <address>
+                  <div class="km-pre">{{contact.address | lstring:locale}}</div>
+                  {{contact.city | lstring:locale}}<span ng-show="contact.city">, </span>
+                  {{contact.state | lstring:locale}}<br ng-show="contact.city || document.state" />
+                  {{contact.postalCode | lstring:locale}}<span ng-show="contact.postalCode">, </span>
+                  <b>{{contact.country | term:locale}}</b> <image style="height:15px;;" ng-src="https://www.cbd.int/images/flags/96/flag-{{contact.country.identifier}}-96.png"></image>
+                  <br>
+                  <span ng-if="contact.emails"><br> </span>
+                  <span ng-repeat="item in contact.emails">
+                      <i class="fa fa-envelope" aria-hidden="true"></i>:
+                      <a translation-url target="_blank" ng-href="mailto:{{item}}" >
+                          {{item}}
+                      </a>
+                      <span ng-if="!$last">|</span>
+                  </span>
+                  <span ng-if="contact.phones"> <br>
+
+                      <span ng-repeat="item in contact.phones"><i class="fa fa-phone-square" aria-hidden="true"></i>: {{item}}
+                          <span ng-show="!$last">|</span>
+                      </span>
+                  </span>
+                  <span ng-if="contact.faxes"> <br>
+                      <span ng-repeat="item in contact.faxes"><i class="fa fa-fax" aria-hidden="true"></i>: {{item}}
+                          <span ng-show="!$last">|</span>
+                      </span>
+                  </span>
+                  <span ng-if="contact.websites"><br><br></span>
+                  <span class="small" ng-repeat="item in contact.websites">
+                      <a translation-url target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
+
+                          <i ng-switch-when="youtube" class="fa fa-youtube-square" aria-hidden="true"></i>
+                          <i ng-switch-when="twitter" class="fa fa-twitter-square" aria-hidden="true"></i>
+                          <i ng-switch-when="facebook" class="fa fa-facebook-square" aria-hidden="true"></i>
+                          <i ng-switch-when="Google Maps" class="fa fa-google" aria-hidden="true"></i>
+                          <i ng-switch-when="website" class="fa fa-home" aria-hidden="true"></i>
+                          <i ng-switch-default class="fa fa-external-link" aria-hidden="true"></i>
+                          {{item.name.toUpperCase()||item.url}}
+                      </a>
+                      <span ng-if="!$last">|</span>
+                  </span>
+                </address>
+              </div>
+          </div>
+      </div>
+
+<!-- Primary Organization       -->
+      <div ng-show="primaryOrganization">
+          <legend class="view">Primary Organization</legend>
+
+          <div class="col-xs-12 km-value">
+              <div class="label label-warning pull-right" ng-show="primaryOrganization.header.state==='draft'">Pending Approval</div>
+              <div ng-class="{'col-xs-10':getLogo(),'col-xs-12':!getLogo()}">
+                  <div>
+                      <strong>{{primaryOrganization.name | lstring:locale}} </strong><i ng-show="primaryOrganization.acronym">({{primaryOrganization.acronym | lstring:locale}})</i>
+                      <address>
+                    <div class="km-pre">{{primaryOrganization.address | lstring:locale}}</div>
+                    {{primaryOrganization.city | lstring:locale}}<span ng-show="primaryOrganization.city">, </span>
+                    {{primaryOrganization.state | lstring:locale}}<br ng-show="primaryOrganization.city || document.state" />
+                    {{primaryOrganization.postalCode | lstring:locale}}<span ng-show="primaryOrganization.postalCode">, </span>
+                    <b>{{primaryOrganization.country | term:locale}}</b> <image style="height:15px;;" ng-src="https://www.cbd.int/images/flags/96/flag-{{primaryOrganization.country.identifier}}-96.png"></image>
+                    <br>
+                    <span ng-if="primaryOrganization.emails"><br> </span>
+                    <span ng-repeat="item in primaryOrganization.emails">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>:
+                        <a translation-url target="_blank" ng-href="mailto:{{item}}" >
+                            {{item}}
+                        </a>
+                        <span ng-if="!$last">|</span>
+                    </span>
+                    <span ng-if="primaryOrganization.phones"> <br>
+                        <span ng-repeat="item in primaryOrganization.phones"><i class="fa fa-phone-square" aria-hidden="true"></i>: {{item}}
+                            <span ng-show="!$last">|</span>
+                        </span>
+                    </span>
+                    <span ng-if="primaryOrganization.faxes"> <br>
+                        <span ng-repeat="item in primaryOrganization.faxes"><i class="fa fa-fax" aria-hidden="true"></i>: {{item}}
+                            <span ng-show="!$last">|</span>
+                        </span>
+                    </span>
+                    <span ng-if="primaryOrganization.websites"><br><br></span>
+                    <span class="small" ng-repeat="item in primaryOrganization.websites">
+
+                        <a translation-url target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
+
+                            <i ng-switch-when="youtube" class="fa fa-youtube-square" aria-hidden="true"></i>
+                            <i ng-switch-when="twitter" class="fa fa-twitter-square" aria-hidden="true"></i>
+                            <i ng-switch-when="facebook" class="fa fa-facebook-square" aria-hidden="true"></i>
+                            <i ng-switch-when="Google Maps" class="fa fa-google" aria-hidden="true"></i>
+                            <i ng-switch-when="website" class="fa fa-home" aria-hidden="true"></i>
+                            <i ng-switch-default class="fa fa-external-link" aria-hidden="true"></i>
+                            {{item.name.toUpperCase()||item.url}}
+                        </a>
+                        <span ng-if="!$last">|</span>
+                    </span>
+                    <span ng-if="primaryOrganization.operationalLanguages"><br></span>
+                    <span class="small" ng-if="primaryOrganization.operationalLanguages">
+                            <span class="label label-info" style="margin:0 5px 0 0;" ng-repeat="lang in primaryOrganization.operationalLanguages">{{ lang | term:locale | uppercase}}
+                            </span>
+                    </span>
+                    <span ng-if="primaryOrganization.organizationType"><br></span>
+                    <span class="small" ng-if="primaryOrganization.organizationType">
+                            <span class="label label-default" style="margin:0 5px 0 0;" >{{primaryOrganization.organizationType | term:locale | uppercase}}<span>
+                    </span>
+                  </address>
+                  </div>
+              </div>
+              <div class="col-xs-2" ng-show="getLogo()">
+                  <div>
+                      <img width="100%" ng-src="{{getLogo().url}}"></img>
+                  </div>
+              </div>
+          </div>
+      </div>
+<!-- Contributing Organization(s) -->
+        <div ng-show="organizations">
+            <legend class="view">Contributing Organization(s)</legend>
+            <div ng-repeat="org in organizations">
+                <div class="col-xs-12 km-value">
+                    <div class="label label-warning pull-right" ng-show="org.header.state==='draft'">Pending Approval</div>
+                    <div ng-class="{'col-xs-10':getLogo(),'col-xs-12':!getLogo()}">
+                        <div>
+                            <strong>{{org.name | lstring:locale}} </strong><i ng-show="org.acronym">({{org.acronym | lstring:locale}})</i>
+                            <address>
+                        <div class="km-pre">{{org.address | lstring:locale}}</div>
+                        {{org.city | lstring:locale}}<span ng-show="org.city">, </span>
+                        {{org.state | lstring:locale}}<br ng-show="org.city || document.state" />
+                        {{org.postalCode | lstring:locale}}<span ng-show="org.postalCode">, </span>
+                        <b>{{org.country | term:locale}}</b> <image style="height:15px;;" ng-src="https://www.cbd.int/images/flags/96/flag-{{org.country.identifier}}-96.png"></image>
+                        <br>
+                        <span ng-if="org.emails"><br> </span>
+                        <span ng-repeat="item in org.emails">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>:
+                            <a translation-url target="_blank" ng-href="mailto:{{item}}" >
+                                {{item}}
+                            </a>
+                            <span ng-if="!$last">|</span>
+                        </span>
+                        <span ng-if="org.phones"> <br>
+                            <span ng-repeat="item in org.phones"><i class="fa fa-phone-square" aria-hidden="true"></i>: {{item}}
+                                <span ng-show="!$last">|</span>
+                            </span>
+                        </span>
+                        <span ng-if="org.faxes"> <br>
+
+                            <span ng-repeat="item in org.faxes"><i class="fa fa-fax" aria-hidden="true"></i>: {{item}}
+                                <span ng-show="!$last">|</span>
+                            </span>
+                        </span>
+                        <span ng-if="org.websites"><br><br></span>
+                        <span class="small" ng-repeat="item in org.websites">
+                            <a translation-url target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
+                                <i ng-switch-when="youtube" class="fa fa-youtube-square" aria-hidden="true"></i>
+                                <i ng-switch-when="twitter" class="fa fa-twitter-square" aria-hidden="true"></i>
+                                <i ng-switch-when="facebook" class="fa fa-facebook-square" aria-hidden="true"></i>
+                                <i ng-switch-when="Google Maps" class="fa fa-google" aria-hidden="true"></i>
+                                <i ng-switch-when="website" class="fa fa-home" aria-hidden="true"></i>
+                                <i ng-switch-default class="fa fa-external-link" aria-hidden="true"></i>
+                                {{item.name.toUpperCase()||item.url}}
+                            </a>
+                            <span ng-if="!$last">|</span>
+                        </span>
+                        <span ng-if="org.operationalLanguages"><br></span>
+                        <span class="small" ng-if="org.operationalLanguages">
+                                <span class="label label-info" style="margin:0 5px 0 0;" ng-repeat="lang in org.operationalLanguages">{{ lang | term:locale | uppercase}}
+                                </span>
+                        </span>
+                        <span ng-if="org.organizationType"><br></span>
+                        <span class="small" ng-if="org.organizationType">
+                                <span class="label label-default" style="margin:0 5px 0 0;" >{{org.organizationType | term:locale | uppercase}}<span>
+                        </span>
+                      </address>
+                        </div>
+                    </div>
+                    <div class="col-xs-2" ng-show="getLogo()">
+                        <div>
+                            <img width="100%" ng-src="{{getLogo(org).url}}"></img>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

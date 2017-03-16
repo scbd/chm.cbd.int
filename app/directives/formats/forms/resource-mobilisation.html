@@ -83,6 +83,15 @@
 			<div id="part1" km-tab="part1">
 				<div class="row">
 					<div class="col-xs-12">
+				
+						<modal-youtube
+							video-id = "part1Video"
+							video-header="Financial Reporting Framework: Front matter" 
+							video-code-en="4d619z8NoyM"
+							video-code-es="k2YyQiifpY0"
+							video-code-fr="5vonjcxYlpI">
+						</modal-youtube>
+
 						<legend>Introduction</legend>
 						<p  class="help-block">This framework is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20.</p>
 						<p  class="help-block">In completing the reporting framework, Parties are encouraged to interact with their respective statistical offices or other relevant departments when gathering information. Some of the information needed for this process is likely already available and it should be used where possible in order to reduce the reporting burden and the duplication of efforts.  Where precise information is not available, respondents are encouraged to use their best estimates.</p>
@@ -208,6 +217,14 @@
 			<div id="part2" km-tab="part2">
 				<div class="row">
 					<div class="col-md-12">
+
+						<modal-youtube
+							video-id = "part2Video"
+							video-header="Financial Reporting Framework: International flows" 
+							video-code-en="Z_-5r2bFS8o"
+							video-code-es="K0CtsUjhz-o"
+							video-code-fr="tqqYASQF8T8">
+						</modal-youtube>
 
 						<legend>1. International financial resource flows</legend>
 						<p><strong>1.1 Please indicate the amount of resources <u>provided by your country</u> in support of biodiversity in developing countries, in particular least developed countries and small island developing States, as well as countries with economies in transition.</strong></p>
@@ -512,6 +529,15 @@
 			<div id="part3" km-tab="part3">
 				<div class="row">
 					<div class="col-lg-12">
+
+						<modal-youtube
+							video-id = "part3Video"
+							video-header="Financial Reporting Framework: Inclusion of biodiversity" 
+							video-code-en="2Hhy4nNZnXs"
+							video-code-es="ejRP6DQUYRE"
+							video-code-fr="wzlS8ijQkWQ">
+						</modal-youtube>
+
 						<legend>2. Inclusion of biodiversity in priorities and plans</legend>
 						<div class="km-control-group" name="nationalBiodiversityInclusion" caption="Has your country included biodiversity in national priorities or development plans?">
 							<div km-select ng-model="document.hasNationalBiodiversityInclusion" binding-type="string" placeholder="Select..." items="options.inclusions" name="nationalBiodiversityInclusion"></div>
@@ -558,6 +584,15 @@
 			<div id="part4" km-tab="part4">
 				<div class="row">
 					<div class="col-lg-12">
+
+						<modal-youtube
+							video-id = "part4Video"
+							video-header="Financial Reporting Framework: Domestic biodiversity expenditures" 
+							video-code-en="9SCpQkCceWQ"
+							video-code-es="Uolh6tF3Hr4"
+							video-code-fr="yZFehrz48Uo">
+						</modal-youtube>
+
 						<legend>4. Reporting current domestic biodiversity expenditures</legend>
 						<div class="km-control-group" name="domesticExpenditures" caption="4.1 Please indicate the annual financial support provided to domestic biodiversity-related activities in your country."></div>
 
@@ -1023,6 +1058,15 @@
 			<div id="part5" km-tab="part5">
 				<div class="row">
 					<div class="col-lg-12">
+
+						<modal-youtube
+							video-id = "part5Video"
+							video-header="Financial Reporting Framework: Funding needs, gaps, and priorities" 
+							video-code-en="R1dIUHEJIuo"
+							video-code-es="xkyCTsUOZi4"
+							video-code-fr="7K4hFrC9B9k">
+						</modal-youtube>
+
 						<legend>5. Reporting funding needs, gaps, and priorities</legend>
 						<div><span class="help-block">Please indicate your annual estimated funding need (for instance, based on your revised NBSAP) and calculate the estimated funding gap by subtracting estimated available resources. Indicate actions for priority funding.</span></div>
 						<div><span class="help-block"><em>Please start with the year which is most appropriate for your own planning purposes</em>.</span></div>
@@ -1147,6 +1191,15 @@
 			<div id="part6" km-tab="part6">
 				<div class="row">
 					<div class="col-lg-12">
+						
+						<modal-youtube
+							video-id = "part6Video"
+							video-header="Financial Reporting Framework: Finance plans" 
+							video-code-en="f8thAW_72so"
+							video-code-es="yayDcFL8grE"
+							video-code-fr="LlBpeyEb2wU">
+						</modal-youtube>
+
 						<legend>6. National finance plans</legend>
 						Please provide a brief synthesis of your finance plan, by indicating, in the table below, your planned resource mobilization, by source, and their respective planned contributions towards your identified finance gap.</p>
 						<p>Please start with the year which is most appropriate for your own planning purposes.</p>
@@ -1382,4 +1435,35 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/ng-template" id="/templates/modal-youtube.html">
+		<ul class="list-unstyled list-inline pull-right">
+			<li><i class="fa fa-video-camera" aria-hidden="true"></i></li>
+			<li ng-show="videoEn"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('en')">English</a></li>
+			<li ng-show="videoEs"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('es')">Español</a></li>
+			<li ng-show="videoFr"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('fr')">Français</a></li>
+		</ul>
+		<!-- Modal -->
+		<ng-transclude></ng-transclude>
+		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width:75%">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="stopVideo()"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{header}}</h4>
+					</div>
+					<div class="modal-body">
+						<div align="center" class="embed-responsive embed-responsive-16by9">
+							<iframe width="100%" height="315" ng-src="{{video | trustedUrl}}" frameborder="0" allowfullscreen="" class="youtube"></iframe>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="stopVideo()">Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
 </div>
+
+
+

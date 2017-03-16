@@ -189,6 +189,12 @@ define(['app', 'moment'], function (app, moment) {
     };
   });
 
+  app.filter("trustedUrl", function ($sce) {
+    return function (url) {
+      return $sce.trustAsResourceUrl(url);
+    };
+  });
+
   //============================================================
   //
   //

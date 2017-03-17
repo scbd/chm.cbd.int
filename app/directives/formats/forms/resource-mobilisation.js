@@ -1,6 +1,6 @@
 define(['text!./resource-mobilisation.html', 'app', 'angular', 'lodash', 'jquery', 'authentication', '../views/resource-mobilisation', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, $) { 'use strict';
 
-app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "guid", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", '$route', function ($http, $rootScope, $filter, guid, $q, $location, storage, Enumerable, editFormUtility, authentication, siteMapUrls, navigation, $route) {
+app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "guid", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", '$route', function ($http, $rootScope, $filter, guid, $q, $location, storage, Enumerable,  editFormUtility, authentication, siteMapUrls, navigation, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -386,14 +386,14 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					if($scope.document && $scope.document.domesticExpendituresData && $scope.document.domesticExpendituresData.expenditures){
 						lastYear = parseInt(_.max(_.pluck($scope.document.domesticExpendituresData.expenditures, 'year')));
 					}
-console.log(items);
+
 					for(var i=0; i<items.length; i++) {
 
 						var item     = items[i];
 
 						if(!_.isEmpty(item))
 						{
-console.log(lastYear, item);
+
 							var year = _.result(item, 'year', lastYear);
 
 							if(year > lastYear){
@@ -434,6 +434,8 @@ console.log(lastYear, item);
 			//
 			//==================================
 			var setTerm = function (identifier) {
+				if(!identifier) return undefined;
+
 				if(_.has(identifier, 'identifier'))
 					return identifier;
 
@@ -641,7 +643,7 @@ console.log(lastYear, item);
 			$scope.hasBaselineAmount = function (key) {
 
 				if($scope.document && $scope.document.internationalResources &&
-				   					  $scope.document.internationalResources.baselineData &&
+									  $scope.document.internationalResources.baselineData &&
 				   					  $scope.document.internationalResources.baselineData.baselineFlows
 								  ){
 
@@ -1138,8 +1140,62 @@ app.directive('rmPopover', function() {
 				html: true,
 				container: 'body'
 			});
+		}
+	};
+});
 
+//==================================
+//
+//==================================
+app.directive('modalYoutube', function() {
+	return {
+		restrict: 'E',
+		transclude: true,
+		templateUrl: '/templates/modal-youtube.html',
+		scope: {
+			id     : '@videoId',
+			header : '@videoHeader',
+			videoEn: '@videoCodeEn',
+			videoEs: '@videoCodeEs',
+			videoFr: '@videoCodeFr',
+            callbackbuttonleft: '&ngClickLeftButton',
+            callbackbuttonright: '&ngClickRightButton'			
+		},
+		link: function($scope, elem) {
 
+			//==================================
+			//
+			//==================================			
+			elem.on('hidden.bs.modal', function() {
+				$scope.$apply(function() {
+					$scope.stopVideo();
+				});
+			});
+
+			//==================================
+			//
+			//==================================
+			$scope.playVideo = function (lang) {
+				var youtubeUrl = 'https://www.youtube.com/embed/'  
+				var options    = '?enablejsapi=1&rel=0&autoplay=1&showinfo=0';
+
+				if(lang=='en') $scope.video = youtubeUrl+$scope.videoEn+options;
+				if(lang=='es') $scope.video = youtubeUrl+$scope.videoEs+options;
+				if(lang=='fr') $scope.video = youtubeUrl+$scope.videoFr+options;
+			}
+
+			//==================================
+			//
+			//==================================
+			$scope.stopVideo = function () {
+				$scope.video = '';
+				var selector = '#'+$scope.id + ' iframe';
+				var youtube = angular.element(document.querySelector(selector))[0].contentWindow;
+
+				if(youtube){ 
+					youtube.postMessage('{"event":"command","func":"' + 'stopVideo' +   '","args":""}', '*');
+				}
+			};
 		}
 	};
 });

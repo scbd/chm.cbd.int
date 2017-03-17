@@ -335,5 +335,33 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             $('[data-toggle="tooltip"]').tooltip()
         })
 
+        function loadNR6Details(){
+            
+            if(user.government){
+
+                var qSchema = " AND (schema_s:nationalReport6)";
+                var government = " AND government_s:" + user.government;
+                var q = '(realm_ss:' + realm.toLowerCase() + ' ' + qSchema + government + ')';
+
+                var qsOtherSchemaFacetParams =
+                {
+                    "q"  : q,
+                    "rows" : 10,
+                    "fl"    : 'identifier_s, title_s',
+                    "s"     : 'updatedOn_dt desc'               
+                };
+
+                var nationalReport6Query     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
+
+                $q.when(nationalReport6Query).then(function(results) {
+                    if(results.data.response.numFound > 0){
+                        $scope.nationalReport6 = results.data.response.docs[0]           
+                    }
+                }).then(null, function(error) {
+                    console.log(error );
+                });
+            }
+        }
+        loadNR6Details();
     }];
 });

@@ -1,4 +1,4 @@
-<li class="list-group-item" style="cursor:pointer;">
+﻿<li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectSchemas" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
 		<div ng-repeat="item in terms | toArray | orderBy:'title' | filter:{selected:true}" ng-click="refresh(this,true)">

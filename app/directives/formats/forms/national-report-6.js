@@ -637,30 +637,46 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//
 						//============================================================
 						function loadProgressAssessment() {
-							
+							$scope.loadingAssessments = true;
 							$scope.document.progressAssessments = []; 
 							targetAssessments = [];
-							_.each($scope.nationalTargets, function(nationalTarget) {
+							var targets = $scope.nationalTargets;
+							if($scope.document && $scope.document.targetPursued===false)
+								targets = $scope.document.nationalContribution;
 
-							   var assessment = {
-													nationalTarget: { identifier: nationalTarget.identifier_s }
-												};
+							var targetsQuery = _.map(targets, function(nationalTarget) {
 
-								$q.when(loadReferenceRecords({
-										schema: 'nationalAssessment',
-										nationalTargetId: nationalTarget.identifier_s,
-										rows: 1,
-										skipLatest: true
-									}))
-									.then(function(result) {
-										if (result && result.length > 0) {											
-											targetAssessments.push(result[0]);
-											assessment.assessment = {identifier : result[0].identifier_s};
-										}
-										$scope.document.progressAssessments.push(assessment);
-									});
+							   var assessment = {};
+							   if($scope.document && $scope.document.targetPursued===false){
+									assessment.aichiTarget =  { identifier: nationalTarget.identifier };
+							   }
+							   else{
+								   assessment.nationalTarget =  { identifier: nationalTarget.identifier_s };
+								};
 
+								return $q.when(loadReferenceRecords({
+									schema: 'nationalAssessment',
+									nationalTargetId: nationalTarget.identifier_s||nationalTarget.identifier,
+									rows: 1,
+									skipLatest: true
+								}))
+								.then(function(result) {
+									if (result && result.length > 0) {											
+										targetAssessments.push(result[0]);
+										assessment.assessment = {identifier : result[0].identifier_s};
+									}
+									return assessment;
+								});
 							});
+							$q.all(targetsQuery)
+							.then(function(data){
+
+								if($scope.document && $scope.document.targetPursued===false)
+									data = _.sortBy(data,  function(assessment){ return Number(assessment.aichiTarget.identifier.replace('AICHI-TARGET-', '')); });
+								
+								$scope.document.progressAssessments = data;								
+							})
+							.finally(function(){$scope.loadingAssessments = false;})
 						}
 
 						//============================================================
@@ -674,7 +690,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						}
 
 						var evtServerPushNotification = $rootScope.$on('event:server-pushNotification', function(evt, data) {
-							if (data.type == 'workflowActivityStatus' &&
+							if ($scope.document && $scope.document.targetPursued && data.type == 'workflowActivityStatus' &&
 								data.data && data.data.identifier && (data.data.schema == 'nationalTarget' || data.data.schema == "nationalAssessment")) {
 
 								var options = {

@@ -360,13 +360,14 @@
 										<div class="col-md-12">
 											<a translation-url href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.progressAssessment')">open all <i class="fa  fa-arrow-circle-o-up" /></a>
 											<a translation-url href="#" class="btn closeall pull-right" ng-click="closeall('.progressAssessment')">close all <i class="fa  fa-arrow-circle-o-down" /></a>
-											<button class="btn btn-primary pull-right" ng-click="refreshAssessment()">Refresh</button>
+											<button class="btn btn-primary pull-right" ng-click="refreshAssessment()" ng-disabled="loadingAssessments">
+												<i class="fa fa-spin fa-spinner" ng-if="loadingAssessments"/>Refresh</button>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments">
+						<div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments|orderBy : 'aichiTarget'">
 							<div class="panel-header clearfix">
 								<h3>Progress assessment for
 							<span ng-if="progressAssessment.nationalTarget">
@@ -1218,11 +1219,11 @@
 				</div>
 			</script>
 
-			<script type="text/ng-template" id="recordExistsTemplate.html">
+			<script type="text/ng-template" id="recordExistsTemplate.html" trados-translation="true">
 				<h1>Sixth national report</h1>
 				<hr>
 				<div class=" alert alert-danger">
-					<label>The Sixth national report already exists for the government, would you like to open the existing record?</label>
+					<label>Only one record of sixth national report is allowed for each government, the Sixth national report already exists for your government, would you like to open the existing record?</label>
 				</div>
 				<div class="ngdialog-buttons">
 					<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="openExisting()">Yes</button>

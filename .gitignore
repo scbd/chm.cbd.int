@@ -18,3 +18,5 @@ server.json
 .DS_Store
 bower_components
 .settings/
+i18n
+.vscode

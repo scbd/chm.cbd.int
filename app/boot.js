@@ -1,6 +1,6 @@
 require.config({
     waitSeconds: 120,
-    baseUrl : '/app',
+    baseUrl : 'app/',
     paths: {
       'authentication'      : 'services/authentication',
       'angular'             : 'libs/angular-flex/angular-flex',

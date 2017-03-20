@@ -18,7 +18,7 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
 		$scope.goto = function (path, type) {
             if(type == 'nationalReport6')
                 path = path + $scope.nationalReport6.identifier_s; 
-			$window.location.href = path;
+			$location.path(path);
 		}
 
         //========================================

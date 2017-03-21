@@ -88,7 +88,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 										url = url.replace(host, '');
 									});
 									url = url.replace(/^(en|ar|fr|es|ru|zh)\//, '/');
-									$location.path(url);
+									$location.url(url);
 								},1);
 							}
 							else
@@ -329,6 +329,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						$rootScope.isFormLeaving = true; 
 				// },1);
 					evt.preventDefault();
+					
 					next_url = next;
 					$scope.new_cancel();
 				}

@@ -13,6 +13,7 @@
 			.section .section-header {
 				border-bottom: 1px solid #ddd;
 				padding-left: 10px;
+				padding-right: 10px;
 			}
 			
 			.help-block {
@@ -109,7 +110,14 @@
 				outline: 0;
 				box-shadow: 0 0 0 1px #3498db;
 			}
-			
+			.alert .glyphicon{
+				float:left;
+				margin-right:9px;
+			}
+
+			.alert div{
+				overflow:hidden;
+			}
 		</style>
 
 
@@ -478,7 +486,7 @@
 					<div km-tab="gspcContribution">
 						<div class="panel panel-default">
 							<div class="panel-header">
-								<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for Plant Conservation</h3>
+								<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for Plant Conservation (completion of this section is optional)</h3>
 							</div>
 							<div class="panel-body">
 								<div class="row  bottom-spacing">
@@ -551,7 +559,7 @@
 					<div km-tab="iplcContribution">
 						<div class="panel panel-default">
 							<div class="panel-header">
-								<h3>Section VI. Description of the national contribution to the achievement of the targets of indigenous peoples and local communities</h3>
+								<h3>Section VI. Description of the national contribution to the achievement of the targets of indigenous peoples and local communities” it should read “Section VI. Additional information on the contribution of indigenous peoples and local communities (completion of this section is optional)</h3>
 							</div>
 							<div class="panel-body">
 								<div class="row  bottom-spacing">
@@ -1223,10 +1231,11 @@
 				<h1>Sixth national report</h1>
 				<hr>
 				<div class=" alert alert-danger">
-					<label>Only one record of sixth national report is allowed for each government, the Sixth national report already exists for your government, would you like to open the existing record?</label>
+					<div class="glyphicon glyphicon-exclamation-sign"></div>
+					<div>Only one record of sixth national report is allowed for each government, the Sixth national report already exists for your government, you will be redirected to the reocrd in {{alertSeconds}} secs...</div>
 				</div>
 				<div class="ngdialog-buttons">
-					<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="openExisting()">Yes</button>
+					<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="openExisting()">Redirect now</button>
 				</div>
 			</script>
 		</div>

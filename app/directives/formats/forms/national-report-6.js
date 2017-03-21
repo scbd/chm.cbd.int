@@ -207,8 +207,21 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 													closeByEscape: false,
 													showClose: false,
 													closeByNavigation: false,
-													controller: ['$scope', function($scope) {
+													controller: ['$scope', '$timeout', function($scope, $timeout) {
+														$scope.alertSeconds = 10;
+														time();
 
+														function time(){
+															$timeout(function(){
+																if($scope.alertSeconds == 1){																	
+																	$scope.openExisting();
+																}
+																else{
+																	$scope.alertSeconds--;																
+																	time()
+																}
+															}, 1000)
+														}
 														$scope.openExisting = function() {
 															ngDialog.close();
 															$location.path('/submit/nationalReport6/' + _.head(nationalReport)['identifier_s']);

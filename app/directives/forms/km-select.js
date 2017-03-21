@@ -69,8 +69,9 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'],
 					});
 				}
 			},
-			controller: ["$scope", "$q","$filter", "$timeout", function ($scope, $q, $filter, $timeout)
+			controller: ["$scope", "$q","$filter", "$timeout", "locale", function ($scope, $q, $filter, $timeout, locale)
 			{
+				$scope.locale = locale;
 				//==============================
 				//
 				//==============================

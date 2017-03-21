@@ -11,9 +11,10 @@ define(['app', 'services/realmConfig'], function(app) {
             link: ['$scope', '$q', '$element', function($scope, $q, $element) {
 
             }],
-            controller: ['$scope', '$rootScope', 'realm', function($scope, $rootScope, realm) {
+            controller: ['$scope', '$rootScope', 'locale','realm', function($scope, $rootScope, locale, realm) {
 
                     $rootScope.test_env = $scope.test_env        = realm != 'CHM';
+                    $scope.locale   = locale;
             }]
         };
 

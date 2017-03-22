@@ -704,77 +704,22 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						}
 
 						var evtServerPushNotification = $rootScope.$on('event:server-pushNotification', function(evt, data) {
-							if ($scope.document && $scope.document.targetPursued && data.type == 'workflowActivityStatus' &&
-								data.data && data.data.identifier && (data.data.schema == 'nationalTarget' || data.data.schema == "nationalAssessment")) {
 
-								var options = {
-									identifier: data.data.identifier,
-									latest: true,
-									schema: data.data.schema
-								};
+							if ($scope.document && $scope.document.targetPursued && (data.type == 'workflowActivityStatus' || data.data.version =='draft') &&
+								data.data && data.data.identifier && (data.data.schema == 'nationalTarget' || data.data.schema == "nationalAssessment")
+								&& data.data.government && data.data.government.identifier == $scope.document.government.identifier) {
 
-								if (data.data.workflowActivity == 'document-lock')
-									options.latest = false;
-								if (data.data.workflowActivity == 'document-deleted') {
-
-								} else {
-									if (data.data.schema == 'nationalTarget') {
-
-										$timeout(function() {
-											$q.when(loadReferenceRecords(options))
-												.then(function(data) {
-													if (data && data.length > 0) {
-														var document = _.findWhere($scope.nationalTargets, {
-															identifier_s: _.head(data).identifier_s
-														});
-														if (document) {
-															_assign(document, _.head(data))
-														} else {
-															$scope.nationalTargets.push(_.head(data));
-															if (!$scope.document.progressAssessments)
-																$scope.document.progressAssessments = [];
-															$scope.document.progressAssessments.push({
-																nationalTarget: {
-																	identifier: _.head(data).identifier_s
-																}
-															});
-														}
-													}
-												});
-										}, 1000);
-									} else if (data.data.schema == 'nationalAssessment') {
-										$timeout(function() {
-											$q.when(loadReferenceRecords(options))
-												.then(function(data) {
-													if (data && data.length > 0) {
-														var newDoc = _.head(data);
-														var document = _.find($scope.document.progressAssessments, function(assessment) {
-															return assessment.nationalTarget.identifier == newDoc.nationalTarget_s;
-														});
-														if (document) {
-															document.assessment = {
-																identifier: newDoc.identifier_s
-															};
-															var assessment = _.findWhere(targetAssessments, {
-																identifier_s: newDoc.identifier_s
-															});
-															_assign(assessment, newDoc);
-														} else {
-															targetAssessments.push(newDoc);
-															$scope.document.progressAssessments.push({
-																nationalTarget: {
-																	identifier: newDoc.nationalTarget_s
-																},
-																assessment: {
-																	identifier: newDoc.identifier_s
-																}
-															});
-														}
-													}
-												});
-										}, 1000);
-									}
-								}
+									$timeout(function() {
+										if (data.data.schema == 'nationalTarget') {
+											$q.when(loadNationalTargets())
+											.then(function() {
+												loadProgressAssessment();
+											});
+										}
+										else if (data.data.schema == 'nationalAssessment') {
+											loadProgressAssessment();
+										}
+									}, 1000);
 
 							}
 						});

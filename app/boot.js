@@ -10,6 +10,7 @@ require.config({
       'ngDialog'            : 'libs/ng-dialog/js/ngDialog.min',
       'text'                : 'libs/requirejs-text/text',
       'css'                 : 'libs/require-css/css.min',
+        'json'              : 'libs/requirejs-plugins/src/json',
       'bootstrap'           : 'libs/bootstrap/dist/js/bootstrap.min',
       'lodash'              : 'libs/lodash/lodash.min',
       'URIjs'               : 'libs/uri.js/src',

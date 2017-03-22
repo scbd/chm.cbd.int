@@ -1,4 +1,4 @@
-define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], function(app, angular, template) { 'use strict';
+define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/workflow-button-messages.json', 'jquery'], function(app, angular, template, messages) { 'use strict';
 
 	app.directive('kmFormMaterialButtons', ["$q", function ($q)
 	{
@@ -31,6 +31,17 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location)
 			{
 				var next_url;
+
+				$scope.new_close = function(){
+
+					var formChanged = !angular.equals($scope.getDocumentFn(), $rootScope.originalDocument);
+
+					if(!$rootScope.originalDocument || !formChanged){
+						return $scope.close();
+					}
+					
+					$scope.new_cancel();
+				}
 				//====================
 				//
 				//====================
@@ -64,12 +75,22 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 				//====================
 				$scope.new_cancel = function(ev) {
 
-					var confirm = $mdDialog.confirm()
-						.title('Close the form?')
-						.content('Click "CANCEL" to remain on this record or "CLOSE" to close the form. Changes will be lost if not previously saved.')
+					var confirm = $mdDialog.confirm({
+							onComplete: function afterShowAnimation() {
+								var $dialog = angular.element(document.querySelector('md-dialog'));
+								var $actionsSection = $dialog.find('md-dialog-actions');
+								var $cancelButton = $actionsSection.children()[0];
+								var $confirmButton = $actionsSection.children()[1];
+								angular.element($confirmButton).removeClass('md-primary md-button')
+									.addClass('btn btn-warning');
+								angular.element($cancelButton).removeClass('md-primary md-button').addClass('btn btn-primary btn-space');
+							}
+						})
+						.title(messages.title)
+						.content(messages.content)
 						.ariaLabel('close form')
-						.ok('CLOSE RECORD')
-						.cancel('CANCEL')
+						.ok(messages.ok)
+						.cancel(messages.cancel)
 						.targetEvent(ev);
 
 						if($scope.getContainer())

@@ -13,7 +13,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 			if(workflow.closedOn)
 				activity = _.last(workflow.activities)
 			else
-				activity = _.find(workflow.activities, function(activity){ return activity.closedOn});
+				activity = _.find(workflow.activities, function(activity){ return !activity.closedOn});
 
 			if(!activity)
 				throw { code:404, message:"Activity not found" };

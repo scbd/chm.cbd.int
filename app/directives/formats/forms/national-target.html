@@ -1,4 +1,4 @@
-﻿<div layout="column" class="row md-whiteframe-z">
+﻿<div>
 	<style>
 		.panel-header,
 		.section .section-header {
@@ -20,257 +20,256 @@
 			padding: 15px!important;
 		}
 	</style>
-	<md-toolbar>
-		<div class="md-toolbar-tools bg-darkgrey">
-			<h2 class="md-flex">Online Reporting: National Target <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h2>
+	<div class="panel panel-default bg-litegrey">
+		<div class="panel-header bg-darkgrey">
+			<h2 style="margin-top:0px;color:#fff">Online Reporting: National Target<i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h2>
 		</div>
-	</md-toolbar>
-	<md-content style="padding:20px;background-color:transparent;" class="nationalTargetForm">
-		<div smooth-scroll duration="100" offset="200"></div>
+		<div class="panel-body" class="nationalTargetForm">		
 
-		<div class="alert alert-danger" ng-show="hasError()">
-			<strong>An error has occurred...</strong>
-			<div>{{error}}</div>
-		</div>
-
-		<div class="row" ng-show="status=='loading'">Loading...</div>
-
-		<div ng-hide="status=='hidden'||status=='loading'">
-
-			<div class="row">
-				<div class="col-xs-6">
-					<span km-form-languages ng-model="document.header.languages"></span>
-				</div>
-				<div class="col-xs-6 text-right">
-					<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" 
-					on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  data-container="{{container}}"></span>
-				</div>
+			<div class="alert alert-danger" ng-show="hasError()">
+				<strong>An error has occurred...</strong>
+				<div>{{error}}</div>
 			</div>
 
-			<div class="row">
-				<div class="col-xs-12">
-					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
-					</ul>
-				</div>
-			</div>
+			<div class="row" ng-show="status=='loading'">Loading...</div>
 
-			<form name="editForm">
+			<div ng-hide="status=='hidden'||status=='loading'">
 
-				<div km-tab="general">
-					<div class="panel panel-default panelMain">
-						<div class="panel-header">
-							<h3>General Information</h3>
-						</div>
-						<div class="panel-body">
-							<div class="row bottom-spacing">
-								<div class="col-md-12">
-									<div class="km-control-group" required name="government" caption="Country">
-										<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<span km-form-languages ng-model="document.header.languages"></span>
 					</div>
-					<div class="panel panel-default panelMain">
-						<div class="panel-header">
-							<h3>Information on the targets being pursued at the national level</h3>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" required name="isAichiTarget" caption="Target Type">
+					<div class="col-xs-6 text-right">
+						<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" 
+						on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  data-container="{{container}}"></span>
+					</div>
+				</div>
 
-										<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="false"/>
-													<span ng-class="{'color-litegrey': document.isAichiTarget}"> Create a new National Target</span></h4>
+				<div class="row">
+					<div class="col-xs-12">
+						<ul class="pagination">
+							<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
+						</ul>
+					</div>
+				</div>
 
-										<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="true"/>
-													<span ng-class="{'color-litegrey': !document.isAichiTarget}">Use an <a translation-url href="https://www.cbd.int/sp/targets/rationale/" target="_new" >Aichi Biodiversity Target</a> as your National Target</span></h4>
+				<form name="editForm">
 
+					<div km-tab="general">
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>General Information</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" required name="government" caption="Country">
+											<div km-select ng-disabled="!!defaultGovernment()" required name="government" ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div ng-show="document.isAichiTarget">
-								<legend>Aichi Biodiversity Target</legend>
+						</div>
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>Information on the targets being pursued at the national level</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" required name="isAichiTarget" caption="Target Type">
+
+											<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="false"/>
+														<span ng-class="{'color-litegrey': document.isAichiTarget}"> Create a new National Target</span></h4>
+
+											<h4> <input type="radio" name="type" ng-model="document.isAichiTarget" ng-value="true"/>
+														<span ng-class="{'color-litegrey': !document.isAichiTarget}">Use an <a translation-url href="https://www.cbd.int/sp/targets/rationale/" target="_new" >Aichi Biodiversity Target</a> as your National Target</span></h4>
+
+										</div>
+									</div>
+								</div>
+								<div ng-show="document.isAichiTarget">
+									<legend>Aichi Biodiversity Target</legend>
+
+									<div class="row bottom-spacing">
+										<div class="col-md-12">
+											<div class="km-control-group" required name="aichiTargets" caption="Aichi Biodiversity Target">
+												<div km-select required name="aichiTargets" ng-model="selectedAichi.target" placeholder="Please select an Aichi Biodiversity Target" watch-items items="options.aichiTargetsFiltered"></div>
+											</div>
+										</div>
+
+										<div class="col-md-12">
+											<div class="km-control-group" name="otherAichiTargets" caption="Aichi Biodiversity Sub-targets">
+												<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Biodiversity Sub-targets" watch-items items="options.aichiSubTargets"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div ng-show="!document.isAichiTarget">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="km-control-group" required name="title" caption="National Target" data-container=".nationalTargetForm" data-content="
+													Please enter the wording for your country’s national target in one of the six official languages of the United Nations. Please include the national target’s complete wording, including its number if one exists. This field, and the remaining fields in this section, should be filled for each of your country’s national targets.">
+												<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="km-control-group" required name="description" caption="Rationale for the National Target" data-container=".nationalTargetForm" data-content="Please provide the rationale for the national target. This could include what national challenges the target is attempting to address, how the target relates to the Aichi Biodiversity Targets or the Strategic Plan for Biodiversity 2011-2020, or reasons for differences between the relevant Aichi Biodiversity Target(s) and the national target. Parties may also wish to indicate if this national target is related or linked to other international or regional processes, such as other biodiversity-related Conventions, the Rio Conventions or other multilateral environmental agreements. Parties may also wish to comment on any national compliance mechanisms associated with the target. The information entered here is meant to provide the national context for the target. Your country’s national biodiversity strategy and action plan may contain part of this information.">
+												<div km-textbox-ml required name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row bottom-spacing">
+										<div class="col-md-11 ">
+											<div class="help-block"></div>
+											<div class="km-control-group" required name="jurisdiction" caption="Level of application Please specify the level to which the target applies):" data-container=".nationalTargetForm" data-content="Please indicate the administrative level to which your country’s target applies. In most cases, countries will set national level targets. However, in some countries, the targets may be subnational (i.e. state, province, or city). In addition, some countries may have adopted regional level (i.e. multiple countries) targets as their national targets. Parties that are also members of a regional integration organization, which is also Party to the Convention, should not report on regional targets agreed in that context unless the agreed national targets are the same">
+												<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
+											</div>
+										</div>
+										<div class="col-md-10" ng-show="isJurisdictionSubNational()">
+											<div class="help-block"></div>
+											<div class="km-control-group" required name="jurisdictionInfo" caption="please indicate area concerned for the selected level of application">
+												<div km-textbox-ml name="jurisdictionInfo" ng-model="document.jurisdictionInfo" locales="document.header.languages" placeholder=""></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default panelMain">
+							<div class="panel-header" name="">
+								<label for="relevantNationalTarget" style="width:0px;height:0px;display:inline">
+									<span style="display:none">
+										Please answer at least one question from relevance of National Targets to Aichi Targets section
+									</span>
+								</label>
+								<h3>Relevance of National Targets to Aichi Targets</h3>
+							</div>
+							<div class="panel-body">
 
 								<div class="row bottom-spacing">
 									<div class="col-md-12">
-										<div class="km-control-group" required name="aichiTargets" caption="Aichi Biodiversity Target">
-											<div km-select required name="aichiTargets" ng-model="selectedAichi.target" placeholder="Please select an Aichi Biodiversity Target" watch-items items="options.aichiTargetsFiltered"></div>
+
+										<div class="help-block">Links between national targets and Aichi Biodiversity Targets (Note: There is no need to enter this information if your country reports against the Aichi Biodiversity Targets.)</div>
+
+										<div class="km-control-group" name="aichiTargets" caption="Main related Aichi Biodiversity Targets (Please select one or more Aichi Biodiversity Target to which the national target is wholly or partially related. Parties can select an entire target or a target)" data-container=".nationalTargetForm" data-content="As applicable, please indicate the Aichi Biodiversity Target(s) to which your country’s national target is most directly related. Given the formulation of your country’s national target, it may be directly related to multiple Aichi Biodiversity Targets or to parts of them. Some Parties may have undertaken this type of mapping in their fifth national reports and/or in their national biodiversity strategies and action plans.">
+											<div km-select displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select main Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
 										</div>
 									</div>
 
 									<div class="col-md-12">
-										<div class="km-control-group" name="otherAichiTargets" caption="Aichi Biodiversity Sub-targets">
-											<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select Aichi Biodiversity Sub-targets" watch-items items="options.aichiSubTargets"></div>
+										<div class="km-control-group" name="otherAichiTargets" caption="Other related Aichi Biodiversity Targets (Please select one or more Aichi Biodiversity Target to which the national target is indirectly related.)" data-container=".nationalTargetForm" data-content="
+												As applicable, please indicate the Aichi Biodiversity Target(s) to which your country’s national target is indirectly or partially related. Given the breadth of the Aichi Biodiversity Targets and the issues they address, your country’s national target may be indirectly related to one or several Aichi Biodiversity Target(s). Some Parties may have undertaken this type of mapping in their fifth national reports and/or in their national biodiversity strategies and action plans.">
+											<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select other related Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
 										</div>
-									</div>
-								</div>
-							</div>
-
-							<div ng-show="!document.isAichiTarget">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="km-control-group" required name="title" caption="National Target" data-container=".nationalTargetForm" data-content="
-												Please enter the wording for your country’s national target in one of the six official languages of the United Nations. Please include the national target’s complete wording, including its number if one exists. This field, and the remaining fields in this section, should be filled for each of your country’s national targets.">
-											<div km-textbox-ml required name="title" ng-model="document.title" locales="document.header.languages"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-12">
-										<div class="km-control-group" required name="description" caption="Rationale for the National Target" data-container=".nationalTargetForm" data-content="Please provide the rationale for the national target. This could include what national challenges the target is attempting to address, how the target relates to the Aichi Biodiversity Targets or the Strategic Plan for Biodiversity 2011-2020, or reasons for differences between the relevant Aichi Biodiversity Target(s) and the national target. Parties may also wish to indicate if this national target is related or linked to other international or regional processes, such as other biodiversity-related Conventions, the Rio Conventions or other multilateral environmental agreements. Parties may also wish to comment on any national compliance mechanisms associated with the target. The information entered here is meant to provide the national context for the target. Your country’s national biodiversity strategy and action plan may contain part of this information.">
-											<div km-textbox-ml required name="description" ng-model="document.description" rows="5" locales="document.header.languages" placeholder=""></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="row bottom-spacing">
-									<div class="col-md-11 ">
-										<div class="help-block"></div>
-										<div class="km-control-group" required name="jurisdiction" caption="Level of application Please specify the level to which the target applies):" data-container=".nationalTargetForm" data-content="Please indicate the administrative level to which your country’s target applies. In most cases, countries will set national level targets. However, in some countries, the targets may be subnational (i.e. state, province, or city). In addition, some countries may have adopted regional level (i.e. multiple countries) targets as their national targets. Parties that are also members of a regional integration organization, which is also Party to the Convention, should not report on regional targets agreed in that context unless the agreed national targets are the same">
-											<div km-select name="jurisdiction" ng-model="document.jurisdiction" placeholder="Select level of application" watch-items items="options.jurisdictions"></div>
-										</div>
-									</div>
-									<div class="col-md-10" ng-show="isJurisdictionSubNational()">
-										<div class="help-block"></div>
-										<div class="km-control-group" required name="jurisdictionInfo" caption="please indicate area concerned for the selected level of application">
-											<div km-textbox-ml name="jurisdictionInfo" ng-model="document.jurisdictionInfo" locales="document.header.languages" placeholder=""></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default panelMain">
-						<div class="panel-header" name="">
-							 <label for="relevantNationalTarget" style="width:0px;height:0px;display:inline">
-								<span style="display:none">
-									Please answer at least one question from relevance of National Targets to Aichi Targets section
-								</span>
-							</label>
-							<h3>Relevance of National Targets to Aichi Targets</h3>
-						</div>
-						<div class="panel-body">
-
-							<div class="row bottom-spacing">
-								<div class="col-md-12">
-
-									<div class="help-block">Links between national targets and Aichi Biodiversity Targets (Note: There is no need to enter this information if your country reports against the Aichi Biodiversity Targets.)</div>
-
-									<div class="km-control-group" name="aichiTargets" caption="Main related Aichi Biodiversity Targets (Please select one or more Aichi Biodiversity Target to which the national target is wholly or partially related. Parties can select an entire target or a target)" data-container=".nationalTargetForm" data-content="As applicable, please indicate the Aichi Biodiversity Target(s) to which your country’s national target is most directly related. Given the formulation of your country’s national target, it may be directly related to multiple Aichi Biodiversity Targets or to parts of them. Some Parties may have undertaken this type of mapping in their fifth national reports and/or in their national biodiversity strategies and action plans.">
-										<div km-select displaycount="1" name="aichiTargets" multiple ng-model="document.aichiTargets" placeholder="Please select main Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
-									</div>
-								</div>
-
-								<div class="col-md-12">
-									<div class="km-control-group" name="otherAichiTargets" caption="Other related Aichi Biodiversity Targets (Please select one or more Aichi Biodiversity Target to which the national target is indirectly related.)" data-container=".nationalTargetForm" data-content="
-											As applicable, please indicate the Aichi Biodiversity Target(s) to which your country’s national target is indirectly or partially related. Given the breadth of the Aichi Biodiversity Targets and the issues they address, your country’s national target may be indirectly related to one or several Aichi Biodiversity Target(s). Some Parties may have undertaken this type of mapping in their fifth national reports and/or in their national biodiversity strategies and action plans.">
-										<div km-select name="otherAichiTargets" multiple ng-model="document.otherAichiTargets" placeholder="Please select other related Aichi Biodiversity Targets" watch-items items="options.aichiTargets"></div>
-									</div>
-								</div>							
-								 
-								<div class="col-md-12" ng-show="!document.otherAichiTargets || document.otherAichiTargets.length==0">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox"  ng-model="document.noOtherAichiTargets"/> National target has no corresponding Aichi Biodiversity Target or relates to other parts of the Strategic Plan for Biodiversity
-											<span info-bar data-container=".nationalTargetForm" data-content="If the national target is not related to an Aichi Biodiversity Target and provide information indicating how the target relates to the Strategic Plan for Biodiversity 2011-2020 or to other issues addressed under the Convention on Biological Diversity. For example, the national target may be relevant to the Vision or Mission of the Strategic Plan for Biodiversity or to one of its strategic goals. Alternatively, the national target may be related to one of the objectives of the Convention or to one of its programmes of work."></span>
-										</label>
-									</div>
-									<div ng-if="document.noOtherAichiTargets" class="km-control-group" name="noOtherAichiTargetsDescription" caption="Please explain">
+									</div>							
 									
-										<div km-textbox-ml name="noOtherAichiTargetsDescription" ng-model="document.noOtherAichiTargetsDescription" rows="3" locales="document.header.languages" placeholder=""></div>
+									<div class="col-md-12" ng-hide="document.aichiTargets && document.aichiTargets.length>0 || document.otherAichiTargets && document.otherAichiTargets.length>0">
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"  ng-model="document.noOtherAichiTargets"/> National target has no corresponding Aichi Biodiversity Target or relates to other parts of the Strategic Plan for Biodiversity
+												<span info-bar data-container=".nationalTargetForm" data-content="If the national target is not related to an Aichi Biodiversity Target and provide information indicating how the target relates to the Strategic Plan for Biodiversity 2011-2020 or to other issues addressed under the Convention on Biological Diversity. For example, the national target may be relevant to the Vision or Mission of the Strategic Plan for Biodiversity or to one of its strategic goals. Alternatively, the national target may be related to one of the objectives of the Convention or to one of its programmes of work."></span>
+											</label>
+										</div>
+										<div ng-if="document.noOtherAichiTargets" class="km-control-group" name="noOtherAichiTargetsDescription" caption="Please explain">
+										
+											<div km-textbox-ml name="noOtherAichiTargetsDescription" ng-model="document.noOtherAichiTargetsDescription" rows="3" locales="document.header.languages" placeholder=""></div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>Relevant Documents and Information</h3>
+							</div>
+							<div class="panel-body">
+								<div class="help-block">If possible, please attach relevant documents where such target is included and can be found.</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="relevantInformation" caption="Other relevant information (Please use this field to provide any other relevant information, such as the process of developing and adopting the national target, the stakeholders involved or the strategies and plans in which this national target has been included.)" data-container=".nationalTargetForm" data-content="Please provide any other relevant information related to the national target that is not covered by the previous fields of the template.">
+											<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="relevantDocuments" caption="Relevant websites, links, and files (Please use this field to indicate any relevant websites, web links or documents where additional information related to this national target can be found.)" data-container=".nationalTargetForm" data-content="Please include, as appropriate, any relevant documents or links (in any language) to additional information on the national target. ">
+											<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>Notes</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="km-control-group" name="notes">
+											<span class="help-block">
+													The field “Notes” is for personal reference and can be seen only when the record is being edited.
+												</span>
+											<div km-notes name="notes" ng-model="document.notes"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
 					</div>
-					<div class="panel panel-default panelMain">
-						<div class="panel-header">
-							<h3>Relevant Documents and Information</h3>
-						</div>
-						<div class="panel-body">
-							<div class="help-block">If possible, please attach relevant documents where such target is included and can be found.</div>
+					<!--end addtional info tab-->
+				</form>
+				<div km-tab="review">
 
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="relevantInformation" caption="Other relevant information (Please use this field to provide any other relevant information, such as the process of developing and adopting the national target, the stakeholders involved or the strategies and plans in which this national target has been included.)" data-container=".nationalTargetForm" data-content="Please provide any other relevant information related to the national target that is not covered by the previous fields of the template.">
-										<div km-textbox-ml name="relevantInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
+					<div km-document-validation ng-model="validationReport" data-container="{{container}}"></div>
 
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="relevantDocuments" caption="Relevant websites, links, and files (Please use this field to indicate any relevant websites, web links or documents where additional information related to this national target can be found.)" data-container=".nationalTargetForm" data-content="Please include, as appropriate, any relevant documents or links (in any language) to additional information on the national target. ">
-										<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default panelMain">
-						<div class="panel-header">
-							<h3>Notes</h3>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="notes">
-										<span class="help-block">
-												The field “Notes” is for personal reference and can be seen only when the record is being edited.
-											</span>
-										<div km-notes name="notes" ng-model="document.notes"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
 
-
-
+					<view-national-target ng-model="document" locale="review.locale"></view-national-target>
 				</div>
-				<!--end addtional info tab-->
-			</form>
-			<div km-tab="review">
 
-				<div km-document-validation ng-model="validationReport" data-container="{{container}}"></div>
 
-				<div class="btn-group" ng-show="document.header.languages.length>1">
-					<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+
+
+				<div class="row" style="padding-bottom:30px;">
+					<div class="col-sm-9 col-xs-12">
+						<ul class="pagination">
+							<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
+						</ul>
+					</div>
+
+
+					<div class="col-xs-12 text-right">
+						<div class="">
+							<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+											on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  data-container="{{container}}"></span>
+						</div>
+					</div>
 				</div>
 
-				<view-national-target ng-model="document" locale="review.locale"></view-national-target>
+
+
 			</div>
-
-
-
-
-			<div class="row" style="padding-bottom:30px;">
-				<div class="col-sm-9 col-xs-12">
-					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
-					</ul>
-				</div>
-
-
-				<div class="col-xs-12 text-right">
-					<div class="">
-						<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
-										on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  data-container="{{container}}"></span>
-					</div>
-				</div>
-			</div>
-
-
-
 		</div>
-	</md-content>
+	</div>
 </div>

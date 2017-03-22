@@ -184,7 +184,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
                     document.relevantInformation = undefined;
                     document.relevantDocuments = undefined;
                 }
-				if(document.otherAichiTargets && document.otherAichiTargets.length>0){
+				if((document.aichiTargets && document.aichiTargets.length>0) || (document.otherAichiTargets && document.otherAichiTargets.length>0)){
 					document.noOtherAichiTargets = undefined;
 					document.noOtherAichiTargetsDescription = undefined;
 				}

@@ -887,7 +887,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						$scope.openDialog = function(data, name, directiveName, options) {
 
 							options = options || {};
-
+							$scope.isDialogOpen = true;
 							return $q(function(resolve, reject) {
 
 								require([name], function(controller) {
@@ -931,7 +931,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 										if(res.value=="$escape")      delete res.value;
 										if(res.value=="$document")    delete res.value;
 										if(res.value=="$closeButton") delete res.value;
-
+										$scope.isDialogOpen = false;
 										return res;
 									});
 

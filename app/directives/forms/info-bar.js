@@ -10,7 +10,7 @@ define(['app', 'text!./info-bar.html', 'webui-popover'], function(app, template)
                 width: '@',
                 height: '@'
             },
-            link: function($scope, $element, attrs) {
+            link: function($scope, $element, $attrs) {
 
                 var settings = {
                     trigger: 'hover',
@@ -27,6 +27,8 @@ define(['app', 'text!./info-bar.html', 'webui-popover'], function(app, template)
                     },
                     content: $scope.content || ''
                 };
+                if($attrs.container && $attrs.container!='')
+                    settings.container = $attrs.container;
                 // width: $scope.width || 600,
                 // height: $scope.height || 200,
                 $element.find('a.show-pop')

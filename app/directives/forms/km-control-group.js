@@ -28,7 +28,9 @@ define(['app', 'text!./km-control-group.html', 'lodash','jquery'], function(app,
 						return !$scope.$parent.isFieldValid($scope.name);
 					};
 				}
-
+				if ($attr.container) {
+					$scope.container = $attr.container;
+				}
 				$scope.hasWarning = function() {  //default behavior
 
 					if($scope.name && $scope.$parent && $scope.$parent.validationReport && $scope.$parent.validationReport.warnings) {

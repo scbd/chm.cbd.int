@@ -1,4 +1,5 @@
-﻿<div>
-    Blaise fonseca {{queryString}}
-       <span ng-if="queryString" edit-national-assessment class="bg-litegrey" qs="queryString" query="query()"></span>
+﻿<div></br>
+     <div ng-if="queryString">
+       <span edit-national-assessment class="bg-litegrey" qs="queryString" query="query()" data-container="{{container}}" close-dialog="callCloseDialog()"></span>
+    </div>
 </div>

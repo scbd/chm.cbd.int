@@ -880,27 +880,69 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 								})
 						}
 
+						//===========================
+						//
+						//===========================
+						$scope.openDialog = function(data, name, directiveName, options) {
+
+							options = options || {};
+
+							return $q(function(resolve, reject) {
+
+								require([name], function(controller) {
+
+									var params = {};
+									if(directiveName == 'edit-national-assessment-dialog'){
+										if(data.assessment)
+											params.uid = data.assessment.identifier; 
+										if(!data.assessment && data.aichiTarget)
+											params.aichiTarget = data.aichiTarget.identifier;
+										if(!data.assessment && data.nationalTarget)
+											params.nationalTarget = data.nationalTarget.identifier;
+										params.type='nationalAssessment';
+									}
+									else if(directiveName == 'edit-national-target-dialog'){
+										if(data)
+											params.uid = data.identifier_s; 
+									}
+
+									var directiveHtml = '<span DIRECTIVE qs="qs" close-dialog="closeDialog()"></span>'.replace(/DIRECTIVE/g, directiveName)
+									//.replace('params', 'qs=\'' + JSON.stringify(params) + '\'');
+									console.log(directiveHtml);
+									$scope.$apply(function(){
+										options.template = directiveHtml;//$compile(directiveHtml)($scope);
+									});
+									options.controller = ['$scope', function($scope){
+										$scope.qs = params;
+										$scope.closeDialog = function(){
+											ngDialog.close();
+										}
+									}]
+									options.plain = true;
+									options.closeByDocument = false;
+									//options.closeByEscape = options.closeByNavigation =
+									options.showClose = true;
+
+									var dialogWindow = ngDialog.open(options);
+
+									dialogWindow.closePromise.then(function(res){
+
+										if(res.value=="$escape")      delete res.value;
+										if(res.value=="$document")    delete res.value;
+										if(res.value=="$closeButton") delete res.value;
+
+										return res;
+									});
+
+									resolve(dialogWindow);
+
+								}, reject);
+							});
+						}
 					}
 				};
 			}
 		]);
-
-		//==================================
-		//
-		//==================================
-		app.directive('nrPopover', function() {
-			return {
-				restrict: 'A',
-				link: function(scope, elem, attrs) {
-					elem.popover({
-						trigger: 'click',
-						placement: attrs.dataPlacement || 'auto',
-						html: true,
-						container: 'body'
-					});
-				}
-			};
-		});
 
 	});
 
@@ -908,57 +950,5 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 
 
 
-// //===========================
-// //
-// //===========================
-// $scope.openDialog = function(data, name, directiveName, options) {
 
-// 	options = options || {};
-
-// 	return $q(function(resolve, reject) {
-
-// 		require([name], function(controller) {
-
-// 			var params = {};
-// 			if(directiveName == 'edit-national-assessment-dialog'){
-// 				if(data.assessment)
-// 					params.uid = data.assessment.identifier; 
-// 				if(!data.assessment && data.aichiTarget)
-// 					params.aichiTarget = data.aichiTarget;
-// 				if(!data.assessment && data.nationalTarget)
-// 					params.nationalTarget = data.nationalTarget;
-// 			}
-// 			else if(directiveName == 'edit-national-target'){
-
-// 			}
-
-// 			var directiveHtml = '<span DIRECTIVE params qs="qs"></span>'.replace(/DIRECTIVE/g, directiveName)
-// 			//.replace('params', 'qs=\'' + JSON.stringify(params) + '\'');
-// 			console.log(directiveHtml);
-// 			$scope.$apply(function(){
-// 				options.template = directiveHtml;//$compile(directiveHtml)($scope);
-// 			});
-// 			options.controller = ['$scope', function($scope){
-// 				$scope.qs = params;
-// 			}]
-// 			options.plain = true;
-// 			options.closeByDocument = true;
-// 			options.showClose = true;
-
-// 			var dialogWindow = ngDialog.open(options);
-
-// 			dialogWindow.closePromise.then(function(res){
-
-// 				if(res.value=="$escape")      delete res.value;
-// 				if(res.value=="$document")    delete res.value;
-// 				if(res.value=="$closeButton") delete res.value;
-
-// 				return res;
-// 			});
-
-// 			resolve(dialogWindow);
-
-// 		}, reject);
-// 	});
-// }
 // <button ng-if="!progressAssessment.assessment && progressAssessment.aichiTarget" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')">Add Assessment</button>

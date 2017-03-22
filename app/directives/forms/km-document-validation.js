@@ -11,14 +11,15 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 			scope: {
 				report : '=ngModel',
 			},
-			link: function ($scope, $element, attribs, mdTabsCtrl) {
+			link: function ($scope, $element, $attr, mdTabsCtrl) {
 
+				
 				//====================
 				//
 				//====================
 				function lookup(field){
-
-					return $element.parents('body').find('form[name="editForm"]:first').find('label[for="' + field + '"]:first');
+					var container = $attr.container || 'body'
+					return $element.parents(container).find('form[name="editForm"]:first').find('label[for="' + field + '"]:first');
 				}
 
 				//====================
@@ -50,7 +51,8 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 					}
 
 					$timeout(function(){
-						$element.parents("body:last").stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
+						var container = $attr.container || 'body';
+						$element.parents(container+":last").stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
 					},100);
 
 				};
@@ -104,6 +106,11 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 					if (code == "Error.InvalidType"       ) return "The fields type is invalid";
 					return code;
 				};
+
+				// $scope.$watch($attr.container, function(newVal){
+				// 	if(newVal && newVal!='')
+				// 		$scope.container = newVal;
+				// })
 			}
 		};
 	}]);

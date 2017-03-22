@@ -27,6 +27,9 @@ define(['app', 'angular', 'jquery', 'text!./km-terms-check.html', 'linqjs'], fun
 					ngModelController.$setViewValue($scope.binding);
 				});
 
+				if ($attr.container) {
+					$scope.container = $attr.container;
+				}
 				$scope.init();
 
 				if(!$attr["class"])

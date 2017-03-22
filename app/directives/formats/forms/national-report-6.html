@@ -7,7 +7,7 @@
 	<md-content style="padding:20px;background-color:transparent;">
 
 
-		<div smooth-scroll duration="100" offset="250"></div>
+		<!--<div smooth-scroll duration="100" offset="250"></div>-->
 		<style>
 			.panel-header,
 			.section .section-header {
@@ -118,6 +118,13 @@
 			.alert div{
 				overflow:hidden;
 			}
+			.ngdialog-open{
+				height: auto !important;
+			}
+			.ngdialog-content{
+				width:85% !important;
+			}
+			/*html.ngdialog-open, body.ngdialog-open { overflow: visible!important; }*/
 		</style>
 
 
@@ -226,7 +233,8 @@
 													<ul class="list-group ng-scope" style="margin-top: 10px;">
 														<li class="list-group-item ng-scope" style="min-height: 50px;">
 															<div class="pull-right">
-																<a translation-url target="_blank" style="margin-left:5px;margin-right:5px;" class="btn btn-primary" ng-disabled="loadingNationalTargets" ng-href="/submit/online-reporting/nationalTarget/new">Add Target</a>
+																<button ng-disabled="loadingNationalTargets" class="btn btn-primary" ng-click="openDialog({},'directives/formats/forms/national-target-dialog','edit-national-target-dialog')">Add Target</button>
+																<!--<a translation-url target="_blank" style="margin-left:5px;margin-right:5px;" class="btn btn-primary" ng-disabled="loadingNationalTargets" ng-href="/submit/online-reporting/nationalTarget/new">Add Target</a>-->
 																<a translation-url ng-disabled="loadingNationalTargets" class="btn btn-primary" ng-hre="#" ng-click="refreshNationaTargets()">
 																	<i class="fa fa-spin fa-spinner" ng-if="loadingNationalTargets" />Refresh</a>
 															</div>
@@ -246,6 +254,11 @@
 																				<li ng-repeat="target in item.aichiTargets_EN_ss">{{target}}</li>
 																			</ul>
 																			<td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<button class="btn btn-primary" ng-click="openDialog(item,'directives/formats/forms/national-target-dialog','edit-national-target-dialog')">Edit Target</button>
+																		</td>
 																	</tr>
 																</tbody>
 															</table>
@@ -366,6 +379,7 @@
 									Using the template below, please assess the level of progress made towards each of your country’s national targets or similar commitments. The template should be replicated for each national target. If your country has not set national targets please use the Aichi Biodiversity Targets.<a translation-url info-bar data-content="The objective of this section of the report is to collect information on the progress made towards the attainment of your country’s national targets. The template should be reproduced for each of your country’s national targets. If your country has not established national targets, please assess national progress towards the Aichi Biodiversity Targets." data-original-title=""><i class="fa fa-info-circle fa-2x"></i></a>									
 								</span>
 										<div class="col-md-12">
+											
 											<a translation-url href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.progressAssessment')">open all <i class="fa  fa-arrow-circle-o-up" /></a>
 											<a translation-url href="#" class="btn closeall pull-right" ng-click="closeall('.progressAssessment')">close all <i class="fa  fa-arrow-circle-o-down" /></a>
 											<button class="btn btn-primary pull-right" ng-click="refreshAssessment()" ng-disabled="loadingAssessments">
@@ -415,10 +429,16 @@
 											</div>
 										</div>
 										<div class="km-control-group">
-											<a translation-url ng-if="!progressAssessment.assessment && progressAssessment.aichiTarget" target="_blank" class="btn btn-primary" ng-href="/submit/online-reporting/nationalAssessment/new?aichiTarget={{progressAssessment.aichiTarget.identifier}}">Add Assessment</a>
+											 <!---->
+											<button ng-if="!progressAssessment.assessment" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')">Add Assessment</button>
+											<!--<a translation-url ng-if="!progressAssessment.assessment && progressAssessment.aichiTarget" target="_blank" class="btn btn-primary" ng-href="/submit/online-reporting/nationalAssessment/new?aichiTarget={{progressAssessment.aichiTarget.identifier}}">Add Assessment</a>
 											<a translation-url ng-if="!progressAssessment.assessment && progressAssessment.nationalTarget" target="_blank" class="btn btn-primary" ng-href="/submit/online-reporting/nationalAssessment/new?nationalTarget={{progressAssessment.nationalTarget.identifier}}">Add Assessment</a>
+											ng-href="/submit/online-reporting/nationalAssessment/{{progressAssessment.assessment.identifier}}?type=nationalAssessment"
+											-->
 											<div class="row col-md-12">
-												<a translation-url ng-if="progressAssessment.assessment" target="_blank" class="btn btn-primary" ng-href="/submit/online-reporting/nationalAssessment/{{progressAssessment.assessment.identifier}}?type=nationalAssessment">Edit Assessment</a>
+												<button ng-if="progressAssessment.assessment && getAssessmentInfo(progressAssessment.assessment, '_state_s')!='workflow'" class="btn btn-primary" 
+												ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')"
+												>Edit Assessment</button>
 											</div>
 										</div>
 									</div>

@@ -4,11 +4,14 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 
 	app.directive("editNationalAssessment", ['$http', "$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', 'inlineEditor', 'locale', function($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route, inlineEditor, locale) {
 		return {
-			restrict: 'E',
+			restrict: 'EA',
 			template: template,
-			replace: true,
+			replace: false,
 			transclude: false,
-			scope: {},
+			scope: {
+				query:'&?',
+				closeDialog: '&?'
+			},
 			link: function($scope) {
 				$scope.status = "";
 				$scope.error = null;
@@ -17,7 +20,16 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				$scope.review = {
 					locale: locale
 				};
-				$scope.qs = $location.search();
+				
+				var qs = $route.current.params;
+				var openInDialog = false;
+				if($scope.query){//when its open in dialog
+					qs = $scope.query();
+					$scope.container = '.ngdialog-theme-default';
+					openInDialog = true;
+				}
+				
+
 				$scope.checkbox = {
 
 					confidences: function(){
@@ -171,7 +183,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 						return;
 
 					$scope.status = "loading";
-					var qs = $route.current.params;
+					
 					var identifier = qs.uid;
 					var promise = null;
 
@@ -288,7 +300,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 						return $q.when(true);
 
 					if (!document.assessmentType)
-						document.assessmentType = $route.current.params.aichiTarget ? 1 : 0
+						document.assessmentType = qs.aichiTarget ? 1 : 0
 
 					//if assessment is for aichi target deleted national target
 					if (document.assessmentType == 1)
@@ -546,7 +558,11 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				//==================================
 				$scope.onPostWorkflow = function() {
 					$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
-					gotoManager();
+					if(!openInDialog)
+						gotoManager();
+					else{
+						$scope.closeDialog();
+					}
 				};
 
 				//==================================
@@ -555,7 +571,11 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				$scope.onPostPublish = function() {
 					$scope.$root.showAcknowledgement = true;
 					$rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
-					gotoManager();
+					if(!openInDialog)
+						gotoManager();
+					else{
+						$scope.closeDialog();
+					}
 				};
 
 				//==================================
@@ -570,7 +590,11 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				//==================================
 				$scope.onPostClose = function() {
 					$rootScope.$broadcast("onPostClose", "Record closed.");
-					gotoManager();
+					if(!openInDialog)
+						gotoManager();
+					else{
+						$scope.closeDialog();
+					}
 				};
 
 

@@ -4,7 +4,7 @@
 			<input type="radio" ng-model="selection.identifier" ng-click="save()" ng-required="IsRequired()" 
 			value="{{term.identifier}}" name="{{bindingName}}" />
 				- {{term.title||term.name | lstring:locale}} 
-				<span info-bar data-content="{{term.description}}" ng-if="term.description"></span>
+				<span info-bar data-content="{{term.description}}" ng-if="term.description" data-container="{{container}}"></span>
 		</label>
 
 		<ul style="list-style:none">

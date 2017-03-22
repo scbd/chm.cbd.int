@@ -30,6 +30,9 @@ define(['app', 'angular', 'jquery', 'text!./km-terms-radio.html'], function(app,
                     ngModelController.$setViewValue($scope.binding);
                 });
 
+				if ($attr.container) {
+					$scope.container = $attr.container;
+				}
                 $scope.init();
 
                 if (!$attr["class"])

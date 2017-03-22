@@ -2,20 +2,29 @@ define(['text!./national-target.html', 'app', 'angular', 'lodash', 'authenticati
 
 app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", "Thesaurus", "locale", function ($filter, $rootScope, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route, Thesaurus, locale) {
     return {
-        restrict: 'E',
+        restrict: 'EA',
         template : template,
         replace: true,
         transclude: false,
-        scope: {},
+        scope: {
+				query:'&?',
+				closeDialog: '&?'
+		},
         link: function ($scope) {
             $scope.status = "";
             $scope.error = null;
             $scope.document = null;
 			$scope.tab      = 'general';
             $scope.review = { locale: locale };
-			$scope.qs = $location.search();
-            
 			
+			var qs = $route.current.params;
+			var openInDialog = false;
+			if($scope.query){//when its open in dialog
+				qs = $scope.query();
+				$scope.container = '.ngdialog-theme-default';
+				openInDialog = true;
+			}
+            
 			$scope.selectedAichi={};
 			//==================================
 			//
@@ -34,15 +43,13 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				
 				var promise = null;
 				var schema  = "nationalTarget";
-				var qs = $route.current.params;
-
 
 				if ($scope.document)
 					return;
 
 				$scope.status = "loading";
 
-				var identifier = $route.current.params.uid;
+				var identifier = qs.uid;
 				var promise = null;
 
 				if(identifier)
@@ -319,7 +326,12 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.onPostWorkflow = function() {
                 $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
-                gotoManager();
+                
+				if(!openInDialog)
+					gotoManager();
+				else{
+					$scope.closeDialog();
+				}
 			};
 
 			//==================================
@@ -328,7 +340,12 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
                 $rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
-             	gotoManager();
+             	
+				if(!openInDialog)
+					gotoManager();
+				else{
+					$scope.closeDialog();
+				}
 			};
 
 			//==================================
@@ -343,7 +360,11 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.onPostClose = function() {
                 $rootScope.$broadcast("onPostClose", "Record closed.");
-				gotoManager();
+				if(!openInDialog)
+					gotoManager();
+				else{
+					$scope.closeDialog();
+				}
 			};
 
 //==================================

@@ -1,6 +1,6 @@
-define(['text!./national-assessment-dialog.html', 'app', './national-assessment'], 
+define(['text!./national-target-dialog.html', 'app', './national-target'], 
 function(template, app) { 'use strict';
-app.directive("editNationalAssessmentDialog", [function() {
+app.directive("editNationalTargetDialog", [function() {
 		return {
 			restrict: 'EA',
 			template: template,

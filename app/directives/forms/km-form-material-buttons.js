@@ -21,13 +21,13 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 				onPostWorkflowFn  : "&onPostWorkflow",
 				onErrorFn: "&onError"
 			},
-			link: function ($scope, $element)
+			link: function ($scope, $element, $attr)
 			{
 				$scope.errors = null;
 				$scope.status = "loading buttons";
-
+				$scope.getContainer = function(){return $attr.container;}
 			},
-			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location",
+			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location", 
 			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location)
 			{
 				var next_url;
@@ -71,8 +71,12 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						.ok('CLOSE RECORD')
 						.cancel('CANCEL')
 						.targetEvent(ev);
+
+						if($scope.getContainer())
+							confirm.parent($scope.getContainer());
+
 						$mdDialog.show(confirm).then(function(a,b) {
-							console.log('yes')
+							
 							$rootScope.originalDocument = undefined;
 							$rootScope.isFormLeaving = false;
 							if(next_url){
@@ -94,7 +98,6 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 							else
 								$scope.close();
 						}, function() {
-								console.log('no')
 							$rootScope.isFormLeaving = false;
 						});
 				};
@@ -318,7 +321,6 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 
 				$rootScope.isFormLeaving = false;
 				function confirmLeaving(evt, next, current) {
-					console.log(next, current, $rootScope.isFormLeaving);
 					if($rootScope.isFormLeaving)
 						return;
 					var formChanged = !angular.equals($scope.getDocumentFn(), $rootScope.originalDocument);

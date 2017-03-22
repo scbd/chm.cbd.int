@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'],
+define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html', 'scbd-angularjs-services/locale'],
  function(app, angular, _, $, template) { 'use strict';
 
 	app.directive('kmSelect', ["htmlUtility", function (html)

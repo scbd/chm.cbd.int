@@ -21,6 +21,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						$scope.error = null;
 						$scope.tab = "general";
 						$scope.document = null;
+						$scope.locale = locale;
 						$scope.review = {
 							locale: locale
 						};

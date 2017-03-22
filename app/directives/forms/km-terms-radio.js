@@ -1,4 +1,4 @@
-define(['app', 'angular', 'jquery', 'text!./km-terms-radio.html'], function(app, angular, $, template) { 'use strict';
+define(['app', 'angular', 'jquery', 'text!./km-terms-radio.html', 'scbd-angularjs-services/locale'], function(app, angular, $, template) { 'use strict';
 
     app.directive('kmTermRadio', function() {
         return {
@@ -38,7 +38,9 @@ define(['app', 'angular', 'jquery', 'text!./km-terms-radio.html'], function(app,
                 if (!$attr["class"])
                     $element.addClass("list-unstyled");
             },
-            controller: ["$scope", "$q","Thesaurus", function($scope, $q,thesaurus) {
+            controller: ["$scope", "$q","Thesaurus", "locale", function($scope, $q,thesaurus, locale) {
+
+                $scope.locale = locale;
                 //==============================
                 //
                 //==============================

@@ -607,8 +607,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//============================================================
 						function loadNationalTargets() {
 
-							var existingnationalTargets = angular.copy($scope.document.nationalTargets || []);
-							$scope.document.nationalTargets = [];
+							// $scope.document.nationalTargets = [];
 							$scope.nationalTargets = undefined;
 							$scope.loadingNationalTargets = true;
 							var query = loadReferenceRecords({
@@ -646,6 +645,8 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 										$scope.document.nationalTargets = nationalTargets;
 										$scope.nationalTargets = indexNationalTargets;
 									}
+									else
+										$scope.document.nationalTargets = undefined;
 								})
 								.finally(function() {
 									$scope.loadingNationalTargets = false;
@@ -657,7 +658,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//============================================================
 						function loadProgressAssessment() {
 							$scope.loadingAssessments = true;
-							$scope.document.progressAssessments = []; 
+							// $scope.document.progressAssessments = []; 
 							targetAssessments = [];
 							var targets = $scope.nationalTargets;
 							if($scope.document && $scope.document.targetPursued===false)

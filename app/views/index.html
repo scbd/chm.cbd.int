@@ -103,7 +103,12 @@
             <div class="box">
               <h3>CBD Online Reporting Tool</h3>
               <p class="color-grey" style="height:130px;vertical-align:middle!important;">The CBD online reporting tool enables Parties to enter, review and, when appropriate, submit information requested in the guidelines for the sixth national report (decision XIII/27). </p>
-              <p><md-button class="md-raised" style="width:100%;margin-left:0;left:-5px;" ng-click="goto('/submit/nationalReport6/', 'nationalReport6')">Go to CBD online reporting tool »</md-button></p>
+              <p>
+                  <md-button ng-if="!nationalReport6._workflow_s"  class="md-raised" style="width:100%;margin-left:0;left:-5px;" 
+                    ng-click="goto('/submit/nationalReport6/', 'nationalReport6')">Go to CBD online reporting tool »</md-button>
+                  <md-button ng-if="nationalReport6._workflow_s"  class="md-raised" style="width:100%;margin-left:0;left:-5px;" 
+                    ng-click="goto('/management/requests/', 'nationalReport6')">Go to CBD online reporting tool »</md-button>
+              </p>
 
             </div>
         </div>

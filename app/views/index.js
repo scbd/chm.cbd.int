@@ -55,7 +55,7 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
                 {
                     "q"  : q,
                     "rows" : 10,
-                    "fl"    : 'identifier_s, title_s',
+                    "fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
                     "s"     : 'updatedOn_dt desc'               
                 };
 
@@ -63,7 +63,9 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
 
                 $q.when(nationalReport6Query).then(function(results) {
                     if(results.data.response.numFound > 0){
-                        $scope.nationalReport6 = results.data.response.docs[0]           
+                        $scope.nationalReport6 = results.data.response.docs[0]
+                        if($scope.nationalReport6._workflow_s)
+                          $scope.nationalReport6.identifier_s =  $scope.nationalReport6._workflow_s.replace('workflow-','')            
                     }
                     else
                         $scope.nationalReport6 = { identifier_s : 'new'}

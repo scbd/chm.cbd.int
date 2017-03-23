@@ -197,7 +197,8 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 									});
 
 								if (!qs.uid) {
-									$q.when(loadReferenceRecords({
+									$q.when(loadReferenceRecords({ 
+											"fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
 											schema: 'nationalReport6'
 										}))
 										.then(function(nationalReport) {
@@ -225,7 +226,11 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 														}
 														$scope.openExisting = function() {
 															ngDialog.close();
-															$location.path('/submit/nationalReport6/' + _.head(nationalReport)['identifier_s']);
+															var nr6 = _.head(nationalReport);
+															if(nr6._workflow_s)
+																$location.path('/management/requests/' + nr6['_workflow_s'].replace('workflow-','')+'/publishRequest');
+															else
+																$location.path('/submit/nationalReport6/' + nr6['identifier_s']);
 														}
 													}]
 												});
@@ -630,7 +635,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 										});
 
 										_.each(data, function(nationalTarget) {
-											if(nationalTarget._state_s == 'public' && !_.contains(nationalTargets, nationalTarget.identifier_s)){
+											if(nationalTarget._state_s == 'public' && !_.some(nationalTargets,function(target){return target.identifier ==  nationalTarget.identifier_s})){
 												nationalTargets.push({
 													identifier: nationalTarget.identifier_s
 												}); 

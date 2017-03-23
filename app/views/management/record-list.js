@@ -422,7 +422,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 {
                     "q"  : q,
                     "rows" : 10,
-                    "fl"    : 'identifier_s, title_s',
+                    "fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
                     "s"     : 'updatedOn_dt desc'               
                 };
 

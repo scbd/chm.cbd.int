@@ -1,4 +1,4 @@
-define(['text!./national-target.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-target', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'scbd-angularjs-services/locale'], function(template, app, angular, _) { 'use strict';
+define(['text!./national-target.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-target', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'scbd-angularjs-services/locale'], function(template, app, angular, _, messages) { 'use strict';
 
 app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", "Thesaurus", "locale", function ($filter, $rootScope, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route, Thesaurus, locale) {
     return {
@@ -71,7 +71,8 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 							schema   : "nationalTarget",
 							languages: [locale]
 						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined
+						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+						isAichiTarget : false
 					}});
 
 
@@ -113,9 +114,9 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				}).then(function(doc) {
 
 					$scope.document = doc;
+                    // if($scope.document.isAichiTarget===undefined)
+                    //     $scope.document.isAichiTarget = false;
 					$scope.status  = "ready";
-                    if($scope.document.isAichiTarget===undefined)
-                        $scope.document.isAichiTarget = false;
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
@@ -325,7 +326,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+                $rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
                 
 				if(!openInDialog)
 					gotoManager();
@@ -339,7 +340,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
-                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
+                $rootScope.$broadcast("onPostPublish", messages.onPostPublish);
              	
 				if(!openInDialog)
 					gotoManager();
@@ -352,14 +353,14 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+                $rootScope.$broadcast("onSaveDraft", messages.onPostSaveDraft);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-                $rootScope.$broadcast("onPostClose", "Record closed.");
+                $rootScope.$broadcast("onPostClose", messages.onPostClose);
 				if(!openInDialog)
 					gotoManager();
 				else{
@@ -384,30 +385,42 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				if (status == "notAuthorized") {
 					$scope.status = "hidden";
-					$scope.error  = "You are not authorized to modify this record";
+					$scope.error  = messages.unAuthorizedError;
 				}
 				else if (status == 404) {
 					$scope.status = "hidden";
-					$scope.error  = "Record not found.";
+					$scope.error  = messages.recordNotFoundError;
 				}
 				else if (status == "badSchema") {
 					$scope.status = "hidden";
-					$scope.error  = "Record type is invalid.";
+					$scope.error  = messages.badSchemaError;
 				}
-				else if (error.Message)
+				else if (error && error.Message)
 					$scope.error = error.Message;
 				else
 					$scope.error = error;
 			};
 
-            $scope.$watch('document.aichiTargets', function(value){
-                if(value && $scope.document.isAichiTarget)
-                    $scope.selectedAichi.target = _.first(value);
+            $scope.$watch('document.isAichiTarget', function(value, oldValue){
+				if($scope.status=='ready'){   
+					if($scope.document.aichiTargets && $scope.document.aichiTargets.length > 1){
+						$scope.selectedAichi.target = undefined;
+						$scope.document.aichiTargets = undefined;
+					}
+					else
+						$scope.selectedAichi.target = _.head($scope.document.aichiTargets);
+				}
             });
             $scope.$watch('selectedAichi.target', function(value){
                 if($scope.options)
                     $scope.options.aichiSubTargets = filterSubAichiTargets();
+				if($scope.document && $scope.document.isAichiTarget)
+					$scope.document.aichiTargets = $scope.selectedAichi.target ? [$scope.selectedAichi.target]:undefined;
             });
+
+			$scope.isTypeAichiTarget= function(){
+				return $scope.document && $scope.document.isAichiTarget
+			}
 
             $scope.init();
 

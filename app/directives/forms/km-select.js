@@ -38,6 +38,8 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html', 'scbd-ang
 					ngModelController.$setViewValue($scope.binding);
 					if (newBinding)
 						$scope.autoInit().then($scope.load);
+					else
+						$scope.clearSelection()
 				});
 
 				if ($scope.watchItems)
@@ -302,17 +304,6 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html', 'scbd-ang
 				//==============================
 				$scope.chooseOther = function() {
 					alert("todo");
-				};
-
-				//==============================
-				//
-				//==============================
-				$scope.clearSelection = function() {
-					_.each($scope.allItems || [], function(item) {
-						item.selected = false;
-					});
-
-					$scope.save();
 				};
 
 				//==============================

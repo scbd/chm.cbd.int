@@ -1,5 +1,5 @@
-define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './national-indicator', './inline-editor',
-'scbd-angularjs-services/locale'], function(template, app, angular, _) {
+define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-assessment', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './national-indicator', './inline-editor',
+'scbd-angularjs-services/locale'], function(template, app, angular, _, messages) {
 	'use strict';
 
 	app.directive("editNationalAssessment", ['$http', "$rootScope", "$filter", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", 'siteMapUrls', '$route', 'inlineEditor', 'locale', function($http, $rootScope, $filter, $q, storage, authentication, editFormUtility, guid, $location, navigation, siteMapUrls, $route, inlineEditor, locale) {
@@ -557,7 +557,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				//
 				//==================================
 				$scope.onPostWorkflow = function() {
-					$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+					$rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
 					if(!openInDialog)
 						gotoManager();
 					else{
@@ -570,7 +570,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				//==================================
 				$scope.onPostPublish = function() {
 					$scope.$root.showAcknowledgement = true;
-					$rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
+					$rootScope.$broadcast("onPostPublish", messages.onPostPublish);
 					if(!openInDialog)
 						gotoManager();
 					else{
@@ -582,14 +582,14 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 				//
 				//==================================
 				$scope.onPostSaveDraft = function() {
-					$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+					$rootScope.$broadcast("onSaveDraft", messages.onPostSaveDraft);
 				};
 
 				//==================================
 				//
 				//==================================
 				$scope.onPostClose = function() {
-					$rootScope.$broadcast("onPostClose", "Record closed.");
+					$rootScope.$broadcast("onPostClose", messages.onPostClose);
 					if(!openInDialog)
 						gotoManager();
 					else{
@@ -617,14 +617,14 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'authenti
 
 					if (status == "notAuthorized") {
 						$scope.status = "hidden";
-						$scope.error = "You are not authorized to modify this record";
+						$scope.error = messages.unAuthorizedError;
 					} else if (status == 404) {
 						$scope.status = "hidden";
-						$scope.error = "Record not found.";
+						$scope.error = messages.recordNotFoundError;
 					} else if (status == "badSchema") {
 						$scope.status = "hidden";
-						$scope.error = "Record type is invalid.";
-					} else if (error.Message)
+						$scope.error = messages.badSchemaError;
+					} else if (error && error.Message)
 						$scope.error = error.Message;
 					else
 						$scope.error = error;

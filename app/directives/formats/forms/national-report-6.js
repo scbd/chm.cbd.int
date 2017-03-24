@@ -1,8 +1,8 @@
-define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-report-6',
+define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-report-6',
 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale'
 	],
-	function(template, app, angular, _) {
+	function(template, app, angular, _, messages) {
 		'use strict';
 
 		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm", '$compile', "$timeout", 'ngDialog', 'locale',
@@ -381,7 +381,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//
 						//==================================
 						$scope.onPostWorkflow = function() {
-							$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+							$rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
 							$location.url("/submit/nationalReport6");
 						};
 
@@ -390,7 +390,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//==================================
 						$scope.onPostPublish = function() {
 							$scope.$root.showAcknowledgement = true;
-							$rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
+							$rootScope.$broadcast("onPostPublish", messages.onPostPublish);
 							$location.url("/submit/nationalReport6");
 						};
 
@@ -398,14 +398,14 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						//
 						//==================================
 						$scope.onPostSaveDraft = function() {
-							$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+							$rootScope.$broadcast("onSaveDraft", messages.onPostSaveDraft);
 						};
 
 						//==================================
 						//
 						//==================================
 						$scope.onPostClose = function() {
-							$rootScope.$broadcast("onPostClose", "Record closed.");
+							$rootScope.$broadcast("onPostClose", messages.onPostClose);
 							$location.url("/submit/nationalReport6");
 						};
 
@@ -419,13 +419,13 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 
 							if (status == "notAuthorized") {
 								$scope.status = "hidden";
-								$scope.error = "You are not authorized to modify this record";
+								$scope.error = messages.unAuthorizedError;
 							} else if (status == 404) {
 								$scope.status = "hidden";
-								$scope.error = "Record not found.";
+								$scope.error = messages.recordNotFoundError;
 							} else if (status == "badSchema") {
 								$scope.status = "hidden";
-								$scope.error = "Record type is invalid.";
+								$scope.error = messages.badSchemaError;
 							} else if (error && error.Message)
 								$scope.error = error.Message;
 							else
@@ -710,8 +710,8 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 						}
 
 						var evtServerPushNotification = $rootScope.$on('event:server-pushNotification', function(evt, data) {
-
-							if ($scope.document && $scope.document.targetPursued && (data.type == 'workflowActivityStatus' || data.data.version =='draft') &&
+							//(data.type == 'workflowActivityStatus' || data.data.version =='draft') &&
+							if ($scope.document && $scope.document.targetPursued && 
 								data.data && data.data.identifier && (data.data.schema == 'nationalTarget' || data.data.schema == "nationalAssessment")
 								&& data.data.government && data.data.government.identifier == $scope.document.government.identifier) {
 
@@ -851,6 +851,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 											params.aichiTarget = data.aichiTarget.identifier;
 										if(!data.assessment && data.nationalTarget)
 											params.nationalTarget = data.nationalTarget.identifier;
+
 										params.type='nationalAssessment';
 									}
 									else if(directiveName == 'edit-national-target-dialog'){
@@ -859,10 +860,9 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 									}
 
 									var directiveHtml = '<span DIRECTIVE qs="qs" close-dialog="closeDialog()"></span>'.replace(/DIRECTIVE/g, directiveName)
-									//.replace('params', 'qs=\'' + JSON.stringify(params) + '\'');
-									console.log(directiveHtml);
+									
 									$scope.$apply(function(){
-										options.template = directiveHtml;//$compile(directiveHtml)($scope);
+										options.template = directiveHtml;
 									});
 									options.controller = ['$scope', function($scope){
 										$scope.qs = params;
@@ -872,8 +872,8 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'authentica
 									}]
 									options.plain = true;
 									options.closeByDocument = false;
-									//options.closeByEscape = options.closeByNavigation =
-									options.showClose = true;
+									options.closeByEscape = options.closeByNavigation = false
+									options.showClose = false;
 
 									var dialogWindow = ngDialog.open(options);
 

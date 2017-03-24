@@ -1,0 +1,12 @@
+﻿{
+    "unAuthorizedError"     :   "You are not authorized to modify this record. Please contact your NFP or use the help desk button to contact CBD.",
+    "recordNotFoundError"   :   "Record not found.",
+    "badSchema"             :   "Record type is invalid.",
+
+    "onPostSaveDraft"       :   "Draft record saved.",
+    "onPostClose"           :   "Record closed.",
+    "onPostPublish"         :   "Record is being published, please note the publishing process could take up to 1 minute before your record appears.",
+    "onPostWorkflow"        :   "Publishing request sent successfully."
+    
+
+}

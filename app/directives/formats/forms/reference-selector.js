@@ -281,7 +281,7 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
                 ngDialog.open({
                     template: 'documentSelectionModal',
-                    closeByDocument: false,
+                    closeByDocument: false,showClose:false,
                     scope: $scope
                 });
 

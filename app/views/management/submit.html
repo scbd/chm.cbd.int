@@ -124,6 +124,7 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
+                     <a translation-url class="btn btn-info" href="/submit/nationalReport6" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
                     <a translation-url class="btn btn-info" ng-show="nationalReport6 && getFacet('nationalReport6').workflow == 0" href="/submit/nationalReport6/{{nationalReport6.identifier_s}}" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
                      <a translation-url class="btn btn-info" ng-if="nationalReport6 && getFacet('nationalReport6').workflow > 0" href="/management/requests/{{nationalReport6._workflow_s.replace('workflow-','')}}/publishRequest" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
                     <a translation-url class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>

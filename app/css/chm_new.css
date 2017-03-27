@@ -322,3 +322,21 @@ body {
     top: -5px;
     left: -10px;
 }
+
+
+  .btn-thin .btn{
+	  padding:0 3px 0 3px!important;
+	  margin:0!important;
+	  font-size:12px;font-weight: 500;
+  }
+  #MyLocale .locale-menu {
+	  left:200px;
+	  top:20px;
+  } 
+    #MyLocale .locale {
+	  display:inline;
+  } 
+    #MyLocale .badge {
+	  font-size:12px;
+	  border-radius: .25em;
+  } 

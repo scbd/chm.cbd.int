@@ -5,16 +5,15 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 	function(template, app, angular, _, messages) {
 		'use strict';
 
-		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm", '$compile', "$timeout", 'ngDialog', 'locale',
-			function($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls,
-				thesaurus, guid, $route, solr, realm, $compile, $timeout, ngDialog, locale) {
+		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm", '$compile', "$timeout", 'ngDialog', 'locale', 
+			function($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls,thesaurus, guid, $route, solr, realm, $compile, $timeout, ngDialog, locale) {
 				return {
 					restrict: 'E',
 					template: template,
 					replace: true,
 					transclude: false,
 					scope: {},
-					link: function($scope) {
+					link: function($scope, $element) {
 
 						var targetAssessments = [];
 						$scope.status = "";
@@ -75,7 +74,8 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 										government: $scope.defaultGovernment() ? {
 											identifier: $scope.defaultGovernment()
 										} : undefined,
-										targetPursued: undefined
+										targetPursued: undefined,
+										implementationMeasures : [{}]
 									};
 
 								});
@@ -891,6 +891,15 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 								}, reject);
 							});
 						}
+
+						$element.find('#nav').affix({
+							offset: {
+								top: $('header').height()-$('#nav').height()+200
+							}
+						});	
+
+						$('body').scrollspy({ target: '#nav' })
+
 					}
 				};
 			}

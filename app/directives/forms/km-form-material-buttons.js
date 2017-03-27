@@ -1,4 +1,5 @@
-define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/workflow-button-messages.json', 'jquery'], function(app, angular, template, messages) { 'use strict';
+define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/workflow-button-messages.json', 'moment', 'jquery'],
+ function(app, angular, template, messages, moment) { 'use strict';
 
 	app.directive('kmFormMaterialButtons', ["$q", function ($q)
 	{
@@ -67,7 +68,10 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 						});
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
-					});
+					})					
+					.finally(function(){
+						timer(true);
+					});;
 				};
 
 				//====================
@@ -313,7 +317,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 						});
 					}).finally(function(){
 						$scope.formStatus = "ready";
-
+						timer(true);
 					});;
 				};
 
@@ -361,6 +365,17 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				// $scope.$on('$locationChangeSuccess', function(evt, data){
 				// 	next_url = undefined;
 				// });
+
+
+                function timer(startNew){
+                    if(startNew){
+                        $scope.lastSaved = '';
+                        $scope.lastSavedTime = moment();
+                    }
+                    var duration = moment.duration(moment() - $scope.lastSavedTime)
+                    $scope.lastSaved = duration._data.hours + ':' + duration._data.minutes + ':' + duration._data.seconds
+                    $timeout(function(){timer();},1000);
+                }
 			}]
 		};
 	}]);

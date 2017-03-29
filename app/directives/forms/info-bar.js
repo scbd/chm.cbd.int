@@ -17,7 +17,6 @@ define(['app', 'text!./info-bar.html', 'webui-popover'], function(app, template)
                     title: 'CHM Help: sixth national report',
                     closeable: true,
                     dismissible: true,
-                    delay: 0,
                     padding: true,
                     backdrop: false,
                     style: 'popover-style1',

@@ -1,4 +1,5 @@
-define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', "utilities/solr"], function(app, template, _){
+define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', "utilities/solr",'scbd-angularjs-services/locale'], 
+function(app, template, _){
 
 app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 	return {
@@ -17,9 +18,12 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 		},
 		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage',
- 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog',
+ 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog', 'locale',
 			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication,
-			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog) {
+			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale) {
+
+				if(!$scope.locale)
+					$scope.locale = locale;
 
 				var nationalAssessments = [];
 				$scope.nationalTargets = [];

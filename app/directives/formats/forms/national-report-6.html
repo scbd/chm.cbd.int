@@ -143,13 +143,14 @@
 						min-height: 100%;
 						height: auto !important;
 						height: 100%;
-						margin: 0 auto -60px;
-						padding: 0 0 60px;
+						
+						/*margin: 0 auto -60px;
+						padding: 0 0 60px;*/
 					}
 					
 					
 					#wrap> .container {
-						padding: 60px 15px 0;
+					/*padding: 60px 15px 0;*/
 					}
 					
 					.container .credit {
@@ -166,7 +167,14 @@
 						position: fixed;
 						top: 0;
 						z-index: 10;
-						-webkit-transition: all .6s ease-in-out;
+						/*-webkit-transition: all .6s ease-in-out;*/
+						left:0;
+						right:-30px;
+						width:100%;
+						padding-left:50px;
+						-webkit-box-shadow:0px 1px 10px #666;
+						-moz-box-shadow:0px 1px 10px #666;
+						box-shadow:0px 1px 10px #666;
 					}
 					
 					@media (min-width: 767px) {
@@ -308,7 +316,7 @@
 								<!--/.container -->
 							</div>
 							<!--/.navbar -->
-
+							<span class="clearfix"></span>
 
 						</div>
 						<!--/wrap-->
@@ -337,6 +345,7 @@
 											</div>
 											<div class="section-body">
 												<div class="row">
+													
 													<div class="col-md-12">
 														<div class="km-control-group" name="government" required caption="Country">
 															<div km-select ng-disabled="!!defaultGovernment()" required name="government" single ng-model="document.government" placeholder="Please select country" watch-items items="options.countries"></div>

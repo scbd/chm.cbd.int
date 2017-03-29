@@ -10,7 +10,7 @@ define(['app'], function (app, moment, schemaName, schemaShortName) {
           $attrs.$observe('href', function(){
             // console.log($attrs)        			
             var langRegex 			= new RegExp('^\/(ar|en|es|fr|ru|zh)');
-            var externalUrlRegex 	= new RegExp('^(http|https|mailto)');
+            var externalUrlRegex 	= new RegExp('^(http|https|mailto|www)/i');
             var startWithRegex	 	= new RegExp('^\/');
 
             if(lastPath != $attrs.href && !langRegex.test($attrs.href) && startWithRegex.test($attrs.href)){

@@ -1,4 +1,4 @@
-define(['app', 'text!./km-document-validation.html','jquery'], function(app, template) { 'use strict';
+define(['app', 'text!./km-document-validation.html', 'json!data/error-messages.json', 'jquery'], function(app, template, messages) { 'use strict';
 
 	app.directive('kmDocumentValidation', ["$timeout", function ($timeout)
 	{
@@ -97,13 +97,13 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 				//
 				//====================
 				$scope.getTranslation = function(code) {
-					if (code==null || code==""            ) return "Unknown error"; // jshint ignore:line
-					if (code == "Error.Mandatory"         ) return "Field is mandatory";
-					if (code == "Error.InvalidValue"      ) return "The value specified is invalid";
-					if (code == "Error.InvalidProperty"   ) return "This value cannot be specified";
-					if (code == "Error.UnspecifiedLocale" ) return "A language is use but not speficied in your document";
-					if (code == "Error.UnexpectedTerm"    ) return "A specified term cannot be used";
-					if (code == "Error.InvalidType"       ) return "The fields type is invalid";
+					if (code==null || code==""            ) return messages.unknown; // jshint ignore:line
+					if (code == "Error.Mandatory"         ) return messages.mandatory;       
+					if (code == "Error.InvalidValue"      ) return messages.invalidValue;
+					if (code == "Error.InvalidProperty"   ) return messages.invalidProperty; 
+					if (code == "Error.UnspecifiedLocale" ) return messages.unspecifiedLocale;
+					if (code == "Error.UnexpectedTerm"    ) return messages.unexpectedTerm;  
+					if (code == "Error.InvalidType"       ) return messages.invalidType;     
 					return code;
 				};
 

@@ -204,7 +204,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 										.then(function(nationalReport) {
 											if (nationalReport && nationalReport.length > 0) {
 												ngDialog.open({
-													template: 'recordExistsTemplate.html',
+													template: 'recordExistsTemplate.html',													
 													closeByDocument: false,
 													closeByEscape: false,
 													showClose: false,
@@ -260,6 +260,9 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 
 							if (!document)
 								return $q.when(true);
+							
+							if(!document.targetPursued)
+								document.nationalTargets = undefined;
 
 							if (_.isEmpty(document.progressAssessments))
 								document.progressAssessments = undefined;
@@ -874,7 +877,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 									options.closeByDocument = false;
 									options.closeByEscape = options.closeByNavigation = false
 									options.showClose = false;
-
+									options.className='ngdialog-theme-default ngdialog-custom';
 									var dialogWindow = ngDialog.open(options);
 
 									dialogWindow.closePromise.then(function(res){

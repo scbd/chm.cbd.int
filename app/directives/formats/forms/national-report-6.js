@@ -261,9 +261,9 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 							if (!document)
 								return $q.when(true);
 							
-							if(!document.targetPursued)
+							if(!document.targetPursued || (document.nationalTargets && document.nationalTargets.length == 0))
 								document.nationalTargets = undefined;
-
+							
 							if (_.isEmpty(document.progressAssessments))
 								document.progressAssessments = undefined;
 

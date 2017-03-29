@@ -131,34 +131,18 @@
 					.ngdialog-custom .ngdialog-content {
 						background: transparent!important;
 					}
-					/*html.ngdialog-open, body.ngdialog-open { overflow: visible!important; }*/
 					
-					/*html,
-					body {
-						height: 100%;
-						-webkit-font-smoothing: antialiased;
-					}*/
 					
 					#wrap {
 						min-height: 100%;
 						height: auto !important;
 						height: 100%;
-						
-						/*margin: 0 auto -60px;
-						padding: 0 0 60px;*/
-					}
-					
-					
-					#wrap> .container {
-					/*padding: 60px 15px 0;*/
-					}
-					
+					}										
 					.container .credit {
 						margin: 20px 0;
 					}
 					
 					#nav {
-						/*width: 100%;*/
 						position: static;
 						top: -32px;
 					}
@@ -167,9 +151,8 @@
 						position: fixed;
 						top: 0;
 						z-index: 10;
-						/*-webkit-transition: all .6s ease-in-out;*/
+						-webkit-transition: all .6s ease-in-out;
 						left:0;
-						right:-30px;
 						width:100%;
 						padding-left:50px;
 						-webkit-box-shadow:0px 1px 10px #666;
@@ -210,14 +193,6 @@
     					padding: 0px!important;
 						max-width: 100%!important;
 					}
-
-					/*.affix-top{
-						width:100%;
-					}*/
-
-					/*.affix{
-						width:89%!important;
-					}*/
 					.affix .text-right{
 						padding-right: 55px;
     					padding-bottom: 10px;
@@ -225,34 +200,7 @@
 					.small-screen{
 						display: block!important;
 					}
-					.grow{
-						transition: all 0.3s ease;
-					}
-					.grow:hover
-					{
-							-webkit-transform: scale(1.1);
-							-ms-transform: scale(1.1);
-							transform: scale(1.1);
-					}
-
-
-					.grow.col-xs-6 {
-						padding: 1.5%;
-						margin: 0;;
-					}
-
-					.grow.col-sm-6 {
-						padding: 1.5%;
-						margin: 0;
-					}
-
-					.grow.col-md-6 {
-						padding: 1.5%;
-						margin: 0;
-					}
-					.grow-parent{
-						 display: inline-block;
-					}
+					
 				</style>
 
 				<div class="col-md-12" style="padding:0px">
@@ -271,8 +219,6 @@
 							
 						<!-- Wrap all page content here -->
 						<div id="wrap">
-
-
 							<!-- Fixed navbar -->
 							<div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
 								<div class="container container-custom">
@@ -326,7 +272,7 @@
 
 							<div km-tab="general">
 
-								<div class="panel panel-default panelMain">
+								<div class="panel panel-default panelMain" style="min-height:500px">
 									<div class="panel-header">
 										<h3>Section I. Information on the targets being pursued at the national level</h3>
 									</div>

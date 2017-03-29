@@ -1,6 +1,6 @@
-define(['require', 'app', 'text!./form-loader.html', 'authentication', 'utilities/km-storage', 'utilities/km-utilities'], function(require, app, template){
+define(['require', 'app', 'text!./form-loader.html', 'authentication', 'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale'], function(require, app, template){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "localization", "$q", "$location", "$compile", "$route", "navigation", function ($rootScope,    storage,   authentication,   localization,   $q,   $location,   $compile, $route, navigation) {
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation", function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -67,7 +67,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.getLocale = function () {
-				return $scope.locale || localization.locale();
+				return $scope.locale || locale;
 			};
 
 			//==================================

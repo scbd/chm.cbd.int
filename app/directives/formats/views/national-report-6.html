@@ -72,10 +72,7 @@
 			<div class="row " ng-repeat="implementationMeasure in document.implementationMeasures">
 				<div class="col-md-12 panel panel-default1">
 					<div class="panel-header clearfix">
-						<h3>Implementation measure {{$index+1}}
-							<span ng-if="implementationMeasure.nationalTarget">
-									for national target {{getNationalTargetTitle(implementationMeasure.nationalTarget.identifier)|lstring:locale}}
-								</span>
+						<h3>{{implementationMeasure.title|lstring:locale}}
 						</h3>
 					</div>
 					<div class="panel-body">
@@ -98,7 +95,9 @@
 						<div ng-show="implementationMeasure.relevantDocuments">
 							<label>Relevant websites, links, and files</label>
 							<ul class="km-value">
-								<li ng-repeat="item in implementationMeasure.relevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+								<li ng-repeat="item in implementationMeasure.relevantDocuments">
+									<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a> <span ng-if="item.tag">({{item.tag}})</span>
+								</li>
 							</ul>
 						</div>
 						<div ng-show="implementationMeasure.otherRelevantInformation">
@@ -109,19 +108,22 @@
 							<label>Other relevant website address or attached documents</label>
 							<ul class="km-value">
 								<li ng-repeat="item in implementationMeasure.otherRelevantDocuments">
-									<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+									<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a> <span ng-if="item.tag">({{item.tag}})</span>
 								</li>
 							</ul>
-							<!--<div class="km-value km-pre">{{implementationMeasure.otherRelevantDocuments | lstring:locale}}</div>-->
 						</div>
 						<div ng-show="implementationMeasure.obstacles">
 							<label>Obstacles and scientific and technical needs related to the measure taken</label>
 							<div class="km-value km-pre">{{implementationMeasure.obstacles | lstring:locale}}</div>
 						</div>
-						<div ng-show="document.obstaclesRelevantDocuments">
+						<div ng-show="implementationMeasure.obstaclesRelevantDocuments">
 							<label>Relevant websites, web links and files</label>
 							<ul class="km-value">
-								<li ng-repeat="item in implementationMeasure.obstaclesRelevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+								<li ng-repeat="item in implementationMeasure.obstaclesRelevantDocuments">
+									<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}} 
+									</a>	<span ng-if="item.tag">({{item.tag}})</span>
+									
+								</li>
 							</ul>
 						</div>
 					</div>

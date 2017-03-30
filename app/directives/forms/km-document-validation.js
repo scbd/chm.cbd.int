@@ -1,4 +1,4 @@
-define(['app', 'text!./km-document-validation.html','jquery'], function(app, template) { 'use strict';
+define(['app', 'text!./km-document-validation.html', 'json!app-data/validation-errors.json', 'jquery'], function(app, template, messages) { 'use strict';
 
 	app.directive('kmDocumentValidation', ["$timeout", function ($timeout)
 	{
@@ -11,14 +11,15 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 			scope: {
 				report : '=ngModel',
 			},
-			link: function ($scope, $element, attribs, mdTabsCtrl) {
+			link: function ($scope, $element, $attr, mdTabsCtrl) {
 
+				
 				//====================
 				//
 				//====================
 				function lookup(field){
-
-					return $element.parents('body').find('form[name="editForm"]:first').find('label[for="' + field + '"]:first');
+					var container = $attr.container || 'body'
+					return $element.parents(container).find('form[name="editForm"]:first').find('label[for="' + field + '"]:first');
 				}
 
 				//====================
@@ -50,7 +51,8 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 					}
 
 					$timeout(function(){
-						$element.parents("body:last").stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
+						var container = $attr.container || 'body';
+						$element.parents(container+":last").stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
 					},100);
 
 				};
@@ -73,7 +75,8 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 				//
 				//====================
 				$scope.isValid = function() {
-					return $scope.report && (!$scope.report.errors || $scope.report.errors.length == 0);// jshint ignore:line
+					return $scope.report && (!$scope.report.errors || $scope.report.errors.length == 0)
+						&& (!$scope.report.warnings || $scope.report.warnings.length == 0);// jshint ignore:line
 				};
 
 				//====================
@@ -83,19 +86,31 @@ define(['app', 'text!./km-document-validation.html','jquery'], function(app, tem
 					return $scope.report && $scope.report.errors && $scope.report.errors.length != 0;// jshint ignore:line
 				};
 
+
+				//====================
+				//
+				//====================
+				$scope.hasWarnings = function() {
+					return $scope.report && $scope.report.warnings && $scope.report.warnings.length != 0;// jshint ignore:line
+				};
 				//====================
 				//
 				//====================
 				$scope.getTranslation = function(code) {
-					if (code==null || code==""            ) return "Unknown error"; // jshint ignore:line
-					if (code == "Error.Mandatory"         ) return "Field is mandatory";
-					if (code == "Error.InvalidValue"      ) return "The value specified is invalid";
-					if (code == "Error.InvalidProperty"   ) return "This value cannot be specified";
-					if (code == "Error.UnspecifiedLocale" ) return "A language is use but not speficied in your document";
-					if (code == "Error.UnexpectedTerm"    ) return "A specified term cannot be used";
-					if (code == "Error.InvalidType"       ) return "The fields type is invalid";
+					if (code==null || code==""            ) return messages.unknown; // jshint ignore:line
+					if (code == "Error.Mandatory"         ) return messages.mandatory;       
+					if (code == "Error.InvalidValue"      ) return messages.invalidValue;
+					if (code == "Error.InvalidProperty"   ) return messages.invalidProperty; 
+					if (code == "Error.UnspecifiedLocale" ) return messages.unspecifiedLocale;
+					if (code == "Error.UnexpectedTerm"    ) return messages.unexpectedTerm;  
+					if (code == "Error.InvalidType"       ) return messages.invalidType;     
 					return code;
 				};
+
+				// $scope.$watch($attr.container, function(newVal){
+				// 	if(newVal && newVal!='')
+				// 		$scope.container = newVal;
+				// })
 			}
 		};
 	}]);

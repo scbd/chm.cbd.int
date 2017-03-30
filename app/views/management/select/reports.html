@@ -1,4 +1,4 @@
-<div id="submit" >
+﻿<div id="submit" >
 
     <div class="container" style="padding-top:20px;">
         <div class="row">
@@ -16,8 +16,8 @@
 
     <h3 class="container-fluid" style="padding-top:5px;border-top:1px solid #DDD;margin-top:60px;margin-bottom:30px;">
         <i ng-click="showSubmissionSection = !showSubmissionSection" class="fa fa-chevron-circle-down color-blue"></i> National Strategies and Reports
-        <a ng-click="displayStyle='table'"><i class="fa fa-list"></i></a>
-        <a ng-click="displayStyle='div'"><i class="fa fa-th-large"></i></a>
+        <a translation-url ng-click="displayStyle='table'"><i class="fa fa-list"></i></a>
+        <a translation-url ng-click="displayStyle='div'"><i class="fa fa-th-large"></i></a>
     </h3>
 
 
@@ -48,8 +48,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/reports/nationalReport?type=nbsap"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nbsap"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/reports/nationalReport?type=nbsap"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nbsap"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -72,8 +72,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/reports/nationalReport?type=nr"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nr"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/reports/nationalReport?type=nr"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nr"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -97,8 +97,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/reports/nationalReport?type=other"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=other"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/reports/nationalReport?type=other"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/reports/nationalReport/new?type=other"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -121,8 +121,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs">
-                    <a class="btn btn-info" href="/submit/reports/resourceMobilisation/"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/reports/resourceMobilisation/new"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/reports/resourceMobilisation/"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/reports/resourceMobilisation/new"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -144,13 +144,13 @@
                         <span class="badge bg-request">{{getFacet('nationalStrategicPlan').workflow}}</span>
                     </div>
 
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">National Biodiversity Strategies and Action Plans (NBSAPS) </h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">National Biodiversity Strategies and Action Plans (NBSAPS) </h4></a>
                     <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
     <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/reports/nationalReport?type=nbsap"> view records </a>
-                        <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nbsap"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/reports/nationalReport?type=nbsap"> view records </a>
+                        <a translation-url class="btn btn-primary" href="/submit/reports/nationalReport/new?type=nbsap"> add new </a>
                     </div>
 
               </div>
@@ -165,13 +165,13 @@
                         <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
                     </div>
 
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">National Reports </h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">National Reports </h4></a>
                     <p style="font-size:12px;">Article 26 of the Convention states that the objective of national reporting is to provide information on measures taken for the implementation of the Convention and the effectiveness of these measures. In decision X/10, the Conference of the Parties requested Parties to submit their fifth national report by 31 March 2014.  </p>
     <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/reports/nationalReport?type=nr"> view records </a>
-                        <a class="btn btn-primary"  href="/submit/reports/nationalReport/new?type=nr"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/reports/nationalReport?type=nr"> view records </a>
+                        <a translation-url class="btn btn-primary"  href="/submit/reports/nationalReport/new?type=nr"> add new </a>
                     </div>
 
               </div>
@@ -186,13 +186,13 @@
                         <span class="badge bg-request">{{getFacet('otherReport').workflow}}</span>
                     </div>
 
-                    <a href="list"><h4 style="padding-top:0;margin-top:0;">Other Reports </h4></a>
+                    <a translation-url href="list"><h4 style="padding-top:0;margin-top:0;">Other Reports </h4></a>
                     <p style="font-size:12px;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
     <p class="alert alert-danger">Under Development</p>
 
                     <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/reports/nationalReport?type=other"> view records </a>
-                        <a class="btn btn-primary" href="/submit/reports/nationalReport/new?type=other"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/reports/nationalReport?type=other"> view records </a>
+                        <a translation-url class="btn btn-primary" href="/submit/reports/nationalReport/new?type=other"> add new </a>
                     </div>
               </div>
             </div>
@@ -212,8 +212,8 @@
                     <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
 
                          <div class="btn-group-xs">
-                        <a class="btn btn-info" href="/submit/reports/resourceMobilisation/"> view records </a>
-                        <a class="btn btn-primary" href="/submit/reports/resourceMobilisation/new"> add new </a>
+                        <a translation-url class="btn btn-info" href="/submit/reports/resourceMobilisation/"> view records </a>
+                        <a translation-url class="btn btn-primary" href="/submit/reports/resourceMobilisation/new"> add new </a>
                     </div>
 
               </div>

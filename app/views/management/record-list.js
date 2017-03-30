@@ -43,6 +43,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             if($scope.schema == 'nationalIndicator'){
                 getAllAssessments();
             }
+            if($scope.schema == 'nationalReport6'){
+                loadNR6Details();
+            }
         }
 
 
@@ -374,6 +377,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 }).then(function() {
                    $scope.recordCount--;
                    refreshFacetCounts();
+                   loadNR6Details();
                     _.remove($scope.records, function(r){
                        return r==record;
                     });
@@ -403,6 +407,36 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         function viewWorkflow(record)
         {
             $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
+        }
+
+
+        function loadNR6Details(){
+            
+            if(user.government){
+
+                var qSchema = " AND (schema_s:nationalReport6)";
+                var government = " AND government_s:" + user.government;
+                var q = '(realm_ss:' + realm.toLowerCase() + ' ' + qSchema + government + ')';
+
+                var qsOtherSchemaFacetParams =
+                {
+                    "q"  : q,
+                    "rows" : 10,
+                    "fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
+                    "s"     : 'updatedOn_dt desc'               
+                };
+
+                var nationalReport6Query     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
+
+                $q.when(nationalReport6Query).then(function(results) {
+                    $scope.nationalReport6 = undefined;
+                    if(results.data.response.numFound > 0){
+                        $scope.nationalReport6 = results.data.response.docs[0]           
+                    }
+                }).then(null, function(error) {
+                    console.log(error );
+                });
+            }
         }
     }];
 });

@@ -1,147 +1,157 @@
-define(['app', 'angular', 'jquery', 'text!./km-terms-radio.html'], function(app, angular, $, template) { 'use strict';
+define(['app', 'angular', 'jquery', 'text!./km-terms-radio.html', 'scbd-angularjs-services/locale'], function(app, angular, $, template) { 'use strict';
 
-	app.directive('kmTermRadio', [function () {
-		return {
-			restrict: 'EAC',
-			template: template,
-			replace: true,
-			transclude: false,
-			require : "?ngModel",
-			scope: {
-				binding     : '=ngModel',
-				bindingName : '@ngModel',
-				bindingType : '@',
-				termsFn     : '&terms',
-				layout      : "@",
-				required    : "@"
-			},
-			link: function ($scope, $element, $attr, ngModelController)
-			{
-				$scope.selection = null;
-				$scope.terms     = null;
-				$scope.rootTerms   = [];
+    app.directive('kmTermRadio', function() {
+        return {
+            restrict: 'EAC',
+            template: template,
+            replace: true,
+            transclude: false,
+            require: "?ngModel",
+            scope: {
+                binding: '=ngModel',
+                //bindingName : '@ngModel',
+                bindingType: '@',
+                termsFn: '&terms',
+                description: "=",
+                layout: "@",
+                required: "@"
+            },
+            link: function($scope, $element, $attr, ngModelController) {
 
-				$scope.$watch('terms',     $scope.onTerms);
-				$scope.$watch('selection', $scope.save);
-				$scope.$watch('binding',   $scope.load);
-				$scope.$watch('binding', function() {
-					ngModelController.$setViewValue($scope.binding);
-				});
+                $scope.description = true;
+                $scope.selection = null;
+                $scope.terms = null;
+                $scope.rootTerms = [];
 
-				$scope.init();
+                $scope.$watch('terms', $scope.onTerms);
+                $scope.$watch('selection', $scope.save);
+                $scope.$watch('binding', $scope.load);
+                $scope.$watch('binding', function() {
+                    ngModelController.$setViewValue($scope.binding);
+                });
 
-				if(!$attr["class"])
-					$element.addClass("list-unstyled");
-			},
-			controller: ["$scope", "$q", "Thesaurus", "Enumerable", function ($scope, $q, thesaurus, Enumerable)
-			{
-				//==============================
-				//
-				//==============================
-				$scope.init = function() {
-					$scope.setError(null);
-					$scope.__loading = true;
+				if ($attr.container) {
+					$scope.container = $attr.container;
+				}
+                $scope.init();
 
-					$q.when($scope.termsFn(),
-						function(data) { // on success
-							$scope.__loading = false;
-							$scope.terms     = data;
-						}, function(error) { // on error
-							$scope.__loading = false;
-							$scope.setError(error);
-						});
-				};
+                if (!$attr["class"])
+                    $element.addClass("list-unstyled");
+            },
+            controller: ["$scope", "$q","Thesaurus", "locale", function($scope, $q,thesaurus, locale) {
 
-				//==============================
-				//
-				//==============================
-				$scope.load = function()
-				{
-					if (!$scope.terms) // Not initialized
-						return;
+                $scope.locale = locale;
+                //==============================
+                //
+                //==============================
+                $scope.init = function() {
+                    $scope.setError(null);
+                    $scope.__loading = true;
 
-					var oNewSelection = {};
+                    $q.when($scope.termsFn(),
+                        function(data) { // on success
+                            $scope.__loading = false;
+                            $scope.terms = data;
+                        },
+                        function(error) { // on error
+                            $scope.__loading = false;
+                            $scope.setError(error);
+                        });
+                };
 
-					if(!$.isArray($scope.terms))
-						throw "Type must be array";
+                //==============================
+                //
+                //==============================
+                $scope.load = function() {
+                    if (!$scope.terms) // Not initialized
+                        return;
 
-					if($scope.binding) {
+                    var oNewSelection = {};
 
-						if($.isArray($scope.binding))
-							throw "Type cannot be an array";
+                    if (!$.isArray($scope.terms))
+                        throw "Type must be array";
 
-							 if($scope.bindingType=="string") oNewSelection = { identifier : $scope.binding };
-						else if($scope.bindingType=="term")   oNewSelection = { identifier : $scope.binding.identifier };
-						else throw "bindingType not supported";
-					}
+                    if ($scope.binding) {
 
-					if(!angular.equals(oNewSelection, $scope.selection))
-						$scope.selection = oNewSelection;
-				};
+                        if ($.isArray($scope.binding))
+                            throw "Type cannot be an array";
 
-				//==============================
-				//
-				//==============================
-				$scope.save = function()
-				{
-					if(!$scope.selection)
-						return;
+                        if ($scope.bindingType == "string") oNewSelection = {
+                            identifier: $scope.binding
+                        };
+                        else if ($scope.bindingType == "term") oNewSelection = {
+                            identifier: $scope.binding.identifier
+                        };
+                        else throw "bindingType not supported";
+                    }
 
-					var oNewBinding = {};
+                    if (!angular.equals(oNewSelection, $scope.selection))
+                        $scope.selection = oNewSelection;
+                };
 
-					if($scope.selection && $scope.selection.identifier)
-					{
-							 if($scope.bindingType=="string") oNewBinding = $scope.selection.identifier;
-						else if($scope.bindingType=="term"  ) oNewBinding = { identifier : $scope.selection.identifier };
-						else throw "bindingType not supported";
-					}
+                //==============================
+                //
+                //==============================
+                $scope.save = function() {
+                    //debugger;
 
-					if(!angular.equals(oNewBinding, $scope.binding))
-						$scope.binding = oNewBinding;
+                    if (!$scope.selection)
+                        return;
 
-					if($.isEmptyObject($scope.binding))
-						$scope.binding = undefined;
-				};
+                    var oNewBinding = {};
 
-				//==============================
-				//
-				//==============================
-				$scope.isRequired = function()
-				{
-					return $scope.required!=undefined && $.isEmptyObject($scope.binding);// jshint ignore:line
-				};
+                    if ($scope.selection && $scope.selection.identifier) {
+                        if ($scope.bindingType == "string") oNewBinding = $scope.selection.identifier;
+                        else if ($scope.bindingType == "term") oNewBinding = {
+                            identifier: $scope.selection.identifier
+                        };
+                        else throw "bindingType not supported";
+                    }
 
-				//==============================
-				//
-				//==============================
-				$scope.onTerms = function(refTerms) {
+                    if (!angular.equals(oNewBinding, $scope.binding))
+                        $scope.binding = oNewBinding;
 
-					$scope.rootTerms = [];
+                    if ($.isEmptyObject($scope.binding))
+                        $scope.binding = undefined;
+                };
 
-					if(refTerms)
-					{
-						if (($scope.layout||"tree") == "tree") //Default layout
-							$scope.rootTerms = thesaurus.buildTree(refTerms);
-						else
-							$scope.rootTerms = Enumerable.From(refTerms).Select("o=>{identifier : o.identifier, name : o.name}").ToArray();
-					}
+                //==============================
+                //
+                //==============================
+                $scope.isRequired = function() {
+                    return $scope.required !== undefined && $.isEmptyObject($scope.binding);
+                };
 
-					$scope.load();
-				};
+                //==============================
+                //
+                //==============================
+                $scope.onTerms = function(refTerms) {
 
-				//==============================
-				//
-				//==============================
-				$scope.setError = function(error) {
-					if (!error) {
-						$scope.error = null;
-						return;
-					}
+                    $scope.rootTerms = [];
 
-					if (error.status == 404) $scope.error = "Terms not found";
-					else                     $scope.error = error.data || "unkown error";
-				};
-			}]
-		};
-	}]);
+                    if (refTerms) {
+                        if (($scope.layout || "tree") == "tree") //Default layout
+                            $scope.rootTerms = thesaurus.buildTree(refTerms);
+                        else
+                            $scope.rootTerms = Enumerable.from(refTerms).select("o=>{identifier : o.identifier, name : o.name}").toArray();
+                    }
+
+                    $scope.load();
+                };
+
+                //==============================
+                //
+                //==============================
+                $scope.setError = function(error) {
+                    if (!error) {
+                        $scope.error = null;
+                        return;
+                    }
+
+                    if (error.status == 404) $scope.error = "Terms not found";
+                    else $scope.error = error.data || "unkown error";
+                };
+            }]
+        };
+    });
 });

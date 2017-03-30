@@ -1,6 +1,6 @@
-define(['app', 'angular', 'jquery', 'text!./km-notes.html'], function(app, angular, $, template) { 'use strict';
+define(['app', 'angular', 'jquery', 'text!./km-notes.html', 'scbd-angularjs-services/authentication'], function(app, angular, $, template) { 'use strict';
 
-	app.directive('kmNotes',  ["$http", "$filter", function ($http, $filter) {
+	app.directive('kmNotes',  ["$http", "$filter", "authentication", function ($http, $filter, authentication) {
 	    return {
 	        restrict: 'EAC',
 			template: template,
@@ -30,11 +30,7 @@ define(['app', 'angular', 'jquery', 'text!./km-notes.html'], function(app, angul
                         $scope.skipLoad = false;
                         return;
                     }
-
-                    $http.get("/api/v2013/authentication/user/", { cache: true }).success(function (data) {
-                        $scope.user = data;
-                    });
-
+                    
                     var oBinding = $scope.binding || [];
 
                     $scope.texts = [];
@@ -57,23 +53,26 @@ define(['app', 'angular', 'jquery', 'text!./km-notes.html'], function(app, angul
                 //
                 //==============================
                 $scope.save = function () {
-                    var oNewBinding = [];
-                    var oText = $scope.texts;
+                    authentication.getUser()
+                    .then(function (user) {
+                        var oNewBinding = [];
+                        var oText = $scope.texts;
 
-                    angular.forEach(oText, function (text) {
-                        if ($.trim(text.value) != "") // jshint ignore:line
-                            oNewBinding.push($.trim(text.value));
-                    });
+                        angular.forEach(oText, function (text) {
+                            if ($.trim(text.value) != "") // jshint ignore:line
+                                oNewBinding.push($.trim(text.value));
+                        });
 
-                    if ($scope.newtext) {
-                        if ($.trim($scope.newtext) != "") { // jshint ignore:line
-                            var timestamp = $filter('date')(Date.now(), 'medium');
-                            oNewBinding.push("[ " + $scope.user.name + " | " + timestamp + " ] - " + $.trim($scope.newtext));
+                        if ($scope.newtext) {
+                            if ($.trim($scope.newtext) != "") { // jshint ignore:line
+                                var timestamp = $filter('date')(Date.now(), 'medium');
+                                oNewBinding.push("[ " + user.name + " | " + timestamp + " ] - " + $.trim($scope.newtext));
+                            }
                         }
-                    }
 
-                    $scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
-                    $scope.skipLoad = true;
+                        $scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
+                        $scope.skipLoad = true;
+                    });
                 };
 
                 //==============================

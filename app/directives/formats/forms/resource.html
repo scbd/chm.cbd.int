@@ -20,13 +20,13 @@
 
 				<div class="col-sm-8 col-xs-12">
 					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()"		>&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'"	>General</a></li>
-						<li ng-class="{ active  : tab=='chm'     }"><a href="" ng-click="tab='chm'"     >CHM</a></li>
-						<li ng-class="{ active  : tab=='absch'   }"><a href="" ng-click="tab='absch'"   >ABS-CH</a></li>
-						<li ng-class="{ active  : tab=='bch'     }"><a href="" ng-click="tab='bch'"     >BCH</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'"	>Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()"		>&raquo;</a></li>
+						<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="prevTab()"		>&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'"	>General</a></li>
+						<li ng-class="{ active  : tab=='chm'     }"><a translation-url href="" ng-click="tab='chm'"     >CHM</a></li>
+						<li ng-class="{ active  : tab=='absch'   }"><a translation-url href="" ng-click="tab='absch'"   >ABS-CH</a></li>
+						<li ng-class="{ active  : tab=='bch'     }"><a translation-url href="" ng-click="tab='bch'"     >BCH</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'"	>Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="nextTab()"		>&raquo;</a></li>
 					</ul>
 				</div>
 
@@ -198,7 +198,7 @@
 
 
 
-						<a name="#AdditionalInformation"></a>
+						<a translation-url name="#AdditionalInformation"></a>
 						<legend>Additional information</legend>
 
 						<div class="row">
@@ -286,7 +286,7 @@
 							<div class="row">
 								<div class="col-md-10">
 									<div class="km-control-group" name="bchRaRecommend" caption="Would you like to recommend this document as background material for  the “Guidance on Risk Assessment of Living Modified Organisms”">
-										<div class="help-block">see <a target="_blank" href="http://bch.cbd.int/onlineconferences/guidance_ra">http://bch.cbd.int/onlineconferences/guidance_ra</a></div>
+										<div class="help-block">see <a translation-url target="_blank" href="http://bch.cbd.int/onlineconferences/guidance_ra">http://bch.cbd.int/onlineconferences/guidance_ra</a></div>
 										<div class="btn-group">
 											<input type="button" class="btn" ng-class="{ active : document.bchRaRecommend===true , 'btn-info' : document.bchRaRecommend===true  }" ng-click="document.bchRaRecommend=true" value="Yes" />
 											<input type="button" class="btn" ng-class="{ active : document.bchRaRecommend===false, 'btn-info' : document.bchRaRecommend===false }" ng-click="document.bchRaRecommend=false" value="No" />
@@ -376,13 +376,13 @@
 
 					<div class="col-sm-9 col-xs-12">
 						<ul class="pagination">
-							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'"	  >&laquo;</a></li>
-							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'"	  >General</a></li>
-							<li ng-class="{ active  : tab=='chm'     }"><a href="" ng-click="tab='chm'"       >CHM</a></li>
-							<li ng-class="{ active  : tab=='absch'   }"><a href="" ng-click="tab='absch'"     >ABS-CH</a></li>
-							<li ng-class="{ active  : tab=='bch'     }"><a href="" ng-click="tab='bch'"       >BCH</a></li>
-							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'"	  >Review</a></li>
-							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'"	  >&raquo;</a></li>
+							<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'"	  >&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'"	  >General</a></li>
+							<li ng-class="{ active  : tab=='chm'     }"><a translation-url href="" ng-click="tab='chm'"       >CHM</a></li>
+							<li ng-class="{ active  : tab=='absch'   }"><a translation-url href="" ng-click="tab='absch'"     >ABS-CH</a></li>
+							<li ng-class="{ active  : tab=='bch'     }"><a translation-url href="" ng-click="tab='bch'"       >BCH</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'"	  >Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'"	  >&raquo;</a></li>
 						</ul>
 					</div>
 

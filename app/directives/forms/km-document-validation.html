@@ -16,9 +16,18 @@
 			<h4 class="color-darkgrey"> All errors must be corrected before this document can be published.</h4>
 			<ul>
 				<li ng-repeat="error in report.errors" title="{{error.parameters}}">
-					{{getTranslation(error.code, error.property, error.parameters)}} / <a href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>
+					{{getTranslation(error.code, error.property, error.parameters)}} / <a translation-url href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>
 				</li>
 			</ul>
 		</div>
 
+		<div ng-show="hasWarnings()" class="alert alert-info">
+			<h2 class="color-red">Your document contains warnings.</h2>
+			<ul>
+				<li ng-repeat="error in report.warnings" title="{{error.parameters}}">
+					{{getTranslation(error.code, error.property, error.parameters)}} / 
+					<a translation-url href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>
+				</li>
+			</ul>
+		</div>
 </div>

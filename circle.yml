@@ -1,4 +1,3 @@
-
 machine:
   services:
     - docker
@@ -6,12 +5,11 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build -t output --build-arg COMMIT=$CIRCLE_SHA1 .
-
+    - docker build -t output --build-arg COMMIT=$CIRCLE_SHA1 --build-arg VERSION=$CIRCLE_SHA1 --build-arg BRANCH=${CIRCLE_BRANCH:-master} --build-arg TAG=$CIRCLE_TAG .
 test:
   override:
     - docker run -d -p 8000:8000 output; sleep 10
-    - curl --retry 10 --retry-delay 5 -v http://localhost:8000
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8000/
 
 deployment:
   master:

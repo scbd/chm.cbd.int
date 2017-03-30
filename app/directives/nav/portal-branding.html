@@ -1,19 +1,31 @@
-<nav class="navbar navbar-portal navbar-default navbar-static-top bg-white">
+﻿<nav class="navbar navbar-portal navbar-default navbar-static-top bg-white">
 	<div class="container container-portal ">
 		<div class="row">
 			<div class="col-xs-9">
-				<a href="/" class="color-cbdgreen">
+				<a translation-url href="/" class="color-cbdgreen">
 					<h1 style="font-size:60px;padding:0;margin:0;position:relative;">
 						<span ng-hide="test_env" class="color-cbdgreen">CHM</span>
 						<span ng-show="test_env" class="color-orange" ng-cloak>CHM-TEST</span>
 					</h1>
-					<div class="color-grey hidden-xs hidden-sm" ng-style="{'margin-left': (test_env ? '200px' : '100px')}" style="text-transform:uppercase;font-size:20px;margin-left:100px;position:absolute;top:10px;line-height:22px;">
+					<div class="color-grey hidden-xs hidden-sm" ng-class="{'chm-text' : test_env, 'arabic-chm-text' : locale=='ar'}"
+					style="text-transform:uppercase;font-size:20px;margin-left:100px;position:absolute;top:10px;line-height:22px;">
 						The Clearing-House Mechanism of the Convention on Biological Diversity
 						<br>Information Submission Service</div>
 				</a>
 			</div>
+			<style>
+                .arabic-cbd-logo-style {
+                    float : left!important;
+                }
+				.chm-text{
+					margin-left: 200px!important;
+				}
+				.arabic-chm-text{
+					margin-right: 200px!important;
+				}
+            </style>
 			<div class="col-xs-3" style="vertical-align:middle;">
-				<img src="/app/img/cbd-logo-en.svg" class="pull-right" style="padding: 0; margin:0;height:60px;" /><br>
+				<img src="/app/img/cbd-logo-en.svg" class="pull-right" style="padding: 0; margin:0;height:60px;" ng-class="{'arabic-cbd-logo-style' : locale=='ar'}" /><br>
 
 			</div>
 		</div>

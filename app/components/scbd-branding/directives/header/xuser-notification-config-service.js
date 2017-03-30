@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'moment'],
+define(['app', 'lodash', 'moment', 'scbd-angularjs-filters'],
     function (app, _, moment) {
 
         app.service("cfgUserNotification", ['$location', '$window', '$filter', function ($location, $window, $filter) {

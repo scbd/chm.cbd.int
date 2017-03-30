@@ -1,4 +1,4 @@
-<div id="submit">
+﻿<div id="submit">
 
 <style>
 .jqvmap-zoomin, .jqvmap-zoomout {
@@ -46,7 +46,7 @@
 
                     <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'resourceMobilisation'} | orderBy:'startDate_s':'asc'">
                         <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:10px;" >Financial Resource Mobilization Reporting Framework</h4>
-                        <i class="fa fa-file-o"></i>  <a href="{{doc.url_ss[0]}}" target="_new">{{doc.title_t}}</a>
+                        <i class="fa fa-file-o"></i>  <a translation-url href="{{doc.url_ss[0]}}" target="_new">{{doc.title_t}}</a>
                     </div>
 
                     <br><br>

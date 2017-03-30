@@ -1,4 +1,4 @@
-<div id="submit">
+﻿<div id="submit">
     <div class="container">
 
         <div class="row">
@@ -11,23 +11,23 @@
                 <input  type="text" ng-model="freetext" ng-change="onText()" class="btn btn-default bg-white" placeholder="keyword">
             </div>
             <div style="display:inline;">
-                <a ng-click="status=''; onPage(0)" class="btn btn-default btn-info"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
+                <a translation-url ng-click="status=''; onPage(0)" class="btn btn-default btn-info"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
             </div>
             <div style="display:inline;">
-                <a ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
-            </div>
-
-            <div style="display:inline;">
-                <a ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
+                <a translation-url ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
             </div>
 
             <div style="display:inline;">
-                <a ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
+                <a translation-url ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
+            </div>
+
+            <div style="display:inline;">
+                <a translation-url ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
             </div>
 
             <div style="display:inline;" class="pull-right">
-                <a class="btn btn-default" ng-click="onReloadList()"> Refresh List</a>
-                <a class="btn btn-primary" ng-click="onAdd()"> Add New </a>
+                <a translation-url class="btn btn-default" ng-click="onReloadList()"> Refresh List</a>
+                <a translation-url class="btn btn-primary" ng-click="onAdd()"> Add New </a>
             </div>
 
         </div>
@@ -41,15 +41,15 @@
             <nav ng-show="pages.length>1">
               <ul class="pagination">
                 <li>
-                  <a ng-click="onPage(currentPage-1)"  href="#" aria-label="Previous">
+                  <a translation-url ng-click="onPage(currentPage-1)"  href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
                 <li ng-repeat="page in pages" ng-class="{ active : currentPage==page.index }">
-                    <a href="#" ng-click="onPage(page.index)">{{page.text}}</a>
+                    <a translation-url href="#" ng-click="onPage(page.index)">{{page.text}}</a>
                 </li>
                 <li>
-                  <a ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
+                  <a translation-url ng-click="onPage(currentPage+1)"  href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -83,10 +83,10 @@
             			<td class="descr">
                             <h5 class="title" style="margin:0;padding:0;">
                                 <span ng-hide="record.url">{{(record.title || record.identifier_s) | lstring}}</span>
-                                <a    ng-show="record.url" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
+                                <a translation-url    ng-show="record.url" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
                                 <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
                             </h5>
-                            <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
+                            <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a translation-url ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a translation-url ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
                             </td>
             			<td class="createdby hidden-xs">
                             <div title="{{record.createdByEmail_s}}">{{record.createdBy_s}}</div>
@@ -100,11 +100,11 @@
                             <span ng-show="record._state_s=='public' || record._revision_i>1" class="label label-default bg-published">PUBLISHED</span>
                             <span ng-show="record._state_s=='draft'"    class="label label-default bg-draft">DRAFT</span>
                             <span ng-show="record._state_s=='workflow'" class="label label-default bg-request">REQUEST</span>
-                            <div  ng-show="record._state_s=='workflow'" style="margin-top:5px"><a href="#" ng-click="onWorkflow(record)">{{formatWID(record._workflow_s)}}</a></div>
+                            <div  ng-show="record._state_s=='workflow'" style="margin-top:5px"><a translation-url href="#" ng-click="onWorkflow(record)">{{formatWID(record._workflow_s)}}</a></div>
                         </td>
             			<td class="edit text-right">
             				<div class="btn-group btn-group-xs"  >
-                                <a title="View" ng-if="record._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{record.url}}"><i class="fa fa-search"></i></a>
+                                <a translation-url title="View" ng-if="record._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{record.url}}"><i class="fa fa-search"></i></a>
             					<button ng-show    ="record._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
             					<button ng-hide    ="record._state_s=='workflow' || (record._state_s=='public' && schema=='nationalIndicator')" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
             					<button ng-hide    ="record._state_s=='workflow' || (record._state_s=='public' && schema=='nationalIndicator')" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>

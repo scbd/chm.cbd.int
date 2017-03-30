@@ -24,22 +24,22 @@
 		</div>
 	</div>
 
-	<div ng-show="document.date">
-		<label>Date the assessment was done</label>
-		<div class="span4">
-			<div class="km-value km-pre">{{document.date | lstring:locale}}</div>
-		</div>
-	</div>
+	
 
 
 	<div ng-show="document.assessmentText || document.progress">
-		<legend>Assessment</legend>
+		<legend>Category of progress towards the implementation of the selected target</legend>
 
 		<div ng-show="document.assessmentText">
 			<label>Assessment</label>
 			<div class="km-value km-pre">{{document.assessmentText | lstring:locale}}</div>
 		</div>
-
+		<div ng-show="document.date">
+			<label>Date the assessment was done</label>
+			<div class="span4">
+				<div class="km-value km-pre">{{document.date | lstring:locale}}</div>
+			</div>
+		</div>
 		<div ng-show="document.progress">
 			<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
 			<span class="km-value">{{document.progress | term:locale}} </span>
@@ -93,7 +93,7 @@
 		<div ng-show="document.documentLinks">
 			<label>Relevant websites, links, and files</label>
 			<div class="km-value" ng-repeat="item in document.documentLinks">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 			</div>
 		</div>
 	</div>
@@ -124,12 +124,12 @@
 	<div ng-show="document.otherRelevantDocuments">
 		<label>Other relevant website address or attached documents</label>
 		<ul class="km-value">
-			<li ng-repeat="item in document.otherRelevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+			<li ng-repeat="item in document.otherRelevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
 		</ul>
 	</div>
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
 
-		<legend>Additional Information</legend>
+		<legend>Additional Information </legend>
 
 		<div ng-show="document.relevantInformation">
 			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
@@ -138,7 +138,7 @@
 		<div ng-show="document.relevantDocuments">
 			<label>Other relevant website address or attached documents</label>
 			<div class="km-value" ng-repeat="item in document.relevantDocuments">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 			</div>
 		</div>
 

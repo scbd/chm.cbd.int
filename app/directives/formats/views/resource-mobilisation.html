@@ -50,7 +50,7 @@
 			<div ng-show="document.respondentEmails">
 				<label>Emails</label>
 				<ul class="km-value">
-					<li ng-repeat="item in document.respondentEmails"><a ng-href="mailto:{{item}}">{{item}}</a></li>
+					<li ng-repeat="item in document.respondentEmails"><a translation-url ng-href="mailto:{{item}}">{{item}}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -572,7 +572,7 @@
 		<div ng-show="document.relevantDocuments">
 			<label>Other relevant website address or attached documents</label>
 			<ul class="km-value">
-				<li ng-repeat="item in document.relevantDocuments"><a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
+				<li ng-repeat="item in document.relevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
 			</ul>
 		</div>
 	</div>

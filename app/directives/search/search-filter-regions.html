@@ -1,4 +1,4 @@
-<li class="list-group-item" style="cursor:pointer;">
+﻿<li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectRegions" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
 		<div ng-animate="'animate'" ng-repeat="item in allTerms | toArray | orderBy:'title' | filter:{selected:true}" ng-click="refresh(this,true)">
@@ -16,7 +16,7 @@
 				<div class="modal-body" style="padding-left:20px">
 					<div class="panel-group" id="accordion">
 						<div class="panel panel-default" ng-repeat="class in terms" ng-init="classIndex = $index" ng-if="class.count">
-							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}" >
+							<a translation-url class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" ng-href="#{{class.identifier}}" >
 									<div class="panel-heading">
 										<h4 class="panel-title" style="margin:0">
 											{{class.name}} <span class="bg-blue badge">{{class.count}}</span>

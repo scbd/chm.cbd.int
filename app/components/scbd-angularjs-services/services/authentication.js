@@ -364,10 +364,13 @@ define(['app'], function(app) {//, './apiUrl'
                     /^https:\/\/localhost[:\/]/i.test(config.url) ||
                     /^\/\w+/i.test(config.url);
 
-                if (trusted && realm) {
-                    config.headers = angular.extend(config.headers || {}, {
-                        realm: realm.value || realm
-                    });
+                //exception if the APi call needs to be done for different realm
+                if(trusted && realm && config.params && config.params.realm && config.params.realm != realm) {
+                      config.headers = angular.extend(config.headers || {}, { realm : config.params.realm });
+                      config.params.realm = undefined;
+                }
+                else if(trusted && realm ) {
+                    config.headers = angular.extend(config.headers || {}, { realm : realm });
                 }
 
                 return config;
@@ -394,10 +397,37 @@ define(['app'], function(app) {//, './apiUrl'
             };
         }
     ]);
+        app.factory('genericIntercepter', ["locale", function(locale) {
+
+            return {
+                request: function(config) {
+                    
+                    var trusted = /^https:\/\/api.cbd.int\//i.test(config.url) ||
+                                /^https:\/\/localhost[:\/]/i.test(config.url) ||
+                                /^\/\w+/i.test(config.url);
+
+                    var hasLanguageHeader = (config.headers || {}).hasOwnProperty('preferred-language');
+
+                    if (!trusted || hasLanguageHeader) // no need to alter config
+                        return config;
+
+                    if (!hasLanguageHeader) {
+                        config.headers = angular.extend(config.headers || {}, {
+                            'preferred-language': locale
+                        });
+                    }
+
+                    return config;
+                }
+            };
+        }
+    ]);
     app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.interceptors.push('authenticationHttpIntercepter');
         $httpProvider.interceptors.push('realmHttpIntercepter');
         $httpProvider.interceptors.push('apiURLHttpIntercepter');
+        $httpProvider.interceptors.push('genericIntercepter');
+        
     }]);
 
 });

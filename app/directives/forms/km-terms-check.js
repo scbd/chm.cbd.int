@@ -1,4 +1,4 @@
-define(['app', 'angular', 'jquery', 'text!./km-terms-check.html', 'linqjs'], function(app, angular, $, template, Enumerable) { 'use strict';
+define(['app', 'angular', 'jquery', 'text!./km-terms-check.html', 'linqjs', 'scbd-angularjs-services/locale'], function(app, angular, $, template, Enumerable) { 'use strict';
 
 	app.directive('kmTermCheck', [function () {
 		return {
@@ -27,14 +27,18 @@ define(['app', 'angular', 'jquery', 'text!./km-terms-check.html', 'linqjs'], fun
 					ngModelController.$setViewValue($scope.binding);
 				});
 
+				if ($attr.container) {
+					$scope.container = $attr.container;
+				}
 				$scope.init();
 
 				if(!$attr["class"])
 					$element.addClass("list-unstyled");
 
 			},
-			controller: ["$scope", "$q", "Thesaurus", '$timeout', function ($scope, $q, thesaurus, $timeout)
+			controller: ["$scope", "$q", "Thesaurus", '$timeout', 'locale', function ($scope, $q, thesaurus, $timeout, locale)
 			{
+				$scope.locale = locale;
 				//==============================
 				//
 				//==============================

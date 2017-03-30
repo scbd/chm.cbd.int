@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'],
+define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html', 'scbd-angularjs-services/locale'],
  function(app, angular, _, $, template) { 'use strict';
 
 	app.directive('kmSelect', ["htmlUtility", function (html)
@@ -38,6 +38,8 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'],
 					ngModelController.$setViewValue($scope.binding);
 					if (newBinding)
 						$scope.autoInit().then($scope.load);
+					else
+						$scope.clearSelection()
 				});
 
 				if ($scope.watchItems)
@@ -69,8 +71,9 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'],
 					});
 				}
 			},
-			controller: ["$scope", "$q","$filter", "$timeout", function ($scope, $q, $filter, $timeout)
+			controller: ["$scope", "$q","$filter", "$timeout", "locale", function ($scope, $q, $filter, $timeout, locale)
 			{
+				$scope.locale = locale;
 				//==============================
 				//
 				//==============================
@@ -301,17 +304,6 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-select.html'],
 				//==============================
 				$scope.chooseOther = function() {
 					alert("todo");
-				};
-
-				//==============================
-				//
-				//==============================
-				$scope.clearSelection = function() {
-					_.each($scope.allItems || [], function(item) {
-						item.selected = false;
-					});
-
-					$scope.save();
 				};
 
 				//==============================

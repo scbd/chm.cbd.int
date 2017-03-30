@@ -1,4 +1,4 @@
-<div id="Record" class="record panel panel-default">
+﻿<div id="Record" class="record panel panel-default">
   <div id="view-header" class="panel-heading bg-blue" ng-if="header">
       <div class="row">
           <div class="col-xs-10">
@@ -192,6 +192,20 @@
                 </div>
             </div>
 
+            <div ng-show="document.title">
+                <label class="view">Title</label>
+                <div class="km-value">
+                    <span >
+                        {{document.title |lstring}}<br/>
+                    </span>
+                </div>
+            </div>
+            <div ng-show="document.problem">
+              <label class="view">Problem</label>
+              <div class="km-value">
+                {{document.problem |lstring}}
+              </div>
+            </div>
 
             <div ng-show="document.assistanceTypes">
                 <label class="view">Type of assistance requested </label>
@@ -205,7 +219,7 @@
               <label class="view">{{type |term:locale}}</label>
               <span>Describe how {{type |term:locale}} will facilitate TSC while addressing your problem.</span>
               <div class="km-value">
-                      {{document.typesDetails[type.identifier]| lstring:locale}}
+                      {{document.addressedPriorities| lstring:locale}}
               </div>
             </div>
             <div ng-show="document.addressedPriorities">

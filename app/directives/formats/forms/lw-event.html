@@ -1,4 +1,4 @@
-<div>
+﻿<div>
   <h1>Event  <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
 
   <div class="alert alert-danger" ng-show="hasError()">
@@ -23,10 +23,10 @@
 
         <div class="col-sm-8 col-xs-12">
           <ul class="pagination">
-            <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-            <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-            <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-            <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+            <li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+            <li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
+            <li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
+            <li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
           </ul>
         </div>
 
@@ -94,7 +94,7 @@
                   <div km-auto-complete-server-select ng-model="document.organizations" placeholder="Search organizations by typing key words"
                   items="lifeWebServices.getOrganizations(query)" km-type="ETerm" multiple> </div>
                 </div>
-                To create a new organization please go here: <a href="/submit/organization/new" target="_blank">Organizations</a>
+                To create a new organization please go here: <a translation-url href="/submit/organization/new" target="_blank">Organizations</a>
               </div>
 
               <div class="col-md-6">
@@ -222,10 +222,10 @@
         <div class="row">
           <div class="col-sm-9 col-xs-12">
             <ul class="pagination">
-              <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-              <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-              <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-              <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+              <li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+              <li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
+              <li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
+              <li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
             </ul>
           </div>
 

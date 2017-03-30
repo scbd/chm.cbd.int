@@ -53,37 +53,4 @@ app.factory('URI', [function() {
 	return URI;
 }]);
 
-app.factory('localization', ["$cookies", function($cookies) {
-	return {
-		locale: function(newLocale) {
-
-			var internal_SetLocale = function(newLocale) {
-
-				if (!/^[a-z]{2,3}$/.test(newLocale))
-					throw "invalid locale";
-
-				var oExpire = new Date();
-
-				oExpire.setFullYear(oExpire.getFullYear() + 1);
-
-				document.cookie = "Preferences=Locale=" + escape(newLocale) + "; path=/; expires="+oExpire.toGMTString(); //jshint ignore:line
-			};
-
-			if (newLocale)
-				internal_SetLocale(newLocale);
-
-			var sPreferences = $cookies.getAll("Preferences");
-			var sLocale      = "en";
-			var oLocaleRegex = /;?Locale=([a-z]{2,3});?/;
-
-			if (sPreferences && oLocaleRegex.test(sPreferences))
-				sLocale = sPreferences.replace(oLocaleRegex, "$1");
-			else
-				internal_SetLocale(sLocale);
-
-			return sLocale;
-		}
-	};
-}]);
-
 });

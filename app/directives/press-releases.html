@@ -3,12 +3,12 @@
         <tr ng-repeat="doc in docs  | startFrom:currentPage*pageSize | limitTo:pageSize">
             <td>
                 <div class="time-ago" title="{{doc.date_dt}}">{{doc.date_dt | date:mediumDate }}</div>
-                <div><a ng-href="{{doc.url_ss[0]}}">{{doc.title_t}}</a></div>
+                <div><a translation-url ng-href="{{doc.url_ss[0]}}">{{doc.title_t}}</a></div>
             </td>
         </tr>
         <tr ng-hide="isPagerVisible()">
             <td>
-                <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}">More press releases...</a></div>
+                <div ng-show="hasRecords()" class="text-right"><a translation-url ng-href="{{fullListUrl}}">More press releases...</a></div>
                 <div ng-hide="hasRecords()">Sorry, there are no press releases currently available.</div>
             </td>
         </tr>

@@ -1,16 +1,27 @@
-define(['app', 'jquery', 'lodash', 'authentication', 'ng-breadcrumbs',
+define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
 'directives/users/notifications', 'services/realmConfig',
  'scbd-angularjs-services', 'scbd-angularjs-filters',
 'scbd-branding/directives/footer', '/app/directives/nav/portal-branding.js',
-'scbd-branding/directives/header/header', '/app/directives/nav/portal-nav.js'
-], function(app, $, _) {
+'scbd-branding/directives/header/header', '/app/directives/nav/portal-nav.js',
+'directives/forms/translation-url', 'scbd-angularjs-services/locale',
+], function(app, $, _, moment) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', 'cfgUserNotification',
-     function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig, cfgUserNotification) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', 'cfgUserNotification', 'locale',
+     function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig, cfgUserNotification, locale) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
+
+        $scope.lang = locale;
+        //set default moment lang
+        var lang = locale;
+        if(lang=='zh')
+            lang= 'zh-cn'; //moment has two ZH, use ZH-CN
+        moment.locale(lang);
+        if(lang == 'ar'){
+            require(['css!/app/libs/bootstrap-rtl/dist/css/bootstrap-rtl.css']);
+        }
 
         $rootScope.placeholderRecords=[];
 

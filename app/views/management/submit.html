@@ -1,4 +1,4 @@
-<div id="submit">
+﻿<div id="submit">
 <div smooth-scroll duration="100" offset="250"></div>
 
     <div class="container"  style="margin-top:20px;">
@@ -55,8 +55,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/nationalReport?type=nbsap" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/nationalReport/new?type=nbsap" data-toggle="tooltip" title="Add New Record" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=nbsap" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=nbsap" data-toggle="tooltip" title="Add New Record" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -77,8 +77,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/nationalReport?type=nr" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/nationalReport/new?type=nr" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=nr" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=nr" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -101,13 +101,13 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/nationalReport?type=other" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/nationalReport/new?type=other" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=other" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=other" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
 
-         <div class="row row-bottom-border1">
+         <div class="row row-bottom-border">
             <div class="col-xs-3">
                 <h5 style="padding-top:0;margin-top:0;">Sixth National Report</h5>
             </div>
@@ -124,93 +124,14 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" ng-show="nationalReport6" href="/submit/nationalReport6/{{nationalReport6.identifier_s}}" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
-                    <a class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                     <a translation-url class="btn btn-info" href="/submit/nationalReport6" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-info" ng-show="nationalReport6 && getFacet('nationalReport6').workflow == 0" href="/submit/nationalReport6/{{nationalReport6.identifier_s}}" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
+                     <a translation-url class="btn btn-info" ng-if="nationalReport6 && getFacet('nationalReport6').workflow > 0" href="/management/requests/{{nationalReport6._workflow_s.replace('workflow-','')}}/publishRequest" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
+                    <a translation-url class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
-            <!--<div class="row2">
-                <div class="col-md-122">-->
-                     
-                <!--</div>
-            </div>-->
         </div>  
-        <div class="row row-bottom-border1">
-            
-            <div class="col-xs-1"></div>
-            <div class="col-xs-2 ">
-                <h5 style="padding-top:0;margin-top:0;">Targets</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">Parties are invited to provide national targets set in line with the Aichi Biodiversity Targets. </p>
-
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('nationalTarget').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('nationalTarget').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('nationalTarget').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs  pull-right">
-                    <a class="btn btn-info" href="/submit/online-reporting/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/nationalTarget/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-bottom-border1">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-2">
-                <h5 style="padding-top:0;margin-top:0;">Assessments</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-                    Parties are invited to provide assessments of progress made towards the Aichi Biodiversity Targets and/or related national targets
-                    <!--<span class="color-red" ng-if="getFacet('nationalTarget').public <= 0"><br>No targets have been publish. Assessments can only be made against published targets.</span>-->
-                    </p>
-
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('nationalAssessment').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('nationalAssessment').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('nationalAssessment').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/online-reporting/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/nationalAssessment/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-1"></div>
-            <div class="col-xs-2">
-                <h5 style="padding-top:0;margin-top:0;">Indicators</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-                    Parties are invited to provide national indicators developed for assessing progress towards the Aichi Biodiversity Targets and/or related national targets.
-                </p>
-
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('nationalIndicator').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('nationalIndicator').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('nationalIndicator').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/online-reporting/nationalIndicator/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/online-reporting/nationalIndicator/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
+       
         <div class="row">
             <div class="col-xs-3">
                 <h5 style="padding-top:0;margin-top:0;">Financial Reporting Framework</h5>
@@ -228,8 +149,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/resourceMobilisation/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/resourceMobilisation/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         
@@ -244,7 +165,7 @@
 
         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
             <div class="col-xs-12">
-                <a href="http://{{abschLink}}">Access and Benefit-Sharing (Nagoya Protocol)</a>
+                <a translation-url href="http://{{abschLink}}">Access and Benefit-Sharing (Nagoya Protocol)</a>
             </div>
         </div>
 <!--
@@ -273,8 +194,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://{{abschLink}}/register/CNA" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://{{abschLink}}/register/CNA/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/CNA" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/CNA/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -297,8 +218,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://{{abschLink}}/register/MSR" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://{{abschLink}}/register/MSR/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/MSR" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/MSR/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -321,8 +242,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://{{abschLink}}/register/NDB" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://{{abschLink}}/register/NDB/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/NDB" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/NDB/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -345,8 +266,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://{{abschLink}}/register/IRCC" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://{{abschLink}}/register/IRCC/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/IRCC" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/IRCC/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -369,8 +290,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://{{abschLink}}/register/CP" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://{{abschLink}}/register/CP/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/CP" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/CP/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -393,15 +314,15 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://{{abschLink}}/register/CPC" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://{{abschLink}}/register/CPC/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/CPC" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/CPC/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
 
         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
             <div class="col-xs-12">
-                <a href="http://bch.cbd.int">Biosafety Clearing-House (BCH)</a>
+                <a translation-url href="http://bch.cbd.int">Biosafety Clearing-House (BCH)</a>
             </div>
         </div>
         <div class="row ">
@@ -419,8 +340,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="https://bch.cbd.int/managementcentre/default.shtml" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="https://bch.cbd.int/managementcentre/default.shtml" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://bch.cbd.int/managementcentre/default.shtml" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://bch.cbd.int/managementcentre/default.shtml" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -441,7 +362,7 @@
                     </div>
                     <h4 style="padding-top:0;margin-top:0;" ><i class="fa fa-edit"></i> National Strategies and Reports</h3>
                     <p>National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
-                    <a class="btn btn-primary" href="/submit/" role="button bg-white" ng-disabled="!enableNr"> Select »</a>
+                    <a translation-url class="btn btn-primary" href="/submit/" role="button bg-white" ng-disabled="!enableNr"> Select »</a>
 
               </div>
             </div>
@@ -455,7 +376,7 @@
                     </div>
                     <h4 style="padding-top:0;margin-top:0;" ><i class="fa fa-edit"></i> Implementation Progress Achieved on Targets</h3>
                     <p>National reporting on progress in implementing the Strategic Plan for Biodiversity 2011-2020, including financial reporting, enabling entry and retrieval of information in support of monitoring of the Convention.</p>
-                    <a class="btn btn-primary" href="/submit/online-reporting/" role="button bg-white" ng-disabled="!enableNr"> Select »</a>
+                    <a translation-url class="btn btn-primary" href="/submit/online-reporting/" role="button bg-white" ng-disabled="!enableNr"> Select »</a>
 
               </div>
             </div>
@@ -465,7 +386,7 @@
 
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> ABS Clearing-House</h4>
                   <p>The Access and Benefit-sharing Clearing-House (ABS-CH) handles the submission of information on access and benefit-sharing established by Article 14 of the Nagoya Protocol. Both Parties and other governments are encouraged to submit their relevant ABS information.</p>
-                  <a class="btn btn-warning" href="http://{{abschLink}}/register" role="button bg-white"> Go to the ABSCH »</a>
+                  <a translation-url class="btn btn-warning" href="http://{{abschLink}}/register" role="button bg-white"> Go to the ABSCH »</a>
               </div>
             </div>
 
@@ -476,7 +397,7 @@
 
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> BCH Clearing-House</h4>
                   <p>The Biosafety Clearing-House (BCH) is a mechanism set up by the Cartagena Protocol on Biosafety to facilitate the exchange of information on Living Modified Organisms (LMOs) and assist the Parties to better comply with their obligations under the Protocol.</p>
-                  <a class="btn btn-warning" href="http://bch.cbd.int" role="button bg-white"> Go to the BCH »</a>
+                  <a translation-url class="btn btn-warning" href="http://bch.cbd.int" role="button bg-white"> Go to the BCH »</a>
               </div>
             </div>
 
@@ -523,8 +444,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/resource" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/resource/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/resource" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/resource/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -547,8 +468,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/caseStudy/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/caseStudy/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/caseStudy/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/caseStudy/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -584,8 +505,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/organization/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/organization/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/organization/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/organization/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -615,8 +536,8 @@
            </div>
            <div class="col-xs-1">
                <div class="btn-group-xs pull-right">
-                   <a class="btn btn-info" href="/submit/capacityBuildingInitiative/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a class="btn btn-primary" href="/submit/capacityBuildingInitiative/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                   <a translation-url class="btn btn-info" href="/submit/capacityBuildingInitiative/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                   <a translation-url class="btn btn-primary" href="/submit/capacityBuildingInitiative/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                </div>
            </div>
        </div>
@@ -644,8 +565,8 @@
            </div>
            <div class="col-xs-1">
                <div class="btn-group-xs pull-right">
-                   <a class="btn btn-info" href="/submit/undbPartner/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a class="btn btn-primary" href="/submit/undbPartner/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                   <a translation-url class="btn btn-info" href="/submit/undbPartner/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                   <a translation-url class="btn btn-primary" href="/submit/undbPartner/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                </div>
            </div>
        </div>
@@ -668,8 +589,8 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a class="btn btn-info" href="/submit/undbAction/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a class="btn btn-primary" href="/submit/undbAction/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/undbAction/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/undbAction/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -685,7 +606,7 @@
                     </div>
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> Virtual Library Records</h4>
                   <p>The Virtual Library hosts a wide variety of resources relevant to the implementation of the CBD and it's protocols, including books, documents, capacity-building materials, meeting or conference proceedings, videos, news services, websites and databases, and others.</p>
-                  <a class="btn btn-primary" href="/submit/resource/" role="button bg-white"> Select »</a>
+                  <a translation-url class="btn btn-primary" href="/submit/resource/" role="button bg-white"> Select »</a>
               </div>
             </div>
 
@@ -699,7 +620,7 @@
                     </div>
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> Biodiversity Related Organizations</h4>
                   <p>The List of Biodiversity Related Organizations is a compendium of all organizations working in or related to the field of Biodiversity.</p>
-                  <a class="btn btn-primary" href="/submit/organization/" role="button bg-white"> Select »</a>
+                  <a translation-url class="btn btn-primary" href="/submit/organization/" role="button bg-white"> Select »</a>
               </div>
             </div>
 
@@ -714,7 +635,7 @@
                     </div>
                   <h4 style="padding-top:0;margin-top:0;"><i class="fa fa-edit"></i> Case Studies</h4>
                   <p>Case Studies are an important source of information and knowledge for Parties and various stakeholders to the Convention on Biological Diversity. Feedback and additional submissions by interested partners are welcome.</p>
-                  <a class="btn btn-primary" href="/submit/caseStudy/" role="button bg-white"> Select »</a>
+                  <a translation-url class="btn btn-primary" href="/submit/caseStudy/" role="button bg-white"> Select »</a>
               </div>
             </div>
 
@@ -748,8 +669,8 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a class="btn btn-info" href="/submit/dossier/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/dossier/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/dossier/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/dossier/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -771,8 +692,8 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a class="btn btn-info" href="/submit/marineEbsa/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/marineEbsa/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/marineEbsa/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/marineEbsa/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -794,8 +715,8 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a class="btn btn-info" href="/submit/strategicPlanIndicator/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/strategicPlanIndicator/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/strategicPlanIndicator/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/strategicPlanIndicator/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -817,8 +738,8 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a class="btn btn-info" href="/submit/aichiTarget/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/aichiTarget/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/aichiTarget/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/aichiTarget/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -826,7 +747,7 @@
 
             <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
                 <div class="col-xs-12">
-                 <a href="http://lifeweb.cbd.int"> LifeWeb </a>
+                 <a translation-url href="http://lifeweb.cbd.int"> LifeWeb </a>
                 </div>
             </div>
 
@@ -848,8 +769,8 @@
                 </div>
                 <div class="col-xs-1">
                      <div class="btn-group-xs pull-right">
-                       <a class="btn btn-info" href="/submit/lwEvent/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/lwEvent/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                       <a translation-url class="btn btn-info" href="/submit/lwEvent/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/lwEvent/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -872,8 +793,8 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a class="btn btn-info" href="/submit/lwProject/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/lwProject/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/lwProject/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/lwProject/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -896,8 +817,8 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a class="btn btn-info" href="/submit/lwDonor/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a class="btn btn-primary" href="/submit/lwDonor/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/lwDonor/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/lwDonor/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>

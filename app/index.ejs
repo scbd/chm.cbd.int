@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-	<base href="/">
+	<base href="<%=baseUrl%>">
 	<meta charset="utf-8">
 	<title>Clearing-House Mechanism</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +11,20 @@
 
 	<link rel="stylesheet" type="text/css" href="/app/css/main.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--<link href="https://almsaeedstudio.com/themes/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" />-->
 	<style>
 		[ng\:cloak],
 		[ng-cloak],
 		.ng-cloak {
 			display: none !important;
 		}
+		.container{
+            width:99%!important;
+        }
 	</style>
 </head>
 
-<body ng-controller="TemplateController" ng-class="{'home-page':homePage}">
+<body ng-controller="TemplateController" ng-class="{'home-page':homePage}" lang="{{lang}}">
 
 	<iframe id="authenticationFrame" style="display:none" onload="(event.target || event.srcElement).ready = true"></iframe>
 	<script>
@@ -114,7 +118,7 @@
 
 		<div class="footer-page hidden-print">
 			<div class="container footer-page-container  text-right ">
-				<a href="#" scroll-to="anchorTop" class="color-darkgrey"><i class="fa fa-arrow-circle-up"></i> back to top</a>
+				<a translation-url href="#" scroll-to="anchorTop" class="color-darkgrey"><i class="fa fa-arrow-circle-up"></i> back to top</a>
 			</div>
 		</div>
 
@@ -124,54 +128,54 @@
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<h4>The Convention</h4>
 						<ul>
-							<li><a href="https://www.cbd.int/convention/text/">Text of the Convention</a></li>
-							<li><a href="https://www.cbd.int/convention/parties/list/">List of Parties</a></li>
-							<li><a href="https://www.cbd.int/sp/">Strategic Plan</a></li>
-							<li><a href="https://www.cbd.int/programmes/">Programmes and Issues</a></li>
-							<li><a href="https://www.cbd.int/cooperation/">Cooperation &amp; Partnerships</a></li>
+							<li><a translation-url href="https://www.cbd.int/convention/text/">Text of the Convention</a></li>
+							<li><a translation-url href="https://www.cbd.int/convention/parties/list/">List of Parties</a></li>
+							<li><a translation-url href="https://www.cbd.int/sp/">Strategic Plan</a></li>
+							<li><a translation-url href="https://www.cbd.int/programmes/">Programmes and Issues</a></li>
+							<li><a translation-url href="https://www.cbd.int/cooperation/">Cooperation &amp; Partnerships</a></li>
 						</ul>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<h4>Cartagena Protocol</h4>
 						<ul>
-							<li><a href="https://bch.cbd.int/protocol/text/">Text of the Protocol</a></li>
-							<li><a href="https://bch.cbd.int/protocol/parties/">List of Parties</a></li>
-							<li><a href="https://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
-							<li><a href="https://bch.cbd.int/">Biosafety Clearing-House</a></li>
+							<li><a translation-url href="https://bch.cbd.int/protocol/text/">Text of the Protocol</a></li>
+							<li><a translation-url href="https://bch.cbd.int/protocol/parties/">List of Parties</a></li>
+							<li><a translation-url href="https://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
+							<li><a translation-url href="https://bch.cbd.int/">Biosafety Clearing-House</a></li>
 						</ul>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<h4>Nagoya Protocol</h4>
 						<ul>
-							<li><a href="https://www.cbd.int/abs/text/">Text of the Protocol</a></li>
-							<li><a href="https://www.cbd.int/abs/nagoya-protocol/signatories/">List of Parties</a></li>
-							<li><a href="https://absch.cbd.int/">ABS Clearing-House</a></li>
+							<li><a translation-url href="https://www.cbd.int/abs/text/">Text of the Protocol</a></li>
+							<li><a translation-url href="https://www.cbd.int/abs/nagoya-protocol/signatories/">List of Parties</a></li>
+							<li><a translation-url href="https://absch.cbd.int/">ABS Clearing-House</a></li>
 						</ul>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<h4>Programmes</h4>
 						<ul>
-							<li><a href="https://www.cbd.int/programmes/">Thematic Programmes</a></li>
-							<li><a href="https://www.cbd.int/programmes/">Cross-Cutting Issues</a></li>
-							<li><a href="https://www.cbd.int/programmes/">Major Groups</a></li>
+							<li><a translation-url href="https://www.cbd.int/programmes/">Thematic Programmes</a></li>
+							<li><a translation-url href="https://www.cbd.int/programmes/">Cross-Cutting Issues</a></li>
+							<li><a translation-url href="https://www.cbd.int/programmes/">Major Groups</a></li>
 						</ul>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<h4>Information</h4>
 						<ul>
-							<li><a href="https://www.cbd.int/meetings/">Meetings</a></li>
-							<li><a href="https://www.cbd.int/notifications/">Notifications</a></li>
-							<li><a href="https://www.cbd.int/countries/">National Information</a></li>
-							<li><a href="https://www.cbd.int/information/publications.shtml">Publications</a></li>
+							<li><a translation-url href="https://www.cbd.int/meetings/">Meetings</a></li>
+							<li><a translation-url href="https://www.cbd.int/notifications/">Notifications</a></li>
+							<li><a translation-url href="https://www.cbd.int/countries/">National Information</a></li>
+							<li><a translation-url href="https://www.cbd.int/information/publications.shtml">Publications</a></li>
 						</ul>
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<h4>Secretariat</h4>
 						<ul>
-							<li><a href="https://www.cbd.int/secretariat/">Overview</a></li>
-							<li><a href="https://www.cbd.int/secretariat/staff/">Staff</a></li>
-							<li><a href="https://www.cbd.int/secretariat/vacancies/">Opportunities</a></li>
-							<li><a href="https://www.cbd.int/contact/">Contact Us</a></li>
+							<li><a translation-url href="https://www.cbd.int/secretariat/">Overview</a></li>
+							<li><a translation-url href="https://www.cbd.int/secretariat/staff/">Staff</a></li>
+							<li><a translation-url href="https://www.cbd.int/secretariat/vacancies/">Opportunities</a></li>
+							<li><a translation-url href="https://www.cbd.int/contact/">Contact Us</a></li>
 						</ul>
 					</div>
 
@@ -216,6 +220,20 @@
 
         ga('create', 'UA-1996573-14', 'auto');
         ga('send', 'pageview');
+
+		/**************************
+          For outdate browser check
+        **************************/
+        function addLoadEvent(func) {
+        var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func; } else { window.onload = function() { if (oldonload) { oldonload(); } func(); } } }       
+        addLoadEvent(function() {
+            var langARRegex = /^\/ar\//;
+            var location = window.location;
+            if(langARRegex.test(location.pathname)){
+             document.getElementsByTagName("body")[0].setAttribute("dir", "rtl");   
+            }
+
+        });
     </script>
 
 </body>

@@ -1,8 +1,9 @@
-<ul>
+﻿<ul>
 	<script type="text/ng-template"  id="term-check-tree-renderer.html">
 		<label>
 			<input type="checkbox" ng-model="identifiers[term.identifier]" ng-click="save()" ng-required="IsRequired()" value="{{term.identifier}}" />
 				- {{term.title||term.name | lstring:locale}}
+				<span info-bar data-content="{{term.description}}" ng-if="term.description" data-container="{{container}}"></span>
 		</label>
 
 		<ul style="list-style:none">

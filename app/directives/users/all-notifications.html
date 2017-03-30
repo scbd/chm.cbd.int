@@ -1,4 +1,4 @@
-<div>
+﻿<div>
         <table class="table table-striped" style="width:100%;margin-bottom:30px;">
             <tr style="border-bottom: 1px solid #ddd;">
               
@@ -8,7 +8,7 @@
             <tr ng-repeat="notification in notifications" class="notification-item" ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }">
               
                 <td ng-class="{'notification-read':notification.state=='read','notification-unread':notification.state=='unread' }" style="padding:10px 0;cursor:pointer;">
-                    <a ng-href="{{getURL(notification)}}" ng-click="updateStatus(notification,'read');">
+                    <a translation-url ng-href="{{getURL(notification)}}" ng-click="updateStatus(notification,'read');">
                         <i ng-class="{'color-blue':notification.state=='unread'}">
                         <i class="fa fa-envelope" style="font-size:15px" ng-show="notification.type=='message'"></i>
                         <i class="fa fa-bell" style="font-size:15px" ng-show="notification.type=='documentNotification'"></i> 
@@ -37,8 +37,8 @@
                     
                 </td>
                   <td style="width:10px;" class="text-center">
-                    <a href="#" ng-show="notification.state=='unread'" ng-click="updateStatus(notification,'read');"><i class="fa fa-square-o fa-lg"></i></a>
-                    <a href="#" ng-show="notification.state=='read'" ng-click="updateStatus(notification, 'unread');"><i class="fa fa-check-square-o fa-lg"></i></a>
+                    <a translation-url href="#" ng-show="notification.state=='unread'" ng-click="updateStatus(notification,'read');"><i class="fa fa-square-o fa-lg"></i></a>
+                    <a translation-url href="#" ng-show="notification.state=='read'" ng-click="updateStatus(notification, 'unread');"><i class="fa fa-check-square-o fa-lg"></i></a>
                 </td>
             </tr>
         </table>

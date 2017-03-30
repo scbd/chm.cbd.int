@@ -3,12 +3,12 @@
         <tr ng-repeat="mtg in meetings | limitTo:pageSize">
             <td>
                 <div>{{mtg.dateStart_dt | date:mediumDate}} - {{mtg.dateEnd_dt  | date:mediumDate}}, {{mtg.locationCity_t}}, {{getCountryName(mtg.locationCountry_s) | lstring:locale}}</div>
-                <div><a ng-href="//www.cbd.int/doc/?meeting={{mtg.id}}">{{mtg.title_t}}</a></div>
+                <div><a translation-url ng-href="//www.cbd.int/doc/?meeting={{mtg.id}}">{{mtg.title_t}}</a></div>
             </td>
         </tr>
         <tr ng-hide="isPagerVisible() || !fullListUrl">
             <td>
-                <div ng-show="hasRecords()" class="text-right"><a ng-href="{{fullListUrl}}" class="morelinks">More Meetings</a></div>
+                <div ng-show="hasRecords()" class="text-right"><a translation-url ng-href="{{fullListUrl}}" class="morelinks">More Meetings</a></div>
                 <div ng-hide="hasRecords()">Sorry, there are no meetings currently available.</div>
             </td>
         </tr>

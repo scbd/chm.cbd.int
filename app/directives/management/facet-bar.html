@@ -1,10 +1,10 @@
-<div>
+﻿<div>
 
 <div class="btn-schema" ng-repeat="report in schemaList|filter:schemaFilter" ng-class="{'btn-schema-selected-active': isActiveMenu(report)}" >
     <table>
         <tr>
             <td class="title">
-                <a href="{{listUrl}}/{{report.identifier}}"> {{report.title}} </a><br>
+                <a translation-url href="{{listUrl}}/{{report.identifier}}"> {{report.title}} </a><br>
             </td>
             <td class="facets" rowspan="2">
                 <div class="label label-success label-small pull-right" style="margin-top:3px;" ng-show="report.publishCount">{{report.publishCount}} </div>
@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <td class="newlink">
-                <a style="font-size:10px;font-weight:bold;" href="{{getURL(report)}}">
+                <a translation-url style="font-size:10px;font-weight:bold;" href="{{getURL(report)}}">
                     <i class="fa fa-plus-square"></i>
                     add new</a>
                 </td>

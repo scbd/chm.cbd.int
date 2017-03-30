@@ -1,4 +1,4 @@
-<div>
+﻿<div>
     <!--
     //================
     // National Biodiversity Strategies and Action Plans (NBSAPS)
@@ -37,7 +37,7 @@
                 </h3>
                 <p class="small">
                     {{strategicPlan.summary|lstring|truncate:160:'...'}}
-                    <a ng-show="strategicPlan.url" ng-href="{{strategicPlan.url}}">more &raquo;</a>
+                    <a translation-url ng-show="strategicPlan.url" ng-href="{{strategicPlan.url}}">more &raquo;</a>
                 </p>
                 <div class="text-right">
                     <button type="button" class="btn btn-default btn-xs" ng-click="edit('nationalReport', {uid:strategicPlan.identifier,type:'nbsap'})">edit &raquo;</button>
@@ -88,7 +88,7 @@
                     <!-- NR -->
                     <h5>{{nationalReport.title|lstring}}</h5>
                     <p>
-                        {{nationalReport.summary|lstring|truncate:160:'...'}} <a ng-show="nationalReport.url" ng-href="{{nationalReport.url}}">more &raquo;</a>
+                        {{nationalReport.summary|lstring|truncate:160:'...'}} <a translation-url ng-show="nationalReport.url" ng-href="{{nationalReport.url}}">more &raquo;</a>
                     </p>
                     <span ng-show="isPublic(nationalReport)" class="label label-info pull-right label-spacing">published</span>
                     <span ng-show="isDraft(nationalReport)" class="label label-warning pull-right label-spacing">not published</span>
@@ -139,7 +139,7 @@
                 </h4>
                 <h5>{{otherReport.title}}</h5>
                 <p>
-                    {{otherReport.summary|lstring|truncate:160:'...'}} <a ng-show="otherReport.url" ng-href="{{otherReport.url}}">more &raquo;</a>
+                    {{otherReport.summary|lstring|truncate:160:'...'}} <a translation-url ng-show="otherReport.url" ng-href="{{otherReport.url}}">more &raquo;</a>
                 </p>
                 <span ng-show="isPublic(otherReport)" class="label label-info pull-right label-spacing">published</span>
                 <span ng-show="isDraft(otherReport)" class="label label-warning pull-right label-spacing">not published</span>
@@ -171,7 +171,7 @@
             <tr ng-repeat="aichiTarget in aichiTargets| orderBy:'number'">
                 <!-- aichi target icon -->
                 <td style="width:42px;text-align:center">
-                    <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}">
+                    <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}">
                         <img class="aichi-icon" ng-src="/app/images/targets/{{aichiTarget.number}}.png" />
                     </a>
                 </td>
@@ -183,8 +183,8 @@
                             <span ng-show="isPublic(target)" class="label label-info pull-right label-spacing">published</span>
                             <span ng-show="isDraft(target)" class="label label-warning pull-right label-spacing">not published</span>
                             <i class="fa fa-dot-circle-o"></i>
-                            <a ng-show="isPublic(target)" ng-href="{{target.url}}">{{target.title}}</a>
-                            <a ng-show="isDraft(target)" ng-href="#" ng-click="edit('nationalTarget', { uid:target.identifier})">{{target.title}}</a>
+                            <a translation-url ng-show="isPublic(target)" ng-href="{{target.url}}">{{target.title}}</a>
+                            <a translation-url ng-show="isDraft(target)" ng-href="#" ng-click="edit('nationalTarget', { uid:target.identifier})">{{target.title}}</a>
                         </li>
                     </ul>
                     <button type="button" class="btn btn-default btn-xs btn-link" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ aichiTarget:aichiTarget, excludeTargets: aichiTarget.nationalTargets })" title="Link this Aichi Target to a National Target">link +</button>
@@ -212,7 +212,7 @@
                 <td ng-repeat="year in globalYears" style="text-align:center" style="text-align:center" ng-class="{false:'not-up-to-date'}[aichiTarget.isUpToDate]">
 
                     <span ng-show="aichiTarget.assessmentYears.indexOf(year)>=0">
-                        <a style="cursor:pointer" ng-href="{{getAssessment(aichiTarget, year).url}}">
+                        <a translation-url style="cursor:pointer" ng-href="{{getAssessment(aichiTarget, year).url}}">
                             <span class="badge badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(aichiTarget, year)), 'badge-published' : isPublic(getAssessment(aichiTarget, year)) }"><i class="fa fa-check"></i>
                             </span>
                         </a>
@@ -261,8 +261,8 @@
                     </td>
                     <td>
                         <i class="fa fa-dot-circle-o"></i>
-                        <a ng-show="isPublic(target)" ng-href="{{target.url}}">{{target.title|lstring}}</a>
-                        <a ng-show="isDraft(target)" ng-href="#" ng-click="edit('nationalTarget', { uid:target.identifier })">{{target.title|lstring}}</a>
+                        <a translation-url ng-show="isPublic(target)" ng-href="{{target.url}}">{{target.title|lstring}}</a>
+                        <a translation-url ng-show="isDraft(target)" ng-href="#" ng-click="edit('nationalTarget', { uid:target.identifier })">{{target.title|lstring}}</a>
                         <div style="text-align: justify;">{{target.description|lstring}}</div>
                         <div>
                             <span ng-show="isPublic(target)" class="label label-info label-spacing">published</span>
@@ -271,7 +271,7 @@
                     </td>
                     <td>
                         <span class="aichi-icons">
-                            <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'">
+                            <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'">
                                 <img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" />
                             </a>
                         </span>
@@ -280,7 +280,7 @@
                         <div ng-repeat="indicator in target.nationalIndicators">
                             <span ng-show="isPublic(indicator)" class="label label-info pull-right label-spacing" title="published">p</span>
                             <span ng-show="isDraft(indicator)" class="label label-warning pull-right label-spacing" title="not published">np</span>
-                            <i class="fa fa-dashboard"></i> <a ng-href="{{indicator.url}}">{{indicator.title}}</a>
+                            <i class="fa fa-dashboard"></i> <a translation-url ng-href="{{indicator.url}}">{{indicator.title}}</a>
                             <span ng-show="!$last">;
                             </span>
                         </div>
@@ -289,7 +289,7 @@
                         <div ng-repeat=" activity in getActivities(implementationActivities, target.identifier) ">
                             <span ng-show="isPublic(activity)" class="label label-info pull-right label-spacing" title="published">p</span>
                             <span ng-show="isDraft(activity)" class="label label-warning pull-right label-spacing" title="not published">np</span>
-                            <i class="fa fa-cog"></i> <a ng-href="{{activity.url}}">{{activity.title}}</a>
+                            <i class="fa fa-cog"></i> <a translation-url ng-href="{{activity.url}}">{{activity.title}}</a>
                         </div>
                     </td>
                     <td ng-class="{false:'not-up-to-date'}[target.isUpToDate]" style="text-align:center;">
@@ -299,7 +299,7 @@
                         </div>
 
                         <div ng-repeat="year in target.assessmentYears ">
-                            <a ng-href="{{getAssessment(target, year).url}}">
+                            <a translation-url ng-href="{{getAssessment(target, year).url}}">
                                 <span class="label badge-lightgreen " ng-class="{'badge-darkgreen':year==currentYear, 'badge-draft' : isDraft(getAssessment(target, year)), 'badge-published' : isPublic(getAssessment(target, year)) }"> {{year}}</span>
                             </a>
                         </div>
@@ -337,8 +337,8 @@
                 </td>
                 <td>
                     <i class="fa fa-dashboard"></i>
-                    <a ng-show="isPublic(indicator)" ng-href="{{indicator.url}}">{{indicator.title|lstring}}</a>
-                    <a ng-show="isDraft(indicator)" ng-href="#" ng-click="edit('nationalIndicator', { uid:indicator.identifier})">{{indicator.title|lstring}}</a>
+                    <a translation-url ng-show="isPublic(indicator)" ng-href="{{indicator.url}}">{{indicator.title|lstring}}</a>
+                    <a translation-url ng-show="isDraft(indicator)" ng-href="#" ng-click="edit('nationalIndicator', { uid:indicator.identifier})">{{indicator.title|lstring}}</a>
                     <div>
                         <span ng-show="isPublic(indicator)" class="label label-info label-spacing">published</span>
                         <span ng-show="isDraft(indicator)" class="label label-warning label-spacing">not published</span>
@@ -350,13 +350,13 @@
                         <li ng-repeat="target in indicator.nationalTargets">
                             <span ng-show="isPublic(target)" class="label label-info pull-right label-spacing" title="published">p</span>
                             <span ng-show="isDraft(target)" class="label label-warning pull-right label-spacing" title="not published">np</span>
-                            <i class="fa fa-dot-circle-o"></i> <a ng-href="{{target.url}}">{{target.title}}</a>
+                            <i class="fa fa-dot-circle-o"></i> <a translation-url ng-href="{{target.url}}">{{target.title}}</a>
                         </li>
                     </ul>
                     <button type="button" class="btn btn-default btn-xs btn-link" data-toggle="modal" href="#linkNationalTargetDialog" ng-click="linkTargets({ nationalIndicator:indicator, excludeTargets: indicator.nationalTargets })" title="Link this National Indicator to a National Target">link +</button>
                 </td>
                 <td>
-                    <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in indicator.aichiTargets|orderBy:'identifier'">
+                    <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in indicator.aichiTargets|orderBy:'identifier'">
                         <img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" />
                     </a>
                 </td>
@@ -404,28 +404,28 @@
 
                     <span style="font-size:16px;"><i class="fa fa-cog"></i> {{activity.title|lstring}}</span>
                     <p>
-                        {{activity.description|lstring|truncate:240:'...'}} <a ng-show="isPublic(activity)" ng-href="{{activity.url}}">more &raquo;</a>
+                        {{activity.description|lstring|truncate:240:'...'}} <a translation-url ng-show="isPublic(activity)" ng-href="{{activity.url}}">more &raquo;</a>
                     </p>
 
 
                 </td>
 
                 <td>
-                    <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'">
+                    <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in activity.aichiTargets|orderBy:'identifier'">
                         <img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" />
                     </a>
                 </td>
                 <td>
                     <ul style="padding-left:0 ;list-style-type: none;">
                         <li ng-repeat="target in activity.nationalTargets|orderBy:'identifier'">
-                            <i class="fa fa-dot-circle-o"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+                            <i class="fa fa-dot-circle-o"></i> <a translation-url ng-href="{{target.url}}">{{target.title|lstring}}</a>
                             <span ng-show="isDraft(target)" class="label label-warning label-spacing" title="not published">n-p</span>
                             <span ng-show="isPublic(target)" class="label label-info label-spacing" title="published">p</span>
                         </li>
                         <p>
                             <em ng-show="activity.nationalIndicators">Indicator(s):
                                 <i class="fa fa-dashboard"></i>
-                                <span ng-repeat="indicator in activity.nationalIndicators"><a ng-href="{{indicator.url}}">{{indicator.title}}</a>
+                                <span ng-repeat="indicator in activity.nationalIndicators"><a translation-url ng-href="{{indicator.url}}">{{indicator.title}}</a>
                                     <span ng-show="!$last">;</span>
                                 </span>
                             </em>
@@ -476,18 +476,18 @@
 
                     <span style="font-size:16px;"><i class="fa fa-crosshairs"></i> {{tool.title|lstring}}</span>
                     <p>
-                        {{tool.description|lstring|truncate:240:'...'}} <a ng-show="isPublic(tool)" ng-href="{{tool.url}}">more &raquo;</a>
+                        {{tool.description|lstring|truncate:240:'...'}} <a translation-url ng-show="isPublic(tool)" ng-href="{{tool.url}}">more &raquo;</a>
                     </p>
                 </td>
                 <td>
-                    <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in tool.aichiTargets|orderBy:'identifier'">
+                    <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in tool.aichiTargets|orderBy:'identifier'">
                         <img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" />
                     </a>
                 </td>
                 <td>
                     <ul style="padding-left:0 ;list-style-type: none;">
                         <li ng-repeat="target in tool.nationalTargets|orderBy:'identifier'">
-                            <i class="fa fa-dot-circle-o"></i> <a ng-href="{{target.url}}">{{target.title|lstring}}</a>
+                            <i class="fa fa-dot-circle-o"></i> <a translation-url ng-href="{{target.url}}">{{target.title|lstring}}</a>
                             <span ng-show="isDraft(target)" class="label label-warning label-spacing" title="not published">n-p</span>
                             <span ng-show="isPublic(target)" class="label label-info label-spacing" title="published">p</span>
                         </li>
@@ -508,7 +508,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">Select a target to be linked to:</h4>
                         <div ng-show="linkTargetData.aichiTarget">
-                            <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{linkTargetData.aichiTarget.title|lstring}}">
+                            <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{linkTargetData.aichiTarget.title|lstring}}">
                                 <img class="aichi-icon" ng-src="/app/images/targets/{{linkTargetData.aichiTarget.number||11}}.png" />
                             </a>
                             {{linkTargetData.aichiTarget.title}}</div>
@@ -527,7 +527,7 @@
                                     {{target.title}}
                                 </td>
                                 <td>
-                                    <a target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'">
+                                    <a translation-url target="_blank" ng-href="{{aichiTarget.url}}" title="{{aichiTarget.title|lstring}}" ng-repeat="aichiTarget in target.aichiTargets|orderBy:'identifier'">
                                         <img class="aichi-icon-xs" ng-src="/app/images/targets/{{aichiTarget.number}}.png" />
                                     </a>
                                 </td>

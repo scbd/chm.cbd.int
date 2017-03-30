@@ -74,13 +74,13 @@
 
 		<ul class="pagination pull-right">
 			<li ng-class="{disabled: currentPage == 0}">
-				<a href ng-click="actionSetPage(currentPage-1)">« Prev</a>
+				<a translation-url href ng-click="actionSetPage(currentPage-1)">« Prev</a>
 			</li>
             <li ng-repeat="n in range(pageCount)" ng-class="{active: n == currentPage}" ng-click="actionSetPage(n)">
-				<a href>{{n+1}}</a>
+				<a translation-url href>{{n+1}}</a>
 			</li>
 			<li ng-class="{disabled: currentPage >= pageCount - 1}">
-				<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
+				<a translation-url href ng-click="actionSetPage(currentPage+1)">Next »</a>
 			</li>
 		</ul>
 
@@ -121,9 +121,9 @@
 				<!-- <div ng-switch-default>
 					<i style="color:#666;font-size:18px" ng-class="icon(document.schema_s)"></i>&nbsp;
 		            <strong style="color:#555">{{document.schema_EN_t}}</strong> <span ng-show="document.government_EN_t">|</span> <span>{{document.government_EN_t}}</span>
-		            <div><a style="font-size:16px;font-weight:bold;color:#89cf31" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
+		            <div><a translation-url style="font-size:16px;font-weight:bold;color:#89cf31" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
 		            <div class="document-description">{{document.description_t}}</div>
-		            <div><a style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
+		            <div><a translation-url style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
 				</div> -->
 			</div>
 		</div>
@@ -132,13 +132,13 @@
 
 		<ul class="pagination pull-right" ng-show="pageCount>1">
 			<li ng-class="{disabled: currentPage == 0}">
-				<a href ng-click="actionSetPage(currentPage-1)">« Prev</a>
+				<a translation-url href ng-click="actionSetPage(currentPage-1)">« Prev</a>
 			</li>
             <li ng-repeat="n in range(pageCount)" ng-class="{active: n == currentPage}" ng-click="actionSetPage(n)">
-				<a href>{{n+1}}</a>
+				<a translation-url href>{{n+1}}</a>
 			</li>
 			<li ng-class="{disabled: currentPage >= pageCount - 1}">
-				<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
+				<a translation-url href ng-click="actionSetPage(currentPage+1)">Next »</a>
 			</li>
 		</ul>
 

@@ -1,4 +1,5 @@
-define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', "utilities/solr"], function(app, template, _){
+define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', "utilities/solr",'scbd-angularjs-services/locale'], 
+function(app, template, _){
 
 app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 	return {
@@ -17,9 +18,12 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 		},
 		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage',
- 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog',
+ 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog', 'locale',
 			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication,
-			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog) {
+			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale) {
+
+				if(!$scope.locale)
+					$scope.locale = locale;
 
 				var nationalAssessments = [];
 				$scope.nationalTargets = [];
@@ -29,7 +33,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(!$scope.document||!document)
 						return;
 					if(document.targetPursued){
-						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier), revision:getRevisonNumber(target.identifier)});});
+						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier)});});
 						$q.all(nationalTargets)
 						  .then(function(data){
 							  $scope.nationalTargets = [];
@@ -50,6 +54,48 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						var documents = _.map(results, function(result){ return result[0] || {}; });
 						nationalAssessments = documents;
 					});
+
+					if($scope.document.nationalContribution){
+						var queries = [];
+						
+						var target16 = $scope.document.nationalContribution.aichiTarget16;
+						var target20 = $scope.document.nationalContribution.aichiTarget20;
+
+						if(target16){
+							var queries = [];
+							var realmConfig;                    
+							if(realm == "CHM-DEV")
+								realmConfig = 'abs-dev';
+							else
+								realmConfig = 'abs';
+							$scope.absNationalReport = undefined;
+							if(target16.nationalReport)
+								loadReferenceRecords({identifier:removeRevisonNumber(target16.nationalReport.identifier)}, realmConfig)
+								.then(function(data){
+									$scope.absNationalReport = _.head(data);
+								});
+
+							$scope.absLinkedRecords = undefined;
+							if((target16.includeLinkedRecords && target16.linkedRecords) || 
+							   (!target16.nationalReport && target16.includeLinkedRecords==undefined && target16.linkedRecords)){
+								var options = {
+									identifier : "(" + _.pluck(target16.linkedRecords, 'identifier').join(' ') + ")"
+								}								
+								loadReferenceRecords(options, realmConfig)
+								.then(function(data){
+									$scope.absLinkedRecords = data;
+								});;
+							}
+								
+						}
+						if(target20 && target20.resourceMobilisationReport){
+							$scope.resourceMobilisationReport = undefined;
+							loadReferenceRecords({identifier : target20.resourceMobilisationReport.identifier})
+							.then(function(data){								
+								$scope.resourceMobilisationReport = _.head(data)
+							})
+						}
+					}
 				});
 
 				//============================================================
@@ -71,7 +117,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				//============================================================
 				$scope.hasNationalContributions = function () {
 					if($scope.document && $scope.document.nationalContributions){
-						return _.has($scope.document.nationalContributions, 'description') || _.has($scope.document.nationalContributions, 'descriptionActivities');
+						return _.has($scope.document.nationalContributions, 'description') || _.has($scope.document.nationalContributions, 'achievementActivities');
 					}
 				};
 
@@ -104,7 +150,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				//============================================================
 				//
 				//============================================================
-				function loadReferenceRecords(options) {
+				function loadReferenceRecords(options, appRealm) {
 
 					if(options.latest===undefined)
 						options.latest = true;
@@ -128,17 +174,17 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						query.push("nationalTarget_s:"+solr.escape(options.target));
 
 					if(options.identifier)
-						query.push("identifier_s:"+solr.escape(options.identifier));
+						query.push("(identifier_s:"+solr.escape(options.identifier)+")");
 
 					if(options.revision)
 						query.push("_revision_i:"+solr.escape(options.revision));
 					// Apply ownership
-					query.push(["realm_ss:" + realm.toLowerCase(), "(*:* NOT realm_ss:*)"]);
+					query.push(["realm_ss:" + (appRealm||realm).toLowerCase(), "(*:* NOT realm_ss:*)"]);
 
 					// Apply ownership
-					query.push(_.map(($rootScope.user||{}).userGroups, function(v){
-						return "_ownership_s:"+solr.escape(v);
-					}));
+					// query.push(_.map(($rootScope.user||{}).userGroups, function(v){
+					// 	return "_ownership_s:"+solr.escape(v);
+					// }));
 
 					if(options.latest!==undefined){
 						query.push("_latest_s:" + (options.latest ? "true" : "false"));
@@ -150,7 +196,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					var qsParams =
 					{
 						"q"  : query,
-						"fl" : "identifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
+						"fl" : "identifier_s,uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
 							"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
 						"sort"  : "updatedDate_dt desc",
 						"start" : 0,

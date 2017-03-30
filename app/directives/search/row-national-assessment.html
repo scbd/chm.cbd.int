@@ -1,7 +1,7 @@
-<div>
+﻿<div>
 	<i style="color:#666;font-size:18px" ng-class="icon(document.schema_s)"></i>&nbsp;
 	<strong style="color:#555">Progress Assessment</strong> | <span>{{document.government_EN_t}}</span>
-	<div><a ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
+	<div><a translation-url ng-href="{{fixUrl(document.url_ss[0])}}">{{document.title_t}}</a></div>
 	<div class="document-description">{{document.description_t}}</div>
-	<div><a style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
+	<div><a translation-url style="color:#6495ED" ng-href="{{fixUrl(document.url_ss[0])}}">{{document.url_ss[0]}}</a></div>
 </div>

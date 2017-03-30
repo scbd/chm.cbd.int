@@ -7,6 +7,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
 
         $routeProvider.
             when('/',                                         { template:    rootTemplate,                                   label :'CHM',                resolveController: 'views/index',          resolveUser: true }).
+            when('/lang/:langCode',  { templateUrl: 'views/shared/lang.html',label:'CHM', resolveController: true}).
+              
             when('/database',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index', resolveUser: true, reloadOnSearch : false }).
             when('/database/countries',                       { templateUrl: 'views/database/countries.html',                label :'Countries',          resolveController: true }).
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).
@@ -51,8 +53,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/online-reporting/implementationActivity/new',  { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/online-reporting/implementationActivity/:uid', { templateUrl: 'views/management/edit/implementation-activity.html',    label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
-            when('/submit/nationalReport6/new',          { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
-            when('/submit/nationalReport6/:uid',         { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/nationalReport6/new',          { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Sixth national report',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/nationalReport6/:uid',         { templateUrl: 'views/management/edit/national-report-6.html',            label: 'Sixth national report',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
 
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

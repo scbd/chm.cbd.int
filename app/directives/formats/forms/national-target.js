@@ -1,21 +1,30 @@
-define(['text!./national-target.html', 'app', 'angular', 'lodash', 'authentication', '../views/national-target', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _) { 'use strict';
+define(['text!./national-target.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-target', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'scbd-angularjs-services/locale'], function(template, app, angular, _, messages) { 'use strict';
 
-app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", "Thesaurus",  function ($filter, $rootScope, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route, Thesaurus) {
+app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'IStorage', "authentication", "editFormUtility", "guid", "$location", "navigation", "$route", "Thesaurus", "locale", function ($filter, $rootScope, $http, $q, storage, authentication, editFormUtility, guid, $location, navigation, $route, Thesaurus, locale) {
     return {
-        restrict: 'E',
+        restrict: 'EA',
         template : template,
         replace: true,
         transclude: false,
-        scope: {},
+        scope: {
+				query:'&?',
+				closeDialog: '&?'
+		},
         link: function ($scope) {
             $scope.status = "";
             $scope.error = null;
             $scope.document = null;
 			$scope.tab      = 'general';
-            $scope.review = { locale: "en" };
-			$scope.qs = $location.search();
-            
+            $scope.review = { locale: locale };
 			
+			var qs = $route.current.params;
+			var openInDialog = false;
+			if($scope.query){//when its open in dialog
+				qs = $scope.query();
+				$scope.container = '.ngdialog-theme-default';
+				openInDialog = true;
+			}
+            
 			$scope.selectedAichi={};
 			//==================================
 			//
@@ -34,15 +43,13 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				
 				var promise = null;
 				var schema  = "nationalTarget";
-				var qs = $route.current.params;
-
 
 				if ($scope.document)
 					return;
 
 				$scope.status = "loading";
 
-				var identifier = $route.current.params.uid;
+				var identifier = qs.uid;
 				var promise = null;
 
 				if(identifier)
@@ -62,9 +69,10 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 						header: {
 							identifier: guid(),
 							schema   : "nationalTarget",
-							languages: ["en"]
+							languages: [locale]
 						},
-						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined
+						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
+						isAichiTarget : false
 					}});
 
 
@@ -106,9 +114,9 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				}).then(function(doc) {
 
 					$scope.document = doc;
+                    // if($scope.document.isAichiTarget===undefined)
+                    //     $scope.document.isAichiTarget = false;
 					$scope.status  = "ready";
-                    if($scope.document.isAichiTarget===undefined)
-                        $scope.document.isAichiTarget = false;
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
@@ -135,7 +143,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				document = document || $scope.document;
 
 				return !!document && !!document.jurisdiction && 
-				(document.jurisdiction.identifier == "7437F880-7B12-4F26-AA91-CED37250DD0A" || document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E");
+				(document.jurisdiction.identifier == "528B1187-F1BD-4479-9FB3-ADBD9076D361" || document.jurisdiction.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E");
 			};
 
 			//==================================
@@ -143,30 +151,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.cleanUp = function(document) {
 
-				document = document || $scope.document;
-
-				if (!document)
-					return $q.when(true);
-
-				if (!$scope.isJurisdictionSubNational(document))
-					document.jurisdictionInfo = undefined;
-
-				if (/^\s*$/g.test(document.notes))
-					document.notes = undefined;
-
-                if($scope.selectedAichi.target && document.isAichiTarget){
-                    document.aichiTargets = [];
-                    document.aichiTargets.push($scope.selectedAichi.target);
-                    document.title =  {en:$scope.selectedAichi.target.identifier};
-
-                    document.description = undefined;
-                    document.jurisdiction = undefined;
-                    document.jurisdictionInfo = undefined;
-                    document.relevantInformation = undefined;
-                    document.relevantDocuments = undefined;
-                }
-
-				return $q.when(false);
+				return $q.when($scope.getCleanDocument(document));
 			};
 			
 			//==================================
@@ -200,6 +185,10 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
                     document.relevantInformation = undefined;
                     document.relevantDocuments = undefined;
                 }
+				if((document.aichiTargets && document.aichiTargets.length>0) || (document.otherAichiTargets && document.otherAichiTargets.length>0)){
+					document.noOtherAichiTargets = undefined;
+					document.noOtherAichiTargetsDescription = undefined;
+				}
 				return document;
 			};
 
@@ -257,22 +246,11 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				$scope.validationReport = null;
 
-				var oDocument = $scope.document;
-
-                if($scope.selectedAichi.target && oDocument.isAichiTarget){
-                    oDocument.aichiTargets = [];
-                    oDocument.aichiTargets.push($scope.selectedAichi.target);
-                    oDocument.title = {en:$scope.selectedAichi.target.identifier};
-                }
-
-				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
-
-				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
+				return $scope.cleanUp().then(function(oDocument) {
 					return storage.documents.validate(oDocument).then(
 						function(success) {
 							$scope.validationReport = success.data;
-							return cleanUpError || !!(success.data && success.data.errors && success.data.errors.length);
+							return !!(success.data && success.data.errors && success.data.errors.length);
 						},
 						function(error) {
 							$scope.onError(error.data);
@@ -331,7 +309,6 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.onPreSaveDraft = function() {
-				return $scope.cleanUp();
 			};
 
 			//==================================
@@ -349,8 +326,13 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-                $rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
-                gotoManager();
+                $rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
+                
+				if(!openInDialog)
+					gotoManager();
+				else{
+					$scope.closeDialog();
+				}
 			};
 
 			//==================================
@@ -358,23 +340,32 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.onPostPublish = function() {
 				$scope.$root.showAcknowledgement = true;
-                $rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
-             	gotoManager();
+                $rootScope.$broadcast("onPostPublish", messages.onPostPublish);
+             	
+				if(!openInDialog)
+					gotoManager();
+				else{
+					$scope.closeDialog();
+				}
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostSaveDraft = function() {
-                $rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+                $rootScope.$broadcast("onSaveDraft", messages.onPostSaveDraft);
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-                $rootScope.$broadcast("onPostClose", "Record closed.");
-				gotoManager();
+                $rootScope.$broadcast("onPostClose", messages.onPostClose);
+				if(!openInDialog)
+					gotoManager();
+				else{
+					$scope.closeDialog();
+				}
 			};
 
 //==================================
@@ -394,30 +385,42 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
 				if (status == "notAuthorized") {
 					$scope.status = "hidden";
-					$scope.error  = "You are not authorized to modify this record";
+					$scope.error  = messages.unAuthorizedError;
 				}
 				else if (status == 404) {
 					$scope.status = "hidden";
-					$scope.error  = "Record not found.";
+					$scope.error  = messages.recordNotFoundError;
 				}
 				else if (status == "badSchema") {
 					$scope.status = "hidden";
-					$scope.error  = "Record type is invalid.";
+					$scope.error  = messages.badSchemaError;
 				}
-				else if (error.Message)
+				else if (error && error.Message)
 					$scope.error = error.Message;
 				else
 					$scope.error = error;
 			};
 
-            $scope.$watch('document.aichiTargets', function(value){
-                if(value && $scope.document.isAichiTarget)
-                    $scope.selectedAichi.target = _.first(value);
+            $scope.$watch('document.isAichiTarget', function(value, oldValue){
+				if($scope.status=='ready'){   
+					if($scope.document.aichiTargets && $scope.document.aichiTargets.length > 1){
+						$scope.selectedAichi.target = undefined;
+						$scope.document.aichiTargets = undefined;
+					}
+					else
+						$scope.selectedAichi.target = _.head($scope.document.aichiTargets);
+				}
             });
             $scope.$watch('selectedAichi.target', function(value){
                 if($scope.options)
                     $scope.options.aichiSubTargets = filterSubAichiTargets();
+				if($scope.document && $scope.document.isAichiTarget)
+					$scope.document.aichiTargets = $scope.selectedAichi.target ? [$scope.selectedAichi.target]:undefined;
             });
+
+			$scope.isTypeAichiTarget= function(){
+				return $scope.document && $scope.document.isAichiTarget
+			}
 
             $scope.init();
 

@@ -17,5 +17,7 @@ define([
 	'./km-yes-no',
 	'./km-auto-complete-server-select',
 	'./km-long-Lat-selector',
-	'./km-address-block'
+	'./km-address-block',
+	'./info-bar',
+	'css!./info-bar'
 ], {});

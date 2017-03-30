@@ -1,4 +1,4 @@
-<li class="list-group-item" style="cursor:pointer;">
+﻿<li class="list-group-item" style="cursor:pointer;">
 	<div data-toggle="modal" href="#dialogSelectCountries" ng-class="{false:'not', true:'x'}[expanded]"><strong>{{title}}</strong></div>
 	<div class="list-group-item-expand">
 		<div ng-animate="'animate'" ng-repeat="item in terms | toArray | orderBy:'title' | filter:{selected:true}"  ng-click="refresh(this,true)">
@@ -16,7 +16,7 @@
 			<div class="modal-content" style="width:760px">
 				<div class="modal-body" style="padding-left:20px">
 					<div style="padding-bottom:10px">
-						<a style="padding-right:10px" ng-class="{'label label-letter-search': $index == selectedIndex}" ng-click='selectedLetter($index)' ng-repeat="letter in alphabet">{{letter}}</a>
+						<a translation-url style="padding-right:10px" ng-class="{'label label-letter-search': $index == selectedIndex}" ng-click='selectedLetter($index)' ng-repeat="letter in alphabet">{{letter}}</a>
 					</div>
 					<div style="height:360px;overflow-y:auto" >
 						<div class="col-md-4 col-md-4 col-md-4" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" ng-repeat="item in (filtered =(terms  | toArray| filterByLetter:sLetter | orderBy:'title.en'))" >

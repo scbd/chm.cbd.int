@@ -49,7 +49,7 @@ return [ "$scope", "$timeout", "$http", "$route", "IStorage", "IWorkflows", "aut
 	//
 	//==============================
 	$scope.formatWID = function (workflowID) {
-		return workflowID.replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
+		return (workflowID||'').replace(/(?:.*)(.{3})(.{4})$/g, "W$1-$2");
 	};
 	
 	load();

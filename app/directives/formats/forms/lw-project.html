@@ -1,4 +1,4 @@
-
+﻿
 <div>
 <style type="text/css">.popover {font-weight: normal; max-width: 400px;} </style>
 
@@ -24,10 +24,10 @@
 
 				<div class="col-sm-8 col-xs-12">
 					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+						<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
 					</ul>
 				</div>
 
@@ -157,13 +157,13 @@
             <div class="col-md-12">
               <div class="km-control-group" name="aichiTabs" caption="Aichi Tabs">
                 <ul class="pagination">
-                  <li ng-class="{ disabled: aichiSelectedTab==aichiFirstTab}"><a href="" ng-click="setAichiTab(prevAichiTab);">&laquo;  </a></li>
-                  <li ng-repeat="target in aichiTabs" ng-class="{ active  : aichiSelectedTab==target.identifier}" ><a href="" ng-click="setAichiTab(target.identifier);">{{target.identifier}}</a></li>
-                  <li ng-class="{ disabled: aichiSelectedTab==aichiLastTab}"><a href="" ng-click="setAichiTab(nextAichiTab);">&raquo;</a></li>
+                  <li ng-class="{ disabled: aichiSelectedTab==aichiFirstTab}"><a translation-url href="" ng-click="setAichiTab(prevAichiTab);">&laquo;  </a></li>
+                  <li ng-repeat="target in aichiTabs" ng-class="{ active  : aichiSelectedTab==target.identifier}" ><a translation-url href="" ng-click="setAichiTab(target.identifier);">{{target.identifier}}</a></li>
+                  <li ng-class="{ disabled: aichiSelectedTab==aichiLastTab}"><a translation-url href="" ng-click="setAichiTab(nextAichiTab);">&raquo;</a></li>
                 </ul>
                 <div ng-repeat="target in aichiTabs" >
                   <div ng-show="showAichiTab(target.identifier)">
-                      <p>{{lifeWebServices.getAichiDescription(target.identifier).help}} <a href="{{lifeWebServices.getAichiDescription(target.identifier).link}}" target='_blank'>More Info<a/></p>
+                      <p>{{lifeWebServices.getAichiDescription(target.identifier).help}} <a translation-url href="{{lifeWebServices.getAichiDescription(target.identifier).link}}" target='_blank'>More Info<a/></p>
                       <textarea class="form-control" ng-model="aichiComments[target.identifier]" placeholder="Describe the project's alignment to Aichi Target {{target.identifier}}"
                       rows="5" style="display:inline-block"></textarea>
                     </div>
@@ -186,11 +186,11 @@
           <div class="km-control-group" name="nationalAlignements" caption="National Alignments">
 
             <ul class="pagination">
-              <li ng-class="{ disabled: natAliSelectedTab=='NBSAPs'}"><a href="" ng-click="setNatAliSelectedTab(natAliPrevTab)">&laquo;</a></li>
-              <li ng-class="{ active  : natAliSelectedTab=='NBSAPs'}"><a href="" ng-click="setNatAliSelectedTab('NBSAPs')">Alignment with National Biodiversity Strategies and Action Plans</a></li>
-              <li ng-class="{ active  : natAliSelectedTab=='climateChange'}"><a href="" ng-click="setNatAliSelectedTab('climateChange')">Alignment with National Climate Strategies and Plans</a></li>
-              <li ng-class="{ active  : natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab('o_n_s')">Alignment with Other National Strategies and Plans</a></li>
-              <li ng-class="{ disabled: natAliSelectedTab=='o_n_s'}"><a href="" ng-click="setNatAliSelectedTab(natAliNextTab)">&raquo;</a></li>
+              <li ng-class="{ disabled: natAliSelectedTab=='NBSAPs'}"><a translation-url href="" ng-click="setNatAliSelectedTab(natAliPrevTab)">&laquo;</a></li>
+              <li ng-class="{ active  : natAliSelectedTab=='NBSAPs'}"><a translation-url href="" ng-click="setNatAliSelectedTab('NBSAPs')">Alignment with National Biodiversity Strategies and Action Plans</a></li>
+              <li ng-class="{ active  : natAliSelectedTab=='climateChange'}"><a translation-url href="" ng-click="setNatAliSelectedTab('climateChange')">Alignment with National Climate Strategies and Plans</a></li>
+              <li ng-class="{ active  : natAliSelectedTab=='o_n_s'}"><a translation-url href="" ng-click="setNatAliSelectedTab('o_n_s')">Alignment with Other National Strategies and Plans</a></li>
+              <li ng-class="{ disabled: natAliSelectedTab=='o_n_s'}"><a translation-url href="" ng-click="setNatAliSelectedTab(natAliNextTab)">&raquo;</a></li>
             </ul>
             <div>
                 <div  ng-show="natAliSelectedTab=='NBSAPs'">
@@ -225,9 +225,9 @@
             <div class="col-md-12">
               <div class="km-control-group" name="climateContributionTabs" caption="Benifit Tabs">
                 <ul class="pagination">
-                  <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionFirstTab}"><a href="" ng-click="setClimateContributionTab(prevClimateContributionTab);">&laquo;  </a></li>
-                  <li ng-repeat="target in climateContributionTabs" ng-class="{ active  : climateContributionSelectedTab==target.identifier}" ><a href="" ng-click="setClimateContributionTab(target.identifier);">{{target.title}}</a></li>
-                  <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionLastTab}"><a href="" ng-click="setClimateContributionTab(nextClimateContributionTab);">&raquo;</a></li>
+                  <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionFirstTab}"><a translation-url href="" ng-click="setClimateContributionTab(prevClimateContributionTab);">&laquo;  </a></li>
+                  <li ng-repeat="target in climateContributionTabs" ng-class="{ active  : climateContributionSelectedTab==target.identifier}" ><a translation-url href="" ng-click="setClimateContributionTab(target.identifier);">{{target.title}}</a></li>
+                  <li ng-class="{ disabled: climateContributionSelectedTab==climateContributionLastTab}"><a translation-url href="" ng-click="setClimateContributionTab(nextClimateContributionTab);">&raquo;</a></li>
                 </ul>
                 <div ng-repeat="target in document.climateContribution" >
                   <div ng-show="showClimateContributionTab(target.identifier)">
@@ -485,10 +485,10 @@
           <div class="row">
               <div class="col-sm-9 col-xs-12">
                 <ul class="pagination">
-                  <li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="tab='general'">&laquo;</a></li>
-                  <li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
-                  <li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review'">Review</a></li>
-                  <li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="tab='review'">&raquo;</a></li>
+                  <li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+                  <li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
+                  <li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
+                  <li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
                 </ul>
               </div>
 

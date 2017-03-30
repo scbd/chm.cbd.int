@@ -1,4 +1,4 @@
-<div style="margin-bottom:30px;">
+﻿<div style="margin-bottom:30px;">
 
     <h2 class="color-black">Register Information
     </h2>
@@ -37,10 +37,10 @@
     <div class="clearfix"></div>
 
 
-    <a href="/management/register" class="color-grey" style="text-decoration:none;"><div class="btn-schema dashboard"><i class="fa fa-dashboard"></i> Dashboard (all records)</div></a>
+    <a translation-url href="/management/register" class="color-grey" style="text-decoration:none;"><div class="btn-schema dashboard"><i class="fa fa-dashboard"></i> Dashboard (all records)</div></a>
 
 
-    <a href="/management/requests" class="color-grey"  style="text-decoration:none;">
+    <a translation-url href="/management/requests" class="color-grey"  style="text-decoration:none;">
         <div  class="btn-schema dashboard"><i class="fa fa-retweet"></i> Requests
             <span class="facets pull-right label label-danger label-small" ng-show="requestCount">{{requestCount}} </span>
         </div></a>
@@ -67,7 +67,7 @@
                     <table>
                         <tr>
                             <td class="title">
-                                <a href="/management/national-reporting/{{report.identifier}}">Preliminary Reporting Framework</a><br>
+                                <a translation-url href="/management/national-reporting/{{report.identifier}}">Preliminary Reporting Framework</a><br>
                             </td>
                             <td class="facets"row-span="2">
                                 <div class="label label-success label-small" ng-show="report.publishCount">{{getFacet('resourceMobilisation','publishCount')}} </div>
@@ -76,7 +76,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><a style="font-size:10px;font-weight:bold;" href="/management/edit/resourceMobilisation?government={{userGovernment()||government}}"><i class="fa fa-plus-square"></i> add new</a></td>
+                            <td><a translation-url style="font-size:10px;font-weight:bold;" href="/management/edit/resourceMobilisation?government={{userGovernment()||government}}"><i class="fa fa-plus-square"></i> add new</a></td>
                         </tr>
                     </table>
                 </div> -->

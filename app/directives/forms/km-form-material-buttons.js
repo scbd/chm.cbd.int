@@ -1,4 +1,5 @@
-define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], function(app, angular, template) { 'use strict';
+define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/workflow-button-messages.json', 'moment', 'jquery'],
+ function(app, angular, template, messages, moment) { 'use strict';
 
 	app.directive('kmFormMaterialButtons', ["$q", function ($q)
 	{
@@ -21,15 +22,27 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 				onPostWorkflowFn  : "&onPostWorkflow",
 				onErrorFn: "&onError"
 			},
-			link: function ($scope, $element)
+			link: function ($scope, $element, $attr)
 			{
 				$scope.errors = null;
 				$scope.status = "loading buttons";
-
+				$scope.getContainer = function(){return $attr.container;}
 			},
-			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout)
+			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location", 
+			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location)
 			{
+				var next_url;
 
+				$scope.new_close = function(){
+
+					var formChanged = !angular.equals($scope.getDocumentFn(), $rootScope.originalDocument);
+
+					if(!$rootScope.originalDocument || !formChanged){
+						return $scope.close();
+					}
+					
+					$scope.new_cancel();
+				}
 				//====================
 				//
 				//====================
@@ -51,11 +64,14 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						return editFormUtility.saveDraft(document).then(function(draftInfo) {
 							$scope.onPostSaveDraftFn({ data: draftInfo });
 							$scope.status = "";
-
+							$rootScope.originalDocument = document;
 						});
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
-					});
+					})					
+					.finally(function(){
+						timer(true);
+					});;
 				};
 
 				//====================
@@ -63,16 +79,52 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 				//====================
 				$scope.new_cancel = function(ev) {
 
-					var confirm = $mdDialog.confirm()
-						.title('Close the form?')
-						.content('Click "CANCEL" to remain on this record or "CLOSE" to close the form. Changes will be lost if not previously saved.')
+					var confirm = $mdDialog.confirm({
+							onComplete: function afterShowAnimation() {
+								var $dialog = angular.element(document.querySelector('md-dialog'));
+								var $actionsSection = $dialog.find('md-dialog-actions');
+								var $cancelButton = $actionsSection.children()[0];
+								var $confirmButton = $actionsSection.children()[1];
+								angular.element($confirmButton).removeClass('md-primary md-button')
+									.addClass('btn btn-warning');
+								angular.element($cancelButton).removeClass('md-primary md-button').addClass('btn btn-primary btn-space');
+							}
+						})
+						.title(messages.title)
+						.content(messages.content)
 						.ariaLabel('close form')
-						.ok('CLOSE RECORD')
-						.cancel('CANCEL')
+						.ok(messages.ok)
+						.cancel(messages.cancel)
 						.targetEvent(ev);
-						$mdDialog.show(confirm).then(function() {
-							$scope.close();
-					});
+
+						if($scope.getContainer())
+							confirm.parent($scope.getContainer());
+
+						$mdDialog.show(confirm).then(function(a,b) {
+							
+							$rootScope.originalDocument = undefined;
+							$rootScope.isFormLeaving = false;
+							if(next_url){
+								var url = angular.copy(next_url);
+								next_url = undefined;
+								$timeout(function(){
+									var absHosts = ['https://chm.cbddev.xyz/', 'https://chm.staging.cbd.int/',
+										'http://localhost:8000/', 'https://chm.cbd.int/'
+									]
+									url = url.replace($location.$$protocol + '://' +
+										$location.$$host + ($location.$$host != 'chm.cbd.int' ? ':' + $location.$$port : '') + '/', '');
+									_.each(absHosts, function(host) {
+										url = url.replace(host, '');
+									});
+									url = url.replace(/^(en|ar|fr|es|ru|zh)\//, '/');
+									$location.url(url);
+								},1);
+							}
+							else
+								$scope.close();
+						}, function() {
+							$rootScope.isFormLeaving = false;
+						});
 				};
 
 				$scope.validateForPublishing = function(ev) {
@@ -120,6 +172,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 
 							var identifier = document.header.identifier;
 							var schema     = document.header.schema;
+							$rootScope.originalDocument = document;
 
 							$rootScope.$broadcast("ProcessingRecord", identifier, schema);
 
@@ -155,7 +208,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						return editFormUtility.publishRequest(document).then(function(workflowInfo) {
 
 							$scope.onPostWorkflowFn({ data: workflowInfo });
-
+							$rootScope.originalDocument = document;
 							return workflowInfo;
 						});
 
@@ -218,6 +271,8 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 					if(status =="ready"){
 						$scope.updateSecurity();
 						$scope.status = "ready";
+
+						$rootScope.originalDocument = $scope.getDocumentFn();
 					}
 				});
 
@@ -262,7 +317,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						});
 					}).finally(function(){
 						$scope.formStatus = "ready";
-
+						timer(true);
 					});;
 				};
 
@@ -289,7 +344,38 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','jquery'], func
 						return angular.fromJson(angular.toJson(data));
 				};
 
+				$rootScope.isFormLeaving = false;
+				function confirmLeaving(evt, next, current) {
+					if($rootScope.isFormLeaving)
+						return;
+					var formChanged = !angular.equals($scope.getDocumentFn(), $rootScope.originalDocument);
 
+					if(!$rootScope.originalDocument || !formChanged){
+						return;
+					}
+						$rootScope.isFormLeaving = true; 
+				// },1);
+					evt.preventDefault();
+					
+					next_url = next;
+					$scope.new_cancel();
+				}
+
+				$scope.$on('$locationChangeStart', confirmLeaving);
+				// $scope.$on('$locationChangeSuccess', function(evt, data){
+				// 	next_url = undefined;
+				// });
+
+
+                function timer(startNew){
+                    if(startNew){
+                        $scope.lastSaved = '';
+                        $scope.lastSavedTime = moment();
+                    }
+                    var duration = moment.duration(moment() - $scope.lastSavedTime)
+                    $scope.lastSaved = duration._data.hours + ':' + duration._data.minutes + ':' + duration._data.seconds
+                    $timeout(function(){timer();},1000);
+                }
 			}]
 		};
 	}]);

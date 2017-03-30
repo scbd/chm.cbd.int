@@ -109,7 +109,7 @@
 		<div ng-show ="document.images">
 			<label>Images for showcase</label>
 			<div class="km-value">
-				<a ng-repeat="link in document.images" ng-href="{{link.url}}" target="{{target}}">
+				<a translation-url ng-repeat="link in document.images" ng-href="{{link.url}}" target="{{target}}">
 					<img class="img-polaroid" ng-src="{{link.url}}" alt="{{link.name}}" style="max-height: 150px; max-width: 150px" />
 				</a>
 			</div>
@@ -126,7 +126,7 @@
 		<div ng-show="document.relevantDocuments">
 			<label>Other relevant website address or attached documents</label>
 			<div class="km-value" ng-repeat="item in document.relevantDocuments">
-				<a target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
 			</div>
 		</div>

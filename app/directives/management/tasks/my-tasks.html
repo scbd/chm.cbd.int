@@ -16,7 +16,7 @@
 		<tr ng-repeat="task in tasks|orderBy:'activity.createdOn'">
 
 			<td> <!-- ID -->
-				<a style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{task.workflow._id}}/{{task.activity.name}}"  type="button">{{formatWID(task.workflow._id)}}</a>
+				<a translation-url style="text-transform:uppercase;white-space:nowrap;" ng-href="/management/requests/{{task.workflow._id}}/{{task.activity.name}}"  type="button">{{formatWID(task.workflow._id)}}</a>
 				<div ng-switch="task.workflow.type.name">
 					<em ng-switch-when="publishNationalRecord">Publishing request</em>
 					<em ng-switch-when="publishReferenceRecord">Publishing request</em>
@@ -25,7 +25,7 @@
 			</td>
 
 			<td> <!-- Description -->
-				<strong ng-show="task.workflow.result.documentID||task.workflow.data.documentID"><a ng-href="/database/record?documentID={{task.workflow.result.documentID||task.workflow.data.documentID}}">{{task.workflow.data.metadata.schema|schemaName}}</a></strong>
+				<strong ng-show="task.workflow.result.documentID||task.workflow.data.documentID"><a translation-url ng-href="/database/record?documentID={{task.workflow.result.documentID||task.workflow.data.documentID}}">{{task.workflow.data.metadata.schema|schemaName}}</a></strong>
 				<strong ng-hide="task.workflow.result.documentID||task.workflow.data.documentID">{{task.workflow.data.metadata.schema|schemaName}}</strong>
 
 				<div>{{task.workflow.data.title | lstring}}</div>
@@ -44,7 +44,7 @@
 			</td>
 
 			<td style="text-align:end">
-				<a class="btn btn-info" ng-href="/management/requests/{{task.workflow._id}}/{{task.activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
+				<a translation-url class="btn btn-info" ng-href="/management/requests/{{task.workflow._id}}/{{task.activity.name}}"  type="button"><i class="fa fa-edit"></i></button>
 			</td>
 		</tr>
 

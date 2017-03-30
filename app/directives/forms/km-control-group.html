@@ -1,4 +1,6 @@
-<div class="form-group" ng-class="{ 'has-warning' : hasWarning(), 'has-error' : hasError() }">
-	<label class="control-label" ng-required="isRequired()" ng-show="caption" for="{{name}}">{{caption}}</label>
+﻿<div class="form-group" ng-class="{ 'has-warning' : hasWarning(), 'has-error' : hasError() }">
+	<label class="control-label" ng-required="isRequired()" ng-show="caption" for="{{name}}" >{{caption}}
+		<i info-bar data-content="{{content}}" ng-if="content" data-container="{{container}}"></i>
+	</label>
 	<div ng-transclude></div>
 </div>

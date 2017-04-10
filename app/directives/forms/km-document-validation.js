@@ -13,7 +13,13 @@ define(['app', 'text!./km-document-validation.html', 'json!app-data/validation-e
 			},
 			link: function ($scope, $element, $attr, mdTabsCtrl) {
 
-				
+				var watchKill = $scope.$watch('report', function(newVal, oldVal) {
+						if (newVal || oldVal)
+								$scope.onLoad = false;
+						else
+							$scope.onLoad = true;
+						//watchKill();
+				});
 				//====================
 				//
 				//====================
@@ -98,12 +104,12 @@ define(['app', 'text!./km-document-validation.html', 'json!app-data/validation-e
 				//====================
 				$scope.getTranslation = function(code) {
 					if (code==null || code==""            ) return messages.unknown; // jshint ignore:line
-					if (code == "Error.Mandatory"         ) return messages.mandatory;       
+					if (code == "Error.Mandatory"         ) return messages.mandatory;
 					if (code == "Error.InvalidValue"      ) return messages.invalidValue;
-					if (code == "Error.InvalidProperty"   ) return messages.invalidProperty; 
+					if (code == "Error.InvalidProperty"   ) return messages.invalidProperty;
 					if (code == "Error.UnspecifiedLocale" ) return messages.unspecifiedLocale;
-					if (code == "Error.UnexpectedTerm"    ) return messages.unexpectedTerm;  
-					if (code == "Error.InvalidType"       ) return messages.invalidType;     
+					if (code == "Error.UnexpectedTerm"    ) return messages.unexpectedTerm;
+					if (code == "Error.InvalidType"       ) return messages.invalidType;
 					return code;
 				};
 

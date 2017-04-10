@@ -1,0 +1,221 @@
+<div>
+
+    <style>
+
+    .ngdialog.ngdialog-theme-default .ngdialog-content{
+
+  font-size:.9em;
+    }
+
+
+@media only screen and (min-width :  992px) {
+  .ngdialog.ngdialog-theme-default .ngdialog-content{
+      width: 700px;
+
+  }
+
+}
+
+
+
+
+
+
+
+    .organization-modal-maxheight {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+    .pac-container {
+    z-index: 10051 !important;
+    }
+    </style>
+    <div ng-if="loadingDocuments && !selectedContacts.length" class="text-left">
+        <i class="fa fa-spin fa-spinner"   /> loading..
+    </div>
+    <div ng-if="selectedContacts.length > 0" id="Record">
+
+
+        <div class="col-xs-12 form-control no-shadow thin-border bg-litegrey" ng-repeat="contact in selectedContacts" style="height:auto;margin-bottom:5px;">
+            <div class="pull-right">
+                <button type="button" class="btn btn-xs btn-warning" ng-click="deleteContact($index, true)"><i class="fa fa-times"></i>
+                </button>
+            </div>
+              <div class="col-xs-11">
+              <b>{{contact.prefix | lstring:locale}} {{contact.firstName| lstring:locale}} {{contact.middleName| lstring:locale}} {{contact.lastName | lstring:locale}}</b>
+                <b>	{{contact.name || contact.title | lstring:locale}} <i ng-show="contact.acronym">({{contact.acronym | lstring:locale}})</i></b>
+                <!-- <b>{{contact.title | lstring:locale}} <i ng-show="contact.acronym">({{contact.acronym | lstring:locale}})</i></b> -->
+
+                  <div ng-if="contact.designation">
+                      {{contact.designation| lstring:locale}}
+                  </div>
+                  <div ng-if="contact.department">
+                      {{contact.department| lstring:locale}}
+                  </div>
+                  <div ng-if="contact.organization && schema!=='bbiProfile'">
+                    {{contact.organization| lstring:locale}}
+                        <i ng-show="contact.organizationAcronym">({{contact.organizationAcronym | lstring:locale}})</i>
+                  </div>
+                  <div km-terms ng-model="contact.organizationType">
+              		<span ng-repeat="term in terms">{{term.name}}</span>
+              	</div>
+              	<address class="hidden-xs" style="margin-top: 5px; margin-bottom: 5px">
+              		<div class="km-pre">{{contact.address | lstring:locale}}</div>
+              		{{contact.city | lstring:locale}}<span ng-show="contact.city">, </span>
+              		{{contact.state | lstring:locale}}<br ng-show="contact.city || contact.state" />
+              		{{contact.postalCode | lstring:locale}}<span ng-show="contact.postalCode">, </span>
+              		<b>{{contact.country|term}}</b>
+              	</address>
+
+              	<div ng-show="contact.phones">
+              		Phone: <span ng-repeat="item in contact.phones">{{item}}<span ng-show="!$last">, </span></span>
+              	</div>
+              	<div ng-show="contact.faxes">
+              		Fax: <span ng-repeat="item in contact.faxes">{{item}}<span ng-show="!$last">, </span></span>
+              	</div>
+              	<div ng-show="contact.emails">
+              		Emails: <span ng-repeat="item in contact.emails"><a translation-url  ng-href="mailto:{{item}}" target="_blank">{{item}}</a><span ng-show="!$last">, </span></span>
+              	</div>
+              	<div ng-show="contact.websites">
+              		Websites: <span ng-repeat="item in contact.websites"><a translation-url  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a><span ng-show="!$last">, </span></span>
+              	</div>
+              </div>
+        </div>
+    </div>
+
+    <!-- ng-show="showButtons()" -->
+    <button type="button" class="btn btn-default" ng-click="showContacts(-1)">
+        <i class="fa fa-plus"></i> {{caption || 'ADD ORGANIZATION OR CONTACT »'}}
+    </button>
+
+    <!-- Modal -->
+    <script type="text/ng-template"  id="organizationModal">
+    <div  id="editContactTemplate" >
+                <div class="modal-header bg-litegrey">
+                  <div ng-show="showExisting">
+                  <div class="col-xs-12">
+                    <h3 class="modal-title" id="myModalLabel" style="padding-bottom:15px;">
+                        <span ng-hide="showExisting">New organization</span>
+                        <span ng-show="showExisting" >Select <span ng-if="schema === 'bbiContact'">a</span> <span ng-if="schema === 'organization'">an</span>
+                            <span ng-if="schema"> {{schemaMap()}} </span>
+                            <span> </span>
+                            <span> </span>
+                        </span>
+<div class="pull-right">
+                      <a translation-url  type="button" class=" btn btn-xs btn-primary " ng-href="/dashboard/submit/{{schema}}/new" target="_blank" ng-click="closeContact()"> <i class="fa fa-plus" aria-hidden="true"></i> New</a>
+                    <a translation-url  type="button" class=" btn btn-xs btn-warning " ng-click="closeContact()" >Close</a>
+</div>
+                    </h3>
+                  </div>
+                    <div class="col-xs-12">
+                        <div ng-if="!loading && existingContacts && existingContacts.length==0" style="padding:0 10px;">
+                            <h3 class="color-litegrey">No {{schemaMap()}}(s) found matching that search. Please add your {{schemaMap()}} <a ng-href="/dashboard/submit/{{schema}}/new" target="_blank">here <i class="fa fa-external-link" aria-hidden="true"></i></a> if you are sure it does not exist in our database.</h3>
+                        </div>
+                        <input type="textbox" ng-model="search.keyword" placeholder="keyword search"
+                            class="form-control" style="margin-bottom:20px;" >
+                        <span class="pull-right col-xs-3 label label-info">{{recordCount}} <span class="hidden-xs"> {{schemaMap()}}(s) found<span></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-body model-dem" ng-class="{'organization-modal-maxheight':showExisting}" id="scrollableContent" >
+                    <!---->
+
+                    <!--<div ng-show="!showExisting">
+                          <edit-organization></edit-organization>
+                    </div>-->
+                    <div ng-show="showExisting"  class="row clearfix" >
+
+
+                        <div class="col-xs-12 " infinite-scroll='loadExisting()' infinite-scroll-immediate-check='true'
+                            infinite-scroll-distance='1' infinite-scroll-disabled='loadingDocuments'
+                            infinite-scroll-container='"#scrollableContent"' >
+
+                            <div class="well" ng-repeat="contact in existingContacts | filter:isSelected | orderBy:'name.en' track by $index">
+
+
+                                <div class="col-xs-1">
+                                    <a ng-if="contact.schema_s==='organization'  "  ng-disabled="!contact.aichiTarget_ss || !contact.thematicArea_ss" ng-class="{'btn-danger':(!contact.aichiTarget_ss || !contact.thematicArea_ss)}" translation-url  class="btn btn-xs btn-default" href="#" ng-click="(!contact.aichiTarget_ss || !contact.thematicArea_ss) || selectContact(contact)"><i class="fa fa-thumbs-o-up"></i></a>
+                                    <a ng-if="contact.schema_s==='bbiContact'  " translation-url  class="btn btn-xs btn-default" href="#" ng-click="selectContact(contact)"><i class="fa fa-thumbs-o-up"></i></a>
+                                    <a  translation-url  class="btn btn-xs btn-default pull-right" ng-href="/dashboard/submit/{{contact.schema_s}}/{{contact.identifier_s}}/view" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                    <a  translation-url  class="btn btn-xs btn-default pull-right" ng-href="/dashboard/submit/{{contact.schema_s}}/{{contact.identifier_s}}/" target="_blank"><i class="fa fa-edit"></i></a>
+                                </div>
+                                <div class="col-xs-10">
+
+                                    <span class="label label-warning" ng-if="contact._state_s=='workflow'">Pending Approval</span>
+
+                                          <div>
+                                          	  <b>{{contact.name | lstring:locale}} <i ng-show="contact.acronym">({{contact.acronym | lstring:locale}})</i></b>
+                                              <div ng-if="contact.organization">
+                                                    {{contact.organization| lstring:locale}}<i ng-show="contact.organizationAcronym">({{contact.organizationAcronym | lstring:locale}})</i>
+                                              </div>
+                                              <div ng-if="contact.designation">
+                                                    {{contact.designation| lstring:locale}}
+                                              </div>
+                                              <div ng-if="contact.department">
+                                                    {{contact.department| lstring:locale}}
+                                              </div>
+
+                                              <div km-terms ng-model="contact.organizationType">
+                                          		<span ng-repeat="term in terms">{{term.name}}</span>
+                                          	  </div>
+                                          	<address class="hidden-xs" style="margin-top: 5px; margin-bottom: 5px">
+                                          		<div class="km-pre">{{contact.address | lstring:locale}}</div>
+                                          		{{contact.city | lstring:locale}}<span ng-show="contact.city">, </span>
+                                          		{{contact.state | lstring:locale}}<br ng-show="contact.city || contact.state" />
+                                          		{{contact.postalCode | lstring:locale}}<span ng-show="contact.postalCode">, </span>
+                                          		<b>{{contact.country|term}}</b>
+                                          	</address>
+
+                                          	<div ng-show="contact.phones">
+                                          		Phone: <span ng-repeat="item in contact.phones">{{item}}<span ng-show="!$last">, </span></span>
+                                          	</div>
+                                          	<div ng-show="contact.faxes">
+                                          		Fax: <span ng-repeat="item in contact.faxes">{{item}}<span ng-show="!$last">, </span></span>
+                                          	</div>
+                                          	<div ng-show="contact.emails">
+                                          		Emails: <span ng-repeat="item in contact.emails"><a translation-url  ng-href="mailto:{{item}}">{{item}}</a><span ng-show="!$last">, </span></span>
+                                          	</div>
+                                            <div >
+                                              <span ng-repeat="term in contact.aichiTarget_ss" ng-if="contact.aichiTarget_ss">
+                                                <img  style="height: 20px;  width: 20px; margin-bottom:5px; " ng-src="https://www.cbd.int/images/aichi/48/abt-{{getAichiNumber(term)}}-48.png?v=<%=gitVersion%>" >
+                                              </span>
+                                              <span class="text-danger" ng-if="!contact.aichiTarget_ss && contact.schema_s==='organization'"> NO AICHI BIODIVERSITY TARGETS SELECTED<br></span>
+                                              <span class="text-danger" ng-if="!contact.thematicArea_ss && contact.schema_s==='organization'"> NO CBD SUBJECT AREAS SELCETED</span>
+                                            </div>
+                                          	<!-- <div ng-show="contact.websites">
+                                          		Websites: <span ng-repeat="item in contact.websites"><a translation-url  ng-href="{{item.url}}">{{item.name||item.url}}</a><span ng-show="!$last">, </span></span>
+                                          	</div> -->
+                                          </div>
+                                </div>
+                                <div class="col-xs-1">
+
+                                  <img width="100%" ng-src="{{contact.logo_s}}?v=<%=gitVersion%>">
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div ng-if="loadingDocuments">
+                                <i class="fa fa-spin fa-spinner"  style="margin-left:50%" /> loading..
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                    <div ng-show="loading">
+                        <h4>Loading <i class="fa fa-spinner fa-spin"></i></h4>
+                    </div>
+                </div>
+                <div class="modal-footer bg-litegrey">
+                    <div class="clearfix"></div>
+                    <div class="pull-right">
+                                          <a translation-url  type="button" class=" btn btn-xs btn-primary" ng-href="/dashboard/submit/{{schema}}/new" target="_blank" ng-click="closeContact()"> <i class="fa fa-plus" aria-hidden="true"></i> New</a>
+                                        <a translation-url  type="button" class=" btn btn-xs btn-warning" ng-click="closeContact()" >Close</a>
+                    </div>
+                    <!-- <div>
+                        <a translation-url  class="btn btn-default pull-left" ng-click="showExisting=true" ng-show="!showExisting" ng-href="#"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Select from exisiting organizations</a>
+                        <a translation-url  type="button" class="pull-right btn btn-warning" ng-click="closeContact()">Close</a>
+                        <a translation-url  type="button" class="pull-right btn btn-primary" ng-click="saveContact()" ng-show="!showExisting">Save changes</a> &nbsp;
+                    </div> -->
+                </div>
+    </div>
+    </script>
+
+</div>

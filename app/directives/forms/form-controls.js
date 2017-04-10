@@ -18,6 +18,8 @@ define([
 	'./km-auto-complete-server-select',
 	'./km-long-Lat-selector',
 	'./km-address-block',
+	'./km-address',
+	'./select-contact',
 	'./info-bar',
 	'css!./info-bar'
 ], {});

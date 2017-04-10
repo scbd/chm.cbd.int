@@ -16,7 +16,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 				activity = _.find(workflow.activities, function(activity){ return !activity.closedOn});
 
 			if(!activity)
-				throw { code:404, message:"Activity not found" };
+				$location.path('/management/requests/'+$route.current.params.id);
 
 			if(workflow.data.identifier && !workflow.closedOn) {
 					IStorage.drafts.get(workflow.data.identifier).then(function(result){
@@ -78,7 +78,7 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 
 
 	$scope.onlineReportingURL = function(schema){
-		console.log(schema);
+		// console.log(schema);
 		if(_.indexOf(['nationalReport','nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity'],schema)>=0)
 			return	 'online-reporting/';
 		else

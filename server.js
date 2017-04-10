@@ -20,7 +20,9 @@ if(!process.env.API_URL) {
 }
 
 var apiUrl = process.env.API_URL || 'https://api.cbddev.xyz';
-
+console.info(`info: chm.cbd.int`);
+//console.info(`info: Git version: ${gitVersion}`);
+console.info(`info: API address: ${apiUrl}`);
 
 app.set('view engine', 'ejs');
 app.use(require('morgan')('dev'));
@@ -32,7 +34,7 @@ app.use('/?:lang(ar|en|es|fr|ru|zh)?/app',     translation, express.static(__dir
 
 app.all('/app/*', (req, res)=>res.status(404).send() );
 
-app.all('/api/*', (req, res)=>proxy.web(req, res, { target: 'https://api.cbddev.xyz', changeOrigin: true }) );
+app.all('/api/*', (req, res)=>proxy.web(req, res, { target: apiUrl, changeOrigin: true }) );
 
 // Configure template
 
@@ -40,9 +42,9 @@ app.get('/?:lang(ar|en|es|fr|ru|zh)?/*', function (req, res) {
    var urlPreferredLang;
    if(req.params.lang)
      urlPreferredLang = ('/'+req.params.lang+'/');
-    
+
    res.setHeader('Cache-Control', 'public, max-age=0');
-   
+
    res.cookie('VERSION', appVersion);
    req.url = '/index.ejs';
    co(function*(){
@@ -50,10 +52,10 @@ app.get('/?:lang(ar|en|es|fr|ru|zh)?/*', function (req, res) {
         var preferredLang = getPreferredLanguage(req);
         var langFilepath = yield getLanguageFile(req, preferredLang);
         var options = { baseUrl: urlPreferredLang || (req.headers.base_url ||  (preferredLang ? ('/'+preferredLang+'/') : '/')), 'appVersion' : appVersion };
-        
+
         if(langFilepath){
              return res.render(langFilepath, options);
-        } 
+        }
 
         return res.render(__dirname + '/app/index.ejs', options);
     })
@@ -75,13 +77,13 @@ process.on('SIGTERM', ()=>process.exit());
 
 
 function translation(req, res, next) {
-   
+
    co(function*(){
         let langFilepath = yield getLanguageFile(req);
         if(langFilepath){
              return res.sendFile(langFilepath);
-        }    
-            
+        }
+
         next();
    });
 }
@@ -92,14 +94,14 @@ function* getLanguageFile(req, preferredLang){
         preferredLang = getPreferredLanguage(req);
 
     if(preferredLang){
-        var path = `/i18n/${preferredLang}/app${req.url}`;               
+        var path = `/i18n/${preferredLang}/app${req.url}`;
 
         let statsLang;
         try{
             statsLang  = yield fs.stat(__dirname + path);
         }catch(e){}
         if (statsLang && statsLang.isFile()) {
-            
+
             var statsEN    = yield fs.stat(`${__dirname}/app${req.url}`);
 
             var mLangtime  = new Date(util.inspect(statsLang.mtime));
@@ -107,11 +109,11 @@ function* getLanguageFile(req, preferredLang){
             if(mLangtime >= mENtime)
                 return __dirname + path;
         }
-    }           
+    }
 }
 
 function getPreferredLanguage(req){
-    
+
     if(req.params.lang)
         return req.params.lang;
 
@@ -121,7 +123,7 @@ function getPreferredLanguage(req){
 
         var validLanguages = ['ar', 'fr', 'es', 'ru', 'zh']
         var language = req.headers['preferred-language'];
-        
+
         if(_.includes(validLanguages, language.toLowerCase())){
             return language;
         }

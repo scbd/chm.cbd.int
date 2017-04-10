@@ -1,7 +1,8 @@
-define(['text!./bbi-opportunity.html', 'app', 'lodash', 'services/storage'], function(template, app, _) {
+define(['text!./bbi-opportunity.html', 'app', 'lodash', 	'utilities/km-storage',
+	'providers/locale'], function(template, app, _) {
 	'use strict';
 
-	app.directive('bbiOpportunity', ["IStorage", "$location", function(storage, $location) {
+	app.directive('viewBbiOpportunity', ["IStorage", "$location", function(storage, $location) {
 		return {
 			restrict: 'E',
 			template: template,

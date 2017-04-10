@@ -1,0 +1,165 @@
+<div id="Record" class="record panel panel-default" style="margin-top:20px;">
+
+    <div id="view-header" class="panel-heading form-header" ng-if="header">
+        <div class="row">
+            <div class="col-xs-10">
+                <h2><span>Actor</span></h2>
+            </div>
+            <div class="col-xs-2">
+                <h4 ng-if="isReview()"><span class="pull-right"><a class="btn btn-xs btn-default" href="dashboard/submit/undb-actor/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center" ng-if="loading">
+        <h1><i class="fa fa-spin fa-spinner " /> Loading...</h1>
+    </div>
+
+
+    <div class="record-body panel-body" ng-if="!loading">
+        <div class="viewForm">
+
+          <div class="col-xs-12" ng-show="organization">
+              <legend class="view">Organization</legend>
+              <div class="col-xs-12 km-value" >
+
+                        <div ng-class="{'col-xs-10':organization.logo,'col-xs-12':!organization.logo}">
+                            <div>
+                                <strong>{{organization.name | lstring:locale}} </strong><i ng-show="organization.acronym">({{organization.acronym | lstring:locale}})</i> <a ng-href="dashboard/submit/organization/{{organization.header.identifier}}/view" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a> <a ng-href="dashboard/submit/organization/{{organization.header.identifier}}" target="_blank"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                <address>
+                          <div class="km-pre">{{organization.address | lstring:locale}}</div>
+                          {{organization.city | lstring:locale}}<span ng-show="organization.city">, </span>
+                          {{organization.state | lstring:locale}}<br ng-show="organization.city || document.state" />
+                          {{organization.postalCode | lstring:locale}}<span ng-show="organization.postalCode">, </span>
+                          <b>{{organization.country | term:locale}}</b> <image style="height:15px;;" ng-src="https://www.cbd.int/images/flags/96/flag-{{organization.country.identifier}}-96.png?v=<%=gitVersion%>"></image>
+                          <br>
+                          <span ng-if="organization.emails"><br> </span>
+                          <span ng-repeat="item in organization.emails">
+                              <i class="fa fa-envelope" aria-hidden="true"></i>:
+                              <a target="_blank" ng-href="mailto:{{item}}" >
+                                  {{item}}
+                              </a>
+                              <span ng-if="!$last">|</span>
+                          </span>
+                          <span ng-if="organization.phones"> <br>
+
+                              <span ng-repeat="item in organization.phones"><i class="fa fa-phone-square" aria-hidden="true"></i>: {{item}}
+                                  <span ng-show="!$last">|</span>
+                              </span>
+                          </span>
+
+                          <span ng-if="organization.faxes"> <br>
+
+                              <span ng-repeat="item in organization.faxes"><i class="fa fa-fax" aria-hidden="true"></i>: {{item}}
+                                <span ng-show="!$last">|</span>
+                              </span>
+                          </span>
+
+                          <span ng-if="organization.websites"><br><br></span>
+                          <span class="small" ng-repeat="item in organization.websites">
+
+                              <a target="_blank" ng-href="{{item.url}}" ng-switch="item.name">
+
+                                  <i ng-switch-when="youtube" class="fa fa-youtube-square" aria-hidden="true"></i>
+                                  <i ng-switch-when="twitter" class="fa fa-twitter-square" aria-hidden="true"></i>
+                                  <i ng-switch-when="facebook" class="fa fa-facebook-square" aria-hidden="true"></i>
+                                  <i ng-switch-when="Google Maps" class="fa fa-google" aria-hidden="true"></i>
+                                  <i ng-switch-when="website" class="fa fa-home" aria-hidden="true"></i>
+                                  <i ng-switch-default class="fa fa-external-link" aria-hidden="true"></i>
+                                  {{item.name.toUpperCase()||item.url}}
+                              </a>
+                              <span ng-if="!$last">|</span>
+                          </span>
+                          <span ng-if="organization.operationalLanguages"><br></span>
+                          <span class="small" ng-if="organization.operationalLanguages">
+
+
+                                  <span class="label label-info" style="margin:0 5px 0 0;" ng-repeat="lang in organization.operationalLanguages">{{ lang | term:locale | uppercase}}
+                                  </span>
+
+                          </span>
+
+                          <span ng-if="organization.organizationType"><br></span>
+                          <span class="small" ng-if="organization.organizationType">
+                                  <span class="label label-default" style="margin:0 5px 0 0;" >{{organization.organizationType | term:locale | uppercase}}<span>
+                          </span>
+                        </address>
+                            </div>
+                        </div>
+                        <div class="col-xs-2" ng-show="organization.logo">
+                            <div>
+                                <img width="100%" ng-src="{{organization.logo.url}}?v=<%=gitVersion%>"></img>
+                            </div>
+                        </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12" ng-show="document.description">
+          <label class="view">Description</label>
+          <div class="km-value">
+              <span ng-bind="document.description| lstring:locale"><br/></span>
+          </div>
+      </div>
+
+      <div class="col-xs-12" ng-show="document.descriptionNative">
+          <label class="view">Description Native Language</label>
+          <div class="km-value">
+              <span ng-bind="document.descriptionNative"><br/></span>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.websites">
+          <label class="view">Websites</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.websites">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.documents">
+          <label class="view">Documents</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.documents">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.images">
+          <label class="view">Images</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.images">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.videos">
+          <label class="view">Videos</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.videos">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+    <div id="view-header" class="panel-footer form-header" ng-if="header">
+        <div class="row">
+            <div class="col-xs-10">
+                <h2><span>Actor</span></h2>
+            </div>
+            <div class="col-xs-2">
+                <h4 ng-if="isReview()"><span class="pull-right"><a class="btn btn-xs btn-default" href="dashboard/submit/undb-actor/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
+            </div>
+        </div>
+    </div>
+
+</div>

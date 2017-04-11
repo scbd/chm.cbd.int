@@ -12,9 +12,21 @@ define(['app', 'angular'], function(app, angular) {
 						redirectToBbiForm (schema);
 				else if(schema.indexOf('undb')>=0)
 						redirectToUndbForm (schema);
+        else if(schema==='event')
+          redirectEvent ();
 				else
 					$location.path('/404');
 
+          function redirectEvent () {
+  					  var host = document.location.hostname;
+
+  						if(host.indexOf('localhost')>=0 || host.indexOf('staging')>=0 )
+  		        	window.location.href = 'https://undb.staging.cbd.int/dashboard/submit/event/' + id + workflowId;
+  						else if(host.indexOf('cbddev.xyz')>=0)
+  							 window.location.href = 'https://undb.cbddev.xyz/dashboard/submit/event/'+ id + workflowId;
+  						else
+  							 window.location.href = 'https://www.cbd.int/2011-2020//dashboard/submit/event/'+id + workflowId;
+  				}
 				function redirectToBbiForm (schema) {
 					  var host = document.location.hostname;
 

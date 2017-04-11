@@ -88,8 +88,8 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//
 			//====================
 			$scope.getEmbedMapUrl = function() {
-				  if(!$scope.document || !$scope.document.name || !$scope.document.name[locale]) return false;
-					$scope.embedMapUrl='https://www.google.com/maps/embed/v1/place?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&q='+encodeURIComponent($scope.document.name[locale].replace(/ /g, '+'));
+				  if(!$scope.document || !$scope.document.establishmentGooglePlaceId ) return false;
+					$scope.embedMapUrl='https://www.google.com/maps/embed/v1/place?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&q=place_id:'+$scope.document.establishmentGooglePlaceId;
 					return true;
 			};
 			//====================

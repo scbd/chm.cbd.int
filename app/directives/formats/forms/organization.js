@@ -567,8 +567,8 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			//
 			//==================================
 			function gotoManager() {
-				$scope.$emit('showInfo', 'Organization successfully updated.');
-				$location.path("/dashboard/submit/"+$scope.schema);
+
+				$location.path("/submit/"+$scope.schema);
 				$location.search('index-update',$scope.document.header.identifier);
 
 			}

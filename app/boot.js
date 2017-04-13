@@ -2,7 +2,7 @@ require.config({
     waitSeconds: 120,
     baseUrl : 'app/',
     paths: {
-      'authentication'      : 'scbd-angularjs-services/authentication',
+      'authentication'      : 'services/authentication',
       'angular'             : 'libs/angular-flex/angular-flex',
       'ngRoute'             : 'libs/angular-route/angular-route.min',
       'ngSanitize'          : 'libs/angular-sanitize/angular-sanitize.min',

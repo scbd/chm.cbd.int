@@ -215,11 +215,18 @@
 					</div>
 
 					<div ng-hide="status=='hidden'||status=='loading'">
+						<div class"row">
+							<div class="col-xs-12">
+								<span class="pull-right">
+									<strong>Sixth national report user manual</strong> <a href="https://www.cbd.int/chm/doc/chm-latest-guide-online-reporting.pdf" target="_blank">English</a>
+								</span>
+							</div>
+						</div>
 						<header>
 							
 						<!-- Wrap all page content here -->
 						<div id="wrap">
-							<div style="display:none;visibility:hidden;heigth:123px"></div>
+							<div style="display:none;visibility:hidden;height:123px"></div>
 							<!-- Fixed navbar -->
 							<div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
 								<div class="container container-custom">
@@ -228,7 +235,7 @@
 										<div class="row">
 											<div class="col-xs-12">
 												<ul class="pagination">
-													<li ng-class="{ disabled: tab=='general' }"> <a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
+													<li ng-class="{ disabled: tab=='general' }"> <a translation-url href="" ng-click="switchTab('prev')">&laquo;</a></li>
 													<li ng-class="{ active  : tab=='general' }"> <a translation-url href="" ng-click="tab='general'">National Targets</a></li>
 													<li ng-class="{ active  : tab=='implementation' }"> <a translation-url href="" ng-click="tab='implementation'">Implementation</a></li>
 													<li ng-class="{ active  : tab=='progress' }"> <a translation-url href="" ng-click="tab='progress'">Progress Assessment</a></li>
@@ -237,7 +244,7 @@
 													<li ng-class="{ active  : tab=='iplcContribution' }"> <a translation-url href="" ng-click="tab='iplcContribution'">IPLC Contribution</a></li>
 													<li ng-class="{ active  : tab=='countryProfile' }"> <a translation-url href="" ng-click="tab='countryProfile'">Country Profile</a></li>
 													<li ng-class="{ active  : tab=='review'  }"> <a translation-url href="" ng-click="tab='review'">Review</a></li>
-													<li ng-class="{ disabled: tab=='review'  }"> <a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
+													<li ng-class="{ disabled: tab=='review'  }"> <a translation-url href="" ng-click="switchTab('next')">&raquo;</a></li>
 												</ul>
 												<div km-document-validation ng-model="warningsReport" ng-show="(document.nationalContribution && document.nationalContribution.aichiTarget16.nationalReport 
 												&& !document.nationalContribution.aichiTarget16.nationalReportDescription)
@@ -263,7 +270,7 @@
 								<!--/.container -->
 							</div>
 							<!--/.navbar -->
-							<span class="clearfix"></span>
+							<!--<span class="clearfix"></span>-->
 
 						</div>
 						<!--/wrap-->

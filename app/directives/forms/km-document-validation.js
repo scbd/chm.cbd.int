@@ -52,7 +52,10 @@ define(['app', 'text!./km-document-validation.html', 'json!app-data/validation-e
 
 					$timeout(function(){
 						var container = $attr.container || 'body';
-						$element.parents(container+":last").stop().animate({ scrollTop : qLabel.offset().top-50 }, 300);
+						var navHeight = 0;
+						if($('#nav').length > 0)
+							navHeight = $('#nav').height();
+						$element.parents(container+":last").stop().animate({ scrollTop : qLabel.offset().top-navHeight-30 }, 300);
 					},100);
 
 				};

@@ -130,8 +130,8 @@
                     <a translation-url class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
-        </div>  
-       
+        </div>
+
         <div class="row">
             <div class="col-xs-3">
                 <h5 style="padding-top:0;margin-top:0;">Financial Reporting Framework</h5>
@@ -153,7 +153,7 @@
                     <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
-        
+
         </div>
 
          <!--<div class="row title-row row-bottom-border">
@@ -413,66 +413,162 @@
     <div class="container">
 
 
-         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-            <div class="col-xs-12">
-               Virtual Library Records
-            </div>
-        </div>
-<!--
-         <div class="row title-row row-bottom-border">
-            <div class="col-xs-3">Record Type</div>
-            <div class="col-xs-7">Description</div>
-            <div class="col-xs-1">Status</div>
-            <div class="col-xs-1">Action</div>
-        </div>-->
+      <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+         <div class="col-xs-12">
+            Bio-Bridge Initiative Records
+         </div>
+     </div>
+     <div class="row row-bottom-border">
+         <div class="col-xs-3">
+             <h5 style="padding-top:0;margin-top:0;">Contacts</h5>
+         </div>
+         <div class="col-xs-6">
+             <p style="font-size:12px;">
 
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">General Library Records</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
+             </p>
+         </div>
+         <div class="col-xs-2">
+             <div class="status-badge">
+                 <span class="badge bg-published">{{getFacet('bbiContact').public}}</span>
+                 <span class="badge bg-draft">{{getFacet('bbiContact').draft}}</span>
+                 <span class="badge bg-request">{{getFacet('bbiContact').workflow}}</span>
+             </div>
+         </div>
+         <div class="col-xs-1">
+             <div class="btn-group-xs pull-right">
+                 <a translation-url class="btn btn-info" href="/submit/bbiContact/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                 <a translation-url class="btn btn-primary" href="/submit/bbiContact/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+             </div>
+         </div>
+     </div>
+     <div class="row row-bottom-border">
+         <div class="col-xs-3">
+             <h5 style="padding-top:0;margin-top:0;">Opportunities</h5>
+         </div>
+         <div class="col-xs-6">
+             <p style="font-size:12px;">
 
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('resource').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('resource').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('resource').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/resource" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/resource/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
+             </p>
+         </div>
+         <div class="col-xs-2">
+             <div class="status-badge">
+                 <span class="badge bg-published">{{getFacet('bbiOpportunity').public}}</span>
+                 <span class="badge bg-draft">{{getFacet('bbiOpportunity').draft}}</span>
+                 <span class="badge bg-request">{{getFacet('bbiOpportunity').workflow}}</span>
+             </div>
+         </div>
+         <div class="col-xs-1">
+             <div class="btn-group-xs pull-right">
+                 <a translation-url class="btn btn-info" href="/submit/bbiOpportunity/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                 <a translation-url class="btn btn-primary" href="/submit/bbiOpportunity/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+             </div>
+         </div>
+     </div>
+     <div class="row row-bottom-border">
+         <div class="col-xs-3">
+             <h5 style="padding-top:0;margin-top:0;">Providers of Assistance</h5>
+         </div>
+         <div class="col-xs-6">
+             <p style="font-size:12px;">
 
-           <div class="row">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Case Studies</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
+             </p>
+         </div>
+         <div class="col-xs-2">
+             <div class="status-badge">
+                 <span class="badge bg-published">{{getFacet('bbiProfile').public}}</span>
+                 <span class="badge bg-draft">{{getFacet('bbiProfile').draft}}</span>
+                 <span class="badge bg-request">{{getFacet('bbiProfile').workflow}}</span>
+             </div>
+         </div>
+         <div class="col-xs-1">
+             <div class="btn-group-xs pull-right">
+                 <a translation-url class="btn btn-info" href="/submit/bbiProfile/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                 <a translation-url class="btn btn-primary" href="/submit/bbiProfile/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+             </div>
+         </div>
+     </div>
+      <div class="row row-bottom-border">
+          <div class="col-xs-3">
+              <h5 style="padding-top:0;margin-top:0;">Requests for Assistance</h5>
+          </div>
+          <div class="col-xs-6">
+              <p style="font-size:12px;">
 
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('caseStudy').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('caseStudy').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('caseStudy').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/caseStudy/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/caseStudy/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
+              </p>
+          </div>
+          <div class="col-xs-2">
+              <div class="status-badge">
+                  <span class="badge bg-published">{{getFacet('bbiRequest').public}}</span>
+                  <span class="badge bg-draft">{{getFacet('bbiRequest').draft}}</span>
+                  <span class="badge bg-request">{{getFacet('bbiRequest').workflow}}</span>
+              </div>
+          </div>
+          <div class="col-xs-1">
+              <div class="btn-group-xs pull-right">
+                  <a translation-url class="btn btn-info" href="/submit/bbiRequest/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                  <a translation-url class="btn btn-primary" href="/submit/bbiRequest/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+              </div>
+          </div>
+      </div>
+
+      <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;" ng-show="test_env">
+         <div class="col-xs-12">
+            Capacity-building
+         </div>
+     </div>
+
+     <div class="row" ng-show="test_env">
+         <div class="col-xs-3">
+             <h5 style="padding-top:0;margin-top:0;">Capacity-building Initiatives</h5>
+         </div>
+         <div class="col-xs-6">
+             <p style="font-size:12px;">
+
+             </p>
+         </div>
+         <div class="col-xs-2">
+             <div class="status-badge">
+                 <span class="badge bg-published">{{getFacet('capacityBuildingInitiative').public}}</span>
+                 <span class="badge bg-draft">{{getFacet('capacityBuildingInitiative').draft}}</span>
+                 <span class="badge bg-request">{{getFacet('capacityBuildingInitiative').workflow}}</span>
+             </div>
+         </div>
+         <div class="col-xs-1">
+             <div class="btn-group-xs pull-right">
+                 <a translation-url class="btn btn-info" href="/submit/capacityBuildingInitiative/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                 <a translation-url class="btn btn-primary" href="/submit/capacityBuildingInitiative/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+             </div>
+         </div>
+     </div>
+<!-- to be released when new undb goes live -->
+      <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+         <div class="col-xs-12">
+            Events
+         </div>
+      </div>
+      <div class="row">
+          <div class="col-xs-3">
+              <h5 style="padding-top:0;margin-top:0;">Biodiversity Related Events</h5>
+          </div>
+          <div class="col-xs-6">
+              <p style="font-size:12px;">
+
+              </p>
+          </div>
+          <div class="col-xs-2">
+              <div class="status-badge">
+                  <span class="badge bg-published">{{getFacet('event').public}}</span>
+                  <span class="badge bg-draft">{{getFacet('event').draft}}</span>
+                  <span class="badge bg-request">{{getFacet('event').workflow}}</span>
+              </div>
+          </div>
+          <div class="col-xs-1">
+              <div class="btn-group-xs pull-right">
+                  <a translation-url class="btn btn-info" href="/submit/event/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                  <a translation-url class="btn btn-primary" href="/submit/event/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+              </div>
+          </div>
+      </div> -->
 
          <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
             <div class="col-xs-12">
@@ -512,42 +608,15 @@
         </div>
 
 
-        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;" ng-show="test_env">
-           <div class="col-xs-12">
-              Capacity-building
-           </div>
-       </div>
 
-       <div class="row" ng-show="test_env">
-           <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">Capacity-building Initiatives</h5>
-           </div>
-           <div class="col-xs-6">
-               <p style="font-size:12px;">
-
-               </p>
-           </div>
-           <div class="col-xs-2">
-               <div class="status-badge">
-                   <span class="badge bg-published">{{getFacet('capacityBuildingInitiative').public}}</span>
-                   <span class="badge bg-draft">{{getFacet('capacityBuildingInitiative').draft}}</span>
-                   <span class="badge bg-request">{{getFacet('capacityBuildingInitiative').workflow}}</span>
-               </div>
-           </div>
-           <div class="col-xs-1">
-               <div class="btn-group-xs pull-right">
-                   <a translation-url class="btn btn-info" href="/submit/capacityBuildingInitiative/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a translation-url class="btn btn-primary" href="/submit/capacityBuildingInitiative/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-               </div>
-           </div>
-       </div>
-
-       <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+<!-- to be released when new undb goes live -->
+       <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
           <div class="col-xs-12">
              UNDB Records
           </div>
       </div>
-       <div class="row">
+
+       <div class="row row-bottom-border">
            <div class="col-xs-3">
                <h5 style="padding-top:0;margin-top:0;">UNDB Actors</h5>
            </div>
@@ -558,22 +627,45 @@
            </div>
            <div class="col-xs-2">
                <div class="status-badge">
-                   <span class="badge bg-published">{{getFacet('undbPartner').public}}</span>
-                   <span class="badge bg-draft">{{getFacet('undbPartner').draft}}</span>
-                   <span class="badge bg-request">{{getFacet('undbPartner').workflow}}</span>
+                   <span class="badge bg-published">{{getFacet('undbActor').public}}</span>
+                   <span class="badge bg-draft">{{getFacet('undbActor').draft}}</span>
+                   <span class="badge bg-request">{{getFacet('undbActor').workflow}}</span>
                </div>
            </div>
            <div class="col-xs-1">
                <div class="btn-group-xs pull-right">
-                   <a translation-url class="btn btn-info" href="/submit/undbPartner/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a translation-url class="btn btn-primary" href="/submit/undbPartner/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                   <a translation-url class="btn btn-info" href="/submit/undbActor/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                   <a translation-url class="btn btn-primary" href="/submit/undbActor/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                </div>
            </div>
        </div>
+       <div class="row row-bottom-border">
+           <div class="col-xs-3">
+               <h5 style="padding-top:0;margin-top:0;">UNDB Party Profile</h5>
+           </div>
+           <div class="col-xs-6">
+               <p style="font-size:12px;">
 
-        <div class="row">
+               </p>
+           </div>
+           <div class="col-xs-2">
+               <div class="status-badge">
+                   <span class="badge bg-published">{{getFacet('undbParty').public}}</span>
+                   <span class="badge bg-draft">{{getFacet('undbParty').draft}}</span>
+                   <span class="badge bg-request">{{getFacet('undbParty').workflow}}</span>
+               </div>
+           </div>
+           <div class="col-xs-1">
+               <div class="btn-group-xs pull-right">
+                   <a translation-url class="btn btn-info" href="/submit/undbParty/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                   <a translation-url class="btn btn-primary" href="/submit/undbParty/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+               </div>
+           </div>
+       </div> -->
+        <div class="row row-bottom-border">
+
             <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">UNDB Actions</h5>
+                <h5 style="padding-top:0;margin-top:0;">UNDB Actions <span class="text-danger">(depreciated please use Event)</span></h5>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;">
@@ -594,6 +686,90 @@
                 </div>
             </div>
         </div>
+        <div class="row ">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">UNDB Partners <span class="text-danger">(depreciated please use UNDB Actor)</span></h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('undbPartner').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('undbPartner').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('undbPartner').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/undbPartner/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/undbPartner/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+           <div class="col-xs-12">
+              Virtual Library Records
+           </div>
+       </div>
+   <!--
+        <div class="row title-row row-bottom-border">
+           <div class="col-xs-3">Record Type</div>
+           <div class="col-xs-7">Description</div>
+           <div class="col-xs-1">Status</div>
+           <div class="col-xs-1">Action</div>
+       </div>-->
+
+       <div class="row row-bottom-border">
+           <div class="col-xs-3">
+               <h5 style="padding-top:0;margin-top:0;">General Library Records</h5>
+           </div>
+           <div class="col-xs-6">
+               <p style="font-size:12px;">
+
+               </p>
+           </div>
+           <div class="col-xs-2">
+               <div class="status-badge">
+                   <span class="badge bg-published">{{getFacet('resource').public}}</span>
+                   <span class="badge bg-draft">{{getFacet('resource').draft}}</span>
+                   <span class="badge bg-request">{{getFacet('resource').workflow}}</span>
+               </div>
+           </div>
+           <div class="col-xs-1">
+               <div class="btn-group-xs pull-right">
+                   <a translation-url class="btn btn-info" href="/submit/resource" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                   <a translation-url class="btn btn-primary" href="/submit/resource/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+               </div>
+           </div>
+       </div>
+
+          <div class="row">
+           <div class="col-xs-3">
+               <h5 style="padding-top:0;margin-top:0;">Case Studies</h5>
+           </div>
+           <div class="col-xs-6">
+               <p style="font-size:12px;">
+
+               </p>
+           </div>
+           <div class="col-xs-2">
+               <div class="status-badge">
+                   <span class="badge bg-published">{{getFacet('caseStudy').public}}</span>
+                   <span class="badge bg-draft">{{getFacet('caseStudy').draft}}</span>
+                   <span class="badge bg-request">{{getFacet('caseStudy').workflow}}</span>
+               </div>
+           </div>
+           <div class="col-xs-1">
+               <div class="btn-group-xs pull-right">
+                   <a translation-url class="btn btn-info" href="/submit/caseStudy/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                   <a translation-url class="btn btn-primary" href="/submit/caseStudy/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+               </div>
+           </div>
+       </div>
+
 
         <!--<div class="row">
 

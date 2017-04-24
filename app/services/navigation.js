@@ -31,7 +31,7 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
         return function (schema) {
             if(!schema)
                 return;
-                
+
             if (schema == "focalPoint") return "National Focal Point";
             if (schema == "caseStudy") return "Case Study";
             if (schema == "resource") return "Virtual Library Resource";
@@ -50,8 +50,16 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
             if (schema == "lwEvent") return "LifeWeb Events";
             if (schema == "lwDonor") return "LifeWeb Donors";
             if (schema == "dossier") return "Aichi Target Dossiers";
-            if (schema == "undbAction") return "UNDB Action";
-            if (schema == "undbPartner") return "UNDB Partner"; 
+            if (schema == "undbAction") return "UNDB Action (depreciated please use Event)" ;
+            if (schema == "undbPartner") return "UNDB Partner (depreciated please use UNDB Actor)";
+            if (schema == "bbiRequest") return "BBI Request for Assistance";
+            if (schema == "bbiProfile") return "BBI Provider of Assistance";
+            if (schema == "bbiOpportunity") return "BBI Opportunity";
+            if (schema == "bbiContact") return "BBI Contact";
+            if (schema == "undbActor") return "UNDB Actor";
+            if (schema == "undbParty") return "UNDB Party Profile";
+
+            if (schema == "event") return "Event";
             if (schema == "nationalReport6") return "Sixth National Report";
 
             if(schema.toLowerCase()=="focalpoint"				            ) return "ABS National Focal Point";
@@ -126,7 +134,7 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
 
                 if(type)
                     url += "?type=" + type;
-
+console.log(url);
                 return url;
             },
 

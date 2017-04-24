@@ -31,7 +31,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 
 					require(['./'+name], function(){
 
-						var directiveHtml = '<DIRECTIVE ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></DIRECTIVE>'.replace(/DIRECTIVE/g, 'view-' + name);
+						var directiveHtml = '<DIRECTIVE ng-model="internalDocument" locale="getLocale()" header="false" link-target={{linkTarget}}></DIRECTIVE>'.replace(/DIRECTIVE/g, 'view-' + name);
 
 						$scope.$apply(function(){
 							formHolder.append($compile(directiveHtml)($scope));

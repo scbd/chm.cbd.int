@@ -34,7 +34,15 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'dossier'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'capacityBuildingInitiative' ,public:0, draft:0, workflow:0 },
             { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 },
-            { identifier: 'undbAction'                 ,public:0, draft:0, workflow:0 }
+            { identifier: 'undbAction'                 ,public:0, draft:0, workflow:0 },
+            { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 },
+            { identifier: 'undbActor'                  ,public:0, draft:0, workflow:0 },
+            { identifier: 'undbParty'                  ,public:0, draft:0, workflow:0 },
+            { identifier: 'event'                      ,public:0, draft:0, workflow:0 },
+            { identifier: 'bbiContact'                 ,public:0, draft:0, workflow:0 },
+            { identifier: 'bbiProfile'                 ,public:0, draft:0, workflow:0 },
+            { identifier: 'bbiOpportunity'             ,public:0, draft:0, workflow:0 },
+            { identifier: 'bbiRequest'             ,public:0, draft:0, workflow:0 },
         ];
 
         $scope.government = userGovernment();
@@ -75,7 +83,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                 var index=0;
         		  _.each(results, function(facets){
         			  _.each(facets.data, function(count, format){
-                            if(format == 'resource')
+                            if(format == 'resource' || 'organization')
                                 return;
 
         					var schemaTypeFacet = _.find($scope.schemasList,{identifier:format});
@@ -90,6 +98,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         			  });
         			index++;
         		  });
+
             });
 
             ////////////////
@@ -98,6 +107,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
 
             var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource',
+            'undbActor','undbParty','event', 'bbiContact','bbiProfile','bbiOpportunity', 'bbiRequest',
             'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
             'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction', 'nationalReport6'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
@@ -110,7 +120,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
               });
 
             var ownershipQuery = " AND (_ownership_s:"+userGroups.join(" OR _ownership_s:") + ')';
-            var q = '(realm_ss:' + realm.toLowerCase() + ' ' + qSchema + ownershipQuery + ')';
+            var q = '((realm_ss:' + realm.toLowerCase() + ' OR (*:* NOT realm_ss:*))) ' + qSchema + ownershipQuery ;
 
             var qsOtherSchemaFacetParams =
              {
@@ -336,7 +346,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         })
 
         function loadNR6Details(){
-            
+
             if(user.government){
 
                 var qSchema = " AND (schema_s:nationalReport6)";
@@ -348,14 +358,14 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
                     "q"  : q,
                     "rows" : 10,
                     "fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
-                    "s"     : 'updatedOn_dt desc'               
+                    "s"     : 'updatedOn_dt desc'
                 };
 
                 var nationalReport6Query     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
 
                 $q.when(nationalReport6Query).then(function(results) {
                     if(results.data.response.numFound > 0){
-                        $scope.nationalReport6 = results.data.response.docs[0]           
+                        $scope.nationalReport6 = results.data.response.docs[0]
                     }
                 }).then(null, function(error) {
                     console.log(error );

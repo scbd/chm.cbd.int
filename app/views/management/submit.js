@@ -1,4 +1,6 @@
-define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr","services/realmConfig"], function(_) { 'use strict';
+define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km-workflows', "utilities/solr","services/realmConfig",
+    'directives/management/top-menu'
+], function(_) { 'use strict';
 
     return ['$scope', '$rootScope',"IStorage", "schemaTypes", '$timeout', '$route','$http','authentication','$q',"realm","user","solr",'realmConfig',
      function($scope, $rootScope, storage, schemaTypes, $timeout, $route,$http, authentication, $q, realm, user, solr,realmConfig) {

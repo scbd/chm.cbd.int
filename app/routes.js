@@ -80,6 +80,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'User Notifications and Requests',           resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/management/requests/:id/:activity',        { templateUrl: 'views/management/tasks/tasks-id-activity.html',label : 'Activity',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
+            when('/management/user-preferences',               { templateUrl: 'views/management/user-preferences/index.html',            label : 'User Notifications and Requests',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/management/national-users', { templateUrl: 'views/management/national-users/index.html',label : 'National Users',  resolveController: true, resolve : { user : securizeNational(['Administrator', 'ChmAdministrator']) } }).
 
             when('/signin',                                             { templateUrl: 'views/users/signin.html',                                                   resolveController: true, resolveUser: true }).

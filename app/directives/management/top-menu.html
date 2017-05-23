@@ -1,0 +1,49 @@
+﻿<div id="managementTopMenu">
+    <style>
+        #managementTopMenu{
+            padding:5px;
+        }
+        #managementTopMenu .menu-tabs {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #managementTopMenu .menu-tabs > ul {
+            padding: 0;
+            margin: 0;
+        }
+        
+        #managementTopMenu .menu-tabs > ul li {
+            display: inline;
+            z-index: 20;
+            margin-right: 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+        
+        #managementTopMenu .menu-tabs > ul li > a {
+            background-color: #f5f5f5;
+            color: #666;
+            font-weight: bold;
+            font-weight: bold;
+            line-height: 35px;
+            padding: 8px 10px 8px 10px;
+            border-radius: 3px;
+        }
+        
+    </style>
+
+    <h1 style="padding:0 0 5px 0;margin:0;border-bottom:1px solid #ddd;">CHM Management Centre </h1>
+    
+    <div class="menu-tabs" style="margin-top:10px;">
+        <ul>
+            <li> <a translation-url  href="/submit" ng-class="{'tabactivated':path.indexOf('dashboard') > 0}"> Dashboard </a> </li>
+            <li> <a translation-url  href="/management/requests" ng-class="{'tabactivated':path.indexOf('notifications') > 0}"> Requests & Notifications </a></li>
+            <li ng-if="user.government"><a translation-url  ng-class="{'tabactivated':path.indexOf('national-users')>0}" href="/management/national-users"> User Management</a> </li>
+            <li> <a translation-url  href="/management/user-preferences" ng-class="{'tabactivated':path.indexOf('user-preferences') > 0}"> Preferences  <span class="label label-danger">New</span> </a> </li>
+            <!--<li ng-if="roles.isAbsAdministrator || roles.isAdministrator"><a translation-url  href="/management/admin" class="bg-pink linkDark"><span class="color-white "><span class="hidden-xs hidden-sm">CHM</span> ADMIN</a></span>-->
+            </li>
+        </ul>
+    </div>
+
+</div>

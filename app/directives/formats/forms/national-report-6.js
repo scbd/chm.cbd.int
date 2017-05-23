@@ -297,16 +297,67 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 						//==================================
 						//
 						//==================================
+						var nextTab; var prevTab;
 						$scope.$watch('tab', function(tab) {
 							if (tab == 'review')
 								$scope.validate();
-
+							
+							switch (tab) {
+								case 'general':{
+									nextTab = 'implementation';
+									prevTab = '';
+									break;
+								}
+								case 'implementation':{
+									nextTab = 'progress';
+									prevTab = 'general';
+									break;
+								}
+								case 'progress':{
+									nextTab = 'nationalContribution';
+									prevTab = 'implementation';
+									break;
+								}
+								case 'nationalContribution':{
+									nextTab = 'gspcContribution';
+									prevTab = 'progress';
+									break;
+								}
+								case 'gspcContribution':{
+									nextTab = 'iplcContribution';
+									prevTab = 'nationalContribution';
+									break;
+								}
+								case 'iplcContribution':{
+									nextTab = 'countryProfile';
+									prevTab = 'gspcContribution';
+									break;
+								}
+								case 'countryProfile':{
+									nextTab = 'review';
+									prevTab = 'iplcContribution';
+									break;
+								}
+								case 'review':{
+									nextTab = '';
+									prevTab = 'countryProfile';
+									break;
+								}
+								default:
+									break;
+							}
 							// if(tab == 'implementation')$scope.closeall('.implementationMeasure');
 							// if(tab == 'progress')$scope.closeall('.progressAssessment');
 							// if(tab == 'nationalContribution')$scope.closeall('.aichiTarget');
 							// if(tab == 'gspcContribution')$scope.closeall('.gspcTarget');
 						});
+						$scope.switchTab = function(type){
+							if(type=='next' && nextTab!='')
+								$scope.tab = nextTab;
+							else if(type=='prev' && prevTab!='')
+								$scope.tab = prevTab;
 
+						}
 						//==================================
 						//
 						//==================================

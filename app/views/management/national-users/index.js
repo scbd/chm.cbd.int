@@ -1,4 +1,5 @@
-define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig'], function(ng, _, require) { 'use strict';
+define(['angular', 'lodash', 'require', 'ngDialog', 'services/realmConfig',
+    'directives/management/top-menu'], function(ng, _, require) { 'use strict';
 
     return ['$scope', '$http', '$q', 'ngDialog', 'user', 'realm', 'realmConfig', function($scope, $http, $q, ngDialog, authenticatedUser, realm, realmConfig) {
 

@@ -1,7 +1,8 @@
-define(['text!./bbi-opportunity.html', 'app', 'lodash', 'services/storage'], function(template, app, _) {
+define(['text!./bbi-opportunity.html', 'app', 'lodash', 	'utilities/km-storage',
+	'scbd-angularjs-services/locale'], function(template, app, _) {
 	'use strict';
 
-	app.directive('bbiOpportunity', ["IStorage", "$location", function(storage, $location) {
+	app.directive('viewBbiOpportunity', ["IStorage", "$location", function(storage, $location) {
 		return {
 			restrict: 'E',
 			template: template,
@@ -100,6 +101,7 @@ define(['text!./bbi-opportunity.html', 'app', 'lodash', 'services/storage'], fun
 						name: 'logo'
 					});
 				};
+
 				//====================
 				//
 				//====================
@@ -113,6 +115,7 @@ define(['text!./bbi-opportunity.html', 'app', 'lodash', 'services/storage'], fun
 							ref = [];
 							ref[0] = data.data;
 							ref[0].header.state = 'public';
+							ref[0].logo=$scope.getLogo(data.data);
 							ref[1] = index;
 							return ref;
 						})
@@ -126,6 +129,7 @@ define(['text!./bbi-opportunity.html', 'app', 'lodash', 'services/storage'], fun
 										ref = [];
 										ref[0] = data.data;
 										ref[0].header.state = 'draft';
+										ref[0].logo=$scope.getLogo(data.data);
 										ref[1] = index;
 										return ref;
 									})

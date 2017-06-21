@@ -1,268 +1,445 @@
-﻿<div>
-
-
-	<h1>Organization   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+﻿<div class="row article" >
 
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>An error has occurred...</strong>
 		<div>{{error}}</div>
 	</div>
 
-	<div ng-show="status!='hidden'">
+	<div id="view-header" class="panel-heading bg-darkgrey" style="background-color:#004844;">
+			<div class="row">
+					<div class="col-xs-12 col-sm-2">
+							<h2 style="color:white;margin:0px;">Organization </h2>
+					</div>
+					<div class="col-xs-12 col-sm-10 text-right hidden-xs" >
+							<span km-form-languages  ng-model="document.header.languages"></span>
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+									on-pre-publish="onPrePublish()"></span>
+					</div>
+					<div class="col-xs-12 col-sm-10 small visible-xs" >
+							<span km-form-languages xs ng-model="document.header.languages"></span>
+							<span km-form-std-buttons xs  document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+									on-pre-publish="onPrePublish()"></span>
+					</div>
+			</div>
+	</div>
+	<div class="text-center" ng-if="isLoading()" >
+			<h1><i class="fa fa-spin fa-spinner " /> Loading...</h1>
+	</div>
+	<div class="container" ng-show="!isLoading() && status!='hidden'">
 
-
-		<div style="position: relative">
+		<div class="col-md-12" style="position: relative">
 
 			<div class="row">
-				<div class="col-xs-12 visible-xs">
-					<div class="">
-						<span km-form-languages ng-model="document.header.languages"></span>
-						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+				<!-- <div class="col-xs-12">
+					<div class="pull-right" style="margin-top:10px;">
+						<span km-form-languages xs ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+										on-pre-publish="onPrePublish()"></span>
 					</div>
-				</div>
+				</div> -->
 
-				<div class="col-sm-8 col-xs-12">
-					<ul class="pagination">
-						<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
-						<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
-						<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
-						<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
+				<div class="col-xs-12">
+					<ul class="pagination hidden-xs">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='detail' }"><a href="" ng-click="tab='detail'">Detailed</a></li>
+						<li ng-class="{ active  : tab=='social' }"><a href="" ng-click="tab='social'">Social</a></li>
+						<li ng-class="{ active  : tab=='chm'     }"><a href="" ng-click="tab='chm'">Thematic Areas</a></li>
+						<li ng-class="{ active  : tab=='absch'   }" ng-show="isAbs(document)"><a href="" ng-click="tab='absch'">ABS-CH</a></li>
+						<li ng-class="{ active  : tab=='bch'     }" ng-show="isBCH()"><a href="" ng-click="tab='bch'" >BCH</a></li>
+						<li ng-class="{ active  : tab=='members' }"><a href="" ng-click="tab='members'">Members</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
+					</ul>
+					<ul class="pagination small visible-xs">
+						<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='detail' }"><a href="" ng-click="tab='detail'">Detailed</a></li>
+						<li ng-class="{ active  : tab=='social' }"><a href="" ng-click="tab='social'">Social</a></li>
+						<li ng-class="{ active  : tab=='chm'     }"><a href="" ng-click="tab='chm'">Thematic Areas</a></li>
+						<li ng-class="{ active  : tab=='absch'   }" ng-show="isAbs(document)"><a href="" ng-click="tab='absch'">ABS-CH</a></li>
+						<li ng-class="{ active  : tab=='bch'     }" ng-show="isBCH()"><a href="" ng-click="tab='bch'"> BCH</a></li>
+						<li ng-class="{ active  : tab=='members' }"><a href="" ng-click="tab='members'">Members</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
 					</ul>
 				</div>
 
-				<div class="col-sm-4 hidden-xs" style="text-align:right">
+				<!-- <div class="col-sm-4 hidden-xs" style="text-align:right">
 					<div class="pagination">
-						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-languages xs ng-model="document.header.languages"></span>
 						<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
 					</div>
-				</div>
+				</div> -->
+
 			</div>
 			<div>
-				<form name="editForm">
-					<div km-tab="general">
 
-							<legend>General information</legend>
+				<div km-document-validation ng-model="validationReport"></div>
+				<form name="editForm" style="margin-top:10px" novalidate>
+
+					<div km-tab="members">
+						<div class="col-md-8 col-xs-12">
+								<div class="km-control-group" name="linkedOrganizations" required caption="Member Organizations">
+										<select-contact multiple="true" name="linkedOrganizations" schema="organization" ng-model="document.linkedOrganizations" caption="Select >>"></select-contact>
+								</div>
+						</div>
+					</div>
+
+					<div km-tab="general">
+						<section ng-show="!editExisting && !isNewOrg">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-default" style="padding:10ppx 10px 10px 10px; background:#ddd;">
+										<div class="form-group" style="padding:10px 10px 10px 10px;">
+
+											<label for="placesSearch" class="control-label">Search google maps to prefill your organization's details</label>
+											<div class="input-group">
+												<input id="pac-input" name="placesSearch" class="form-control" ng-model="placeSearch" type="text" placeholder="secretariat of the convention on biological diversity" ng-change="placesSearch()">
+												<span class="input-group-addon pointer" ng-click="clearSlacesSearch();"><i class="fa fa-search" ng-if="!selectedPlace && (!placeSearch || placeSearch.length===0)"></i><i class="fa fa-close" ng-if="selectedPlace || placeSearch.length" ></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<div class="row" ng-if="!editExisting && !selectedPlace && placeSearch.length>1 && noPredictions">
+							<div class="col-md-12">
+
+								<div class="bs-callout bs-callout-warning">
+									<h2>Organization not found in google maps, would you like to create it from scratch?</h2>
+									<button class="btn btn-default" ng-click="newOrg()">Yes</button>
+									<button class="btn btn-default" ng-click="clearSlacesSearch();">No, search again</button>
+								</div>
+							</div>
+						</div>
+
+
+						<section ng-show="editExisting || selectedPlace || isNewOrg">
 
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-xs-12">
+
+								</div>
+								<div class="col-md-8 col-xs-12">
 									<div class="km-control-group" name="name" required caption="Name of the organization">
 										<div km-textbox-ml name="name" required ng-model="document.name" placeholder="text entry" locales="document.header.languages"></div>
 									</div>
 								</div>
 
-								<div class="col-md-3 offset1">
+								<div class="col-md-4 col-xs-12">
 									<div class="km-control-group" name="acronym" required caption="Acronym">
 										<div km-textbox-ml name="acronym" required ng-model="document.acronym" placeholder="text entry" locales="document.header.languages"></div>
 									</div>
 								</div>
 							</div>
 
+							<div class="col-xs-12"><hr/></div>
+
 							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="contacts" caption="Contact person in the organization">
-										<div km-reference multiple name="contacts" ng-model="document.contacts" loader="loadRecords(identifier, 'contact')">
-											<div>
-												<div><strong>{{reference.title | lstring}}</strong></div>
-												<div>{{reference.summary | lstring}}</div>
-											</div>
-										</div>
-									</div>
-								</div>
+									<km-address ng-model="document" locales="document.header.languages" validate="validate" embed="organization"></km-address>
 							</div>
 
-							<legend>Organization Coordinates</legend>
+						<div class="col-xs-12"><hr/></div>
 
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="address" caption="Address">
-										<div km-textbox-ml ng-model="document.address" rows="2" placeholder="example: 413 St-Jacques Ouest, Suite 800" locales="document.header.languages"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-4">
-									<div class="km-control-group" name="city" required caption="City">
-										<div km-textbox-ml required name="city" ng-model="document.city" locales="document.header.languages" placeholder="example: Montreal"></div>
-									</div>
-								</div>
-
-								<div class="col-md-4 offset1">
-									<div class="km-control-group" name="state" caption="State or Province">
-										<div km-textbox-ml name="state" ng-model="document.state" locales="document.header.languages" placeholder="example: Quebec"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-
-								<div class="col-md-4">
-									<div class="km-control-group" name="postalCode" caption="Postal Code or Zip">
-										<div km-textbox-ml name="postalCode" ng-model="document.postalCode" locales="document.header.languages" placeholder="example: Quebec"></div>
-									</div>
-								</div>
-
-								<div class="col-md-4 offset1">
-									<div class="km-control-group" name="country" required caption="Country">
-										<div km-select required name="country" ng-model="document.country" items="options.countries()"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-4">
-									<div class="km-control-group" name="phones" required caption="Phone numbers">
-										<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
+						<div class="row">
+								<div class="col-md-6 col-xs-12">
+									<div class="km-control-group" name="phones"  caption="Phone number(s)">
 										<div km-inputtext-list required name="phones" ng-model="document.phones" placeholder="example: +1 514.288.2220"></div>
+										<div class="help-info small">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
 									</div>
 								</div>
 
-								<div class="col-md-4 offset1">
-									<div class="km-control-group" name="faxes" caption="Fax Numbers">
-										<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
+								<div class="col-md-6 col-xs-12">
+									<div class="km-control-group" name="faxes" caption="Fax number(s)">
 										<div km-inputtext-list name="faxes" ng-model="document.faxes" placeholder="example: +1 514.288.6588"></div>
+										<div class="help-info small">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
 									</div>
 								</div>
 							</div>
 
 							<div class="row">
-								<div class="col-md-4">
-									<div class="km-control-group" name="emails" required caption="Emails">
-										<div km-inputtext-list required name="emails" ng-model="document.emails" pattern="email" placeholder="example: secretariat@cbd.int"></div>
-									</div>
-								</div>
-
-								<div class="col-md-4 offset1">
-									<div class="km-control-group" name="websites" caption="Web Sites">
-										<div km-link name="websites" ng-model="document.websites" allow-link="true" allow-file="false"></div>
+								<div class="col-md-6 col-xs-12">
+									<div class="km-control-group" name="emails" required caption="Email(s)">
+										<div km-inputtext-list required name="emails" ng-model="document.emails" placeholder="example: secretariat@cbd.int"></div>
 									</div>
 								</div>
 							</div>
+						</section>
+					</div>
 
-							<legend>Detailed information</legend>
+					<div km-tab="detail">
+
+
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="km-control-group" name="libraries" required caption="Relevant libraries">
+									<div km-select required name="libraries" ng-model="document.libraries" items="options.libraries()" multiple></div>
+								</div>
+							</div>
+
+
+							<div class="col-md-6">
+								<div class="km-control-group" name="operationalLanguages" caption="Operational languages">
+									<div km-select required name="operationalLanguages" multiple="mulitple" ng-model="document.operationalLanguages" items="options.allLanguages()"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="km-control-group" name="contact_organizationType" caption="Type of organization">
+									<div required km-select name="contact_organizationType" ng-model="document.organizationType" items="options.organizationTypes()"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" name="address" caption="Any other relevant information">
+									<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
+									<div km-textbox-ml ng-model="document.relevantInformation" rows="4" placeholder="" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+
+						<a name="#AdditionalInformation"></a>
+
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="km-control-group" name="profileLink" caption="Organization’s profile">
+									<div km-link name="profileLink" ng-model="document.profileLink" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="km-control-group" name="relevantDocuments" caption="Any other relevant documents">
+									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div km-tab="social">
+
+						<div class="row">
+
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group" ng-class="{ 'has-warning': !loading && form.website.$invalid, 'has-error' : form.$submitted && form.website.$invalid }">
+									<label for="webite" class="control-label">Website</label>
+									<input ng-change="updateWebsites('website',website);updateProfileLink('website',website);" type="url" class="form-control" name="website" id="website" ng-model="website" placeholder="Org. website" ng-disabled="disabled()" on-focus-helper start="http://">
+									<p class="help-block error" ng-show="!loading && form.website.$error.url">This is not a valid web address</p>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group" ng-class="{ 'has-warning': !loading && form.facebook.$invalid, 'has-error' : form.$submitted && form.facebook.$invalid }">
+									<label for="facebook" class="control-label"><i class="fa fa-facebook-square" aria-hidden="true"></i> Facebook</label>
+
+									<input ng-change="updateWebsites('facebook',facebook)" ng-disabled="disabled()" type="url" class="form-control" name="facebook" id="facebook" ng-model="facebook" ng-pattern="patterns.facebook" placeholder="https://www.facebook.com/organisation" on-focus-helper
+													start="https://www.facebook.com/">
+									<p class="help-block error" ng-show="!loading && form.facebook.$error.url">This is not a valid web address</p>
+									<p class="help-block error" ng-show="!loading && form.facebook.$error.pattern">Facebook address is invalid. It should look like: <em>https://www.facebook.com/your-facebook-page</em></p>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group" ng-class="{ 'has-warning': !loading && form.twitter.$invalid, 'has-error' : form.$submitted && form.twitter.$invalid }">
+									<label for="twitter" class="control-label"><i class="fa fa-twitter-square" aria-hidden="true"></i> Twitter</label>
+									<input ng-change="updateWebsites('twitter',twitter)" ng-disabled="disabled()" type="url" class="form-control" name="twitter" id="twitter" ng-model="twitter" ng-pattern="patterns.twitter" placeholder="https://twitter.com/organisation" on-focus-helper start="https://twitter.com/">
+									<p class="help-block error" ng-show="!loading && form.twitter.$error.url">This is not a valid web address</p>
+									<p class="help-block error" ng-show="!loading && form.twitter.$error.pattern">Twitter address is invalid. It should look like: <em>https://twitter.com/your-twitter-account</em></p>
+
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group" ng-class="{ 'has-warning': !loading && form.youtube.$invalid, 'has-error' : form.$submitted && form.youtube.$invalid }">
+									<label for="twitter" class="control-label"><i class="fa fa-youtube-square" aria-hidden="true"></i> Youtube</label>
+									<input ng-change="updateWebsites('youtube',youtube)" ng-disabled="disabled()" type="url" class="form-control" name="youtube" id="youtube" ng-model="youtube" ng-pattern="patterns.youtube" placeholder="https://www.youtube.com/channel/" on-focus-helper start="https://www.youtube.com/channel/">
+									<p class="help-block error" ng-show="!loading && form.youtube.$error.url">This is not a valid web address</p>
+									<p class="help-block error" ng-show="!loading && form.youtube.$error.pattern">Youtube address is invalid. It should look like: <em>https://www.youtube.com/channel/</em></p>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12">
+								<div class="control-group" name="websites" caption="Web Sites">
+									<label for="twitter" class="control-label">Additional Links</label>
+									<div km-link name="websites" ng-model="document.websites" allow-link="true" allow-file="false"></div>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group" ng-class="{ 'has-warning': !loading && form.logo.$invalid, 'has-error' : form.$submitted && form.logo.$invalid }">
+									<label for="logo" class="control-label" style="line-height:20px;">Logo
+                          </label>
+									<div ng-if="logo" class="img-container">
+										<img ng-src="{{logo}}?v=<%=gitVersion%>&thumbnail=true" style="max-width:100%;max-height:200px;padding-bottom:10px">
+									</div>
+									<input type="file" class="form-control" name="logo" id="logo" accept="image/*" placeholder="Logo" ng-model="logo" on-file="upload(files)" ng-disabled="disabled()">
+									<p class="help-block small">Please attach a logo or image of your Actor (max. 500KB). The image on the profile will be fitted into 200 x 200 px.</p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div km-tab="chm">
+
+
+
+						<div class="row">
+							<div class="col-md-10">
+								<div class="km-control-group" name="thematicAreas" caption="Related CBD Subject area(s)">
+									<div required km-term-check name="thematicAreas" ng-model="document.thematicAreas" terms="options.cbdSubjects()" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-10">
+								<div class="km-control-group" required name="aichiTargets" caption="Related Aichi Biodiversity Target(s)">
+									<div required  km-term-check name="aichiTargets" ng-model="document.aichiTargets" terms="options.aichiTargets()" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div km-tab="absch" >
+
+
+
+						<div class="row">
+							<div class="col-md-10">
+								<div class="control-group"  name="absThematicAreas" caption="Thematic area(s)">
+									<div km-term-check  name="absThematicAreas" ng-model="document.absThematicAreas" terms="options.absSubjects()" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- <div class="row" ng-if="IsCapacityBuilding() || IsAbs()">
+							<div class="col-md-10">
+								<div class="control-group" name="absKeyAreas" caption="Key areas and strategic measures for capacity-building and development">
+									<div km-term-check name="absKeyAreas" ng-model="document.absKeyAreas" terms="options.absKeyAreas()" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div> -->
+
+					</div>
+
+					<div km-tab="bch">
+
+
+
+						<div class="row">
+							<div class="col-md-10">
+								<div class="control-group" name="bchSubjects" caption="Thematic areas(s)">
+									<div km-term-check name="bchSubjects" ng-model="document.bchSubjects" terms="options.bchSubjects()" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div>
+
+
+						<div ng-show="IsBchRa() && disabled">
+
 
 							<div class="row">
 								<div class="col-md-10">
-									<div class="km-control-group" name="libraries" required caption="Relevant libraries">
-										<div km-select required name="libraries" ng-model="document.libraries" items="options.libraries()" multiple></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row" ng-show="isInLibrary('chm')">
-								<div class="col-md-10">
-									<div class="km-control-group" name="thematicAreas" caption="CBD Thematic areas">
-										<div km-select name="thematicAreas" ng-model="document.thematicAreas" items="options.cbdSubjects()" multiple></div>
-									</div>
-								</div>
-							</div>
-							<div class="row" ng-show="isInLibrary('absch')">
-								<div class="col-md-10">
-									<div class="km-control-group" name="absThematicAreas" caption="ABS Thematic areas">
-										<div km-select name="absThematicAreas" ng-model="document.absThematicAreas" items="options.absThematicAreas()" multiple></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="organizationType" required caption="Type of organization">
-										<div km-select required name="organizationType" ng-model="document.organizationType" items="options.organizationTypes()" ></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="profileLink" required caption="Organization’s profile">
-										<div km-link required name="profileLink" ng-model="document.profileLink" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="linkedOrganizations" caption="Linked organizations">
-										<div km-reference multiple name="linkedOrganizations" ng-model="document.linkedOrganizations" loader="loadRecords(identifier, 'organization')">
-											<div>
-												<div><strong>{{reference.title | lstring}}</strong></div>
-												<div>{{reference.summary | lstring}}</div>
-											</div>
+									<div class="control-group" name="bchRaRecommend" caption="Would you like to recommend this document as background material for  the “Guidance on Risk Assessment of Living Modified Organisms”">
+										<div class="help-block">see <a target="_blank" href="http://bch.cbd.int/onlineconferences/guidance_ra">http://bch.cbd.int/onlineconferences/guidance_ra</a></div>
+										<div class="btn-group">
+											<input type="button" class="btn" ng-class="{ active : document.bchRaRecommend===true , 'btn-info' : document.bchRaRecommend===true  }" ng-click="document.bchRaRecommend=true" value="Yes" />
+											<input type="button" class="btn" ng-class="{ active : document.bchRaRecommend===false, 'btn-info' : document.bchRaRecommend===false }" ng-click="document.bchRaRecommend=false" value="No" />
 										</div>
 									</div>
 								</div>
-							</div>
 
+								<div ng-show="document.bchRaRecommend">
 
-							<a translation-url name="#AdditionalInformation"></a>
-							<legend>Additional information</legend>
-
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="address" caption="Any other relevant information">
-										<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
-										<div km-textbox-ml ng-model="document.relevantInformation" rows="4" placeholder="" locales="document.header.languages"></div>
+									<div class="row">
+										<div class="col-md-10">
+											<div class="control-group" name="bchRaSubjects" caption="Please indicate to which section(s) of the 'Guidance this background material' is relevant:">
+												<div km-term-check name="bchRaSubjects" ng-model="document.bchRaSubjects" terms="options.bchRaSubjects()" binding-type="term[]"></div>
+											</div>
+										</div>
 									</div>
+
+
+
+									<div class="row">
+										<div class="col-md-10">
+											<div class="control-group" name="bchRaForLmo" caption="Does this resource address one or more specific categories of organisms or genes or LMOs?">
+												<div class="btn-group">
+													<input type="button" class="btn" ng-class="{ active : document.bchRaForLmo===true , 'btn-info' : document.bchRaForLmo===true  }" ng-click="document.bchRaForLmo=true" value="Yes" />
+													<input type="button" class="btn" ng-class="{ active : document.bchRaForLmo===false, 'btn-info' : document.bchRaForLmo===false }" ng-click="document.bchRaForLmo=false" value="No" />
+												</div>
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
-
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="relevantDocuments" caption="Any other relevant documents">
-										<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-12">
-									<div class="km-control-group" name="notes">
-										<legend>Notes</legend>
-										<span class="help-block">
-											The field “Notes” is for personal reference and can be seen only when the record is being edited.
-										</span>
-										<div km-notes name="notes" ng-model="document.notes"></div>
-									</div>
-								</div>
-							</div>
+						</div>
 					</div>
 				</form>
 
 				<div km-tab="review">
-
-					<div km-document-validation ng-model="validationReport"></div>
-
 					<div class="btn-group" ng-show="document.header.languages.length>1">
 						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 					</div>
-					<view-organization ng-model="document" locale="review.locale" link-target="_blank" allow-drafts="true"></view-organization>
+					<view-organization header="false" user="user" ng-model="document" locale="review.locale" link-target="_blank"></view-organization>
 				</div>
 
 				<div class="row">
 
-					<div class="col-sm-9 col-xs-12">
-						<ul class="pagination">
-							<li ng-class="{ disabled: tab=='general' }"><a translation-url href="" ng-click="tab='general'">&laquo;</a></li>
-							<li ng-class="{ active  : tab=='general' }"><a translation-url href="" ng-click="tab='general'">General</a></li>
-							<li ng-class="{ active  : tab=='review'  }"><a translation-url href="" ng-click="tab='review'">Review</a></li>
-							<li ng-class="{ disabled: tab=='review'  }"><a translation-url href="" ng-click="tab='review'">&raquo;</a></li>
+					<div class="col-xs-12">
+						<ul class="pagination hidden-xs">
+							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+							<li ng-class="{ active  : tab=='detail' }"><a href="" ng-click="tab='detail'">Detailed</a></li>
+							<li ng-class="{ active  : tab=='social' }"><a href="" ng-click="tab='social'">Social</a></li>
+							<li ng-class="{ active  : tab=='chm'     }"><a href="" ng-click="tab='chm'">Thematic Areas</a></li>
+							<li ng-class="{ active  : tab=='absch'   }" ng-show="isAbs(document)"><a href="" ng-click="tab='absch'">ABS-CH</a></li>
+							<li ng-class="{ active  : tab=='bch'     }" ng-show="isBCH()"><a href="" ng-click="tab='bch'">BCH</a></li>
+							<li ng-class="{ active  : tab=='members' }"><a href="" ng-click="tab='members'">Members</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
+						</ul>
+						<ul class="pagination small visible-xs">
+							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">General</a></li>
+							<li ng-class="{ active  : tab=='detail' }"><a href="" ng-click="tab='detail'">Detailed</a></li>
+							<li ng-class="{ active  : tab=='social' }"><a href="" ng-click="tab='social'">Social</a></li>
+							<li ng-class="{ active  : tab=='chm'     }"><a href="" ng-click="tab='chm'">Thematic Areas</a></li>
+							<li ng-class="{ active  : tab=='absch'   }" ng-show="isAbs(document)"><a href="" ng-click="tab='absch'">ABS-CH</a></li>
+							<li ng-class="{ active  : tab=='bch'     }" ng-show="isBCH()"><a href="" ng-click="tab='bch'">BCH</a></li>
+							<li ng-class="{ active  : tab=='members' }"><a href="" ng-click="tab='members'">Members</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
 						</ul>
 					</div>
 
-					<div class="col-sm-3 hidden-xs" style="text-align:right">
-						<div class="pagination">
-							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-						</div>
-					</div>
-
-					<div class="col-xs-12 visible-xs">
-						<div class="">
-							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
-						</div>
-					</div>
 				</div>
 
 			</div>
 		</div>
+	</div>
+	<div id="view-header" class="panel-heading bg-darkgrey" style="background-color:#004844;color:white;">
+			<div class="row">
+					<div class="col-xs-12 col-sm-2">
+							<h2 style="color:white;margin:0px;">Organization</h2>
+					</div>
+					<div class="col-xs-12 col-sm-10 text-right hidden-xs" >
+							<span km-form-languages  ng-model="document.header.languages"></span>
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+									on-pre-publish="onPrePublish()"></span>
+					</div>
+					<div class="col-xs-12 col-sm-10 small visible-xs" >
+							<span km-form-languages xs ng-model="document.header.languages"></span>
+							<span km-form-std-buttons xs  document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+									on-pre-publish="onPrePublish()"></span>
+					</div>
+			</div>
 	</div>
 </div>

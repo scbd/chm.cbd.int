@@ -8,7 +8,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
         $routeProvider.
             when('/',                                         { template:    rootTemplate,                                   label :'CHM',                resolveController: 'views/index',          resolveUser: true }).
             when('/lang/:langCode',  { templateUrl: 'views/shared/lang.html',label:'CHM', resolveController: true}).
-              
+
             when('/database',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index', resolveUser: true, reloadOnSearch : false }).
             when('/database/countries',                       { templateUrl: 'views/database/countries.html',                label :'Countries',          resolveController: true }).
             when('/database/countries/:code',                 { templateUrl: 'views/database/country.html',                  label :'Profile',            resolveController: true }).
@@ -31,10 +31,11 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/resourceMobilization2020',                    { redirectTo:  '/submit/online-reporting/resourceMobilisation2020' }).
             when('/submit/:schema',                                     { templateUrl: 'views/management/record-list.html',                     label: 'List',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
-            // when('/submit/undbAction/new',                              { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-action',          resolveUser: true }).
-            when('/submit/undbAction/:uid',                             { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-action',          resolveUser: true }).
-            // when('/submit/undbPartner/new',                             { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
-            when('/submit/undbPartner/:uid',                            { template:    '<div></div>',                                   label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
+            when('/submit/undbAction/:uid',                           { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-action',          resolveUser: true }).
+            when('/submit/undbPartner/:uid',                          { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
+
+            // when('/submit/undbActor/:uid',                            { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-actor',          resolveUser: true }).
+            // when('/submit/event/:uid',                          { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
 
             when('/submit/cbd-reporting/national/',                     { templateUrl: 'views/management/cbdReporting/national.html',         label: 'Reporting on Progress in Achieving National Targets',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
@@ -105,6 +106,8 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             //Dossier Routes
             when('/submit/dossier/new',                   { templateUrl: 'views/management/edit/aichi-target-dossier.html',    label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/dossier/:uid',                  { templateUrl: 'views/management/edit/aichi-target-dossier.html',    label: 'Form',                       resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+
+            when('/submit/:schema/:uid',                  { template:    '<div></div>', label :'REDIRECT',           resolveController: 'views/management/edit/redirect',          resolveUser: true }).
 
             when('/help/404',                                 { templateUrl: 'views/404.html',  label : 'Not found',  controller: [function(){}], resolveUser: true }).
             when('/help/403',                                 { templateUrl: 'views/403.html',  label : 'Forbidden',  controller: [function(){}], resolveUser: true }).

@@ -1,7 +1,7 @@
-define(['app',  'lodash', 'text!./organization.html',
-	'filters/mark-down', 'utilities/km-storage','filters/trust-as-resource-url'], function(app,  _, template){
+define(['app',  'lodash', 'text!./view-event.html',
+	'filters/mark-down', 'utilities/km-storage','filters/trust-as-resource-url','filters/moment'], function(app,  _, template){
 
-app.directive('viewOrganization', ["IStorage","$location","locale","$sce", function (storage,$location) {
+app.directive('viewEvent', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -18,6 +18,7 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 		},
 		link : function ($scope)
 		{
+
 			$scope.contacts      = undefined;
 			$scope.organizations = undefined;
   		if(typeof $scope.header==='undefined') $scope.header=true;
@@ -41,21 +42,28 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//
 			//====================
 			$scope.isReview = function() {
-					 return !!($location.url().indexOf('/view')>-1); //jshint ignore:line
+					 return !!($location.url().indexOf('/view')>-1);
 			};
 
-			//====================
+			// ====================
 			//
-			//====================
-			$scope.$watch("document.linkedOrganizations", function()
+			// ====================
+			$scope.$watch("document.organizations", function()
 			{
-				if($scope.document && $scope.document.linkedOrganizations)
-					$scope.linkedOrganizations = JSON.parse(JSON.stringify($scope.document.linkedOrganizations));
+				if($scope.document){
+					$scope.organizations = angular.fromJson(angular.toJson($scope.document.organizations));
+					$scope.contactOrganization = angular.fromJson(angular.toJson($scope.document.contactOrganization));
+				}
 
-				if($scope.linkedOrganizations)
-					$scope.loadReferences($scope.linkedOrganizations);
+				if($scope.organizations){
+					$scope.loadReferences($scope.organizations);
+					$scope.loadReference($scope.contactOrganization).then(function(ref){
+							$scope.contactOrganization.document=ref.data;
+							$scope.contactOrganization.logo=_.find($scope.contactOrganization.document.relevantDocuments,{name:'logo'});
+					});
+				}
 
-			},true);
+			});
 
 			//====================
 			//
@@ -88,10 +96,11 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//
 			//====================
 			$scope.getEmbedMapUrl = function() {
-				  if(!$scope.document || !$scope.document.establishmentGooglePlaceId ) return false;
-					$scope.embedMapUrl='https://www.google.com/maps/embed/v1/place?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&q=place_id:'+$scope.document.establishmentGooglePlaceId;
+				  if(!$scope.document || !$scope.document.address ) return false;
+					$scope.embedMapUrl='https://www.google.com/maps/embed/v1/place?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&q=place_id:'+$scope.document.address.googlePlaceId;
 					return true;
 			};
+
 			//====================
 			//
 			//====================
@@ -132,38 +141,41 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//====================
 			$scope.loadReferences = function(targets) {
 
-var t = targets;
-				t.forEach(function(target){
-					storage.documents.get(target.identifier, { cache : true})
-						.success(function(data){ //jshint ignore:line
-								console.log('targets[i]init', target);
-							target.document = data;
+				return angular.forEach(targets, function(ref){
+					if(!ref) return;
+					return $scope.loadReference(ref).then(function(r){
+								ref.document=r.data;
+								ref.logo=_.find(ref.document.relevantDocuments,{name:'logo'});
+					});
+				});
+			};
 
-							target.logo=_.find(target.document.relevantDocuments,{name:'logo'});
+			$scope.loadReference = function(ref) {
 
-						})
-						.error(function(error, code){//jshint ignore:line
+					return storage.documents.get(ref.identifier, { cache : true})
+						.success(function(data){
+							return ref= data;
+						}).error(function(error, code){
 							if (code == 404 && $scope.allowDrafts == "true") {
 
-								storage.drafts.get(target.identifier, { cache : true})
+								return storage.drafts.get(ref.identifier, { cache : true})
 									.success(function(data){
-										target.document = data;
-									})
-									.error(function(draftError, draftCode){
-										target.document  = undefined;
-										target.error     = draftError;
-										target.errorCode = draftCode;
+										return ref= data;
+									}).error(function(draftError, draftCode){
+										ref.document  = undefined;
+										ref.error     = draftError;
+										ref.errorCode = draftCode;
 									});
 							}
 
-							target.document  = undefined;
-							target.error     = error;
-							target.errorCode = code;
+							ref.document  = undefined;
+							ref.error     = error;
+							ref.errorCode = code;
 
 						});
-			  });
 
 			};
+
 		}
 	};
 }]);

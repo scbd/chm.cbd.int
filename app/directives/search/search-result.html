@@ -1,38 +1,54 @@
-﻿<div class="row" >
-	<div >
-		<div style="font-size:10px;color:#777">{{schema}}
-			<span ng-show="source">|</span>
-			<strong ng-if="!sourceTooltip" style="color:#222">{{source}}</strong>
-			<a translation-url ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca">
-				<strong>{{source}}</strong>
+<div class="row">
+	<div class="vertical_center" ng-if="document.url_ss[0] && title">
+		<div class="text-center " ng-class="{'col-xs-1':(document.logo_s || (!document.logo_s && document.country_s && document.schema_s==='undbParty'))}" ng-if="(document.logo_s || (!document.logo_s && document.country_s && document.schema_s==='undbParty'))">
+
+
+			<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}" ng-if="document.logo_s">
+				<img ng-src="{{document.logo_s}}" style="width:100%;"></img>
+			</a>
+			<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}" ng-if="!document.logo_s && document.country_s">
+				<img ng-src="https://www.cbd.int/images/flags/96/flag-{{document.country_s}}-96.png" style="width:100%;"></img>
 			</a>
 		</div>
-		<div style="font-size:13px; font-weight:bold;" ng-show="type">{{type}}</div>
-		<div class="truncatex" style="font-weight:bold;">
-			<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}">	{{title | limitTo:110}}</a>
-		</div>
-		<div style="font-size:13px;">
-			<a translation-url style="color:#025714; size=.5;">{{document.url_ss[0]}}</a>
-			<!-- <i ng-if="!userGovernment();" class="fa fa-pencil-square-o"></i> -->
-		</div>
+		<div ng-class="{'col-xs-11':(document.logo_s || (!document.logo_s && document.country_s && document.schema_s==='undbParty') ),'col-xs-12':!document.logo_s}">
+			<div style="font-size:10px;color:#777">{{schemaUpper}}
+				<span ng-show="source">|</span>
+				<strong ng-if="!sourceTooltip" >{{source}}</strong>
+				<a translation-url ng-if="sourceTooltip" href="#" tooltip data-toggle="tooltip" title data-original-title="{{sourceTooltip}}" style="color:#428bca">
+					<strong>{{source}}</strong>
+				</a>
+			</div>
+			<div style="font-size:13px; font-weight:bold;" ng-show="type">{{type}}</div>
+			<div class="truncatex" style="font-weight:bold;">
+				<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}">	{{title | limitTo:110}}</a>
+			</div>
+			<div style="font-size:13px;">
+				<a translation-url ng-href="{{fixUrl(document.url_ss[0])}}" class="small" style="color:#025714;">{{document.url_ss[0]}}</a>
+				<!-- <i ng-if="!userGovernment();" class="fa fa-pencil-square-o"></i> -->
+			</div>
 			<!-- <div style="float:left" ng-if="getRowIcon()"><img style="margin:1px 4px 2px 0" ng-src="http://www.cbd.int/images/aichi/48/abt-{{document.number_d | integer:10:2}}-48.png"></div>
 			<div style="float:left" ng-if="!getRowIcon()"><i style="color:#ccc" class="fa fa-map-marker"></i></div> -->
-		<div style="font-size:13px;margin:2px 0">{{(description.split('.')[0]) | htmlToTextPerSentance}} {{(description.split('.')[1]) | htmlToTextPerSentance}}</div>
-		<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{(description2.split('.')[0]) | htmlToTextPerSentance}} {{(description2.split('.')[1]) | htmlToTextPerSentance}}</div>
+			<!-- <div style="font-size:13px;margin:2px 0">{{(description.split('.')[0]) | htmlToTextPerSentance}} {{(description.split('.')[1]) | htmlToTextPerSentance}}</div> -->
+			<!-- <div style="font-size:13px;margin:2px 0">{{(description.split('.')[0]) | htmlToPlaintext}} {{(description.split('.')[1]) | htmlToPlaintext}}</div> -->
+			<div style="font-size:13px;margin:2px 0">{{(description ) | htmlToPlaintext | truncate:(record.truncate||400):'...'}} </div>
+			<div style="font-size:13px;font-weight:bold;margin:2px 0" ng-show="description2">{{(description2.split('.')[0]) | htmlToTextPerSentance}} {{(description2.split('.')[1]) | htmlToTextPerSentance}}</div>
+		</div>
+	</div>
+	<div  ng-class="{'col-xs-11 col-xs-offset-1':(document.logo_s || (!document.logo_s && document.country_s &&  document.schema_s==='undbParty' ) ),'col-xs-12':!document.logo_s}" ng-if="document.url_ss[0] && title">
 		<div ng-if="false">
 			<i style="color:#ccc" class="fa fa-map-marker"></i>
-			<span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span>
-			&nbsp; &nbsp;
+			<span style="font-size:12px;color:#444">Montreal, {{formatDate(document.date_dt)}}</span> &nbsp; &nbsp;
 			<i style="color:#ccc" class="fa fa-microphone"></i>
-			<span style="font-size:12px;color:#444">Mr. Braulio Ferreira de Souza Dias, CBD Executive Secretary</span>
+			<span style="font-size:12px;color:#444">Ms. Cristiana Pașca Palmer, CBD Executive Secretary</span>
 		</div>
 		<div ng-if="dates">
 			<i style="color:#ccc" class="fa fa-calendar-o"></i>
-			<span style="font-size:12px;color:#444">{{dates}}</span>
-			&nbsp; &nbsp;
+			<span style="font-size:12px;color:#444">{{dates}}</span> &nbsp; &nbsp;
 			<i style="color:#ccc" class="fa fa-map-marker"></i>
-			<span style="font-size:12px;color:#444">{{venue}}</span>
+			<span style="font-size:12px;color:#444;" ng-if="document.googleMapsUrl_s"><a ng-href="{{document.googleMapsUrl_s}}" target="_blank">{{venue}}</a></span>
+						<span style="font-size:12px;color:#444;" ng-if="!document.googleMapsUrl_s">{{venue}}</span>
 		</div>
+
 		<div ng-if="false">
 			<i style="color:#ccc" class="fa fa-file-o"></i>
 			<span style="font-size:12px;color:#444">
@@ -55,6 +71,23 @@
 			<i class="fa fa-tag"></i>
 			<span ng-repeat="meeting in document.meeting_ss" class="label label-info" style="margin-right:4px">{{meeting}}</span>
 		</div>
-		<div class="clearfix"></div>
+		<div ng-if="document.hostGovernments_EN_txt || thematicArea_EN_txt || document.aichiTarget_ss">
+			<hr style="margin: 2px 0 2px 0 !important;border-top: 1px dashed #8c8b8b;border-color:#eee;">
+			<!-- hostGovernments_ss
+			thematicArea_ss
+			aichiTarget_ss -->
+
+			<span ng-repeat="hostG in document.hostGovernments_EN_txt" > <span class="label label-default" > {{hostG}}</span>&nbsp; </span>
+			<span ng-repeat="hostG in document.thematicArea_EN_txt"><span class="label label-info small" >{{hostG}}</span>&nbsp; </span>
+			<div class="pull-right">
+				<span ng-repeat="term in document.aichiTarget_ss" ng-if="document.aichiTarget_ss">
+					<img  style="height: 20px;  width: 20px; margin-bottom:5px; " ng-src="https://www.cbd.int/images/aichi/48/abt-{{term.slice(-2)}}-48.png" >
+				</span>
+			</div>
+			<!-- <span class="label label-default" ng-repeat="hostG in document.aichiTarget_ss">{{hostG}}{{hostG | term:locale}}</span> -->
+		</div>
 	</div>
+	<div  class="col-xs-12" ng-if="document.url_ss[0] && title">
+	<hr style="margin: 5px 0 5px 0 !important;">
+</div>
 </div>

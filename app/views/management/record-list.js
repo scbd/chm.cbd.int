@@ -1,4 +1,4 @@
-define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment", "utilities/solr"], function(_) { 'use strict';
+define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment","filters/htmlToPlaintext",     'filters/trunc',"utilities/solr"], function(_) { 'use strict';
 
     return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog','realm',
      function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog, realm) {
@@ -72,7 +72,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             var qsParams =
             {
                 "q"  : buildQuery(),
-                "fl" : "identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
+                "fl" : "logo*,id,identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : pageIndex*Number($scope.pageSize),
                 "rows"   : Number($scope.pageSize),
@@ -280,9 +280,9 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             if(options.status) {
                 query.push("_state_s:" + solr.escape(options.status));
             }
-            else if(options.latest!==undefined){
-                query.push("_latest_s:" + (options.latest ? "true" : "false"));
-            }
+            // else if(options.latest!==undefined){
+            //     query.push("_latest_s:" + (options.latest ? "true" : "false"));
+            // }
 
             // freetext
 
@@ -406,12 +406,17 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
         //======================================================
         function viewWorkflow(record)
         {
-            $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
+
+            if(record._workflow_s)
+              $location.url("/management/requests/" + record._workflow_s.replace(/^workflow-/i, "") + "/publishRecord");
+            else{
+              $location.url("/management/requests/" + record.identifier_s+ "/publishRecord?schema="+'bbi-request');
+            }
         }
 
 
         function loadNR6Details(){
-            
+
             if(user.government){
 
                 var qSchema = " AND (schema_s:nationalReport6)";
@@ -423,7 +428,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                     "q"  : q,
                     "rows" : 10,
                     "fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
-                    "s"     : 'updatedOn_dt desc'               
+                    "s"     : 'updatedOn_dt desc'
                 };
 
                 var nationalReport6Query     = $http.get('/api/v2013/index/select', { params : qsOtherSchemaFacetParams});
@@ -431,7 +436,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
                 $q.when(nationalReport6Query).then(function(results) {
                     $scope.nationalReport6 = undefined;
                     if(results.data.response.numFound > 0){
-                        $scope.nationalReport6 = results.data.response.docs[0]           
+                        $scope.nationalReport6 = results.data.response.docs[0]
                     }
                 }).then(null, function(error) {
                     console.log(error );

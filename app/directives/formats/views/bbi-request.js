@@ -1,7 +1,7 @@
-define(['text!./bbi-request.html', 'app', 'lodash', 'services/storage'], function(template, app, _) {
+define(['text!./bbi-request.html', 'app', 'lodash', 	'utilities/km-storage','scbd-angularjs-services/locale'], function(template, app, _) {
 	'use strict';
 
-	app.directive('bbiRequest', ["IStorage", "$location", function(storage, $location) {
+	app.directive('viewBbiRequest', ["IStorage", "$location", function(storage, $location) {
 		return {
 			restrict: 'E',
 			template: template,
@@ -33,6 +33,7 @@ define(['text!./bbi-request.html', 'app', 'lodash', 'services/storage'], functio
 					if ($scope.user)
 						return !!_.intersection($scope.user.roles, ["Administrator", "BBiAdministrator"]).length;
 				};
+				
 				//====================
 				//
 				//====================
@@ -45,6 +46,7 @@ define(['text!./bbi-request.html', 'app', 'lodash', 'services/storage'], functio
 
 					return ((isOwner || isAdmin) && isNotReview);
 				};
+
 				// //====================
 				// //
 				// //====================
@@ -74,17 +76,18 @@ define(['text!./bbi-request.html', 'app', 'lodash', 'services/storage'], functio
 					if ($scope.organization)
 						$scope.loadReferences($scope.organization).then(function(data) { //jshint ignore:line
 							Object.assign($scope.organization, data[0]);
+							killWatchOrg();
 						});
 
-					killWatchOrg();
+
 				});
 				//====================
 				//
 				//====================
-				$scope.getLogo = function() {
+				$scope.getLogo = function(o) {
 
-					if (!$scope.organization || !$scope.organization.relevantDocuments) return false;
-					return _.find($scope.organization.relevantDocuments, {
+					if (!o || !o.relevantDocuments) return false;
+					return _.find(o.relevantDocuments, {
 						name: 'logo'
 					});
 				};
@@ -93,13 +96,14 @@ define(['text!./bbi-request.html', 'app', 'lodash', 'services/storage'], functio
 				//====================
 				$scope.loadReferences = function(ref, index) {
 
-					if (Number.isInteger(index) && Array.isArray(ref)) ref = ref[index];
+
 					return storage.documents.get(ref.identifier, {
 							cache: true
 						})
 						.then(function(data) {
-							ref = [];
+							ref = data.data;
 							ref[0] = data.data;
+							ref[0].logo=$scope.getLogo(data.data);
 							ref[1] = index;
 							return ref;
 						})
@@ -112,6 +116,7 @@ define(['text!./bbi-request.html', 'app', 'lodash', 'services/storage'], functio
 									.then(function(data) {
 										ref = [];
 										ref[0] = data.data;
+										ref[0].logo=$scope.getLogo(data.data);
 										ref[1] = index;
 										return ref;
 									})

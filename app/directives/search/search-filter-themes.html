@@ -33,11 +33,11 @@
 			<div class="modal-content" style="width:760px">
 				<div class="modal-body">
 					<div style="height:360px;overflow-y:auto">
-						<div ng-repeat="item in terms" class="checkbox" ng-init="index1 = $index" >
-							<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" > {{item.name}} <span class="bg-blue badge">{{termsModal[index1].count}}</span></label>
+						<div ng-repeat="item in terms" class="checkbox" ng-init="index1 = $index" ng-hide="!termsModal[index1].count">
+							<strong>{{item.name}}</strong> <span class="bg-blue badge">{{termsModal[index1].count}}</span><!-- <label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" > {{item.name}} <span class="bg-blue badge">{{termsModal[index1].count}}</span></label> -->
 							<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index2 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].count">
 								<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].count}}</span ></label>
-								<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index3 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].count">
+								<!-- <div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index3 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].count">
 									<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].count}}</span></label>
 									<div class="checkbox" ng-repeat="item in item.narrowerTerms" style="padding-left:20px" ng-init="index4 = $index" ng-hide="!termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].count">
 										<label><input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-change="refresh(item)" >{{item.name}} <span class="bg-blue badge">{{termsModal[index1].narrowerTerms[index2].narrowerTerms[index3].narrowerTerms[index4].count}}</span><</label>
@@ -48,7 +48,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>

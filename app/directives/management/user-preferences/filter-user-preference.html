@@ -1,11 +1,11 @@
 ﻿<div id="filter-user-preference">
 	<style>
-
 		#filter-user-preference .search> ul {
 			margin: 0;
 			padding: 0;
 			list-style-type: none;
 		}
+		
 		#filter-user-preference .search> ul li {
 			display: inline;
 			font-weight: bold;
@@ -13,17 +13,20 @@
 			z-index: 20;
 			position: relative;
 		}
+		
 		#filter-user-preference .search> ul li> a {
 			padding: 8px 10px 8px 10px;
 			border-top-left-radius: 3px;
 			border-top-right-radius: 3px;
 			font-weight: bold;
 		}
+		
 		#filter-user-preference .search> ul li> a:hover,
 		#filter-user-preference .search> ul li> a:focus {
 			background-color: #DDD;
 			border: 1px solid #e3e3e3;
 		}
+		
 		#filter-user-preference .search> ul li> a.active {
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
@@ -33,20 +36,25 @@
 			background-color: #DDD;
 			box-shadow: none!important;
 		}
+		
 		#filter-user-preference label {
 			font-weight: bold!important;
 		}
+		
 		#filter-user-preference .active .badge {
 			background-color: #333;
 			color: white;
 		}
+		
 		#filter-user-preference .section-title {
 			color: #999;
 			font-weight: bold;
 		}
+		
 		#filter-user-preference .active {
 			background-color: #EEE
 		}
+		
 		#filter-user-preference .nav-tabs>li.active>a,
 		.nav-tabs>li.active>a:hover,
 		.nav-tabs>li.active>a:focus {
@@ -56,17 +64,20 @@
 			border: 1px solid #e3e3e3;
 			border-bottom: 0;
 		}
+		
 		#filter-user-preference .tab-content {
 			border-bottom: 1px solid #e3e3e3;
 			border-left: 1px solid #e3e3e3;
 			border-right: 1px solid #e3e3e3;
 		}
+		
 		#filter-user-preference .nav-tabs>li {
 			margin-bottom: 0;
 			font-weight: bold;
 			font-size: 16px;
 			white-space: nowrap;
 		}
+		
 		#filter-user-preference .nav-tabs>li {
 			margin-bottom: 0;
 			font-weight: bold;
@@ -74,33 +85,39 @@
 			white-space: nowrap!important;
 			display: inline-block;
 		}
+		
 		#filter-user-preference .nav-tabs> li> a {
 			white-space: nowrap;
 		}
+		
 		#filter-user-preference .no-rl-padding {
 			padding-left: 0!important;
 			margin-left: 0!important;
 			padding-right: 0!important;
 			margin-right: 0!important;
 		}
-
+		
 		search-filter .check {
 			color: #333;
 		}
+		
 		search-filter .filter {
 			color: #555;
 			cursor: pointer;
 			font-weight: 500;
 		}
+		
 		search-filter .check:hover,
 		search-filter .filter:hover {
 			color: #000;
 		}
+		
 		search-filter hr.heading {
 			border-color: #bbb!important;
 			margin: 5px 0 10px 0;
 			padding: 0;
 		}
+		
 		search-filter .heading,
 		.heading> .filter,
 		search-filter .country-heading {
@@ -108,19 +125,23 @@
 			font-size: 16px;
 			border-color: #bbb!important;
 		}
+		
 		search-filter .country-heading {
 			padding-right: 10px;
 		}
+		
 		search-filter .badge {
 			font-size: 10px;
 			background-color: #b1b1b1!important;
 			display: none;
 		}
+		
 		search-filter hr {
 			margin: 0;
 			padding: 0;
 			border-color: #DDD;
 		}
+		
 		search-filter .helpinfo {
 			padding: 0;
 			margin: 0;
@@ -130,120 +151,125 @@
 			font-weight: normal;
 			line-height: 16px;
 		}
+		
 		search-filter .fa-info-circle {
 			color: #9f9f9f;
 		}
+		
 		search-filter .noTopPadding {
 			padding: 0!important;
 		}
+		
 		search-filter .letter-active {
 			font-weight: bold;
 		}
+		
 		search-filter .date {
 			text-transform: uppercase;
 		}
-
-.color-grey {
-    color: #555;
-}
+		
+		.color-grey {
+			color: #555;
+		}
 	</style>
-	<div class="container-fluid">
-		<div class="row">			
-			<div class="col-md-12 search hidden-xs" style="padding-top:5px;">
-				<span style="color:#bbb;">FILTERS:</span><span ng-repeat="filter in searchFilters|filter:{isSelected:true}" 
-					style="margin-bottom:10px;margin-right:10px;">
-                    <span class="label label-info">{{filter.title}} </span>
-                </span>
-				<ul>
-					<li style="text-transform:uppercase;padding-left:3px;padding-right:5px;color:#bbb;" ng-click="showFilters=null"><span ng-if="showFilters"><i class="fa fa-times-circle" aria-hidden="true"></i> close</span> <span ng-if="!showFilters">search</span> filters</li>
-					<li> <a href="" ng-class="{'active':showFilters=='national'}" ng-click="showFilters=(showFilters=='national' ? false : 'national')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;National records</a> </li>
-					<li> <a href="" ng-class="{'active':showFilters=='reference'}" ng-click="showFilters=(showFilters=='reference' ? false : 'reference')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;Reference records</a> </li>
-					<li> <a href="" ng-class="{'active':showFilters=='scbd'}" ng-click="showFilters=(showFilters=='scbd' ? false : 'scbd')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;SCBD records</a> </li>
-					<li> <a href="" ng-class="{'active':showFilters=='country'}" ng-click="showFilters=(showFilters=='country' ? false : 'country')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;Country</a> </li>
-					<li> <a href="" ng-class="{'active':showFilters=='regionFilter'}" ng-click="showFilters=(showFilters=='regionFilter' ? false : 'regionFilter')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;Regions</a ></li>
-				</ul>
-			</div>
-
-		</div>
+	<div ng-if="loading">
+		<i class="fa fa-spin fa-spinner" /> loading filters...
 	</div>
-	<div class="container-fluid" style="z-index:10!important;top:-2px;position:relative;" ng-hide="!showFilters">
-		<div class="row" style="margin:0;">
-			<div class="col-xs-12 well  bg-grey1 " style="min-height:100px;margin:0;max-height:300px;overflow:scroll">
-				<a translation-url href="#" ng-click="showFilters=false;" class="pull-right color-grey"><i class="fa fa-times"></i></a>				
+	<div ng-if="!loading">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 search hidden-xs" style="padding-top:5px;">
 
-				<div ng-if="showFilters==='national'" class="search-filter">
-					<div  style="margin-bottom:30px;">
-						<div class="heading" >National Records </div>
-						<p class="helpinfo" ><i class="fa fa-info-circle helpicon" ></i> National records are published by Governments.</p>
-						<hr  class="heading">
-						
-						<div ng-repeat="doc in searchFilters | filter:{type:'national'}">							
-							<a class="filter"  ng-click="saveFilter(doc)" ng-href="#">
-								<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> 
-								{{doc.title}}
-							</a>
-						</div>
-					</div>
+					<span style="color:#bbb;">FILTERS:</span>
+					<span ng-repeat="filter in searchFilters|filter:{isSelected:true}" 
+						style="margin-bottom:10px;margin-right:10px;">
+						<span class="label label-info">{{filter.title}} 
+							<i class="fa fa-close" ng-click="saveFilter(filter)"/>
+						</span>
+					</span>
+					<ul>
+						<li style="text-transform:uppercase;padding-left:3px;padding-right:5px;color:#bbb;" ng-click="showFilters=null"><span ng-if="showFilters"><i class="fa fa-times-circle" aria-hidden="true"></i> close</span> <span ng-if="!showFilters">search</span> filters</li>
+						<li> <a href="" ng-class="{'active':showFilters=='national'}" ng-click="showFilters=(showFilters=='national' ? false : 'national')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;National records</a> </li>
+						<li> <a href="" ng-class="{'active':showFilters=='reference'}" ng-click="showFilters=(showFilters=='reference' ? false : 'reference')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;Reference records</a> </li>
+						<li> <a href="" ng-class="{'active':showFilters=='scbd'}" ng-click="showFilters=(showFilters=='scbd' ? false : 'scbd')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;SCBD records</a> </li>
+						<li> <a href="" ng-class="{'active':showFilters=='country'}" ng-click="showFilters=(showFilters=='country' ? false : 'country')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;Country</a> </li>
+						<li> <a href="" ng-class="{'active':showFilters=='regionFilter'}" ng-click="showFilters=(showFilters=='regionFilter' ? false : 'regionFilter')" class="btn color-grey"><i class="fa fa-caret-down"></i>&nbsp;Regions</a ></li>
+					</ul>
 				</div>
-				<div ng-if="showFilters==='reference'">
-					<div  style="margin-bottom:30px;">
-						<div class="heading" >Reference Records </div>
-						<hr  class="heading">
-						
-						<div ng-repeat="doc in  searchFilters | filter:{type:'reference'}">							
-							<a class="filter"  ng-click="saveFilter(doc)" ng-href="#">
-								<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> 
-								{{doc.title}}
-							</a>
-						</div>
-					</div>
-				</div>
-				<div ng-if="showFilters==='scbd'">
-					<div  style="margin-bottom:30px;">
-						<div class="heading" >SCBD Records </div>
-						<p class="helpinfo" ><i class="fa fa-info-circle helpicon" ></i> Records are published by SCBD.</p>
-						<hr  class="heading">
-						
-						<div ng-repeat="doc in  searchFilters | filter:{type:'scbd'}">							
-							<a class="filter"  ng-click="saveFilter(doc)" ng-href="#">
-								<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> 
-								{{doc.title}}
-							</a>
-						</div>
-					</div>
-				</div>
-				<div ng-if="showFilters==='country'">
-					<div  style="margin-bottom:30px;">
-						<div class="heading" >Countries</div>
-						<hr  class="heading">
-						
-						<div ng-repeat="doc in  searchFilters | filter:{type:'country'}">							
-							<a class="filter"  ng-click="saveFilter(doc)" ng-href="#">
-								<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> 
-								{{doc.title}}
-							</a>
-						</div>
-					</div>
-				</div>
-				<div ng-if="showFilters==='regionFilter'">
-					<div  style="margin-bottom:30px;">
-						<div class="heading" >Regions </div>
-						<hr  class="heading">
-						
-						<div ng-repeat="doc in  searchFilters | filter:{type:'region'}">							
-							<a class="filter"  ng-click="saveFilter(doc)" ng-href="#">
-								<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> 
-								{{doc.title}}
-							</a>
-						</div>
-					</div>
-				</div>
-				<div ng-if="showFilters==='country'"></div>
-				<div ng-if="showFilters==='regionFilter'"></div>
+
 			</div>
 		</div>
+		<div class="container-fluid" style="z-index:10!important;top:-2px;position:relative;" ng-hide="!showFilters">
+			<div class="row" style="margin:0;">
+				<div class="col-xs-12 well  bg-grey1 " style="min-height:100px;margin:0;max-height:300px;overflow:scroll">
+					<a translation-url href="#" ng-click="showFilters=false;" class="pull-right color-grey"><i class="fa fa-times"></i></a>
+
+							<div ng-if="showFilters==='national'" class="search-filter">
+								<div style="margin-bottom:30px;">
+									<div class="heading">National Records </div>
+									<p class="helpinfo"><i class="fa fa-info-circle helpicon"></i> National records are published by Governments.</p>
+									<hr class="heading">
+
+									<div ng-repeat="doc in searchFilters | filter:{type:'national'}">
+										<a class="filter" ng-click="saveFilter(doc)" ng-href="#">
+											<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> {{doc.title}}
+										</a>
+									</div>
+								</div>
+							</div>
+							<div ng-if="showFilters==='reference'">
+								<div style="margin-bottom:30px;">
+									<div class="heading">Reference Records </div>
+									<hr class="heading">
+
+									<div ng-repeat="doc in  searchFilters | filter:{type:'reference'}">
+										<a class="filter" ng-click="saveFilter(doc)" ng-href="#">
+											<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> {{doc.title}}
+										</a>
+									</div>
+								</div>
+							</div>
+							<div ng-if="showFilters==='scbd'">
+								<div style="margin-bottom:30px;">
+									<div class="heading">SCBD Records </div>
+									<p class="helpinfo"><i class="fa fa-info-circle helpicon"></i> Records are published by SCBD.</p>
+									<hr class="heading">
+
+									<div ng-repeat="doc in  searchFilters | filter:{type:'scbd'}">
+										<a class="filter" ng-click="saveFilter(doc)" ng-href="#">
+											<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> {{doc.title}}
+										</a>
+									</div>
+								</div>
+							</div>
+							<div ng-if="showFilters==='country'">
+								<div style="margin-bottom:30px;">
+									<div class="heading">Countries</div>
+									<hr class="heading">
+
+									<div ng-repeat="doc in  searchFilters | filter:{type:'country'}">
+										<a class="filter" ng-click="saveFilter(doc)" ng-href="#">
+											<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> {{doc.title}}
+										</a>
+									</div>
+								</div>
+							</div>
+							<div ng-if="showFilters==='regionFilter'">
+								<div style="margin-bottom:30px;">
+									<div class="heading">Regions </div>
+									<hr class="heading">
+
+									<div ng-repeat="doc in  searchFilters | filter:{type:'region'}">
+										<a class="filter" ng-click="saveFilter(doc)" ng-href="#">
+											<i class="fa check" ng-class="{'fa-check-square':doc.isSelected,'fa-square':!doc.isSelected}"></i> {{doc.title}}
+										</a>
+									</div>
+								</div>
+							</div>
+							<div ng-if="showFilters==='country'"></div>
+							<div ng-if="showFilters==='regionFilter'"></div>
+				</div>
+			</div>
+		</div>
 	</div>
-
-
-
 </div>

@@ -174,11 +174,11 @@
 
 						<div class="row">
 
-							<!--<div class="col-md-12">
+							<div class="col-md-12">
 								<div class="km-control-group" name="libraries" required caption="Relevant libraries">
 									<div km-select required name="libraries" ng-model="document.libraries" items="options.libraries()" multiple></div>
 								</div>
-							</div>-->
+							</div>
 
 
 							<div class="col-md-6">
@@ -274,7 +274,7 @@
 									<label for="logo" class="control-label" style="line-height:20px;">Logo
                           </label>
 									<div ng-if="logo" class="img-container">
-										<img ng-src="{{logo}}?v=<%=gitVersion%>&thumbnail=true" style="padding-bottom:10px">
+										<img ng-src="{{logo}}?v=<%=gitVersion%>&thumbnail=true" style="max-width:100%;max-height:200px;padding-bottom:10px">
 									</div>
 									<input type="file" class="form-control" name="logo" id="logo" accept="image/*" placeholder="Logo" ng-model="logo" on-file="upload(files)" ng-disabled="disabled()">
 									<p class="help-block small">Please attach a logo or image of your Actor (max. 500KB). The image on the profile will be fitted into 200 x 200 px.</p>

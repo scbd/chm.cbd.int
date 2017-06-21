@@ -59,15 +59,15 @@ define(['text!./bbi-profile.html', 'app', 'angular', 'lodash', 	'utilities/km-st
                 });
 
                 //====================
-                //
-                //====================
-                $scope.getLogo = function() {
+        				//
+        				//====================
+        				$scope.getLogo = function(o) {
 
-                    if (!$scope.contactOrg || !$scope.contactOrg.relevantDocuments) return false;
-                    return _.find($scope.contactOrg.relevantDocuments, {
-                        name: 'logo'
-                    });
-                };
+        					if (!o || !o.relevantDocuments) return false;
+        					return _.find(o.relevantDocuments, {
+        						name: 'logo'
+        					});
+        				};
                 //====================
                 //
                 //====================
@@ -78,6 +78,7 @@ define(['text!./bbi-profile.html', 'app', 'angular', 'lodash', 	'utilities/km-st
                         })
                         .then(function(data) {
                             ref = data.data;
+                            ref.logo=$scope.getLogo(data.data);
                             return ref;
                         })
                         .catch(function(error, code) {
@@ -88,6 +89,7 @@ define(['text!./bbi-profile.html', 'app', 'angular', 'lodash', 	'utilities/km-st
                                     })
                                     .then(function(data) {
                                         ref = data.data;
+                                        ref.logo=$scope.getLogo(data.data);
                                         return ref;
                                     })
                                     .catch(function(draftError, draftCode) {

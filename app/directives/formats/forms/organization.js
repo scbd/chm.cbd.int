@@ -1,4 +1,4 @@
-define(['text!./organization.html', 'app', 'angular', 'lodash', 'authentication',
+define(['text!./organization.html', 'app', 'angular', 'lodash','json!app-data/edit-form-messages.json',  'authentication',
 'services/editFormUtility',
 'utilities/km-workflows', 'utilities/km-storage',
 'directives/file',
@@ -6,7 +6,7 @@ define(['text!./organization.html', 'app', 'angular', 'lodash', 'authentication'
 'directives/forms/form-controls',
 'utilities/km-utilities',
 'directives/formats/views/organization'
-], function(template, app, angular, _) { 'use strict';
+], function(template, app, angular, _,messages) { 'use strict';
 
 app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter", "$q", "guid", "$location", "Thesaurus", 'authentication', 'editFormUtility',  'IStorage', '$route','$timeout','locale', function ($http, $rootScope, Enumerable, $filter, $q, guid, $location, thesaurus, authentication, editFormUtility, storage, $route,$timeout,locale) {
 	return {
@@ -253,7 +253,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 
 					err = err.data || err;
 					$scope.$emit('showError', 'ERROR: Actor was not saved.');
-					$scope.errors = err.errors || [err];
+					$scope.error = err.errors || [err];
 
 					console.error($scope.errors);
 			}
@@ -291,8 +291,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 	         var input = document.getElementById('pac-input');
 	         var searchBox = new google.maps.places.Autocomplete(input);
 
-					 searchBox.setTypes(['establishment']);
-//searchBox.setTypes(['address']);
+					 searchBox.setTypes([]);
 
 					 searchBox.addListener('place_changed', function() {
 						 $timeout(function(){
@@ -431,22 +430,22 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 				var subjects = _.map(document.thematicAreas, 'identifier');
 				return _.includes(subjects, 'CBD-SUBJECT-CPB') ;
 			};
-			//==================================
+			// //==================================
+			// //
+			// //==================================
+			// $scope.IsBchRa = function(document) {
+			// 	document = document || $scope.document;
 			//
-			//==================================
-			$scope.IsBchRa = function(document) {
-				document = document || $scope.document;
-
-				if (!document || !document.bchSubjects)
-					return false;
-
-				var qLibraries = Enumerable.from(document.bchSubjects);
-
-				return qLibraries.any(function(o) {
-					return o.identifier == "FBAF958B-14BF-45DD-BC6D-D34A9953BCEF"  || //Risk assessment
-					       o.identifier == "6F28D3FB-7CCE-4FD0-8C29-FB0306C52BD0";    //Risk assessment and risk management
-				});
-			};
+			// 	if (!document || !document.bchSubjects)
+			// 		return false;
+			//
+			// 	var qLibraries = Enumerable.from(document.bchSubjects);
+			//
+			// 	return qLibraries.any(function(o) {
+			// 		return o.identifier == "FBAF958B-14BF-45DD-BC6D-D34A9953BCEF"  || //Risk assessment
+			// 		       o.identifier == "6F28D3FB-7CCE-4FD0-8C29-FB0306C52BD0";    //Risk assessment and risk management
+			// 	});
+			// };
 
 			//==================================
 			//
@@ -534,7 +533,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			//
 			//==================================
 			$scope.onPostWorkflow = function() {
-				$rootScope.$broadcast("onPostWorkflow", "Publishing request sent successfully.");
+				$rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
 				gotoManager();
 				$location.search('index-view','workflow');
 			};
@@ -543,7 +542,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			//
 			//==================================
 			$scope.onPostPublish = function() {
-				$rootScope.$broadcast("onPostPublish", "Record is being published, please note the publishing process could take up to 1 minute before your record appears.");
+				$rootScope.$broadcast("onPostPublish", messages.onPostPublish);
 				gotoManager();
 				$location.search('index-view','public');
 			};
@@ -553,14 +552,15 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			//==================================
 			$scope.onPostSaveDraft = function(pass) {
 
-				$rootScope.$broadcast("onSaveDraft", "Draft record saved.");
+				$rootScope.$broadcast("onSaveDraft", messages.onPostSaveDraft);
+
 			};
 
 			//==================================
 			//
 			//==================================
 			$scope.onPostClose = function() {
-				$rootScope.$broadcast("onPostClose", "Record closed.");
+				$rootScope.$broadcast("onPostClose", messages.onPostClose);
 				gotoManager();
 			};
 			//==================================
@@ -569,7 +569,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			function gotoManager() {
 
 				$location.path("/submit/"+$scope.schema);
-				$location.search('index-update',$scope.document.header.identifier);
+				//$location.search('index-update',$scope.document.header.identifier);
 
 			}
 

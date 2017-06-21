@@ -1,7 +1,7 @@
 define(['app',  'lodash', 'text!./organization.html',
 	'filters/mark-down', 'utilities/km-storage','filters/trust-as-resource-url'], function(app,  _, template){
 
-app.directive('viewOrganization', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
+app.directive('viewOrganization', ["IStorage","$location","locale","$sce", function (storage,$location) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -41,7 +41,7 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//
 			//====================
 			$scope.isReview = function() {
-					 return !!($location.url().indexOf('/view')>-1);
+					 return !!($location.url().indexOf('/view')>-1); //jshint ignore:line
 			};
 
 			//====================
@@ -49,13 +49,13 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//====================
 			$scope.$watch("document.linkedOrganizations", function()
 			{
-				if($scope.document)
-					$scope.linkedOrganizations = angular.fromJson(angular.toJson($scope.document.linkedOrganizations));
+				if($scope.document && $scope.document.linkedOrganizations)
+					$scope.linkedOrganizations = JSON.parse(JSON.stringify($scope.document.linkedOrganizations));
 
 				if($scope.linkedOrganizations)
 					$scope.loadReferences($scope.linkedOrganizations);
 
-			});
+			},true);
 
 			//====================
 			//
@@ -132,34 +132,37 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//====================
 			$scope.loadReferences = function(targets) {
 
-				angular.forEach(targets, function(ref){
+var t = targets;
+				t.forEach(function(target){
+					storage.documents.get(target.identifier, { cache : true})
+						.success(function(data){ //jshint ignore:line
+								console.log('targets[i]init', target);
+							target.document = data;
 
-					storage.documents.get(ref.identifier, { cache : true})
-						.success(function(data){
-							ref.document = data;
+							target.logo=_.find(target.document.relevantDocuments,{name:'logo'});
 
-							ref.logo=_.find(ref.document.relevantDocuments,{name:'logo'});
 						})
-						.error(function(error, code){
+						.error(function(error, code){//jshint ignore:line
 							if (code == 404 && $scope.allowDrafts == "true") {
 
-								storage.drafts.get(ref.identifier, { cache : true})
+								storage.drafts.get(target.identifier, { cache : true})
 									.success(function(data){
-										ref.document = data;
+										target.document = data;
 									})
 									.error(function(draftError, draftCode){
-										ref.document  = undefined;
-										ref.error     = draftError;
-										ref.errorCode = draftCode;
+										target.document  = undefined;
+										target.error     = draftError;
+										target.errorCode = draftCode;
 									});
 							}
 
-							ref.document  = undefined;
-							ref.error     = error;
-							ref.errorCode = code;
+							target.document  = undefined;
+							target.error     = error;
+							target.errorCode = code;
 
 						});
-				});
+			  });
+
 			};
 		}
 	};

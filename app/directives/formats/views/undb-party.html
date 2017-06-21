@@ -29,7 +29,7 @@
       <div class="col-xs-12" ng-show="document.description">
           <label class="view">Description</label>
           <div class="km-value">
-              <span ng-bind="document.description| lstring:locale"><br/></span>
+              <span ng-bind-html="document.description |lstring:locale  |safeHtml "><br/></span>
           </div>
       </div>
 

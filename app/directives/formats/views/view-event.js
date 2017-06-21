@@ -1,5 +1,5 @@
-define(['app',  'lodash', 'text!./event.html',
-	'filters/mark-down', 'utilities/km-storage','providers/locale','filters/trust-as-resource-url','filters/moment'], function(app,  _, template){
+define(['app',  'lodash', 'text!./view-event.html',
+	'filters/mark-down', 'utilities/km-storage','filters/trust-as-resource-url','filters/moment'], function(app,  _, template){
 
 app.directive('viewEvent', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
 	return {
@@ -76,29 +76,14 @@ app.directive('viewEvent', ["IStorage","$location","locale","$sce", function (st
 			//====================
 			//
 			//====================
-			$scope.isObject = function(item) {
-					return (typeof item === "object" && !Array.isArray(item) && item !== null);
+			$scope.canEdit = function() {
+
+					if(!$scope.user || ($location.path().indexOf('/view')<0)) return false;
+
+					$scope.isAdmin = !!_.intersection($scope.user.roles, ["Administrator","UNDBPublishingAuthority","undb-administrator"]).length;
+					return  $scope.isAdmin ;
 			};
 
-			//====================
-			//
-			//====================
-			$scope.hasOtherLinks = function() {
-					if(!$scope.document) return false;
-					if(!links && $scope.document.websites)
-					 links = _.cloneDeep($scope.document.websites);
-
-					if(!links) return false;
-
-					_.each(links,function(l,i){
-						if(!l)return;
-
-						if(l.name==='website' || l.name==='Google Maps' || l.name==='facebook' || l.name==='youtube' || l.name==='twitter')
-							links.splice(i,1);
-					});
-
-					return links.length;
-			};
 			//====================
 			//
 			//====================

@@ -101,6 +101,7 @@ define(['text!./bbi-opportunity.html', 'app', 'lodash', 	'utilities/km-storage',
 						name: 'logo'
 					});
 				};
+
 				//====================
 				//
 				//====================
@@ -114,6 +115,7 @@ define(['text!./bbi-opportunity.html', 'app', 'lodash', 	'utilities/km-storage',
 							ref = [];
 							ref[0] = data.data;
 							ref[0].header.state = 'public';
+							ref[0].logo=$scope.getLogo(data.data);
 							ref[1] = index;
 							return ref;
 						})
@@ -127,6 +129,7 @@ define(['text!./bbi-opportunity.html', 'app', 'lodash', 	'utilities/km-storage',
 										ref = [];
 										ref[0] = data.data;
 										ref[0].header.state = 'draft';
+										ref[0].logo=$scope.getLogo(data.data);
 										ref[1] = index;
 										return ref;
 									})

@@ -130,15 +130,26 @@
                     <a translation-url class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
-        </div>
+        </div>  
+      
+        <div class="row" style="border-bottom:none;">
 
-        <div class="row">
             <div class="col-xs-3">
                 <h5 style="padding-top:0;margin-top:0;">Financial Reporting Framework</h5>
             </div>
             <div class="col-xs-6">
-                <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
-
+                <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. Reporting on progress towards 2020 shall be undertaken in conjunction with the sixth national reports.</p>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;"></p>
+            </div>
+        </div>
+        <div class="row" style="border-bottom:none;">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;"></h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">Reporting on baseline and progress towards 2015</p>
             </div>
             <div class="col-xs-2">
                 <div class="status-badge">
@@ -152,9 +163,78 @@
                     <a translation-url class="btn btn-info" href="/submit/resourceMobilisation/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
                     <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
-            </div>
-
+            </div>  
         </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;"></h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">Reporting on progress towards 2020</p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('resourceMobilisation2020').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('resourceMobilisation2020').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('resourceMobilisation2020').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1 ">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/resourceMobilisation2020/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation2020/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>    
+        </div>
+            
+                        
+            
+<!--            
+            <div class="col-xs-9">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p style="font-size:12px;">Reporting on progress towards 2015</p>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="status-badge">
+                                <span class="badge bg-published">{{getFacet('resourceMobilisation').public}}</span>
+                                <span class="badge bg-draft">{{getFacet('resourceMobilisation').draft}}</span>
+                                <span class="badge bg-request">{{getFacet('resourceMobilisation').workflow}}</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-1">
+                            <div class="btn-group-xs pull-right">
+                                <a translation-url class="btn btn-info" href="/submit/resourceMobilisation/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                                <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p style="font-size:12px;">Reporting on progress towards 2020</p>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="status-badge">
+                                <span class="badge bg-published">{{getFacet('resourceMobilisation2020').public}}</span>
+                                <span class="badge bg-draft">{{getFacet('resourceMobilisation2020').draft}}</span>
+                                <span class="badge bg-request">{{getFacet('resourceMobilisation2020').workflow}}</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-1 ">
+                            <div class="btn-group-xs pull-right">
+                                <a translation-url class="btn btn-info" href="/submit/resourceMobilisation2020/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                                <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation2020/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                            </div>
+                        </div>                        
+                    </div>
+
+            </div>
+        </div>-->
 
          <!--<div class="row title-row row-bottom-border">
             <div class="col-xs-3">Record Type</div>

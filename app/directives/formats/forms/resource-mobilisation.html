@@ -1436,12 +1436,17 @@
 		</div>
 	</div>
 	<script type="text/ng-template" id="/templates/modal-youtube.html">
-		<ul class="list-unstyled list-inline pull-right">
-			<li><i class="fa fa-video-camera" aria-hidden="true"></i></li>
-			<li ng-show="videoEn"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('en')">English</a></li>
-			<li ng-show="videoEs"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('es')">Español</a></li>
-			<li ng-show="videoFr"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('fr')">Français</a></li>
-		</ul>
+		<div class="row pull-right">
+			<div class="col-xs-12">
+				<small><strong>Explanatory videos for this section</strong><br /></small>
+				<ul class="list-unstyled list-inline pull-right">
+					<li><i class="fa fa-video-camera" aria-hidden="true"></i></li>
+					<li ng-show="videoEn"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('en')">English</a></li>
+					<li ng-show="videoFr"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('fr')">Français</a></li>
+					<li ng-show="videoEs"><a href="#{{id}}" role="button" data-toggle="modal" ng-click="playVideo('es')">Español</a></li>
+				</ul>
+			</div>
+		</div>
 		<!-- Modal -->
 		<ng-transclude></ng-transclude>
 		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

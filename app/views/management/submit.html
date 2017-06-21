@@ -413,6 +413,7 @@
     <div class="container">
 
 
+
       <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
          <div class="col-xs-12">
             Bio-Bridge Initiative Records
@@ -487,7 +488,7 @@
              </div>
          </div>
      </div>
-      <div class="row row-bottom-border">
+      <div class="row">
           <div class="col-xs-3">
               <h5 style="padding-top:0;margin-top:0;">Requests for Assistance</h5>
           </div>
@@ -511,7 +512,7 @@
           </div>
       </div>
 
-      <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;" ng-show="test_env">
+      <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;" ng-show="test_env">
          <div class="col-xs-12">
             Capacity-building
          </div>
@@ -539,7 +540,64 @@
                  <a translation-url class="btn btn-primary" href="/submit/capacityBuildingInitiative/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
              </div>
          </div>
-     </div>
+     </div> -->
+     <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+        <div class="col-xs-12">
+           Events
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xs-3">
+            <h5 style="padding-top:0;margin-top:0;">Events</h5>
+        </div>
+        <div class="col-xs-6">
+            <p style="font-size:12px;">
+                Are any function with a start and end date/time, wanting or expecting participation from stakeholders. Events must also be associated with host Organizations.
+            </p>
+        </div>
+        <div class="col-xs-2">
+            <div class="status-badge">
+                <span class="badge bg-published">{{getFacet('event').public}}</span>
+                <span class="badge bg-draft">{{getFacet('event').draft}}</span>
+                <span class="badge bg-request">{{getFacet('event').workflow}}</span>
+            </div>
+        </div>
+        <div class="col-xs-1">
+            <div class="btn-group-xs pull-right">
+                <a translation-url class="btn btn-info" href="/submit/event/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                <a translation-url class="btn btn-primary" href="/submit/event/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+            </div>
+        </div>
+    </div>
+     <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+        <div class="col-xs-12">
+           Organizations
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-3">
+            <h5 style="padding-top:0;margin-top:0;">Biodiversity Related Organizations</h5>
+        </div>
+        <div class="col-xs-6">
+            <p style="font-size:12px;">
+
+            </p>
+        </div>
+        <div class="col-xs-2">
+            <div class="status-badge">
+                <span class="badge bg-published">{{getFacet('organization').public}}</span>
+                <span class="badge bg-draft">{{getFacet('organization').draft}}</span>
+                <span class="badge bg-request">{{getFacet('organization').workflow}}</span>
+            </div>
+        </div>
+        <div class="col-xs-1">
+            <div class="btn-group-xs pull-right">
+                <a translation-url class="btn btn-info" href="/submit/organization/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                <a translation-url class="btn btn-primary" href="/submit/organization/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+            </div>
+        </div>
+    </div>
 <!-- to be released when new undb goes live -->
       <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
          <div class="col-xs-12">
@@ -570,47 +628,12 @@
           </div>
       </div> -->
 
-         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-            <div class="col-xs-12">
-               Organizations
-            </div>
-        </div>
-<!--
-         <div class="row title-row row-bottom-border">
-            <div class="col-xs-3">Record Type</div>
-            <div class="col-xs-7">Description</div>
-            <div class="col-xs-1">Status</div>
-            <div class="col-xs-1">Action</div>
-        </div>-->
 
-        <div class="row">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Biodiversity Related Organizations</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('organization').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('organization').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('organization').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/organization/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/organization/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
 
 
 
 <!-- to be released when new undb goes live -->
-       <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+       <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
           <div class="col-xs-12">
              UNDB Records
           </div>
@@ -618,7 +641,7 @@
 
        <div class="row row-bottom-border">
            <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">UNDB Actors</h5>
+               <h5 style="padding-top:0;margin-top:0;">Actors</h5>
            </div>
            <div class="col-xs-6">
                <p style="font-size:12px;">
@@ -641,7 +664,7 @@
        </div>
        <div class="row row-bottom-border">
            <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">UNDB Party Profile</h5>
+               <h5 style="padding-top:0;margin-top:0;">Country Profile</h5>
            </div>
            <div class="col-xs-6">
                <p style="font-size:12px;">
@@ -661,11 +684,11 @@
                    <a translation-url class="btn btn-primary" href="/submit/undbParty/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                </div>
            </div>
-       </div> -->
+       </div>
         <div class="row row-bottom-border">
 
             <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">UNDB Actions <span class="text-danger">(depreciated please use Event)</span></h5>
+                <h5 style="padding-top:0;margin-top:0;">Actions <br><span class="small"><span class="text-danger">(depreciated please use Event)</span></span></h5>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;">
@@ -688,7 +711,7 @@
         </div>
         <div class="row ">
             <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">UNDB Partners <span class="text-danger">(depreciated please use UNDB Actor)</span></h5>
+                <h5 style="padding-top:0;margin-top:0;">Partners <br><span class="small"><span class="text-danger">(depreciated please use UNDB Actor)</span></span></h5>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;">

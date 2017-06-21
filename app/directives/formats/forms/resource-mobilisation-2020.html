@@ -1,0 +1,1356 @@
+﻿<div>
+<style type="text/css">
+	.popover {font-weight: normal; max-width: 400px;}
+	.modal-body legend {  margin-top: 0;}
+	.modal-title {font-variant: small-caps;font-weight: bold;} 
+	</style>
+	<h1 style="margin-bottom: 5px">Financial Reporting Framework <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i> </h1>
+	<h2 style="margin-top: 5px; border-bottom: none">Reporting on progress towards 2020</h2>
+	
+	<div class="alert alert-danger" ng-cloak ng-show="hasError()">
+		<strong>An error has occurred...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div ng-show="status=='loading'"><em>Loading...</em></div>
+
+	<div ng-hide="status=='hidden'||status=='loading'">
+
+		<div style="position: relative">
+			<div class="row">
+				<div class="col-xs-12" style="text-align:right">
+					<span km-form-languages ng-model="document.header.languages"></span>
+
+					<div class="pagination">
+						<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='part1'}"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
+						<li ng-class="{ active  : tab=='part1'}"><a href="" ng-click="tab='part1'">Front matter</a></li>
+						<li ng-class="{ active  : tab=='part2'}"><a href="" ng-click="tab='part2'">International flows</a></li>
+						<li ng-class="{ active  : tab=='part3'}"><a href="" ng-click="tab='part3'">Inclusion and assessment of values</a></li>
+						<li ng-class="{ active  : tab=='part4'}"><a href="" ng-click="tab='part4'">Collective action and non-market approches</a></li>
+						<li ng-class="{ active  : tab=='part5'}"><a href="" ng-click="tab='part5'">Reporting progress in mobilizing resources</a></li>
+						<li ng-class="{ active  : tab=='review'}"><a href="" ng-click="tab='review'" >Review</a></li>
+						<li ng-class="{ disabled: tab=='review'}"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
+					</ul>
+				</div>
+
+			</div>
+
+			<form name="editForm">
+			
+				
+				
+			<div class="alert alert-danger" ng-hide='baselineDocument'>
+				<div>
+					<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <strong>Missing baseline and progress towards 2015 record!</strong> 
+					Please <a href="/submit/resourceMobilisation/new" target="_new">submit</A> a 
+					baseline and progress towards 2015 for publishing before continuing. Click refresh after it has been published. 
+					<button type="button" class="btn btn-default btn-sm" ng-click="loadBaselineDocuments()">Refresh</button>
+				</div>
+			</div>
+				
+
+			<fieldset  name="part1" ng-disabled='!baselineDocument'>	
+
+			<div id="part1" km-tab="part1">
+				<div class="row">
+					<div class="col-xs-12">
+						<legend>Introduction</legend>
+						<p  class="help-block">This framework is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20.</p>
+						<p  class="help-block">In completing the reporting framework, Parties are encouraged to interact with their respective statistical offices or other relevant departments when gathering information. Some of the information needed for this process is likely already available and it should be used where possible in order to reduce the reporting burden and the duplication of efforts.  Where precise information is not available, respondents are encouraged to use their best estimates.</p>
+						<p>
+							For any technical questions, please contact <a href="mailto:financialreporting@cbd.int">financialreporting@cbd.int</a>.
+						</p>
+					</div>
+				</div>
+
+				<legend>Identification of respondent</legend>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="km-control-group" name="government" required caption="Country">
+							<div class="alert alert-info" ng-show="userGovernment()"><i class="icon-hand-right"></i>You cannot change this value.</div>
+							<div km-select required name="government" ng-disabled="userGovernment()" ng-model="document.government" items="options.countries()" placeholder="Please select a country..."></div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="km-control-group" name="ownerBehalf" required caption="Please indicate on whose behalf this information is being completed">
+							<div km-select name="ownerBehalf" ng-model="document.ownerBehalf" items="options.ownerBehalf()" binding-type="term[]"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" required name="hasAuthority" required caption="Authority">
+							<input type="checkbox" required name="hasAuthority" ng-model="document.hasAuthority" /> I have the authority to submit the information provided in this framework for publication<a rm-popover data-content="You need to check this box if you want to submit the completed framework for publication." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a>
+						</div>
+				  	</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="title" caption="Name of the strategy">
+							<div km-textbox-ml name="title" ng-model="document.title" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+
+				<legend>Contact details of the respondent</legend>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="km-control-group" required name="respondentName" caption="Name">
+							<input type="text" required class="form-control" style="width: 100%" name="respondentName" ng-model="document.respondentName" />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="km-control-group" name="respondentDesignation" caption="Designation">
+							<div km-textbox-ml name="respondentDesignation" ng-model="document.respondentDesignation" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="km-control-group" required name="respondentOrganization" caption="Organization">
+							<div km-textbox-ml name="respondentOrganization" required ng-model="document.respondentOrganization" locales="document.header.languages"></div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="km-control-group" name="respondentDepartment" caption="Department">
+							<div km-textbox-ml name="respondentDepartment" ng-model="document.respondentDepartment" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="km-control-group" name="respondentPhones" caption="Phone numbers">
+							<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
+							<div km-inputtext-list name="respondentPhones" ng-model="document.respondentPhones" placeholder="example: +1 514.288.2220"></div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="km-control-group" name="respondentEmails" caption="Emails">
+							<div km-inputtext-list name="respondentEmails" type="respondentEmails" ng-model="document.respondentEmails" pattern="email" placeholder="example: secretariat@cbd.int"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="km-control-group" name="completedDate" caption="Date of completion and submission of completed framework">
+							<div km-date style="width: 200px" name="completedDate" ng-model="document.completedDate"></div>
+						</div>
+					</div>
+				</div>
+				 <div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="relevantInformation" caption="Additional Information">
+							<span class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.
+							</span>
+							<div km-textbox-ml rows=5 name="relevantInformation"  ng-model="document.relevantInformation" locales="document.header.languages"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="relevantDocuments" caption="Other relevant website address or attached documents">
+							<div km-link name="relevantDocuments" allow-link="true" allow-file="true" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="km-control-group" name="notes">
+							<legend>Notes</legend>
+							<span class="help-block">
+								The field “Notes” is for personal reference and can be seen only when the record is being edited.
+							</span>
+							<div km-notes name="notes" ng-model="document.notes"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</fieldset>
+
+			<div class="row" ng-show="baselineDocument && tab=='part2' && isEmpty(baselineDocument.internationalResources.progressData)">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="alert alert-warning" role="alert">
+						<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Government did not provide enough information on section 1 of the Reporting on baseline and progress 
+						towards 2015. Click <a ng-href="/database/record/{{baselineDocumentId}}" target="_new">here</a> to update and click Refresh aferwards.
+						<button type="button" class="btn btn-default btn-sm" ng-click="loadBaselineDocuments()">Refresh</button>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div id="part2" km-tab="part2">
+				<div class="row">
+					<div class="col-md-12">
+
+						<legend>1. Monitoring progress in mobilizing international financial flows</legend>
+						<p><strong>1.1 Please indicate the amount of resources <u>provided by your country</u> in support of biodiversity in developing countries, in particular least developed countries and small island developing States, as well as countries with economies in transition.</strong></p>
+						<p class="help-block">Please indicate, as appropriate, the nominal amount of financial resources provided by source as well as the total amount. Please also indicate your degree of confidence in the estimated amount or, alternatively, provide a range of estimates.</p>
+
+						<p class="help-block">In order to ensure data consistency and comparability, please make sure, as feasible, to apply the same methodology as under question 1.1 of section I on the Reporting on progress towards 2015.</p>
+					</div>
+					
+				</div>
+
+				
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" Xng-hide="isEmpty(baselineDocument.internationalResources.progressData)">
+						<modal-part1
+							part1-id = "baselinePart1"
+							part1-header="Reporting on baseline and progress towards 2015: International financial resource flows" 
+							part1-data="baselineDocument"
+						>
+						<a href="#baselinePart1" role="button"  data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i> Reporting on baseline and progress towards 2015: International financial resource flows</a>
+						</modal-part1>
+					</div>
+				</div>
+				
+				<fieldset name="part2" ng-disabled='!baselineDocument || isEmpty(baselineDocument.internationalResources.progressData)'>
+				<div class="panel panel-default" ng-show="baselineDocument">
+					<div class="panel-body">
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="km-control-group" name="internationalResources.currency" caption="Currency" required="{{isRequired('financialFlows')}}">
+											<div km-select name="internationalResources.currency" ng-model="document.internationalResources.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+											<div ng-show="baselineDocument.internationalResources.currency" class="text-info" style="padding-top:5px">Note: the currency is taken from section 1 of the government's baseline and progress towards 2015 document.</div>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div class="km-control-group " name="internationalResources.multiplier" caption="All values are :">
+											<select class="form-control btn-info" ng-model="document.internationalResources.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="internationalResources.multiplier" ng-disabled='true'></select>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="table-responsive">
+									<table id="transactionTable" class="table table-hover table-responsive">
+										<thead>
+											<tr>
+												<td class="col-md-2 text-left"><strong>Year</strong></td>
+												<td class="col-md-2 text-left"><strong>ODA</strong> <a rm-popover data-content="Official Development Assistance (ODA) refers to flows of official financing administered with the purpose of promoting economic development and welfare of developing countries as the main objective, and which are concessional in character with a grant element of at least 25 per cent (using a fixed 10 per cent rate of discount).Where resources are provided or received for general budget support rather than for specific activities, an estimate of resources provided/received for biodiversity may be calculated from the proportion of the recipient country’s budget devoted to such activities." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+												<td class="col-md-2 text-left"><strong>OOF</strong> <a rm-popover data-content="Other official flows (OOF) refers to transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance or Official Aid, either because they are not primarily aimed at development, or because they have a grant element of less than 25 per cent non-ODA public funding, that is, transactions by the official sector with countries on the List of Aid Recipients which do not meet the conditions for eligibility as Official Development Assistance. <br /><br />For the purpose of this reporting framework, information on resources provided by other, “non-donor” countries, i.e. through “South-South Cooperation”, would also be included in this column, as appropriate." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+												<td class="col-md-2 text-left"><strong>Other flows</strong> <a rm-popover data-content="Other flows refer to resources mobilized by the private sector as well as non-governmental organizations, foundations, and academia. If you do not have reliable data, please leave this row empty. See also question 1.2." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+												<td class="col-md-2 text-left"><strong>Total</strong></td>
+												<td class="col-md-1 text-left"></td>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="flow in document.internationalResources.financialFlows track by $index">
+												<td>
+													<div class="input-group"  ng-class="{ 'has-error': flow.year && !isValidNumber(flow.year) || hasDuplicateYear(flow.year, document.internationalResources.financialFlows)}">
+														<select class="form-control"
+																ng-model="flow.year"
+																ng-change="refreshYears('financialFlowsYears', document.internationalResources.financialFlows)"
+																ng-options="o for o in options.progressYears">
+														</select>
+													</div>
+												</td>
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.odaAmount &&  !isValidNumber(flow.odaAmount) }">
+														<input type="text" class="form-control text-right" ng-model="flow.odaAmount">
+													</div>
+												</td>
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.oofAmount && !isValidNumber(flow.oofAmount) }">
+														<input type="text" class="form-control text-right" ng-model="flow.oofAmount">
+													</div>
+												</td>
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.otherAmount && !isValidNumber(flow.otherAmount) }">
+														<input type="text" class="form-control text-right" ng-model="flow.otherAmount">
+													</div>
+												</td>
+
+												<td>
+													<div class="input-group" ng-class="{ 'has-error': flow.totalAmount && !isValidNumber(flow.totalAmount) }">
+														<input type="text" disabled class="form-control text-right" value="{{totalFlowAmount(flow)}}">
+													</div>
+												</td>
+												<td>
+													<span class="btn btn-default" ng-click="document.internationalResources.financialFlows.splice($index, 1); removeYear('progressFlowsYears', flow.year)" ng-show="!$last || !isEmpty(flow)"><i class="fa fa-trash-o"></i></span>
+												</td>
+											</tr>
+											<tr class="active">
+												<td><strong>Average</strong></td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right"  value="{{typeAverageAmount(document.internationalResources.financialFlows,'odaAmount')}}">
+													</div>
+												</td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right"  value="{{typeAverageAmount(document.internationalResources.financialFlows,'oofAmount')}}">
+													</div>
+												</td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right"  value="{{typeAverageAmount(document.internationalResources.financialFlows,'otherAmount')}}">
+													</div>
+												</td>
+												<td>
+													<div class="input-group">
+														<input type="text" disabled class="form-control text-right"  value="{{totalAverageAmount()}}">
+													</div>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<strong>Methodological information:</strong>
+							</div>
+						</div>
+						<div class="well well-sm">
+
+							<div class="row">
+								<div class="col-md-6">
+
+									<km-control-group name="internationalResources.odaCategories" caption="ODA includes: ">
+										<a rm-popover data-original-title="" data-content="ODA can be bilateral or multilateral. Bilateral ODA refers to contributions of donor government agencies, at all levels, to developing countries. Multilateral ODA refers to funds provided through international financial institutions such as the Global Environment Facility, the World Bank and United Nations funds and programmes. Please include both categories as feasible. Please tick the appropriate box if ODA numbers provided include bilateral and/or multilateral ODA related to biodiversity. If the numbers include both categories, tick both boxes.">Additional explanation <i class="fa fa-info-circle"></i></a>
+										<km-term-check ng-model="document.internationalResources.odaCategories" terms="options.categories()" binding-type="term[]" required={{hasOdaAmount()}} name="internationalResources.odaCategories"></km-term-check>
+									</km-control-group>
+
+									<km-control-group name="internationalResources.odaOofType" caption="ODA/OOF includes:">
+										<a rm-popover data-original-title="" data-content="You may report on either ODA/OOF commitments or actual disbursements, but please apply the same category for all years, including when reporting progress.">Additional explanation <i class="fa fa-info-circle"></i></a>
+										<!-- <div km-select name="baselineOdaOof" ng-model="document.internationalResources.baselineData.odaOofType.identifier" binding-type="string" placeholder="Select type..." items="options.types()"></div> -->
+										<div class="radio" ng-repeat="term in options.odaOofTypes">
+											<label><input type="radio" ng-model="document.internationalResources.odaOofType.identifier" value={{term.identifier}}>{{term | term:locale}}</label>
+											<!--<div km-term-radio name="odaOofTypes" ng-model="document.internationalResources.odaOofType" terms="options.odaOofType" description="true" binding-type="term" ng-click="save()"></div>-->
+										</div>
+									</km-control-group>
+
+									<km-control-group name="internationalResources.odaOofActions"  caption="ODA/OOF includes:">
+										<a rm-popover data-original-title="" data-content="Funding for biodiversity includes not only funding for direct actions to protect biodiversity but also funding related to actions across different sectors (e.g. agriculture, forestry, tourism) to promote biodiversity-friendly initiatives that have other primary purposes (e.g. ecosystem-based approaches to climate-change mitigation and adaptation). See section 5 below for a compilation of descriptions of activities that relate to biodiversity as provided in different methodological frameworks. Please tick the appropriate box if numbers provided include resources directly related or indirectly related to biodiversity.">Additional explanation <i class="fa fa-info-circle"></i></a>
+										<km-term-check ng-model="document.internationalResources.odaOofActions" terms="options.actions()" binding-type="term[]" name="internationalResources.odaOofActions"></km-term-check>
+									</km-control-group>
+
+									<km-control-group name="internationalResources.otherActions" caption="Other flows include:">
+										<km-term-check name="internationalResources.otherActions" ng-model="document.internationalResources.otherActions" terms="options.actions()" binding-type="term[]"></km-term-check>
+									</km-control-group>
+								</div>
+
+								<div class="col-md-6">
+									<km-control-group name="methodologyUsed" caption="">
+										<div> <strong>As applicable, methodology used to identify official resource flows:</strong> <a rm-popover data-original-title="" data-content="In past reporting under the preliminary reporting framework, many Parties that are members of the OECD DAC used the ‘Rio markers methodology’ under the OECD CRS database, to report on ODA directly related to biodiversity (‘principal’ marker) and indirectly related to biodiversity (‘significant’ marker). Please indicate if you did apply this methodology and, if not, please provide a brief explanation on the methodology you applied."><i class="fa fa-info-circle"></i></a></div>
+											<div km-select name="methodologyUsed" ng-model="document.internationalResources.methodologyUsed" items="options.methodology" binding-type="string"></div>
+										<div ng-show="showOtherMethodologyUsed(document.internationalResources.methodologyUsed)">
+											<span class="help-block">Please specify:</span>
+											<div km-textbox-ml rows=1 name="methodologyUsedComments" ng-model="document.internationalResources.methodologyUsedComments" locales="document.header.languages" placeholder=""></div>
+										</div>
+									</km-control-group>
+
+									<km-control-group name="coefficient" caption="">
+										<div><strong>As applicable, coefficient used for resource flows indirectly related to biodiversity, when calculating total numbers:</strong> <a rm-popover data-original-title="" data-content="If you provided a total amount that includes resources indirectly related to biodiversity, indicate the coefficient used to aggregate amounts directly and indirectly related to biodiversity. Please use the same coefficient for all years, including when reporting progress."><i class="fa fa-info-circle"></i></a></div>
+										<div class="input-group col-xs-4"  ng-class="{ 'has-error': document.internationalResources.coefficient && !isValidNumber(document.internationalResources.coefficient) }" name="internationalResources.coefficient">
+											<input type="text" name="coefficient" class="form-control text-right" ng-model="document.internationalResources.coefficient">
+											<span class="input-group-addon">%</span>
+										</div>
+									</km-control-group>
+
+									<km-control-group name="" caption="">
+										<div><strong>Average confidence levels:</strong> <a rm-popover data-content="Please provide (average) confidence levels (high, medium, low)" data-original-title=""><i class="fa fa-info-circle"></i></a></div>
+										<km-control-group name="internationalResources.odaConfidenceLevel" required={{hasBaselineAmount('odaAmount')}} caption="ODA:">
+											<div km-select name="internationalResources.odaConfidenceLevel" ng-model="document.internationalResources.odaConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+
+										<km-control-group name="internationalResources.oofConfidenceLevel" required={{hasBaselineAmount('oofAmount')}} caption="OOF:">
+											<div km-select name="internationalResources.oofConfidenceLevel" ng-model="document.internationalResources.oofConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+
+										<km-control-group name="internationalResources.otherConfidenceLevel" required={{hasBaselineAmount('otherAmount')}} caption="Other flows:">
+											<div km-select name="internationalResources.otherConfidenceLevel" ng-model="document.internationalResources.otherConfidenceLevel.identifier" binding-type="string" placeholder="Select confidence level..." items="options.confidence()"></div>
+										</km-control-group>
+									</km-control-group>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="km-control-group" name="methodologicalComments" caption="">
+											<strong>Other methodological observations/comments, including sources of data:</strong> <a rm-popover data-original-title="" data-content="You may provide any other methodological observations or comments here."><i class="fa fa-info-circle"></i></a>
+										<div km-textbox-ml rows=4 name="methodologicalComments" ng-model="document.internationalResources.methodologicalComments" locales="document.header.languages" placeholder=""></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="km-control-group" name="internationalPrivateSector" caption="1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
+							<div km-select ng-model="document.internationalResources.hasPrivateSectorMeasures" binding-type="string" placeholder="Nothing selected..." items="options.measures" name="internationalPrivateSector" ></div>
+						</div>
+						<div class="km-control-group" name="internationalPrivateSectorComments" caption="">
+							<div ng-hide="!document.internationalResources.hasPrivateSectorMeasures || document.internationalResources.hasPrivateSectorMeasures == 'no'">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines, or to your report on progress in achieving Aichi Biodiversity Targets 1, 2, 3, 4, 16, 18, and 19, under question 10 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 name="internationalPrivateSectorComments" ng-model="document.internationalResources.hasPrivateSectorMeasuresComments" locales="document.header.languages" placeholder=""></div>
+							</div>
+						</div>
+					</div>
+				</div>				
+				</fieldset>
+			</div>
+			
+
+			
+			<div id="part3" km-tab="part3">
+				<fieldset name="part3a" ng-disabled='!baselineDocument'>
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>2. Inclusion of biodiversity in priorities and plans</legend>
+
+						<modal-part2
+							part2-id = "baselinePart2"
+							part2-header="Reporting on baseline and progress towards 2015: Inclusion of biodiversity in priorities and plans" 
+							part2-data="baselineDocument"
+						>
+						<a href="#baselinePart2" role="button"  data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i> Reporting on baseline and progress towards 2015: Inclusion of biodiversity in priorities and plans</a>
+						</modal-part2>
+
+						<div class="km-control-group" name="nationalBiodiversityInclusion" caption="Has your country included biodiversity in national priorities or development plans?">
+							<div km-select ng-model="document.hasNationalBiodiversityInclusion" binding-type="string" placeholder="Select..." items="options.inclusions" name="nationalBiodiversityInclusion"></div>
+						</div>
+						<div class="km-control-group" name="nationalBiodiversityInclusionComments" caption="">
+							<div ng-hide="!document.hasNationalBiodiversityInclusion || document.hasNationalBiodiversityInclusion == 'notyet'">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 ng-model="document.hasNationalBiodiversityInclusionComments" locales="document.header.languages" placeholder="" name="nationalBiodiversityInclusionComments"></div>
+							</div>
+						</div>						
+					</div>
+				</div>
+				</fieldset>
+
+				<fieldset name="part3b" ng-disabled='!baselineDocument'>
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>3. Assessment and/or evaluation of values</legend>
+
+						<modal-part3
+							part3-id = "baselinePart3"
+							part3-header="Reporting on baseline and progress towards 2015: Assessment and/or evaluation of values" 
+							part3-data="baselineDocument"
+						>
+						<a href="#baselinePart3" role="button"  data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i> Financial Reporting Framework: Reporting on baseline and progress towards 2015: Assessment and/or evaluation of values</a>
+						
+						</modal-part3>
+
+						<div class="km-control-group" name="biodiversityAssessment" caption="Has your country assessed and/or evaluated the intrinsic, ecological, genetic, socioeconomic, scientific, educational, cultural, recreational and aesthetic values of biological diversity and its components?">
+							<div km-select ng-model="document.hasBiodiversityAssessment" binding-type="string" placeholder="Select..." items="options.assessments" name="biodiversityAssessment"></div>
+						</div>
+						<div class="km-control-group" name="biodiversityAssessmentComments" caption="">
+							<div ng-hide="!document.hasBiodiversityAssessment || document.hasBiodiversityAssessment == 'no' || document.hasBiodiversityAssessment == 'notyet'">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines, or on your report in achieving Aichi Biodiversity Target 2, under question 10 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 name="" ng-model="document.hasBiodiversityAssessmentComments" locales="document.header.languages" placeholder="" name="biodiversityAssessmentComments"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			</fieldset>
+
+			<fieldset name="part4" ng-disabled='!baselineDocument'>
+			<div id="part4" km-tab="part4">
+				<div class="row">
+				    <div class="col-lg-12">
+						<legend>4. Role of collective action and non-market approaches</legend>
+
+						<modal-part4
+							part4-id = "baselinePart4"
+							part4-header="Reporting on baseline and progress towards 2015: Role of collective action and non-market approaches" 
+							part4-data="baselineDocument"
+						>
+						<a href="#baselinePart4" role="button"  data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i> Reporting on baseline and progress towards 2015: Role of collective action and non-market approaches</a>
+						</modal-part4>
+
+
+						<div class="km-control-group" name="domesticCollectiveAction" caption="4.1 Has your country assessed the role of collective action, including by indigenous and local communities, and non-market approaches for mobilizing resources for achieving the objectives of the Convention?">
+							<div km-select ng-model="document.domesticExpendituresData.domesticCollectiveAction" binding-type="string" placeholder="Select..." items="options.assessments"></div>
+						</div>
+
+						<div ng-show="isContributionTableVisible(document.domesticExpendituresData.domesticCollectiveAction)">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="km-control-group" name="" caption="4.2 Please provide additional information on your assessment of the role of collective action undertaken by your country. Please provide also an assessment of your confidence in the estimation (high, medium low; alternatively provide a range of estimates). If possible, provide data for several years."></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="row">
+												<div class="col-md-8">
+												
+													<div class="row">
+														<div class="col-md-6">
+															<div class="km-control-group" name="domesticExpendituresData.currency" caption="Currency" required="{{isRequired('financialFlows')}}">
+																<div km-select name="domesticExpendituresData.currency" ng-model="document.internationalResources.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+															</div>
+														</div>
+
+														<div class="col-md-3">
+															<div class="km-control-group " name="domesticExpendituresData.multiplier" caption="All values are :">
+																<select class="form-control btn-info" ng-model="document.domesticExpendituresData.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="domesticExpendituresData.multiplier" ng-disabled='true'></select>
+															</div>
+														</div>
+													</div>
+													
+													<div class="row">
+														<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+															<div ng-show="baselineDocument.domesticExpendituresData.currency" class="text-info" style="padding-top:5px">Note: the currency is taken from section 4 of the government's baseline and progress towards 2015 document.</div>
+														</div>
+													</div>
+													
+
+
+													<div class="km-control-group" required name="measurementUnit" caption="">
+														<strong>Measurement Unit</strong> <a rm-popover data-original-title="" data-content="Please provide the selected measurement unit under your methodology. For instance, the Conceptual and Methodological Framework for Evaluating the Contribution of Collective Action to Biodiversity Conservation suggests using, amongst others, as a quantitative indicator, the total land area conserved by collective action within indigenous and local communities."><i class="fa fa-info-circle"></i></a>
+														<input type="text" required class="form-control" style="width: 100%" name="measurementUnit" ng-model="document.domesticExpendituresData.measurementUnit" />
+													</div>
+
+
+													<table class="table table-hover table-condensed">
+														<thead>
+															<tr>
+																<td class="col-md-2 text-left"><strong>Year</strong></td>
+																<td class="col-md-3 text-left"><strong>Contribution</strong></td>
+																<td class="col-md-3 text-left"><strong>Overall confidence</strong></td>
+																<td class="text-left"></td>
+															</tr>
+														</thead>
+														<tbody>
+															<tr ng-repeat="contribution in document.domesticExpendituresData.contributions track by $index">
+																<td>
+																	<div class="input-group" ng-class="{ 'has-error': contribution.year && !isValidNumber(contribution.year) || hasDuplicateYear(contribution.year, document.domesticExpendituresData.contributions) }">
+																		<select class="form-control"
+																				ng-model="contribution.year"
+																				ng-change="refreshYears('contributionsYears', document.domesticExpendituresData.contributions)"
+																				ng-options="o for o in options.domesticYears">
+																		</select>
+																		<!-- <select class="form-control" ng-model="contribution.year" ng-change="refreshYears('contributionsYears', document.domesticExpendituresData.contributions)">
+																			<option ng-repeat="year in options.domesticYears" ng-disabled="isSelectedYear('contributionsYears', year)">{{year}}</option>
+																		</select> -->
+																	</div>
+																</td>
+																<td>
+																	<div class="input-group" ng-class="{ 'has-error': contribution.amount && !isValidNumber(contribution.amount) }">
+																		<input type="text" class="form-control" ng-model="contribution.amount" style="text-align: right; margin-bottom: 0px;" >
+																	</div>
+																</td>
+																<td>
+																	<select class="form-control" ng-model="contribution.confidenceLevel.identifier" ng-options="o.identifier as (o.title | lstring) for o in options.confidences">
+																		<option value=""></option>
+																	</select>
+																</td>
+																<td>
+																	<span class="btn btn-default" ng-click="document.domesticExpendituresData.contributions.splice($index, 1); removeYear('contributionsYears', contribution.year)" ng-show="!$last || isNotEmpty(contribution)"><i class="fa fa-trash-o"></i></span>
+																</td>
+															</tr>
+															<tr class="active">
+																<td style="vertical-align:middle;"><strong>Average</strong></td>
+																<td>
+																	<div class="input-group">
+																		<input type="text" disabled class="form-control"  style="text-align: right; margin-bottom: 0px;" value="{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount')}}">
+																	</div>
+																</td>
+																<td style="vertical-align:middle;">
+																	<strong>{{confidenceAverage(document.domesticExpendituresData.contributions)}}</strong>
+																</td>
+																<td></td>
+															</tr>
+														</tbody>
+
+													</table>
+
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="row">
+														<div class="col-sm-12">
+															<strong>Methodological information:</strong>
+														</div>
+													</div>
+													<div class="well well-sm">
+														<div class="km-control-group" name="domesticCollectiveActionMethodology" caption="As applicable, methodology used to assess the role of collective action and non-market approaches">
+															<div km-select name="domesticCollectiveActionMethodology" ng-model="document.domesticExpendituresData.domesticCollectiveActionMethodology" items="options.domesticMethodology" binding-type="string"></div>
+														</div>
+														<div ng-show="showOtherDomesticMethodology(document.domesticExpendituresData.domesticCollectiveActionMethodology)">
+															<span class="help-block">Please specify:</span>
+															<div class="km-control-group" name="" caption="">
+																<div km-textbox-ml rows=2 name="" ng-model="document.domesticExpendituresData.domesticCollectiveActionMethodologyOther" locales="document.header.languages" placeholder=""></div>
+															</div>
+														</div>
+
+														<div class="km-control-group" name="domesticCollectiveActionMethodologyComments" caption="Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data.">
+															<div km-textbox-ml rows=4 name="domesticCollectiveActionMethodologyComments" ng-model="document.domesticExpendituresData.domesticCollectiveActionMethodologyComments" locales="document.header.languages" placeholder=""></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+			    		</div>
+				    </div>
+				</div>				
+				
+			</div>
+			</fieldset>
+
+			<div id="part5" km-tab="part5">
+
+				<div class="row" ng-show="baselineDocument && tab=='part5' && isEmpty(baselineDocument.fundingNeedsData.annualEstimates)">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="alert alert-warning" role="alert">
+							<i class="fa fa-exclamation-circle" aria-hidden="true"></i> Government did not provide enough information on section 5 of the Reporting on baseline and progress 
+							towards 2015. Click <a ng-href="/database/record/{{baselineDocumentId}}" target="_new">here</a> to update and click Refresh aferwards.
+							<button type="button" class="btn btn-default btn-sm" ng-click="loadBaselineDocuments()">Refresh</button>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<legend>5. Reporting progress in mobilizing resources</legend>
+
+						<modal-part5
+							part5-id = "baselinePart5"
+							part5-header="Reporting on baseline and progress towards 2015: National finance plans" 
+							part5-data="baselineDocument"
+						>
+						<a href="#baselinePart5" role="button"  data-toggle="modal"><i class="fa fa-file-text-o" aria-hidden="true"></i> Reporting on baseline and progress towards 2015: National finance plans</a>
+						</modal-part5>
+
+
+						<div><strong>5.1 Please indicate, in the table below, the achieved resource mobilization for your country, by source, and their respective actual contribution towards your identified funding gap.</strong></div>
+						<div><span class="help-block"><em>This question refers to the implementation of your national finance plan as provided in question 6 of section I on the Reporting on baseline and progress towards 2015.</em>.</span></div>
+					</div>
+			    </div>
+				<fieldset name="part5" ng-disabled='!baselineDocument || isEmpty(baselineDocument.fundingNeedsData.annualEstimates)'>
+
+				<div class="row" ng-hide="baselineDocument.fundingNeedsData.annualEstimates.length > 1" >
+					<div class="col-lg-12">
+						<span class="text-warning"><strong>Please complete the table on Reporting funding needs, gaps, and priorities from previous section to complete the section below.</strong></span>
+					</div>
+				</div>
+
+
+				<div class="row" xng-hide="baselineDocument.fundingNeedsData.annualEstimates.length > 1" >
+					<div class="col-md-6">
+						<div class="km-control-group" name="nationalPlansData.currency" caption="Currency">
+							<div km-select name="nationalPlansData.currency"  ng-model="document.nationalPlansData.currency.identifier" items="options.currencies()" binding-type="string" ng-disabled='true'></div>
+							<div ng-show="baselineDocument.domesticExpendituresData.currency" class="text-info" style="padding-top:5px">Note: the currency is taken from section 4 of the government's baseline and progress towards 2015 document.</div>
+						</div>
+					</div>
+
+					<div class="col-md-3">
+						<div class="km-control-group" name="nationalPlansDataMultiplier" caption="All values are :" required>
+							<!-- <select class="form-control btn-info" ng-model="document.fundingNeedsData.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="fundingNeedsData.multiplier"></select> -->
+							<select class="form-control btn-info" ng-model="document.nationalPlansData.multiplier" ng-options="o.identifier as (o.title|lstring) for o in options.multipliers" name="nationalPlansData.multiplier" ng-disabled='true'></select>
+							<div ng-show="document.nationalPlansData.multiplier" class="text-info" style="padding-top:5px">Note: the value is taken from from section 4 of the government's Reporting on baseline and progress towards 2015.</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row" xng-hide="baselineDocument.fundingNeedsData.annualEstimates.length > 1" >
+					<div class="col-lg-12">
+
+			
+						<table class="table table-hover table-responsive" xng-show="baselineDocument.fundingNeedsData.annualEstimates.length > 1">
+							<thead>
+								<tr>
+									<td class="col-sm-3 text-left"></td>
+									<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center"><strong>{{estimate.year}}</strong></td>
+								</tr>
+
+							</thead>
+							<tbody>
+								<tr class="active text-center">
+									<td class="text-left"><strong>Expected funding gap</strong> <a translation-url rm-popover data-content="The expected funding gap would be taken from column (3) under question 5." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+									<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getFundingGapYear(estimate.year) |number:0}}<strong></td>
+									<td></td>
+								</tr>
+								<tr class="active text-center">
+									<td class="text-left"><strong>Domestic sources (total)<strong> <a translation-url rm-popover data-content="The planned contribution towards the identified funding gap by domestic sources. You may wish to further specify the planned sources that you wish to mobilize and their respective contribution. In this case, please replace the ‘placeholders’ and add more rows as needed. Possible domestic sources may include: (i) additional government allocations; (ii) earmarked funds from environmental fiscal reform, including new forms of environmental taxation or fee structures; (iii) earmarked funds from the elimination, phase out or reform of harmful incentives, including subsidies; (iv) various biodiversity funding mechanisms such as payments for ecosystem services, offsets, markets for green products, business-biodiversity partnerships, etc. (v); the mobilization of collective action by indigenous and local communities; etc." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+									<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year) |number:0}}<strong></td>
+									<td></td>
+								</tr>
+								<tr ng-repeat="source in document.nationalPlansData.domesticSources track by $index">
+
+									<td>
+										<div km-textbox-ml rows=1  style="width: 100%" name="sourceName" placeholder="domestic source name" ng-model="source.name" locales="document.header.languages"></div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2014)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2014 && !isValidNumber(source.amount2014) }">
+											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2015)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2015 && !isValidNumber(source.amount2015) }">
+											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2016)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2016 && !isValidNumber(source.amount2016) }">
+											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2017)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2017 && !isValidNumber(source.amount2017) }">
+											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2018)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2018 && !isValidNumber(source.amount2018) }">
+											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2019)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2019 && !isValidNumber(source.amount2019) }">
+											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2020)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2020 && !isValidNumber(source.amount2020) }">
+											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<span class="btn btn-default" ng-click="document.nationalPlansData.domesticSources.splice($index, 1)" Xng-show="!$last"><i class="fa fa-trash-o"></i></span>
+									</td>
+								</tr>
+								<tr class="active text-center">
+									<td class="text-left"><strong>international flows (total)<strong> <a translation-url rm-popover data-content="The planned contribution towards the identified finance gap by international sources. You may wish to further specify the sources and their respective expected contribution. In this case, please replace the ‘placeholders’ and add more rows as needed. Possible sources may include: (i) bi- and multilateral ODA/OOF; (ii) REDD+ or similar initiatives, including alternative policy approaches such as joint mitigation and adaptation approaches; (iii) ABS agreements, etc." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+									<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year)}}<strong></td>
+									<td></td>
+								</tr>
+
+								<tr ng-repeat="source in document.nationalPlansData.internationalSources track by $index">
+									<td>
+										<div km-textbox-ml rows=1  style="width: 100%" name="sourceName" placeholder="international source name" ng-model="source.name" locales="document.header.languages"></div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2014)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2014 && !isValidNumber(source.amount2014) }">
+											<input type="text" class="form-control" ng-model="source.amount2014" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2015)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2015 && !isValidNumber(source.amount2015) }">
+											<input type="text" class="form-control" ng-model="source.amount2015" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2016)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2016 && !isValidNumber(source.amount2016) }">
+											<input type="text" class="form-control" ng-model="source.amount2016" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2017)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2017 && !isValidNumber(source.amount2017) }">
+											<input type="text" class="form-control" ng-model="source.amount2017" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2018)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2018 && !isValidNumber(source.amount2018) }">
+											<input type="text" class="form-control" ng-model="source.amount2018" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2019)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2019 && !isValidNumber(source.amount2019) }">
+											<input type="text" class="form-control" ng-model="source.amount2019" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td ng-show="annualEstimatesHasYear(2020)">
+										<div class="input-group" ng-class="{ 'has-error': source.amount2020 && !isValidNumber(source.amount2020) }">
+											<input type="text" class="form-control" ng-model="source.amount2020" style="text-align: center; margin-bottom: 0px;" >
+										</div>
+									</td>
+									<td>
+										<span class="btn btn-default" ng-click="document.nationalPlansData.internationalSources.splice($index, 1)"><i class="fa fa-trash-o"></i></span>
+									</td>
+								</tr>
+								<tr class="active text-center">
+									<td class="text-left"><strong>Remaining gap<strong> <a translation-url rm-popover data-content="The remaining gap is calculated by subtracting (3) and (2) from (1)." data-original-title=""><sup><i class="fa fa-info-circle"></i></sup></a></td>
+									<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year) |number:0}}<strong></td>
+									<td></td>
+								</tr>
+
+								<tr class="active text-center">
+									<td class="text-left"><strong>Has the gap been reduced?<strong></td>
+									<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center">
+										
+										<input class="hidden" ng-init="document.nationalPlansData.gapReductions[$index].year = estimate.year" />
+
+										<div class="km-control-group" name="" caption="">
+											<div km-yes-no ng-model="document.nationalPlansData.gapReductions[$index].hasReduced" locales="document.header.languages"></div>
+										</div>
+
+										<!--<select class="form-control" ng-model="document.nationalPlansData.gapReductions[$index].identifier" ng-options="o.identifier as (o.title | lstring) for o in options.confidences">
+											<option value=""></option>
+										</select>											-->
+									</td>
+									
+									<td></td>
+								</tr>
+
+								<tr class="active text-center">
+									<td class="text-left"><strong>Has the gap been reduced overall?<strong></td>
+									<td  class="col-sm-1 text-center" colspan="{{baselineDocument.fundingNeedsData.annualEstimates.length || 1}}">
+										
+										<select class="form-control" ng-model="document.nationalPlansData.hasReduceGapOverall.identifier" ng-options="o.identifier as (o.title | lstring) for o in options.overallGapReductions">
+											<option value=""></option>
+										</select>											
+									</td>
+									
+								</tr>
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="km-control-group col-lg-12" name="nationalPlansAdditionalComments" caption="Additional methodological observations/comments, including sources of data:">
+						<div km-textbox-ml rows=4 name="nationalPlansAdditionalComments" ng-model="document.nationalPlansData.additionalComments" locales="document.header.languages" placeholder=""></div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="km-control-group" name="domesticPrivateSectorMeasures" caption="5.2. Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020?">
+							<div km-select ng-model="document.nationalPlansData.hasDomesticPrivateSectorMeasures" binding-type="string" placeholder="Nothing selected..." items="options.measures" name="domesticPrivateSectorMeasures"></div>
+						</div>
+						<div class="km-control-group" name="domesticPrivateSectorComments" caption="">
+							<div ng-hide="!document.nationalPlansData.hasDomesticPrivateSectorMeasures || document.nationalPlansData.hasDomesticPrivateSectorMeasures  == 'no'">
+								<strong>Please provide additional information below.</strong>
+								<span class="help-block">You may wish to provide cross-references, as applicable, to your reply to question 8 of the fifth national report guidelines, or to your report on progress in achieving Aichi Biodiversity Targets 1, 2, 3, 4, 16, 18, and 19, under question 10 of the fifth national report guidelines.</span>
+								<div km-textbox-ml rows=4 name="domesticPrivateSectorComments" ng-model="document.nationalPlansData.hasDomesticPrivateSectorMeasuresComments" locales="document.header.languages" placeholder=""></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</fieldset>
+			</div>
+			
+			</form>
+
+
+			<div id="review" km-tab="review">
+
+				<div km-document-validation ng-model="validationReport"></div>
+
+				<div class="btn-group" ng-show="document.header.languages.length>1">
+					<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+				</div>
+
+				<view-resource-mobilisation2020 ng-model="reviewDocument" baseline-document="baselineDocument" locale="review.locale" link-target="_blank"></view-resource-mobilisation2020>
+
+			</div>
+
+
+			<div class="row">
+
+				<div class="col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='part1'}"><a href="" ng-click="tab=prevTab">&laquo;  </a></li>
+						<li ng-class="{ active  : tab=='part1'}"><a href="" ng-click="tab='part1'">Front matter</a></li>
+						<li ng-class="{ active  : tab=='part2'}"><a href="" ng-click="tab='part2'">International flows</a></li>
+						<li ng-class="{ active  : tab=='part3'}"><a href="" ng-click="tab='part3'">Inclusion and assessment of values</a></li>
+						<li ng-class="{ active  : tab=='part4'}"><a href="" ng-click="tab='part4'">Collective action and non-market approchesn</a></li>
+						<li ng-class="{ active  : tab=='part5'}"><a href="" ng-click="tab='part5'">Reporting progress in mobilizing resources</a></li>
+						<li ng-class="{ active  : tab=='review'}"><a href="" ng-click="tab='review'" >Review</a></li>
+						<li ng-class="{ disabled: tab=='review'}"><a href="" ng-click="tab=nextTab">&raquo;</a></li>
+					</ul>
+				</div>
+
+
+				<div class="col-xs-12 text-right">
+					<div class="pagination">
+						<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<script type="text/ng-template" id="/templates/baseline-part1.html">
+		<!-- Modal -->
+		<ng-transclude></ng-transclude>
+
+		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width:75%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{header}}</h4>
+					</div>
+					<div class="modal-body" style="max-height: calc(80vh - 200px); overflow-y:auto">
+
+						<div Xclass="embed-responsive embed-responsive-16by9">
+
+							<div ng-show="baseline.internationalResources">
+								<legend>1. International financial resource flows</legend>
+								<div ng-show="baseline.internationalResources.baselineData">
+									<p><strong>1.1 Please indicate the amount of resources <u>provided by your country</u> in support of biodiversity in developing countries, in particular least developed countries and small island developing States, as well as countries with economies in transition.</strong></p>
+									<p class="help-block">Please indicate, as appropriate, the nominal amount of financial resources provided by source as well as the total amount. Please also indicate your degree of confidence in the estimated amount or, alternatively, provide a range of estimates.</p>
+
+									<label>1.1.1	Baseline information</label>
+
+									<div ng-show="baseline.internationalResources.currency && !isEmpty(baseline.internationalResources.currency)" >
+										<label>Currency:</label>
+										<span class="km-value">{{baseline.internationalResources.currency | term}}</span>
+									</div>
+
+									<div ng-show="baseline.internationalResources.multiplier" >
+										<label>All values are :</label>
+										<span class="km-value" ng-repeat="term in $parent.options.multipliers | filter:{identifier:baseline.internationalResources.multiplier}">{{term.title | lstring:locale}} </span>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.baselineFlows" class="table-responsive">
+										<table class="table table-hover table-bordered table-condensed">
+											<thead>
+												<tr class="active">
+													<th>Year</th>
+													<th>ODA</th>
+													<th>OOF</th>
+													<th>Other flows</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="flow in baseline.internationalResources.baselineData.baselineFlows|orderBy:'year' track by $index" >
+													<td>{{flow.year}}</td>
+													<td>{{flow.odaAmount | number:0}}</td>
+													<td>{{flow.oofAmount | number:0}}</td>
+													<td>{{flow.otherAmount | number:0}}</td>
+													<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount  | number:0}}</td>
+												</tr>
+												<tr class="active">
+													<td><strong>Average (baseline)</strong></td>
+													<td><strong>{{$parent.typeAverageAmount(baseline.internationalResources.baselineData.baselineFlows,'odaAmount')  | number:0}}</strong></td>
+													<td><strong>{{$parent.typeAverageAmount(baseline.internationalResources.baselineData.baselineFlows,'oofAmount')  | number:0}}</strong></td>
+													<td><strong>{{$parent.typeAverageAmount(baseline.internationalResources.baselineData.baselineFlows,'otherAmount')  | number:0}}</strong></td>
+													<td><strong>{{totalAverageAmount() | number:0}}</strong></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div ng-show="baseline.internationalResources.baselineData.odaCategories || baseline.internationalResources.baselineData.odaOofType ||
+												baseline.internationalResources.baselineData.odaoofActions || baseline.internationalResources.baselineData.otherActions ||
+												baseline.internationalResources.baselineData.methodologyUsed || baseline.internationalResources.baselineData.coefficient ||
+												baseline.internationalResources.baselineData.odaConfidenceLevel || baseline.internationalResources.baselineData.oofConfidenceLevel ||
+												baseline.internationalResources.baselineData.otherConfidenceLevel || baseline.internationalResources.baselineData.methodologicalComments">
+										<label>Methodological information:</label>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.odaCategories">
+										<label>ODA includes: </label>
+										<ul class="km-value">
+											<li ng-repeat="term in baseline.internationalResources.baselineData.odaCategories">{{term | term:locale}} </li>
+										</ul>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.odaOofType">
+										<label>ODA/OOF includes: </label>
+										<span class="km-value">{{baseline.internationalResources.baselineData.odaOofType | term:locale}} </span>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.odaoofActions">
+										<label>ODA/OOF includes: </label>
+										<ul class="km-value">
+											<li ng-repeat="term in baseline.internationalResources.baselineData.odaoofActions">{{term | term:locale}} </li>
+										</ul>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.otherActions">
+										<label>Other flows include:</label>
+										<ul class="km-value">
+											<li ng-repeat="term in baseline.internationalResources.baselineData.otherActions">{{term | term:locale}} </li>
+										</ul>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.methodologyUsed">
+										<label>As applicable, methodology used to identify official resource flows:</label>
+										<div ng-show="baseline.internationalResources.baselineData.methodologyUsed!='other'">
+											<span class="km-value" ng-repeat="term in $parent.options.methodology | filter:{identifier:baseline.internationalResources.baselineData.methodologyUsed}">{{term.title | lstring:locale}} </span>
+										</div>
+										<div ng-show="baseline.internationalResources.baselineData.methodologyUsedComments" class="km-value km-pre">{{baseline.internationalResources.baselineData.methodologyUsedComments | lstring:locale}}</div>
+									</div>
+									<div ng-show="baseline.internationalResources.baselineData.coefficient" >
+										<label>As applicable, coefficient used for resource flows indirectly related to biodiversity, when calculating total numbers:</label>
+										<div class="km-value km-pre">{{baseline.internationalResources.baselineData.coefficient}}%</div>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.odaConfidenceLevel || baseline.internationalResources.baselineData.oofConfidenceLevel || baseline.internationalResources.baselineData.otherConfidenceLevel">
+										<label>Average confidence levels</label>
+									</div>
+									<div ng-show="baseline.internationalResources.baselineData.odaConfidenceLevel" >
+										<label>ODA:</label>
+										<span class="km-value">{{baseline.internationalResources.baselineData.odaConfidenceLevel | term:locale}} </span>
+									</div>
+									<div ng-show="baseline.internationalResources.baselineData.oofConfidenceLevel" >
+										<label>OOF:</label>
+										<span class="km-value">{{baseline.internationalResources.baselineData.oofConfidenceLevel | term:locale}} </span>
+									</div>
+									<div ng-show="baseline.internationalResources.baselineData.otherConfidenceLevel" >
+										<label>Other flows:</label>
+										<span class="km-value">{{baseline.internationalResources.baselineData.otherConfidenceLevel | term:locale}} </span>
+									</div>
+
+									<div ng-show="baseline.internationalResources.baselineData.methodologicalComments">
+										<label>Other methodological observations/comments, including sources of data:</label>
+										<div class="km-value km-pre">{{baseline.internationalResources.baselineData.methodologicalComments | lstring:locale}}</div>
+									</div>
+								</div>
+
+								<div ng-show="baseline.internationalResources.progressData.progressFlows || baseline.internationalResources.progressData.odaConfidenceLevel ||
+											baseline.internationalResources.progressData.oofConfidenceLevel || baseline.internationalResources.progressData.otherConfidenceLevel ||
+											baseline.internationalResources.hasPrivateSectorMeasures">
+									<label>1.1.2 Monitoring progress in mobilizing international financial flows For the purposes of monitoring progress, please provide data for years after 2010</label>
+									<div ng-show="baseline.internationalResources.progressData.progressFlows" class="table-responsive">
+										<!-- <label>1.1.2 Monitoring progress in mobilizing international financial flows For the purposes of monitoring progress, please provide data for years after 2010</label> -->
+										<table class="table table-hover table-bordered table-condensed">
+											<thead>
+												<tr>
+													<th>Year</th>
+													<th>ODA</th>
+													<th>OOF</th>
+													<th>Other flows</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="flow in baseline.internationalResources.progressData.progressFlows|orderBy:'year' track by $index" >
+													<td>{{flow.year}}</td>
+													<td>{{flow.odaAmount | number:0}}</td>
+													<td>{{flow.oofAmount | number:0}}</td>
+													<td>{{flow.otherAmount | number:0}}</td>
+													<td>{{flow.odaAmount + flow.oofAmount + flow.otherAmount | number:0}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div ng-show="baseline.internationalResources.progressData.odaConfidenceLevel || baseline.internationalResources.progressData.oofConfidenceLevel || baseline.internationalResources.progressData.otherConfidenceLevel">
+										<div><strong>Methodological information:</strong></div>
+										<label>Average confidence levels</label>
+										<div ng-show="baseline.internationalResources.progressData.odaConfidenceLevel" >
+											<label>ODA:</label>
+											<span class="km-value">{{baseline.internationalResources.progressData.odaConfidenceLevel | term:locale}} </span>
+										</div>
+										<div ng-show="baseline.internationalResources.progressData.oofConfidenceLevel" >
+											<label>OOF:</label>
+											<span class="km-value">{{baseline.internationalResources.progressData.oofConfidenceLevel | term:locale}} </span>
+										</div>
+										<div ng-show="baseline.internationalResources.progressData.otherConfidenceLevel" >
+											<label>Other flows:</label>
+											<span class="km-value">{{baseline.internationalResources.progressData.otherConfidenceLevel | term:locale}} </span>
+										</div>
+									</div>
+
+									<div ng-show="baseline.internationalResources.hasPrivateSectorMeasures">
+										<label>1.2 Has your country taken measures to encourage the private sector as well as non-governmental organizations, foundations and academia to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020?</label>
+										<ul class="km-value" style="list-style-type: none;">
+											<li ng-repeat="term in $parent.options.measures | filter:{identifier:baseline.internationalResources.hasPrivateSectorMeasures}">{{term.title | lstring:locale}}</li>
+										</ul>
+										<div ng-show="baseline.internationalResources.hasPrivateSectorMeasuresComments">
+											<label>Please provide additional information below: </label>
+											<div class="km-value km-pre">{{baseline.internationalResources.hasPrivateSectorMeasuresComments | lstring:locale}}</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>	
+
+	<script type="text/ng-template" id="/templates/baseline-part2.html">
+		<ng-transclude></ng-transclude>
+
+		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width:50%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{header}}</h4>
+					</div>
+					<div class="modal-body" style="max-height: calc(80vh - 200px); overflow-y:auto">
+
+						<legend>2. Inclusion of biodiversity in priorities and plans</legend> {{}}
+						<div><label>Has your country included biodiversity in national priorities or development plans?</label></div>
+						
+						<span ng-show="baseline.hasNationalBiodiversityInclusion" class="km-value" ng-repeat="term in $parent.options.inclusions | filter:{identifier:baseline.hasNationalBiodiversityInclusion}">{{term.title | lstring:locale}}</span>
+						<span ng-hide="baseline.hasNationalBiodiversityInclusion" class="km-value">No answer provided</span>
+
+						<div ng-show="baseline.hasNationalBiodiversityInclusionComments">
+							<label>Please provide additional information below:</label>
+							<div class="km-value km-pre">{{baseline.hasNationalBiodiversityInclusionComments | lstring:locale}}</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/templates/baseline-part3.html">
+		<ng-transclude></ng-transclude>
+
+		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width:50%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{header}}</h4>
+					</div>
+					<div class="modal-body" style="max-height: calc(80vh - 200px); overflow-y:auto">
+
+						<legend>3. Assessment and/or evaluation of values</legend>
+						<div><label>Has your country assessed and/or evaluated the intrinsic, ecological, genetic, socioeconomic, scientific, educational, cultural, recreational and aesthetic values of biological diversity and its components?</label></div>
+						<ul class="km-value"  style="list-style-type: none;" ng-show="baseline.hasBiodiversityAssessment">
+							<li ng-repeat="term in $parent.options.assessments | filter:{identifier:baseline.hasBiodiversityAssessment}">{{term.title | lstring:locale}}</li>
+						</ul>
+						<span ng-hide="baseline.hasBiodiversityAssessment" class="km-value">No answer provided</span>
+						
+						<div ng-show="baseline.hasBiodiversityAssessmentComments">
+							<label>Please provide additional information below:</label>
+							<div class="km-value km-pre">{{baseline.hasBiodiversityAssessmentComments | lstring:locale}}</div>
+						</div>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>	
+
+	<script type="text/ng-template" id="/templates/baseline-part4.html">
+		<ng-transclude></ng-transclude>
+
+		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width:75%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{header}}</h4>
+					</div>
+					<div class="modal-body" style="max-height: calc(80vh - 200px); overflow-y:auto">
+
+					<label>4.3. Role of collective action and non-market approaches</label>
+					<div><label>4.3.1 Has your country assessed the role of collective action, including by indigenous and local communities, and non-market approaches for mobilizing resources for achieving the objectives of the Convention?</label></div>
+
+					<span ng-show="baseline.domesticExpendituresData.domesticCollectiveAction"  class="km-value km-pre" ng-repeat="term in $parent.options.assessments | filter:{identifier:baseline.domesticExpendituresData.domesticCollectiveAction}">{{term.title | lstring:locale}}</span>
+					<span ng-hide="baseline.domesticExpendituresData.domesticCollectiveAction" class="km-value">No answer provided</span>
+
+					<div ng-hide="baseline.domesticExpendituresData.domesticCollectiveAction=='notnecessary' || baseline.domesticExpendituresData.domesticCollectiveAction=='notyet'">
+
+						<div ng-show="baseline.domesticExpendituresData.measurementUnit || baseline.domesticExpendituresData.contributions ||
+									baseline.domesticExpendituresData.domesticCollectiveActionMethodology || baseline.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+							<label>4.3.2 Please provide additional information on your assessment of the role of collective action undertaken by your country. Please provide also an assessment of your confidence in the estimation (high, medium low; alternatively provide a range of estimates). If possible, provide data for several years.</label>
+						</div>
+
+						<div ng-show="baseline.domesticExpendituresData.currency && !isEmpty(baseline.domesticExpendituresData.currency)" >
+								<label>Currency:</label>
+								<span class="km-value">{{baseline.domesticExpendituresData.currency | term}}</span>
+						</div>
+
+						<div ng-show="baseline.domesticExpendituresData.multiplier" >
+							<label>All values are :</label>
+							<span class="km-value" ng-repeat="term in $parent.options.multipliers | filter:{identifier:baseline.domesticExpendituresData.multiplier}">{{term.title | lstring:locale}} </span>
+						</div>		
+
+						<div ng-show="baseline.domesticExpendituresData.measurementUnit" >
+							<label>Measurement Unit</label>
+							<div class="km-value km-pre">{{baseline.domesticExpendituresData.measurementUnit}}</div>
+						</div>
+
+						<table ng-show="baseline.domesticExpendituresData.contributions" class="table table-hover table-condensed">
+							<thead>
+								<tr>
+									<th>Year</th>
+									<th>Contribution</th>
+									<th>Overall confidence</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="contribution in baseline.domesticExpendituresData.contributions|orderBy:'year' track by $index">
+									<td>{{contribution.year}}</td>
+									<td>{{contribution.amount | number:0}}</td>
+									<td>{{contribution.confidenceLevel | term:locale}}</td>
+								</tr>
+								<tr class="active">
+									<td><strong>Average</strong></td>
+									<td>{{$parent.typeAverageAmount(baseline.domesticExpendituresData.contributions,'amount') | number:0}}</td>
+									<td>{{$parent.confidenceAverage(baseline.domesticExpendituresData.contributions)}}</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div ng-show="baseline.domesticExpendituresData.domesticCollectiveActionMethodology || baseline.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+							<div><strong>Methodological information:</strong></div>
+							<label>As applicable, methodology used to assess the role of collective action and non-market approaches</label>
+
+							<div ng-show="baseline.domesticExpendituresData.domesticCollectiveActionMethodology!='other'">
+								<ul class="km-value">
+									<li ng-repeat="term in $parent.options.domesticMethodology | filter:{identifier:baseline.domesticExpendituresData.domesticCollectiveActionMethodology}">{{term.title | lstring:locale}}</li>
+								</ul>
+							</div>
+							<div ng-show="baseline.domesticExpendituresData.domesticCollectiveActionMethodologyOther" class="km-value km-pre">{{baseline.domesticExpendituresData.domesticCollectiveActionMethodologyOther | lstring:locale}}</div>
+
+							<div ng-show="baseline.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+								<label>Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data:</label>
+								<div class="km-value km-pre">{{baseline.domesticExpendituresData.domesticCollectiveActionMethodologyComments | lstring:locale}}</div>
+							</div>
+						</div>
+					</div>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="/templates/baseline-part5.html">
+		<ng-transclude></ng-transclude>
+
+		<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" style="width:50%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">{{header}}</h4>
+					</div>
+					<div class="modal-body" style="max-height: calc(80vh - 200px); overflow-y:auto">
+
+						<legend>6. National finance plans</legend>
+						<div>
+							Please provide a brief synthesis of your finance plan, by indicating, in the table below, your planned resource mobilization, by source, and their respective planned contributions towards your identified finance gap.
+						</div>
+						<div ng-show="baseline.domesticExpendituresData.currency" >
+							<label>Currency:</label>
+							<span class="km-value">{{baseline.domesticExpendituresData.currency | term:locale}} </span>
+						</div>
+
+						<div ng-show="baseline.fundingNeedsData.multiplier" >
+							<label>All values are in:</label>
+							<span class="km-value" ng-repeat="term in $parent.options.multipliers | filter:{identifier:baseline.fundingNeedsData.multiplier}">{{term.title | lstring:locale}} </span>
+						</div>
+						<table ng-show="baseline.fundingNeedsData.annualEstimates" class="table table-hover table-condensed">
+							<thead>
+								<tr>
+									<th></th>
+									<th ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center">{{estimate.year}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="active">
+									<td><strong>Expected funding gap</strong></td>
+									<!--<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < $parent.options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{$parent.getFundingGapYear(estimate.year) | number:0}}<strong></td>-->
+									<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last" class="col-sm-1 text-center"><strong>{{estimate.fundingGapAmount | number:0}}<strong></td>
+									
+								</tr>
+								<tr class="active">
+									<td><strong>Domestic sources (total)<strong></td>
+									<!--<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < $parent.options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{$parent.getNationalPlansSourcesTotal('domesticSources', estimate.year)| number:0}}<strong></td>-->
+									<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index"  Xng-hide="$last" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year)| number:0}}<strong></td>
+									
+								</tr>
+
+								<tr ng-repeat="source in baseline.nationalPlansData.domesticSources|orderBy:'name' track by $index">
+									<td>{{source.name | lstring:locale}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
+								</tr>
+								<tr class="active">
+									<td><strong>International sources (total)<strong></td>
+									<!--<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < $parent.options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year) | number:0}}<strong></td>-->
+									<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year) | number:0}}<strong></td>
+									
+								</tr>
+								<tr ng-repeat="source in baseline.nationalPlansData.internationalSources|orderBy:'name' track by $index">
+									<td>{{source.name | lstring:locale}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
+									<td XXng-show="$parent.annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
+								<tr class="active">
+									<td><strong>Remaining gap<strong></td>
+									<!--<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < $parent.options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{$parent.getNationalPlansRemainingGapByYear(estimate.year)| number:0}}<strong></td>-->
+									<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)| number:0}}<strong></td>
+									
+								</tr>
+							</tbody>
+						</table>
+						<div ng-show="baseline.nationalPlansData.additionalComments">
+							<label>Additional methodological observations/comments, including sources of data:</label>
+							<div class="km-value km-pre">{{baseline.nationalPlansData.additionalComments | lstring:locale}}</div>
+						</div>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>	
+</div>

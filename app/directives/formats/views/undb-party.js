@@ -1,7 +1,7 @@
-define(['app',  'lodash', 'text!./organization.html',
-	'filters/mark-down', 'utilities/km-storage','filters/trust-as-resource-url'], function(app,  _, template){
+define(['app', 'angular', 'lodash', 'text!./undb-party.html',
+	'filters/mark-down', 'utilities/km-storage','scbd-angularjs-services/locale','filters/trust-as-resource-url','filters/html-sanitizer'], function(app, angular, _, template){
 
-app.directive('viewOrganization', ["IStorage","$location","locale","$sce", function (storage,$location) {
+app.directive('viewUndbParty', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -18,9 +18,31 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 		},
 		link : function ($scope)
 		{
+
 			$scope.contacts      = undefined;
 			$scope.organizations = undefined;
   		if(typeof $scope.header==='undefined') $scope.header=true;
+
+			$scope.$watch("document.organization", function()
+			{
+					if($scope.document)
+							$scope.organization = angular.fromJson(angular.toJson($scope.document.organization));
+					if($scope.organization)
+							$scope.loadReference($scope.organization).then(function(data){
+									$scope.organization = data.data;
+
+									$scope.organization.logo=$scope.getLogo($scope.organization);
+							});
+			});
+
+			//====================
+			//
+			//====================
+			$scope.getLogo = function(org) {
+
+					if(!org.relevantDocuments) return false;
+					return _.find(org.relevantDocuments,{name:'logo'});
+			};
 
 			//====================
 			//
@@ -41,28 +63,7 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//
 			//====================
 			$scope.isReview = function() {
-					 return !!($location.url().indexOf('/view')>-1); //jshint ignore:line
-			};
-
-			//====================
-			//
-			//====================
-			$scope.$watch("document.linkedOrganizations", function()
-			{
-				if($scope.document && $scope.document.linkedOrganizations)
-					$scope.linkedOrganizations = JSON.parse(JSON.stringify($scope.document.linkedOrganizations));
-
-				if($scope.linkedOrganizations)
-					$scope.loadReferences($scope.linkedOrganizations);
-
-			},true);
-
-			//====================
-			//
-			//====================
-			$scope.getLogo = function(org) {
-					if(!org.relevantDocuments) return false;
-					return _.find(org.relevantDocuments,{name:'logo'});
+					 return !!($location.url().indexOf('/view')>-1);
 			};
 
 			//====================
@@ -88,17 +89,13 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//
 			//====================
 			$scope.getEmbedMapUrl = function() {
-				  if(!$scope.document || !$scope.document.establishmentGooglePlaceId ) return false;
-					$scope.embedMapUrl='https://www.google.com/maps/embed/v1/place?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&q=place_id:'+$scope.document.establishmentGooglePlaceId;
+				  if(!$scope.document || !$scope.document.name || !$scope.document.name[locale]) return false;
+					$scope.embedMapUrl='https://www.google.com/maps/embed/v1/place?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&q='+encodeURIComponent($scope.document.name[locale].replace(/ /g, '+'));
 					return true;
 			};
-			//====================
-			//
-			//====================
-			$scope.getLogo = function() {
-				  if(!$scope.document || !$scope.document.relevantDocuments) return false;
-					return _.find($scope.document.relevantDocuments,{name:'logo'});
-			};
+
+
+
 			var links;
 			//====================
 			//
@@ -119,6 +116,7 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 
 					return links.length;
 			};
+
 			//====================
 			//
 			//====================
@@ -132,38 +130,42 @@ app.directive('viewOrganization', ["IStorage","$location","locale","$sce", funct
 			//====================
 			$scope.loadReferences = function(targets) {
 
-var t = targets;
-				t.forEach(function(target){
-					storage.documents.get(target.identifier, { cache : true})
-						.success(function(data){ //jshint ignore:line
-								console.log('targets[i]init', target);
-							target.document = data;
+				return angular.forEach(targets, function(ref){
 
-							target.logo=_.find(target.document.relevantDocuments,{name:'logo'});
+					if(!ref) return;
+					return $scope.loadReference(ref);
 
+				});
+			};
+
+			$scope.loadReference = function(ref) {
+
+					return storage.documents.get(ref.identifier, { cache : true})
+						.success(function(data){
+							return ref= data;
 						})
-						.error(function(error, code){//jshint ignore:line
+						.error(function(error, code){
 							if (code == 404 && $scope.allowDrafts == "true") {
 
-								storage.drafts.get(target.identifier, { cache : true})
+								return storage.drafts.get(ref.identifier, { cache : true})
 									.success(function(data){
-										target.document = data;
+										return ref= data;
 									})
 									.error(function(draftError, draftCode){
-										target.document  = undefined;
-										target.error     = draftError;
-										target.errorCode = draftCode;
+										ref.document  = undefined;
+										ref.error     = draftError;
+										ref.errorCode = draftCode;
 									});
 							}
 
-							target.document  = undefined;
-							target.error     = error;
-							target.errorCode = code;
+							ref.document  = undefined;
+							ref.error     = error;
+							ref.errorCode = code;
 
 						});
-			  });
 
 			};
+
 		}
 	};
 }]);

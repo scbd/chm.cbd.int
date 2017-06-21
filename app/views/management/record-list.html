@@ -11,26 +11,35 @@
         <div class="row" >
 
             <div style="display:inline;">
-                <input  type="text" ng-model="freetext" ng-change="onText()" class="btn btn-default bg-white" placeholder="keyword">
+                <input  type="text" ng-model="freetext" ng-change="onText()" class="btn btn-default bg-white" placeholder=" search keyword">
+            </div>
+            <br class="hide-md hide-lg hide-xl">
+            <br class="hide-md hide-lg hide-xl">
+            <div style="display:inline;">
+                <a translation-url ng-click="status=''; onPage(0)" class="btn btn-default btn-info hide-sm hide-xs"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
+                <a translation-url ng-click="status=''; onPage(0)" class="btn btn-default btn-xs btn-info hide-md hide-lg hide-xl"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
             </div>
             <div style="display:inline;">
-                <a translation-url ng-click="status=''; onPage(0)" class="btn btn-default btn-info"><i ng-show="status==''" class="fa fa-check"></i> ALL</a>
-            </div>
-            <div style="display:inline;">
-                <a translation-url ng-click="status='public'; onPage(0)" class="btn btn-default bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
+                <a translation-url ng-click="status='public'; onPage(0)" class="btn btn-default bg-published hide-sm hide-xs"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
+                <a translation-url ng-click="status='public'; onPage(0)" class="btn btn-default btn-xs  hide-md hide-lg hide-xl bg-published"><i ng-show="status=='public'" class="fa fa-check"></i> PUBLISHED <span class="badge bg-white">{{facets.public}}</span> </a>
             </div>
 
             <div style="display:inline;">
-                <a translation-url ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
+                <a translation-url ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft hide-sm hide-xs"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
+                <a translation-url ng-click="status='draft'; onPage(0)" class="btn btn-default bg-draft btn-xs  hide-md hide-lg hide-xl"><i ng-show="status=='draft'" class="fa fa-check"></i> DRAFTS <span class="badge bg-white">{{facets.draft}}</span></a>
             </div>
 
             <div style="display:inline;">
-                <a translation-url ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
+                <a translation-url ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request hide-sm hide-xs"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
+                <a translation-url ng-click="status='workflow'; onPage(0)" class="btn btn-default bg-request btn-xs hide-md hide-lg hide-xl"><i ng-show="status=='draft-lock'" class="fa fa-check"></i> REQUESTS <span class="badge bg-white">{{facets.workflow}}</span></a>
             </div>
-
+            <br class="hide-md hide-lg hide-xl">
+            <br class="hide-md hide-lg hide-xl">
             <div style="display:inline;" class="pull-right">
-                <a translation-url class="btn btn-default" ng-click="onReloadList()"> Refresh List</a>
-                <a translation-url class="btn btn-primary" ng-click="onAdd()" ng-hide="nationalReport6"> Add New </a>
+                <a translation-url class="btn btn-default hide-sm hide-xs" ng-click="onReloadList()"> Refresh List</a>
+                <a translation-url class="btn btn-default btn-xs hide-md hide-lg hide-xl" ng-click="onReloadList()"> Refresh List</a>
+                <a translation-url class="btn btn-primary hide-sm hide-xs" ng-click="onAdd()" ng-hide="nationalReport6"> Add New </a>
+                <a translation-url class="btn btn-primary btn-xs hide-md hide-lg hide-xl" ng-click="onAdd()" ng-hide="nationalReport6"> Add New </a>
             </div>
 
         </div>
@@ -41,7 +50,7 @@
     <div class="container">
         <div class="row" >
             <section ng-show="recordCount">
-                <div class="col-xs-3 text-no-wrap" style="color:#333;font-size:14px;padding-left:0px;">
+                <div class="col-xs-12 col-md-3 text-no-wrap" style="color:#333;font-size:14px;padding-left:0px;">
                     <div style="margin-top:25px;">
                         <span>
                                   <span class="badge">{{((currentPage*pageSize)+1)}}</span>
@@ -54,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-7 ">
+                <div class="col-xs-12 col-md-7">
                     <nav class="pull-right" ng-show="pages.length>1">
                         <ul class="pagination">
                             <li>
@@ -88,22 +97,26 @@
                     </div>
                 </div>
             </section>
-
+<!-- <div class="table-responsive"> -->
             <table class="table table-striped">
             	<thead>
             		<tr>
-            		<th style="white-space:nowrap;" >Type</th>
-            		<th style="white-space:nowrap;" >Summary</th>
-            		<th style="white-space:nowrap;" class="hidden-xs">Created By</th>
-            		<th style="white-space:nowrap;" >Last Update</th>
+            		<th style="white-space:nowrap;max-width:100px;" >Type</th>
+            		<th style="white-space:nowrap;max-width:1000px;" >Summary</th>
+            		<th style="white-space:nowrap;max-width:100px;" class="hidden-xs">Created By</th>
+            		<th style="white-space:nowrap;max-width:100px;" >Update</th>
             		<th style="white-space:nowrap;width:100px;">Status</th>
-            		<th style="white-space:nowrap;width:100px;" class="text-right">{{recordCount}} Records</th>
+            		<th style="white-space:nowrap;width:100px;" class="text-right">&nbsp;</th>
             		</tr>
             	</thead>
             	<tbody>
             		<tr ng-repeat="record in records">
-            			<td class="type" style="max-width:150px;">
-                            <b>{{record.schemaName | lstring}}
+            			<td class="type" style="width:150px;">
+                    <div >
+                    <img ng-src="{{record.logo_s}}" width="50%"></img>
+                    </div>
+                    <div >
+                            <b >{{record.schemaName | lstring}}
                                 <span ng-switch="subSchema">
                                     <span ng-switch-when="nr"></span>
                                     <span ng-switch-when="nbsap">: NBSAP</span>
@@ -111,33 +124,35 @@
                                     <span ng-switch-default></span>
                                 </span>
                             </b>
+                    </div>
                             <div>{{record.reportTypeName | lstring}}</div>
                         </td>
-            			<td class="descr">
+            			<td class="descr" style="max-width:1000px;">
                             <h5 class="title" style="margin:0;padding:0;">
-                                <span ng-if="record._state_s=='draft'">{{(record.title ||  record.identifier_s) | lstring}}</span>
+                              <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
+                                <span ng-if="record._state_s=='draft' || record._state_s=='workflow'">{{(record.title ||  record.identifier_s) | lstring}}</span>
                                 <a translation-url    ng-if="record._state_s=='public'" href="{{record.url}}" >{{(record.title || record.identifier_s) | lstring}}</a>
-                                <i    ng-show="record._state_s=='workflow'" class="fa fa-lock"></i>
+
                             </h5>
-                            <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary | lstring | truncate:(record.truncate||350):'...'}} <a translation-url ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a translation-url ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
+                            <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary || record.description || record.description_s | lstring | htmlToPlaintext | truncate:(record.truncate||350):'...'}} <a translation-url ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a translation-url ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
                             </td>
-            			<td class="createdby hidden-xs">
+            			<td class="createdby hidden-xs" style="width:150px;">
                             <div title="{{record.createdByEmail_s}}">{{record.createdBy_s}}</div>
                             <div title="{{record.createdDate_dt | datetime}}" class="date" >{{record.createdDate_dt | fromNow}}</div>
                         </td>
-            			<td class="udpatedby">
+            			<td class="udpatedby" style="width:150px;">
                             <div title="{{record.updatedByEmail_s}}">{{record.updatedBy_s}}</div>
                             <div title="{{record.updatedDate_dt | datetime}}" class="date" >{{record.updatedDate_dt | fromNow}}</div>
                             </td>
-            			<td class="status" style="text-align:center">
+            			<td class="status" style="text-align:center" style="width:150px;">
                             <span ng-show="record._state_s=='public' || record._revision_i>1" class="label label-default bg-published">PUBLISHED</span>
                             <span ng-show="record._state_s=='draft'"    class="label label-default bg-draft">DRAFT</span>
                             <span ng-show="record._state_s=='workflow'" class="label label-default bg-request">REQUEST</span>
                             <div  ng-show="record._state_s=='workflow'" style="margin-top:5px"><a translation-url href="#" ng-click="onWorkflow(record)">{{formatWID(record._workflow_s)}}</a></div>
                         </td>
-            			<td class="edit text-right">
+            			<td class="edit text-right" style="">
             				<div class="btn-group btn-group-xs"  >
-                                <a translation-url title="View" ng-if="record._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{record.url}}"><i class="fa fa-search"></i></a>
+                      <a translation-url title="View" ng-if="record._state_s == 'public'" type="button" class="btn btn-default" ng-href="{{record.url || '/database/record/'+record.identifier_s+'?schema='+schema}}"><i class="fa fa-search"></i></a>
             					<button ng-show    ="record._state_s=='workflow' " title="Locked for edit" type="button" class="btn btn-default" ng-click="onWorkflow(record)"><i class="fa fa-lock"></i></button>
             					<button ng-hide    ="record._state_s=='workflow'" ng-disabled="isIndicatorIsUsed(record)" title="Edit"            type="button" class="btn btn-default" ng-click="onEdit(record)"><i class="fa fa-edit"></i></button>
             					<button ng-hide    ="record._state_s=='workflow'" ng-disabled="isIndicatorIsUsed(record)" title="Delete"          type="button" class="btn btn-default" ng-click="onDelete(record, $event)"><i class="fa fa-trash-o"></i></button>
@@ -155,9 +170,9 @@
 
 
             </table>
-
+<!-- </div> -->
             <section ng-show="recordCount">
-                <div class="col-xs-3 text-no-wrap" style="color:#333;font-size:14px;padding-left:0px;">
+                <div class="col-xs-12 col-md-3 text-no-wrap" style="color:#333;font-size:14px;padding-left:0px;">
                     <div style="margin-top:25px;">
                         <span>
                                       <span class="badge">{{((currentPage*pageSize)+1)}}</span>
@@ -170,7 +185,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-7 ">
+                <div class="col-xs-12 col-md-7 ">
                     <nav class="pull-right" ng-show="pages.length>1">
                         <ul class="pagination">
                             <li>

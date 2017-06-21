@@ -27,8 +27,8 @@
 			</div>
 
 			<div class="btn-group btn-group-sm" ng-show="!internalDocumentInfo.workingDocumentLock">
-				<button ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock" title="Edit"            type="button" class="btn btn-default" ng-click="edit(record)"><i class="fa fa-edit"></i></button>
-				<button ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="Delete"          type="button" class="btn btn-default" ng-click="delete(record)"><i class="fa fa-trash-o"></i></button>
+				<button data-toggle="tooltip" title="Edit the Record" ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock" title="Edit"            type="button" class="btn btn-default" ng-click="edit(record)"><i class="fa fa-edit"></i></button>
+				<button data-toggle="tooltip" title="Delete this Record" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="Delete"          type="button" class="btn btn-default" ng-click="delete(record)"><i class="fa fa-trash-o"></i></button>
 			</div>
 
 

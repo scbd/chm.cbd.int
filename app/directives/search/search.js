@@ -102,7 +102,6 @@ define(['text!./search.html',
 						   //
 							 //=======================================================================
 					     $scope.readFacets2 = function (solrArray) {
-
 						        var facets = [];
 											if(solrArray)
 													for (var i = 0; i < solrArray.length; i += 2) {
@@ -121,9 +120,9 @@ define(['text!./search.html',
 										var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:* ';
 
 										var subQueries = _.compact([getFormatedSubQuery('schema_s'),
-																								getFormatedSubQuery('government_s'),
-																								getFormatedSubQuery('government_REL_ss'),
-																								getFormatedSubQuery('thematicArea_REL_ss'),
+																								getFormatedSubQuery('hostGovernments_ss'),
+																								getFormatedSubQuery('hostGovernments_REL_ss'),
+																								getFormatedSubQuery('thematicArea_ss'),
 																								getFormatedSubQuery('aichiTarget_ss'),
 																								getFormatedSubQuery('createdDate_s'),
 																								getFormatedSubQuery('keywords')]);
@@ -211,13 +210,13 @@ define(['text!./search.html',
 						readQueryString ();
 						var queryParameters = {
 								'q': $scope.buildQuery(),
-								'sort': 'createdDate_dt desc, title_t asc',
-								'fl': 'id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
+								'sort': 'createdDate_dt desc',
+								'fl': 'thematicArea*,googleMapsUrl_s,country*,relevantInformation*,logo*,treaty*,id,title_*,hostGovernments*,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,city_EN_t,eventCity_EN_t,eventCountry_EN_t,country_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t',
 								'wt': 'json',
 								'start': $scope.currentPage * $scope.itemsPerPage,
 								'rows': 25,
 								'facet': true,
-								'facet.field': ['schema_s', 'government_s', 'government_REL_ss', 'aichiTarget_ss', 'thematicArea_REL_ss'],
+								'facet.field': ['schema_s', 'hostGovernments_ss', 'hostGovernments_REL_ss', 'aichiTarget_ss', 'thematicArea_ss'],
 								'facet.limit': 999999,
 								'facet.mincount' : 1
 						};
@@ -245,10 +244,10 @@ define(['text!./search.html',
 
 
 								$scope.schemas       = $scope.readFacets2(data.facet_counts.facet_fields.schema_s);
-								$scope.governments   = $scope.readFacets2(data.facet_counts.facet_fields.government_s);
-								$scope.regions       = $scope.readFacets2(data.facet_counts.facet_fields.government_REL_ss);
+								$scope.governments   = $scope.readFacets2(data.facet_counts.facet_fields.hostGovernments_ss);
+								$scope.regions       = $scope.readFacets2(data.facet_counts.facet_fields.hostGovernments_REL_ss);
 								$scope.aichiTargets  = $scope.readFacets2(data.facet_counts.facet_fields.aichiTarget_ss);
-								$scope.thematicAreas = $scope.readFacets2(data.facet_counts.facet_fields.thematicArea_REL_ss);
+								$scope.thematicAreas = $scope.readFacets2(data.facet_counts.facet_fields.thematicArea_ss);
 
 								$scope.documents = data.response.docs;
 
@@ -263,9 +262,9 @@ define(['text!./search.html',
 				function readQueryString () {
 
 						var qsSchema = _([$location.search().schema_s]).flatten().compact().value(); // takes query string into array
-						var qsCountry = _([$location.search().government_s]).flatten().compact().value(); // takes query string into array
+						var qsCountry = _([$location.search().hostGovernment_ss]).flatten().compact().value(); // takes query string into array
 
-						var qsArrByField = {'schema_s':qsSchema,'government_s':qsCountry};
+						var qsArrByField = {'schema_s':qsSchema,'hostGovernment_ss':qsCountry};
 
 						_.each(qsArrByField,function (idArr,schemaKey){
 								_.each(idArr,function(id){
@@ -346,7 +345,7 @@ define(['text!./search.html',
 				//@ qsSelection -
 				//=======================================================================
 				function updateTerms(terms,items,facet,data) {
-					
+
 						var qsSelection = _([$location.search()[facet]]).flatten().compact().value(); // takes query string into array
 						var termsx = {};
 
@@ -367,6 +366,8 @@ define(['text!./search.html',
 				//
 				//=======================================================================
 				function insertCounts(items,termsx) {
+// console.log(items);
+// console.log(termsx);
 						if(termsx)
 								_.each(termsx,function (item) {
 										item.count = 0;

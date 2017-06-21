@@ -1,0 +1,97 @@
+<div id="Record" class="record panel panel-default" style="margin-top:20px;">
+
+    <div id="view-header" class="panel-heading form-header" ng-if="header">
+        <div class="row">
+            <div class="col-xs-10">
+                <h2><span>Party Profile</span></h2>
+            </div>
+            <div class="col-xs-2">
+                <h4 ng-if="isReview()"><span class="pull-right"><a class="btn btn-xs btn-default" href="dashboard/submit/undb-party/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center" ng-if="loading">
+        <h1><i class="fa fa-spin fa-spinner " /> Loading...</h1>
+    </div>
+
+
+    <div class="record-body panel-body" ng-if="!loading">
+        <div class="viewForm">
+
+          <div class="col-xs-12" ng-show="document.government">
+              <legend class="view">Party</legend>
+              <div class="km-value">
+                  <span ng-bind="document.government| term:locale"><br/></span>
+              </div>
+      </div>
+
+      <div class="col-xs-12" ng-show="document.description">
+          <label class="view">Description</label>
+          <div class="km-value">
+              <span ng-bind-html="document.description |lstring:locale  |safeHtml "><br/></span>
+          </div>
+      </div>
+
+      <div class="col-xs-12" ng-show="document.descriptionNative">
+          <label class="view">Description Native Language</label>
+          <div class="km-value">
+              <span ng-bind="document.descriptionNative"><br/></span>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.websites">
+          <label class="view">Websites</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.websites">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.documents">
+          <label class="view">Documents</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.documents">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.images">
+          <label class="view">Images</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.images">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+      <div class="col-xs-12 col-md-6" ng-show="document.videos">
+          <label class="view">Videos</label>
+          <div class="km-value">
+              <div ng-repeat="item in document.videos">
+                  <a  ng-href="{{item.url}}" target="_blank">{{item.name||item.url}}</a>
+
+              </div>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+    <div id="view-header" class="panel-footer form-header" ng-if="header">
+        <div class="row">
+            <div class="col-xs-10">
+                <h2><span>Party Profile</span></h2>
+            </div>
+            <div class="col-xs-2">
+                <h4 ng-if="isReview()"><span class="pull-right"><a class="btn btn-xs btn-default" href="dashboard/submit/undb-party/{{document.header.identifier}}" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span ng-if="!isAdmin()">Suggest an</span> Edit</a></span></h4>
+            </div>
+        </div>
+    </div>
+
+</div>

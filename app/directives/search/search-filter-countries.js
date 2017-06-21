@@ -37,12 +37,14 @@ define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], f
                         $http.get('/api/v2013/thesaurus/domains/countries/terms').success(function (data) {
                             rawCountries = data;
 
-                            $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,data);        
+                            $scope.terms = searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,data);
                             searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,data);
+
                         });
                     }else{
                         $scope.terms=searchCtrl.updateTerms($scope.terms,$scope.items,$scope.facet,rawCountries); // save terms to avoid multiple server quiries for same data
                         searchCtrl.buildChildQuery($scope.terms,$scope.items,$scope.facet,rawCountries);
+
                     }
             }//buildTermsAndQuery()
 
@@ -61,7 +63,6 @@ define(['text!./search-filter-countries.html','app', 'filters/commonFilters'], f
             //
       			// =======================================================================
             $element.find("#dialogSelectCountries").on('show.bs.modal', function(){
-
                     $timeout(function(){ //Ensure angular context
                             buildTermsAndQuery();
                             $scope.termsModal=JSON.parse(JSON.stringify($scope.terms));// unbinded display for modal

@@ -72,8 +72,16 @@ define(['text!./search-filter-themes.html', 'app', 'lodash','angular'], function
 
 										$timeout(function(){ //Ensure angular context
 														buildTermsAndQuery();
+
 														$scope.termsModal=angular.copy($scope.terms);// unbinded display for modal for first view
-										});
+for(var i =0; i<$scope.termsModal.length;i++){
+	$scope.termsModal[i].count=0;
+	for(var j =0; j<$scope.termsModal[i].narrowerTerms.length;j++)
+		$scope.termsModal[i].count+=$scope.termsModal[i].narrowerTerms[j].count;
+
+}
+console.log($scope.items);
+										},100);
 
 						});//$element.find("#dialogSelect").on('show.bs.modal', function(){
 

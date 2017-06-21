@@ -29,10 +29,18 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
             $scope.referenceRecords = [
                 // { identifier: 'treaty'                , title: 'Treaties'                , count: 0 },
                 // { identifier: 'article'               , title: 'Treaty Articles'         , count: 0    },
+                { identifier: 'bbiContact'                 , title: 'BBI Contacts'                  , count: 0 },
+                { identifier: 'bbiOpportunity'             , title: 'BBI Opportunities'             , count: 0 },
+                { identifier: 'bbiProfile'                 , title: 'BBI Providers of Assistance'   , count: 0 },
+                { identifier: 'bbiRequest'                , title: 'BBI Requests of Assistance'    , count: 0 },
+                { identifier: 'capacityBuildingInitiative' , title: 'Capacity-building Initiatives' , count: 0 },
                 { identifier: 'event'                      , title: 'Events'                        , count: 0 },
                 { identifier: 'organization'               , title: 'Organizations'                 , count: 0 },
                 { identifier: 'resource'                   , title: 'Virtual Library Resources'     , count: 0 },
-                { identifier: 'capacityBuildingInitiative' , title: 'Capacity-building Initiatives' , count: 0 },
+                { identifier: 'undbActor'                  , title: 'UNDB Actors'                   , count: 0 },
+                { identifier: 'undbParty'                  , title: 'UNDB Country Profile'          , count: 0 },
+                { identifier: 'undbPartner'                , title: 'UNDB Partner (depreciated)'    , count: 0 },
+                { identifier: 'undbAction'                 , title: 'UNDB Actions (depreciated)'    , count: 0 },                 
             ];
 
              $scope.copRecords = [

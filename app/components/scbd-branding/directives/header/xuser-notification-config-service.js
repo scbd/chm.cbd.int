@@ -11,18 +11,18 @@ define(['app', 'lodash', 'moment', 'scbd-angularjs-filters'],
             var productionRealms = {
                 urls: ['https://absch.cbd.int', 'https://chm.cbd.int', 'https://accounts.cbd.int'],
                 realms: ['ABS', 'CHM']
-            }
+            };
 
             var developmentRealms = {
                 urls: ['https://absch.cbddev.xyz', 'https://dev-chm.cbd.int', 'https://chm.cbddev.xyz', 'https://accounts.cbddev.xyz',
-                    'http://localhost:2010', 'http://localhost:2000', 'http://localhost:8000'],
+                    'http://localhost:2010', 'http://localhost:2000', 'http://localhost:8000','https://accounts.staging.cbd.int','https://chm.staging.cbd.int' ],
                 realms: ['ABS-DEV', 'CHM-DEV']
-            }
+            };
 
             var trainingRealms = {
                 urls: ['https://training-absch.cbd.int'],
                 realms: ['ABS-TRG']
-            }
+            };
 
             function realmsForQuery() {
                 if (_.some(productionRealms.urls, function (url) {
@@ -87,7 +87,7 @@ define(['app', 'lodash', 'moment', 'scbd-angularjs-filters'],
             }
 
             function getURL(notification) {
-                
+
                 if (notificationUrls && !notificationUrls.documentNotificationUrl)
                     throw "Invalid User Notification Configuration, documentNotificationUrl is missing.";
 

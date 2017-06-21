@@ -7,7 +7,9 @@
     </div> -->
     <div class="col-xs-12 my_well my_well-white">
         <div class="top">
-
+          <p class="alert alert-danger" ng-show="error">
+              {{error}}
+          </p>
 	    	<h1>Request status</h1>
 
 			<table class="table table-striped">
@@ -36,17 +38,17 @@
 			  	<td>Record ID</td>
 			  	<td>
 			  		<a translation-url    ng-show="workflow.result.documentID||workflow.data.documentID" ng-href="/database/record?documentID={{workflow.result.documentID||workflow.data.documentID}}">{{workflow.result.documentID||workflow.data.documentID}}</a>
-			  		<span ng-hide="workflow.result.documentID||workflow.data.documentID">[new]</span>
+			  		<span ng-hide="workflow.result.documentID||workflow.data.documentID">[new] {{workflow._id}}</span>
 			  		<span ng-show="workflow.result.revision">(rev. {{workflow.result.revision}})</span>
 				</td>
 			  </tr>
 			  <tr>
 			  	<td>Description</td>
 			  	<td>
-					<strong>{{workflow.data.metadata.schema|schemaName}}</strong>
+					<strong><span ng-show="workflow.schema==='bbiRequest'">Request for Assistance (BBI)</span> {{workflow.data.metadata.schema|schemaName}}</strong>
 					-
 					<span>{{workflow.data.title | lstring}}</span>
-
+          <span ng-show="workflow.schema==='bbiRequest'">{{workflow.title | lstring}}</span>
 				</td>
 			  </tr>
 			  <tr>
@@ -59,6 +61,13 @@
 			  			<span ng-switch-when=""><i class="fa fa-exclamation"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
 			  			<span ng-switch-default>*{{workflow.state|uppercase}}</span>
 					</span>
+          <span ng-switch="workflow.meta.status" ng-show="workflow.schema==='bbiRequest'">
+            <span ng-switch-when="workflow"><i class="fa fa-cog"></i> Pending</span>
+            <span ng-switch-when="public">Completed on {{workflow.meta.modifiedOn|date:'short'}}</span>
+            <span ng-switch-when="canceled"><i class="fa fa-remove-circle"></i> Canceled on {{workflow.closedOn|date:'short'}}</span>
+            <span ng-switch-when=""><i class="fa fa-exclamation"></i> Failed on {{workflow.closedOn|date:'short'}}</span>
+            <span ng-switch-default>*{{workflow.meta.status|uppercase}}</span>
+        </span>
 				</td>
 			  </tr>
 

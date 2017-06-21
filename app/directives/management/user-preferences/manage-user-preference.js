@@ -50,6 +50,7 @@ define(['app', 'lodash', 'text!./manage-user-preference.html', 'ngDialog',
                 }
                 
                 $scope.addEdit = function(existingFilter){
+                    $scope.setFilters = [];
                     if($rootScope.user && !$rootScope.user.isAuthenticated){
                         var signIn = $scope.$on('signIn', function(evt, data){
                                 $scope.addEdit();
@@ -66,10 +67,10 @@ define(['app', 'lodash', 'text!./manage-user-preference.html', 'ngDialog',
                                         controller : ['$scope', function($scope){                                                
                                                 if(existingFilter){
                                                     $scope.document = angular.copy(existingFilter);
-                                                    $timeout(function(){
-                                                        $scope.setSearchFilters(existingFilter.filters);
-                                                    },100);
                                                 }
+                                                $timeout(function(){
+                                                    $scope.setSearchFilters((existingFilter||{}).filters);
+                                                },100);
                                         }]
                         });
 
@@ -80,8 +81,8 @@ define(['app', 'lodash', 'text!./manage-user-preference.html', 'ngDialog',
                 $scope.setFilter = function(filter){
                     if(!$scope.setFilters)
                         $scope.setFilters = [];
-
-                    $scope.setFilters.push(filter);
+                    if(!_.includes($scope.setFilters, {id:filter.id}))
+                        $scope.setFilters.push(filter);
                 }
 
                 $scope.removeFilter = function(filter){

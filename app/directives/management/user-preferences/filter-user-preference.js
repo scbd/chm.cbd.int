@@ -6,7 +6,7 @@ define(['text!./filter-user-preference.html', 'app', 'lodash'], function(templat
         template: template,
         replace: true,
         link : function ($scope){
-
+            var countryRegionsLoaded = false;
             $scope.searchFilters = [
                 { id: 'focalPoint'              ,   title: 'National Focal Points'         , type:'national' },
                 { id: 'nationalReport6'         ,   title: 'Sixth National Report'         , type:'national' },
@@ -36,12 +36,20 @@ define(['text!./filter-user-preference.html', 'app', 'lodash'], function(templat
             ];
             
             $scope.setSearchFilters = function(filters){
-                _.map($scope.searchFilters, function(filter){filter.isSelected=false});
-                _.each(filters, function(filter){
-                    var searchFilter =_.findWhere($scope.searchFilters, {id : filter.id})
-                    if(searchFilter)
-                        $scope.saveFilter(searchFilter);
-                });
+                $scope.loading = true;
+                $q.when(loadCountryregions())
+                .then(function(){
+                    // console.log(filters);
+                    _.map($scope.searchFilters, function(filter){filter.isSelected=false});
+                    _.each(filters, function(filter){
+                        var searchFilter =_.findWhere($scope.searchFilters, {id : filter.id})
+                        if(searchFilter){
+                            $scope.saveFilter(searchFilter);
+                            searchFilter.isSelected = true;
+                        }
+                    });
+                    $scope.loading = false;
+                })
             }
             $scope.saveFilter = function(filter){
                 filter.isSelected = !filter.isSelected;
@@ -57,15 +65,19 @@ define(['text!./filter-user-preference.html', 'app', 'lodash'], function(templat
             }
 
             function loadCountryregions(){
+                if(countryRegionsLoaded)
+                    return $q.when(countryRegionsLoaded);
                  var regions = $http.get('/api/v2013/thesaurus/domains/regions/terms')
                  var countries = $http.get('/api/v2013/thesaurus/domains/countries/terms')
-                 $q.all([countries, regions])
-                 .then(function (results) {
-                     _.map(results[0].data, function(region) { $scope.searchFilters.push({title : region.name, id : region.identifier, type:'country'})});
-                     _.map(results[1].data, function(region) { $scope.searchFilters.push({title : region.name, id : region.identifier, type:'region'})});
-                 });
+                 return $q.all([countries, regions])
+                        .then(function (results) {
+                            _.map(results[0].data, function(region) { $scope.searchFilters.push({title : region.name, id : region.identifier, type:'country'})});
+                            _.map(results[1].data, function(region) { $scope.searchFilters.push({title : region.name, id : region.identifier, type:'region'})});
+                            countryRegionsLoaded = true;
+                            $scope.searchFilters = _.uniq($scope.searchFilters);
+                        });
             }
-            loadCountryregions();
+            // loadCountryregions();
           }//link
         }; // return
     }]); 

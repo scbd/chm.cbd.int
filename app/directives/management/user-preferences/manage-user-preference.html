@@ -41,10 +41,10 @@
             </li>
         </ul>
     </div>
-    <div ng-show="!loading && (!userFilters || userFilters.length==0)">
+    <div ng-show="!loading && (userFilters.length==0)">
         <div class="alert alert-info" role="alert">
-            <h3 ng-if="user.isAuthenticated">You do not have any saved searches.</h3>
-            <h3 ng-if="!user.isAuthenticated">Please log in to view your saved searches.</h3>
+            <h3 ng-if="user.isAuthenticated">You do not have any saved email alerts.</h3>
+            <h3 ng-if="!user.isAuthenticated">Please log in to view your saved email alerts.</h3>
         </div>
     </div>
 

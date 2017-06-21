@@ -36,14 +36,15 @@
 				<div class="modal-body" style="padding-left:20px">
 					<div style="height:360px;overflow-y:auto">
 						<div ng-repeat="item in termsArray">
-							<div ng-if="!item.narrowerTerms && item.count" class="col-sm-6 col-sm-6 ">
-								<div ng-show="!item.narrowerTerms && item.count" class="col-sm-6 col-sm-6" style="overflow: hidden;min-width: 3000px;">
+							<!-- <div ng-if="!item.narrowerTerms && item.count" class="col-sm-6 col-sm-6 "> -->
+								<div ng-show="!item.narrowerTerms && item.count" class="col-sm-12 col-md-6 text-nowrap" style="overflow: none;min-width: 300px;">
+<input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh(item)">
 									<label style="font-weight: normal;">
-										<img style="height: 20px;  width: 20px;float:left; " ng-src="http://www.cbd.int/images/aichi/48/abt-{{item.identifier.substring(13)}}-48.png">
-										<input type="checkbox" ng-model="item.selected" bind-indeterminate="item.indeterminate" ng-click="refresh(item)"> {{item.name}}
-										<span class="bg-blue badge">{{item.count}}</span>
+										<div style="word-wrap: break-word !important;" ><img style="height: 20px;  width: 20px;float:left; " ng-src="http://www.cbd.int/images/aichi/48/abt-{{item.identifier.substring(13)}}-48.png" ng-if="item.identifier.substring(13).indexOf('al-')==-1">
+										&nbsp;<span class="small">{{item.name}}</span>
+										<span class="bg-blue badge">{{item.count}}</span></div>
 									</label>
-								</div>
+								<!-- </div> -->
 							</div>
 						</div>
 					</div>

@@ -32,6 +32,9 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/undbAction/:uid',                           { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-action',          resolveUser: true }).
             when('/submit/undbPartner/:uid',                          { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
 
+            // when('/submit/undbActor/:uid',                            { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-actor',          resolveUser: true }).
+            // when('/submit/event/:uid',                          { template:    '<div></div>',                                 label :'UNDB',           resolveController: 'views/management/edit/undb-partner',          resolveUser: true }).
+
             when('/submit/cbd-reporting/national/',                     { templateUrl: 'views/management/cbdReporting/national.html',         label: 'Reporting on Progress in Achieving National Targets',      resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
     //      when('/submit/online-reporting/:schema/:id',                <= final implementation goal

@@ -1,4 +1,4 @@
-define(['app'],
+define(['app','filters/lstring'],
 function (app) {
 
   //============================================================
@@ -32,7 +32,6 @@ function (app) {
       }).then(function (result) {
 
         cacheMap[term.identifier] = result.data;
-
         return $filter("lstring")(cacheMap[term.identifier].title, locale);
 
       }).catch(function () {

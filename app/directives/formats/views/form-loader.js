@@ -77,7 +77,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.load = function (identifier) {
-console.log('++++++++++++++');
+
 				if($location.search().schema==='bbiRequest') return $scope.loadBbiRequest(identifier);
 				$scope.error = undefined;
 

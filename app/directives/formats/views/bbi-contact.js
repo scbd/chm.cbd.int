@@ -1,6 +1,6 @@
 define(['text!./bbi-contact.html', 'app', 'angular', 'lodash',
 	'utilities/km-storage',
-	'components/scbd-angularjs-services/services/locale',
+	'scbd-angularjs-services/locale',
 ], function(template, app, angular, _) {
 	'use strict';
 

@@ -1,4 +1,4 @@
-define(['text!./bbi-profile.html', 'app', 'angular', 'lodash', 	'utilities/km-storage','providers/locale'], function(template, app, angular, _) {
+define(['text!./bbi-profile.html', 'app', 'angular', 'lodash', 	'utilities/km-storage','components/scbd-angularjs-services/services/locale'], function(template, app, angular, _) {
     'use strict';
 
     app.directive('viewBbiProfile', ["IStorage", "$location", function(storage, $location) {

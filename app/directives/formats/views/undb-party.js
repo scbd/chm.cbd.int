@@ -1,5 +1,5 @@
 define(['app', 'angular', 'lodash', 'text!./undb-party.html',
-	'filters/mark-down', 'utilities/km-storage','providers/locale','filters/trust-as-resource-url','filters/html-sanitizer'], function(app, angular, _, template){
+	'filters/mark-down', 'utilities/km-storage','components/scbd-angularjs-services/services/locale','filters/trust-as-resource-url','filters/html-sanitizer'], function(app, angular, _, template){
 
 app.directive('viewUndbParty', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
 	return {

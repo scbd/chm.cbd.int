@@ -1,7 +1,7 @@
 define(['text!./select-contact.html','app','lodash','ngDialog',
 // 'directives/bbi/forms/edit-bbi-contact',
 // 'directives/bbi/forms/edit-organization',
-'providers/locale',
+'components/scbd-angularjs-services/services/locale',
 'filters/term',
 'ngInfiniteScroll'
 ],

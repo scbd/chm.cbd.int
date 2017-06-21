@@ -62,7 +62,7 @@ app.get('/?:lang(ar|en|es|fr|ru|zh)?/*', function (req, res) {
 });
 // Start HTTP server
 
-app.listen(process.env.PORT || 8000, '0.0.0.0', function () {
+app.listen(process.env.PORT || 2000, '0.0.0.0', function () {
 	console.log('Server listening on %j', this.address());
 });
 

@@ -1,5 +1,5 @@
 define(['app',  'lodash', 'text!./event.html',
-	'filters/mark-down', 'utilities/km-storage','providers/locale','filters/trust-as-resource-url','filters/moment'], function(app,  _, template){
+	'filters/mark-down', 'utilities/km-storage','components/scbd-angularjs-services/services/locale','filters/trust-as-resource-url','filters/moment'], function(app,  _, template){
 
 app.directive('viewEvent', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
 	return {

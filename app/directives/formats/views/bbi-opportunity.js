@@ -1,5 +1,5 @@
 define(['text!./bbi-opportunity.html', 'app', 'lodash', 	'utilities/km-storage',
-	'providers/locale'], function(template, app, _) {
+	'components/scbd-angularjs-services/services/locale'], function(template, app, _) {
 	'use strict';
 
 	app.directive('viewBbiOpportunity', ["IStorage", "$location", function(storage, $location) {

@@ -1,5 +1,5 @@
 define(['app', 'angular', 'lodash', 'text!./undb-actor.html',
-	'filters/mark-down', 'utilities/km-storage','providers/locale','filters/trust-as-resource-url'], function(app, angular, _, template){
+	'filters/mark-down', 'utilities/km-storage','components/scbd-angularjs-services/services/locale','filters/trust-as-resource-url'], function(app, angular, _, template){
 
 app.directive('viewUndbActor', ["IStorage","$location","locale","$sce", function (storage,$location,locale,$sce) {
 	return {

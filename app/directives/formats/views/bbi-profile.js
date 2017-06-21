@@ -1,7 +1,7 @@
-define(['text!./view-bbi-profile.html', 'app', 'angular', 'lodash', 'services/storage'], function(template, app, angular, _) {
+define(['text!./bbi-profile.html', 'app', 'angular', 'lodash', 	'utilities/km-storage','providers/locale'], function(template, app, angular, _) {
     'use strict';
 
-    app.directive('bbiProfile', ["IStorage", "$location", function(storage, $location) {
+    app.directive('viewBbiProfile', ["IStorage", "$location", function(storage, $location) {
         return {
             restrict: 'E',
             template: template,
@@ -59,15 +59,15 @@ define(['text!./view-bbi-profile.html', 'app', 'angular', 'lodash', 'services/st
                 });
 
                 //====================
-                //
-                //====================
-                $scope.getLogo = function() {
+        				//
+        				//====================
+        				$scope.getLogo = function(o) {
 
-                    if (!$scope.contactOrg || !$scope.contactOrg.relevantDocuments) return false;
-                    return _.find($scope.contactOrg.relevantDocuments, {
-                        name: 'logo'
-                    });
-                };
+        					if (!o || !o.relevantDocuments) return false;
+        					return _.find(o.relevantDocuments, {
+        						name: 'logo'
+        					});
+        				};
                 //====================
                 //
                 //====================
@@ -78,6 +78,7 @@ define(['text!./view-bbi-profile.html', 'app', 'angular', 'lodash', 'services/st
                         })
                         .then(function(data) {
                             ref = data.data;
+                            ref.logo=$scope.getLogo(data.data);
                             return ref;
                         })
                         .catch(function(error, code) {
@@ -88,6 +89,7 @@ define(['text!./view-bbi-profile.html', 'app', 'angular', 'lodash', 'services/st
                                     })
                                     .then(function(data) {
                                         ref = data.data;
+                                        ref.logo=$scope.getLogo(data.data);
                                         return ref;
                                     })
                                     .catch(function(draftError, draftCode) {

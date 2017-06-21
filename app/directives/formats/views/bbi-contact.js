@@ -1,10 +1,10 @@
-define(['text!./bbi-contact.html', 'app', 'angular', 'lodash', 
-	'services/storage',
+define(['text!./bbi-contact.html', 'app', 'angular', 'lodash',
+	'utilities/km-storage',
 	'providers/locale',
 ], function(template, app, angular, _) {
 	'use strict';
 
-	app.directive('bbiContact', ['$http', "$rootScope", "$filter", "$q", "$location", 'IStorage', '$route', '$timeout', 'locale',
+	app.directive('viewBbiContact', ['$http', "$rootScope", "$filter", "$q", "$location", 'IStorage', '$route', '$timeout', 'locale',
 	 function($http, $rootScope, $filter, $q, $location, storage, $route, $timeout, locale) {
 		return {
 			restrict: 'E',

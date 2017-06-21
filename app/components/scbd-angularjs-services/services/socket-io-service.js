@@ -6,7 +6,7 @@ define(['app', 'socket.io', './authentication', './apiUrl', './utilities'], func
             var apiServer = 'https://api.cbd.int/';
 
             if(apiUrl.isAppDevelopment()){
-                
+
                 var url = apiUrl.devApiUrl();
                 if(url)
                    apiServer = url;
@@ -37,10 +37,10 @@ define(['app', 'socket.io', './authentication', './apiUrl', './utilities'], func
 
             function onConnect() {
                 // console.log(socket);
-                console.log("connected from the client side");
+                //console.log("connected from the client side");
 
                 subscribe('push-notification', function(msg){
-                    console.log(msg);
+                    //console.log(msg);
 
                     if(isJSON(msg)){
                         var message = JSON.parse(msg);

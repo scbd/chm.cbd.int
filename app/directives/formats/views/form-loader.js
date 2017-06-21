@@ -1,6 +1,6 @@
-define(['require', 'app', 'text!./form-loader.html', 'authentication', 'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale'], function(require, app, template){
+define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication', 'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale'], function(require, app, template,_){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation", function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation) {
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation","$http", function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -14,6 +14,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			documentId  : "@"
 		},
 		link: function($scope, $element) {
+			//
 
 			var formHolder = $element.find("#form-placeholder:first");
 
@@ -25,13 +26,14 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 
 				formHolder.empty();
 
-				if(doc)
+				if(doc && doc.header)
 				{
-					var name = snake_case(doc.header.schema);
+
+					var name = snake_case(doc.header.schema );
 
 					require(['./'+name], function(){
 
-						var directiveHtml = '<DIRECTIVE ng-model="internalDocument" locale="getLocale()" link-target={{linkTarget}}></DIRECTIVE>'.replace(/DIRECTIVE/g, 'view-' + name);
+						var directiveHtml = '<DIRECTIVE ng-model="internalDocument" locale="getLocale()" header="false" link-target={{linkTarget}}></DIRECTIVE>'.replace(/DIRECTIVE/g, 'view-' + name);
 
 						$scope.$apply(function(){
 							formHolder.append($compile(directiveHtml)($scope));
@@ -49,6 +51,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.init = function () {
+
 				if ($scope.internalDocument)
 					return;
 
@@ -74,7 +77,8 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.load = function (identifier) {
-
+console.log('++++++++++++++');
+				if($location.search().schema==='bbiRequest') return $scope.loadBbiRequest(identifier);
 				$scope.error = undefined;
 
 				var qDocument     = storage.documents.get(identifier)                .then(function(result) { return result.data || result; });
@@ -95,6 +99,36 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 					$scope.error = (error||{}).Message || error || ("Http Error: " + error.status);
 				});
 			};
+			//==================================
+			//
+			//==================================
+			$scope.loadBbiRequest = function (identifier) {
+
+				var params = {
+
+						f:{history:0}
+				};
+					return $http.get('/api/v2016/bbi-requests/' +identifier, {'params': params}).then(function(response){
+
+						if(!isEmpty(response.data)){
+
+							$scope.internalDocument=response.data;
+							$scope.internalDocument.header={};
+							$scope.internalDocument.header.schema='bbiRequest';
+						}else
+							$scope.internalDocument=false;
+
+					});
+			};
+
+			function isEmpty(item) {
+				if((typeof item === "object" && !Array.isArray(item) && item !== null))
+    			return Object.keys(item).length === 0;
+				else if (Array.isArray(item))
+				  return item.length;
+				else
+					return item;
+			}
 
 			//==================================
 			//
@@ -107,10 +141,12 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.edit = function() {
+				if($location.search().schema==='bbiRequest' && $scope.canEdit())
+					$location.path(navigation.editUrl('bbiRequest', identifier));
 				if (!$scope.canEdit())
 					throw "Cannot edit form";
 
-				var schema     = $scope.internalDocumentInfo.type;
+				var schema     = $scope.internalDocumentInfo.type ;
 				var identifier = $scope.internalDocumentInfo.identifier;
 
 				$location.search({ returnUrl : $location.url() });
@@ -118,11 +154,12 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				$location.path(navigation.editUrl(schema, identifier));
 			};
 
+
 			//==================================
 			//
 			//==================================
 			$scope.delete = function() {
-
+				if($scope.internalDocument && $scope.internalDocument.header.schema==='bbiRequest' && canEditBbiRequest()) return delMongo($scope.internalDocument);
 				if (!$scope.canDelete())
 					throw "Cannot delete";
 
@@ -163,6 +200,7 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			//
 			//==================================
 			$scope.canEdit = function() {
+				if($scope.internalDocument && $scope.internalDocument.header && $scope.internalDocument.header.schema==='bbiRequest') return canEditBbiRequest();
 				if (!$scope.user().isAuthenticated)
 					return false;
 
@@ -193,12 +231,23 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 
 				return $scope.internalCanEdit===true;
 			};
+			//==================================
+			//
+			//==================================
+			function canEditBbiRequest() {
+					if (!$scope.user().isAuthenticated || !$scope.internalDocument)
+						return false;
 
+					if($scope.internalDocument.meta.createdBy===$scope.user().userID ||(!!_.intersection($scope.user().roles, ["Administrator","ChmAdministrator", "BBiAdministrator","ChmDocumentValidationTeamMember"]).length))
+								return true;
+					else 	return false;
+
+			}
 			//==================================
 			//
 			//==================================
 			$scope.canDelete = function() {
-
+				if($scope.internalDocument && $scope.internalDocument.header && $scope.internalDocument.header.schema==='bbiRequest')return  canEditBbiRequest();
 				$scope.deleteTooltip = undefined;
 
 				if (!$scope.user().isAuthenticated)
@@ -234,6 +283,22 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 				return $scope.internalCanDelete===true;
 			};
 
+			//======================================================
+			//
+			//
+			//======================================================
+			function delMongo(record) {
+
+				if (confirm("Delete the document?")) {
+							var meta ={status:'deleted'};
+										return $http.put('/api/v2016/bbi-requests/'+record._id,{meta:meta,'_id':record._id}).then(function() {
+												$scope.$emit('showSuccess', 'Assitance Request ' + record.identifier_s + ' Deleted');
+												$location.url("/database");
+										}).catch(	$scope.onError);
+
+				}
+
+			}
 			//==================================
 			//
 			//==================================

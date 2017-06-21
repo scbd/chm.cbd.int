@@ -1,0 +1,97 @@
+<div>
+	<section ng-show="isEmpty() || useGoogle">
+		<div class="col-md-12">
+			<div class="panel panel-default" style="padding:10ppx 10px 10px 10px; background:#ddd;">
+				<div class="form-group" style="padding:10px 10px 10px 10px;">
+
+					<label for="placesSearch" class="control-label">Search google maps to prefill your address's details</label>
+					<div class="input-group">
+						<input id="google-ac-input" name="placesSearch" class="form-control" ng-model="placeSearch" type="text" placeholder="secretariat of the convention on biological diversity" ng-change="placesSearch()">
+						<span class="input-group-addon pointer" ng-click="clearSlacesSearch();"><i class="fa fa-search" ng-if="!selectedPlace && (!placeSearch || placeSearch.length===0)"></i><i class="fa fa-close" ng-if="selectedPlace || placeSearch.length" ></i></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="col-md-12" ng-show="!isEmpty() && !useGoogle">
+		<div class="well well-sm">
+			<div class="control-group" name="useGoogle" caption="">
+
+				<input type="checkbox" ng-model="useGoogle" ng-true-value="true" ng-false-value="false">
+				<label>Use Google Maps to edit address?</label>
+			</div>
+		</div>
+	</div>
+	<section ng-if="!isEmpty()">
+		<div class="col-md-12">
+			<div class="km-control-group" name="address" caption="Address">
+				<div km-textbox-ml ng-model="binding.address" rows="2" placeholder="example: 413 St-Jacques Ouest, Suite 800" locales="locales"></div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-xs-12">
+			<div class="km-control-group" name="city" required caption="City">
+				<div km-textbox-ml required name="city" ng-model="binding.city" locales="locales" placeholder="example: Montreal"></div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-xs-12">
+			<div class="km-control-group" name="state" caption="State or province">
+				<div km-textbox-ml name="state" ng-model="binding.state" locales="locales" placeholder="example: Quebec"></div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-xs-12">
+			<div class="km-control-group" name="country" required caption="Country">
+				<div km-select required name="country" ng-model="binding.country" items="options.countries()"></div>
+				<span class="flag-icon flag-icon-{{binding.country.identifier}}"></span>
+			</div>
+		</div>
+		<div class="col-md-6 col-xs-12">
+			<div class="km-control-group" name="postalCode" caption="Postal or zip code">
+				<div km-textbox-ml name="postalCode" ng-model="binding.postalCode" locales="locales" placeholder="example: H2Y 1N9"></div>
+			</div>
+		</div>
+		<section ng-if="embed==='event'">
+				<div class="col-xs-6">
+					<div class="km-control-group" name="mapsUrl" caption="">
+						<label><i class="fa fa-google" aria-hidden="true"></i> Maps link </label><span class="small pull-right" ng-if="binding.googleMapsUrl"><a ng-href="{{binding.googleMapsUrl}}" target="_blank">Test <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+						<input ng-change="updateWebsites('Google Maps',mapsUrl)" type="url" class="form-control" name="mapsUrl" id="mapsUrl" ng-model="binding.googleMapsUrl" placeholder="https://maps.google.com/?q=" on-focus-helper start="https://maps.google.com/?q=">
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div class="km-control-group" name="lat" caption="Latitude">
+						<input type="number" class="form-control" name="lat" id="lat" ng-model="binding.geoLocation.lat">
+					</div>
+				</div>
+
+				<div class="col-xs-3">
+					<div class="km-control-group" name="lng" caption="Longitude">
+
+						<input type="number" class="form-control" name="lng" id="lng" ng-model="binding.geoLocation.lng">
+					</div>
+				</div>
+		</section>
+		<section ng-if="embed==='organization'">
+				<div class="col-xs-6">
+					<div class="km-control-group" name="mapsURL" caption="">
+						<label><i class="fa fa-google" aria-hidden="true"></i> Maps link </label><span class="small pull-right" ng-if="mapsUrl"><a ng-href="{{mapsUrl}}" target="_blank">Test <i class="fa fa-external-link" aria-hidden="true"></i></a></span>
+						<input ng-change="updateWebsites('Google Maps',mapsUrl)" type="url" class="form-control" name="mapsUrl" id="mapsUrl" ng-model="mapsUrl" placeholder="https://maps.google.com/?q=" on-focus-helper start="https://maps.google.com/?q=">
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div class="km-control-group" name="lat" caption="Latitude">
+						<input type="number" class="form-control" name="lat" id="lat" ng-model="binding.coordinates.lat">
+					</div>
+				</div>
+
+				<div class="col-xs-3">
+					<div class="km-control-group" name="lng" caption="Longitude">
+
+						<input type="number" class="form-control" name="lng" id="lng" ng-model="binding.coordinates.lng">
+					</div>
+				</div>
+		</section>
+	</section>
+</div>

@@ -1,6 +1,6 @@
-define(['text!./search-result.html','app', 'moment','lodash','authentication'], function(template, app, moment,authentication) { 'use strict';
+define(['text!./search-result.html','app', 'moment','lodash','authentication',    'filters/htmlToPlaintext','filters/term','filters/trunc'], function(template, app, moment,authentication) { 'use strict';
 
-    app.directive('searchResult', function (authentication) {
+    app.directive('searchResult', ['$timeout',function ($timeout) {
         return {
             restrict: 'EAC',
             template: template,
@@ -11,17 +11,26 @@ define(['text!./search-result.html','app', 'moment','lodash','authentication'], 
                     var formatDate = function formatDate (date) {
                         return moment(date).format('MMMM Do YYYY');
                     };
+                    if(Array.isArray($scope.document.schema_EN_t))$scope.document.schema_EN_t=$scope.document.schema_EN_t[0];
+                    if(Array.isArray($scope.document.government_EN_t))$scope.document.government_EN_t=$scope.document.government_EN_t[0];
+                    $scope.schema           = $scope.document.schema_EN_t;
+                    $scope.schemaUpper      = $scope.document.schema_EN_t.toUpperCase();
+    // console.log($scope.document);
+    // console.log($scope.schema);
 
-                    $scope.schema      = $scope.document.schema_EN_t.toUpperCase();
-                    $scope.title       = $scope.document.title_t;
+                    $scope.title       = $scope.document.title_t || $scope.document.title_EN_s ;
                     $scope.description = $scope.document.description_t;
-                    $scope.source      = $scope.document.government_EN_t;
+                    $scope.source      = $scope.document.government_EN_t || 'SCBD';
 
                     if($scope.document.schema_s=='focalPoint') {
                         $scope.description  = $scope.document.function_t||'';
                         $scope.description += ($scope.document.function_t && $scope.document.department_t) ? ', ' : '';
                         $scope.description += $scope.document.department_t||'';
                         $scope.description2 = $scope.document.organization_t||'';
+                    } else if($scope.document.schema_s=='organization'){
+                        if($scope.document.relevantInformation_t)
+                           $scope.description = $scope.document.relevantInformation_t
+
                     }
 
                     if($scope.document.schema_s=='decision' && $scope.document.body_s=='XXVII8-COP' ) $scope.source = 'COP TO THE CONVENTION';
@@ -50,9 +59,12 @@ define(['text!./search-result.html','app', 'moment','lodash','authentication'], 
                     if($scope.document.schema_s=='marineEbsa') $scope.schema = 'ECOLOGICALLY OR BIOLOGICALLY SIGNIFICANT AREA';
 
                     if($scope.document.schema_s=='event') {
-                        $scope.dates = formatDate(document.startDate_s) + ' to ' + formatDate(document.endDate_s);
-                        $scope.venue = document.eventCity_EN_t + ', ' + document.eventCountry_EN_t;
-                    }
+                        $scope.dates = formatDate($scope.document.startDate_s) + ' to ' + formatDate($scope.document.endDate_s);
+                        var city = $scope.document.eventCity_EN_t || $scope.document.city_EN_t;
+                        var country = $scope.document.eventCountry_EN_t ||$scope.document.country_EN_t;
+                        $scope.venue = city + ', ' + country ;
+
+                      }
 
                 });
 
@@ -63,11 +75,32 @@ define(['text!./search-result.html','app', 'moment','lodash','authentication'], 
           			$scope.userGovernment = function() {
           				return authentication.user.government;
           			};
+                //==================================
+          			//
+          			//==================================
+                 function toTitleCase (str){
+                  var smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
 
+                  str=str.toLowerCase();
+                  return str.replace(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, function(match, index, title){
+                    if (index > 0 && index + match.length !== title.length &&
+                      match.search(smallWords) > -1 && title.charAt(index - 2) !== ":" &&
+                      (title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-') &&
+                      title.charAt(index - 1).search(/[^\s-]/) < 0) {
+                      return match.toLowerCase();
+                    }
+
+                    if (match.substr(1).search(/[A-Z]|\../) > -1) {
+                      return match;
+                    }
+
+                    return match.charAt(0).toUpperCase() + match.substr(1);
+                  });
+                };
 
             }
         };
-    });
+    }]);
 
 app.filter('htmlToTextPerSentance',
             function () {

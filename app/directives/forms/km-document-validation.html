@@ -1,6 +1,6 @@
 ﻿<div>
 
-	<div ng-hide="report" class="alert alert-info">
+	<div ng-hide="report || onLoad" class="alert alert-info">
 		<i class="fa fa-cog fa-spin"></i> Analyzing your document...
 	</div>
 
@@ -25,7 +25,7 @@
 			<h2 class="color-red">Your document contains warnings.</h2>
 			<ul>
 				<li ng-repeat="error in report.warnings" title="{{error.parameters}}">
-					{{getTranslation(error.code, error.property, error.parameters)}} / 
+					{{getTranslation(error.code, error.property, error.parameters)}} /
 					<a translation-url href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>
 				</li>
 			</ul>

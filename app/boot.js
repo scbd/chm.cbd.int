@@ -85,7 +85,8 @@ require.config({
         { name: 'scbd-branding'          , location : 'components/scbd-branding' },
         { name: 'scbd-angularjs-services', location : 'components/scbd-angularjs-services/services' },
         { name: 'scbd-angularjs-filters',  location : 'components/scbd-angularjs-services/filters' }
-    ]
+    ],
+    urlArgs: 'v=' + window.appVersion
 });
 
 define("_slaask", window._slaask);

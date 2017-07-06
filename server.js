@@ -7,8 +7,10 @@ var co      = require('co');
 var express   = require('express');
 var httpProxy = require('http-proxy');
 
-var appVersion = process.env.COMMIT;
-
+var appVersion = process.env.TAG;
+if(!appVersion || appVersion.trim()==''){
+    appVersion =   process.env.COMMIT
+}  
 // Create server & proxy
 
 var app   = express();
@@ -29,8 +31,8 @@ app.use(require('morgan')('dev'));
 
 // Configure routes
 
-app.use('/favicon.ico', express.static(__dirname + '/favicon.ico'));
-app.use('/?:lang(ar|en|es|fr|ru|zh)?/app',     translation, express.static(__dirname + '/app'));
+app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { setHeaders: setCustomCacheControl }));
+app.use('/?:lang(ar|en|es|fr|ru|zh)?/app',     translation, express.static(__dirname + '/app', { setHeaders: setCustomCacheControl }));
 
 app.all('/app/*', (req, res)=>res.status(404).send() );
 

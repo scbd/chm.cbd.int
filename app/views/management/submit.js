@@ -11,6 +11,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'nationalStrategicPlan'      ,public:0, draft:0, workflow:0 },
             { identifier: 'otherReport'                ,public:0, draft:0, workflow:0 },
             { identifier: 'resourceMobilisation'       ,public:0, draft:0, workflow:0 },
+            { identifier: 'resourceMobilisation2020'   ,public:0, draft:0, workflow:0 },            
             { identifier: 'nationalTarget'             ,public:0, draft:0, workflow:0 },
             { identifier: 'nationalAssessment'         ,public:0, draft:0, workflow:0 },
             { identifier: 'nationalIndicator'          ,public:0, draft:0, workflow:0 },

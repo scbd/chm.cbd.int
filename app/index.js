@@ -1,8 +1,8 @@
 define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
 'directives/users/notifications', 'services/realmConfig',
  'scbd-angularjs-services', 'scbd-angularjs-filters',
-'scbd-branding/directives/footer', '/app/directives/nav/portal-branding.js',
-'scbd-branding/directives/header/header', '/app/directives/nav/portal-nav.js',
+'scbd-branding/directives/footer', 'directives/nav/portal-branding',
+'scbd-branding/directives/header/header', 'directives/nav/portal-nav',
 'directives/forms/translation-url', 'scbd-angularjs-services/locale',
 ], function(app, $, _, moment) {
     'use strict';

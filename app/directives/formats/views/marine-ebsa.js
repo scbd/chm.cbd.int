@@ -32,7 +32,7 @@ app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q,
 				var qGis = [];
 
 				angular.forEach(qLinks, function(link) {
-					qGis.push($http.get(link.url).then(function (res) { return L.geoJson(res.data); }));
+					qGis.push($http.get(link.url, { headers: {Authorization:undefined}}).then(function (res) { return L.geoJson(res.data); }));
 				});
 
 				$q.all(qGis).then(function (layers) {

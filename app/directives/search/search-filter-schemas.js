@@ -67,7 +67,9 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'implementationActivity'  , title: 'Implementation Activities'     , count: 0 },
                 { identifier: 'nationalSupportTool'     , title: 'Guidance and Support Tools'    , count: 0 },
                 {},
-                { identifier: 'resourceMobilisation'    , title: 'Financial Reporting Framework' , count: 0 }
+                { identifier: 'resourceMobilisation'    , title: 'Financial Reporting Framework: Reporting on baseline and progress towards 2015' , count: 0 },
+                { identifier: 'resourceMobilisation2020', title: 'Financial Reporting Framework: Reporting on progress towards 2020' , count: 0 }
+                
             ];
 
             $scope.cbdManagedRecords = [

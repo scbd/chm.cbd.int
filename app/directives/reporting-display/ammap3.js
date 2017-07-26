@@ -374,8 +374,11 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             $scope.legendTitle = 'National Targets';
 
           } else if (schemaName == 'resourceMobilisation') {
-            $scope.legendTitle = 'Resource Mobilisation';
-          } else if (schemaName == 'all') {
+            $scope.legendTitle = 'Financial Reporting Framework: Reporting on baseline and progress towards 2015';
+          } else if (schemaName == 'resourceMobilisation2020') {
+            $scope.legendTitle = 'Financial Reporting Framework: Reporting on progress towards 2020';
+          }
+           else if (schemaName == 'all') {
             $scope.legendTitle = 'All Reporting';
           }
         } //legendTitle
@@ -479,6 +482,10 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
                   if ($scope.schema !== 'all')
                     balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.resourceMobilisation[0].title_t + "</div>";
                   break;
+                case 'resourceMobilisation2020':
+                  if ($scope.schema !== 'all')
+                    balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.resourceMobilisation2020[0].title_t + "</div>";
+                  break;                  
               }
             }); //_.each
           }

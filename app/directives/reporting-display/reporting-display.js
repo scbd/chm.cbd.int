@@ -50,6 +50,7 @@ define(['text!./reporting-display.html',
               'nationalReport',
               'nationalAssessment',
               'resourceMobilisation',
+              'resourceMobilisation2020',
               'nationalIndicator',
               'nationalTarget'
             ],
@@ -107,6 +108,11 @@ define(['text!./reporting-display.html',
             '_latest_s': ['true'],
             '_state_s': ['public']
           },
+          'resourceMobilisation2020': {
+            'schema_s': ['resourceMobilisation2020'],
+            '_latest_s': ['true'],
+            '_state_s': ['public']
+          },          
           'AICHI-TARGET-01': {
             'schema_s': ['nationalAssessment'],
             'nationalTarget_EN_t': ['"AICHI-TARGET-01"'],

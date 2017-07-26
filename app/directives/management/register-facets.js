@@ -26,7 +26,8 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
                 { identifier: 'nationalSupportTool',        title: 'Guidance and Support Tools'  ,             type:'Activities'  },
                 { identifier: 'implementationActivity',     title: 'Implementation Activities'  ,              type:'Activities'  },
 
-                { identifier: 'resourceMobilisation',       title: 'Preliminary Reporting Framework' ,         type:'Finance'  },
+                { identifier: 'resourceMobilisation',       title: 'Financial Reporting Framework: Reporting on baseline and progress towards 2015' ,   type:'Finance'  },
+                { identifier: 'resourceMobilisation2020',   title: 'Financial Reporting Framework: Reporting on progress towards 2020' ,                type:'Finance'  },                
 
                 { identifier: 'resource',                   title: 'Virtual Library - CHM Resouces' ,          type:'Reference'  },
                 { identifier: 'organization',               title: 'Biodiversity Related Organizations'  ,     type:'Reference'  },
@@ -171,7 +172,7 @@ app.directive('registerFacets', ['$rootScope', "$location", "IStorage", "schemaT
                     ////////////////
                     // All other schema
                     ////////////////
-                    var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation'];
+                    var filter = ['nationalAssessment','nationalTarget','nationalIndicator','nationalSupportTool','implementationActivity','resourceMobilisation','resourceMobilisation2020'];
                     var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
                     var published     = $http.get('/api/v2013/index/select?facet=true&facet.limit=512&facet.field=schema_s&fl=&fq=(realm_ss:chm '+
                                         'AND government_s:' + (userGovernment()  || $scope.government.toLowerCase()) + qSchema + ')+AND+NOT+version_s:*&rows=0&wt=json');

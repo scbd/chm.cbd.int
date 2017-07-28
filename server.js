@@ -6,6 +6,7 @@ var util    = require('util');
 var co      = require('co');
 var express   = require('express');
 var httpProxy = require('http-proxy');
+var url     = require('url');
 
 var appVersion = process.env.TAG;
 if(!appVersion || appVersion.trim()==''){
@@ -42,8 +43,15 @@ app.all('/api/*', (req, res)=>proxy.web(req, res, { target: apiUrl, changeOrigin
 
 app.get('/?:lang(ar|en|es|fr|ru|zh)?/*', function (req, res) {
    var urlPreferredLang;
+   
    if(req.params.lang)
      urlPreferredLang = ('/'+req.params.lang+'/');
+   else{ //temp because the above regex does not work for chm.cbd.int/fr case
+        var lang = _.first(_.values(_.omitBy(req.params, _.isNil)))
+        var langRegex = /^(ar|en|es|fr|ru|zh)$/
+        if(langRegex.test(lang))
+            urlPreferredLang = ('/'+lang+'/')
+   } 
 
    res.setHeader('Cache-Control', 'public, max-age=0');
 
@@ -79,13 +87,13 @@ process.on('SIGTERM', ()=>process.exit());
 
 
 function translation(req, res, next) {
-
+   
    co(function*(){
         let langFilepath = yield getLanguageFile(req);
         if(langFilepath){
              return res.sendFile(langFilepath);
-        }
-
+        }    
+            
         next();
    });
 }
@@ -96,36 +104,42 @@ function* getLanguageFile(req, preferredLang){
         preferredLang = getPreferredLanguage(req);
 
     if(preferredLang){
-        var path = `/i18n/${preferredLang}/app${req.url}`;
+        var requestedUrl = url.parse(req.url).pathname;
+        var path = `/i18n/${preferredLang}/app${requestedUrl}`;               
 
         let statsLang;
         try{
             statsLang  = yield fs.stat(__dirname + path);
         }catch(e){}
         if (statsLang && statsLang.isFile()) {
-
-            var statsEN    = yield fs.stat(`${__dirname}/app${req.url}`);
+            
+            var statsEN    = yield fs.stat(`${__dirname}/app${requestedUrl}`);
 
             var mLangtime  = new Date(util.inspect(statsLang.mtime));
             var mENtime    = new Date(util.inspect(statsEN.mtime));
             if(mLangtime >= mENtime)
                 return __dirname + path;
         }
-    }
+    }           
 }
 
 function getPreferredLanguage(req){
+    
+    var htmlRegex       = /.(html|ejs|json)$/g; ///.html?[^.]/g//\.html(?!.js)
+    var langRegex       = /^(ar|fr|es|ru|zh)/;
+    var requestedUrl    = url.parse(req.url).pathname;
+
+    if(!htmlRegex.test(requestedUrl))
+        return;
 
     if(req.params.lang)
         return req.params.lang;
-
-    var htlmRegex       = /.(html|ejs|json)/g; ///.html?[^.]/g//\.html(?!.js)
-    var langRegex       = /^(ar|fr|es|ru|zh)/;
+    
     if(req.headers['preferred-language']){
 
         var validLanguages = ['ar', 'fr', 'es', 'ru', 'zh']
         var language = req.headers['preferred-language'];
-
+        
         if(_.includes(validLanguages, language.toLowerCase())){
             return language;
         }

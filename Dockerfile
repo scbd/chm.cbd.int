@@ -53,4 +53,7 @@ ENV TAG $TAG
 ARG COMMIT
 ENV COMMIT $COMMIT
 
+ARG TAG
+ENV TAG $TAG
+
 CMD [ "node", "server" ]

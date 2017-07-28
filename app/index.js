@@ -22,7 +22,11 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
         if(lang == 'ar'){
             require(['css!/app/libs/bootstrap-rtl/dist/css/bootstrap-rtl.css']);
         }
-
+        var basePath = (angular.element('base').attr('href')||'').replace(/\/+$/g, '');
+        $rootScope.$on('$routeChangeSuccess', function(){
+            $window.ga('set',  'page', basePath+$location.path());
+            $window.ga('send', 'pageview');
+        });
         $rootScope.placeholderRecords=[];
 
         $scope.goHome               = function() { $location.path('/'); };

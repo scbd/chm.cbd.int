@@ -1,4 +1,4 @@
-FROM node:4.2
+FROM node:6.10.2
 
 ARG BRANCH='master'
 ENV BRANCH $BRANCH

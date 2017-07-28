@@ -21,7 +21,8 @@ define(['text!./results-list.html', 'app', 'lodash'], function(template, app, _)
             'nbsaps': 'Nat. Bio. Strategies and Action Plans',
             'nationalIndicator': 'National Indicators',
             'nationalTarget': 'National Targets',
-            'resourceMobilisation': 'Financial Resource Mobilization',
+            'resourceMobilisation': 'Financial Resource Mobilization: Reporting on baseline and progress towards 2015',
+            'resourceMobilisation2020': 'Financial Resource Mobilization: Reporting on progress towards 2020',
             'draft':'Draft Documents',
             'public':'Published Documents',
           };

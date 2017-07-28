@@ -109,8 +109,8 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             ///////////////
 
 
-            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resource',
-            'undbActor','undbParty','event', 'bbiContact','bbiProfile','bbiOpportunity', 'bbiRequest',
+            var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resourceMobilisation2020',
+            'resource','undbActor','undbParty','event', 'bbiContact','bbiProfile','bbiOpportunity', 'bbiRequest',
             'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
             'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction','undbParty','undbActor', 'nationalReport6'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";

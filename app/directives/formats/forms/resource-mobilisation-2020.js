@@ -122,7 +122,7 @@ app.directive('editResourceMobilisation2020', ["$http","$rootScope", "$filter", 
 								multiplier: 'units',
 							},
 							domesticExpendituresData: { contributions: [{}]},
-							nationalPlansData : { domesticSources: [{}], internationalSources: [{}], multiplier: 'units'}
+							nationalPlansData : { domesticSources: [{}], internationalSources: [{}], multiplier: 'units', gapReductions: [{}]}
 						};
 					});
 				}
@@ -138,8 +138,6 @@ app.directive('editResourceMobilisation2020', ["$http","$rootScope", "$filter", 
 					$scope.status = "ready";
 					$scope.document = doc;
 
-					$scope.copyMandatoryFields();
-
 				}).catch(function(err) {
 
 					$scope.onError(err.data, err.status);
@@ -147,6 +145,13 @@ app.directive('editResourceMobilisation2020', ["$http","$rootScope", "$filter", 
 
 				});
 			};
+
+			//==================================
+			//
+			//==================================			
+			$scope.$watch('baselineDocument', function(newValue, oldValue) {
+				$scope.copyMandatoryFields();
+			});
 
 			//==================================
 			//
@@ -269,15 +274,12 @@ app.directive('editResourceMobilisation2020', ["$http","$rootScope", "$filter", 
 							else if(member === "financialFlows" && hasValidFlows(list))
 								list.push({});
 							else if(member === "contributions" && hasValidContributions(list)){
-								console.log('do something here for contributions');
 								list.push({});
 							}
 							else if(member === "domesticSources" ){
-								console.log('do something here for contributions');
 								list.push({});
 							}	
 							else if(member === "internationalSources" ){
-								console.log('do something here for contributions');
 								list.push({});
 							}														
 						}
@@ -644,12 +646,18 @@ app.directive('editResourceMobilisation2020', ["$http","$rootScope", "$filter", 
 							document.nationalPlansData.hasDomesticPrivateSectorMeasuresComments = undefined;		  // clear value
 							$scope.document.nationalPlansData.hasDomesticPrivateSectorMeasuresComments = undefined; // clear scope
 						}	
+
+						if(!document.nationalPlansData.gapReductions){
+							if(!_.includes(_.map(document.nationalPlansData.gapReductions, _.isEmpty), false)){  // empty
+								document.nationalPlansData.gapReductions = undefined;
+							} 
+						}
 					}
 
 					if (/^\s*$/g.test(document.notes))
 						document.notes = undefined;
 				}
-				//console.log(document);
+
 				return document;
 			};
 
@@ -945,8 +953,7 @@ app.directive('modalPart1', function() {
 						otherAverage = _.sum(_.map(items, 'otherAmount'))/_.size(items); //$parent.typeAverageAmount($scope.baseline.internationalResources.financialFlows,'otherAmount');
 					}
 				}
-//console.log(odaAverage, oofAverage, otherAverage);
-//console.log(parseInt(Math.round(odaAverage)), parseInt(Math.round(oofAverage)), parseInt(Math.round(otherAverage)));			
+			
 				return parseInt(odaAverage)+parseInt(oofAverage)+parseInt(otherAverage);
 			}
 		}]

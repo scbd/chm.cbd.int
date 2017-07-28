@@ -16,6 +16,7 @@ define(['text!./filter-all.html', 'app', 'lodash'], function(template, app, _) {
                 'nationalReport',
                 'nationalAssessment',
                 'resourceMobilisation',
+                'resourceMobilisation2020',
                 'nationalIndicator',
                 'nationalTarget'
               ],

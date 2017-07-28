@@ -53,6 +53,7 @@ define(['text!./search.html',
 	                'implementationActivity'     : 'icon-retweet',
 	                'nationalSupportTool'        : 'icon-wrench',
 					'resourceMobilisation'       : 'fa fa-university',
+					'resourceMobilisation2020'   : 'fa fa-university',
 					'capacityBuildingInitiative' : 'fa fa-book',
 	            };
 

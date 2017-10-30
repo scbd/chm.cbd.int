@@ -1,0 +1,6 @@
+﻿a[href]:after {
+    content: '' !important;
+}
+#schemaView {
+    /* background-color: #fff!important; */
+}

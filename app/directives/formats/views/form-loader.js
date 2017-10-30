@@ -1,6 +1,7 @@
 define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication', 'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale'], function(require, app, template,_){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation","$http", function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http) {
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation","$http", '$timeout',
+function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -310,6 +311,25 @@ app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "lo
 			}
 
 			$scope.init();
+
+
+			$scope.print = function(){
+				$scope.printing = true;
+				require(['printThis', 'text!./print-header.html', 'text!./print-footer.html'], function(printObj, header, footer){						
+					$element.parent().parent().parent().find('#schemaView').printThis({
+						debug:false,
+						printContainer:true,
+						importCSS:true,
+						importStyle : true,
+						pageTitle : $('title').text(),
+						loadCSS : '/app/css/print-friendly.css',
+						header : header,
+						footer : footer
+					});	
+					$timeout(function(){$scope.printing = false;},500);
+				});
+				
+			}
 		}
 	};
 }]);

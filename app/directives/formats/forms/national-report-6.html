@@ -790,8 +790,13 @@
 							<div class="btn-group" ng-show="document.header.languages.length>1">
 								<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
 							</div>
-
-							<view-national-report-6 ng-model="reviewDocument" locale="review.locale" link-target="_blank"></view-national-report-6>
+							<div class="btn-group btn-group-sm pull-right">									
+								<button href="#" title="Print the Record" class="btn btn-default" ng-click="print()">
+									 Print<i class="fa fa-spin fa-spinner" ng-if="printing" /> 
+									 <i class="fa fa-print" aria-hidden="true" ng-if="!printing"></i>
+								</button>
+							</div>
+							<view-national-report-6 ng-model="reviewDocument" locale="review.locale" link-target="_blank" id="schemaPrintView"></view-national-report-6>
 						</div>
 
 

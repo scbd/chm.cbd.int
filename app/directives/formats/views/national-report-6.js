@@ -1,4 +1,5 @@
-define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', "utilities/solr",'scbd-angularjs-services/locale'], 
+define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', 
+		"utilities/solr",'scbd-angularjs-services/locale', './national-target', './national-assessment'], 
 function(app, template, _){
 
 app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
@@ -18,14 +19,15 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 		},
 		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage',
- 						"navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , "solr", "realm",'ngDialog', 'locale',
+						 "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , 
+						 "solr", "realm",'ngDialog', 'locale', 'smoothScroll',
 			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication,
-			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale) {
+			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale, smoothScroll) {
 
 				if(!$scope.locale)
 					$scope.locale = locale;
 
-				var nationalAssessments = [];
+				var progressAssessments = [];
 				$scope.nationalTargets = [];
 
 				$scope.$watch('document', function(document, old){
@@ -33,26 +35,34 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(!$scope.document||!document)
 						return;
 					if(document.targetPursued){
-						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadReferenceRecords({identifier : removeRevisonNumber(target.identifier)});});
+						$scope.isLoadingAssessments = true
+						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadDocument(target.identifier);});
 						$q.all(nationalTargets)
 						  .then(function(data){
 							  $scope.nationalTargets = [];
 							  _.each(data, function(target){
-								  $scope.nationalTargets.push(target[0]);
+								if(target.data){
+									target.data.government = undefined;
+									$scope.nationalTargets.push(target.data);
+								}
 							  });
+							  $scope.isLoadingAssessments = false;
 						  });
 					}
 
+					$scope.isLoadingAssessments = true;
 					var nationalAssessmentQuery=[];
 					_.each($scope.document.progressAssessments, function (mod) {
 						if(mod.assessment && mod.assessment.identifier){
-							nationalAssessmentQuery.push(loadReferenceRecords({schema:'nationalAssessment', identifier:mod.assessment.identifier, rows:1}));
+							nationalAssessmentQuery.push(loadDocument(mod.assessment.identifier));
 						}
 					});
 					$q.all(nationalAssessmentQuery)
 					.then(function(results){
-						var documents = _.map(results, function(result){ return result[0] || {}; });
-						nationalAssessments = documents;
+						var documents = _.map(results, function(result){ 
+											result.data.government = undefined; return result.data || {}; 
+										});
+						$scope.progressAssessments = documents;
 					});
 
 					if($scope.document.nationalContribution){
@@ -105,7 +115,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 					if($scope.nationalTargets){
 						var nationalTarget = _.find($scope.nationalTargets, function(target){
-												return target && target.identifier_s == identifier;
+												return target && target.header.identifier == identifier;
 											});
 						if(nationalTarget)
 							return nationalTarget.title;
@@ -125,7 +135,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				//
 				//============================================================
 				$scope.getAssessmentInfo = function(assessment, field){
-					var existingAssesment = _.find(nationalAssessments, function(progress){
+					var existingAssesment = _.find(progressAssessments, function(progress){
 														return  progress.identifier_s == assessment.identifier;
 													});
 					if(existingAssesment)
@@ -260,6 +270,20 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						}, reject);
 					});
 				}
+
+				function loadDocument(identifier) {
+					
+					if (identifier) { //lookup single record
+						
+						return storage.documents.get(identifier)
+									.catch(function(e) {
+										if (e.status == 404) {
+											return storage.drafts.get(identifier);
+										}
+									});
+					}
+				};
+				
 		}]
 	};
 }]);

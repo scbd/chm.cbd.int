@@ -19,6 +19,7 @@
 		<legend>Level of application</legend>
 
 		<div ng-show="document.jurisdiction">
+			<label>Jurisdiction</label>
 			<div class="km-value">
 				{{document.jurisdiction | term:locale}}
 			</div>
@@ -37,12 +38,12 @@
 
 		<div ng-show="document.aichiTargets">
 			<label>Aichi Targets</label>
-			<div class="km-value" ng-repeat="item in document.aichiTargets">{{item | term:locale}}</div>
+			<div class="km-value"  ><span ng-repeat="item in document.aichiTargets">{{item | term:locale}}</span></div>
 		</div>
 
 		<div ng-show="document.otherAichiTargets">
 			<label>Sub-Aichi Targets</label>
-			<div class="km-value" ng-repeat="item in document.otherAichiTargets">{{item | term:locale}}</div>
+			<div class="km-value" ><span ng-repeat="item in document.otherAichiTargets">{{item | term:locale}}</span></div>
 		</div>
 		<div ng-show="document.noOtherAichiTargetsDescription">
 			<label>Explanation on national target has no corresponding Aichi Biodiversity Target or relates to other parts of the Strategic Plan for Biodiversity</label>
@@ -62,8 +63,8 @@
 
 		<div ng-show="document.documentLinks">
 			<label>Relevant websites, links, and files</label>
-			<div class="km-value" ng-repeat="item in document.documentLinks">
-				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			<div class="km-value"><span ng-repeat="item in document.documentLinks">
+				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></span>
 			</div>
 		</div>
 	</div>
@@ -79,8 +80,10 @@
 
 		<div ng-show="document.relevantDocuments">
 			<label>Other relevant website address or attached documents</label>
-			<div class="km-value" ng-repeat="item in document.relevantDocuments">
-				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			<div class="km-value">
+				<span ng-repeat="item in document.relevantDocuments">
+					<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+				</span>
 			</div>
 		</div>
 

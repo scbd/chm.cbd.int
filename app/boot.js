@@ -47,7 +47,8 @@ require.config({
       'scbd-angularjs-filters'    : 'libs/scbd-angularjs-services/filters/scbd-filters',
       'socket.io'                 : 'libs/socket.io-1.4.5/index',
       'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll',
-      'webui-popover'             : 'libs/webui-popover/dist/jquery.webui-popover.min'
+      'webui-popover'             : 'libs/webui-popover/dist/jquery.webui-popover.min',
+      'printThis'                 : 'libs/printThis/printThis'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },

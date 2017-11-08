@@ -4,3 +4,7 @@
 #schemaView {
     /* background-color: #fff!important; */
 }
+
+.portal-header, .footer, .control-buttons{
+    display: none;
+}

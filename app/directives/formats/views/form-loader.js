@@ -1,6 +1,6 @@
 define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication', 'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale'], function(require, app, template,_){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation","$http", '$timeout',
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation","$http", '$timeout', 
 function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout) {
 	return {
 		restrict: 'E',
@@ -16,7 +16,11 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 		},
 		link: function($scope, $element) {
 			//
-
+			var queryString = $location.search();
+			if(queryString && queryString.print){
+				$scope.printMode = true;
+				require(['css!/app/css/print-friendly'])
+			}
 			var formHolder = $element.find("#form-placeholder:first");
 
 			$scope.internalDocument     = undefined;

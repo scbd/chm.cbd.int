@@ -31,8 +31,9 @@
 			background-color: #f9f9f9;
 			border: 1px solid #ddd;
 		}
-		.national-targets h2{
+		.national-targets h2, .national-targets h3{
 			border-bottom: 1px solid #ddd;
+			margin-top: 5px;
 		}
 		.viewForm legend{
 			background-color: #fff;
@@ -110,6 +111,9 @@
 			vertical-align: middle;
 			color: #fff;
 		}
+		.national-targets h3 {
+			font-size: 24px;
+		}
 	</style>
 	<div class="blockRegion" ng-if="isLoadingTargets||isLoadingAssessments">
 		<div class="inverted dimmer active">
@@ -126,24 +130,15 @@
 			
 		</div>
 		<div class="section-body">
-			<div ng-show="document.government">
-				<label>Country</label>
-				<div class="km-value">
-					{{document.government | term:locale}}
-				</div>
-			</div>
-			</br>
-			<div class="row">
+			<div class="row" ng-show="document.government">
 				<div class="col-xs-12">
-						<label>Target Pursued</label>
-						<div class="km-value">
-							<strong>{{document.government | term:locale}}
-								<span ng-if="document.targetPursued"> has adopted national biodiversity targets or equivalent commitments in line with the Strategic Plan for Biodiversity 2011-2020 and the Aichi Targets</span>
-								<span ng-if="!document.targetPursued"> has not adopted national biodiversity targets and is reporting progress using the Aichi Biodiversity Targets for reference.</span>
-							</strong>
+					<label>Country</label>
+					<div class="km-value">
+						{{document.government | term:locale}}
 					</div>
 				</div>
 			</div>
+			
 			<div class="row" ng-show="document.nationalTargets">
 				<div class="col-xs-12" style="margin-top:10px;">
 					<label><strong>National Targets</strong></label>

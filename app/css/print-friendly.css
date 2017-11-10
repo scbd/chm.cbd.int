@@ -5,6 +5,21 @@
     /* background-color: #fff!important; */
 }
 
-.portal-header, .footer, .control-buttons{
-    display: none;
+.portal-header, .footer, .control-buttons, 
+.slaask-alert-overlay, .slaask-alert, .lang-alert .slaask-button{
+    display: none!important;
+}
+
+h1 {
+    font-size:25px!important;
+}
+h2 {
+    font-size:20px!important;
+}
+
+h3 {
+    font-size:14px!important;
+}
+b, strong {
+    font-weight: 100!important;
 }

@@ -6,7 +6,7 @@
 }
 
 .portal-header, .footer, .control-buttons, 
-.slaask-alert-overlay, .slaask-alert, .lang-alert .slaask-button{
+.slaask-alert-overlay, .slaask-alert, .lang-alert, .slaask-button{
     display: none!important;
 }
 

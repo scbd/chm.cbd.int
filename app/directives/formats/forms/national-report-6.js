@@ -1,12 +1,16 @@
-define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-report-6',
+define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-report-6',
 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale'
 	],
-	function(template, app, angular, _, messages) {
+	function(require, template, app, angular, _, messages) {
 		'use strict';
 
-		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", "realm", '$compile', "$timeout", 'ngDialog', 'locale', 
-			function($http, $rootScope, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls,thesaurus, guid, $route, solr, realm, $compile, $timeout, ngDialog, locale) {
+		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', 
+		"editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", 
+		"realm", '$compile', "$timeout", 'ngDialog', 'locale', 'smoothScroll',
+			function($http, $rootScope, $q, $location, $filter, storage, editFormUtility, 
+				navigation, authentication, siteMapUrls,thesaurus, guid, $route, solr, 
+				realm, $compile, $timeout, ngDialog, locale, smoothScroll) {
 				return {
 					restrict: 'E',
 					template: template,
@@ -350,6 +354,7 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 							// if(tab == 'progress')$scope.closeall('.progressAssessment');
 							// if(tab == 'nationalContribution')$scope.closeall('.aichiTarget');
 							// if(tab == 'gspcContribution')$scope.closeall('.gspcTarget');
+							// smoothScroll($element.find(nextTab))
 						});
 						$scope.switchTab = function(type){
 							if(type=='next' && nextTab!='')
@@ -954,6 +959,25 @@ define(['text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-d
 
 						$('body').scrollspy({ target: '#nav' })
 
+
+						$scope.print = function(){
+							$scope.printing = true;
+							require(['printThis', 'text!../views/print-header.html', 'text!../views/print-footer.html'], function(printObj, header, footer){						
+								var el = $element.find('#schemaPrintView');
+								el.printThis({
+									debug:false,
+									printContainer:true,
+									importCSS:true,
+									importStyle : true,
+									pageTitle : $('title').text(),
+									loadCSS : '/app/css/print-friendly.css',
+									header : header,
+									footer : footer
+								});	
+								$timeout(function(){$scope.printing = false;},500);
+							});
+							
+						}
 					}
 				};
 			}

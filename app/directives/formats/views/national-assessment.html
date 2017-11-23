@@ -1,33 +1,28 @@
 ﻿<div class="viewForm">
-	<h2>{{document.date.substr(0,4)}} - {{document.progress | term:locale}}</h2>
-
-	<div ng-show="document.government">
+	<div class="col-md-12" style="padding-left:0px">
+		<img ng-src="/app/img/ratings/884D8D8C-F2AE-4AAC-82E3-5B73CE627D45.png" class="pull-left">
+		<legend>{{document.date.substr(0,4)}} - {{document.progress | term:locale}}</legend>
+	</div>
+	<div ng-show="document.government" class="col-md-12">
 		<label>Country</label>
 		<div class="km-value">
 			<span>{{document.government | term:locale}} </span>
 		</div>
 	</div>
 
-	<div ng-show="document.description">
+	<div ng-show="document.description" class="col-md-12">
 		<label>Description</label>
 		<div class="km-value km-pre" ng-bind="document.description | lstring:locale"></div>
 	</div>
 
-	<div ng-show="document.nationalTarget">
-
-		<legend>Targets</legend>
-		<div ng-show="document.nationalTarget">
-			<label>Targets</label>
-			<ul class="km-value">
-			    <li ng-repeat="item in nationalTarget">{{item.title | lstring:locale}} </li>
-			</ul>
-		</div>
+	<div ng-show="document.nationalTarget" class="col-md-12 assessment-tagets">
+		<label>Targets</label>
+		<ul class="km-value">
+			<li ng-repeat="item in nationalTarget">{{item.title | lstring:locale}} </li>
+		</ul>
 	</div>
 
-	
-
-
-	<div ng-show="document.assessmentText || document.progress">
+	<div ng-show="document.assessmentText || document.progress" class="col-md-12">
 		<legend>Category of progress towards the implementation of the selected target</legend>
 
 		<div ng-show="document.assessmentText">
@@ -42,13 +37,13 @@
 		</div>
 		<div ng-show="document.progress">
 			<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
-			<span class="km-value">{{document.progress | term:locale}} </span>
+			<div class="km-value">{{document.progress | term:locale}} </div>
 		</div>
 
 	</div>
 
 
-	<div ng-show="document.nationalIndicatorsuserd || document.nationalIndicators || document.strategicPlanIndicators || document.implementationActivities">
+	<div class="col-md-12" ng-show="document.nationalIndicatorsuserd || document.nationalIndicators || document.strategicPlanIndicators || document.implementationActivities">
 		<legend>Indicators and Activities</legend>
 		
 		<div ng-show="document.nationalIndicatorsuserd===false">
@@ -81,7 +76,7 @@
 	</div>
 
 
-	<div ng-show="document.documentText||document.documentLinks">
+	<div ng-show="document.documentText||document.documentLinks" class="col-md-12">
 
 		<legend>Relevant documents and information</legend>
 
@@ -98,13 +93,13 @@
 		</div>
 	</div>
 
-	<div ng-show="document.confidence || document.confidenceInfo">
+	<div ng-show="document.confidence || document.confidenceInfo" class="col-md-12">
 
 		<legend>Level of confidence</legend>
 
 		<div ng-show="document.confidence">
 			<label>Level of confidence of the above measure</label>
-			<span class="km-value">{{document.confidence | term:locale}} </span>
+			<div class="km-value">{{document.confidence | term:locale}} </div>
 		</div>
 
 		<div ng-show="document.confidenceInfo">
@@ -113,25 +108,26 @@
 		</div>
 
 	</div>
-	<div ng-show="document.adequacy">
+	<div ng-show="document.adequacy" class="col-md-12">
 		<label>Adequacy of monitoring information to support assessment</label>
 		<div class="km-value km-pre">{{document.adequacy | term:locale}}</div>
 	</div>
-	<div ng-show="document.adequacyDescription">
+	<div ng-show="document.adequacyDescription" class="col-md-12">
 		<label>Monitoring system for the target</label>
 		<div class="km-value km-pre">{{document.adequacyDescription | lstring:locale}}</div>
 	</div>
-	<div ng-show="document.otherRelevantDocuments">
+	<div ng-show="document.otherRelevantDocuments" class="col-md-12">
 		<label>Other relevant website address or attached documents</label>
 		<ul class="km-value">
 			<li ng-repeat="item in document.otherRelevantDocuments"><a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a></li>
 		</ul>
 	</div>
-	<div ng-show="document.relevantInformation||document.relevantDocuments">
+	<div ng-show="document.relevantInformation||document.relevantDocuments" class="col-md-12">
 
 		<legend>Additional Information </legend>
 
 		<div ng-show="document.relevantInformation">
+			<label>Relevant Information</label>
 			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
 		</div>
 

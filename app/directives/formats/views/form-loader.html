@@ -1,52 +1,68 @@
-﻿<div ng-cloak>
-	<div ng-show="errorNotFound">
-    	<h1 style="font-size:60px;font-weight:bold">Oops...</h1>
-        <h1>Looks like the record you are looking for doesn't exist anymore. Sorry about that.</h1>
-          <h1>If you need help, please contact us using the Live Help Desk button at the bottom right.</h1>
-	</div>
-
-	<div class="alert alert-danger" ng-show="!errorNotFound && error">
-		<strong>An error has occurred...</strong>
-		<div>{{error}}</div>
-	</div>
-
-	<div ng-show="!error && internalDocument">
-
-		<div ng-hide="hideButtons=='true'" style="float:right">
-
-			<!-- <span ng-show="internalDocumentInfo.workingDocumentLock">
-				<i class="fa fa-lock"></i>
-				Document is locked
-			</span>
-			<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
-			<button type="button" class="btn btn-default" ng-click="delete()"  title="{{deleteTooltip}}">Delete &raquo;</button>
-		 -->
-
-			<div class="btn-group btn-group-sm" ng-show="internalDocumentInfo.workingDocumentLock">
-				<button type="button" class="btn btn-default"><i class="fa fa-lock"></i></button>
-			</div>
-
-			<div class="btn-group btn-group-sm" ng-show="!internalDocumentInfo.workingDocumentLock">
-				<button data-toggle="tooltip" title="Edit the Record" ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock" title="Edit"            type="button" class="btn btn-default" ng-click="edit(record)"><i class="fa fa-edit"></i></button>
-				<button data-toggle="tooltip" title="Delete this Record" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="Delete"          type="button" class="btn btn-default" ng-click="delete(record)"><i class="fa fa-trash-o"></i></button>
-			</div>
-
-
+﻿<div ng-cloak style="background:#fff">
+	<div ng-include="'/app/directives/formats/views/print-header.html'" ng-if="printMode"></div>
+	<div class="md-whiteframe-z1 bg-grey" style="padding:10px;">
+		<div ng-show="errorNotFound">
+			<h1 style="font-size:60px;font-weight:bold">Oops...</h1>
+			<h1>Looks like the record you are looking for doesn't exist anymore. Sorry about that.</h1>
+			<h1>If you need help, please contact us using the Live Help Desk button at the bottom right.</h1>
 		</div>
 
-		<h1>{{internalDocument.header.schema | schemaName}}</h1>
-
-		<div ng-show="showAcknowledgement">
-			<div class="alert alert-success alert-dismissable">
-				<table width="100%">
-					<tr>
-						<td><i class="fa fa-check"></i> <strong>Published!</strong> Your record has been saved. </td>
-						<td style="text-align:right"><a translation-url class="btn btn-success" href="/management/national-reporting?country={{internalDocument.government.identifier|uppercase}}">Continue to National Reporting &raquo;</a></td>
-					</tr>
-				</table>
-			</div>
+		<div class="alert alert-danger" ng-show="!errorNotFound && error">
+			<strong>An error has occurred...</strong>
+			<div>{{error}}</div>
 		</div>
 
-		<div id="form-placeholder"></div>
+		<div ng-show="!error && internalDocument">
+
+			<div ng-hide="hideButtons=='true'" style="float:right" class="control-buttons">
+
+				<!-- <span ng-show="internalDocumentInfo.workingDocumentLock">
+					<i class="fa fa-lock"></i>
+					Document is locked
+				</span>
+				<button type="button" class="btn btn-default" ng-click="edit()"   ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock">Edit &raquo;</button>
+				<button type="button" class="btn btn-default" ng-click="delete()"  title="{{deleteTooltip}}">Delete &raquo;</button>
+			-->
+
+				<div class="btn-group btn-group-sm" ng-show="internalDocumentInfo.workingDocumentLock">
+					<button type="button" class="btn btn-default"><i class="fa fa-lock"></i></button>
+				</div>
+
+				<div class="btn-group btn-group-sm">
+					
+					<a ng-if="internalDocumentInfo.documentID" 
+						href="/api/v2017/generate-pdf/{{internalDocumentInfo.realm}}/documents/{{locale}}?documentID={{internalDocumentInfo.documentID}}" 
+						target="_blank" class="btn btn-default">                    
+						PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>						
+					</a>
+					<button data-toggle="tooltip" title="Print the Record" title="Print" type="button" class="btn btn-default" ng-click="print()">
+						Print <i class="fa fa-spin fa-spinner" ng-if="printing" /> 
+						<i class="fa fa-print" aria-hidden="true" ng-if="!printing"></i>
+					</button>				
+					<button data-toggle="tooltip" title="Edit the Record" ng-show="user().isAuthenticated" ng-disabled="!canEdit()   || internalDocumentInfo.workingDocumentLock" title="Edit"     
+					       type="button" class="btn btn-default" ng-click="edit(record)">Edit <i class="fa fa-edit"></i></button>
+					<button data-toggle="tooltip" title="Delete this Record" ng-show="user().isAuthenticated" ng-disabled="!canDelete() || internalDocumentInfo.workingDocumentLock" title="Delete"    
+					      type="button" class="btn btn-default" ng-click="delete(record)">Delete <i class="fa fa-trash-o"></i></button>
+				</div>
+
+
+			</div>
+			<div id="schemaView">
+				<h1>{{internalDocument.header.schema | schemaName}}</h1>
+
+				<div ng-show="showAcknowledgement" class="acknowledgement">
+					<div class="alert alert-success alert-dismissable">
+						<table width="100%">
+							<tr>
+								<td><i class="fa fa-check"></i> <strong>Published!</strong> Your record has been saved. </td>
+								<td style="text-align:right"><a translation-url class="btn btn-success" href="/management/national-reporting?country={{internalDocument.government.identifier|uppercase}}">Continue to National Reporting &raquo;</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				<div id="form-placeholder"></div>
+			</div>
+		</div>
 	</div>
 </div>

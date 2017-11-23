@@ -27,50 +27,140 @@
 		.ngdialog-open{
 			height: auto !important;
 		}
-	</style>
+		.km-value {
+			background-color: #f9f9f9;
+			border: 1px solid #ddd;
+		}
+		.national-targets h2, .national-targets h3{
+			border-bottom: 1px solid #ddd;
+			margin-top: 5px;
+		}
+		.viewForm legend{
+			background-color: #fff;
+			margin-top: 5px;
+			padding-top: 10px;
+			margin-bottom: 10px;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		#section3 .viewForm .col-md-12{
+			padding-left: 0px;
+		}
+		.viewForm label{
+			font-weight: 500!important;
+			color: #666;
+			font-size: 12px;
+		}
 
-	<div class="section">
+		.blockRegion {
+			position: absolute;
+			/*box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);*/
+			width: 100%;
+			height: 100%;
+			margin: 1rem 0;
+			padding: 1em;
+			border-radius: .28571429rem;
+			/*border: 1px solid rgba(34,36,38,.15);*/
+		}
+		.dimmer {
+			border-radius: inherit!important;
+		}
+		.inverted.dimmer {
+			background-color: rgba(0,0,0,.6);
+		}
+		.dimmed.dimmable>.animating.dimmer,
+		.dimmed.dimmable>.visible.dimmer,
+		.active.dimmer {
+			display: block;
+			opacity: 0.5;
+		}
+		.dimmer {
+			display: none;
+			position: relative;
+			top: -16px!important;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			min-height: 40px;
+			text-align: center;
+			vertical-align: middle;
+			background-color: rgba(0, 0, 0, .85);
+			opacity: 0.5;
+			line-height: 1;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+			-webkit-animation-duration: .5s;
+			animation-duration: .5s;
+			-webkit-transition: background-color .5s linear;
+			transition: background-color .5s linear;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			will-change: opacity;
+			z-index: 1000;
+		}
+		.loader{
+			color: #fff;
+			font-size: 20px;
+			margin: auto;
+		}
+		.dimmer>.content>* {
+			display: table-cell;
+			vertical-align: middle;
+			color: #fff;
+		}
+		.national-targets h3 {
+			font-size: 24px;
+		}
+	</style>
+	<div class="blockRegion" ng-if="isLoadingTargets||isLoadingAssessments">
+		<div class="inverted dimmer active">
+			<div class="center">
+				<div class="medium loader"><i class="fa fa-spin fa-cog" /> loading </div>					
+			</div>
+		</div>
+	</div>
+	<div class="section" id="section1">
 		<div class="section-header">
-			<h3>Section I. Information on the targets being pursued at the national level</h3>
+			<h3>Section I. Information on the targets being pursued at the national level
+				<!-- <a href="#" class="btn closeall pull-right" scroll-to="section2"  offset="100"> <i class="fa fa-chevron-circle-down" /></a> -->
+			</h3>
+			
 		</div>
 		<div class="section-body">
-			<div ng-show="document.government">
-				<label>Country</label>
-				<div class="km-value">
-					{{document.government | term:locale}}
+			<div class="row" ng-show="document.government">
+				<div class="col-xs-12">
+					<label>Country</label>
+					<div class="km-value">
+						{{document.government | term:locale}}
+					</div>
 				</div>
 			</div>
+			
 			<div class="row" ng-show="document.nationalTargets">
-				<div class="col-xs-12">
+				<div class="col-xs-12" style="margin-top:10px;">
+					<label><strong>National Targets</strong></label>
 					<ul class="list-group ng-scope" ng-if="nationalTargets.length>0" style="margin-top: 10px;">
-						<li class="list-group-item ng-scope" ng-repeat="item in nationalTargets">
-							<table style="width:100%">
-								<tbody>
-									<tr>
-										<td class="ng-binding">{{item.title|lstring:locale}}</td>
-									</tr>
-									<tr>
-										<td>
-											<ul>
-												<li ng-repeat="target in item.aichiTargets">{{target|term:locale}}</li>
-											</ul>
-											<td>
-									</tr>
-								</tbody>
-							</table>
+						<li class="list-group-item ng-scope national-targets" ng-repeat="item in nationalTargets" style="margin:10px 0px">
+							<view-national-target ng-model="item" locale="locale" target="{{target}}"></view-national-target>							
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="section">
+	<div class="section" id="section2">
 		<div class="section-header">
-			<h3>Section II. Implementation measures, their effectiveness, and associated obstacles and scientific and technical needs to achieve national targets</h3>
+			<h3>Section II. Implementation measures, their effectiveness, and associated obstacles and scientific and technical needs to achieve national targets
+				<!-- <a href="#" class="btn closeall pull-right" scroll-to="section1"  offset="100"> <i class="fa fa-chevron-circle-up" /></a>
+				<a href="#" class="btn closeall pull-right" scroll-to="section3"  offset="100"> <i class="fa fa-chevron-circle-down" /></a> -->
+			</h3>
 		</div>
 		<div class="section-body">
-			<div class="row " ng-repeat="implementationMeasure in document.implementationMeasures">
-				<div class="col-md-12 panel panel-default1">
+			<div class="row " ng-repeat="implementationMeasure in document.implementationMeasures" style="margin-left:3px;margin-right:3px;">
+				<div class="col-md-12 panel panel-default">
 					<div class="panel-header clearfix">
 						<h3>{{implementationMeasure.title|lstring:locale}}
 						</h3>
@@ -132,81 +222,40 @@
 			</div>
 		</div>
 	</div>
-	<div class="section">
+	<div class="section" id="section3">
 		<div class="section-header">
-			<h3>Section III. Assessment of progress towards each national target</h3>
+			<h3>Section III. Assessment of progress towards each national target
+					<!-- <a href="#" class="btn closeall pull-right" scroll-to="section2"  offset="100"> <i class="fa fa-chevron-circle-up" /></a>
+					<a href="#" class="btn closeall pull-right" scroll-to="section4"  offset="100"> <i class="fa fa-chevron-circle-down" /></a></h3> -->
 		</div>
 		<div class="section-body">
 
-			<div class="section-body">
-				<div class="row " ng-repeat="progressAssessment in document.progressAssessments">
-					<div class="col-md-12 panel panel-default1">
+				<div class="row " ng-repeat="progressAssessment in progressAssessments"  style="margin-left:3px;margin-right:3px;">
+					
+					<div class="col-md-12 panel panel-default">
 						<div class="panel-header clearfix">
-							<h3>Progress Assessment for AICHI target {{progressAssessment.aichiTarget | term:locale}}
+							<h3>Progress Assessment for
+								<span ng-if="progressAssessment.aichiTarget"> 
+									AICHI target {{progressAssessment.aichiTarget | term:locale}}
+								</span>
 								<span ng-if="progressAssessment.nationalTarget">
-									of national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
+									 national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
 								</span>
 							</h3>
 						</div>
 						<div class="panel-body">
-							<div ng-show="progressAssessment.category">
-								<label>Category of progress towards the implementation of the selected target</label>
-								<div class="km-value km-pre">{{progressAssessment.category | term:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.date">
-								<label>Date the assessment was done</label>
-								<div class="km-value km-pre">{{progressAssessment.date | formatDate}}</div>
-							</div>
-							<div ng-show="progressAssessment.summary">
-								<label>Summary of evidence used</label>
-								<div class="km-value km-pre">{{progressAssessment.summary | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.indicatorNotUsed==false && progressAssessment.indicator">
-								<label>Indicators used in this assessment</label>
-								<div class="km-value km-pre">{{progressAssessment.indicator | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.indicatorNotUsed">
-								<label>No indicators were used to assess progress towards this national target</label>
-								<div class="km-value km-pre">{{progressAssessment.indicator | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.otherTools">
-								<label>Other tools or means used for assessing progress</label>
-								<div class="km-value km-pre">{{progressAssessment.otherTools | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.confidenceLevel">
-								<label>Level of confidence of the above assessment</label>
-								<div class="km-value km-pre">{{progressAssessment.confidenceLevel | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.confidenceLevelDescription">
-								<label>Explanation for the level of confidence indicated</label>
-								<div class="km-value km-pre">{{progressAssessment.confidenceLevelDescription | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.relevantDocuments">
-								<label>Relevant websites, links, and files</label>
-								<div class="km-value km-pre">{{progressAssessment.relevantDocuments | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.adequacy">
-								<label>Adequacy of monitoring information to support assessment</label>
-								<div class="km-value km-pre">{{progressAssessment.adequacy | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.adequacyDescription">
-								<label>Monitoring system for the target</label>
-								<div class="km-value km-pre">{{progressAssessment.adequacyDescription | lstring:locale}}</div>
-							</div>
-							<div ng-show="progressAssessment.otherRelevantDocuments">
-								<label>Other relevant website address or attached documents</label>
-								<div class="km-value km-pre">{{progressAssessment.otherRelevantDocuments | lstring:locale}}</div>
-							</div>
+							<view-national-assessment ng-model="progressAssessment" locale="locale" target="{{target}}"></view-national-assessment>								
 						</div>
 						<br/>
 					</div>
 				</div>
-			</div>
 		</div>
 	</div>
-	<div class="section">
+	<div class="section" id="section4">
 		<div class="section-header">
-			<h3>Section IV. Description of national contribution to the achievement of each global Aichi Biodiversity Target</h3>
+			<h3>Section IV. Description of national contribution to the achievement of each global Aichi Biodiversity Target
+					<!-- <a href="#" class="btn closeall pull-right" scroll-to="section3"  offset="100"> <i class="fa fa-chevron-circle-up" /></a>
+					<a href="#" class="btn closeall pull-right" scroll-to="section5"  offset="100"> <i class="fa fa-chevron-circle-down" /></a></h3> -->
 		</div>
 		<div class="section-body">
 			<div class="panel panel-default" ng-repeat="aichiTarget in document.nationalContribution" ng-if="aichiTarget.identifier">
@@ -258,6 +307,7 @@
 						{{resourceMobilisationReport.title_t}}
 					</div>
 					<div ng-show="aichiTarget.description">
+						<label>Description how and to what extent the country has contributed to the achievement of this Aichi Biodiversity Target</label>
 						<div class="km-value km-pre">{{aichiTarget.description | lstring:locale}}</div>
 					</div>
 					<div ng-show="aichiTarget.achievementActivities">
@@ -279,9 +329,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="section">
+	<div class="section" id="section5">
 		<div class="section-header">
-			<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for Plant Conservation</h3>
+			<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for Plant Conservation
+					<!-- <a href="#" class="btn closeall pull-right" scroll-to="section4"  offset="100"> <i class="fa fa-chevron-circle-up" /></a>
+					<a href="#" class="btn closeall pull-right" scroll-to="section6"  offset="100"> <i class="fa fa-chevron-circle-down" /></a></h3> -->
 		</div>
 		<div class="section-body">
 					<div class="row">
@@ -290,11 +342,11 @@
 								<div class="panel-body">
 									<div ng-show="document.gspcNationalContribution.hasGSPCTargets">
 										<label></label>
-										<div class="km-value km-pre">Country has national targets related to the GSPC Targets</div>
+										<div class="km-value km-pre"><strong>{{document.government | term:locale}} has national targets related to the GSPC Targets</strong></div>
 									</div>
 									<div ng-show="!document.gspcNationalContribution.hasGSPCTargets">
 										<label></label>
-										<div class="km-value km-pre">Country does not have national targets related to the GSPC Targets</div>
+										<div class="km-value km-pre"><strong>{{document.government | term:locale}} does not have national targets related to the GSPC Targets</strong></div>
 									</div>
 									<div ng-show="document.gspcNationalContribution.gspcTargetDescription">
 										<label>Details on the specific targets</label>
@@ -319,15 +371,15 @@
 								<div class="panel-body" collapse="">
 
 									<div ng-show="gspcTarget.categoryProgress">
-										Category of progress towards the target of the Global Strategy for Plant Conservation at the national level
+										<label>Category of progress towards the target of the Global Strategy for Plant Conservation at the national level</label>
 										<div class="km-value km-pre">{{gspcTarget.categoryProgress | term:locale}}</div>
 									</div>
 									<div ng-show="gspcTarget.progressDescription">
-										Explanation on category of progress towards the target of the Global Strategy for Plant Conservation at the national level
+										<label>Explanation on category of progress towards the target of the Global Strategy for Plant Conservation at the national level</label>
 										<div class="km-value km-pre">{{gspcTarget.progressDescription | lstring:locale}}</div>
 									</div>
 									<div ng-show="gspcTarget.progressDescription">
-										Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description
+										<label>Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description</label>
 										<div class="km-value km-pre">{{gspcTarget.description | lstring:locale}}</div>
 									</div>
 								</div>
@@ -337,19 +389,25 @@
 					</div>
 		</div>
 	</div>
-	<div class="section">
+	<div class="section" id="section6">
 		<div class="section-header">
-			<h3>Section VI. Description of the national contribution to the achievement of the targets of indigenous peoples and local communities</h3>
+			<h3>Section VI. Description of the national contribution to the achievement of the targets of indigenous peoples and local communities
+					<!-- <a href="#" class="btn closeall pull-right" scroll-to="section5"  offset="100"> <i class="fa fa-chevron-circle-up" /></a>
+					<a href="#" class="btn closeall pull-right" scroll-to="section7"  offset="100"> <i class="fa fa-chevron-circle-down" /></a></h3> -->
 		</div>
 		<div class="section-body">
 			<div ng-show="document.iplcContribution">
 				<div class="km-value km-pre">{{document.iplcContribution | lstring:locale}}</div>
 			</div>
+			<div ng-if="!document.iplcContribution">
+				<div class="km-value km-pre">No information available</div>
+			</div>
 		</div>
 	</div>
-	<div class="section">
+	<div class="section" id="section7">
 		<div class="section-header">
-			<h3>Section VII. Updated biodiversity country profile</h3>
+			<h3>Section VII. Updated biodiversity country profile
+					<!-- <a href="#" class="btn closeall pull-right" scroll-to="section6"  offset="100"> <i class="fa fa-chevron-circle-up" /></a></h3> -->
 		</div>
 		<div class="section-body">
 			<div class="panel panel-default">

@@ -4,12 +4,30 @@
 #schemaView {
     /* background-color: #fff!important; */
 }
-
+#schemaView h1{
+    margin-top: 20px!important;
+    padding-top: 20px;
+    padding-left: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.container{
+    margin-top:0px
+}
+.md-whiteframe-z1.bg-grey{
+    padding:0px!important;
+    /* background: #fff!important; */
+    box-shadow:none!important;
+}
 .portal-header, .footer, .control-buttons, 
 .slaask-alert-overlay, .slaask-alert, .lang-alert, .slaask-button{
     display: none!important;
 }
-
+/*.section .section-header {    
+    background-color: #fff!important;
+} */
+.h1, .h2, .h3, h1, h2, h3{
+    margin-top: 10px!important;
+}
 h1 {
     font-size:25px!important;
 }
@@ -21,5 +39,13 @@ h3 {
     font-size:14px!important;
 }
 b, strong {
-    font-weight: 100!important;
+    font-weight: bolder!important;
+}
+
+@media print{
+    #schemaView h1{
+        margin-top: 5px!important;
+        padding-top: 5px;
+        border-bottom: 0px;
+    }
 }

@@ -94,7 +94,10 @@
                     <img src="https://absch.cbd.int/app/img/cbd-logo-green-en.svg" style="height:60px;position:relative;top:-5px;padding:0 5px 0 0;margin:0;">
                 </span>
                 <h1>
-                    <i class="fa fa-spin fa-3x fa-circle-o-notch"></i> CHM is loading
+                    CHM is loading
+                    <br> version <%=appVersion%>
+                    <br> <br>
+                     <i class="fa fa-spin fa-3x fa-circle-o-notch"></i> 
                 </h1>
             </div>
         </div>
@@ -204,7 +207,7 @@
 
 	<!-- Boot the App -->
 	<script>var require = { waitSeconds: 120 }</script>
-	<script src="/app/libs/requirejs/require.js" data-main="/app/boot.js"></script>
+	<script src="/app/libs/requirejs/require.js" data-main="/app/boot.js?v=<%=appVersion%>"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&libraries=places"></script>
 	<script async src='https://www.google-analytics.com/analytics.js'></script>
    

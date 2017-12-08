@@ -31,7 +31,7 @@
 				<div class="btn-group btn-group-sm">
 					
 					<a ng-if="internalDocumentInfo.documentID" 
-						href="/api/v2017/generate-pdf/{{internalDocumentInfo.realm}}/documents/{{locale}}?documentID={{internalDocumentInfo.documentID}}" 
+						href="/api/v2017/generate-pdf/{{internalDocumentInfo.realm}}/documents/{{getLocale()}}?documentID={{internalDocumentInfo.documentID}}&revision={{internalDocumentInfo.revision}}&schema={{internalDocumentInfo.type}}" 
 						target="_blank" class="btn btn-default">                    
 						PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>						
 					</a>

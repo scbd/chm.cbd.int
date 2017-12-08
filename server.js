@@ -7,6 +7,7 @@ var co      = require('co');
 var express   = require('express');
 var httpProxy = require('http-proxy');
 var url     = require('url');
+var cookieParser = require('cookie-parser');
 
 var appVersion = process.env.TAG;
 if(!appVersion || appVersion.trim()==''){
@@ -29,6 +30,7 @@ console.info(`info: API address: ${apiUrl}`);
 
 app.set('view engine', 'ejs');
 app.use(require('morgan')('dev'));
+app.use(cookieParser())
 
 // Configure routes
 

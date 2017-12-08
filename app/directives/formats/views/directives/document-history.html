@@ -1,0 +1,49 @@
+﻿<div id="view-history" style="max-height:200px;overflow:scroll;" class="">
+    <div class="panel panel-default">
+        <div class="panel-header clearfix">
+            <h3>Record History</h3>
+        </div>
+        <div class="panel-body">
+            <table style="width:100%!important;" class="table">
+                <tr>
+                    <th class="color-litegrey" style="font-size:12px;bold;"> Revision</th>
+                    <th class="color-litegrey" style="font-size:12px;bold;"> Requested</span>
+                    </th>
+                    <th class="color-litegrey" style="font-size:12px;bold;"> Published</span>
+                    </th>
+                </tr>
+                <tr ng-if="documents.length == 0">
+                    <td colspan="4"> no history available </td>
+                </tr>
+                <tbody ng-repeat="document in documentHistory | orderBy:'updatedOn':true" style="font-size:12px;">
+                    <tr>
+                        <td style="white-space:nowrap;">
+                            {{document.revision}}
+                        </td>
+                        <td>
+                            <div>
+                                <span>{{document.submittedBy.firstName}} {{document.submittedBy.lastName}} ({{document.submittedBy.email}})
+                                </span>
+                                <br>
+                                <span style="font-size:11px;text-transform:uppercase;font-weight:bold">{{document.submittedOn | formatDateWithTime}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-show="!publicView">
+                                <span>{{document.updatedBy.firstName}} {{document.updatedBy.lastName}} ({{document.updatedBy.email}})</span>
+                                <br>
+                                <span style="font-size:11px;text-transform:uppercase;font-weight:bold">{{document.updatedOn | formatDateWithTime}}</span>
+                            </div>
+
+                            <div ng-show="publicView"> on
+                                <span style="font-weight:500;">{{document.updatedOn | formatDateWithTime}}</span>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+    </div>
+</div>

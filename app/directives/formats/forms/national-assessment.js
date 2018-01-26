@@ -469,7 +469,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 
 					$scope.validationReport = null;
 
-					var oDocument = $scope.document;
+					var oDocument = $scope.getCleanDocument();
 
 					if (clone !== false)
 						oDocument = angular.fromJson(angular.toJson(oDocument));

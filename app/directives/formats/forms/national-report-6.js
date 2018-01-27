@@ -536,6 +536,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 											identifier: target
 										}
 									});
+									loadProgressAssessment();
 								});
 							} else {
 								$q.when(loadNationalTargets())
@@ -769,8 +770,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						}
 
 						var evtServerPushNotification = $rootScope.$on('event:server-pushNotification', function(evt, data) {
-							//(data.type == 'workflowActivityStatus' || data.data.version =='draft') &&
-							if ($scope.document && $scope.document.targetPursued && 
+							//(data.type == 'workflowActivityStatus' || data.data.version =='draft') &&$scope.document.targetPursued &&
+							if ($scope.document &&  
 								data.data && data.data.identifier && (data.data.schema == 'nationalTarget' || data.data.schema == "nationalAssessment")
 								&& data.data.government && data.data.government.identifier == $scope.document.government.identifier) {
 

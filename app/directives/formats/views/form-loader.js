@@ -332,7 +332,7 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 						importCSS:true,
 						importStyle : true,
 						pageTitle : $('title').text(),
-						loadCSS : '/app/css/print-friendly.css',
+						loadCSS : '/app/css/print-friendly.css?v='+window.appVersion,
 						header : header,
 						footer : footer
 					});	

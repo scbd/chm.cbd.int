@@ -640,7 +640,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									"q": query,
 									"fl": "identifier_s, uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
 										"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
-									"sort": "updatedDate_dt desc",
+									"sort": "createdDate_dt desc",
 									"start": 0,
 									"rows": options.rows,
 								};

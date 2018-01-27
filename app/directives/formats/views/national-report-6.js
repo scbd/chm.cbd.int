@@ -40,7 +40,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						$q.all(nationalTargets)
 						  .then(function(data){
 							  $scope.nationalTargets = [];
-							  _.each(data, function(target){
+							  _.each(_.compact(data), function(target){
 								if(target.data){
 									target.data.government = undefined;
 									$scope.nationalTargets.push(target.data);
@@ -59,10 +59,12 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					});
 					$q.all(nationalAssessmentQuery)
 					.then(function(results){
-						var documents = _.map(results, function(result){ 
-											result.data.government = undefined; return result.data || {}; 
-										});
-						$scope.progressAssessments = documents;
+						if(results){
+							var documents = _.map(_.compact(results), function(result){ 
+												result.data.government = undefined; return (result||{}).data || {}; 
+											});
+							$scope.progressAssessments = documents;
+						}
 					});
 
 					if($scope.document.nationalContribution){

@@ -11,6 +11,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				closeDialog: '&?'
 		},
         link: function ($scope) {
+			var aichiTargets;
             $scope.status = "";
             $scope.error = null;
             $scope.document = null;
@@ -95,7 +96,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			            $scope.options = {
 			                countries:          $http.get("/api/v2013/thesaurus/domains/countries/terms",                            { cache: true }).then(function (o) { return $filter('orderBy')(o.data, 'name'); }),
                             jurisdictions:      $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", { cache: true }).then(function (o) { return o.data; }),
-                            aichiTargets:       $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS-COMPONENTS/terms",			 { cache: true }).then(function (o) { return Thesaurus.buildTree(o.data); }),
+                            aichiTargets:       $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS-COMPONENTS/terms",			 { cache: true }).then(function (o) { return aichiTargets = Thesaurus.buildTree(o.data); }),
                             aichiTargetsFiltered: $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS-COMPONENTS/terms",			 { cache: true }).then(function (o) {
                                                                  var records =  _.reject(o.data, function(item){return item.broaderTerms.length>0});
                                                                  $scope.cachedAichiTargets = o.data;
@@ -176,8 +177,13 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
                 if($scope.selectedAichi.target && document.isAichiTarget){
                     document.aichiTargets = [];
-                    document.aichiTargets.push($scope.selectedAichi.target);
-                    document.title =  {en:$scope.selectedAichi.target.identifier};
+					document.aichiTargets.push($scope.selectedAichi.target);
+					console.log(aichiTargets);
+					var aichiTarget = _.find(aichiTargets, {identifier:$scope.selectedAichi.target.identifier})
+					document.title = {};
+					_.each(document.header.languages, function(lang){
+						document.title[lang] = aichiTarget.title[lang]
+					})
 
                     document.description = undefined;
                     document.jurisdiction = undefined;

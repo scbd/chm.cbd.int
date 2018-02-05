@@ -178,7 +178,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
                 if($scope.selectedAichi.target && document.isAichiTarget){
                     document.aichiTargets = [];
 					document.aichiTargets.push($scope.selectedAichi.target);
-					console.log(aichiTargets);
+					
 					var aichiTarget = _.find(aichiTargets, {identifier:$scope.selectedAichi.target.identifier})
 					document.title = {};
 					_.each(document.header.languages, function(lang){
@@ -188,8 +188,6 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
                     document.description = undefined;
                     document.jurisdiction = undefined;
                     document.jurisdictionInfo = undefined;
-                    document.relevantInformation = undefined;
-                    document.relevantDocuments = undefined;
                 }
 				if((document.aichiTargets && document.aichiTargets.length>0) || (document.otherAichiTargets && document.otherAichiTargets.length>0)){
 					document.noOtherAichiTargets = undefined;

@@ -179,3 +179,126 @@ legend{
     font-size:11px!important;
     font-weight: 500;
 }
+
+.task-activity #schemaView, .database-record #schemaView {
+    display: inline-block;
+    width: 100%;
+}
+
+.viewForm .panel-header,
+.viewForm .section .section-header {
+    border-bottom: 1px solid #ddd;
+    padding-left: 10px;
+}
+
+.viewForm .help-block {
+    text-align: justify;
+}
+
+.viewForm .panelMain .panel-body {
+    padding: 0px
+}
+
+.viewForm .mainHeading,
+.viewForm .section .section-body {
+    padding: 15px!important;
+}
+
+.viewForm .section .section-header {
+    border-top: 1px solid #ddd;
+    background-color: #ddd;
+}
+.viewForm .ngdialog-open{
+    height: auto !important;
+}
+.viewForm .km-value {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+.viewForm .national-targets h2, .viewForm .national-targets h3{
+    border-bottom: 1px solid #ddd;
+    margin-top: 5px;
+}
+.viewForm legend{
+    background-color: #fff;
+    margin-top: 5px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.viewForm #section3 .viewForm .col-md-12{
+    padding-left: 0px;
+}
+.viewForm label{
+    font-weight: 500!important;
+    color: #666;
+    font-size: 12px;
+}
+
+.blockRegion {
+    position: absolute;
+    /*box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);*/
+    width: 100%;
+    height: 100%;
+    margin: 1rem 0;
+    padding: 1em;
+    border-radius: .28571429rem;
+    /*border: 1px solid rgba(34,36,38,.15);*/
+}
+.dimmer {
+    border-radius: inherit!important;
+}
+.inverted.dimmer {
+    background-color: rgba(0,0,0,.6);
+}
+.dimmed.dimmable>.animating.dimmer,
+.dimmed.dimmable>.visible.dimmer,
+.active.dimmer {
+    display: block;
+    opacity: 0.5;
+}
+.dimmer {
+    display: none;
+    position: relative;
+    top: -16px!important;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgba(0, 0, 0, .85);
+    opacity: 0.5;
+    line-height: 1;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-transition: background-color .5s linear;
+    transition: background-color .5s linear;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    will-change: opacity;
+    z-index: 1000;
+}
+.loader{
+    color: #fff;
+    font-size: 20px;
+    margin: auto;
+}
+.dimmer>.content>* {
+    display: table-cell;
+    vertical-align: middle;
+    color: #fff;
+}
+.viewForm .national-targets h3 {
+    font-size: 24px;
+}
+.viewForm .panel.view-national-assessment, .panel.view-national-target{
+    border: none;
+    box-shadow: none;
+}

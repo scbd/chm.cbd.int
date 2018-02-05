@@ -1,6 +1,6 @@
 define(['app', 'text!./national-assessment.html', "lodash"], function(app, template, _){
 
-app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", function ($q, $http, storage) {
+app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location", function ($q, $http, storage, $location) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -50,7 +50,15 @@ app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", function ($q
 					return storage.documents.get(ref.identifier, options)
 						.then(function(res) {
 							return res.data;
-						});
+						})
+						.catch(function(e) {
+							if (e.status == 404 && $location.path() != '/database/record') {
+								return storage.drafts.get(ref.identifier)
+								.then(function(res) {
+									return res.data;
+								});
+							}
+						});;
 				}));
 			}
 

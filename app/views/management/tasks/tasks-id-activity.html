@@ -88,27 +88,25 @@
 			</table>
 
 
-			<div ng-hide="activity.closedOn || workflow.meta.status==='public'" ng-switch="activity.name" >
-				<div ng-switch-when="publishRecord">
+			<div ng-hide="activity.closedOn || workflow.meta.status==='public'">
+				<div ng-if="activity.name=='publishRecord' || activity.name=='deleteRecord'">
 
 					<span ng-hide="activity.closedOn">
-<!-- <pre>
-  {{activity | json}}
-</pre> -->
-						<div ng-show="isAssignedToMe(activity)" class="text-right">
+						<div ng-show="isAssignedToMe(activity)" class="text-right" >
 
 							<button ng-hide="activity.schema==='bbiRequest'" type="button" class="btn btn-warning"  data-toggle="modal" data-target="#rejectModal"><i class="fa fa-remove"></i> Request Changes / Reject </button>
-                            <a translation-url type="button" class="btn btn-default bg-draft" ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema || activity.schema}}/{{workflow.data.identifier || workflow._id}}?workflowId={{workflow._id}}"
-                            ><i class="fa fa-edit"></i> Edit</a>
-                            <button type="button" class="btn btn-default bg-published" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
+							<a translation-url type="button" class="btn btn-default bg-draft" ng-if="activity.name=='publishRecord'"
+								ng-href="/submit/{{onlineReportingURL(workflow.data.metadata.schema)}}{{workflow.data.metadata.schema || activity.schema}}/{{workflow.data.identifier || workflow._id}}?workflowId={{workflow._id}}">
+								<i class="fa fa-edit"></i> Edit</a>
+              <button type="button" class="btn btn-default bg-published" ng-click="updateActivity({ action : 'approve' })"><i class="fa fa-check"></i> Approve</button>
 						</div>
 
 						<h4 ng-hide="isAssignedToMe(activity)">
 
-                            <p class="alert alert-danger">
+                            <p class="alert alert-info">
     							Waiting for one of the users below to approve or reject this request.
                                 </br></br>
-                                <em activity.schema==='bbiRequest'> BBI Administration Team</em>
+                                <em ng-if="activity.schema==='bbiRequest'"> BBI Administration Team</em>
                                 <em ng-repeat="user in activity.assignedTo_info">{{user.firstName}} {{user.lastName}}</br></em>
                             </p>
 						</h4>
@@ -117,6 +115,34 @@
 				</div>
 			</div>
 
+			<div ng-if="pendingStatusRecords && pendingStatusRecords.length">
+				<br/>
+				<p class="alert alert-danger"><i class="fa fa-info" /> 
+					The following records referenced should be made public before approving this record else they will not be displayed to general public!</p>
+					<table class="table table-striped">
+							<tr>
+									<th class="color-litegrey" > Schema</th>
+									<th class="color-litegrey" > Title</th>
+									<th class="color-litegrey" > State</th>
+							</tr>
+							<tbody ng-repeat="document in pendingStatusRecords | orderBy:'schema'" style="font-size:12px;">
+									<tr>
+											<td>{{document.schema}} {{document.identifier_s}}</td>
+											<td style="white-space:nowrap;">
+													{{document.title_t}}
+											</td>
+											<td>
+													<span class="label label-warning bg-draft" ng-if="document._state_s=='draft'">Draft</span>
+													<span class="label label-warning bg-request" ng-if="document._state_s=='workflow'">Waiting for approval</span>
+													<a translation-url ng-if="document._state_s=='workflow' " title="Locked for edit" target="_blank" 
+														class="btn btn-primary btn-xs" ng-href="/management/requests/{{getWorkflowId(document)}}/publishRecord">
+														<i class="fa fa-lock"></i> view status
+													</a>
+											</td>
+									</tr>
+							</tbody>
+					</table>
+			</div>
 			<div ng-show="activity.completedOn">
 
 				<span ng-show="activity" ng-switch="activity.result.action">
@@ -139,7 +165,7 @@
 
 			<p></p>
 
-			<div ng-show="document" class="t-document md-whiteframe-z1 bg-grey">
+			<div ng-show="document" class="task-activity t-document md-whiteframe-z1 bg-grey">
 				<view-form-loader document="document" hide-buttons="true" link-target="_self"></view-form-loader>
 			</div>
 
@@ -164,7 +190,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			<button type="button" class="btn btn-warning" data-dismiss="modal" ng-disabled="rejectForm.reason.$error.required" ng-click="updateActivity({ action : 'reject', reason: rejectReason })"><i class="fa fa-remove"></i> Request Changes / Reject </button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal" ng-disabled="rejectForm.reason.$error.required" ng-click="updateActivity({ action : 'reject', reason: rejectReason })"><i class="fa fa-remove"></i> Request Changes / Reject </button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->

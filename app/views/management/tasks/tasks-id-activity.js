@@ -1,7 +1,9 @@
-define(['lodash', 'directives/management/register-facets', 'authentication', "directives/formats/views/form-loader", 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities'], function(_) { 'use strict';
+define(['lodash', 'directives/management/register-facets', 'authentication', "directives/formats/views/form-loader",
+ 'utilities/km-workflows', 'utilities/km-storage', 'utilities/km-utilities', 'utilities/solr',
+ 'scbd-angularjs-services/locale'], function(_) { 'use strict';
 
-return [ "$scope", "$timeout", "$http", "$route", "$location", "IStorage", "IWorkflows", "authentication",
-function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication)
+return [ "$scope", "$timeout", "$http", "$route", "$location", "IStorage", "IWorkflows", "authentication", "solr", "$q", "locale",
+function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication, solr, $q, locale)
 {
 	function load() {
 
@@ -40,6 +42,9 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 					if(workflow.data.identifier && !workflow.closedOn) {
 							IStorage.drafts.get(workflow.data.identifier).then(function(result){
 								$scope.document = result.data || result;
+								// if($scope.isAssignedToMe(activity)){
+									verifyDependentRecordStatus(activity, $scope.document)
+								// }
 							});
 					}
 					else
@@ -125,5 +130,35 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 		else
 			return '';
 	}
+
+	$scope.getWorkflowId = function(item){
+		return (item._workflow_s||'').replace(/workflow-/,'')
+	}
+
+	function verifyDependentRecordStatus(activity, document){
+		var records = []
+		if(document.header.schema == 'nationalReport6'){
+			records = _.map(_.union(document.nationalTargets, _.map(document.progressAssessments, 'assessment')), 'identifier')
+		}
+		
+		if(records.length >0){
+
+			var qsParams =
+			{
+				"q"  : "NOT _state_s:public AND identifier_s:("+records.join(" ")+")",
+				"fl" : "identifier_s, schema:schema_" + locale.toUpperCase() + "_t, title_t, _revision_i, _state_s, _latest_s, _workflow_s",
+				"start" : 0,
+				"rows"   : 100,
+			};
+
+			$q.when($http.get("/api/v2013/index", { params : qsParams }))
+			.then(function(res) {
+				if(res.data.response.docs.length > 0)
+					$scope.pendingStatusRecords = res.data.response.docs;
+			});
+		}
+
+	}
+
 }];
 });

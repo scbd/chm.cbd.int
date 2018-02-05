@@ -35,7 +35,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(!$scope.document||!document)
 						return;
 					if(document.targetPursued){
-						$scope.isLoadingAssessments = true
+						$scope.isLoadingTargets = true
 						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadDocument(target.identifier);});
 						$q.all(nationalTargets)
 						  .then(function(data){
@@ -46,7 +46,9 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 									$scope.nationalTargets.push(target.data);
 								}
 							  });
-							  $scope.isLoadingAssessments = false;
+						  })
+						  .finally(function(){
+							$scope.isLoadingTargets = false;
 						  });
 					}
 
@@ -65,6 +67,9 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 											});
 							$scope.progressAssessments = documents;
 						}
+					})
+					.finally(function(){
+					  $scope.isLoadingAssessments = false;
 					});
 
 					if($scope.document.nationalContribution){
@@ -78,6 +83,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 							var realmConfig;                    
 							if(realm == "CHM-DEV")
 								realmConfig = 'abs-dev';
+							else if(realm == "CHM-TRG")
+								realmConfig = 'abs-trg';
 							else
 								realmConfig = 'abs';
 							$scope.absNationalReport = undefined;
@@ -278,8 +285,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if (identifier) { //lookup single record
 						
 						return storage.documents.get(identifier)
-									.catch(function(e) {
-										if (e.status == 404) {
+									.catch(function(e) {										
+										if (e.status == 404 && $location.path() != '/database/record') {
 											return storage.drafts.get(identifier);
 										}
 									});

@@ -1,7 +1,7 @@
 ﻿<div id="view-history" style="max-height:200px;overflow:scroll;" class="">
     <div class="panel panel-default">
         <div class="panel-header clearfix">
-            <h3>Record History</h3>
+            <h3>&nbsp;&nbsp;Record History</h3>
         </div>
         <div class="panel-body">
             <table style="width:100%!important;" class="table">
@@ -12,8 +12,8 @@
                     <th class="color-litegrey" style="font-size:12px;bold;"> Published</span>
                     </th>
                 </tr>
-                <tr ng-if="documents.length == 0">
-                    <td colspan="4"> no history available </td>
+                <tr ng-if="documentHistory.length == 0">
+                    <td colspan="3"> no history available </td>
                 </tr>
                 <tbody ng-repeat="document in documentHistory | orderBy:'updatedOn':true" style="font-size:12px;">
                     <tr>
@@ -43,7 +43,7 @@
                     </tr>
                 </tbody>
             </table>
+        <div  class="pull-right">* this section is only displayed to CHM - Administrators</div>
         </div>
-        <br/>
     </div>
 </div>

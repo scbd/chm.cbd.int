@@ -1,119 +1,7 @@
 ﻿<div class="viewForm">
 	<h2>{{document.title | lstring:locale}} <i ng-show="document.acronym">({{document.acronym | lstring:locale}})</i></h2>
 	<style>
-		.panel-header,
-		.section .section-header {
-			border-bottom: 1px solid #ddd;
-			padding-left: 10px;
-		}
 		
-		.help-block {
-			text-align: justify;
-		}
-		
-		.panelMain .panel-body {
-			padding: 0px
-		}
-		
-		.mainHeading,
-		.section .section-body {
-			padding: 15px!important;
-		}
-		
-		.section .section-header {
-			border-top: 1px solid #ddd;
-			background-color: #ddd;
-		}
-		.ngdialog-open{
-			height: auto !important;
-		}
-		.km-value {
-			background-color: #f9f9f9;
-			border: 1px solid #ddd;
-		}
-		.national-targets h2, .national-targets h3{
-			border-bottom: 1px solid #ddd;
-			margin-top: 5px;
-		}
-		.viewForm legend{
-			background-color: #fff;
-			margin-top: 5px;
-			padding-top: 10px;
-			margin-bottom: 10px;
-			font-size: 14px;
-			font-weight: bold;
-		}
-		#section3 .viewForm .col-md-12{
-			padding-left: 0px;
-		}
-		.viewForm label{
-			font-weight: 500!important;
-			color: #666;
-			font-size: 12px;
-		}
-
-		.blockRegion {
-			position: absolute;
-			/*box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);*/
-			width: 100%;
-			height: 100%;
-			margin: 1rem 0;
-			padding: 1em;
-			border-radius: .28571429rem;
-			/*border: 1px solid rgba(34,36,38,.15);*/
-		}
-		.dimmer {
-			border-radius: inherit!important;
-		}
-		.inverted.dimmer {
-			background-color: rgba(0,0,0,.6);
-		}
-		.dimmed.dimmable>.animating.dimmer,
-		.dimmed.dimmable>.visible.dimmer,
-		.active.dimmer {
-			display: block;
-			opacity: 0.5;
-		}
-		.dimmer {
-			display: none;
-			position: relative;
-			top: -16px!important;
-			padding: 0;
-			margin: 0;
-			width: 100%;
-			height: 100%;
-			min-height: 40px;
-			text-align: center;
-			vertical-align: middle;
-			background-color: rgba(0, 0, 0, .85);
-			opacity: 0.5;
-			line-height: 1;
-			-webkit-animation-fill-mode: both;
-			animation-fill-mode: both;
-			-webkit-animation-duration: .5s;
-			animation-duration: .5s;
-			-webkit-transition: background-color .5s linear;
-			transition: background-color .5s linear;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-			will-change: opacity;
-			z-index: 1000;
-		}
-		.loader{
-			color: #fff;
-			font-size: 20px;
-			margin: auto;
-		}
-		.dimmer>.content>* {
-			display: table-cell;
-			vertical-align: middle;
-			color: #fff;
-		}
-		.national-targets h3 {
-			font-size: 24px;
-		}
 	</style>
 	<div class="blockRegion" ng-if="isLoadingTargets||isLoadingAssessments">
 		<div class="inverted dimmer active">
@@ -142,11 +30,11 @@
 			<div class="row" ng-show="document.nationalTargets">
 				<div class="col-xs-12" style="margin-top:10px;">
 					<label><strong>National Targets</strong></label>
-					<ul class="list-group ng-scope" ng-if="nationalTargets.length>0" style="margin-top: 10px;">
-						<li class="list-group-item ng-scope national-targets" ng-repeat="item in nationalTargets" style="margin:10px 0px">
+					<div  ng-if="nationalTargets.length>0" style="margin-top: 10px;">
+						<div class="national-targets" ng-repeat="item in nationalTargets" style="margin:10px 0px">
 							<view-national-target ng-model="item" locale="locale" target="{{target}}"></view-national-target>							
-						</li>
-					</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -158,7 +46,7 @@
 				<a href="#" class="btn closeall pull-right" scroll-to="section3"  offset="100"> <i class="fa fa-chevron-circle-down" /></a> -->
 			</h3>
 		</div>
-		<div class="section-body">
+		<div class="section-body" ng-if="document.implementationMeasures">
 			<div class="row " ng-repeat="implementationMeasure in document.implementationMeasures" style="margin-left:3px;margin-right:3px;">
 				<div class="col-md-12 panel panel-default">
 					<div class="panel-header clearfix">

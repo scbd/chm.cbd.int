@@ -140,6 +140,9 @@ function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, auth
 		if(document.header.schema == 'nationalReport6'){
 			records = _.map(_.union(document.nationalTargets, _.map(document.progressAssessments, 'assessment')), 'identifier')
 		}
+		else if(document.header.schema == 'nationalAssessment'){
+			records = [(document.nationalTarget||document.aichiTarget).identifier]
+		}
 		
 		if(records.length >0){
 

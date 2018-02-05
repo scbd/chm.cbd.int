@@ -115,10 +115,9 @@
 				</div>
 			</div>
 
-			<div ng-if="pendingStatusRecords && pendingStatusRecords.length">
-				<br/>
-				<p class="alert alert-danger"><i class="fa fa-info" /> 
-					The following records referenced should be made public before approving this record else they will not be displayed to general public!</p>
+			<div ng-if="pendingStatusRecords && pendingStatusRecords.length" style="border:1px solid #ebccd1">
+				<p class="alert alert-danger" style="margin-top:0px;border-radius:0px"><i class="fa fa-info" /> 
+					The following record(s) referenced should be made public before approving this record else that information will not be displayed to general public!</p>
 					<table class="table table-striped">
 							<tr>
 									<th class="color-litegrey" > Schema</th>
@@ -127,7 +126,7 @@
 							</tr>
 							<tbody ng-repeat="document in pendingStatusRecords | orderBy:'schema'" style="font-size:12px;">
 									<tr>
-											<td>{{document.schema}} {{document.identifier_s}}</td>
+											<td>{{document.schema}}</td>
 											<td style="white-space:nowrap;">
 													{{document.title_t}}
 											</td>

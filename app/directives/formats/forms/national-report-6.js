@@ -681,7 +681,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							});
 							return $q.when(query)
 								.then(function(data) {
-									$scope.nationalTargets = undefined;
+									// $scope.nationalTargets = undefined;
 									if(data){
 										var indexNationalTargets = [];
 
@@ -712,6 +712,18 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 										}
 										//add any new targets
 										_.each(indexNationalTargets, function(target){
+
+											//check for record workflow status
+											if($scope.waitForWorkflow && $scope.waitForWorkflow.nationalTarget){
+												var workflowDetails = $scope.waitForWorkflow.nationalTarget;
+												if(workflowDetails.identifier == target.identifier_s 
+													&& ((target._state_s== 'workflow' && workflowDetails.workflowId == $scope.getWorkflowId(target))
+													   || target._state_s== 'public')
+												){
+													$scope.waitForWorkflow.nationalTarget = undefined;
+												}
+											}
+											
 											var targetExists = _.find($scope.document.nationalTargets, {identifier : target.identifier});
 											if(!targetExists){	
 												if(!$scope.document.nationalTargets)
@@ -734,8 +746,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//============================================================
 						function loadProgressAssessment() {
 							$scope.loadingAssessments = true;
-							// $scope.document.progressAssessments = []; 
-							targetAssessments = [];
 							var targets = $filter('orderBy')($scope.nationalTargets, ['createdDate_dt']);;
 							if($scope.document && $scope.document.targetPursued===false)
 								targets = $scope.document.nationalContribution;
@@ -759,7 +769,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								skipLatest: true
 							}))
 							.then(function(result) {
-								console.log(result)
+								
+								targetAssessments = [];
 								//get all draft records
 								targetAssessments = _.filter(result, function(rec) {return rec.version_s == 'draft'});
 										
@@ -782,8 +793,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									if($scope.waitForWorkflow && $scope.waitForWorkflow.nationalAssessment){
 										var workflowDetails = $scope.waitForWorkflow.nationalAssessment;
 										if(workflowDetails.identifier == assessment.identifier_s 
-											&& assessment._state_s== 'workflow' 
-											&& workflowDetails.workflowId == $scope.getWorkflowId(assessment)){
+											&& ((assessment._state_s== 'workflow' && workflowDetails.workflowId == $scope.getWorkflowId(assessment))
+											   || assessment._state_s== 'public')
+										){
 												$scope.waitForWorkflow.nationalAssessment = undefined;
 											}
 									}
@@ -833,6 +845,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 
 						$scope.$on('$destroy', function() {
 							evtServerPushNotification();
+							dialogOnPostWorkflowEvt();
 						});
 
 						$scope.closeall = function(section) {
@@ -1045,7 +1058,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							ngDialog.open({
 								template: 'deleteRecordModal', 
 								controller : ['$scope', '$q', 'IStorage', function($scope, $q, storage){
-									
+									$scope.deletingRecord = true;
 									if(record._state_s == 'draft'){
 										$scope.draftRecordToDelete = record;
 										$scope.publicRecordToDelete = record.publicRecord;
@@ -1057,6 +1070,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									$q.when(storage.documents.security.canDelete(identifier, type))
 									.then(function (allowed){
 										$scope.security = {canDelete : allowed };
+										$scope.deletingRecord = false;
 									})
 									$scope.hasAssessment = hasAssessment;
 
@@ -1105,42 +1119,56 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								}]
 							});
 
-							function removeNationalTargets(identifier, record, canDelete){
-								//public record exist with a draft
-								if(record._state_s == 'draft' && record.publicRecord){
-									var target = _.find($scope.nationalTargets, {identifier_s:identifier})
-									if(target)
-										target = record.publicRecord
-								}
-								else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
+						}
+
+						function removeNationalTargets(identifier, record, canDelete){
+							//public record exist with a draft
+							if(record._state_s == 'draft' && record.publicRecord){
+								var target = _.find($scope.nationalTargets, {identifier_s:identifier})
+								if(target)
+									target = record.publicRecord
+							}
+							else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
+								$timeout(function(){
 									var target = _.find($scope.document.nationalTargets, {identifier:identifier})
 									if(target)
 										$scope.document.nationalTargets.splice(target, 1);
-								}
-								else{
-									record._state_s = 'workflow'
-								}
+									target = _.find($scope.nationalTargets, {identifier_s:identifier})
+									if(target)
+										$scope.nationalTargets.splice(target, 1);
+								}, 100)
 							}
-							function removeTargetAssessments(identifier, record, canDelete){
-								//public record exist with a draft
-								if(record._state_s == 'draft' && record.publicRecord){
-									record = record.publicRecord
-								}
-								else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
+							else{
+								record._state_s = 'workflow'
+							}
+						}
+						function removeTargetAssessments(identifier, record, canDelete){
+							//public record exist with a draft
+							if(record._state_s == 'draft' && record.publicRecord){
+								record = record.publicRecord
+							}
+							else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
+								$timeout(function(){
 									var assessment = _.find($scope.document.targetAssessments, function(record){ return (record.assessment||record.aichiTarget).identifier == identifier});
 									if(assessment)
 										$scope.document.targetAssessments.splice(assessment, 1);
-								}
-								else{
-									record._state_s = 'workflow'
-								}
+								}, 100)
 							}
-							function updateWorkflowStatus(type, info){
-								$scope.waitForWorkflow[type] = {
-									workflowId : info._id,
-									identifier : info.data.identifier
-								};
+							else{
+								record._state_s = 'workflow'
 							}
+						}
+						var dialogOnPostWorkflowEvt = $rootScope.$on("evt:dialog-onPostWorkflow", function(evt, info){
+							console.log(info)
+							if(info.data && info.data.metadata)
+								updateWorkflowStatus(info.data.metadata.schema, info)
+						});
+
+						function updateWorkflowStatus(type, info){
+							$scope.waitForWorkflow[type] = {
+								workflowId : info._id,
+								identifier : info.data.identifier
+							};
 						}
 
 						function hexToInteger(hex) {

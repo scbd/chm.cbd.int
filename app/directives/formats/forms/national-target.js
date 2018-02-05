@@ -331,12 +331,13 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			//
 			//==================================
-			$scope.onPostWorkflow = function() {
+			$scope.onPostWorkflow = function(info) {
                 $rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
                 
 				if(!openInDialog)
 					gotoManager();
 				else{
+					$rootScope.$broadcast("evt:dialog-onPostWorkflow", info);
 					$scope.closeDialog();
 				}
 			};
@@ -344,13 +345,14 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			//
 			//==================================
-			$scope.onPostPublish = function() {
+			$scope.onPostPublish = function(info) {
 				$scope.$root.showAcknowledgement = true;
                 $rootScope.$broadcast("onPostPublish", messages.onPostPublish);
              	
 				if(!openInDialog)
 					gotoManager();
 				else{
+					$rootScope.$broadcast("evt:dialog-onPostWorkflow", info);
 					$scope.closeDialog();
 				}
 			};

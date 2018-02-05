@@ -397,11 +397,16 @@
 																		<h3>{{item.title|lstring:locale}}</h3>
 																	</div>
 																	<div class="panel-body">
-																		<div class="btn-group-xs">
+																		<div class="btn-group-xs" 
+																		ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier_s || !waitForWorkflow.nationalTarget">
 																			<span class="label label-primary pull-right  bg-published"  style="margin-left:5px;"
 																				ng-if="item._state_s=='public' || item.publicRecord">Public</span>
 																			<span class="label label-warning pull-right  bg-draft" ng-if="item._state_s=='draft'">Draft</span>
 																			<span class="label label-warning pull-right  bg-request" ng-if="item._state_s=='workflow'">Waiting for approval</span>
+																		</div>
+																		<div ng-if="waitForWorkflow.nationalTarget && waitForWorkflow.nationalTarget.identifier == item.identifier_s">
+																			<span class="label label-warning pull-right bg-request">
+																				<i class="fa fa-spin fa-spinner"></i > Processing...</span>
 																		</div>
 																		<ul>
 																			<li ng-repeat="target in item.aichiTargets_EN_ss">{{target}}</li>
@@ -430,7 +435,6 @@
 																<span class="clearfix"></span>
 															</div>
 														</div>
-
 													</div>
 												</div>
 											</div>
@@ -611,7 +615,7 @@
 											<div class="col-md-12">
 												<div class="km-control-group" name="progressAssessmentAdequacy" caption="Current assessment for the national target">
 													<div ng-if="progressAssessment.assessment">
-														<div ng-if="!waitForWorkflow.nationalAssessment">
+														<div ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
 															<span class="label label-primary pull-right  bg-published" style="margin-left:5px;"
 																ng-if="getAssessmentInfo(progressAssessment.assessment, '_state_s')=='public' || getAssessmentInfo(progressAssessment.assessment).publicRecord">Public</span>
 															<span class="label label-warning pull-right bg-draft" ng-if="getAssessmentInfo(progressAssessment.assessment, '_state_s')=='draft'">Draft</span>
@@ -619,7 +623,7 @@
 														</div>
 														<div ng-if="waitForWorkflow.nationalAssessment && waitForWorkflow.nationalAssessment.identifier == progressAssessment.assessment.identifier">
 															<span class="label label-warning pull-right bg-request">
-																<i class="fa fa-spint fa-spinner"></i > Processing...</span>
+																<i class="fa fa-spin fa-spinner"></i > Processing...</span>
 														</div>
 														<img ng-src="/app/img/ratings/{{getAssessmentInfo(progressAssessment.assessment, 'progress_s')}}.png" class="pull-left"></img>
 														<div>
@@ -662,12 +666,6 @@
 															<i class="fa fa-trash-o"></i> delete
 														</button>
 													</div>
-													
-													<!-- <div class="row col-md-12">
-														<button ng-if="progressAssessment.assessment && getAssessmentInfo(progressAssessment.assessment, '_state_s')!='workflow'"
-														    class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')"
-														    ng-disabled="isDialogOpen">Edit Assessment</button>
-													</div> -->
 												</div>
 											</div>
 
@@ -1657,7 +1655,7 @@
                 
 						<div class="modal-header">
 							<h4 class="modal-title" >Confirm change to the following record(s) 
-								<i ng-show="loading||deletingRecord" class="fa fa-spinner fa-spin"></i></h4>
+								<i ng-show="deletingRecord" class="fa fa-spinner fa-spin"></i></h4>
 						</div>
 						<div class="modal-body  bg-white" >
 							<div ng-if="draftRecordToDelete" class="well" style="font-size:14px;">
@@ -1673,7 +1671,7 @@
 								 </div>
 								<div class="row" style="margin-top:10px;"> 
 									<div class="col-xs-12"> 
-										<button ng-disabled="deletingRecord" type="button" class="btn btn-danger" ng-disabled="loading" ng-click="deleteDraft(draftRecordToDelete)">Delete draft</button></div>
+										<button ng-disabled="deletingRecord" type="button" class="btn btn-danger"  ng-click="deleteDraft(draftRecordToDelete)">Delete draft</button></div>
 								</div>
 							</div>
 	

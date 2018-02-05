@@ -68,8 +68,8 @@ define(['app','linqjs', 'utilities/km-utilities'], function(app, Enumerable) {
             }
 
             var trainingRealms = {
-                urls: ['https://training-absch.cbd.int'],
-                realms: ['ABS-TRG']
+                urls: ['https://training-absch.cbd.int', 'https://chm-training.cbd.int'],
+                realms: ['ABS-TRG', 'CHM-TRG']
             }
 
             function envRealms() {

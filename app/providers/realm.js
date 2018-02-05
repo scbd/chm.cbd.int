@@ -3,8 +3,10 @@ define(['app', 'angular'], function (app, angular) { 'use strict';
     app.provider("realm", {
 
         $get : ["$location", function($location) {
-
-            if($location.$$host!= "chm.cbd.int"){
+            if($location.$$host== "chm-training.cbd.int"){
+                return 'CHM-TRG';
+            }
+            else if($location.$$host!= "chm.cbd.int"){
                 return 'CHM-DEV';
             }
             return 'CHM';

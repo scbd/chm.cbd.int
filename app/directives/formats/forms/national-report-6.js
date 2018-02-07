@@ -821,8 +821,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						}
 
 						var evtServerPushNotification = $rootScope.$on('event:server-pushNotification', function(evt, data) {
-							//(data.type == 'workflowActivityStatus' || data.data.version =='draft') &&$scope.document.targetPursued &&
-							console.log('evt', data)
+							
 							if ($scope.document &&  
 								data.data && data.data.identifier && (data.data.schema == 'nationalTarget' || data.data.schema == "nationalAssessment")
 								&& data.data.government && data.data.government.identifier == $scope.document.government.identifier) {
@@ -913,7 +912,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 											return absNR[field];
 										}
 									}
-									console.log(absNR);
 								})
 						}
 
@@ -1008,15 +1006,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								}, reject);
 							});
 						}
-
-						$element.find('#nav').affix({
-							offset: {
-								top: $('header').height()-$('#nav').height()+200
-							}
-						});	
-
-						$('body').scrollspy({ target: '#nav' })
-
 
 						$scope.print = function(){
 							$scope.printing = true;
@@ -1159,7 +1148,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							}
 						}
 						var dialogOnPostWorkflowEvt = $rootScope.$on("evt:dialog-onPostWorkflow", function(evt, info){
-							console.log(info)
+							
 							if(info.data && info.data.metadata)
 								updateWorkflowStatus(info.data.metadata.schema, info)
 						});
@@ -1177,16 +1166,19 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 		
 							return hex;
 						}
+						
+						if($rootScope.deviceSize == 'lg'){
+							$element.find('#nav').affix({
+								offset: {
+									top: $('header').height()-$('#nav').height()+200
+								}
+							});	
+							$('body').scrollspy({ target: '#nav' })
+						}
+
 					}
 				};
 			}
 		]);
 
 	});
-
-
-
-
-
-
-// <button ng-if="!progressAssessment.assessment && progressAssessment.aichiTarget" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')">Add Assessment</button>

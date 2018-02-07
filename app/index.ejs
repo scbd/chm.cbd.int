@@ -11,7 +11,6 @@
 
 	<link rel="stylesheet" type="text/css" href="/app/css/main.css?v=<%=appVersion%>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!--<link href="https://almsaeedstudio.com/themes/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" />-->
 	<style>
 		[ng\:cloak],
 		[ng-cloak],
@@ -28,12 +27,12 @@
 
 	<iframe id="authenticationFrame" style="display:none" onload="(event.target || event.srcElement).ready = true"></iframe>
 	<script>
-    var domain = document.location.hostname.replace(/[^\.]+\./, '');
+        var domain = document.location.hostname.replace(/[^\.]+\./, '');
 
-    if(domain=='localhost') domain = 'cbddev.xyz';
+        if(domain=='localhost') domain = 'cbddev.xyz';
 
-    document.getElementById('authenticationFrame').src = 'https://accounts.'+domain+'/app/authorize.html';
-</script>
+        document.getElementById('authenticationFrame').src = 'https://accounts.'+domain+'/app/authorize.html';
+    </script>
     <div class="m-app-loading" ng-animate-children>
         <!--
             HACKY CODE WARNING: I'm putting Style block inside directive so that it
@@ -234,6 +233,20 @@
         }
         window.appVersion = document.documentElement.attributes['app-version'].value;
     </script>
+
+    <style>
+        .device-size { 
+            height:1px;
+            width:1px;
+            position:absolute;
+            bottom:0px;
+            right:0px;
+        }
+    </style>
+    <div class="device-size visible-xs" size="xs"></div>
+    <div class="device-size visible-sm" size="sm"></div>
+    <div class="device-size visible-md" size="md"></div>
+    <div class="device-size visible-lg" size="lg"></div>
 
 </body>
 

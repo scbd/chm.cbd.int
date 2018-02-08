@@ -664,12 +664,23 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 										return _.defaults(v, {
 											schemaName: solr.lstring(v, "schema_*_t", "schema_EN_t", "schema_s"),
 											title: solr.lstring(v, "title_*_t", "title_EN_t", "title_t"),
-											summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t")
+											summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
+											url    : toLocalUrl(v.url_ss)
 										});
 									});
 
 								});
 							}
+						}
+
+						function toLocalUrl(urls) {
+
+							var url = navigation.toLocalUrl(_.first(urls));
+				
+							if(_(url).startsWith('/') && (_(url).endsWith('=null') || _(url).endsWith('=undefined')))
+								return null;
+				
+							return url;
 						}
 
 						//============================================================

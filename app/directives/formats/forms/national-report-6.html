@@ -415,7 +415,7 @@
 																	<div class="panel-footer">
 																		<!-- <button class="btn btn-primary" ng-click="openDialog(item,'directives/formats/forms/national-target-dialog','edit-national-target-dialog')" ng-if="item._state_s!='workflow'">Edit Target</button> -->
 																		<div class="btn-group btn-group-xs">
-																			<a translation-url title="View" ng-if="item._state_s == 'public'" target="_blank" class="btn btn-primary" ng-href="{{item.url_ss[0]}}">
+																			<a translation-url title="View" ng-if="item._state_s == 'public'" target="_blank" class="btn btn-primary" ng-href="{{item.url}}">
 																				<i class="fa fa-search"></i> view
 																			</a>
 																			<a translation-url ng-if="item._state_s=='workflow' " title="Locked for edit" target="_blank" class="btn btn-primary" ng-href="/management/requests/{{getWorkflowId(item)}}/publishRecord">
@@ -650,7 +650,7 @@
 														<button ng-if="!progressAssessment.assessment" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')"
 															ng-disabled="isDialogOpen"><i class="fa fa-plus"></i> add</button>
 														<a translation-url title="View" ng-if="progressAssessment.assessment && getAssessmentInfo(progressAssessment.assessment, '_state_s') == 'public'"
-														    target="_blank" class="btn btn-primary" ng-href="{{progressAssessment.assessment && getAssessmentInfo(progressAssessment.assessment, 'url_ss')[0]}}">
+														    target="_blank" class="btn btn-primary" ng-href="{{progressAssessment.assessment && getAssessmentInfo(progressAssessment.assessment, 'url')}}">
 															<i class="fa fa-search"></i> view
 														</a>
 														<a translation-url ng-if="progressAssessment.assessment && getAssessmentInfo(progressAssessment.assessment, '_state_s')=='workflow' "

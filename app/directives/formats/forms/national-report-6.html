@@ -222,8 +222,8 @@
 						<strong>An error has occurred...</strong>
 						<div>{{error}}</div>
 					</div>
-
-					<div ng-hide="status=='hidden'||status=='loading'">
+<!-- ng-hide="status=='hidden'||status=='loading'" -->
+					<div >
 						<div class "row">
 							<div class="col-xs-12">
 								<span class="pull-right">
@@ -603,7 +603,8 @@
 												national target : {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
 											</span>
 											<span ng-if="progressAssessment.aichiTarget">
-												AICHI Biodiversity Target : {{progressAssessment.aichiTarget|term:locale}}
+												AICHI Biodiversity Target : {{getAichiTargetTitle(progressAssessment.aichiTarget, locale)}}
+												<!--  -->
 											</span>
 											<div class="pull-right" style="padding-right:10px">
 												<a translation-url ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#progressAssessment{{$index}}"></a>
@@ -715,7 +716,8 @@
 								<div class="panel panel-default aichiTarget" ng-repeat="aichiTarget in document.nationalContribution" ng-if="aichiTarget.identifier">
 									<div class="panel-header clearfix">
 										<h3>
-											Aichi Biodiversity Target {{aichiTarget | term:locale}}
+											Aichi Biodiversity Target {{getAichiTargetTitle(aichiTarget, locale)}}
+											<!-- {{aichiTarget | term:locale}} -->
 											<div class="pull-right" style="padding-right:10px">
 												<a translation-url ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#{{aichiTarget.identifier}}"></a>
 											</div>
@@ -818,7 +820,8 @@
 								<div class="panel panel-default gspcTarget" ng-repeat="gspcTarget in document.gspcNationalContribution" ng-if="gspcTarget.identifier">
 									<div class="panel-header clearfix">
 										<h3>
-											GSPC Biodiversity Target {{gspcTarget | term:locale}}
+											GSPC Biodiversity Target {{::getGspcTargetTitle(gspcTarget, locale)}}
+											<!-- {{gspcTarget | term:locale}} -->
 											<div class="pull-right" style="padding-right:10px">
 												<a translation-url ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#{{gspcTarget.identifier}}"></a>
 											</div>

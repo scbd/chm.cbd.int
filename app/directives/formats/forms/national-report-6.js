@@ -20,6 +20,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 					link: function($scope, $element) {
 
 						var targetAssessments = [];
+						var aichiTargets = [];
+						var gspcTargets = [];
 						$scope.status = "";
 						$scope.error = null;
 						$scope.tab = "general";
@@ -167,33 +169,35 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								return doc;
 
 							}).then(function(doc) {
-								if (!doc.nationalContribution) {
-									return $q.when($scope.options.aichiTargets())
-										.then(function(data) {
+								return $q.when($scope.options.aichiTargets())
+									.then(function(data) {
+										aichiTargets = data;
+										if (!doc.nationalContribution) {
 											doc.nationalContribution = {};
 											for (var i = 1; i <= 20; i++) {
 												doc.nationalContribution['aichiTarget' + i] = {
 													identifier: 'AICHI-TARGET-' + (i < 10 ? '0' + i : i)
 												};
 											}
-											return doc;
-										});
-								}
+										}
+										return doc;
+								});
 								return doc;
 
 							}).then(function(doc) {
-								if (!doc.gspcNationalContribution) {
-									return $q.when($scope.options.gspcTargets())
-										.then(function(data) {
-											doc.gspcNationalContribution = {}
-											for (var i = 1; i <= 16; i++) {
-												doc.gspcNationalContribution['gspcTarget' + i] = {
-													identifier: 'GSPC-TARGET-' + (i < 10 ? '0' + i : i)
-												};
-											}
-											return doc;
-										});
-								}
+								return $q.when($scope.options.gspcTargets())
+									.then(function(data) {
+										gspcTargets = data;
+										if (!doc.gspcNationalContribution) {
+												doc.gspcNationalContribution = {}
+												for (var i = 1; i <= 16; i++) {
+													doc.gspcNationalContribution['gspcTarget' + i] = {
+														identifier: 'GSPC-TARGET-' + (i < 10 ? '0' + i : i)
+													};
+												}
+										}
+										return doc;
+									});
 								return doc;
 							}).then(function(doc) {
 								$scope.document = doc;
@@ -1030,6 +1034,23 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							return (item._workflow_s||'').replace(/workflow-/,'')
 						}
 
+						$scope.getAichiTargetTitle = function(aichiTarget, locale){
+							if(aichiTarget){
+								var target = _.find(aichiTargets, {identifier : aichiTarget.identifier});
+								if(target)
+									return target.title[locale];
+							}
+
+						}
+
+						$scope.getGspcTargetTitle = function(gspcTarget, locale){
+							if(gspcTarget){
+								var target = _.find(gspcTargets, {identifier : gspcTarget.identifier});
+								if(target)
+									return target.title[locale];
+							}
+
+						}
 						
 						//======================================================
 						//

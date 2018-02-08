@@ -1665,12 +1665,12 @@
 								<div style="font-size:11px;font-weight:bold;text-transform:uppercase;color:#999;border-bottom:1px solid #ddd;margin-bottom:10px;">DRAFT RECORD</div>
 								<div class="row">     
 									<div class="col-xs-2" class="color-litegrey">Title:</div> 
-									<div class="col-xs-10" style="font-weight:bold"> {{draftRecordToDelete.title|lstring}}</div>
+									<div class="col-xs-10" style="font-weight:bold"> {{draftRecordToDelete.title|lstring:locale}}</div>
 								  </div>
 								<div class="row"> 
 									<div class="col-xs-2" class="color-litegrey">Summary:</div> 
 									<div class="col-xs-10" style="font-weight:bold" > 
-										<span ng-bind-html="draftRecordToDelete.summary|lstring"></span></div>
+										<span ng-bind-html="draftRecordToDelete.summary|lstring:locale"></span></div>
 								 </div>
 								<div class="row" style="margin-top:10px;"> 
 									<div class="col-xs-12"> 
@@ -1683,11 +1683,11 @@
 								 
 								<div class="row">     
 									<div class="col-xs-2" class="color-litegrey">Title:</div> 
-									<div class="col-xs-10" style="font-weight:bold"> {{publicRecordToDelete.title|lstring}}</div>
+									<div class="col-xs-10" style="font-weight:bold"> {{publicRecordToDelete.title|lstring:locale}}</div>
 								  </div>
 								<div class="row"> 
 									<div class="col-xs-2" class="color-litegrey">Summary:</div> 
-									<div class="col-xs-10" style="font-weight:bold" > <span ng-bind-html="publicRecordToDelete.summary|lstring"></span></div>
+									<div class="col-xs-10" style="font-weight:bold" > <span ng-bind-html="publicRecordToDelete.summary|lstring:locale"></span></div>
 								 </div>
 	
 								<div class="row" style="margin-top:10px;"> 

@@ -145,9 +145,11 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
             //======================================================
             toLocalUrl : function toLocalUrl(url) {
 
-                if(_(url).startsWith("http://chm.cbd.int/" )) url = url.substr("http://chm.cbd.int" .length);
-                if(_(url).startsWith("https://chm.cbd.int/")) url = url.substr("https://chm.cbd.int".length);
-
+                if(url){
+                    url = url.replace(/^http(s)?:\/\/chm.cbd.int/, '')
+                    url = url.replace(/^http(s)?:\/\/chm.cbddev.xyz/, '')
+                    url = url.replace(/^http(s)?:\/\/chm-training.cbd.int/, '')
+                }
                 return url;
             }
 

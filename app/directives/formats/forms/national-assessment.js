@@ -219,7 +219,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 								header: {
 									identifier: guid(),
 									schema: "nationalAssessment",
-									languages: [locale]
+									languages: qs.documentLanguages ? qs.documentLanguages : [locale]
 								},
 								government: $scope.defaultGovernment() ? {
 									identifier: $scope.defaultGovernment()

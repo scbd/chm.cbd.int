@@ -70,7 +70,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 						header: {
 							identifier: guid(),
 							schema   : "nationalTarget",
-							languages: [locale]
+							languages: qs.documentLanguages ? qs.documentLanguages : [locale]
 						},
 						government: $scope.defaultGovernment() ? { identifier: $scope.defaultGovernment() } : undefined,
 						isAichiTarget : false

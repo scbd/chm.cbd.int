@@ -340,7 +340,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="row" ng-if="!document.government">
+												<div class="row" ng-if="document.government">
 													<div class="col-md-12">
 														<div class="km-control-group" name="targetPursued">
 															<input type="radio" name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="true" /> My country has adopted national biodiversity targets or equivalent commitments in line with the Strategic
@@ -383,12 +383,12 @@
 															</ul>
 														</div>
 
-														<div ng-repeat="item in nationalTargets | orderBy:'createdDate_dt' track by $index" class="grow-parent">
+														<div ng-repeat="item in nationalTargets | orderBy:'createdDate_dt' track by item.identifier_s" class="grow-parent">
 															<div class="grow1 col-xs-12 col-sm-12 col-md-12">
 
 																<div class="panel panel-default">
 																	<div class="panel-header">
-																		<h3>{{item.title|lstring:locale}}</h3>
+																		<h3>{{item.title[locale]}}</h3>
 																	</div>
 																	<div class="panel-body">
 																		<div class="btn-group-xs" 
@@ -407,8 +407,7 @@
 																		</ul>
 																	</div>
 																	<div class="panel-footer">
-																		<!-- <button class="btn btn-primary" ng-click="openDialog(item,'directives/formats/forms/national-target-dialog','edit-national-target-dialog')" ng-if="item._state_s!='workflow'">Edit Target</button> -->
-																		<div class="btn-group btn-group-xs">
+																		<div class="btn-group btn-group-xs" ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier_s || !waitForWorkflow.nationalTarget">
 																			<a translation-url title="View" ng-if="item._state_s == 'public'" target="_blank" class="btn btn-primary" ng-href="{{item.url}}">
 																				<i class="fa fa-search"></i> view
 																			</a>
@@ -470,7 +469,7 @@
 								</div>
 								<div class="panel panel-default implementationMeasure" ng-repeat="implementationMeasure in document.implementationMeasures track by $index">
 									<div class="panel-header clearfix">
-										<h3>{{implementationMeasure.title|lstring:locale}}
+										<h3>{{implementationMeasure.title[locale]}}
 											<div class="pull-right" style="padding-right:10px">
 												<a translation-url ng-href="#" class="trash" ng-click="removeImplementationMeasure(implementationMeasure)"></a>
 												<a translation-url ng-href="#" data-toggle="collapse" class="measure collapse-icon" data-target="#implementationMeasure{{$index}}"></a>
@@ -594,7 +593,7 @@
 									<div class="panel-header clearfix">
 										<h3>Progress assessment for
 											<span ng-if="progressAssessment.nationalTarget">
-												national target : {{::getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
+												national target : {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier, locale)}}
 											</span>
 											<span ng-if="progressAssessment.aichiTarget">
 												AICHI Biodiversity Target : {{::getAichiTargetTitle(progressAssessment.aichiTarget, locale)}}
@@ -609,26 +608,27 @@
 											<div class="col-md-12">
 												<div class="km-control-group" name="progressAssessmentAdequacy" caption="Current assessment for the national target">
 													<div ng-if="progressAssessment.assessment">
-														<div ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
-															<span class="label label-primary pull-right  bg-published" style="margin-left:5px;"
-																ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='public' || targetAssessments[progressAssessment.assessment.identifier].publicRecord">Public</span>
-															<span class="label label-warning pull-right bg-draft" ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='draft'">Draft</span>
-															<span class="label label-warning pull-right bg-request" ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='workflow'">Waiting for approval</span>
-														</div>
-														<div ng-if="waitForWorkflow.nationalAssessment && waitForWorkflow.nationalAssessment.identifier == progressAssessment.assessment.identifier">
-															<span class="label label-warning pull-right bg-request">
-																<i class="fa fa-spin fa-spinner"></i > Processing...</span>
+														<div class="row" style="margin-right:0.1%">
+															<div ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
+																<span class="label label-primary pull-right  bg-published" style="margin-left:5px;"
+																	ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='public' || targetAssessments[progressAssessment.assessment.identifier].publicRecord">Public</span>
+																<span class="label label-warning pull-right bg-draft" ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='draft'">Draft</span>
+																<span class="label label-warning pull-right bg-request" ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='workflow'">Waiting for approval</span>
+															</div>
+															<div ng-if="waitForWorkflow.nationalAssessment && waitForWorkflow.nationalAssessment.identifier == progressAssessment.assessment.identifier">
+																<span class="label label-warning pull-right bg-request">
+																	<i class="fa fa-spin fa-spinner"></i > Processing...</span>
+															</div>
 														</div>
 														<img ng-src="/app/img/ratings/{{targetAssessments[progressAssessment.assessment.identifier].progress_s}}.png" class="pull-left"></img>
 														<div>
-															<strong>Latest Assessment</strong>
 															<div>
 																<h3>{{targetAssessments[progressAssessment.assessment.identifier].title_EN_t}}</h3>
 															</div>
 															<div>{{targetAssessments[progressAssessment.assessment.identifier].description_s}}</div>
 														</div>
 													</div>
-													<div ng-if="!progressAssessment.assessment">
+													<div ng-if="!progressAssessment.assessment" class="label label-info">
 														<span ng-if="progressAssessment.nationalTarget">
 															Assessment missing for the national target.
 														</span>
@@ -639,7 +639,7 @@
 													</div>
 												</div>
 												<div class="km-control-group pull-right">
-													<div class="btn-group btn-group-xs">
+													<div class="btn-group btn-group-xs" ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
 														<button ng-if="!progressAssessment.assessment" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')"
 															ng-disabled="isDialogOpen"><i class="fa fa-plus"></i> add</button>
 														<a translation-url title="View" ng-if="progressAssessment.assessment && targetAssessments[progressAssessment.assessment.identifier]._state_s == 'public'"

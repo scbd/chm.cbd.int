@@ -36,6 +36,27 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						navigation.securize();
 						$scope.waitForWorkflow = {};
 
+
+						if (!$scope.options) {
+
+							$scope.options = {
+								countries			: $http.get("/api/v2013/thesaurus/domains/countries/terms", {cache: true}).then(function(o) {return $filter('orderBy')(o.data, 'name');}),
+								jurisdictions		: $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", {cache: true}).then(function(o) {return o.data;}),
+								aichiTargets		: function() {return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms", {cache: true}).then(function(o) {return o.data;});},
+								gspcTargets			: function() {return $http.get("/api/v2013/thesaurus/domains/8D405050-50AF-45EA-95F7-A31A11196424/terms", {cache: true}).then(function(o) {return o.data;});},
+								assessment			: function() {return $http.get("/api/v2013/thesaurus/domains/8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0/terms", {cache: true}).then(function(o) {return o.data;});},
+								categoryProgress	: function() {return $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", {cache: true}).then(function(o) {return o.data;});},
+								confidenceLevel		: function() {return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms", {cache: true}).then(function(o) {return o.data;});},
+								gspcCategoryProgress: function() {return $http.get("/api/v2013/thesaurus/domains/254B8AE2-05F2-43C7-8DB1-ADC702AE14A8/terms", {cache: true}).then(function(o) {return o.data;});},
+								nationalTargets		: function() {
+									var targets = $scope.nationalTargets;
+									if (!targets)
+										targets = loadNationalTargets();
+									return $q.when(targets).then(function() {return _.map($scope.nationalTargets, function(item) {return {title: item.title_t,identifier: item.identifier_s};});});
+								},
+							};
+						}
+
 						//==================================
 						//
 						//==================================
@@ -96,123 +117,110 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								});
 							}
 
-							promise.then(function(doc){
-								return $q.when(authentication.user()).then(function(user){
-									$scope.user = user;
-									return doc
-								})
-							})
-							.then(function(doc) {
+							if (!qs.uid) {
+								$q.when(loadReferenceRecords({ 
+										"fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
+										schema: 'nationalReport6'
+									}))
+									.then(function(nationalReport) {
+										if (nationalReport && nationalReport.length > 0) {
+											ngDialog.open({
+												template: 'recordExistsTemplate.html',													
+												closeByDocument: false,
+												closeByEscape: false,
+												showClose: false,
+												closeByNavigation: false,
+												controller: ['$scope', '$timeout', function($scope, $timeout) {
+													$scope.alertSeconds = 10;
+													time();
 
-								if (!$scope.options) {
-
-									$scope.options = {
-										countries			: $http.get("/api/v2013/thesaurus/domains/countries/terms", {cache: true}).then(function(o) {return $filter('orderBy')(o.data, 'name');}),
-										jurisdictions		: $http.get("/api/v2013/thesaurus/domains/50AC1489-92B8-4D99-965A-AAE97A80F38E/terms", {cache: true}).then(function(o) {return o.data;}),
-										aichiTargets		: function() {return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms", {cache: true}).then(function(o) {return o.data;});},
-										gspcTargets			: function() {return $http.get("/api/v2013/thesaurus/domains/8D405050-50AF-45EA-95F7-A31A11196424/terms", {cache: true}).then(function(o) {return o.data;});},
-										assessment			: function() {return $http.get("/api/v2013/thesaurus/domains/8D3DFD9C-EE6D-483D-A586-A0DDAD9A99E0/terms", {cache: true}).then(function(o) {return o.data;});},
-										categoryProgress	: function() {return $http.get("/api/v2013/thesaurus/domains/EF99BEFD-5070-41C4-91F0-C051B338EEA6/terms", {cache: true}).then(function(o) {return o.data;});},
-										confidenceLevel		: function() {return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms", {cache: true}).then(function(o) {return o.data;});},
-										gspcCategoryProgress: function() {return $http.get("/api/v2013/thesaurus/domains/254B8AE2-05F2-43C7-8DB1-ADC702AE14A8/terms", {cache: true}).then(function(o) {return o.data;});},
-										nationalTargets		: function() {
-											var targets = $scope.nationalTargets;
-											if (!targets)
-												targets = loadNationalTargets();
-											return $q.when(targets).then(function() {return _.map($scope.nationalTargets, function(item) {return {title: item.title_t,identifier: item.identifier_s};});});
-										},
-									};
-								}
-
-								return doc;
-
-							}).then(function(doc) {
-								return $q.when($scope.options.aichiTargets())
-									.then(function(data) {
-										aichiTargets = data;
-										if (!doc.nationalContribution) {
-											doc.nationalContribution = {};
-											for (var i = 1; i <= 20; i++) {
-												doc.nationalContribution['aichiTarget' + i] = {
-													identifier: 'AICHI-TARGET-' + (i < 10 ? '0' + i : i)
-												};
-											}
+													function time(){
+														$timeout(function(){
+															if($scope.alertSeconds == 1){																	
+																$scope.openExisting();
+															}
+															else{
+																$scope.alertSeconds--;																
+																time()
+															}
+														}, 1000)
+													}
+													$scope.openExisting = function() {
+														ngDialog.close();
+														var nr6 = _.head(nationalReport);
+														if(nr6._workflow_s)
+															$location.path('/management/requests/' + nr6['_workflow_s'].replace('workflow-','')+'/publishRequest');
+														else
+															$location.path('/submit/nationalReport6/' + nr6['identifier_s']);
+													}
+												}]
+											});
 										}
-										return doc;
-								});
-								return doc;
-
-							}).then(function(doc) {
-								return $q.when($scope.options.gspcTargets())
-									.then(function(data) {
-										gspcTargets = data;
-										if (!doc.gspcNationalContribution) {
-												doc.gspcNationalContribution = {}
-												for (var i = 1; i <= 16; i++) {
-													doc.gspcNationalContribution['gspcTarget' + i] = {
-														identifier: 'GSPC-TARGET-' + (i < 10 ? '0' + i : i)
-													};
-												}
-										}
-										return doc;
+										else
+											pendingPromise();
 									});
-								return doc;
-							}).then(function(doc) {
-								$scope.document = doc;
-								$q.all([loadABSNationaReport(), loadResourceMobilasationReport()])
-									.then(function() {
+							}
+							else
+								pendingPromise();
+							
+							// .then(function(doc) {
+							// 	return doc;
+							// });
+
+							function pendingPromise(){
+								promise.then(function(doc){
+									return $q.when(authentication.user()).then(function(user){
+										$scope.user = user;
+										$scope.document = doc;
 										$scope.status = "ready";
-									});
-
-								if (!qs.uid) {
-									$q.when(loadReferenceRecords({ 
-											"fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
-											schema: 'nationalReport6'
-										}))
-										.then(function(nationalReport) {
-											if (nationalReport && nationalReport.length > 0) {
-												ngDialog.open({
-													template: 'recordExistsTemplate.html',													
-													closeByDocument: false,
-													closeByEscape: false,
-													showClose: false,
-													closeByNavigation: false,
-													controller: ['$scope', '$timeout', function($scope, $timeout) {
-														$scope.alertSeconds = 10;
-														time();
-
-														function time(){
-															$timeout(function(){
-																if($scope.alertSeconds == 1){																	
-																	$scope.openExisting();
-																}
-																else{
-																	$scope.alertSeconds--;																
-																	time()
-																}
-															}, 1000)
+										return doc
+									})
+								}).then(function(doc) {
+									$timeout(function(){
+										return $q.when($scope.options.aichiTargets())
+												.then(function(data) {
+													aichiTargets = data;
+													if (!doc.nationalContribution) {
+														doc.nationalContribution = {};
+														for (var i = 1; i <= 20; i++) {
+															doc.nationalContribution['aichiTarget' + i] = {
+																identifier: 'AICHI-TARGET-' + (i < 10 ? '0' + i : i)
+															};
 														}
-														$scope.openExisting = function() {
-															ngDialog.close();
-															var nr6 = _.head(nationalReport);
-															if(nr6._workflow_s)
-																$location.path('/management/requests/' + nr6['_workflow_s'].replace('workflow-','')+'/publishRequest');
-															else
-																$location.path('/submit/nationalReport6/' + nr6['identifier_s']);
+													}
+													return doc;
+											}).then(function(doc) {
+												return $q.when($scope.options.gspcTargets())
+													.then(function(data) {
+														gspcTargets = data;
+														if (!doc.gspcNationalContribution) {
+																doc.gspcNationalContribution = {}
+																for (var i = 1; i <= 16; i++) {
+																	doc.gspcNationalContribution['gspcTarget' + i] = {
+																		identifier: 'GSPC-TARGET-' + (i < 10 ? '0' + i : i)
+																	};
+																}
 														}
-													}]
+														return doc;
+													});
+												return doc;
+											}).then(function(doc) {
+												$scope.document = doc;
+												$q.all([loadABSNationaReport(), loadResourceMobilasationReport()])
+												.then(function() {
+													$scope.status = "ready";
+													return doc;
 												});
-											}
-										});
-								}
+											});
+									}, 3000)
 
-							}).catch(function(err) {
+								}).catch(function(err) {
 
-								$scope.onError(err.data, err.status);
-								throw err;
-
-							});
-
+									$scope.onError(err.data, err.status);
+									throw err;
+	
+								})
+							}
 						};
 
 						//==================================
@@ -479,7 +487,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							}
 						};
 
-						$scope.$watch('document', function(newVal, old) {
+						$scope.$watch('::document', function(newVal, old) {
 
 							if (!$scope.document || newVal === undefined)
 								return;
@@ -516,26 +524,15 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//============================================================
 						//
 						//============================================================
-						$scope.getNationalTargetTitle = function(identifier) {
+						$scope.getNationalTargetTitle = function(identifier, locale) {
 
 							if ($scope.nationalTargets) {
 								var nationalTarget = _.find($scope.nationalTargets, function(target) {
 									return target && target.identifier_s == identifier;
 								});
 								if (nationalTarget)
-									return nationalTarget.title_t;
+									return nationalTarget.title[locale];
 							}
-						};
-
-						$scope.getAssessmentInfo = function(assessment, field) {
-							var existingAssessment = $scope.targetAssessments[assessment.identifier];
-							if (existingAssessment){
-								if(field)
-									return existingAssessment[field];
-								
-								return existingAssessment;
-							}
-
 						};
 
 						//============================================================
@@ -564,7 +561,13 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//============================================================
 						function loadReferenceRecords(options, appRealm) {
 
-							if($scope.document && $scope.document.government){
+								var government;
+								if($scope.document && $scope.document.government){
+									government = $scope.document.government.identifier
+								}
+								else
+									government = $scope.defaultGovernment();
+
 								if (!options.skipLatest && options.latest === undefined)
 									options.latest = true;
 								
@@ -572,7 +575,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									schema: options.schema,
 									target: options.nationalTargetId,
 									rows: 500,
-									government: $scope.document.government.identifier
+									government: government
 								}, options || {});
 
 								var query = [];
@@ -603,7 +606,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									fq.push("_latest_s:" + (options.latest ? "true" : "false"));
 								}
 
-								console.log(fq);
 								// AND / OR everything
 
 								if(query.length==0)
@@ -635,7 +637,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									});
 
 								});
-							}
 						}
 
 						function toLocalUrl(urls) {
@@ -1108,41 +1109,44 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						}
 
 						function removeNationalTargets(identifier, record, canDelete){
-							//public record exist with a draft
-							if(record._state_s == 'draft' && record.publicRecord){
-								var target = _.find($scope.nationalTargets, {identifier_s:identifier})
-								if(target)
-									target = record.publicRecord
-							}
-							else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
-								$timeout(function(){
-									var target = _.findIndex($scope.document.nationalTargets, {identifier:identifier})
-									if(target)
-										$scope.document.nationalTargets.splice(target, 1);
-									target = _.findIndex($scope.nationalTargets, {identifier_s:identifier})
-									if(target)
-										$scope.nationalTargets.splice(target, 1);
-								}, 100)
-							}
-							else{
-								record._state_s = 'workflow'
-							}
+							$timeout(function(){
+								//public record exist with a draft
+								if(record._state_s == 'draft' && record.publicRecord){
+									var index = _.findIndex($scope.nationalTargets, {identifier_s:identifier})
+									if(~index){
+										$scope.nationalTargets.splice(index, 1)
+										$scope.nationalTargets.push(record.publicRecord);
+									}
+								}
+								else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
+										var index = _.findIndex($scope.document.nationalTargets, {identifier:identifier})
+										if(~index)
+											$scope.document.nationalTargets.splice(index, 1);
+										index = _.findIndex($scope.nationalTargets, {identifier_s:identifier})
+										if(~index)
+											$scope.nationalTargets.splice(index, 1);
+								}
+								else{
+									record._state_s = 'workflow'
+								}
+							}, 100)
 						}
 						function removeTargetAssessments(identifier, record, canDelete){
 							//public record exist with a draft
-							if(record._state_s == 'draft' && record.publicRecord){
-								record = record.publicRecord
-							}
-							else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
-								$timeout(function(){
-									var assessment = _.findIndex($scope.document.targetAssessments, function(record){ return (record.assessment||record.aichiTarget).identifier == identifier});
-									if(assessment)
-										$scope.document.targetAssessments.splice(assessment, 1);
-								}, 100)
-							}
-							else{
-								record._state_s = 'workflow'
-							}
+							$timeout(function(){
+								if(record._state_s == 'draft' && record.publicRecord){
+									$scope.targetAssessments[record.identifier_s]  = record.publicRecord
+								}
+								else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
+									
+										var assessment = _.find($scope.document.progressAssessments, function(record){ return (record.assessment).identifier == identifier});
+										if(~assessment)
+											assessment.assessment = undefined;
+								}
+								else{
+									$scope.targetAssessments[record.identifier_s]._state_s = 'workflow'
+								}
+							}, 100)
 						}
 						var dialogOnPostWorkflowEvt = $rootScope.$on("evt:dialog-onPostWorkflow", function(evt, info){
 							

@@ -206,11 +206,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 												return doc;
 											}).then(function(doc) {
 												$scope.document = doc;
-												$q.all([loadABSNationaReport(), loadResourceMobilasationReport()])
-												.then(function() {
-													$scope.status = "ready";
-													return doc;
-												});
+												loadAbsAndResourceMobilizationReport();
 											});
 									}, 3000)
 
@@ -613,30 +609,34 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								else 
 									query = solr.andOr(query);
 									
-								var qsParams = {
-									"fq":fq,
-									"q": query,
-									"fl": "id, identifier_s, uniqueIdentifier_s, schema_t, createdDate_dt, title_t, summary_t, description_t, reportType_EN_t, " +
-										"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b,nationalTarget_s, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
-									"sort": "createdDate_dt asc",
-									"start": 0,
-									"rows": options.rows,
-								};
+								return querySolr(fq, query, options.rows)
+						}
 
-								return $http.get("/api/v2013/index", {
-									params: qsParams
-								}).then(function(res) {
+						function querySolr(fq, query, rows){
+							var qsParams = {
+								"fl"	: 	"id, identifier_s, uniqueIdentifier_s, schema_t, schema_s, createdDate_dt, title_t, summary_t, description_t, reportType_EN_t, " +
+										  	"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b,nationalTarget_s, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
+								"sort"	: 	"createdDate_dt asc",
+								"start"	: 	0,
+								"rows"	: 	rows,
+							};
+							if(fq)
+								qsParams.fq = fq
+							if(query)
+								qsParams.q = query;
 
-									return _.map(res.data.response.docs, function(v) {
-										return _.defaults(v, {
-											schemaName: solr.lstring(v, "schema_*_t", "schema_EN_t", "schema_s"),
-											title: solr.lstring(v, "title_*_t", "title_EN_t", "title_t"),
-											summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
-											url    : toLocalUrl(v.url_ss)
-										});
+							return $http.get("/api/v2013/index", {params: qsParams}).then(function(res) {
+
+								return _.map(res.data.response.docs, function(v) {
+									return _.defaults(v, {
+										schemaName: solr.lstring(v, "schema_*_t", "schema_EN_t", "schema_s"),
+										title: solr.lstring(v, "title_*_t", "title_EN_t", "title_t"),
+										summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
+										url    : toLocalUrl(v.url_ss)
 									});
-
 								});
+
+							});
 						}
 
 						function toLocalUrl(urls) {
@@ -844,85 +844,54 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						$scope.setIncludeLinkedRecords = function() {
 							$scope.includeLinkedRecords = true;
 						}
-
-						function loadABSNationaReport() {
+						
+						function loadAbsAndResourceMobilizationReport(){
+							var government = $scope.document.government.identifier;
 							var target16;
-							if ($scope.document && $scope.document.nationalContribution) {
-								target16 = _.findWhere($scope.document.nationalContribution, {
-									identifier: 'AICHI-TARGET-16'
-								});
-								// if(target16 && target16.nationalReport)
-								// 	return;
-							}
+							var target16Query = '';
 
-							var realmConfig;
-							if (realm == "CHM-DEV")
-								realmConfig = 'abs-dev';
-							else if (realm == "CHM-TRG")
-								realmConfig = 'abs-trg';
-							else
-								realmConfig = 'abs';
-
-							return $q.when(loadReferenceRecords({
-									schema: 'absNationalReport',
-									state: 'public'
-								}, realmConfig))
-								.then(function(result) {
-									if (result && result.length > 0) {
-										var absNR = _.head(result);
-
-										if (!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords) {
-											if (!$scope.warningsReport)
-												$scope.warningsReport = {
-													warnings: []
-												};
-											$scope.warningsReport.warnings.push({
-												code: 'National contribution for AICHI Target 16',
-												property: 'nationalContributions-AICHI-TARGET-16-nationalReportDescription'
-											})
-										}
-										if (target16) {
-											target16.nationalReport = {
-												identifier: absNR.identifier_s + '@' + absNR._revision_i
-											};
-										}
-										$scope.getNationalReportDetails = function(field) {
-											if (angular.isArray(absNR[field]))
-												return _.head(absNR[field]);
-											return absNR[field];
-										}
-									}
-								})
-						}
-
-						function loadResourceMobilasationReport() {
 							var target20;
+							var target20Query = '';
 							if ($scope.document && $scope.document.nationalContribution) {
-								target20 = _.findWhere($scope.document.nationalContribution, {
-									identifier: 'AICHI-TARGET-20'
-								});
+								target16 = _.find($scope.document.nationalContribution, {identifier: 'AICHI-TARGET-16'});
+								target16Query = solr.andOr(["realm_ss:" + realm.toLowerCase().replace(/^chm/, 'abs'),
+															"schema_s:absNationalReport",
+															"_state_s:public", "government_s:"+government])
 							}
 
-							return $q.when(loadReferenceRecords({
-									schema: 'resourceMobilisation',
-									latest: true,
-									state: 'public'
-								}))
-								.then(function(result) {
-									if (result && result.length > 0) {
-										var resourceMobilisation = _.head(result);
-										if (target20 && !target20.resourceMobilisationReport) {
-											target20.resourceMobilisationReport = {
-												identifier: resourceMobilisation.identifier_s
-											};
-										}
-										$scope.getResourceMobilisationDetails = function(field) {
-											if (angular.isArray(resourceMobilisation[field]))
-												return _.head(resourceMobilisation[field]);
-											return resourceMobilisation[field];
-										}
+							if ($scope.document && $scope.document.nationalContribution) {
+								target20 = _.find($scope.document.nationalContribution, {identifier: 'AICHI-TARGET-20'});
+								target20Query = solr.andOr(["realm_ss:" + realm.toLowerCase(),
+															"schema_s:resourceMobilisation","_latest_s:true",
+															"_state_s:public", "government_s:"+government])
+							}
+							var query = target16Query+' OR '+target20Query;
+							$q.when(querySolr(undefined, query, 10))
+							.then(function(results){
+								console.log(results);
+								$scope.absNationalReport = _.find(results, function(record){return record.schema_s=='absNationalReport'});
+								if($scope.absNR){
+									if (!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords) {
+										if (!$scope.warningsReport)
+											$scope.warningsReport = {warnings: []};
+										$scope.warningsReport.warnings.push({
+											code: 'National contribution for AICHI Target 16',
+											property: 'nationalContributions-AICHI-TARGET-16-nationalReportDescription'
+										})
 									}
-								})
+									if (target16) {
+										target16.nationalReport = {identifier: $scope.absNationalReport.identifier_s + '@' + $scope.absNationalReport._revision_i};
+									}
+								}
+								$scope.resourceMobilisation = _.find(results, function(record){return record.schema_s=='resourceMobilisation'});;
+								if($scope.resourceMobilisation){
+									if (target20 && !target20.resourceMobilisationReport) {
+										target20.resourceMobilisationReport = {
+											identifier: $scope.resourceMobilisation.identifier_s
+										};
+									}
+								}
+							})
 						}
 
 						//===========================

@@ -224,7 +224,7 @@
 					</div>
 					<!-- ng-hide="status=='hidden'||status=='loading'"ng-if="status!='hidden' && status!='loading'" -->
 					<div  ng-show="status!='hidden' && status!='loading'">
-						<div class "row">
+						<div class="row">
 							<div class="col-xs-12">
 								<span class="pull-right">
 									<strong>Sixth national report user manual</strong>
@@ -1250,9 +1250,10 @@
 														<label>Your country has submitted the interim national report on the implementation of the Nagoya Protocol.</label>
 														<br>
 														<div style="background-color:#eee; padding:5px;">
-															<a translation-url target="_new" class="bold" ng-href="{{getNationalReportDetails('url_ss')}}">
-																{{getNationalReportDetails('uniqueIdentifier_s')|uppercase}}
-																<span class="color-black" style="font-weight:normal;">{{getNationalReportDetails('title_t')}}</span>
+															{{self.absNationalReport}}
+															<a translation-url target="_new" class="bold" ng-href="{{absNationalReport.url}}">
+																{{absNationalReport.uniqueIdentifier_s|uppercase}}
+																<span class="color-black" style="font-weight:normal;">{{absNationalReport.title[locale]}}</span>
 															</a>
 														</div>
 													</div>
@@ -1409,13 +1410,13 @@
 											<a translation-url href="/submit/resourceMobilisation/new" target="_new">Click here to complete the Financial Reporting Framework</a>
 										</div>
 									</div>
-									<div class="col-md-12" ng-if="getResourceMobilisationDetails('title_t')">
+									<div class="col-md-12" ng-if="resourceMobilisation">
 										<label for="">Your country has submitted the Financial Reporting Framework</label>
 										<br/>
 										<div style="background-color:#eee; padding:5px;">
-											<a translation-url target="_new" ng-href="{{getResourceMobilisationDetails('url_ss')}}">
-												{{getResourceMobilisationDetails('url_ss')}}
-												<span class="color-black" style="font-weight:normal;">{{getResourceMobilisationDetails('title_t')}}</span>
+											<a translation-url target="_new" ng-href="{{resourceMobilisation.url}}">
+												{{resourceMobilisation.url}}
+												<span class="color-black" style="font-weight:normal;">{{resourceMobilisation.title[locale]}}</span>
 											</a>
 										</div>
 									</div>

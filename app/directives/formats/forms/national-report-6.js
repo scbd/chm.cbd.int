@@ -1108,7 +1108,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								}
 								else if(record._state_s == 'draft' || (record._state_s == 'public' && canDelete)){
 									
-										var assessment = _.find($scope.document.progressAssessments, function(record){ return (record.assessment).identifier == identifier});
+										var assessment = _.find($scope.document.progressAssessments, function(record){ return (record.assessment||{}).identifier == identifier});
 										if(~assessment)
 											assessment.assessment = undefined;
 								}

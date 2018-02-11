@@ -614,7 +614,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 
 						function querySolr(fq, query, rows){
 							var qsParams = {
-								"fl"	: 	"id, identifier_s, uniqueIdentifier_s, schema_t, schema_s, createdDate_dt, title_t, summary_t, description_t, reportType_EN_t, " +
+								"fl"	: 	"id, identifier_s, uniqueIdentifier_s, schema_t, schema_s, createdDate_dt, title_*, summary_*, description_*, reportType_EN_t, " +
 										  	"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget_b,nationalTarget_s, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
 								"sort"	: 	"createdDate_dt asc",
 								"start"	: 	0,

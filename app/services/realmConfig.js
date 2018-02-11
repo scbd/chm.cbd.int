@@ -22,6 +22,15 @@ define(['app', 'lodash', 'providers/realm'], function (app,_) { 'use strict';
     	            'ChmRmFocalPoint':             'ChmRmFocalPoint-dev',
     	            'ChmRmNAU':                    'ChmRmNAU-dev',
     	        }
+    	    },
+    	    'CHM-TRG': { //Development / Test
+    	        overrides: {
+    	            'ChmAdministrator':            'ChmAdministrator-dev',
+    	            'ChmNrNationalFocalPoint':     'ChmNrNationalFocalPoint-dev',
+    	            'ChmNrNationalAuthorizedUser': 'ChmNrNationalAuthorizedUser-dev',
+    	            'ChmRmFocalPoint':             'ChmRmFocalPoint-dev',
+    	            'ChmRmNAU':                    'ChmRmNAU-dev',
+    	        }
     	    }
     	};
         //======================================================

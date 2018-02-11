@@ -88,6 +88,8 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
                     var realmConfig = {params:{realm:realm}};                    
                     if(realm == "CHM-DEV")
                        realmConfig.params.realm = 'abs-dev';
+                    else if(realm == "CHM-TRG")
+                        realmConfig.params.realm = 'abs-trg';
                     else
                        realmConfig.params.realm = 'abs';
 
@@ -215,6 +217,8 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
                 if(realm == "CHM-DEV")
                     q += ' AND realm_ss:abs-dev'
+                else if(realm == "CHM-TRG")
+                    q += ' AND realm_ss:abs-trg'
                 else
                     q += ' AND realm_ss:abs'
 

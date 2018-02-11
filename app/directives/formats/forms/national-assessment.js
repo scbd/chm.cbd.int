@@ -219,7 +219,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 								header: {
 									identifier: guid(),
 									schema: "nationalAssessment",
-									languages: [locale]
+									languages: qs.documentLanguages ? qs.documentLanguages : [locale]
 								},
 								government: $scope.defaultGovernment() ? {
 									identifier: $scope.defaultGovernment()
@@ -469,7 +469,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 
 					$scope.validationReport = null;
 
-					var oDocument = $scope.document;
+					var oDocument = $scope.getCleanDocument();
 
 					if (clone !== false)
 						oDocument = angular.fromJson(angular.toJson(oDocument));
@@ -556,11 +556,12 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 				//==================================
 				//
 				//==================================
-				$scope.onPostWorkflow = function() {
+				$scope.onPostWorkflow = function(info) {
 					$rootScope.$broadcast("onPostWorkflow", messages.onPostWorkflow);
 					if(!openInDialog)
 						gotoManager();
 					else{
+						$rootScope.$broadcast("evt:dialog-onPostWorkflow", info);
 						$scope.closeDialog();
 					}
 				};
@@ -568,12 +569,13 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 				//==================================
 				//
 				//==================================
-				$scope.onPostPublish = function() {
+				$scope.onPostPublish = function(info) {
 					$scope.$root.showAcknowledgement = true;
 					$rootScope.$broadcast("onPostPublish", messages.onPostPublish);
 					if(!openInDialog)
 						gotoManager();
 					else{
+						$rootScope.$broadcast("evt:dialog-onPostWorkflow", info);
 						$scope.closeDialog();
 					}
 				};

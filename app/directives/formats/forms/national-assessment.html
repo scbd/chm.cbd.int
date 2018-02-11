@@ -33,9 +33,14 @@
 				<div class="alert alert-danger" ng-show="hasError()">
 					<strong>An error has occurred...</strong>
 					<div>{{error}}</div>
+
+					<div ng-if="container =='.ngdialog-theme-default'">
+							<button class="btn btn-warning" ng-click="onPostClose()">Close</button>
+					</div>
+
 				</div>
 
-				<div ng-show="status!='hidden'">
+				<div ng-hide="status=='hidden'||status=='loading'">
 
 					<div class="row">
 						<div class="col-xs-6">

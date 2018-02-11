@@ -30,6 +30,10 @@
 				<div class="alert alert-danger" ng-show="hasError()">
 					<strong>An error has occurred...</strong>
 					<div>{{error}}</div>
+
+					<div ng-if="container =='.ngdialog-theme-default'">
+							<button class="btn btn-warning" ng-click="onPostClose()">Close</button>
+					</div>
 				</div>
 
 				<div class="row" style="padding:15px;" ng-show="status=='loading'">Loading...</div>

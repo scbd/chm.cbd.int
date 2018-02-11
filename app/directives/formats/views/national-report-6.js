@@ -35,18 +35,20 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if(!$scope.document||!document)
 						return;
 					if(document.targetPursued){
-						$scope.isLoadingAssessments = true
+						$scope.isLoadingTargets = true
 						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadDocument(target.identifier);});
 						$q.all(nationalTargets)
 						  .then(function(data){
 							  $scope.nationalTargets = [];
-							  _.each(data, function(target){
+							  _.each(_.compact(data), function(target){
 								if(target.data){
 									target.data.government = undefined;
 									$scope.nationalTargets.push(target.data);
 								}
 							  });
-							  $scope.isLoadingAssessments = false;
+						  })
+						  .finally(function(){
+							$scope.isLoadingTargets = false;
 						  });
 					}
 
@@ -59,10 +61,15 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					});
 					$q.all(nationalAssessmentQuery)
 					.then(function(results){
-						var documents = _.map(results, function(result){ 
-											result.data.government = undefined; return result.data || {}; 
-										});
-						$scope.progressAssessments = documents;
+						if(results){
+							var documents = _.map(_.compact(results), function(result){ 
+												result.data.government = undefined; return (result||{}).data || {}; 
+											});
+							$scope.progressAssessments = documents;
+						}
+					})
+					.finally(function(){
+					  $scope.isLoadingAssessments = false;
 					});
 
 					if($scope.document.nationalContribution){
@@ -76,6 +83,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 							var realmConfig;                    
 							if(realm == "CHM-DEV")
 								realmConfig = 'abs-dev';
+							else if(realm == "CHM-TRG")
+								realmConfig = 'abs-trg';
 							else
 								realmConfig = 'abs';
 							$scope.absNationalReport = undefined;
@@ -208,7 +217,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						"q"  : query,
 						"fl" : "identifier_s,uniqueIdentifier_s, schema_t, title_t, summary_t, description_t, reportType_EN_t, " +
 							"url_ss, _revision_i, _state_s, _latest_s, _workflow_s, isAichiTarget_b, aichiTargets_*, otherAichiTargets_*, date_dt, progress_s",
-						"sort"  : "updatedDate_dt desc",
+						"sort"  : "createdDate_dt desc",
 						"start" : 0,
 						"rows"   : options.rows,
 					};
@@ -276,8 +285,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					if (identifier) { //lookup single record
 						
 						return storage.documents.get(identifier)
-									.catch(function(e) {
-										if (e.status == 404) {
+									.catch(function(e) {										
+										if (e.status == 404 && $location.path() != '/database/record') {
 											return storage.drafts.get(identifier);
 										}
 									});

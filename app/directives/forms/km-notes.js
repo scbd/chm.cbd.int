@@ -17,9 +17,10 @@ define(['app', 'angular', 'jquery', 'text!./km-notes.html', 'scbd-angularjs-serv
 	            $scope.timestamp = Date.now();
 	            $scope.skipLoad = false;
 	            $scope.texts = [];
-	            $scope.$watch('binding', $scope.load);
+	            // $scope.$watch('binding', );
 	            $scope.$watch('binding', function () {
-	                ngModelController.$setViewValue($scope.binding);
+                    ngModelController.$setViewValue($scope.binding);
+                    $scope.load()
 	            });
 
                 //==============================
@@ -32,7 +33,11 @@ define(['app', 'angular', 'jquery', 'text!./km-notes.html', 'scbd-angularjs-serv
                     }
                     
                     var oBinding = $scope.binding || [];
-
+                    try{
+                        oBinding = JSON.parse(oBinding);
+                    }
+                    catch(err){}
+                    
                     $scope.texts = [];
 
                     angular.forEach(oBinding, function (text) {
@@ -70,7 +75,7 @@ define(['app', 'angular', 'jquery', 'text!./km-notes.html', 'scbd-angularjs-serv
                             }
                         }
 
-                        $scope.binding = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
+                        $scope.binding = !$.isEmptyObject(oNewBinding) ? JSON.stringify(oNewBinding) : undefined;
                         $scope.skipLoad = true;
                     });
                 };
@@ -84,4 +89,5 @@ define(['app', 'angular', 'jquery', 'text!./km-notes.html', 'scbd-angularjs-serv
             }
         };
     }]);
+
 });

@@ -201,6 +201,16 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
             $scope.showEmailVerificationMessage = data.message;
         });
 
+        function updateSize() {
+            $rootScope.$applyAsync(function () {
+                $rootScope.deviceSize = $('.device-size:visible').attr('size');
+                console.log($rootScope.deviceSize);
+                
+            });
+        }
+        updateSize();
+        angular.element($window).on('resize', updateSize);
+
      }]);
 
     app.directive(

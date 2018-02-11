@@ -50,7 +50,7 @@
 		<li class="list-group-item" ng-repeat="item in selectedItems">
 			<table style="width:100%">
 				<tr>
-					<td>{{item.title | lstring}}</td>
+					<td>{{item.title | lstring:locale}}</td>
 					<td style="white-space:nowrap;text-align:right;vertical-align:top">
 						<button type="button" class="btn btn-default" ng-click="clicked(item)"><i class="fa fa-trash-o"></i></button>
 					</td>

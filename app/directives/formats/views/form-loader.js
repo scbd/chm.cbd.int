@@ -1,7 +1,10 @@
-define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication', 'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale'], function(require, app, template,_){
+define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication', 
+'utilities/km-storage', 'utilities/km-utilities', 'scbd-angularjs-services/locale', 'services/realmConfig',
+'./directives/document-date'], function(require, app, template,_){
 
-app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", "navigation","$http", '$timeout', 
-function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout) {
+app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", 
+"navigation","$http", '$timeout', 'realmConfig',
+function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout, realmConfig) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -64,6 +67,9 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 					return;
 
 				var documentID  = $route.current.params.documentid || $route.current.params.documentID || $scope.documentId;
+				var documentRevision  = $route.current.params.documentRevision || $route.current.params.documentRevision || $scope.documentRevision;
+				if(documentRevision)
+					documentID += '@'+documentRevision;
 
 				if (documentID)
 					$scope.load(documentID);
@@ -326,14 +332,30 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 						importCSS:true,
 						importStyle : true,
 						pageTitle : $('title').text(),
-						loadCSS : '/app/css/print-friendly.css',
+						loadCSS : '/app/css/print-friendly.css?v='+window.appVersion,
 						header : header,
 						footer : footer
 					});	
 					$timeout(function(){$scope.printing = false;},500);
-				});
-				
+				});				
 			}
+			function loadDocumentHistory(){
+				$q.when($scope.user())
+				.then(function(user){
+					if(user && realmConfig.isChmAdministrator(user)){
+						require(['./directives/document-history'], function(){
+							
+							var historyHolder = $element.find("#history-placeholder:first");
+							historyHolder.empty();
+							var directiveHtml = '<document-history ng-model="internalDocument" locale="getLocale()"></document-history>';	
+							$scope.$apply(function(){
+								historyHolder.append($compile(directiveHtml)($scope));
+							});
+						});
+					}
+				})
+			}
+			loadDocumentHistory();
 		}
 	};
 }]);

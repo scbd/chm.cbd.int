@@ -589,7 +589,7 @@
                     "metadata": metadata
                 };
 
-                var useCache = !!params.cache;
+                var useCache = true;//!!params.cache;
                 var oTrans = transformPath(patternPath, params);
 
                 return $http.get(oTrans.url, getConfig(config, oTrans.params, useCache));

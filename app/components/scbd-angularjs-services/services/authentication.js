@@ -166,7 +166,8 @@ define(['app'], function(app) {//, './apiUrl'
                 return $http.get('/api/v2013/authentication/user', {
                     headers: {
                         Authorization: "Ticket " + authenticationToken.token
-                    }
+                    },
+                    cache:true
                 }).then(function(r) {
                     return r.data;
                 });
@@ -201,7 +202,8 @@ define(['app'], function(app) {//, './apiUrl'
                 return $q.all([token, $http.get('/api/v2013/authentication/user', {
                     headers: {
                         Authorization: "Ticket " + token.authenticationToken
-                    }
+                    },
+                    cache:true
                 })]);
 
             }).then(function(res) {
@@ -397,7 +399,7 @@ define(['app'], function(app) {//, './apiUrl'
             };
         }
     ]);
-        app.factory('genericIntercepter', ["locale", function(locale) {
+    app.factory('genericIntercepter', ["locale", function(locale) {
 
             return {
                 request: function(config) {
@@ -422,11 +424,33 @@ define(['app'], function(app) {//, './apiUrl'
             };
         }
     ]);
+
+
+    app.factory('apiRebase', ["$location", function($location) {
+        
+        return {
+            request: function(config) {
+
+                var rewrite = /^\/api\//.test(config.url.toLowerCase()) &&
+                                (   $location.host().toLowerCase() == 'chm.cbd.int' ||  
+                                    $location.host().toLowerCase() == 'chm-training.cbd.int'
+                                );
+
+                if(rewrite)
+                    config.url = 'https://api.cbd.int' + config.url;
+
+                return config;
+            }
+        };
+    }]);
+
     app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.interceptors.push('authenticationHttpIntercepter');
         $httpProvider.interceptors.push('realmHttpIntercepter');
         $httpProvider.interceptors.push('apiURLHttpIntercepter');
         $httpProvider.interceptors.push('genericIntercepter');
+        $httpProvider.interceptors.push('apiRebase');
+        
         
     }]);
 

@@ -103,7 +103,8 @@
             		<tr>
             		<th style="white-space:nowrap;max-width:100px;" >Type</th>
             		<th style="white-space:nowrap;max-width:1000px;" >Summary</th>
-            		<th style="white-space:nowrap;max-width:100px;" class="hidden-xs">Created By</th>
+            		<th style="white-space:nowrap;max-width:100px;" class="hidden-xs">Requested By</th>
+            		<th style="white-space:nowrap;max-width:100px;" class="hidden-xs">Published By</th>
             		<th style="white-space:nowrap;max-width:100px;" >Update</th>
             		<th style="white-space:nowrap;width:100px;">Status</th>
             		<th style="white-space:nowrap;width:100px;" class="text-right">&nbsp;</th>
@@ -135,7 +136,11 @@
 
                             </h5>
                             <div class="hidden-xs" style="white-space: pre-wrap;" >{{record.summary || record.description || record.description_s | lstring | htmlToPlaintext | truncate:(record.truncate||350):'...'}} <a translation-url ng-hide="record.truncate || (record.summary | lstring).length<=350" href="#" ng-click="record.truncate=100000">more <i class="fa fa-caret-down"></i></a><a translation-url ng-show="record.truncate" href="#" ng-click="record.truncate=undefined">less <i class="fa fa-caret-up"></i></a></div>
-                            </td>
+                        </td>
+                        <td class="createdby hidden-xs" style="width:150px;">
+                            <div title="{{record.submittedByEmail_s}}">{{record.submittedBy_s}}</div>
+                            <div title="{{record.submittedDate_dt | datetime}}" class="date" >{{record.submittedDate_dt | fromNow}}</div>
+                        </td>
             			<td class="createdby hidden-xs" style="width:150px;">
                             <div title="{{record.createdByEmail_s}}">{{record.createdBy_s}}</div>
                             <div title="{{record.createdDate_dt | datetime}}" class="date" >{{record.createdDate_dt | fromNow}}</div>

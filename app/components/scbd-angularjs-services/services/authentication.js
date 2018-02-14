@@ -167,7 +167,7 @@ define(['app'], function(app) {//, './apiUrl'
                     headers: {
                         Authorization: "Ticket " + authenticationToken.token
                     },
-                    cache:true
+                    cache:false
                 }).then(function(r) {
                     return r.data;
                 });
@@ -203,7 +203,7 @@ define(['app'], function(app) {//, './apiUrl'
                     headers: {
                         Authorization: "Ticket " + token.authenticationToken
                     },
-                    cache:true
+                    cache:false
                 })]);
 
             }).then(function(res) {

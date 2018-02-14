@@ -108,7 +108,8 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 								var url = angular.copy(next_url);
 								next_url = undefined;
 								$timeout(function(){
-									var absHosts = ['https://chm.cbddev.xyz/', 'https://chm.staging.cbd.int/',
+									var absHosts = ['https://chm.cbddev.xyz/', 'https://chm-training.cbd.int/',
+										'https://chm.staging.cbd.int/',
 										'http://localhost:8000/', 'https://chm.cbd.int/'
 									]
 									url = url.replace($location.$$protocol + '://' +

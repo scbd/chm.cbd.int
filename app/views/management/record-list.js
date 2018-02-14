@@ -72,7 +72,7 @@ define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/
             var qsParams =
             {
                 "q"  : buildQuery(),
-                "fl" : "logo*,id,identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
+                "fl" : "logo*,id,identifier_s, schema_*, title_*, summary_*, description_*, created*, updated*, submitted*, reportType_*_t, url_ss, _revision_i, _state_s, _latest_s, _workflow_s",
                 "sort"  : "updatedDate_dt desc",
                 "start" : pageIndex*Number($scope.pageSize),
                 "rows"   : Number($scope.pageSize),

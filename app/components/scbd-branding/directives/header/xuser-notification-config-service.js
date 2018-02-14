@@ -55,6 +55,8 @@ define(['app', 'lodash', 'moment', 'scbd-angularjs-filters'],
                         url = 'https://training-absch.cbd.int'; break;
                     case 'CHM':
                         url = 'https://chm.cbd.int'; break;
+                    case 'CHM-TRG':
+                        url = 'https://chm-training.cbd.int'; break;
                     case 'CHM-DEV': {
                         if ($location.absUrl().indexOf('http://localhost:') >= 0)
                             url = 'http://localhost:2000'

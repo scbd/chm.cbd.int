@@ -20,7 +20,7 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
             lang= 'zh-cn'; //moment has two ZH, use ZH-CN
         moment.locale(lang);
         if(lang == 'ar'){
-            require(['css!/app/libs/bootstrap-rtl/dist/css/bootstrap-rtl.css']);
+            require(['css!/app/libs/bootstrap-rtl/dist/css/bootstrap-rtl.css', 'css!/app/css/custom-rtl.css']);
         }
         var basePath = (angular.element('base').attr('href')||'').replace(/\/+$/g, '');
         $rootScope.$on('$routeChangeSuccess', function(){

@@ -1,4 +1,4 @@
-﻿<div>
+﻿<div id="sixth-national-report-edit">
 
 	<div id="wrap1">
 		<div class="panel panel-default bg-litegrey">
@@ -13,202 +13,7 @@
 			<div class="panel-body">
 
 				<style>
-					.wrap .pagination {
-						display: inline-block;
-						padding-left: 0;
-						margin: 20px;
-						border-radius: 4px;
-					}
-
-					.wrap .pagination a {
-						padding: 6px 12px !important;
-						color: #337ab7 !important;
-					}
-
-					.panel-header,
-					.section .section-header {
-						border-bottom: 1px solid #ddd;
-						padding-left: 10px;
-						padding-right: 10px;
-					}
-
-					.help-block {
-						text-align: justify;
-					}
-
-					.panelMain .panel-body {
-						padding: 0px
-					}
-
-					.mainHeading,
-					.section .section-body {
-						padding: 15px !important;
-					}
-
-					.section .section-header {
-						border-top: 1px solid #ddd;
-						background-color: #ddd;
-					}
-
-					.panel-header a.collapse-icon,
-					.panel-header a.trash {
-						padding: 12px 35px 12px 15px;
-						display: inline-block;
-						width: 100%;
-						position: relative;
-						text-decoration: none;
-					}
-
-					.panel-header a.collapse-icon:after {
-						font-family: "FontAwesome";
-						content: "\f01b";
-						position: absolute;
-						right: 20px;
-						font-size: 20px;
-						font-weight: 400;
-						top: 50%;
-						line-height: 1;
-						margin-top: -10px;
-					}
-
-					.panel-header a.collapse-icon.collapsed:after {
-						content: "\f01a";
-					}
-
-					.panel-header a.trash,
-					.panel-header a.measure {
-						width: 0% !important;
-						padding-right: 0px;
-						padding-left: 0px;
-					}
-
-					.panel-header a.trash:after {
-						font-family: "FontAwesome";
-						content: "\f014";
-						position: absolute;
-						right: 40px;
-						font-size: 20px;
-						font-weight: 400;
-						top: 50%;
-						line-height: 1;
-						margin-top: -10px;
-					}
-
-					.greyout * {
-						background-color: #ddd !important;
-						color: #737373 !important;
-					}
-
-					.highlight,
-					textarea.form-control:focus,
-					.form-control:focus+span.input-group-addon,
-					/*.form-control:focus > .panel,*/
-
-					textarea:focus,
-					input[type="text"]:focus,
-					input[type="password"]:focus,
-					input[type="number"]:focus,
-					input[type="email"]:focus,
-					input[type="url"]:focus,
-					input[type="search"]:focus,
-					input[type="tel"]:focus {
-						border-color: #3498db;
-						outline: 0;
-						box-shadow: 0 0 0 1px #3498db;
-					}
-
-					.alert .glyphicon {
-						float: left;
-						margin-right: 9px;
-					}
-
-					.alert div {
-						overflow: hidden;
-					}
-
-					.ngdialog-open {
-						height: auto !important;
-					}
-
-					.ngdialog-content {
-						width: 70% !important;
-					}
-
-					.ngdialog-custom .ngdialog-content {
-						background: transparent !important;
-					}
-
-
-					#wrap {
-						min-height: 100%;
-						height: auto !important;
-						height: 100%;
-					}
-
-					.container .credit {
-						margin: 20px 0;
-					}
-
-					#nav {
-						position: static;
-						top: -32px;
-					}
-
-					#nav.affix {
-						position: fixed;
-						top: 0;
-						z-index: 10;
-						-webkit-transition: all .6s ease-in-out;
-						left: 0;
-						width: 100%;
-						padding-left: 50px;
-						-webkit-box-shadow: 0px 1px 10px #666;
-						-moz-box-shadow: 0px 1px 10px #666;
-						box-shadow: 0px 1px 10px #666;
-					}
-
-					@media (min-width: 767px) {
-						.navbar-nav.nav-justified>li {
-							float: none;
-						}
-					}
-
-					.navbar-custom {
-						background-color: #eeeeee;
-						border-width: 0;
-					}
-
-					.navbar-custom .dropdown-menu {
-						right: 0;
-					}
-
-					.navbar-custom .navbar-nav>.dropdown>a .caret {
-						border-top-color: #999;
-						border-bottom-color: #999;
-					}
-
-					.navbar-collapse.in {
-						overflow-y: visible;
-					}
-
-					.navbar-toggle {
-						outline: 0;
-					}
-
-					.container-custom {
-						margin: 0px !important;
-						padding: 0px !important;
-						max-width: 100% !important;
-					}
-
-					.affix .text-right {
-						padding-right: 55px;
-						padding-bottom: 10px;
-					}
-
-					.small-screen {
-						display: block !important;
-					}
+					
 				</style>
 
 				<div class="col-md-12" style="padding:0px" >
@@ -374,7 +179,7 @@
 
 															<ul class="list-group ng-scope" style="margin-top: 10px;">
 																<li class="list-group-item ng-scope" style="min-height: 50px;">
-																	<div class="pull-right">
+																	<div class="pull-right btn-group">
 																		<button ng-disabled="loadingNationalTargets||isDialogOpen" class="btn btn-primary" ng-click="openDialog({},'directives/formats/forms/national-target-dialog','edit-national-target-dialog')">Add Target</button>
 																		<a translation-url ng-disabled="loadingNationalTargets" class="btn btn-primary" ng-hre="#" ng-click="refreshNationaTargets()">
 																			<i class="fa fa-spin fa-spinner" ng-if="loadingNationalTargets" />Refresh</a>
@@ -388,17 +193,17 @@
 
 																<div class="panel panel-default">
 																	<div class="panel-header">
-																		<h3>{{item.title[locale]}}</h3>
+																		<h3>{{item.title|lstring:locale}}</h3>
 																	</div>
 																	<div class="panel-body">
-																		<div class="btn-group-xs" 
-																		ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier_s || !waitForWorkflow.nationalTarget">
+																		<div class="btn-group-xs btn-status" 
+																			ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier_s || !waitForWorkflow.nationalTarget">
 																			<span class="label label-primary pull-right  bg-published"  style="margin-left:5px;"
 																				ng-if="item._state_s=='public' || item.publicRecord">Public</span>
 																			<span class="label label-warning pull-right  bg-draft" ng-if="item._state_s=='draft'">Draft</span>
 																			<span class="label label-warning pull-right  bg-request" ng-if="item._state_s=='workflow'">Waiting for approval</span>
 																		</div>
-																		<div ng-if="waitForWorkflow.nationalTarget && waitForWorkflow.nationalTarget.identifier == item.identifier_s">
+																		<div class="btn-status" ng-if="waitForWorkflow.nationalTarget && waitForWorkflow.nationalTarget.identifier == item.identifier_s">
 																			<span class="label label-warning pull-right bg-request">
 																				<i class="fa fa-spin fa-spinner"></i > Processing...</span>
 																		</div>
@@ -469,10 +274,10 @@
 								</div>
 								<div class="panel panel-default implementationMeasure" ng-repeat="implementationMeasure in document.implementationMeasures track by $index">
 									<div class="panel-header clearfix">
-										<h3>{{implementationMeasure.title[locale]}}
-											<div class="pull-right" style="padding-right:10px">
-												<a translation-url ng-href="#" class="trash" ng-click="removeImplementationMeasure(implementationMeasure)"></a>
-												<a translation-url ng-href="#" data-toggle="collapse" class="measure collapse-icon" data-target="#implementationMeasure{{$index}}"></a>
+										<h3>{{implementationMeasure.title|lstring:locale}}
+											<div class="pull-right implementation-measure-action-buttons btn-group" style="padding-right:10px">
+												<a translation-url ng-href="#" class="trash btn" ng-click="removeImplementationMeasure(implementationMeasure)"></a>
+												<a translation-url ng-href="#" data-toggle="collapse" class="btn measure collapse-icon" data-target="#implementationMeasure{{$index}}"></a>
 											</div>
 										</h3>
 									</div>
@@ -608,7 +413,7 @@
 											<div class="col-md-12">
 												<div class="km-control-group" name="progressAssessmentAdequacy" caption="Current assessment for the national target">
 													<div ng-if="progressAssessment.assessment">
-														<div class="row" style="margin-right:0.1%">
+														<div class="row btn-status" style="margin-right:0.1%">
 															<div ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
 																<span class="label label-primary pull-right  bg-published" style="margin-left:5px;"
 																	ng-if="targetAssessments[progressAssessment.assessment.identifier]._state_s=='public' || targetAssessments[progressAssessment.assessment.identifier].publicRecord">Public</span>
@@ -623,9 +428,9 @@
 														<img ng-src="/app/img/ratings/{{targetAssessments[progressAssessment.assessment.identifier].progress_s}}.png" class="pull-left"></img>
 														<div>
 															<div>
-																<h3>{{targetAssessments[progressAssessment.assessment.identifier].title[locale]}}</h3>
+																<h3>{{targetAssessments[progressAssessment.assessment.identifier].title|lstring:locale}}</h3>
 															</div>
-															<div>{{targetAssessments[progressAssessment.assessment.identifier].description[locale]}}</div>
+															<div>{{targetAssessments[progressAssessment.assessment.identifier].description|lstring:locale}}</div>
 														</div>
 													</div>
 													<div ng-if="!progressAssessment.assessment" class="label label-info">
@@ -1253,7 +1058,7 @@
 															{{self.absNationalReport}}
 															<a translation-url target="_new" class="bold" ng-href="{{absNationalReport.url}}">
 																{{absNationalReport.uniqueIdentifier_s|uppercase}}
-																<span class="color-black" style="font-weight:normal;">{{absNationalReport.title[locale]}}</span>
+																<span class="color-black" style="font-weight:normal;">{{absNationalReport.title|lstring:locale}}</span>
 															</a>
 														</div>
 													</div>
@@ -1416,7 +1221,7 @@
 										<div style="background-color:#eee; padding:5px;">
 											<a translation-url target="_new" ng-href="{{resourceMobilisation.url}}">
 												{{resourceMobilisation.url}}
-												<span class="color-black" style="font-weight:normal;">{{resourceMobilisation.title[locale]}}</span>
+												<span class="color-black" style="font-weight:normal;">{{resourceMobilisation.title|lstring:locale}}</span>
 											</a>
 										</div>
 									</div>

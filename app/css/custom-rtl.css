@@ -1,0 +1,40 @@
+﻿
+input[type="text"], textarea{
+    direction: LTR;
+}
+input[type="text"].arabic, textarea.arabic{
+    direction: RTL!important;
+}
+
+.implementation-measure-action-buttons{
+    float:left!important;
+    padding-left:10%;
+}
+@media (min-width: 768px) {
+    .implementation-measure-action-buttons{
+        padding-left:2%;
+    }
+}
+.implementation-measure-action-buttons a:first-child{ 
+    margin-left: 40px!important;
+}
+.implementation-measure-action-buttons a{
+    padding-right:5px!important;
+}
+
+.ngdialog-open .datepicker{
+    max-width: 250px!important;
+    right:18%!important
+}
+
+.md-dialog-container .btn-space{
+    margin-left: 5px!important;
+}
+
+.btn-status span{
+    margin-left:5px;
+}
+.btn-status .pull-right,
+.list-group-item table tr td button {
+    float:left!important;
+}

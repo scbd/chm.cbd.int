@@ -499,3 +499,18 @@ legend{
 #sixth-national-report-edit .small-screen {
     display: block !important;
 }
+
+#section3 .section-body .panel.panel-default,
+#section3 .section-body .panel.panel-default .panel-body{    
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#section3 .section-body .panel.panel-default .panel-body .viewForm{
+    padding-left: 15px;
+    padding-right: 5px;
+}
+#section1 .national-targets .panel.panel-default.view-national-target,
+#section3 .section-body .panel.panel-default .panel-body{
+    padding-left:0px;
+    padding-right: 5px;
+}

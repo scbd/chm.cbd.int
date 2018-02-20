@@ -420,7 +420,7 @@ legend{
     height: auto !important;
 }
 
-#sixth-national-report-edit .ngdialog-content {
+.ngdialog-custom .ngdialog-content {
     width: 70% !important;
 }
 

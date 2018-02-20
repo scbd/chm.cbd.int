@@ -54,9 +54,7 @@ app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location",
 						.catch(function(e) {
 							if (e.status == 404 && $location.path() != '/database/record') {
 								return storage.drafts.get(ref.identifier)
-								.then(function(res) {
-									return res.data;
-								});
+								.then(function(res) {return res.data;}).catch(function(e) {});
 							}
 						});;
 				}));

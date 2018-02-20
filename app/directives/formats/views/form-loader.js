@@ -18,7 +18,8 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			documentId  : "@"
 		},
 		link: function($scope, $element) {
-			//
+			$scope.options = { locale : $scope.locale||locale };
+
 			var queryString = $location.search();
 			if(queryString && queryString.print){
 				$scope.printMode = true;
@@ -81,9 +82,8 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			//
 			//==================================
 			$scope.getLocale = function () {
-				return $scope.locale || locale;
+				return $scope.locale || $scope.options.locale || locale;
 			};
-
 			//==================================
 			//
 			//==================================

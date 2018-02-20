@@ -287,7 +287,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						return storage.documents.get(identifier)
 									.catch(function(e) {										
 										if (e.status == 404 && $location.path() != '/database/record') {
-											return storage.drafts.get(identifier);
+											return storage.drafts.get(identifier).catch(function(e) {});
 										}
 									});
 					}

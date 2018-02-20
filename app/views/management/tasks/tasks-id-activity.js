@@ -5,6 +5,7 @@ define(['lodash', 'directives/management/register-facets', 'authentication', "di
 return [ "$scope", "$timeout", "$http", "$route", "$location", "IStorage", "IWorkflows", "authentication", "solr", "$q", "locale",
 function ($scope, $timeout, $http, $route, $location, IStorage, IWorkflows, authentication, solr, $q, locale)
 {
+	$scope.options = { documentLocale : locale };
 	function load() {
 
 		var workflowID   = $route.current.params.id;

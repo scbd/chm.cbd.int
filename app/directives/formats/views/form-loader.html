@@ -54,7 +54,10 @@
 					</div>
 				</div>
 				<document-date ng-if="internalDocument"></document-date>
-
+				<div class="btn-group" ng-if="!document && internalDocument.header.languages.length>1">
+					<input type="button" class="btn" ng-class="{'btn-default' : options.locale!=locale, 'btn-info' :options.locale==locale}"
+						ng-repeat="locale in internalDocument.header.languages" ng-click="options.locale = locale" value="{{locale | uppercase}}" />
+				</div>
 				<div id="form-placeholder"></div>
 			</div>
 		</div>

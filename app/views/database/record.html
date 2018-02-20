@@ -1,7 +1,11 @@
 ﻿<div class="container database-record" style="margin-top:20px;">
     <div class="row" style="padding-bottom:20px;">
       	<div class="col-xs-12 " >
-          	<view-form-loader link-target="_self"></view-form-loader>
+			<div class="btn-group" ng-show="document.header.languages.length>1">
+				<input type="button" class="btn" ng-class="{'btn-default' : options.documentLocale!=locale, 'btn-info' : options.documentLocale==locale}"
+					ng-repeat="locale in document.header.languages" ng-click="options.documentLocale = locale" value="{{locale | uppercase}}" />
+			</div>
+          	<view-form-loader link-target="_self" document="document"></view-form-loader>
       	</div>
   	</div>
 </div>

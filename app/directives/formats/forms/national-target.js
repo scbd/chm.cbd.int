@@ -387,6 +387,9 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//==================================
 			$scope.onError = function(error, status)
 			{
+				if(error.data)
+					error = error.data;
+					
 				$scope.status = "error";
 
 				if (status == "notAuthorized") {
@@ -409,7 +412,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 
             $scope.$watch('document.isAichiTarget', function(value, oldValue){
 				if($scope.status=='ready'){   
-					if($scope.document.aichiTargets && $scope.document.aichiTargets.length > 1){
+					if($scope.document.isAichiTarget && $scope.document.aichiTargets && $scope.document.aichiTargets.length > 1){
 						$scope.selectedAichi.target = undefined;
 						$scope.document.aichiTargets = undefined;
 					}

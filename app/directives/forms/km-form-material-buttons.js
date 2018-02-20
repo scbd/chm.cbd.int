@@ -28,9 +28,12 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				$scope.status = "loading buttons";
 				$scope.getContainer = function(){return $attr.container;}
 			},
-			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location", 
-			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location)
+			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location", "$route",
+			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location, $route)
 			{
+				if ($route.current.params && $route.current.params.workflowId)
+					$scope.hideSave = true;
+
 				var next_url;
 
 				$scope.new_close = function(){

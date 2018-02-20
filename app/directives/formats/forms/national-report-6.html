@@ -208,7 +208,9 @@
 																				<i class="fa fa-spin fa-spinner"></i > Processing...</span>
 																		</div>
 																		<ul>
-																			<li ng-repeat="target in item.aichiTargets track by $index">{{target}}</li>
+																			<li ng-repeat="target in item.aichiTargets track by $index" ng-if="!item.isAichiTarget && item.aichiTargets">{{target}}</li>
+																			<li ng-repeat="target in item.otherAichiTargets track by $index" ng-if="item.otherAichiTargets">{{target}}</li>
+																			
 																		</ul>
 																	</div>
 																	<div class="panel-footer">

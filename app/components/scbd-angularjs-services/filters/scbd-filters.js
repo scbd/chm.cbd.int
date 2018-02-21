@@ -1,4 +1,4 @@
-define(['app', 'moment'], function (app, moment) {
+define(['app', 'moment', 'scbd-angularjs-services/locale'], function (app, moment) {
 
 
 
@@ -29,11 +29,30 @@ define(['app', 'moment'], function (app, moment) {
   //
   //
   //============================================================
-  app.filter("formatDate", ["$filter", function ($filter) {
+  app.filter("localeFormatDate", ["$filter", "locale", function ($filter, websiteLocale) {
+    return function (date, locale, formart) {
+      if (locale === undefined)
+          locale = websiteLocale||'en';
+      
+      if (formart === undefined)
+          formart = 'DD MMM YYYY';
+      setMomentLocale(locale);
+      var result = $filter("moment")(date, 'format',formart);
+      setMomentLocale(websiteLocale);
+      return result;
+    };
+  }]);
+  //============================================================
+  //
+  //
+  //
+  //============================================================
+  app.filter("formatDate", ["$filter", "locale", function ($filter, locale) {
     return function (date, formart) {
       if (formart === undefined)
         formart = 'DD MMM YYYY';
 
+      setMomentLocale(locale);
       return $filter("moment")(date, 'format',formart);
     };
   }]);
@@ -43,10 +62,12 @@ define(['app', 'moment'], function (app, moment) {
   //
   //
   //============================================================
-  app.filter("formatDateWithTime", ["$filter", function ($filter) {
+  app.filter("formatDateWithTime", ["$filter", "locale", function ($filter, locale) {
     return function (date, formart) {
       if (formart === undefined)
         formart = 'DD MMM YYYY HH:mm';
+
+      setMomentLocale(locale);
 
       return $filter("moment")(date, 'format',formart);
     };
@@ -59,8 +80,9 @@ define(['app', 'moment'], function (app, moment) {
   //============================================================
   app.filter('moment', [function() {
 
-        return function(datetime, method, arg1, arg2, arg3) {
-            return moment(datetime)[method](arg1, arg2, arg3);
+        return function(datetime, method, arg1, arg2, arg3) {  
+          
+            return moment.utc(datetime)[method](arg1, arg2, arg3);
         };
   }]);
 
@@ -69,13 +91,20 @@ define(['app', 'moment'], function (app, moment) {
   //
   //
   //============================================================
-  app.filter("formatDateWithUtc", function () {
+  app.filter("formatDateWithUtc", ["locale", function (locale) {
     return function (date, formart) {
       if (formart === undefined)
         formart = 'DD MMM YYYY';
+      setMomentLocale(locale);
       return moment.utc(date).format(formart);
     };
-  });
+  }]);
+
+  function setMomentLocale(locale){
+    if(locale == 'zh')
+          locale = 'zh-cn'
+    moment.locale(locale);
+  }
   //============================================================
   //
   //
@@ -347,4 +376,48 @@ define(['app', 'moment'], function (app, moment) {
 		};
 	}]);
 
+
+  app.filter("locale", ['locale', function(defaultLocale) {
+    return function(ltext, locale) {
+
+          locale = locale || defaultLocale;
+
+          if(!ltext)
+        return locale;
+
+          if(typeof(ltext) == 'string')
+        return locale;
+
+      if(ltext[locale])
+              return locale;
+
+      if(ltext[defaultLocale])
+              return defaultLocale;
+
+      if(ltext.en)
+        return 'en';
+
+    for(var key in ltext) {
+              if(ltext[key])
+                  return key;
+    }
+
+      return locale;
+    };
+  }]);
+
+  app.filter("direction", ['$filter', function($filter) {
+    return function(text, locale) {
+
+          locale = $filter('locale')(text, locale);
+
+          return $filter('localeDirection')(locale);
+    };
+  }]);
+
+  app.filter("localeDirection", ['locale', function(defaultLocale) {
+    return function(locale) {
+          return (locale||defaultLocale) == 'ar' ? 'rtl' : 'ltr';
+      };
+  }]);
 });

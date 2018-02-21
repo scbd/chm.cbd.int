@@ -38,3 +38,7 @@ input[type="text"].arabic, textarea.arabic{
 .list-group-item table tr td button {
     float:left!important;
 }
+
+.record-Options-div{
+    float:left!important;
+}

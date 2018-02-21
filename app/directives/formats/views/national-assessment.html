@@ -28,7 +28,7 @@
 				</div>
 			</div>
 
-			<div ng-show="document.assessmentText || document.progress" class="col-md-12">
+			<div ng-show="document.assessmentText || document.progress || document.date" class="col-md-12">
 				<legend>Category of progress towards the implementation of the selected target</legend>
 				<div ng-show="document.assessmentText">
 					<label>Rate of progresses toward the implementation of the selected target</label>
@@ -40,7 +40,7 @@
 						<div class="km-value km-pre" ng-style="{ direction : locale=='ar' ? 'rtl':'ltr'}">{{document.date | localeFormatDate:locale}}</div>
 					</div>
 				</div>
-				<div ng-show="document.progress">
+				<div ng-show="document.assessmentText">
 					<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
 					<div class="km-value" ng-style="{ direction : (document.assessmentText |direction:locale) }">{{document.assessmentText | lstring:locale}} </div>
 				</div>
@@ -57,9 +57,9 @@
 						The country has not used indicators to assess progress towards this national target.
 					</div>
 				</div>
-				<div ng-show="document.nationalIndicators">
+				<div ng-show="document.nationalIndicatorsUsed || document.nationalIndicators">
 					<label>Indicator(s)used in this assessment</label>
-					<div class="km-value" ng-style="{ direction : (document.nationalIndicators|direction:locale) }">
+					<div class="km-value" ng-show="document.nationalIndicators" ng-style="{ direction : (document.nationalIndicators|direction:locale) }">
 						{{document.nationalIndicators | lstring:locale}}
 					</div>
 				</div>

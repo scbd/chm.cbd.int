@@ -250,7 +250,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 						require(['directives/formats/views/form-loader'], function() {
 
-							var directiveHtml = '<DIRECTIVE document-id="@documentId"></DIRECTIVE><br/><div class="btn btn-primary" ng-click="close()">Close</div>'
+							var directiveHtml = '<DIRECTIVE document-id="@documentId" target="_new"></DIRECTIVE><br/><div class="btn btn-primary" ng-click="close()">Close</div>'
 												.replace(/DIRECTIVE/g, 'view-form-loader')
 												.replace(/@documentId/g, documentId);
 

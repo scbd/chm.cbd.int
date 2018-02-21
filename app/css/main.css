@@ -514,3 +514,6 @@ legend{
     padding-left:0px;
     padding-right: 5px;
 }
+.viewForm #section4 .panel-header, .viewForm #section5 .panel-header{
+    padding-right:10px;
+}

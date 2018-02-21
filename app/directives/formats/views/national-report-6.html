@@ -30,9 +30,10 @@
 			<div class="row" ng-show="document.nationalTargets">
 				<div class="col-xs-12" style="margin-top:10px;">
 					<label><strong>National Targets</strong></label>
-					<div  ng-if="nationalTargets.length>0" style="margin-top: 10px;">
-						<div class="national-targets" ng-repeat="item in nationalTargets" style="margin:10px 0px">
-							<view-national-target ng-model="item" locale="locale" target="{{target}}"></view-national-target>							
+					<div  ng-if="document.nationalTargets.length>0" style="margin-top: 10px;">
+						<div class="national-targets" ng-repeat="item in document.nationalTargets" style="margin:10px 0px"
+						ng-if="nationalTargets[item.identifier]">
+							<view-national-target ng-model="nationalTargets[item.identifier]" locale="locale" target="{{target}}"></view-national-target>							
 						</div>
 					</div>
 				</div>
@@ -127,7 +128,7 @@
 									AICHI target {{progressAssessment.aichiTarget | term:locale}}
 								</span>
 								<span ng-if="progressAssessment.nationalTarget">
-									 national target {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier)|lstring:locale}}
+									 national target {{nationalTargets[progressAssessment.nationalTarget.identifier].title|lstring:locale}}
 								</span>
 							</h3>
 						</div>

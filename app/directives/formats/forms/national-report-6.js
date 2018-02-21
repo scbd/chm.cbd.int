@@ -500,15 +500,15 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							if (newVal === false) { //if target not pursued by country than the country has to assess againts all AICHI targets
 								$scope.document.progressAssessments = [];
 								//nationalContributions contains preloaded aichiTargets just use instead of reloading
-								var aichiTargets = _.pluck($scope.document.nationalContribution, 'identifier');
+								var aichiTargets = _.compact(_.pluck($scope.document.nationalContribution, 'identifier'));
 								_.map(aichiTargets, function(target) {
 									$scope.document.progressAssessments.push({
 										aichiTarget: {
 											identifier: target
 										}
 									});
-									loadProgressAssessment();
 								});
+								loadProgressAssessment();
 							} else {
 								$q.when(loadNationalTargets())
 									.then(function() {
@@ -731,7 +731,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								targets = $scope.document.nationalContribution;
 
 							var targetAssessmentIdentifiers = {};
-							var targetIdentifiers = _.map(targets, function(target) {
+							var targetIdentifiers = _.compact(_.map(targets, function(target) {
 								var assessment = {};
 								if($scope.document.targetPursued===false){
 									assessment.aichiTarget =  { identifier: target.identifier };
@@ -739,9 +739,10 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								else{
 									assessment.nationalTarget =  { identifier: target.identifier_s };
 								}
-								targetAssessmentIdentifiers[target.identifier||target.identifier_s] = assessment;
+								if(target.identifier||target.identifier_s)
+									targetAssessmentIdentifiers[target.identifier||target.identifier_s] = assessment;
 								return target.identifier_s||target.identifier
-							});
+							}));
 
 							$q.when(loadReferenceRecords({
 								schema: 'nationalAssessment',

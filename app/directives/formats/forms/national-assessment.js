@@ -606,7 +606,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 				function gotoManager() {
 
 					//if($scope.qs.nationalTarget)
-					$location.url("/submit/online-reporting");
+					$location.url("/submit/nationalReport6");
 					//else
 					//	$location.url("/submit/online-reporting/nationalAssessment");
 				}

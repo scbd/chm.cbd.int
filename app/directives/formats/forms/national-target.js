@@ -378,7 +378,7 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 			//
 			//==================================
 			function gotoManager() {
-				$location.url("/submit/online-reporting");
+				$location.url("/submit/nationalReport6");
 			}
 			
 

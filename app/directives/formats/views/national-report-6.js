@@ -41,7 +41,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						  .then(function(data){
 							  $scope.nationalTargets = [];
 							  _.each(_.compact(data), function(target){
-								if(target.data){
+								if(target && target.data){
 									target.data.government = undefined;
 									$scope.nationalTargets.push(target.data);
 								}
@@ -283,8 +283,14 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				function loadDocument(identifier) {
 					
 					if (identifier) { //lookup single record
-						
-						return storage.documents.get(identifier)
+							
+						return storage.documents.get(identifier, {info:true})
+									.then(function(target){
+										if($location.path() != '/database/record')//if user is not on public record page show working draf document else published record.
+											return { data : target.data.workingDocumentBody || target.data.body };
+										else
+											return { data : target.data.body };
+									})
 									.catch(function(e) {										
 										if (e.status == 404 && $location.path() != '/database/record') {
 											return storage.drafts.get(identifier).catch(function(e) {});

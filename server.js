@@ -39,7 +39,7 @@ app.use('/?:lang(ar|en|es|fr|ru|zh)?/app',     translation, express.static(__dir
 
 app.all('/app/*', (req, res)=>res.status(404).send() );
 
-app.all('/api/*', (req, res)=>proxy.web(req, res, { target: apiUrl, changeOrigin: true }) );
+app.all('/?:lang(ar|en|es|fr|ru|zh)?/api/*', (req, res)=>proxy.web(req, res, { target: apiUrl, changeOrigin: true }) );
 
 // Configure template
 

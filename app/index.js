@@ -14,12 +14,7 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
             $window.location = "https://chm.cbd.int/";
 
         $scope.lang = locale;
-        //set default moment lang
-        var lang = locale;
-        if(lang=='zh')
-            lang= 'zh-cn'; //moment has two ZH, use ZH-CN
-        moment.locale(lang);
-        if(lang == 'ar'){
+        if(locale == 'ar'){
             require(['css!/app/libs/bootstrap-rtl/dist/css/bootstrap-rtl.css', 'css!/app/css/custom-rtl.css']);
         }
         var basePath = (angular.element('base').attr('href')||'').replace(/\/+$/g, '');
@@ -204,13 +199,21 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
         function updateSize() {
             $rootScope.$applyAsync(function () {
                 $rootScope.deviceSize = $('.device-size:visible').attr('size');
-                console.log($rootScope.deviceSize);
-                
             });
         }
         updateSize();
         angular.element($window).on('resize', updateSize);
 
+        require(['moment/locale/ar', 'moment/locale/es',
+            'moment/locale/fr', 'moment/locale/ru', 
+            'moment/locale/zh-cn'], function(){
+
+                //set default moment lang
+                var lang = locale;
+                if(lang=='zh')
+                    lang= 'zh-cn'; //moment has two ZH, use ZH-CN
+                moment.locale(lang);
+        });
      }]);
 
     app.directive(
@@ -240,5 +243,8 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
                 }
             }
         );
+
+
+    
 
 });

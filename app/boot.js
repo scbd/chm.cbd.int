@@ -85,7 +85,8 @@ require.config({
     packages: [
         { name: 'scbd-branding'          , location : 'components/scbd-branding' },
         { name: 'scbd-angularjs-services', location : 'components/scbd-angularjs-services/services' },
-        { name: 'scbd-angularjs-filters',  location : 'components/scbd-angularjs-services/filters' }
+        { name: 'scbd-angularjs-filters',  location : 'components/scbd-angularjs-services/filters' },
+        { name: 'moment',  location : 'libs/moment', main:'moment' }
     ],
     urlArgs: 'v=' + window.appVersion
 });

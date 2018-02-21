@@ -28,7 +28,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					$scope.locale = locale;
 
 				var progressAssessments = [];
-				$scope.nationalTargets = [];
+				$scope.nationalTargets = {};
 
 				$scope.$watch('document', function(document, old){
 
@@ -39,11 +39,11 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadDocument(target.identifier);});
 						$q.all(nationalTargets)
 						  .then(function(data){
-							  $scope.nationalTargets = [];
+							  $scope.nationalTargets = {};
 							  _.each(_.compact(data), function(target){
 								if(target && target.data){
 									target.data.government = undefined;
-									$scope.nationalTargets.push(target.data);
+									$scope.nationalTargets[target.data.header.identifier] = target.data;
 								}
 							  });
 						  })
@@ -116,20 +116,6 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						}
 					}
 				});
-
-				//============================================================
-				//
-				//============================================================
-				$scope.getNationalTargetTitle = function(identifier){
-
-					if($scope.nationalTargets){
-						var nationalTarget = _.find($scope.nationalTargets, function(target){
-												return target && target.header.identifier == identifier;
-											});
-						if(nationalTarget)
-							return nationalTarget.title;
-					}
-				};
 
 				//============================================================
 				//

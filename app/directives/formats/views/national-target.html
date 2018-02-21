@@ -44,14 +44,16 @@
 				<legend>Relevance of National Targets to Aichi Targets</legend>
 
 				<div ng-show="document.aichiTargets">
-					<label>Aichi Targets</label>
+					<label ng-if="document.isAichiTarget" >Aichi Targets</label>
+					<label ng-if="!document.isAichiTarget">Aichi Target components</label>
 					<div class="km-value">
 						<div ng-repeat="item in document.aichiTargets"   ng-style="{ direction : (item| term:locale|direction:locale) }">{{item | term:locale}}</div>
 					</div>
 				</div>
 
 				<div ng-show="document.otherAichiTargets">
-					<label>Sub-Aichi Targets</label>
+					<label>Sub-Aichi Targets</label>&nbsp;
+					<label ng-if="!document.isAichiTarget">or Target components</label>
 					<div class="km-value">
 						<div ng-repeat="item in document.otherAichiTargets"  ng-style="{ direction : (itemn| term:locale|direction:locale) }">{{item | term:locale}}</div>
 					</div>

@@ -686,8 +686,10 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 										//remove any targets that have been deleted
 										if($scope.document.nationalTargets){
 											for(var i=$scope.document.nationalTargets.length-1; i>=0; --i){
-												var target = $scope.document.nationalTargets[i];
-												$scope.document.nationalTargets.splice(target, i)
+												var existingTarget = $scope.document.nationalTargets[i];
+												var target = _.find(indexNationalTargets,function(t){return t.identifier_s == existingTarget.identifier})
+												if(!target)
+													$scope.document.nationalTargets.splice(i, 0)
 											}
 										}
 										//add any new targets
@@ -704,7 +706,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 												}
 											}
 											
-											var targetExists = _.find($scope.document.nationalTargets, {identifier : target.identifier});
+											var targetExists = _.find($scope.document.nationalTargets, {identifier : target.identifier_s});
 											if(!targetExists){	
 												if(!$scope.document.nationalTargets)
 													$scope.document.nationalTargets = [];

@@ -325,7 +325,8 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 
 			$scope.print = function(){
 				$scope.printing = true;
-				require(['printThis', 'text!./print-header.html', 'text!./print-footer.html'], function(printObj, header, footer){						
+				require(['printThis', 'text!./print-header.html', 'text!./print-footer.html'], function(printObj, header, footer){	
+					header = header.replace(/{{options.locale}}/g, $scope.options.locale)					
 					$element.parent().parent().parent().find('#schemaView').printThis({
 						debug:false,
 						printContainer:true,

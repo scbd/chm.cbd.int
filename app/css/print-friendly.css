@@ -49,3 +49,15 @@ b, strong {
         border-bottom: 0px;
     }
 }
+
+@media print {
+    .unep-logo {
+        height: 60px;
+    }
+    .cbd-logo {
+        height: 50px;
+    }
+    .un-logo {
+        height: 60px;
+    }
+}

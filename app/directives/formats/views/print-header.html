@@ -1,8 +1,7 @@
 ﻿<div id="printContentHeader" style="">
     <style>
         .unep-logo {
-            padding-top: 10px;
-            height: 80px;
+            height: 100px;
             display: block;
             margin: 0 auto;
         }
@@ -14,30 +13,18 @@
         }
 
         .un-logo {
-            height: 80px;
+            height: 75px;
             padding-top: 10px;
             display: block;
             margin: 0 auto;
         }
-
-        @media print {
-            .unep-logo {
-                height: 60px;
-            }
-            .cbd-logo {
-                height: 50px;
-            }
-            .un-logo {
-                height: 60px;
-            }
-        }
     </style>
     <div class="row" style="padding-bottom:10px;border-bottom:1px solid #ddd">
         <div class="col-xs-4 ">
-            <img class="unep-logo" src="/app/img/UNEP_logo.svg" />
+            <img class="unep-logo" src="/app/img/unep-short-logo-black-{{options.locale}}.svg" />
         </div>
         <div class="col-xs-4" style="padding-top:10px;">
-            <img src="/app/img/cbd-logo-black-en.svg" class="cbd-logo" />
+            <img src="/app/img/logo-cbd-{{options.locale}}-full.svg" class="cbd-logo" />
         </div>
         <div class="col-xs-4">
             <img class="un-logo" src="https://absch.cbd.int/app/img/Emblem_of_the_United_Nations.svg" />

@@ -1,0 +1,141 @@
+﻿<div class="row article" >
+
+	<div class="alert alert-danger" ng-show="hasError()">
+		<strong>An error has occurred...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div id="view-header" class="panel-heading bg-darkgrey" style="background-color:#004844;">
+			<div class="row">
+					<div class="col-xs-12 col-sm-2 visible-xs" class="text-nowrap">
+							<h4 style="color:white;margin:0px;">Business & Biodiversity Profile</h4>
+					</div>
+					<div class="col-xs-12 col-sm-2 hidden-xs">
+							<h3 style="color:white;margin:0px;" class="text-nowrap">Business & Biodiversity Profile</h3>
+					</div>
+					<div class="col-xs-12 col-sm-10 text-right hidden-xs" >
+							<span km-form-languages  ng-model="document.header.languages"></span>
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+									on-pre-publish="onPrePublish()"></span>
+					</div>
+					<div class="col-xs-12 col-sm-10 small visible-xs" >
+							<span km-form-languages xs ng-model="document.header.languages"></span>
+							<span km-form-std-buttons xs  document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+									on-pre-publish="onPrePublish()"></span>
+					</div>
+			</div>
+	</div>
+	<div class="text-center" ng-if="isLoading()" >
+			<h1><i class="fa fa-spin fa-spinner " /> Loading...</h1>
+	</div>
+	<div class="row" ng-show="!isLoading() && status!='hidden'">
+
+		<div class="col-md-12" style="position: relative">
+
+			<div class="row">
+					<div class="col-xs-12">
+						<ul class="pagination hidden-xs">
+							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">Profile</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
+						</ul>
+						<ul class="pagination small visible-xs">
+							<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">Profile</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
+						</ul>
+					</div>
+			</div>
+
+			<div>
+
+				<div km-document-validation ng-model="validationReport"></div>
+				<form name="editForm" style="margin-top:10px" novalidate>
+
+					<div km-tab="general">
+						<div class="col-md-8 col-xs-12">
+								<div class="km-control-group" name="organization" required caption="Reference CBD Organization">
+										<select-contact name="organization" schema="organization" ng-model="document.organization" caption="Select >>"></select-contact>
+								</div>
+						</div>
+						<div class="col-md-8 col-xs-12">
+								<div class="km-control-group" name="governments" required caption="Related Parties & Governemnts ">
+								<div km-select multiple required name="governments" ng-model="document.governments" items="options.countries()"></div>
+							</div>
+						</div>
+
+
+						<div class="col-xs-12">
+								<div class="km-control-group" name="description" caption="Description *">
+										<div class="help-info small">Briefly describe your organization and your work related to the United Nations Decade on Biodiversity (max. 1000 characters) in one or more of the 6 United Nations languages<span class="pull-right small red" style="color:red;" ng-if="document.collaborationAreas.en.length">Word Count: {{wordCount(document.collaborationAreas.en)}}</span></div>
+										<div km-textbox-ml rows="4" name="description" ng-model="document.description" placeholder="text entry" locales="document.header.languages"></div>
+								</div>
+						</div>
+						<br>
+						<div class="col-xs-12">
+								<div class="km-control-group" name="descriptionNative">
+										<label class="control-label">Description native language</label>
+										<div class="help-info small">Briefly describe your organization and your work related to the United Nations Decade on Biodiversity (max. 1000 characters) in your native language<span class="pull-right small red" style="color:red;" ng-if="document.collaborationAreas.en.length">Word Count: {{wordCount(document.collaborationAreas.en)}}</span></div>
+										<textarea class="form-control" rows="4" name="descriptionNative" ng-model="document.descriptionNative"  ></textarea>
+								</div>
+						</div>
+
+						<div class="col-md-6 col-xs-12">
+								<div class="km-control-group" name="documents" caption="Attachments">
+										<div km-link name="documents" ng-model="document.documents" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
+								</div>
+						</div>
+
+					</div>
+			</div>
+				</form>
+
+				<div km-tab="review">
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+						<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
+					</div>
+					<view-business-biodiversity-profile header="false" user="user" ng-model="document" locale="review.locale" link-target="_blank"></view-business-biodiversity-profile>
+				</div>
+
+				<div class="row">
+						<div class="col-xs-12">
+							<ul class="pagination hidden-xs">
+								<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+								<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">Profile</a></li>
+								<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+								<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
+							</ul>
+							<ul class="pagination small visible-xs">
+								<li ng-class="{ disabled: tab=='general' }"><a href="" ng-click="prevTab()">&laquo;</a></li>
+								<li ng-class="{ active  : tab=='general' }"><a href="" ng-click="tab='general'">Profile</a></li>
+								<li ng-class="{ active  : tab=='review'  }"><a href="" ng-click="tab='review';validate();">Review</a></li>
+								<li ng-class="{ disabled: tab=='review'  }"><a href="" ng-click="nextTab()">&raquo;</a></li>
+							</ul>
+						</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="view-header" class="panel-heading bg-darkgrey" style="background-color:#004844;">
+				<div class="row">
+						<div class="col-xs-12 col-sm-2 visible-xs" class="text-nowrap">
+								<h4 style="color:white;margin:0px;">Business & Biodiversity Profile</h4>
+						</div>
+						<div class="col-xs-12 col-sm-2 hidden-xs">
+								<h3 style="color:white;margin:0px;" class="text-nowrap">Business & Biodiversity Profile</h3>
+						</div>
+						<div class="col-xs-12 col-sm-10 text-right hidden-xs" >
+								<span km-form-languages  ng-model="document.header.languages"></span>
+								<span km-form-std-buttons document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+										on-pre-publish="onPrePublish()"></span>
+						</div>
+						<div class="col-xs-12 col-sm-10 small visible-xs" >
+								<span km-form-languages xs ng-model="document.header.languages"></span>
+								<span km-form-std-buttons xs  document="document" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()"
+										on-pre-publish="onPrePublish()"></span>
+						</div>
+				</div>
+		</div>
+	</div>

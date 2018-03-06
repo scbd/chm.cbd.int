@@ -206,7 +206,7 @@ define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km
 
           //Save document
           var processRequest;
-          if ($route.current.params.workflowId) {
+          if ($route.current.params.workflowId && document.header.identifier == $route.current.params.uid) {
             // if the user is editing a locked record, remove the lock, update draft,
             // lock the draft and then update the workflow status.
             var metadata = {};

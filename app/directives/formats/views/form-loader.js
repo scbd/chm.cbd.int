@@ -315,7 +315,7 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			//==================================
 			function snake_case(name, separator) {
 			  separator = separator || '-';
-			  return name.replace(/[A-Z]|[0-9]/g, function(letter, pos) {
+			  return name.replace(/[A-Z]|\d+/g, function(letter, pos) {
 			    return (pos ? separator : '') + letter.toLowerCase();
 			  });
 			}

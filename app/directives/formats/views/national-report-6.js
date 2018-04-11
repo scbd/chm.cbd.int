@@ -32,45 +32,68 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 
 				$scope.$watch('document', function(document, old){
 
+					console.log(document, $route);
 					if(!$scope.document||!document)
 						return;
-					if(document.targetPursued){
-						$scope.isLoadingTargets = true
-						var nationalTargets = _.map(document.nationalTargets, function(target){ return loadDocument(target.identifier);});
-						$q.all(nationalTargets)
-						  .then(function(data){
-							  $scope.nationalTargets = {};
-							  _.each(_.compact(data), function(target){
-								if(target && target.data){
-									target.data.government = undefined;
-									$scope.nationalTargets[target.data.header.identifier] = target.data;
-								}
-							  });
-						  })
-						  .finally(function(){
-							$scope.isLoadingTargets = false;
-						  });
+					
+					if($route.current.params && $route.current.params.code){
+						if(document.targetPursued && document.nationalTargets_body){
+							$scope.nationalTargets = {};
+							_.each(document.nationalTargets_body, function(target){
+									target.government = undefined;
+									$scope.nationalTargets[target.header.identifier] = target;
+							});
+						}
+						if(document.progressAssessmentsassessment_body){
+							$scope.progressAssessments = [];
+							_.each(document.progressAssessmentsassessment_body, function(assessment){
+								assessment.government = undefined;
+								$scope.progressAssessments.push(assessment);
+							});
+						}
 					}
+					else{
+						
+						if(document.targetPursued){
+							
+							
+								$scope.isLoadingTargets = true
+								var nationalTargets = _.map(document.nationalTargets, function(target){ return loadDocument(target.identifier);});
+								$q.all(nationalTargets)
+								.then(function(data){
+									$scope.nationalTargets = {};
+									_.each(_.compact(data), function(target){
+										if(target && target.data){
+											target.data.government = undefined;
+											$scope.nationalTargets[target.data.header.identifier] = target.data;
+										}
+									});
+								})
+								.finally(function(){
+									$scope.isLoadingTargets = false;
+								});
+						}
 
-					$scope.isLoadingAssessments = true;
-					var nationalAssessmentQuery=[];
-					_.each($scope.document.progressAssessments, function (mod) {
-						if(mod.assessment && mod.assessment.identifier){
-							nationalAssessmentQuery.push(loadDocument(mod.assessment.identifier));
-						}
-					});
-					$q.all(nationalAssessmentQuery)
-					.then(function(results){
-						if(results){
-							var documents = _.map(_.compact(results), function(result){ 
-												result.data.government = undefined; return (result||{}).data || {}; 
-											});
-							$scope.progressAssessments = documents;
-						}
-					})
-					.finally(function(){
-					  $scope.isLoadingAssessments = false;
-					});
+						$scope.isLoadingAssessments = true;
+						var nationalAssessmentQuery=[];
+						_.each($scope.document.progressAssessments, function (mod) {
+							if(mod.assessment && mod.assessment.identifier){
+								nationalAssessmentQuery.push(loadDocument(mod.assessment.identifier));
+							}
+						});
+						$q.all(nationalAssessmentQuery)
+						.then(function(results){
+							if(results){
+								var documents = _.map(_.compact(results), function(result){ 
+													result.data.government = undefined; return (result||{}).data || {}; 
+												});
+								$scope.progressAssessments = documents;
+							}
+						})
+						.finally(function(){
+						$scope.isLoadingAssessments = false;
+						});
+					}
 
 					if($scope.document.nationalContribution){
 						var queries = [];

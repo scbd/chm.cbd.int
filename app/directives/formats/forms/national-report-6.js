@@ -1,6 +1,6 @@
 define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-report-6',
 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
-'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale'
+'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale',
 	],
 	function(require, template, app, angular, _, messages) {
 		'use strict';
@@ -35,7 +35,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							// Ensure user as signed in
 						navigation.securize();
 						$scope.waitForWorkflow = {};
-
 
 						if (!$scope.options) {
 
@@ -117,51 +116,50 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								});
 							}
 
-							if (!qs.uid) {
-								$q.when(loadReferenceRecords({ 
-										"fl"    : 'identifier_s, title_s, _workflow_s, _state_s',
-										schema: 'nationalReport6'
-									}))
-									.then(function(nationalReport) {
-										if (nationalReport && nationalReport.length > 0) {
-											ngDialog.open({
-												template: 'recordExistsTemplate.html',													
-												closeByDocument: false,
-												closeByEscape: false,
-												showClose: false,
-												closeByNavigation: false,
-												controller: ['$scope', '$timeout', function($scope, $timeout) {
-													$scope.alertSeconds = 10;
-													time();
+							$q.when(loadReferenceRecords({ 
+									"fl"    : 'identifier_s, title_s, _workflow_s, _state_s, versionID_s', 
+									schema: 'nationalReport6'
+								}))
+								.then(function(nationalReport) {
+									if(nationalReport && nationalReport.length > 0)
+										$scope.documentShare = { workingDocumentId : nationalReport[0].versionID_s };										
+									if (!qs.uid && nationalReport && nationalReport.length > 0) {
+										ngDialog.open({
+											template: 'recordExistsTemplate.html',													
+											closeByDocument: false,
+											closeByEscape: false,
+											showClose: false,
+											closeByNavigation: false,
+											controller: ['$scope', '$timeout', function($scope, $timeout) {
+												$scope.alertSeconds = 10;
+												time();
 
-													function time(){
-														$timeout(function(){
-															if($scope.alertSeconds == 1){																	
-																$scope.openExisting();
-															}
-															else{
-																$scope.alertSeconds--;																
-																time()
-															}
-														}, 1000)
-													}
-													$scope.openExisting = function() {
-														ngDialog.close();
-														var nr6 = _.head(nationalReport);
-														if(nr6._workflow_s)
-															$location.path('/management/requests/' + nr6['_workflow_s'].replace('workflow-','')+'/publishRequest');
-														else
-															$location.path('/submit/nationalReport6/' + nr6['identifier_s']);
-													}
-												}]
-											});
-										}
-										else
-											pendingPromise();
-									});
-							}
-							else
-								pendingPromise();
+												function time(){
+													$timeout(function(){
+														if($scope.alertSeconds == 1){																	
+															$scope.openExisting();
+														}
+														else{
+															$scope.alertSeconds--;																
+															time()
+														}
+													}, 1000)
+												}
+												$scope.openExisting = function() {
+													ngDialog.close();
+													var nr6 = _.head(nationalReport);
+													if(nr6._workflow_s)
+														$location.path('/management/requests/' + nr6['_workflow_s'].replace('workflow-','')+'/publishRequest');
+													else
+														$location.path('/submit/nationalReport6/' + nr6['identifier_s']);
+												}
+											}]
+										});
+									}
+									else
+										pendingPromise();
+								});
+							
 							
 							// .then(function(doc) {
 							// 	return doc;
@@ -426,6 +424,16 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//==================================
 						$scope.onPostSaveDraft = function() {
 							$rootScope.$broadcast("onSaveDraft", messages.onPostSaveDraft);
+							if(!$scope.documentShare || !$scope.documentShare.workingDocumentId){//load draft working id for sharing.
+								loadReferenceRecords({ 
+									"fl"    : 'identifier_s, title_s, _workflow_s, _state_s, versionID_s', 
+									schema: 'nationalReport6'
+								})
+								.then(function(nationalReport) {
+									if(nationalReport && nationalReport.length > 0)
+										$scope.documentShare = { workingDocumentId : nationalReport[0].versionID_s };
+								});
+							}
 						};
 
 						//==================================
@@ -609,10 +617,10 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								else 
 									query = solr.andOr(query);
 									
-								return querySolr(fq, query, options.rows)
+								return querySolr(fq, query, options.rows, options.fl)
 						}
 
-						function querySolr(fq, query, rows){
+						function querySolr(fq, query, rows, fields){
 							var qsParams = {
 								"fl"	: 	"id, identifier_s, uniqueIdentifier_s, schema_t, schema_s, createdDate_dt, title_*, summary_*, description_*, reportType_EN_t, " +
 										  	"url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, isAichiTarget:isAichiTarget_b,nationalTarget_s, aichiTargets:aichiTargets_EN_ss, otherAichiTargets:otherAichiTargets_EN_ss, date_dt, progress_s",
@@ -620,6 +628,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								"start"	: 	0,
 								"rows"	: 	rows,
 							};
+							if(fields)
+								qsParams.fl = fields;
+
 							if(fq)
 								qsParams.fq = fq
 							if(query)
@@ -1150,6 +1161,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							});	
 							$('body').scrollspy({ target: '#nav' })
 						}
+
 
 					}
 				};

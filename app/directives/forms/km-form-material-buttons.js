@@ -1,4 +1,4 @@
-define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/workflow-button-messages.json', 'moment', 'jquery'],
+define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/workflow-button-messages.json', 'moment', 'jquery', './document-sharing'],
  function(app, angular, template, messages, moment) { 'use strict';
 
 	app.directive('kmFormMaterialButtons', ["$q", function ($q)
@@ -68,6 +68,8 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 							$scope.onPostSaveDraftFn({ data: draftInfo });
 							$scope.status = "";
 							$rootScope.originalDocument = document;
+
+							showShareDocument(draftInfo)
 						});
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "saveDraft", error: error });
@@ -277,6 +279,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 						$scope.status = "ready";
 
 						$rootScope.originalDocument = $scope.getDocumentFn();
+						showShareDocument({identifier:$rootScope.originalDocument.header.identifier})
 					}
 				});
 
@@ -357,8 +360,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 					if(!$rootScope.originalDocument || !formChanged){
 						return;
 					}
-						$rootScope.isFormLeaving = true; 
-				// },1);
+					$rootScope.isFormLeaving = true; 				
 					evt.preventDefault();
 					
 					next_url = next;
@@ -366,11 +368,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				}
 
 				$scope.$on('$locationChangeStart', confirmLeaving);
-				// $scope.$on('$locationChangeSuccess', function(evt, data){
-				// 	next_url = undefined;
-				// });
-
-
+				
                 function timer(startNew){
                     if(startNew){
                         $scope.lastSaved = '';
@@ -379,7 +377,34 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
                     var duration = moment.duration(moment() - $scope.lastSavedTime)
                     $scope.lastSaved = duration._data.hours + ':' + duration._data.minutes + ':' + duration._data.seconds
                     $timeout(function(){timer();},1000);
-                }
+				}
+				
+				function showShareDocument(document){
+					if(document && !$scope.documentShare){
+						if(document.workingDocumentID){
+							$scope.documentShare = {
+								workingDocumentID : document.workingDocumentID, 
+								identifier: document.identifier,
+								title: document.title
+							};
+						}
+						else{
+							storage.drafts.get(document.identifier, {info:true})
+							.then(function(response){
+								if(response.data && response.data.workingDocumentID){
+									$scope.documentShare = {
+										workingDocumentID : response.data.workingDocumentID, 
+										identifier: response.data.identifier,
+										title: response.data.title
+									};
+								}
+							})
+							.catch(function(err){
+								console.log(err);
+							});
+						}
+					}
+				}
 			}]
 		};
 	}]);

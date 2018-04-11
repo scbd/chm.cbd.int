@@ -1,0 +1,30 @@
+﻿<div class="container database-record" style="margin-top:20px;">
+	<style>
+		.loading-info {
+			left: 50%;
+			top: 50%;
+			z-index: 1;
+			border: 16px solid #f3f3f3;
+		}
+	</style>
+	<div class="row loading-info" ng-if="status=='loading'">
+		<div class="col-xs-12" style="left: 40%;">
+			<br>
+			<br>
+			<i class="fa fa-spin fa-3x fa-circle-o-notch" style="color:#1FA65D;"></i>
+			Please wait while we load the document details
+			<br>
+			<br>
+		</div>
+	</div>
+	<div class="row" style="padding-bottom:20px;" ng-if="status=='ready'">
+		<div class="col-xs-12 ">
+			<div class="btn-group" ng-show="document.header.languages.length>1">
+				<input type="button" class="btn" ng-class="{'btn-default' : options.documentLocale!=locale, 'btn-info' : options.documentLocale==locale}"
+				    ng-repeat="locale in document.header.languages" ng-click="options.documentLocale = locale" value="{{locale | uppercase}}"
+				/>
+			</div>
+			<view-form-loader link-target="_new" document="document"></view-form-loader>
+		</div>
+	</div>
+</div>

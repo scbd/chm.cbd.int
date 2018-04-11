@@ -1,0 +1,84 @@
+﻿<span>
+    <button type="button" class="btn btn-primary" ng-click="shareDocument()">Share</button>
+    <style>
+        /* .ngdialog-content {
+                background: transparent !important;
+            } */
+
+        .ngdialog.ngdialog-theme-default .ngdialog-content {
+            width: 60% !important;
+        }
+
+        .tab-pane .content {
+            margin: 2%;
+        }
+    </style>
+
+    <script type="text/ng-template" id="shareDocumentTemplate.html" trados-translation="true">
+        <h1>{{title}}</h1>
+        <br/>
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a translation-url href="#email" aria-controls="email" role="tab" data-toggle="tab">
+                        <span class="sub-header">Send by email</span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a translation-url href="#url" aria-controls="url" role="tab" data-toggle="tab">
+                        <span class="sub-header">Send by URL</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content" style="background:#fff">
+                <div role="tabpanel" class="tab-pane active" id="email">
+                    <div class="row">
+                        <div class="content">
+                            <div>
+                                We will send the recipients an email with the link to view this draft document.
+                            </div>
+                            <hr/>Emails
+                            <br/>
+                            <input type="text" placeholder="enter email" class="form-control" ng-model="document.sharedWith.emails" />
+                            <div>
+                                <span style="font-size: smaller;color: #777575;">Separate multiple emails with commas. This users will have to login to CBD using this emails before viewing the draft record</span>
+                            </div>
+                            <div>
+                                <span ng-if="status=='creatingLink'"> <i class="fa fa-spin fa-spinner" /> updating... </span>
+                                <button type="button" class="btn btn-primary pull-right" ng-click="shareEmail()" ng-disabled="status=='creatingLink'">Send</button>   
+                            </div>
+                            </br>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="url">
+                    <div class="row">
+                        <div class="content">
+                            <label>Anyone with the link can view this draft document </label>
+                            <div style="margin:auto">
+                                <a ng-href="#" ng-click="self.createLink()" class="btn btn-primary" ng-if="status!='creatingLink' && !document.sharedWith.link">Create link</a>
+                                <i class="fa fa-spin fa-spinner" ng-if="status=='creatingLink'" />
+                            </div>
+                            <div ng-if="document.sharedWith.link && status!='creatingLink'">
+                                <div class="btn-group">
+                                    <div class="input-group" style="max-width:95%">
+                                        <input type="text" id="shareUrl" class="highlight form-control" value="{{::getUrl(document.urlHash)}}" disabled readonly/>
+                                        <span style="cursor:pointer" class="input-group-addon" id="basic-addon2" ng-click="copyUrl()">
+                                            <i class="fa fa-copy" /> Copy</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+    </script>
+
+</span>

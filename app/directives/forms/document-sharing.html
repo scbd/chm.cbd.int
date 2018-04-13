@@ -1,5 +1,6 @@
 ﻿<span>
     <button type="button" class="btn btn-primary" ng-click="shareDocument()">Share</button>
+    <button type="button" class="btn btn-primary" ng-click="getPdf()">PDF</button>
     <style>
         /* .ngdialog-content {
                 background: transparent !important;
@@ -43,11 +44,13 @@
                             <br/>
                             <input type="text" placeholder="enter email" class="form-control" ng-model="document.sharedWith.emails" />
                             <div>
-                                <span style="font-size: smaller;color: #777575;">Separate multiple emails with commas. This users will have to login to CBD using this emails before viewing the draft record</span>
+                                <span style="font-size: smaller;color: #777575;">Separate multiple emails with commas. This users will have to login to CBD using this emails
+                                    before viewing the draft record</span>
                             </div>
                             <div>
-                                <span ng-if="status=='creatingLink'"> <i class="fa fa-spin fa-spinner" /> updating... </span>
-                                <button type="button" class="btn btn-primary pull-right" ng-click="shareEmail()" ng-disabled="status=='creatingLink'">Send</button>   
+                                <span ng-if="status=='creatingLink'">
+                                    <i class="fa fa-spin fa-spinner" /> updating... </span>
+                                <button type="button" class="btn btn-primary pull-right" ng-click="shareEmail()" ng-disabled="status=='creatingLink'">Send</button>
                             </div>
                             </br>
                         </div>
@@ -79,6 +82,28 @@
 
 
 
+    </script>
+
+    <script type="text/ng-template" id="documentPdfTemplate.html" trados-translation="true">
+        <h1>{{title}}</h1>
+        <br/>
+        <div role="tabpanel">
+            <div class="tab-content" style="background:#fff">
+                <div role="tabpanel" class="tab-pane active" id="email">
+                    <div class="row">
+                        <div class="content">
+                            <div>
+                                Please wait while the pdf is generated
+                            </div>                            
+                            <span ng-if="status=='generatingPDF'">
+                                <i class="fa fa-spin fa-spinner" /> processing... 
+                            </span>  
+                            </br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </script>
 
 </span>

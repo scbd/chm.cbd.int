@@ -1,7 +1,7 @@
 ﻿define(['text!./document-sharing.html', 'app', 'angular', 'lodash', 'ngDialog', 'scbd-angularjs-services/generic-service'], function(template, app, angular, _) { 'use strict';
 
-    app.directive('documentSharing', ["$http", "$q", "$route", 'ngDialog', '$timeout', 'IGenericService', '$document', '$window', '$rootScope',
-     function ($http, $q, $route, ngDialog, $timeout, genericService, $document, $window, $rootScope) {
+    app.directive('documentSharing', ["$http", "$q", "$route", 'ngDialog', '$timeout', 'IGenericService', '$document', '$window', '$rootScope', 'realm', 'locale',
+     function ($http, $q, $route, ngDialog, $timeout, genericService, $document, $window, $rootScope, realm, locale) {
         return {
             restrict   : 'E',
             template   : template,
@@ -33,6 +33,37 @@
                     });
                 }
 
+                $scope.getPdf = function(){
+                    
+                    ngDialog.open({
+                        template: 'documentPdfTemplate.html',													
+                        closeByDocument: true,
+                        closeByEscape: true,
+                        showClose: true,
+                        closeByNavigation: false,
+                        scope: $scope                    
+                    });
+                    $q.when($scope.loadDocument())
+                    .then(function(document){
+                        if(document && document.urlHash){
+                            var url = '/api/v2017/generate-pdf/' + realm + '/draft-documents/'+ locale + '?code='+ $scope.document.urlHash
+                            console.log(url)
+                            window.open(url)
+                            ngDialog.close();
+                        }
+                        else{
+                            // $scope.document.expiry
+                            $q.when($scope.createLink())
+                            .then(function(){
+                                var url = '/api/v2017/generate-pdf/' + realm + '/draft-documents/'+ locale + '?code='+ $scope.document.urlHash
+                                console.log(url)
+                                window.open(url)
+                                ngDialog.close();
+                            })
+                        }   
+                    })
+                }
+
                 $scope.createLink = function(){
                                       
                     var newDocument = angular.copy($scope.document || {});                   
@@ -43,7 +74,7 @@
 
                     newDocument.sharedWith["link"] = true;
                     
-                    saveLink(newDocument);
+                    return saveLink(newDocument);
                 }
 
                 $scope.shareEmail = function(){                     
@@ -60,7 +91,7 @@
                         operation = genericService.create('v2018', 'document-sharing', document);
 
                     $scope.status = "creatingLink";
-                    $q.when(operation)
+                    return $q.when(operation)
                     .then(function(response){
                         var id= response.id || document._id;
                         $q.when(get(id))
@@ -82,7 +113,7 @@
                         "sharedData.restrictionFieldValue" : $scope.restrictionFieldValue.toString(),
                         "sharedBy"                         : $rootScope.user.userID
                     }        
-                    $q.when(genericService.query('v2018', 'document-sharing', q))
+                    return $q.when(genericService.query('v2018', 'document-sharing', q))
                     .then(function(response){
                         if(response && response.length > 0){
                             $scope.document = _.head(response);
@@ -100,6 +131,7 @@
                                 "restrictionFieldValue" : $scope.restrictionFieldValue
                             };
                         }
+                        return $scope.document;
                     })
                    
                 }

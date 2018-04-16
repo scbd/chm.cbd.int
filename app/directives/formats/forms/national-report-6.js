@@ -1093,6 +1093,13 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 
 						}
 
+						$scope.getLocale = function(){
+							if($scope.review.locale=='*')
+								return $scope.document.header.languages;
+
+							return $scope.review.locale || locale;
+						}
+
 						function removeNationalTargets(identifier, record, canDelete){
 							$timeout(function(){
 								//public record exist with a draft

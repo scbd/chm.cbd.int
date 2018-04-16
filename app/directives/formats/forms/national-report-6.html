@@ -750,11 +750,13 @@
 						<div  km-tab="review">
 
 							<div km-document-validation ng-model="validationReport"></div>
-
-							<div class="btn-group" ng-show="document.header.languages.length>1">
-								<input type="button" class="btn" ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}" ng-repeat="locale in document.header.languages"
-								    ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}" />
-							</div>
+							<div class="btn-group" ng-if="document.header.languages.length>1">
+									<input type="button" class="btn" ng-class="{'btn-default' : $parent.review.locale!='*', 'btn-info' :$parent.review.locale=='*'}"
+									ng-click="$parent.review.locale='*'" value="*" title="All languages" />
+									<input type="button" class="btn" ng-class="{'btn-default' : $parent.review.locale!=locale, 'btn-info' :$parent.review.locale==locale}"
+										ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale" value="{{locale | uppercase}}"
+										title="{{locale|languageLongName}}" />
+								</div>
 							<div class="btn-group btn-group-sm pull-right">
 								<button href="#" title="Print the Record" class="btn btn-default" ng-click="print()">
 									Print
@@ -762,7 +764,7 @@
 									<i class="fa fa-print" aria-hidden="true" ng-if="!printing"></i>
 								</button>
 							</div>
-							<view-national-report-6 ng-model="reviewDocument" locale="review.locale" link-target="_blank" id="schemaPrintView"></view-national-report-6>
+							<view-national-report-6 ng-model="reviewDocument" locale="getLocale()" link-target="_new" id="schemaPrintView"></view-national-report-6>
 						</div>
 
 

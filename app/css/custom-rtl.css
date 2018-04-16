@@ -42,3 +42,9 @@ input[type="text"].arabic, textarea.arabic{
 .record-Options-div{
     float:left!important;
 }
+.km-value-ml-div{    
+    border-radius: 0px 3px 3px 0px;
+}
+.viewForm ul.km-value{
+    list-style: none;
+}

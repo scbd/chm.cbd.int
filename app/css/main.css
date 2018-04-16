@@ -499,7 +499,9 @@ legend{
 #sixth-national-report-edit .small-screen {
     display: block !important;
 }
-
+#section3 .section-body .panel.panel-default .panel-header h3{
+    padding-right: 5px;
+}
 #section3 .section-body .panel.panel-default,
 #section3 .section-body .panel.panel-default .panel-body{    
     padding-left: 0px;
@@ -516,4 +518,8 @@ legend{
 }
 .viewForm #section4 .panel-header, .viewForm #section5 .panel-header{
     padding-right:10px;
+}
+.multiple-languages { margin-bottom: 3px; }
+.km-value-ml-div{
+    border-radius: 3px 0px 0px 3px;
 }

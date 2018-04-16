@@ -19,11 +19,12 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 		},
 		link: function($scope, $element) {
 			$scope.options = { locale : $scope.locale||locale };
-
+			$scope.websiteLocale = locale;
 			var queryString = $location.search();
 			if(queryString && queryString.print){
 				$scope.printMode = true;
 				require(['css!/app/css/print-friendly'])
+				$scope.options.locale = '*';
 			}
 			var formHolder = $element.find("#form-placeholder:first");
 
@@ -82,6 +83,9 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			//
 			//==================================
 			$scope.getLocale = function () {
+				if($scope.locale=='*' || $scope.options.locale=='*')
+					return $scope.internalDocument.header.languages;
+
 				return $scope.locale || $scope.options.locale || locale;
 			};
 			//==================================
@@ -326,7 +330,8 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			$scope.print = function(){
 				$scope.printing = true;
 				require(['printThis', 'text!./print-header.html', 'text!./print-footer.html'], function(printObj, header, footer){	
-					header = header.replace(/{{options.locale}}/g, $scope.options.locale)					
+					var llocale = $scope.options.locale == '*' ? $scope.locale : $scope.options.locale;
+					header = header.replace(/{{options.locale}}/g, llocale)					
 					$element.parent().parent().parent().find('#schemaView').printThis({
 						debug:false,
 						printContainer:true,

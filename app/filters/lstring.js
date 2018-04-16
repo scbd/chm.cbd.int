@@ -28,4 +28,27 @@ app.filter("lstring", function() {
 		return sText||"";
 	};
 });
+
+
+app.filter("lstringLang", function () {
+    return function (ltext, locale) {
+      if (!ltext)
+        return "";
+
+      if (angular.isString(ltext))
+        return 'en';
+
+      var sText;
+
+      if (locale && ltext[locale])
+        return locale;
+
+      if (ltext['en'])
+        return 'en';
+
+      return _.keys(ltext)[0];
+      
+    };
+  });
+  
 });

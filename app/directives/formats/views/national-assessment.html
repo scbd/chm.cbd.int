@@ -14,17 +14,16 @@
 
 			<div ng-show="document.description" class="col-md-12">
 				<label>Description</label>
-				<div class="km-value km-pre" ng-style="{ direction : (document.description|direction:locale) }" 
-					ng-bind="document.description | lstring:locale"></div>
+				<km-value-ml value="document.description" locales="locale" km-pre></km-value-ml>
 			</div>
 
 			<div ng-show="document.nationalTarget||document.aichiTarget" class="col-md-12 assessment-tagets">
 				<label>Targets</label>
-				<div class="km-value">
-					<div ng-repeat="item in nationalTarget" ng-style="{ direction : (item.title|direction:locale) }">
-						{{item.title | lstring:locale}}
+				<div >
+					<div ng-repeat="item in nationalTarget">
+						<km-value-ml value="item.title" locales="locale"></km-value-ml>
 					</div>
-					<div ng-if="document.aichiTarget" ng-style="{ direction : (document.aichiTarget| term:locale|direction:locale) }">{{document.aichiTarget | term:locale}} </div>
+					<div class="km-value" ng-if="document.aichiTarget" ng-style="{ direction : (document.aichiTarget| term:locale|direction:locale) }">{{document.aichiTarget | term:locale}} </div>
 				</div>
 			</div>
 
@@ -42,7 +41,7 @@
 				</div>
 				<div ng-show="document.assessmentText">
 					<label>Summary of the assessment of progresses toward the implementation of the selected target</label>
-					<div class="km-value" ng-style="{ direction : (document.assessmentText |direction:locale) }">{{document.assessmentText | lstring:locale}} </div>
+					<km-value-ml value="document.assessmentText" locales="locale"></km-value-ml>
 				</div>
 
 			</div>
@@ -59,13 +58,11 @@
 				</div>
 				<div ng-show="document.nationalIndicatorsUsed || document.nationalIndicators">
 					<label>Indicator(s)used in this assessment</label>
-					<div class="km-value" ng-show="document.nationalIndicators" ng-style="{ direction : (document.nationalIndicators|direction:locale) }">
-						{{document.nationalIndicators | lstring:locale}}
-					</div>
+					<km-value-ml value="document.nationalIndicators" locales="locale"></km-value-ml>
 				</div>
 				<div ng-show="document.documentText">
 					<label>Any other tools or means used for assessing progress.</label>
-					<div class="km-value km-pre" ng-style="{ direction : (document.documentText|direction:locale) }">{{document.documentText|lstring:locale}}</div>
+					<km-value-ml value="document.documentText" locales="locale" km-pre></km-value-ml>
 				</div>
 
 				<div ng-show="document.documentLinks">
@@ -101,7 +98,7 @@
 
 				<div ng-show="document.confidenceInfo">
 					<label>Level of confidence of the above assessment</label>
-					<div class="km-value km-pre" ng-style="{ direction : (document.confidenceInfo|direction:locale) }">{{document.confidenceInfo | lstring:locale}}</div>
+					<km-value-ml value="document.confidenceInfo" locales="locale" km-pre></km-value-ml>
 				</div>
 				<div ng-show="document.adequacy">
 					<label>Adequacy of monitoring information to support assessment</label>
@@ -109,7 +106,7 @@
 				</div>
 				<div ng-show="document.adequacyDescription">
 					<label>Monitoring system for the target</label>
-					<div class="km-value km-pre" ng-style="{ direction : (document.adequacyDescription|direction:locale) }">{{document.adequacyDescription | lstring:locale}}</div>
+					<km-value-ml value="document.adequacyDescription" locales="locale" km-pre></km-value-ml>
 				</div>
 				<div ng-show="document.otherRelevantDocuments">
 					<label>Other relevant website address or attached documents</label>

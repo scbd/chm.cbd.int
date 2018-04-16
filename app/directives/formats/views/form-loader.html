@@ -1,4 +1,5 @@
 ﻿<div ng-cloak style="background:#fff">
+	{{locale}}
 	<div ng-include="'/app/directives/formats/views/print-header.html'" ng-if="printMode"></div>
 	<div class="md-whiteframe-z1 bg-grey" style="padding:10px;">
 		<div ng-show="errorNotFound">
@@ -54,9 +55,13 @@
 					</div>
 				</div>
 				<document-date ng-if="internalDocument"></document-date>
-				<div class="btn-group" ng-if="!document && internalDocument.header.languages.length>1">
+				
+				<div class="btn-group" ng-if="!printMode && (!document && internalDocument.header.languages.length>1)">
+					<input type="button" class="btn" ng-class="{'btn-default' : options.locale!='*', 'btn-info' :options.locale=='*'}"
+					ng-click="options.locale='*'" value="*" title="All languages" />
 					<input type="button" class="btn" ng-class="{'btn-default' : options.locale!=locale, 'btn-info' :options.locale==locale}"
-						ng-repeat="locale in internalDocument.header.languages" ng-click="options.locale = locale" value="{{locale | uppercase}}" />
+						ng-repeat="locale in internalDocument.header.languages" ng-click="options.locale = locale" value="{{locale | uppercase}}"
+						title="{{locale|languageLongName}}" />
 				</div>
 				<div id="form-placeholder"></div>
 			</div>

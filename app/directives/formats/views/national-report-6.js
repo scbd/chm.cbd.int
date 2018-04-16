@@ -1,5 +1,6 @@
 define(['app', 'text!./national-report-6.html', 'lodash', 'utilities/km-storage', 'ngDialog', 
-		"utilities/solr",'scbd-angularjs-services/locale', './national-target', './national-assessment'], 
+		"utilities/solr",'scbd-angularjs-services/locale', './national-target', './national-assessment',
+		'directives/forms/km-value-ml'], 
 function(app, template, _){
 
 app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
@@ -31,8 +32,7 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				$scope.nationalTargets = {};
 
 				$scope.$watch('document', function(document, old){
-
-					console.log(document, $route);
+					
 					if(!$scope.document||!document)
 						return;
 					

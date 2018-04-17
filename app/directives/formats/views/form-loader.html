@@ -28,6 +28,11 @@
 						target="_blank" class="btn btn-default">                    
 						PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>						
 					</a>
+					<a ng-if="showDraftPdf" 
+						href="/api/v2017/generate-pdf/{{documentRealm}}/draft-documents/{{getLocale()}}?code={{draftPdfCode}}" 
+						target="_blank" class="btn btn-default">                    
+						PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>						
+					</a>
 					<button data-toggle="tooltip" title="Print the Record" title="Print" type="button" class="btn btn-default" ng-click="print()">
 						Print <i class="fa fa-spin fa-spinner" ng-if="printing" /> 
 						<i class="fa fa-print" aria-hidden="true" ng-if="!printing"></i>

@@ -94,10 +94,10 @@
                     return $q.when(operation)
                     .then(function(response){
                         var id= response.id || document._id;
-                        $q.when(get(id))
-                        .then(function(data){                            
-                            $scope.document = data;
-                        })
+                        return $q.when(get(id))
+                                .then(function(data){                            
+                                    $scope.document = data;
+                                })
                     })
                     .finally(function(){
                         $scope.status = '';
@@ -127,9 +127,10 @@
                                 // },
                             $scope.document.sharedData = {
                                 "identifier"            : $scope.identifier,
-                                "restrictionField"      : $scope.restrictionField,
-                                "restrictionFieldValue" : $scope.restrictionFieldValue
+                                "restrictionField"      : $scope.restrictionField
                             };
+                            if($scope.restrictionFieldValue)
+                                $scope.document.sharedData.restrictionFieldValue = $scope.restrictionFieldValue.toString();
                         }
                         return $scope.document;
                     })

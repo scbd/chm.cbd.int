@@ -1,8 +1,9 @@
-define(['app', 'directives/formats/views/form-loader'], function(app) { 
+define(['app', 'directives/formats/views/form-loader', 'scbd-angularjs-services/locale'], function(app) { 
     'use strict';
 
-    return ['$scope', '$http', '$q', '$route', function($scope, $http, $q, $route){
+    return ['$scope', '$http', '$q', '$route', 'locale', function($scope, $http, $q, $route, locale){
 
+        $scope.options = { locale : locale};
         var qs = $route.current.params;
         if(qs.code){
             $scope.status = 'loading'
@@ -23,6 +24,10 @@ define(['app', 'directives/formats/views/form-loader'], function(app) {
             $scope.message = "missing code"
         }
 
+        if(qs.print){
+            $scope.printMode = true;
+            $scope.options = { locale : '*'};
+        }
     }]
 
 });

@@ -3,8 +3,8 @@ define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication',
 './directives/document-date'], function(require, app, template,_){
 
 app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", 
-"navigation","$http", '$timeout', 'realmConfig',
-function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout, realmConfig) {
+"navigation","$http", '$timeout', 'realmConfig', 'realm',
+function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout, realmConfig, realm) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -25,6 +25,11 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 				$scope.printMode = true;
 				require(['css!/app/css/print-friendly'])
 				$scope.options.locale = '*';
+			}
+			if($route.current.params.code){
+				$scope.showDraftPdf = true;
+				$scope.draftPdfCode = $route.current.params.code;
+				$scope.documentRealm = realm;
 			}
 			var formHolder = $element.find("#form-placeholder:first");
 

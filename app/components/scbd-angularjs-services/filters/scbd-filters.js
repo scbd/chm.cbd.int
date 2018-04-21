@@ -407,10 +407,12 @@ define(['app', 'moment', 'lodash', 'scbd-angularjs-services/locale'], function (
 
       if(ltext.en)
         return 'en';
-        
-      var normalized = normalizeText(ltext)
-      if(normalized[locale])
-        return locale;
+      
+      if(ltext.fr) return 'fr';
+      if(ltext.es) return 'es';
+      if(ltext.ru) return 'ru';
+      if(ltext.ar) return 'ar';
+      if(ltext.zh) return 'zh';
 
       for(var key in ltext) {
         if(ltext[key])

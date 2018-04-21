@@ -60,7 +60,7 @@
 						</div>
 						<div ng-show="implementationMeasure.aichiTarget">
 							<label>Aichi Biodiversity Target</label>
-							<div class="km-value km-pre" ng-style="{ direction : (implementationMeasure.aichiTarget | term:locale|direction:locale) }">{{implementationMeasure.aichiTarget | term:locale}}</div>
+							<div class="km-value km-pre" ng-style="{ direction : (aichiTargets[implementationMeasure.aichiTarget.identifier].title | direction:locale) }">{{aichiTargets[implementationMeasure.aichiTarget.identifier].title | lstring:locale}}</div>
 						</div>
 						<div ng-show="implementationMeasure.assessment">
 							<label>Assessment of the effectiveness of the implementation measure taken in achieving desired outcomes</label>
@@ -124,7 +124,7 @@
 						<div class="panel-header clearfix">
 							<h3>Progress Assessment for
 								<span ng-if="progressAssessment.aichiTarget"> 
-									AICHI target {{progressAssessment.aichiTarget | term:locale}}
+									AICHI target {{aichiTargets[progressAssessment.aichiTarget.identifier].title  | lstring:locale}}
 								</span>
 								<span ng-if="progressAssessment.nationalTarget">
 									 national target {{nationalTargets[progressAssessment.nationalTarget.identifier].title|lstring:locale}}
@@ -147,9 +147,9 @@
 		</div>
 		<div class="section-body">
 			<div class="panel panel-default" ng-repeat="aichiTarget in document.nationalContribution" ng-if="aichiTarget.identifier">
-				<div class="panel-header clearfix" ng-style="{ direction : (aichiTarget | term:locale|direction:locale) }">
+				<div class="panel-header clearfix" ng-style="{ direction : (aichiTargets[aichiTarget.identifier].title |direction:locale) }">
 					<h3>
-						Aichi Biodiversity Target {{aichiTarget | term:locale}}
+						{{aichiTargets[aichiTarget.identifier].title | lstring:locale}}
 					</h3>
 				</div>
 				<div class="panel-body" collapse="">
@@ -251,9 +251,9 @@
 								</div>
 							</div>
 							<div class="panel panel-default" ng-repeat="gspcTarget in document.gspcNationalContribution" ng-if="gspcTarget.identifier">
-								<div class="panel-header clearfix" ng-style="{ direction : (gspcTarget | term:locale|direction:locale) }">
+								<div class="panel-header clearfix" ng-style="{ direction : (gspcTargets[gspcTarget.identifier].title | direction:locale) }">
 									<h3>
-										GSPC Biodiversity Target {{gspcTarget | term:locale}}
+										{{gspcTargets[gspcTarget.identifier].title | lstring:locale}}
 									</h3>
 								</div>
 								<div class="panel-body" collapse="">

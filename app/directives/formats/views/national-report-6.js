@@ -28,6 +28,8 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 				if(!$scope.locale)
 					$scope.locale = locale;
 
+				$scope.gspcTargets  = {};
+				$scope.aichiTargets	= {};
 				var progressAssessments = [];
 				$scope.nationalTargets = {};
 
@@ -138,6 +140,14 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 							})
 						}
 					}
+
+					var gspcTargetQuery		= $http.get("/api/v2013/thesaurus/domains/8D405050-50AF-45EA-95F7-A31A11196424/terms", {cache: true}).then(function(o) {return o.data;});
+					var aichiTargetQuery	= $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms", {cache: true}).then(function(o) {return o.data;});
+					$q.all([gspcTargetQuery, aichiTargetQuery])
+					.then(function(resutl){
+						_.each(resutl[0], function(target){ $scope.gspcTargets[target.identifier] = target });
+						_.each(resutl[1], function(target){ $scope.aichiTargets[target.identifier] = target });
+					})
 				});
 
 				//============================================================

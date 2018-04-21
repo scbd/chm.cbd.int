@@ -3,7 +3,7 @@ define(['app', 'directives/formats/views/form-loader', 'scbd-angularjs-services/
 
     return ['$scope', '$http', '$q', '$route', 'locale', function($scope, $http, $q, $route, locale){
 
-        $scope.options = { locale : locale};
+        $scope.options = { locale : locale, currentDate : new Date()};
         var qs = $route.current.params;
         if(qs.code){
             $scope.status = 'loading'

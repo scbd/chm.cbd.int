@@ -1,6 +1,7 @@
 define(['app', 'text!./national-assessment.html', "lodash"], function(app, template, _){
 
-app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location", function ($q, $http, storage, $location) {
+app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location", "$routeParams",
+ function ($q, $http, storage, $location, $routeParams) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -18,7 +19,7 @@ app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location",
 			//
 			//===============
 			$scope.$watch("document.nationalTarget", function(refs) {
-				if(refs){
+				if(refs && !$routeParams.code){
 					$q.when(loadReferences([refs], { info : true })).then(function(result){
 						$scope.nationalTarget = result;
 					});
@@ -29,7 +30,7 @@ app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location",
 			//
 			//===============
 			$scope.$watch("document.strategicPlanIndicators", function(refs) {
-				if(refs){
+				if(refs && !$routeParams.code){
 					$q.when(loadReferences(refs, { info : true })).then(function(result){
 						$scope.strategicPlanIndicators = result;
 					});

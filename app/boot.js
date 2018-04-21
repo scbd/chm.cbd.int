@@ -48,7 +48,10 @@ require.config({
       'socket.io'                 : 'libs/socket.io-1.4.5/index',
       'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll',
       'webui-popover'             : 'libs/webui-popover/dist/jquery.webui-popover.min',
-      'printThis'                 : 'libs/printThis/printThis'
+      'printThis'                 : 'libs/printThis/printThis',
+      'pdfjs-dist/build/pdf'      : 'views/psd-viewer/pdfjs/pdf',
+      'pdfjs-dist/build/pdf.worker' : 'views/psd-viewer/pdfjs/build/pdf.worker',        
+      'pdf-object'                 : 'libs/pdfobject/pdfobject'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -80,7 +83,9 @@ require.config({
       'scbd-branding'            : { 'deps': ['angular']},
       'scbd-angularjs-services'  : { 'deps': ['angular']},
       'scbd-angularjs-filters'   : { 'deps': ['angular']},
-      'webui-popover'            : { 'deps': ['jquery', 'css!libs/webui-popover/dist/jquery.webui-popover.min']}
+      'webui-popover'            : { 'deps': ['jquery', 'css!libs/webui-popover/dist/jquery.webui-popover.min']},
+      'pdfjs-dist/build/pdf'          : { 'deps': ['angular']}, 
+      'pdf-object'                    : { 'deps': ['angular']}  
     },
     packages: [
         { name: 'scbd-branding'          , location : 'components/scbd-branding' },

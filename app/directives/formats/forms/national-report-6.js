@@ -757,13 +757,16 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								return target.identifier_s||target.identifier
 							}));
 
+								// nationalTargetId:targetIdentifiers.join(' '),
 							$q.when(loadReferenceRecords({
 								schema: 'nationalAssessment',
-								nationalTargetId:targetIdentifiers.join(' '),
 								rows: 100,
 								skipLatest: true
 							}))
-							.then(function(result) {								
+							.then(function(result) {
+								result = _.filter(result, function(item){
+									return _.includes(targetIdentifiers, item.nationalTarget_s)
+								})								
 								// //get all draft records
 								var targetAssessments = {};
 								_.each(result, function(rec) {

@@ -71,6 +71,10 @@
 						<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 					</div>
 				</div>
+				<div ng-show="document.documentText">
+					<label>Any other tools or means used for assessing progress.</label>
+					<div class="km-value km-pre" ng-style="{ direction : (document.documentText|direction:locale) }">{{document.documentText|lstring:locale}}</div>
+				</div>
 
 				<div ng-show="document.strategicPlanIndicators">
 					<label>Link to Indicator(s) used in this assessment</label>

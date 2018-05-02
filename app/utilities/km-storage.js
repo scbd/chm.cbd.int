@@ -392,12 +392,12 @@ define(['app', 'angular', 'lodash', 'authentication'], function(app, angular, _)
                     "params": oTrans.params
                 }).then(
                     function(success) {
-                        return angular.extend(success.data || {}, {
+                        return _.defaults(success.data || {}, {
                             "url": oTrans.url
                         });
                     },
                     function(error) {
-                        error.data = angular.extend(error.data || {}, {
+                        error.data = _.defaults(error.data || {}, {
                             "url": oTrans.url
                         });
                         throw error;

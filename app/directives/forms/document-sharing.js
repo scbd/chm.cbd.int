@@ -86,9 +86,9 @@
                     var operation;
 
                     if(document._id)
-                        operation = genericService.update('v2018', 'document-sharing', document._id, document);
+                        operation = genericService.update('v2013', 'document-sharing', document._id, document);
                     else
-                        operation = genericService.create('v2018', 'document-sharing', document);
+                        operation = genericService.create('v2013', 'document-sharing', document);
 
                     $scope.status = "creatingLink";
                     return $q.when(operation)
@@ -113,7 +113,7 @@
                         "sharedData.restrictionFieldValue" : $scope.restrictionFieldValue.toString(),
                         "sharedBy"                         : $rootScope.user.userID
                     }        
-                    return $q.when(genericService.query('v2018', 'document-sharing', q))
+                    return $q.when(genericService.query('v2013', 'document-sharing', q))
                     .then(function(response){
                         if(response && response.length > 0){
                             $scope.document = _.head(response);
@@ -164,7 +164,7 @@
 
                 function get(id, count){
                     count = count || 0;
-                    return $q.when(genericService.get('v2018', 'document-sharing',id))
+                    return $q.when(genericService.get('v2013', 'document-sharing',id))
                             .then(function(response){
                                 return response
                             })

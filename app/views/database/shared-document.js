@@ -7,7 +7,7 @@ define(['app', 'directives/formats/views/form-loader', 'scbd-angularjs-services/
         var qs = $route.current.params;
         if(qs.code){
             $scope.status = 'loading'
-            $q.when($http.get('/api/v2013/document-sharing/'+ qs.code))
+            $q.when($http.get('/api/v2018/document-sharing/'+ qs.code))
                 .then(function(result){
                     
                     if(result.status == 200){

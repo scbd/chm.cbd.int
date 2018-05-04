@@ -34,7 +34,7 @@
                 }
 
                 $scope.getPdf = function(){
-                    
+                    $scope.pdfUrl = undefined;
                     ngDialog.open({
                         template: 'documentPdfTemplate.html',													
                         closeByDocument: true,
@@ -46,19 +46,12 @@
                     $q.when($scope.loadDocument())
                     .then(function(document){
                         if(document && document.urlHash){
-                            var url = '/api/v2017/generate-pdf/' + realm + '/draft-documents/'+ locale + '?code='+ $scope.document.urlHash
-                            console.log(url)
-                            window.open(url)
-                            ngDialog.close();
+                            $scope.pdfUrl = '/pdf/draft-documents/'+ $scope.document.sharedData.identifier + '/'+ $scope.document.urlHash;  
                         }
                         else{
-                            // $scope.document.expiry
                             $q.when($scope.createLink())
                             .then(function(){
-                                var url = '/api/v2017/generate-pdf/' + realm + '/draft-documents/'+ locale + '?code='+ $scope.document.urlHash
-                                console.log(url)
-                                window.open(url)
-                                ngDialog.close();
+                                $scope.pdfUrl = '/pdf/draft-documents/'+ $scope.document.sharedData.identifier + '/'+ $scope.document.urlHash;
                             })
                         }   
                     })
@@ -149,6 +142,7 @@
                         position: 'fixed',
                         opacity: '0'
                     });
+
                     textarea.val($document.find('#shareUrl').val());
                     body.append(textarea);
                     textarea[0].select();

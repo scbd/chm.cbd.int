@@ -727,7 +727,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 										if($scope.document.nationalTargets){
 											for(var i=$scope.document.nationalTargets.length-1; i>=0; --i){
 												if(!_.includes(solrIdentifiers,  $scope.document.nationalTargets[i].identifier))
-													$scope.document.nationalTargets.splice(i, 0)
+													$scope.document.nationalTargets.splice(i, 1)
 											}
 										}
 										data = data.identifier_s.groups;										

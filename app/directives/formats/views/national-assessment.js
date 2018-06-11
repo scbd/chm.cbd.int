@@ -1,4 +1,5 @@
-define(['app', 'text!./national-assessment.html', "lodash"], function(app, template, _){
+define(['app', 'text!./national-assessment.html', "lodash",
+'directives/forms/km-value-ml'], function(app, template, _){
 
 app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location", "$routeParams",
  function ($q, $http, storage, $location, $routeParams) {

@@ -1,4 +1,5 @@
-define(['app', 'text!./national-target.html', 'lodash', 'utilities/km-storage'], function(app, template, _){
+define(['app', 'text!./national-target.html', 'lodash', 'utilities/km-storage',
+'directives/forms/km-value-ml'], function(app, template, _){
 
 app.directive('viewNationalTarget', ["$q", "IStorage", function ($q, storage) {
 	return {

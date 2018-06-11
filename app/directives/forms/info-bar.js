@@ -14,7 +14,7 @@ define(['app', 'text!./info-bar.html', 'webui-popover'], function(app, template)
 
                 var settings = {
                     trigger: 'hover',
-                    title: 'CHM Help: sixth national report',
+                    title: $attrs.title || 'CHM Help: sixth national report',
                     closeable: true,
                     dismissible: true,
                     padding: true,

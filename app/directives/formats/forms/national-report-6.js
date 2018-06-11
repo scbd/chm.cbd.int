@@ -486,8 +486,27 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//
 						//============================================================
 						$scope.removeImplementationMeasure = function(measure) {
-							if (measure && $scope.document.implementationMeasures) {
-								$scope.document.implementationMeasures.splice($scope.document.implementationMeasures.indexOf(measure), 1);
+							if(confirm)
+
+							var record = measure;
+							ngDialog.open({
+								template: 'deleteImplementationRecordModal', 
+								controller : ['$scope', function($scope){									
+									$scope.draftRecordToDelete = record;
+									$scope.deleteImplementation = function(recordToDelete){										
+										confirmDelete(recordToDelete);
+										ngDialog.close();
+									}
+
+									$scope.closeDialog = function(){
+										ngDialog.close();
+									}
+								}]
+							});
+							function confirmDelete(measure){
+								if (measure && $scope.document.implementationMeasures) {
+									$scope.document.implementationMeasures.splice($scope.document.implementationMeasures.indexOf(measure), 1);
+								}
 							}
 						};
 

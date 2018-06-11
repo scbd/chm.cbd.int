@@ -19,7 +19,7 @@
 						<i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i>Loading sixth national report...</div>
 
 
-					<div class="alert alert-danger" ng-show="hasError()">
+					<div class="alert alert-danger" ng-show="hasError()" id="errorSection">
 						<strong>An error has occurred...</strong>
 						<div>{{error}}</div>
 					</div>
@@ -122,7 +122,7 @@
 													be linked to other sections of the report. If your country has not set or adopted any national targets related
 													to the Strategic Plan for Biodiversity 2011-2020 please indicate so in the first box and move to section II.
 													<a translation-url info-bar data-content="The objective of this section of the report is to collect information on the national targets that countries have adopted in line with the Strategic Plan for Biodiversity 2011-2020 (paragraph 3(b) of decision X/2). If your country has set and/or adopted national targets or equivalent commitments related to the Strategic Plan for Biodiversity 2011-2020 please use the following template to describe them."
-													    data-original-title=""></a>
+													    data-title="CHM Help: Sixth national report"></a>
 												</span>
 											</div>
 										</div>
@@ -147,7 +147,7 @@
 															<input type="radio" name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="true" /> My country has adopted national biodiversity targets or equivalent commitments in line with the Strategic
 															Plan for Biodiversity 2011-2020 and the Aichi Targets
 															<a translation-url info-bar data-content="Check this box if your country has adopted national biodiversity targets or equivalent commitments associated to the attainment of the Aichi Biodiversity Targets or other parts of the Strategic Plan for Biodiversity 2011-2020."
-															    data-original-title=""></a>
+															    data-title="CHM Help: Sixth national report"></a>
 															<br/>
 															<br/>
 															<input type="radio" name="targetPursued" ng-model="document.targetPursued" group="targetPursued" ng-value="false" /> My country has not adopted national biodiversity targets and is reporting progress using the Aichi Biodiversity
@@ -155,7 +155,7 @@
 															for the purpose of this report as the national targets and progress should be assessed towards their achievement
 															in the national context.)
 															<a translation-url info-bar data-content="Check this box if your country has not (yet) adopted national biodiversity targets. In section II, your country will be asked to link its implementation measures to the Aichi Biodiversity Targets. In section III, your country will be asked to assess national progress towards the Aichi Biodiversity Targets"
-															    data-original-title="">
+															    data-title="CHM Help: Sixth national report">
 																<i class="fa fa-info-circle fa-2x"></i>
 															</a>
 
@@ -164,12 +164,13 @@
 												</div>
 											</div>
 										</div>
+										
 										<div ng-show="document.targetPursued">
 											<div class="section section-default">
 												<div class="section-header" style="border-bottom: 1px solid #ddd">
 													<h3>National Targets</h3>
 												</div>
-												<div class="section-body">
+												<div class="section-body" id="sortingSection">
 													<div class="row">
 														<div class="col-xs-12">
 
@@ -183,54 +184,93 @@
 																</li>
 															</ul>
 														</div>
+														<div class="row">
+															<div class="col-xs-12">
+															<div drag-to-reorder="document.nationalTargets">
+																<br/><br/> </br>
+																<div  ng-repeat="item in document.nationalTargets">
+																	
+																	<div class="col-xs-12 col-sm-12 col-md-12" dtr-draggable>
 
-														<div ng-repeat="item in nationalTargets | orderBy:'createdDate_dt' track by item.identifier_s" class="grow-parent">
-															<div class="grow1 col-xs-12 col-sm-12 col-md-12">
-
-																<div class="panel panel-default">
-																	<div class="panel-header">
-																		<h3>{{item.title|lstring:locale}}</h3>
-																	</div>
-																	<div class="panel-body">
-																		<div class="btn-group-xs btn-status" 
-																			ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier_s || !waitForWorkflow.nationalTarget">
-																			<span class="label label-primary pull-right  bg-published"  style="margin-left:5px;"
-																				ng-if="item._state_s=='public' || item.publicRecord">Public</span>
-																			<span class="label label-warning pull-right  bg-draft" ng-if="item._state_s=='draft'">Draft</span>
-																			<span class="label label-warning pull-right  bg-request" ng-if="item._state_s=='workflow'">Waiting for approval</span>
+																		<div class="panel panel-default">
+																			<div class="panel-header clearfix">
+																				<!-- <div class="row"> -->
+																					<!-- <div class="col-xs-11">							 -->
+																					<h3>{{nationalTargets[item.identifier].title|lstring:locale}}
+																						<div class="pull-right implementation-measure-action-buttons btn-group" style="padding-right:10px">
+																							<a ng-href="#" class="btn" ng-click="movePosition(document.nationalTargets, $index, 'up', 'nationalTarget')"
+																								data-toggle="tooltip" data-placement="top" title="Move one potision up" ng-if="!$first">
+																								<i class="fa fa-level-up" style="font-size:20px"/>
+																							</a>
+																							<a ng-href="#" class="btn " ng-click="movePosition(document.nationalTargets, $index, 'down', 'nationalTarget')"
+																							data-toggle="tooltip" data-placement="top" title="Move one potision down" ng-if="!$last">
+																								<i class="fa fa-level-down" style="font-size:20px"/>
+																							</a>
+																						</div>
+																					</h3>
+																					<!-- </div> -->
+																					<!-- <div class="col-xs-1">	
+																						<table class="pull-right">
+																							<tr>																				
+																								<td>
+																									<i class="fa fa-arrows"  style="font-size:20px;padding-top:5px;"/>																						
+																								</td>
+																							</tr>
+																							<tr>
+																								<td style="padding-left:5px">
+																									<a info-bar data-content="Targets can be reorderd by click + dragging to new position" data-title="CHM Help: Sixth national report">
+																										<i class="fa fa-info-circle fa-2x"></i>
+																									</a>
+																								</td>
+																							</tr>
+																						</table>
+																					</div>			 -->
+																				<!-- </div> -->
+																			</div>
+																			<div class="panel-body">
+																				<br/>
+																				<div class="btn-group-xs btn-status" 
+																					ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier || !waitForWorkflow.nationalTarget">
+																					<span class="label label-primary pull-right  bg-published"  style="margin-left:5px;"
+																						ng-if="nationalTargets[item.identifier]._state_s=='public' || nationalTargets[item.identifier].publicRecord">Public</span>
+																					<span class="label label-warning pull-right  bg-draft" ng-if="nationalTargets[item.identifier]._state_s=='draft'">Draft</span>
+																					<span class="label label-warning pull-right  bg-request" ng-if="nationalTargets[item.identifier]._state_s=='workflow'">Waiting for approval</span>
+																				</div>
+																				<div class="btn-status" ng-if="waitForWorkflow.nationalTarget && waitForWorkflow.nationalTarget.identifier == item.identifier">
+																					<span class="label label-warning pull-right bg-request">
+																						<i class="fa fa-spin fa-spinner"></i > Processing...</span>
+																				</div>
+																				<ul>
+																					<li ng-repeat="target in nationalTargets[item.identifier].aichiTargets track by $index" ng-if="!nationalTargets[item.identifier].isAichiTarget && nationalTargets[item.identifier].aichiTargets">{{target}}</li>
+																					<li ng-repeat="target in nationalTargets[item.identifier].otherAichiTargets track by $index" ng-if="nationalTargets[item.identifier].otherAichiTargets">{{target}}</li>
+																					
+																				</ul>
+																			</div>
+																			<div class="panel-footer">
+																				<div class="btn-group btn-group-xs" ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier || !waitForWorkflow.nationalTarget">
+																					<a translation-url title="View" ng-if="nationalTargets[item.identifier]._state_s == 'public'" target="_blank" class="btn btn-primary" ng-href="{{nationalTargets[item.identifier].url}}">
+																						<i class="fa fa-search"></i> view
+																					</a>
+																					<a translation-url ng-if="nationalTargets[item.identifier]._state_s=='workflow' " title="Locked for edit" target="_blank" class="btn btn-primary" ng-href="/management/requests/{{getWorkflowId(nationalTargets[item.identifier])}}/publishRecord">
+																						<i class="fa fa-lock"></i> view status
+																					</a>
+																					<button ng-click="openDialog(nationalTargets[item.identifier],'directives/formats/forms/national-target-dialog','edit-national-target-dialog')" ng-if="nationalTargets[item.identifier]._state_s!='workflow'"
+																						title="Edit" type="button" class="btn btn-primary">
+																						<i class="fa fa-edit"></i> edit
+																					</button>
+																					<button ng-disabled="nationalTargets[item.identifier]._state_s != 'draft' && nationalTargets[item.identifier].assessments.length > 0" ng-hide="nationalTargets[item.identifier]._state_s=='workflow'" title="Delete"
+																						type="button" class="btn btn-primary" ng-click="delete(nationalTargets[item.identifier],'nationalTarget', $event)">
+																						<i class="fa fa-trash-o"></i> delete
+																					</button>
+																				</div>
+																			</div>
 																		</div>
-																		<div class="btn-status" ng-if="waitForWorkflow.nationalTarget && waitForWorkflow.nationalTarget.identifier == item.identifier_s">
-																			<span class="label label-warning pull-right bg-request">
-																				<i class="fa fa-spin fa-spinner"></i > Processing...</span>
-																		</div>
-																		<ul>
-																			<li ng-repeat="target in item.aichiTargets track by $index" ng-if="!item.isAichiTarget && item.aichiTargets">{{target}}</li>
-																			<li ng-repeat="target in item.otherAichiTargets track by $index" ng-if="item.otherAichiTargets">{{target}}</li>
-																			
-																		</ul>
-																	</div>
-																	<div class="panel-footer">
-																		<div class="btn-group btn-group-xs" ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier_s || !waitForWorkflow.nationalTarget">
-																			<a translation-url title="View" ng-if="item._state_s == 'public'" target="_blank" class="btn btn-primary" ng-href="{{item.url}}">
-																				<i class="fa fa-search"></i> view
-																			</a>
-																			<a translation-url ng-if="item._state_s=='workflow' " title="Locked for edit" target="_blank" class="btn btn-primary" ng-href="/management/requests/{{getWorkflowId(item)}}/publishRecord">
-																				<i class="fa fa-lock"></i> view status
-																			</a>
-																			<button ng-click="openDialog(item,'directives/formats/forms/national-target-dialog','edit-national-target-dialog')" ng-if="item._state_s!='workflow'"
-																			    title="Edit" type="button" class="btn btn-primary">
-																				<i class="fa fa-edit"></i> edit
-																			</button>
-																			<button ng-disabled="item._state_s != 'draft' && item.assessments.length > 0" ng-hide="item._state_s=='workflow'" title="Delete"
-																			    type="button" class="btn btn-primary" ng-click="delete(item,'nationalTarget', $event)">
-																				<i class="fa fa-trash-o"></i> delete
-																			</button>
-																		</div>
+																		<span class="clearfix"></span>
 																	</div>
 																</div>
-																<span class="clearfix"></span>
 															</div>
 														</div>
+													</div>
 													</div>
 												</div>
 											</div>
@@ -253,7 +293,7 @@
 													strategy and action plan. Please also provide an assessment of the effectiveness of these measures. The template
 													should be replicated for each measure reported
 													<a translation-url info-bar data-content="The objective of this section of the report is to collect information on the main measures taken by countries to implement their national biodiversity strategies and action plans and contribute to the achievement of its targets. This section of the reporting guidelines also seeks information on <ul><li>(a) the effectiveness of the measures taken;</li><li> (b) any identified obstacles or scientific and technical needs that need to be addressed; and </li><li>(c) any needs for implementation support.</li></ul> It is not necessary to list all the individual measures that have been taken. Countries should limit reporting to those measures that are of national significance. Furthermore, Parties may also wish to combine similar types of measures into a single entry in the national report or to use categories of measures in order to simplify the reporting process."
-													    data-original-title="">
+													    data-title="CHM Help: Sixth national report">
 														<i class="fa fa-info-circle fa-2x"></i>
 													</a>
 												</span>
@@ -276,6 +316,14 @@
 											<div class="pull-right implementation-measure-action-buttons btn-group" style="padding-right:10px">
 												<a translation-url ng-href="#" class="trash btn" ng-click="removeImplementationMeasure(implementationMeasure)"></a>
 												<a translation-url ng-href="#" data-toggle="collapse" class="btn measure collapse-icon" data-target="#implementationMeasure{{$index}}"></a>
+												<a ng-href="#" class="btn " ng-click="movePosition(document.implementationMeasures, $index, 'up')"
+													data-toggle="tooltip" data-placement="top" title="Move one potision up" ng-if="!$first" style="width: 0% !important;padding-right: 10px;padding-left: 10px;">
+													<i class="fa fa-level-up" style="font-size:20px"/>
+												</a>
+												<a ng-href="#" class="btn " ng-click="movePosition(document.implementationMeasures, $index, 'down')"
+												data-toggle="tooltip" data-placement="top" title="Move one potision down" ng-if="!$last" style="width: 0% !important;padding-right: 10px;padding-left: 10px;">
+													<i class="fa fa-level-down" style="font-size:20px"/>
+												</a>
 											</div>
 										</h3>
 									</div>
@@ -373,7 +421,7 @@
 													commitments. The template should be replicated for each national target. If your country has not set national
 													targets please use the Aichi Biodiversity Targets.
 													<a translation-url info-bar data-content="The objective of this section of the report is to collect information on the progress made towards the attainment of your country’s national targets. The template should be reproduced for each of your country’s national targets. If your country has not established national targets, please assess national progress towards the Aichi Biodiversity Targets."
-													    data-original-title="">
+													    data-title="CHM Help: Sixth national report">
 														<i class="fa fa-info-circle fa-2x"></i>
 													</a>
 												</span>
@@ -492,7 +540,7 @@
 									The information collected through this section of the national report will enable preparation of an analysis/synthesis of the contributions of national, regional and other actions, towards the global targets in accordance with decision X/2.
 									</br>
 									Responses in this section of the national report should build on the information contained in sections II and III. However, it is not necessary to repeat information that has already been included in earlier sections of the report.
-									" data-original-title="">
+									" data-title="CHM Help: Sixth national report">
 														<i class="fa fa-info-circle fa-2x"></i>
 													</a>
 
@@ -552,7 +600,7 @@
 													<a translation-url info-bar data-content="This section of the sixth national report is optional but is recommended for all Parties that have developed strategies for plant conservation in response to the GSPC and/ or for Parties that have active plant conservation work taking place via networks of botanical gardens or botanical collections institutions.
 									<br/></br>
 									For those GSPC targets that are closely aligned to specific Aichi Biodiversity Targets, information entered in the other sections of the report will be relevant here. If this is the case, the information does not need to be reproduced in its entirety in this section of the national report. Instead a reference to previous sections of the national report can be inserted. Through its Secretariat at Botanic Gardens Conservation International (bgci.org), members of the Global Partnership for Plant Conservation and other botanical institutions may be able to support Parties in compiling relevant information related to this section.
-									" data-original-title="">
+									" data-title="CHM Help: Sixth national report">
 														<i class="fa fa-info-circle fa-2x"></i>
 													</a>
 												</span>
@@ -640,7 +688,7 @@
 													Using the template below, please provide any additional information on the contribution of indigenous peoples and local communities
 													to the achievement of the Aichi Biodiversity Targets if not captured in other sections.
 													<a translation-url info-bar data-content="Information on the participation and contribution of indigenous peoples and local communities in the implementation of the Strategic Plan and the attainment of the Aichi Biodiversity Targets should be reflected throughout the sixth national report. The objective of this section of the report is to collect information on the contributions of indigenous peoples and local communities to the attainment of the Aichi Biodiversity Targets and the implementation of the Strategic Plan for Biodiversity 2011-2020 that is not captured in other sections of the report. The information collected through this section will be used to, among other things, contribute to the preparation of reports such as the next edition of the “Local Biodiversity Outlooks: Indigenous Peoples’ and Local Communities’ Contributions to the Implementation of the Strategic Plan for Biodiversity 2011-2020”."
-													    data-original-title="">
+													    data-title="CHM Help: Sixth national report">
 														<i class="fa fa-info-circle fa-2x"></i>
 													</a>
 												</span>
@@ -682,7 +730,7 @@
 													Please review and update your country’s biodiversity profile currently displayed on the clearing house mechanism. Biodiversity
 													country profiles provide an overview of information relevant to your country’s implementation of the Convention.
 													<a translation-url info-bar data-content="The objective of this section of the report is to help complete or update the Biodiversity Country Profiles presented on the website of the Convention on Biological Diversity. Biodiversity Country Profiles provide a short overview of the status and trends of biodiversity in your country, the pressures on it and the actions taken by your country to implement its national biodiversity strategy and action plan, the Convention on Biological Diversity, and the Strategic Plan for Biodiversity 2011-2020. The information should present a general overview of the status and trends of biodiversity. It is not necessary to provide a detailed assessment. However, enough information should be provided to give the reader an overview of current conditions. The country profiles are displayed along with other relevant national information, including information on the country’s national focal points and their contact details as well as the country’s membership in the Protocols. Your country’s current biodiversity is automatically included in the template below as a starting/reference point."
-													    data-original-title="">
+													    data-title="CHM Help: Sixth national report">
 														<i class="fa fa-info-circle fa-2x"></i>
 													</a>
 												</span>

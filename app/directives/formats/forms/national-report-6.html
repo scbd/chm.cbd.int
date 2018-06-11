@@ -1515,6 +1515,37 @@
 								<button type="button" class="btn btn-default" ng-click="closeDialog()">Cancel</button>
 							</div>
 						</script>
+
+
+						<script type="text/ng-template" trados-translation="true" id="deleteImplementationRecordModal">              
+					
+							<div class="modal-header">
+								<h4 class="modal-title" >Confirm delete
+									<i ng-show="deletingRecord" class="fa fa-spinner fa-spin"></i></h4>
+							</div>
+							<div class="modal-body  bg-white" >
+								<div ng-if="draftRecordToDelete" class="well" style="font-size:14px;">
+									<div style="font-size:11px;font-weight:bold;text-transform:uppercase;color:#999;border-bottom:1px solid #ddd;margin-bottom:10px;">Implementation measure</div>
+									<div class="row">     
+										<div class="col-xs-2" class="color-litegrey">Title:</div> 
+										<div class="col-xs-10" style="font-weight:bold"> {{draftRecordToDelete.title|lstring:locale}}</div>
+									</div>
+									<div class="row"> 
+										<div class="col-xs-2" class="color-litegrey">Summary:</div> 
+										<div class="col-xs-10" style="font-weight:bold" > 
+											<span ng-bind-html="draftRecordToDelete.description|lstring:locale"></span></div>
+									</div>
+									<div class="row" style="margin-top:10px;"> 
+										<div class="col-xs-12"> 
+											<button ng-disabled="deletingRecord" type="button" class="btn btn-danger"  ng-click="deleteImplementation(draftRecordToDelete)">Delete</button></div>
+									</div>
+								</div>
+		
+							</div>
+							<div class="modal-footer" >
+								<button type="button" class="btn btn-default" ng-click="closeDialog()">Cancel</button>
+							</div>
+						</script>
 					</div>
 					</div>
 

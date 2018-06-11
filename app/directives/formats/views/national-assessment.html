@@ -56,7 +56,7 @@
 						The country has not used indicators to assess progress towards this national target.
 					</div>
 				</div>
-				<div ng-show="document.nationalIndicatorsUsed || document.nationalIndicators">
+				<div ng-show="document.nationalIndicatorsUsed && document.nationalIndicators">
 					<label>Indicator(s)used in this assessment</label>
 					<km-value-ml value="document.nationalIndicators" locales="locale"></km-value-ml>
 				</div>
@@ -67,8 +67,10 @@
 
 				<div ng-show="document.documentLinks">
 					<label>Relevant websites, links, and files</label>
-					<div class="km-value" ng-repeat="item in document.documentLinks">
-						<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+					<div class="km-value" >
+						<div ng-repeat="item in document.documentLinks">
+							<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+						</div>
 					</div>
 				</div>
 				<div ng-show="document.documentText">
@@ -78,16 +80,16 @@
 
 				<div ng-show="document.strategicPlanIndicators">
 					<label>Link to Indicator(s) used in this assessment</label>
-					<ul class="km-value">
-						<li ng-repeat="item in strategicPlanIndicators" ng-style="{ direction : (item.title|direction:locale) }">{{item.title | lstring:locale}} </li>
-					</ul>
+					<div class="km-value">
+						<div ng-repeat="item in strategicPlanIndicators" ng-style="{ direction : (item.title|direction:locale) }">{{item.title | lstring:locale}} </div>
+					</div>
 				</div>
 
 				<div ng-show="document.implementationActivities">
 					<label>Link to National Activity(ies) related to this assessment</label>
-					<ul class="km-value">
-						<li ng-repeat="item in document.implementationActivities" ng-style="{ direction : (item.title|direction:locale) }">{{item.title | lstring:locale}} </li>
-					</ul>
+					<div class="km-value">
+						<div ng-repeat="item in document.implementationActivities" ng-style="{ direction : (item.title|direction:locale) }">{{item.title | lstring:locale}} </div>
+					</div>
 				</div>
 			</div>
 
@@ -114,11 +116,11 @@
 				</div>
 				<div ng-show="document.otherRelevantDocuments">
 					<label>Other relevant website address or attached documents</label>
-					<ul class="km-value">
-						<li ng-repeat="item in document.otherRelevantDocuments">
+					<div class="km-value">
+						<div ng-repeat="item in document.otherRelevantDocuments">
 							<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
-						</li>
-					</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

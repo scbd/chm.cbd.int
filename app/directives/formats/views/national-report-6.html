@@ -30,9 +30,17 @@
 						{{document.government | term:locale}}
 					</div>
 				</div>
+				<div class="col-xs-12" ng-if="!document.targetPursued && document.notReportingOnNationalTargets">
+				</br>
+					<div class="alert alert-info" role="alert" >
+						{{document.government | term:locale}} has adopted national biodiversity targets but has opted to reporting progress using the Aichi Biodiversity Targets for reference.
+					</div>
+				</div>
 			</div>
 			
-			<div class="row" ng-show="document.nationalTargets">
+			
+
+			<div class="row" ng-if="document.nationalTargets">
 				<div class="col-xs-12" style="margin-top:10px;">
 					<label><strong>National Targets</strong></label>
 					<div  ng-if="document.nationalTargets.length>0" style="margin-top: 10px;">

@@ -158,7 +158,12 @@
 															    data-title="CHM Help: Sixth national report">
 																<i class="fa fa-info-circle fa-2x"></i>
 															</a>
-
+															<div style="padding-left:50px;" ng-if="!document.targetPursued">
+																<br/>
+																<input type="checkbox" name="notReportingOnNationalTargets" ng-model="document.notReportingOnNationalTargets" /> 
+																My country has adopted national biodiversity targets but has opted to reporting progress using the Aichi Biodiversity
+																Targets for reference. 
+															</div>
 														</div>
 													</div>
 												</div>

@@ -1,6 +1,11 @@
-define(['angular', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothScroll'], function(angular) { 'use strict';
+define(['angular','rangy-core', 'ngSanitize','ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothScroll',
+ 'rangy-selectionsave', 'textAngular'], function(angular, rangyCore) { 'use strict';
 
-    var deps = ['ngRoute', 'ngSanitize', 'ngCookies', 'leaflet-directive', 'ng-breadcrumbs','ngAnimate' ,'ngAria' ,'ngMaterial', 'smoothScroll', 'ngDialog'];
+ window.rangy = rangyCore;
+
+    var deps = ['ngRoute', 'ngSanitize', 'ngCookies', 'leaflet-directive', 
+    'ng-breadcrumbs','ngAnimate' ,'ngAria' ,'ngMaterial', 'smoothScroll', 
+    'ngDialog', 'textAngular'];
 
     angular.defineModules(deps);
 

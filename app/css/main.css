@@ -523,3 +523,6 @@ legend{
 .km-value-ml-div{
     border-radius: 3px 0px 0px 3px;
 }
+.km-value-ml-html img{
+    max-width:100%;
+}

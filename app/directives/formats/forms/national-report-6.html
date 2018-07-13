@@ -108,7 +108,7 @@
 						</header>
 						<form   name="editForm" style="margin-top:10px">
 
-							<div   km-tab="general">
+							<div   id="generalTab"  km-tab="general">
 
 								<div class="panel panel-default panelMain" style="min-height:500px">
 									<div class="panel-header">
@@ -158,12 +158,27 @@
 															    data-title="CHM Help: Sixth national report">
 																<i class="fa fa-info-circle fa-2x"></i>
 															</a>
-															<div style="padding-left:50px;" ng-if="!document.targetPursued">
-																<br/>
-																<input type="checkbox" name="notReportingOnNationalTargets" ng-model="document.notReportingOnNationalTargets" /> 
-																My country has adopted national biodiversity targets but has opted to reporting progress using the Aichi Biodiversity
-																Targets for reference. 
+															<br/>
+															<br/>
+															<input type="radio" name="targetPursued" 
+															ng-model="document.notReportingOnNationalTargets" group="targetPursued" 
+															ng-value="true" ng-change="updateNotReportingOnNationalTargets(document.notReportingOnNationalTargets)" />
+															 My country has adopted national biodiversity targets but chooses to report progress using the Aichi Biodiversity
+															Targets for reference. 
+															<a translation-url info-bar data-content="If your country has adopted national biodiversity targets but wishes to report using the Aichi Biodiversity Targets, please select this option. Upon selecting this option, a text box will become available in which you can provide an explanation for your choice."
+															    data-title="CHM Help: Sixth national report">
+																<i class="fa fa-info-circle fa-2x"></i>
+															</a>
+															<div class="row" ng-if="document.notReportingOnNationalTargets">
+																<div class="col-md-12">
+																	<div class="km-control-group" name="notReportingOnNationalTargetsReason" 
+																	caption="Please provide information on why your country is choosing to report progress using the Aichi Biodiversity Targets and not its national targets.">
+																		<div km-textbox-ml name="notReportingOnNationalTargetsReason" ng-model="document.notReportingOnNationalTargetsReason" locales="document.header.languages"
+																			rows="3"></div>
+																	</div>
+																</div>
 															</div>
+															
 														</div>
 													</div>
 												</div>
@@ -283,7 +298,7 @@
 									</div>
 								</div>
 							</div>
-							<div    km-tab="implementation">
+							<div    id="implementationTab"  km-tab="implementation">
 
 								<div class="panel panel-default">
 									<div class="panel-header">
@@ -342,8 +357,8 @@
 											<div class="col-md-12">
 												<div class="km-control-group" name="implementationMeasureDescription" caption="Describe a measure taken to contribute to the implementation of your country’s national biodiversity strategy and action plan."
 												    data-content="This template should be replicated for each main measure or category of measures taken. Parties should indicate a main measure that has been taken to implement their national biodiversity strategy and action plan and/or to achieve their national biodiversity targets. These could include policies, legislation and/or programmes and initiatives. Parties may also wish to report on the measures taken by indigenous peoples and local communities and stakeholders. When describing the measure, Parties may wish to provide information on the issue(s) the measure is attempting to address, actions planned and implemented, mainstreaming, timeframes and actors involved. Parties may also wish to indicate if the measure taken is linked to a specific decision of the Conference of the Parties, a recommendation of one of its subsidiary bodies, or to a thematic programme of work or cross-cutting issue addressed by the Convention. Parties may also wish to indicate if the measure is related to other international processes, such as those of relevant multilateral environmental agreements, and/or regional processes.">
-													<div km-textbox-ml name="implementationMeasureDescription" ng-model="implementationMeasure.description" locales="document.header.languages"
-													    rows="3"></div>
+													<div km-rich-textbox name="implementationMeasureDescription" ng-model="implementationMeasure.description" locales="document.header.languages"
+													    rows="3" identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)"></div>
 												</div>
 											</div>
 											<div class="col-md-12" ng-if="!document.targetPursued">
@@ -413,7 +428,7 @@
 									</div>
 								</div>
 							</div>
-							<div   km-tab="progress">
+							<div  id="progressTab" km-tab="progress">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section III. Assessment of progress towards each national target</h3>
@@ -523,7 +538,7 @@
 									</div>
 								</div>
 							</div>
-							<div   km-tab="nationalContribution">
+							<div id="nationalContributionTab"  km-tab="nationalContribution">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section IV. Description of national contribution to the achievement of each global Aichi Biodiversity Target</h3>
@@ -590,7 +605,7 @@
 									</div>
 								</div>
 							</div>
-							<div   km-tab="gspcContribution">
+							<div  id="gspcContributionTab" km-tab="gspcContribution">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for
@@ -680,7 +695,7 @@
 								</div>
 							</div>
 
-							<div  km-tab="iplcContribution">
+							<div id="iplcContributionTab" km-tab="iplcContribution">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section VI. Additional information on the contribution of indigenous peoples and local communities (completion
@@ -714,7 +729,7 @@
 							</div>
 
 
-							<div    km-tab="countryProfile">
+							<div  id="countryProfileTab"  km-tab="countryProfile">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section VII. Updated biodiversity country profile
@@ -808,7 +823,7 @@
 							</div>
 						</form>
 
-						<div  km-tab="review">
+						<div id="reviewTab"  km-tab="review">
 
 							<div km-document-validation ng-model="validationReport"></div>
 							<div class="btn-group" ng-if="document.header.languages.length>1">

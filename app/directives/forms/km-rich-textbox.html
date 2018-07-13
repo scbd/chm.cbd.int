@@ -1,0 +1,23 @@
+﻿<div class="km-rtl">
+	<link rel="stylesheet" type="text/css" href="/app/directives/forms/km-control.css">
+	<link rel="stylesheet" type="text/css" href="/app/libs/textangular/dist/textAngular.css">
+	
+	<div ng-repeat="locale in locales" class="input-group input-rich-text" 
+		ng-class="{ 'multiple-languages' : isShowLocale() && !last }"
+	    ng-switch="rows">
+		<div class="blockRegion" ng-if="isUploadingImage[locale]">
+			<div class="inverted dimmer active">
+				<div class="center">
+					<div class="medium loader"><i class="fa fa-spin fa-cog" /> uploading image... </div>					
+				</div>
+			</div>
+		</div>
+		<text-angular  ng-switch-default ng-required="isRequired()" ng-model="text[locale]" 
+		ng-change="onchange()" ng-disabled="ngDisabledFn()"
+		placeholder="{{placeholder}}" rows="{{rows}}" style="width:100%"
+		ta-toolbar="{{toolbar}}" ng-focus="onFocus(locale)"
+		ta-file-drop="onFileDrop"  tab-index="true" class="{{::editorHeightClass}}">
+		</text-angular>
+		<span class="input-group-addon" disabled-ng-show="isShowLocale()" style="cursor:default">{{locale | uppercase }}</span>
+	</div>
+</div>

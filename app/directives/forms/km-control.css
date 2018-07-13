@@ -1,0 +1,32 @@
+﻿.multiple-languages {
+    margin-bottom: 3px;
+}
+
+.ta-text.ta-editor img{
+    width: 50%;
+    max-width: 100%;
+}
+
+.input-rich-text{
+    border: 2px solid #eee;
+}
+
+button[name="insertImage"]{
+    display:none
+}
+.ta-toolbar{
+    margin:10px;
+}
+
+.ta-text.ta-editor, .input-group-addon{
+    border: none
+}
+.ta-editor-height-100 .ta-text.ta-editor, .ta-editor-height-100 .ta-scroll-window > .ta-bind{
+    min-height: 100px;
+}
+.ta-editor-height-200 .ta-text.ta-editor{
+    min-height: 200px;
+}
+.ta-editor-height-300 .ta-text.ta-editor{
+    min-height: 300px;
+}

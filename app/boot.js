@@ -10,7 +10,7 @@ require.config({
       'ngDialog'            : 'libs/ng-dialog/js/ngDialog.min',
       'text'                : 'libs/requirejs-text/text',
       'css'                 : 'libs/require-css/css.min',
-        'json'              : 'libs/requirejs-plugins/src/json',
+      'json'                : 'libs/requirejs-plugins/src/json',
       'bootstrap'           : 'libs/bootstrap/dist/js/bootstrap.min',
       'lodash'              : 'libs/lodash/lodash.min',
       'URIjs'               : 'libs/uri.js/src',
@@ -51,7 +51,12 @@ require.config({
       'printThis'                 : 'libs/printThis/printThis',
       'pdfjs-dist/build/pdf'      : 'views/psd-viewer/pdfjs/pdf',
       'pdfjs-dist/build/pdf.worker' : 'views/psd-viewer/pdfjs/build/pdf.worker',        
-      'pdf-object'                 : 'libs/pdfobject/pdfobject'
+      'pdf-object'                 : 'libs/pdfobject/pdfobject',
+      'rangy-core'                : 'libs/rangy/rangy-core.min',
+      'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
+      'textAngular-sanitize'      : 'libs/textAngular/dist/textAngular-sanitize.min',
+      'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
+      'textAngular'               : 'libs/textAngular/dist/textAngular'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -84,8 +89,13 @@ require.config({
       'scbd-angularjs-services'  : { 'deps': ['angular']},
       'scbd-angularjs-filters'   : { 'deps': ['angular']},
       'webui-popover'            : { 'deps': ['jquery', 'css!libs/webui-popover/dist/jquery.webui-popover.min']},
-      'pdfjs-dist/build/pdf'          : { 'deps': ['angular']}, 
-      'pdf-object'                    : { 'deps': ['angular']}  
+      'pdfjs-dist/build/pdf'     : { 'deps': ['angular']}, 
+      'pdf-object'               : { 'deps': ['angular']},
+      'rangy-selectionsave'      : { 'deps': ['rangy-core']},
+      'textAngular-sanitize'     : { 'deps': ['angular']},
+      'textAngularSetup'         : { 'deps': ['angular', 'textAngular-sanitize']},
+      'textAngular'              : { 'deps': ['angular', 'textAngular-sanitize', 'textAngularSetup']}
+
     },
     packages: [
         { name: 'scbd-branding'          , location : 'components/scbd-branding' },
@@ -93,7 +103,13 @@ require.config({
         { name: 'scbd-angularjs-filters',  location : 'components/scbd-angularjs-services/filters' },
         { name: 'moment',  location : 'libs/moment', main:'moment' }
     ],
-    urlArgs: 'v=' + window.appVersion
+    urlArgs: function(id, url){
+      var version = window.appVersion;
+      if(~url.indexOf('app/libs/'))
+        version = '100000';
+
+      return (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + version
+  }
 });
 
 define("_slaask", window._slaask);

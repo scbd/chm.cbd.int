@@ -94,7 +94,8 @@ require.config({
       'rangy-selectionsave'      : { 'deps': ['rangy-core']},
       'textAngular-sanitize'     : { 'deps': ['angular']},
       'textAngularSetup'         : { 'deps': ['angular', 'textAngular-sanitize']},
-      'textAngular'              : { 'deps': ['angular', 'textAngular-sanitize', 'textAngularSetup']}
+      'textAngular'              : { 'deps': ['angular', 'textAngular-sanitize', 'textAngularSetup']},
+      'ngInfiniteScroll'         : { 'deps': ['angular']}
 
     },
     packages: [

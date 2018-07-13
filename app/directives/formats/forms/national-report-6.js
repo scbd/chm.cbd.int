@@ -1,7 +1,8 @@
 define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-report-6',
 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", 
-"./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale'
+"./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale', 
+'directives/forms/km-rich-textbox'
 	],
 	function(require, template, app, angular, _, messages) {
 		'use strict';
@@ -234,9 +235,17 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							if (!document)
 								return $q.when(true);
 							
-							if(!document.targetPursued || (document.nationalTargets && document.nationalTargets.length == 0))
-								document.nationalTargets = undefined;
-							
+							if(document.targetPursued!==undefined){
+								if(!document.targetPursued || (document.nationalTargets && document.nationalTargets.length == 0))
+									document.nationalTargets = undefined;
+
+								document.notReportingOnNationalTargets       = undefined;
+								document.notReportingOnNationalTargetsReason = undefined;
+							}
+							else{
+								document.targetPursued = undefined;
+							}
+
 							if (_.isEmpty(document.progressAssessments))
 								document.progressAssessments = undefined;
 
@@ -272,6 +281,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//==================================
 						var nextTab; var prevTab;
 						$scope.$watch('tab', function(tab) {
+							
+							$('html,body').animate({scrollTop: $('.portal-header').offset().top -120}, "slow");
 							if (tab == 'review')
 								$scope.validate();
 							
@@ -526,10 +537,13 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 
 						$scope.$watch('document.targetPursued', function(newVal, old) {
 
-							if (!$scope.document || newVal === undefined)
+							if (!$scope.document || newVal === undefined && !(newVal===undefined && $scope.document.notReportingOnNationalTargets))
 								return;
 
-							if (newVal === false) { //if target not pursued by country than the country has to assess againts all AICHI targets
+							if(newVal !== undefined){
+								$scope.document.notReportingOnNationalTargets = undefined;
+							}
+							if (newVal === false || (newVal===undefined && $scope.document.notReportingOnNationalTargets)) { //if target not pursued by country than the country has to assess againts all AICHI targets
 								$scope.document.progressAssessments = [];
 								//nationalContributions contains preloaded aichiTargets just use instead of reloading
 								var aichiTargets = _.compact(_.pluck($scope.document.nationalContribution, 'identifier'));
@@ -777,9 +791,11 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						function loadProgressAssessment() {
 							$scope.loadingAssessments = true;
 							var targets = $scope.document.nationalTargets;
-							if($scope.document && $scope.document.targetPursued===false)
-								targets = $scope.document.nationalContribution;//copy aichi targets
 							
+							if($scope.document && $scope.document.targetPursued===false ||
+								($scope.document.targetPursued===undefined && $scope.document.notReportingOnNationalTargets)){
+								targets = $scope.document.nationalContribution;//copy aichi targets
+							}
 							var targetAssessmentIdentifiers = sortAssessments(targets);
 							var targetIdentifiers = _.map(targetAssessmentIdentifiers, function(assessment){
 								return (assessment.nationalTarget||assessment.aichiTarget).identifier;});
@@ -842,8 +858,14 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							
 							_.each(targets, function(target) {
 								var assessment = {};
-								if($scope.document.targetPursued===false) assessment.aichiTarget =  { identifier: target.identifier };
-								else assessment.nationalTarget =  { identifier: target.identifier };
+								
+								if($scope.document.targetPursued===false ||
+									($scope.document.targetPursued===undefined && $scope.document.notReportingOnNationalTargets)){ 
+									assessment.aichiTarget =  { identifier: target.identifier };
+								}
+								else {
+									assessment.nationalTarget =  { identifier: target.identifier };
+								}
 
 								if($scope.targetAssessments){
 									var existingAssessment = _.find($scope.targetAssessments, {nationalTarget_s:target.identifier})
@@ -1236,6 +1258,25 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								sortAssessments(collection);
 						}
 
+						$scope.onEditorFileUpload = function(data){
+							// console.log(data, 'controller');
+							if(!$scope.document.additionalDocuments)
+								$scope.document.additionalDocuments = [];
+							var editorImage = {
+								url: data.url,
+								name: data.filename,
+								tag : 'editorImage'
+							};
+							$scope.document.additionalDocuments.push(editorImage);
+							//public ELink[]      additionalDocuments   { get; set; }
+
+						}
+
+						$scope.updateNotReportingOnNationalTargets = function(selection){
+							if(selection){
+								$scope.document.targetPursued = undefined;
+							}
+						}
 					}
 				};
 			}

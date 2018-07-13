@@ -30,17 +30,24 @@
 						{{document.government | term:locale}}
 					</div>
 				</div>
-				<div class="col-xs-12" ng-if="!document.targetPursued && document.notReportingOnNationalTargets">
-				</br>
-					<div class="alert alert-info" role="alert" >
-						{{document.government | term:locale}} has adopted national biodiversity targets but has opted to reporting progress using the Aichi Biodiversity Targets for reference.
+			</div>
+			<div class="row" ng-if="document.notReportingOnNationalTargets">
+				<br/>
+				<div class="col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-header clearfix" ng-style="{ direction : (implementationMeasure.title|direction:locale) }">
+							<h3>{{document.government | term:locale}} has adopted national biodiversity targets but chooses to report using the Aichi Biodiversity Targets for reference.</h3>
+						</div>
+						<div class="panel-body">
+							<div ng-if="document.notReportingOnNationalTargetsReason">
+								<label>Information on why {{document.government | term:locale}} is choosing to report progress using the Aichi Biodiversity Targets and not its national targets.</label>
+								<km-value-ml value="document.notReportingOnNationalTargetsReason" locales="locale"></km-value-ml>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			
-			
-
-			<div class="row" ng-if="document.nationalTargets">
+			<div class="row" ng-if="document.targetPursued && document.nationalTargets.length">
 				<div class="col-xs-12" style="margin-top:10px;">
 					<label><strong>National Targets</strong></label>
 					<div  ng-if="document.nationalTargets.length>0" style="margin-top: 10px;">
@@ -71,7 +78,7 @@
 
 						<div ng-show="implementationMeasure.description">
 							<label>Measures taken to contribute to the implementation of your country’s national biodiversity strategy and action plan</label>
-							<km-value-ml value="implementationMeasure.description" locales="locale" km-pre></km-value-ml>
+							<km-value-ml value="implementationMeasure.description" locales="locale" km-pre html></km-value-ml>
 						</div>
 						<div ng-show="implementationMeasure.aichiTarget">
 							<label>Aichi Biodiversity Target</label>

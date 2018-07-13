@@ -526,3 +526,7 @@ legend{
 .km-value-ml-html img{
     max-width:100%;
 }
+.multiple-languages { margin-bottom: 3px; }
+.arabic{
+    direction: RTL;
+}

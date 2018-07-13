@@ -1,11 +1,4 @@
 ﻿<div>
-	<style type="text/css">
-		.multiple-languages { margin-bottom: 3px; }
-		.arabic{
-			direction: RTL;
-		}
-	</style>
-
 	<div ng-repeat="locale in locales" class="input-group" ng-class="{ 'multiple-languages' : isShowLocale() && !last }" style="white-space:nowrap" ng-switch="rows">
 			<input    ng-switch-when="1"         class="form-control" ng-required="isRequired()" ng-model="text[locale]" ng-disabled="ngDisabledFn()" placeholder="{{placeholder}}" type="text" ng-class="{'arabic':locale=='ar'}"/>
 			<input    ng-switch-when="undefined" class="form-control" ng-required="isRequired()" ng-model="text[locale]" ng-disabled="ngDisabledFn()" placeholder="{{placeholder}}" type="text" ng-class="{'arabic':locale=='ar'}"/>

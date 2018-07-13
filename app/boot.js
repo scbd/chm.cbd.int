@@ -107,7 +107,7 @@ require.config({
     urlArgs: function(id, url){
       var version = window.appVersion;
       if(~url.indexOf('app/libs/'))
-        version = '100000';
+        version = window.appDependencyCacheBuster;
 
       return (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + version
   }

@@ -1,4 +1,6 @@
-define(['app','text!./km-rich-textbox.html','angular','textAngular'], function(app,template,angular) {
+define(['app','text!./km-rich-textbox.html','angular','textAngular',
+'css!/app/directives/forms/km-control.css', 'css!/app/libs/textAngular/dist/textAngular.css'], 
+function(app,template,angular) {
 	//============================================================
 	//
 	//
@@ -70,7 +72,6 @@ define(['app','text!./km-rich-textbox.html','angular','textAngular'], function(a
 							//Remove value of not selected languages/empty languages
 							//==============================
 							$scope.onchange = function() {
-								console.log('d')
 									var oLocales = $scope.locales || [];
 									var oText = $scope.text || {};
 									var oNewBinding = {};

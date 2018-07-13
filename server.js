@@ -9,6 +9,7 @@ var httpProxy = require('http-proxy');
 var url     = require('url');
 var cookieParser = require('cookie-parser');
 
+var appDependencyCacheBuster = 1000000;
 var appVersion = process.env.TAG;
 if(!appVersion || appVersion.trim()==''){
     appVersion =   process.env.COMMIT
@@ -67,7 +68,8 @@ app.get('/?:lang(ar|en|es|fr|ru|zh)?/*', function (req, res) {
 
         var preferredLang = getPreferredLanguage(req);
         var langFilepath = yield getLanguageFile(req, preferredLang);
-        var options = { baseUrl: urlPreferredLang || (req.headers.base_url ||  (preferredLang ? ('/'+preferredLang+'/') : '/')), 'appVersion' : appVersion };
+        var options = { baseUrl: urlPreferredLang || (req.headers.base_url ||  (preferredLang ? ('/'+preferredLang+'/') : '/')),
+                        'appVersion' : appVersion, appDependencyCacheBuster : appDependencyCacheBuster };
 
         if(langFilepath){
              return res.render(langFilepath, options);
@@ -157,11 +159,14 @@ function getPreferredLanguage(req){
 //
 //============================================================
 function setCustomCacheControl(res, path) {
-
 	var versionWrong = false;
 	var versionMatch = false;
     var localhostRegex = /^http:\/\/localhost:([0-9]{4})\//;
-    if(res.req.headers && !localhostRegex.test(res.req.headers.referer)){
+
+    if(res.req.query && res.req.query.v == appDependencyCacheBuster){
+        versionMatch = true;
+    }
+    else if(res.req.headers && !localhostRegex.test(res.req.headers.referer)){
         versionWrong |= res.req.query && res.req.query.v && res.req.query.v!=appVersion;
         versionWrong |= res.req.cookies && res.req.cookies.VERSION && res.req.cookies.VERSION!=appVersion;
         versionMatch |= res.req.query && res.req.query.v && res.req.query.v==appVersion;

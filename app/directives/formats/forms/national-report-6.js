@@ -889,18 +889,19 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							$q.when(querySolr(undefined, query, 10))
 							.then(function(results){
 								$scope.absNationalReport = _.find(results, function(record){return record.schema_s=='absNationalReport'});
-								if($scope.absNR){
-									if (!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords) {
-										if (!$scope.warningsReport)
-											$scope.warningsReport = {warnings: []};
-										$scope.warningsReport.warnings.push({
-											code: 'National contribution for AICHI Target 16',
-											property: 'nationalContributions-AICHI-TARGET-16-nationalReportDescription'
-										})
-									}
+								if($scope.absNationalReport){
+
 									if (target16) {
 										target16.nationalReport = {identifier: $scope.absNationalReport.identifier_s + '@' + $scope.absNationalReport._revision_i};
 									}
+                  if (!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords) {
+                    if (!$scope.warningsReport)
+                      $scope.warningsReport = {warnings: []};
+                    $scope.warningsReport.warnings.push({
+                      code: 'National contribution for AICHI Target 16',
+                      property: 'nationalContributions-AICHI-TARGET-16-nationalReportDescription'
+                    })
+                  }
 								}
 								$scope.resourceMobilisation = _.find(results, function(record){return record.schema_s=='resourceMobilisation'});;
 								if($scope.resourceMobilisation){

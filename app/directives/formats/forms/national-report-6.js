@@ -961,7 +961,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 							$q.when(querySolr(undefined, query, 10))
 							.then(function(results){
 								$scope.absNationalReport = _.find(results, function(record){return record.schema_s=='absNationalReport'});
-								if($scope.absNR){
+								if($scope.absNationalReport){
 									if (!target16.nationalReport && !target16.nationalReportDescription && target16.linkedRecords) {
 										if (!$scope.warningsReport)
 											$scope.warningsReport = {warnings: []};

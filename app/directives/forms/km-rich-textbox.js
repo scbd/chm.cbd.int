@@ -1,5 +1,6 @@
 define(['app','text!./km-rich-textbox.html','angular','textAngular',
-'css!/app/directives/forms/km-control.css', 'css!/app/libs/textAngular/dist/textAngular.css'], 
+'css!/app/directives/forms/km-control.css', 
+'css!/app/libs/textAngular/dist/textAngular.css'], 
 function(app,template,angular) {
 	//============================================================
 	//
@@ -104,12 +105,12 @@ function(app,template,angular) {
 							}
 
 							$scope.onFileDrop = function( file, insertAction, a, b ) {
-								
-								if( file.type.substring( 0, 5 ) !== "image" ) {
-									alert( "only images can be added" );
-									return true;
-								}
-								if( file.size > $scope.maxFileSize ) {
+								var fileType = file.type.substring( 0, 5 );
+								// if( file.type.substring( 0, 5 ) !== "image" ) {
+								// 	alert( "only images can be added" );
+								// 	return true;
+								// }
+								if(fileType == "image" && file.size > $scope.maxFileSize ) {
 									alert( "file size cannot exceed " + bytesToSize($scope.maxFileSize));
 									return true;
 								}
@@ -117,7 +118,14 @@ function(app,template,angular) {
 								$scope.isUploadingImage[acLocale] = true;
 								storage.attachments.put($scope.identifier, file)
 								.then(function(data){
-									insertAction( "insertImage", data.url, true );
+									var action = "insertImage"
+									var actionData = data.url;
+
+									if(fileType !== 'image'){
+										action = 'inserthtml'
+										actionData = '<a target="_blank" href="'+ data.url+'">' + data.filename+ '</a>'
+									}
+									insertAction(action , actionData, true );
 									if($scope.onFileUpload && typeof $scope.onFileUpload == 'function'){
 										data.locale =  acLocale;
 										$scope.onFileUpload({data:data});

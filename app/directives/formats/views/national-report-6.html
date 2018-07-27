@@ -90,7 +90,7 @@
 						</div>
 						<div ng-show="implementationMeasure.assessmentDescription">
 							<label>tools or methodology used for the assessment of effectiveness above</label>
-							<km-value-ml value="implementationMeasure.assessmentDescription" locales="locale" km-pre></km-value-ml>
+							<km-value-ml value="implementationMeasure.assessmentDescription" locales="locale" km-pre html></km-value-ml>
 						</div>
 						<div ng-show="implementationMeasure.relevantDocuments">
 							<label>Relevant websites, links, and files</label>
@@ -102,7 +102,7 @@
 						</div>
 						<div ng-show="implementationMeasure.otherRelevantInformation">
 							<label>Other relevant information</label>
-							<km-value-ml value="implementationMeasure.otherRelevantInformation" locales="locale" km-pre></km-value-ml>
+							<km-value-ml value="implementationMeasure.otherRelevantInformation" locales="locale" km-pre html></km-value-ml>
 						</div>
 						<div ng-show="implementationMeasure.otherRelevantDocuments">
 							<label>Other relevant website address or attached documents</label>
@@ -114,7 +114,7 @@
 						</div>
 						<div ng-show="implementationMeasure.obstacles">						
 							<label>Obstacles and scientific and technical needs related to the measure taken</label>
-							<km-value-ml value="implementationMeasure.obstacles" locales="locale" km-pre></km-value-ml>
+							<km-value-ml value="implementationMeasure.obstacles" locales="locale" km-pre html></km-value-ml>
 						</div>
 						<div ng-show="implementationMeasure.obstaclesRelevantDocuments">
 							<label>Relevant websites, web links and files</label>
@@ -184,14 +184,14 @@
 							</div>
 							<div ng-show="aichiTarget.nationalReportDescription">
 								<label for="">Additional relevant information that has not been included in the interim national report</label>
-								<km-value-ml value="aichiTarget.nationalReportDescription" locales="locale" km-pre></km-value-ml>
+								<km-value-ml value="aichiTarget.nationalReportDescription" locales="locale" km-pre html></km-value-ml>
 							</div>							
 						</div>
 						<div ng-if="absLinkedRecords">
 
 							<div ng-show="aichiTarget.linkedRecordsDescription">
 								<label for="">Description of how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target</label>
-								<km-value-ml value="aichiTarget.linkedRecordsDescription" locales="locale" km-pre></km-value-ml>
+								<km-value-ml value="aichiTarget.linkedRecordsDescription" locales="locale" km-pre html></km-value-ml>
 							</div>
 							<label for="">ABS Clearing-House records</label>
 							<table class="table table-hover">
@@ -217,11 +217,11 @@
 					</div>
 					<div ng-show="aichiTarget.description">
 						<label>Description how and to what extent the country has contributed to the achievement of this Aichi Biodiversity Target</label>
-						<km-value-ml value="aichiTarget.description" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="aichiTarget.description" locales="locale" km-pre html></km-value-ml>
 					</div>
 					<div ng-show="aichiTarget.achievementActivities">
 						<label for="">Other activities contributing to the achievement of the Aichi Biodiversity Target at the global level</label>
-						<km-value-ml value="aichiTarget.achievementActivities" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="aichiTarget.achievementActivities" locales="locale" km-pre html></km-value-ml>
 					</div>
 					
 				</div>
@@ -233,7 +233,7 @@
 							please describe how and to what extent these contributions support the implementation of the 2030 Agenda for Sustainable Development 
 							and the Sustainable Development Goals:
 						</label>
-						<km-value-ml value="document.nationalContribution.nationalContributionSDGs" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.nationalContribution.nationalContributionSDGs" locales="locale" km-pre html></km-value-ml>
 				</div>
 			</div>
 		</div>
@@ -259,15 +259,15 @@
 									</div>
 									<div ng-show="document.gspcNationalContribution.gspcTargetDescription">
 										<label>Details on the specific targets</label>
-										<km-value-ml value="document.gspcNationalContribution.gspcTargetDescription" locales="locale" km-pre></km-value-ml>
+										<km-value-ml value="document.gspcNationalContribution.gspcTargetDescription" locales="locale" km-pre html></km-value-ml>
 									</div>
 									<div ng-show="document.gspcNationalContribution.plantConservationNetwork">
 										<label>Information on any active networks for plant conservation</label>
-										<km-value-ml value="document.gspcNationalContribution.plantConservationNetwork" locales="locale" km-pre></km-value-ml>
+										<km-value-ml value="document.gspcNationalContribution.plantConservationNetwork" locales="locale" km-pre html></km-value-ml>
 									</div>
 									<div ng-show="document.gspcNationalContribution.implementationMeasures">
 										<label>Major measures taken by your country for the implementation of the Global Strategy for Plant Conservation</label>
-										<km-value-ml value="document.gspcNationalContribution.implementationMeasures" locales="locale" km-pre></km-value-ml>
+										<km-value-ml value="document.gspcNationalContribution.implementationMeasures" locales="locale" km-pre html></km-value-ml>
 									</div>
 								</div>
 							</div>
@@ -285,11 +285,11 @@
 									</div>
 									<div ng-show="gspcTarget.progressDescription">
 										<label>Explanation on category of progress towards the target of the Global Strategy for Plant Conservation at the national level</label>
-										<km-value-ml value="gspcTarget.progressDescription" locales="locale" km-pre></km-value-ml>
+										<km-value-ml value="gspcTarget.progressDescription" locales="locale" km-pre html></km-value-ml>
 									</div>
 									<div ng-show="gspcTarget.description">
 										<label>Please describe how and to what extent your country has contributed to the achievement of this GSPC Target and summarize the evidence used to support this description</label>
-										<km-value-ml value="gspcTarget.description" locales="locale" km-pre></km-value-ml>
+										<km-value-ml value="gspcTarget.description" locales="locale" km-pre html></km-value-ml>
 									</div>
 								</div>
 							</div>
@@ -305,11 +305,15 @@
 					<a href="#" class="btn closeall pull-right" scroll-to="section7"  offset="100"> <i class="fa fa-chevron-circle-down" /></a></h3> -->
 		</div>
 		<div class="section-body">
-			<div ng-show="document.iplcContribution">
-				<km-value-ml value="document.iplcContribution" locales="locale" km-pre></km-value-ml>
-			</div>
-			<div ng-if="!document.iplcContribution">
-				<div class="km-value km-pre">No information available</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div ng-show="document.iplcContribution">
+						<km-value-ml value="document.iplcContribution" locales="locale" km-pre html></km-value-ml>
+					</div>
+					<div ng-if="!document.iplcContribution">
+						<div class="km-value km-pre">No information available</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -323,27 +327,27 @@
 				<div class="panel-body" collapse="">
 					<div ng-show="document.biodiversityCountryProfile.statusAndTrends">
 						<label>Biodiversity facts : Status and trends of biodiversity, including benefits from biodiversity and ecosystem services and functions:</label>
-						<km-value-ml value="document.biodiversityCountryProfile.statusAndTrends" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.biodiversityCountryProfile.statusAndTrends" locales="locale" km-pre html></km-value-ml>
 					</div>
 					<div ng-show="document.biodiversityCountryProfile.mainDriversofChange">
 						<label>Main pressures on and drivers of change to biodiversity (direct and indirect)</label>
-						<km-value-ml value="document.biodiversityCountryProfile.mainDriversofChange" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.biodiversityCountryProfile.mainDriversofChange" locales="locale" km-pre html></km-value-ml>
 					</div>
 					<div ng-show="document.biodiversityCountryProfile.nbsapImplementation">
 						<label>Implementation of the NBSAP</label>
-						<km-value-ml value="document.biodiversityCountryProfile.nbsapImplementation" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.biodiversityCountryProfile.nbsapImplementation" locales="locale" km-pre html></km-value-ml>
 					</div>
 					<div ng-show="document.biodiversityCountryProfile.strategicPlanActions">
 						<label>Overall actions taken to contribute to the implementation of the Strategic Plan for Biodiversity 2011-2020</label>
-						<km-value-ml value="document.biodiversityCountryProfile.strategicPlanActions" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.biodiversityCountryProfile.strategicPlanActions" locales="locale" km-pre html></km-value-ml>
 					</div>
 					<div ng-show="document.biodiversityCountryProfile.supportMechanisms">
 						<label>Support mechanisms for national implementation (legislation, funding, capacity-building, coordination, mainstreaming, etc.)</label>
-						<km-value-ml value="document.biodiversityCountryProfile.supportMechanisms" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.biodiversityCountryProfile.supportMechanisms" locales="locale" km-pre html></km-value-ml>
 					</div>
 					<div ng-show="document.biodiversityCountryProfile.monitoringReviewingMechanisms">
 						<label>Mechanisms for monitoring and reviewing implementation</label>
-						<km-value-ml value="document.biodiversityCountryProfile.monitoringReviewingMechanisms" locales="locale" km-pre></km-value-ml>
+						<km-value-ml value="document.biodiversityCountryProfile.monitoringReviewingMechanisms" locales="locale" km-pre html></km-value-ml>
 					</div>
 				</div>
 			</div>

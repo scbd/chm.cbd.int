@@ -1,24 +1,9 @@
-define(['angular','rangy-core', 'ngSanitize', 'rangy-selectionsave', 'textAngular',
-'ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothScroll'], function(angular, rangyCore) { 'use strict';
-
- window.rangy = rangyCore;
-
-    var deps = ['ngRoute', 'ngSanitize', 'ngCookies', 'leaflet-directive', 
-    'ng-breadcrumbs','ngAnimate' ,'ngAria' ,'ngMaterial', 'smoothScroll', 
-    'ngDialog', 'textAngular'];
-
-    angular.defineModules(deps);
-
-    var app = angular.module('kmApp', deps);
-
-    app.config(['$httpProvider', function($httpProvider){
-
-        $httpProvider.useApplyAsync(true);
-        $httpProvider.interceptors.push('authenticationHttpIntercepter');
-        $httpProvider.interceptors.push('realmHttpIntercepter');
-    }]);
+﻿define(['app','rangy-core', 'rangy-selectionsave', 'textAngular', function(app, rangyCore){
+    
+    window.rangy = rangyCore;
 
     app.config(function($provide){
+        
         $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions){
             
             taRegisterTool('uploadCustomImage', {
@@ -49,5 +34,5 @@ define(['angular','rangy-core', 'ngSanitize', 'rangy-selectionsave', 'textAngula
             return taOptions;
         }]);
     });
-    return app;
-});
+
+}])

@@ -530,3 +530,6 @@ legend{
 .arabic{
     direction: RTL;
 }
+.html-div-clear-fix{
+    clear: both;
+}

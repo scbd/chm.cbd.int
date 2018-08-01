@@ -2,7 +2,7 @@
 	<div class="panel-body">
 		<div class="viewForm">
 			<div class="col-md-12" style="padding-left:0px" ng-style="{ direction : (document.progress| term:locale|direction:locale) }">
-				<img ng-src="/app/img/ratings/{{document.progress.identifier}}.png" class="pull-left">
+				<img ng-if="document.progress.identifier!='69C77387-2D3C-474C-BEA8-30F55D47AFBD'" ng-src="/app/img/ratings/{{document.progress.identifier}}.png" class="pull-left">
 				<legend>{{document.date.substr(0,4)}} - {{document.progress | term:locale}}</legend>
 			</div>
 			<div ng-show="document.government" class="col-md-12">

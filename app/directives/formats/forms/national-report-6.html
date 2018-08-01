@@ -491,7 +491,8 @@
 																	<i class="fa fa-spin fa-spinner"></i > Processing...</span>
 															</div>
 														</div>
-														<img ng-src="/app/img/ratings/{{targetAssessments[progressAssessment.assessment.identifier].progress_s}}.png" class="pull-left"></img>
+														<img ng-if="targetAssessments[progressAssessment.assessment.identifier].progress_s!='69C77387-2D3C-474C-BEA8-30F55D47AFBD'"
+															ng-src="/app/img/ratings/{{targetAssessments[progressAssessment.assessment.identifier].progress_s}}.png" class="pull-left"></img>
 														<div>
 															<div>
 																<h3>{{targetAssessments[progressAssessment.assessment.identifier].title|lstring:locale}}</h3>

@@ -20,7 +20,8 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				onPrePublishFn    : "&onPrePublish",
 				onPostPublishFn   : "&onPostPublish",
 				onPostWorkflowFn  : "&onPostWorkflow",
-				onErrorFn: "&onError"
+				onErrorFn: "&onError",
+				disabled		  : "=?ngDisabled"
 			},
 			link: function ($scope, $element, $attr)
 			{
@@ -52,7 +53,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				$scope.new_saveDraft = function()
 				{
 					$scope.status = "saving";
-
+					$scope.disabled = true;
 					$q.when($scope.onPreSaveDraftFn()).then(function(result) {
 							return result;
 					}).then(function(cancel) {
@@ -75,7 +76,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 						$scope.onErrorFn({ action: "saveDraft", error: error });
 					})					
 					.finally(function(){
-						timer(true);
+						timer(true);$scope.disabled = false;
 					});;
 				};
 
@@ -155,7 +156,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				//====================
 				$scope.new_publish = function()
 				{
-
+					$scope.disabled = true;
 					$q.when($scope.onPrePublishFn()).then(function(result)
 					{
 						return result;
@@ -189,6 +190,9 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 					}).catch(function(error){
 
 						$scope.onErrorFn({ action: "publish", error: error });
+					})
+					.finally(function(){
+						$scope.disabled = false;
 					});
 				};
 
@@ -197,7 +201,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				//====================
 				$scope.new_publishRequest = function()
 				{
-
+					$scope.disabled = true;
 					$q.when($scope.onPrePublishFn()).then(function(result) {
 						return result;
 					}).then(function(canceled) {
@@ -221,6 +225,9 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 					}).catch(function(error){
 						$scope.onErrorFn({ action: "publishRequest", error: error });
 
+					})
+					.finally(function(){
+						$scope.disabled = false;
 					});
 				};
 
@@ -405,6 +412,12 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 						}
 					}
 				}
+
+				$scope.$watch('disabled', function(newVal, oldVal){
+					if(oldVal!=newVal && newVal===false){
+						timer(true);
+					}
+				})
 			}]
 		};
 	}]);

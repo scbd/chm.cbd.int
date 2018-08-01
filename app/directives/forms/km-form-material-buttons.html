@@ -12,11 +12,11 @@
                 &nbsp; since last save
                 </span>
 			</div>
-			<document-sharing ng-if="documentShare.workingDocumentID" restriction-field="workingDocumentID" restriction-field-value="documentShare.workingDocumentID" 
+			<document-sharing ng-disabled="disabled" ng-if="documentShare.workingDocumentID" restriction-field="workingDocumentID" restriction-field-value="documentShare.workingDocumentID" 
 				identifier="documentShare.identifier" title="{{documentShare.title|lstring:locale}}"></document-sharing>
-			<button type="button" class="btn btn-warning" ng-click="new_close($event)">Close</button>
-			<button ng-hide="hideSave" type="button" class="btn btn-default bg-draft" ng-click="new_saveDraft($event)" > Save Draft <i ng-show="status=='saving'" class="fa fa-spinner fa-spin"></i></button>
-			<button ng-show="security.canSave" type="button" class="btn btn-success" ng-click="new_publish($event)" > Publish <i ng-show="status=='publishing'" class="fa fa-spinner fa-spin"></i></button>
-			<button ng-show="!security.canSave" type="button" class="btn btn-danger" ng-click="new_publishRequest($event)" > Send Publishing Request <i ng-show="status=='publishing'" class="fa fa-spinner fa-spin"></i></button>
+			<button ng-disabled="disabled" type="button" class="btn btn-warning" ng-click="new_close($event)">Close</button>
+			<button ng-disabled="disabled" ng-hide="hideSave" type="button" class="btn btn-default bg-draft" ng-click="new_saveDraft($event)" > Save Draft <i ng-show="status=='saving'" class="fa fa-spinner fa-spin"></i></button>
+			<button ng-disabled="disabled" ng-show="security.canSave" type="button" class="btn btn-success" ng-click="new_publish($event)" > Publish <i ng-show="status=='publishing'" class="fa fa-spinner fa-spin"></i></button>
+			<button ng-disabled="disabled" ng-show="!security.canSave" type="button" class="btn btn-danger" ng-click="new_publishRequest($event)" > Send Publishing Request <i ng-show="status=='publishing'" class="fa fa-spinner fa-spin"></i></button>
 	</span>
 </span>

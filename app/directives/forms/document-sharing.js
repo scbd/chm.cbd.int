@@ -11,7 +11,8 @@
                 title : '@',
                 identifier : '=',
                 restrictionField : '@',
-                restrictionFieldValue : '='
+                restrictionFieldValue : '=',
+				disabled		  : "=?ngDisabled"
             },
             link : function($scope, $element)
             {

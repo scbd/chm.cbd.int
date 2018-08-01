@@ -46,7 +46,9 @@
 						</div>
 						<div class="col-xs-6 text-right">
 							<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" 
-							on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  data-container="{{container}}"></span>
+							on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" 
+							on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  
+							data-container="{{container}}" ng-disabled="disableWorkflowButtons"></span>
 						</div>
 					</div>
 
@@ -266,8 +268,10 @@
 
 						<div class="col-xs-12 text-right">
 							<div class="">
-								<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
-												on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  data-container="{{container}}"></span>
+								<span km-form-material-buttons status="status" document="getCleanDocument()" on-post-close="onPostClose()" 
+								on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)" on-post-publish="onPostPublish(data)" 
+								on-post-save-draft="onPostSaveDraft(data)" on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"  
+								data-container="{{container}}" ng-disabled="disableWorkflowButtons"></span>
 							</div>
 						</div>
 					</div>

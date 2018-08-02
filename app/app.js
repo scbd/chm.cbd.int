@@ -23,10 +23,8 @@ define(['angular','rangy-core', 'ngSanitize', 'rangy-selectionsave', 'textAngula
             
             taRegisterTool('uploadCustomImage', {
                 iconclass: "fa fa-photo",
+                tooltiptext: 'upload image',
                 action: function(){
-                    console.log(this.$editor());
-                    this.$editor().wrapSelection('forecolor', 'red');
-
                     var editor =  this.$editor();
                     var uploadPlaceholder = $('input[name="' + editor._name + '"]').parent();                    
 					uploadPlaceholder.children('input[type=file]').remove();
@@ -36,8 +34,7 @@ define(['angular','rangy-core', 'ngSanitize', 'rangy-selectionsave', 'textAngula
 
 					qHtmlInputFile.change(function()
 					{
-                        var file = this.files[0];
-                        
+                        var file = this.files[0];                        
                         editor.fileDropHandler(file, editor.wrapSelection);
                         return;
 					});
@@ -46,6 +43,28 @@ define(['angular','rangy-core', 'ngSanitize', 'rangy-selectionsave', 'textAngula
                 }
             });
             taOptions.toolbar[1].push('uploadCustomImage');
+
+            taRegisterTool('editorHelp', {
+                disabled:function(){return false},
+                iconclass: "fa fa-question-circle",
+                tooltiptext: 'help text',
+                action: function(){
+                    var editor =  this.$editor();
+                    var uploadPlaceholder = $('input[name="' + editor._name + '"]').parent();                    
+                    var helpButton = uploadPlaceholder.find('button[name="editorHelp"]');
+                    helpButton.attr('data-content', 'Use the image button to upload images.');
+                    helpButton.attr('data-title', 'CHM Help: How to use the rich text editor');
+                    helpButton.webuiPopover({
+                        trigger:'sticky',
+                        closeable:true, autoHide:true
+                    });
+                    helpButton.webuiPopover('show');
+                    console.log(editor)
+                    // return;
+                }
+            });
+            taOptions.toolbar[1].push('editorHelp');
+
             return taOptions;
         }]);
     });

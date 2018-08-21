@@ -36,6 +36,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'lwDonor'                    ,public:0, draft:0, workflow:0 , type:'reference'},
             { identifier: 'dossier'                    ,public:0, draft:0, workflow:0 },
             { identifier: 'capacityBuildingInitiative' ,public:0, draft:0, workflow:0 , type:'reference'},
+            { identifier: 'capacityBuildingResource'   ,public:0, draft:0, workflow:0 , type:'reference'},
             { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 , type:'reference'},
             { identifier: 'undbAction'                 ,public:0, draft:0, workflow:0 , type:'reference'},
             { identifier: 'undbPartner'                ,public:0, draft:0, workflow:0 , type:'reference'},
@@ -111,7 +112,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
 
             var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resourceMobilisation2020',
             'resource','undbActor','undbParty','event', 'bbiContact','bbiProfile','bbiOpportunity', 'bbiRequest',
-            'capacityBuildingInitiative', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
+            'capacityBuildingInitiative', 'capacityBuildingResource', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
             'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction','undbParty','undbActor', 'nationalReport6'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 

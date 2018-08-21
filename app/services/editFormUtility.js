@@ -12,6 +12,7 @@ define(['app', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km
       "strategicPlanIndicator"    : { name: "publishReferenceRecord", version: undefined },
       "resource"                  : { name: "publishReferenceRecord", version: undefined },
       "capacityBuildingInitiative": { name: "publishReferenceRecord", version: undefined },
+      "capacityBuildingResource"  : { name: "publishReferenceRecord", version: undefined },
       "organization"              : { name: "publishReferenceRecord", version: undefined },
       "lwCampaigns"               : { name: "publishReferenceRecord", version: undefined },
       "lwProject"                 : { name: "publishReferenceRecord", version: undefined },

@@ -63,18 +63,38 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-10">
+							<div class="col-md-12">
 								<div class="km-control-group" required name="geographicScope" caption="Geographic Scope">
-									<div km-select name="geographicScope" required ng-model="document.geographicScope.scope" placeholder="Please select one option" items="options.geographicScope()"></div>
+									<div km-select name="geographicScope" required ng-model="document.geographicScope.scope"
+									 placeholder="Please select one option" items="options.geographicScope()" ng-change="clearGeographicSelection()"></div>
 								</div>
 							</div>
 						</div>
-						<div class="row" ng-show="document.geographicScope.scope">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="regionsOrCountries" caption="Geographical or political/economic group(s) and/or country(ies)">
-									<div km-select multiple required name="regionsOrCountries" ng-model="document.geographicScope.regionsOrCountries" placeholder="Please select one option" items="options.regions()"></div>
-								</div>
-							</div>
+						<div class="row" ng-show="document.geographicScope.scope && (isGlobalOrRegional() || isNational())">
+							
+								<div class="col-md-12">
+								<div class="km-control-group well well-sm" name="regionsOrCountries"
+								required caption="Geographical or political/economic group(s) or Country(ies)" style="padding:10px;">
+									<div class="row">
+										<div class="col-md-5" ng-show="!isNational()">
+											<!-- document.geographicScope.regionsOrCountries -->
+											<div class="km-control-group"  name="regions" 
+											caption="Geographical or political/economic group(s)">
+												<div km-select multiple required name="geographicalRegions" 
+												ng-model="document.geographicScope.regions" placeholder="Please select one option" 
+												items="options.regions()"></div>
+											</div>
+										</div>
+										<div class="col-md-2" ng-hide="!isGlobalOrRegional()">
+											 And / Or
+										</div>
+										<div class="col-md-5">
+											<div class="km-control-group"  name="countries" caption="Country(ies)">
+												<div km-select multiple required name="geographicalCountries" ng-model="document.geographicScope.countries" placeholder="Please select one option" items="options.countries()"></div>
+											</div>
+										</div>
+									</div>
+								</div></div>
 						</div>
 
 						<div class="row" ng-show="isSubnational()">
@@ -93,35 +113,83 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="status" caption="Status of the document">
-									<div km-select name="status" required ng-model="document.status" placeholder="Please select one option" items="options.status()"></div>
+							<div class="col-md-12">
+								<div class="km-control-group" required name="capacityBuildingType" caption="Type of capacity-building initiative">
+									<label for="capacityBuildingTypeYes" style="width:0px;height:0px;display:inline">
+										<span style="display:none">Atleast one question should be answered yes</span>
+									</label>
+									<div style="padding-left:20px" class="well">
+										<div class="km-control-group"  bold="true" required name="isProjectProgramme" caption="a. Is this a dedicated ABS capacity-building project/programme? ">
+											<div class="km-yes-no" required name="isProjectProgramme" ng-model="document.capacityBuildingType.isProjectProgramme"></div>
+										</div>
+										<div class="km-control-group"  bold="true" required name="isBroaderProjectPart" caption="b. Is this an ABS activity or component which is part of a broader capacity-building project or programme?">
+											<div class="km-yes-no" required name="isBroaderProjectPart" ng-model="document.capacityBuildingType.isBroaderProjectPart"></div>
+										</div>
+										<div class="km-control-group" name="broaderProjects" caption="Please identify the broader project" ng-show="document.capacityBuildingType.isBroaderProjectPart">
+											<div km-reference multiple name="capacityBuildingInitiative" ng-model="document.capacityBuildingType.broaderProjects"
+											 add-caption="Add Broader Projects..." loader="loadRecords(identifier, 'capacityBuildingInitiative')">
+												<div>
+													<div><strong>{{reference.title | lstring}}</strong></div>
+													<div>{{reference.summary | lstring}}</div>
+												</div>
+											</div>
+										</div>
+										<div class="km-control-group"  bold="true" required name="isStandaloneProject" caption="c. Is this a stand-alone ABS activity that is not part of a broader capacity-building project or programme? ">
+											<div class="km-yes-no" required name="isStandaloneProject" ng-model="document.capacityBuildingType.isStandaloneProject"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="status" caption="5. Status of the document">
+									<div km-select name="status" required ng-model="document.status" id="documentStatus"
+									placeholder="Please select one option" items="options.status()"  show-description="true"></div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group well well-sm" name="timeframe" required caption="Timeframe">
-									<div class="row">
-									  	<div class="col-md-3">
-											<div class="km-control-group" name="startDate" caption="Start date">
-												<div km-date name="startDate" ng-model="document.startDate" ng-change="clearDuration()"></div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="timeframe" required caption="6. Timeframe">
+									<div class=" well well-sm">
+										<div class="row">
+											<div class="col-md-3">
+												<div class="km-control-group" name="startDate" caption="Start date">
+													<div km-date name="startDate" ng-model="document.startDate" ng-change="clearDuration()"></div>
+												</div>
 											</div>
-									  	</div>
-										<div class="col-md-3">
-											<div class="km-control-group" name="endDate" caption="End date">
-												<div km-date name="endDate" ng-model="document.endDate" ng-change="clearDuration()"></div>
+											<div class="col-md-3">
+												<div class="km-control-group" name="endDate" caption="End date">
+													<div km-date name="endDate" ng-model="document.endDate" ng-change="clearDuration()"></div>
+												</div>
+											</div>
+											<div class="col-md-1 text-center" ng-show="!document.status || isProposedOrApproved()">
+												<div class="km-control-group bold" name="enddate" style="margin-top:30px;" > OR </div>
+											</div>
+											<div class="col-md-5">
+												<div class="km-control-group" name="duration" caption="Duration" ng-show="!document.status || isProposedOrApproved()">
+													<label for="durationPeriod" style="width:0px;height:0px;display:inline">
+														<span style="display:none">6. Please enter duration in number for eg. 24</span>
+													</label>
+													<label for="durationText" style="width:0px;height:0px;display:inline">
+														<span style="display:none">6. Please identify whether the duration is expressed in years, months or days</span>
+													</label>
+													<input type="number" name="durationPeriod" ng-model="document.durationPeriod"
+													minlength="1" placeholder="eg. 24" ng-change="clearDates()" class="form-control"
+													style="display:inline-block;width:100px"/>
+													<select name="durationText" ng-model="document.durationText"  class="form-control"
+													style="display:inline-block;width:100px" placeholder="eg. Months">
+														<option value=""></option>	
+														<option value="days">Days</option>
+														<option value="months">Months</option>
+														<option value="years">Years</option>
+													</select>
+												</div>
 											</div>
 										</div>
-										<div class="col-md-1">
-											<div class="km-control-group" name="enddate" caption="or"></div>
-										</div>
-										<div class="col-md-5">
-											<div class="km-control-group" name="duration" caption="Duration">
-												<div km-textbox-ml name="duration" ng-model="document.duration" placeholder="" locales="document.header.languages" ng-change="clearDates()"></div>
-											</div>
-									  	</div>
 									</div>
 								</div>
 							</div>
@@ -175,28 +243,6 @@
 								</div>
 							</div>
 						</div>
-
-
-						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="type" caption="Type of capacity-building initiative">
-									<div km-select name="type" required ng-model="document.type" items="options.cbiTypes()"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="row" ng-show="isPartofBroaderInitiative()">
-							<div class="col-md-10">
-								<div class="km-control-group" required="isPartofBroaderInitiative()" name="partOfBroaderInitiative" caption="Please provide further information on the broader project/programme/initiative">
-									<div km-textbox-ml required="isPartofBroaderInitiative()" rows="2" name="partOfBroaderInitiative" ng-model="document.broaderTypeInfo" placeholder="" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-
-
-
 
 						<div class="row">
 							<div class="col-md-10">

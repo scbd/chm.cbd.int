@@ -61,3 +61,16 @@ b, strong {
         height: 60px;
     }
 }
+
+
+#schemaView {
+  display: block !important;
+}
+@page {
+    @bottom-right { 
+        content: counter(page);
+    }
+}
+.col-xs-12, .col-md-12 {
+    float: none;
+}

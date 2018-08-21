@@ -14,7 +14,8 @@
 		ng-change="onchange()" ng-disabled="ngDisabledFn()"
 		placeholder="{{placeholder}}" rows="{{rows}}" style="width:100%"
 		ta-toolbar="{{toolbar}}" ng-focus="onFocus(locale)"
-		ta-file-drop="onFileDrop"  tab-index="true" class="{{::editorHeightClass}}"  ng-class="{'arabic':locale=='ar'}">
+		ta-file-drop="onFileDrop"  tab-index="true" class="{{::editorHeightClass}}"  ng-class="{'arabic':locale=='ar'}"
+		ta-safe-sanitizer="true" ta-paste="stripFormat($html)">
 		</text-angular>
 		<span class="input-group-addon" disabled-ng-show="isShowLocale()" style="cursor:default">{{locale | uppercase }}</span>
 	</div>

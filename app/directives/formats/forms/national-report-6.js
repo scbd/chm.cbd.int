@@ -282,7 +282,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						var nextTab; var prevTab;
 						$scope.$watch('tab', function(tab) {
 							
-							$('html,body').animate({scrollTop: $('.portal-header').offset().top -120}, "slow");
+							// $('html,body').animate({scrollTop: $('.portal-header').offset().top -120}, "slow");
 							if (tab == 'review')
 								$scope.validate();
 							

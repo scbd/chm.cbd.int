@@ -32,7 +32,7 @@ function(app,template,angular) {
 						$scope.isUploadingImage = {};
 						var activeLocale;
 						if(!$scope.toolbar)
-							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage'], ['wordcount', 'charcount'], ['editorHelp']]";
+							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage'], ['wordcount', 'charcount'], ['editorHelp', 'html']]";
 								// ['justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'],						
 
 						//==============================
@@ -161,11 +161,12 @@ function(app,template,angular) {
 							if (bytes == 0) return '0 Byte';
 							var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
 							return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-							};
-					},
-					controller: ["$scope", "IStorage", function($scope, storage) {
-							
-					}]
+						};
+						
+						$scope.stripFormat = function($html){
+							console.log($html)
+						}
+					}
 			};
 	}]);
 });

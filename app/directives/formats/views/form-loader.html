@@ -1,5 +1,29 @@
 ﻿<div ng-cloak style="background:#fff">
 	<div ng-include="'/app/directives/formats/views/print-header.html'" ng-if="printMode"></div>
+	<!-- <link href="/app/css/print-friendly.css" rel="stylesheet"  ng-if="printMode"> -->
+	<style  ng-if="printMode">
+		.km-pre{
+			word-break: normal;
+			word-wrap: normal; 
+		 	/* white-space: normal; */
+			text-align:justify;!important
+		}
+
+		#schemaView {
+			display: block !important;
+		}
+		@page {
+			@bottom-right { 
+				content: counter(page);
+			}
+		}
+		.col-xs-12, .col-md-12 {
+			float: none!important;
+		}
+		.km-value, .km-value-ml-html{
+			text-align: justify!important;
+		}
+	</style>
 	<div class="md-whiteframe-z1 bg-grey" style="padding:10px;">
 		<div ng-show="errorNotFound">
 			<h1 style="font-size:60px;font-weight:bold">Oops...</h1>

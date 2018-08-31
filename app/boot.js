@@ -52,7 +52,6 @@ require.config({
       'pdfjs-dist/build/pdf'      : 'views/psd-viewer/pdfjs/pdf',
       'pdfjs-dist/build/pdf.worker' : 'views/psd-viewer/pdfjs/build/pdf.worker',        
       'pdf-object'                 : 'libs/pdfobject/pdfobject',
-      'rangy-core'                : 'libs/rangy/rangy-core.min',
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
       'textAngular-sanitize'      : 'libs/textAngular/dist/textAngular-sanitize.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
@@ -113,8 +112,16 @@ require.config({
   }
 });
 
+define('rangy-core', ['libs/rangy/rangy-core.min'], function (rangyCore) {
+  window.rangy = rangyCore;
+  return rangyCore;
+});
+
 // BOOT
-require(['angular', 'app', 'bootstrap', 'routes', 'index'], function(ng, app) {
+require(['angular', 'app', 'bootstrap', 'routes', 'index', 
+    /* Pre-Boot Dependencies */
+    'directives/forms/km-rich-textbox-custom-controls'
+  ], function(ng, app) {
       ng.element(document).ready(function () {
          ng.bootstrap(document, [app.name]);
     });

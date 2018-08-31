@@ -32,9 +32,9 @@ function(app,template,angular) {
 						$scope.isUploadingImage = {};
 						var activeLocale;
 						if(!$scope.toolbar)
-							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage'], ['wordcount', 'charcount'], ['editorHelp', 'html']]";
-								// ['justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'],						
-
+							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage'], ['wordcount', 'charcount'], ['editorHelp']]";
+								// ['justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'], 'html',						
+						
 						//==============================
 						//
 						//==============================
@@ -164,7 +164,7 @@ function(app,template,angular) {
 						};
 						
 						$scope.stripFormat = function($html){
-							console.log($html)
+							// console.log($html)
 						}
 					}
 			};

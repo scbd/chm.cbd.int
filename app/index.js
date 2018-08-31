@@ -62,8 +62,8 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
 
             if (!user)
                 return;
-
-            require(["_slaask"], function(_slaask) {
+            
+            require(["https://www.cbd.int/app/js/slaask.js"], function(_slaask) {
 
                 if (user.isAuthenticated) {
                     _slaask.identify(user.name, {

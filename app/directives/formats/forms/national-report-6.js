@@ -1,4 +1,4 @@
-define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/js-messages.json', 'authentication', 
+define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', 
 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", 
 "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale', 

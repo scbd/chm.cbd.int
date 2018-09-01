@@ -114,7 +114,7 @@
 									<div class="panel-header">
 										<h3>Section I. Information on the targets being pursued at the national level</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body" ng-if="tab=='general'">
 										<div class="row  mainHeading">
 											<div class="col-md-12">
 												<span class="help-block">
@@ -305,7 +305,7 @@
 										<h3>Section II. Implementation measures, their effectiveness, and associated obstacles and scientific and technical
 											needs to achieve national targets</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body" ng-if="tab=='implementation'">
 										<div class="row  bottom-spacing">
 											<div class="col-md-12">
 												<span class="help-block">
@@ -428,12 +428,12 @@
 									</div>
 								</div>
 							</div>
-							<div  id="progressTab" km-tab="progress">
+							<div  id="progressTab"   km-tab="progress">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section III. Assessment of progress towards each national target</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body" ng-if="tab=='progress'">
 										<div class="row  bottom-spacing">
 											<div class="col-md-12">
 												<span class="help-block">
@@ -544,7 +544,7 @@
 									<div class="panel-header">
 										<h3>Section IV. Description of national contribution to the achievement of each global Aichi Biodiversity Target</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body" ng-if="tab=='nationalContribution'">
 										<div class="row  bottom-spacing">
 											<div class="col-md-12">
 												<span class="help-block">
@@ -606,13 +606,13 @@
 									</div>
 								</div>
 							</div>
-							<div  id="gspcContributionTab" km-tab="gspcContribution">
+							<div  id="gspcContributionTab"  km-tab="gspcContribution">
 								<div class="panel panel-default">
 									<div class="panel-header">
 										<h3>Section V. Description of the national contribution to the achievement of the targets of the Global Strategy for
 											Plant Conservation (completion of this section is optional)</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body" ng-if="tab=='gspcContribution'">
 										<div class="row  bottom-spacing">
 											<div class="col-md-12">
 												<span class="help-block">
@@ -702,7 +702,7 @@
 										<h3>Section VI. Additional information on the contribution of indigenous peoples and local communities (completion
 											of this section is optional)</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body"  ng-if="tab=='iplcContribution'">
 										<div class="row  bottom-spacing">
 											<div class="col-md-12">
 												<span class="help-block">
@@ -736,7 +736,7 @@
 										<h3>Section VII. Updated biodiversity country profile
 										</h3>
 									</div>
-									<div class="panel-body">
+									<div class="panel-body"  ng-if="tab=='countryProfile'">
 										<div class="row  bottom-spacing">
 											<div class="col-md-12">
 												<div class="alert alert-info">
@@ -841,7 +841,9 @@
 									<i class="fa fa-print" aria-hidden="true" ng-if="!printing"></i>
 								</button>
 							</div>
-							<view-national-report-6 ng-model="reviewDocument" locale="getLocale()" link-target="_blank" id="schemaPrintView"></view-national-report-6>
+							<div id="reviewSchemaView">
+								<view-national-report-6 ng-model="reviewDocument" locale="getLocale()" link-target="_blank" id="schemaPrintView"></view-national-report-6>
+							</div>
 						</div>
 
 

@@ -44,11 +44,22 @@ define(['app','rangy-core', 'rangy-selectionsave', 'textAngular'], function(app,
                     helpButton.attr('data-title', 'CHM Help: How to use the rich text editor');
                     helpButton.webuiPopover({
                         trigger:'sticky',
-                        closeable:true, autoHide:true
+                        closeable:true, autoHide:true,
+                        onShow: function() {
+                            setTimeout(function(){
+                                $(document).click(closeWebuiPopover);
+                            },500)
+                        }
                     });
                     helpButton.webuiPopover('show');
-                    console.log(editor)
-                    // return;
+
+                    function closeWebuiPopover(e){
+                        var className = e.target.className||'';
+                        if(!/^webui-/.test(className)){
+                            helpButton.webuiPopover('destroy');
+                            $(document).unbind('click', closeWebuiPopover);
+                        }
+                    }
                 }
             });
             taOptions.toolbar[1].push('editorHelp');

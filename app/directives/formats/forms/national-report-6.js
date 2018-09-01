@@ -1,4 +1,4 @@
-define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', '../views/national-report-6',
+define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/js-messages.json', 'authentication', 
 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", 
 "./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale', 
@@ -24,6 +24,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						$scope.targetAssessments = {};
 						var aichiTargets = [];
 						var gspcTargets = [];
+						var reviewFormLoaded = false;
 						$scope.status = "";
 						$scope.error = null;
 						$scope.tab = "general";
@@ -325,6 +326,17 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								case 'review':{
 									nextTab = '';
 									prevTab = 'countryProfile';
+									if(!reviewFormLoaded){
+										require(['../views/national-report-6'], function(){
+											reviewFormLoaded = true;
+											var formHolder = $element.find('#reviewSchemaView')
+											var directiveHtml = formHolder.html();
+
+											$scope.$apply(function(){
+												formHolder.children().replaceWith($compile(directiveHtml)($scope));
+											});
+										})
+									}
 									break;
 								}
 								default:

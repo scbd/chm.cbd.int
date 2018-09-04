@@ -51,11 +51,12 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								confidenceLevel		: function() {return $http.get("/api/v2013/thesaurus/domains/B40C65BE-CFBF-4AA2-B2AA-C65F358C1D8D/terms", {cache: true}).then(function(o) {return o.data;});},
 								gspcCategoryProgress: function() {return $http.get("/api/v2013/thesaurus/domains/254B8AE2-05F2-43C7-8DB1-ADC702AE14A8/terms", {cache: true}).then(function(o) {return o.data;});},
 								nationalTargets		: function() {
-									var targets = $scope.nationalTargets;
-									if (!targets)
-										targets = loadNationalTargets();
-									return $q.when(targets).then(function() {return _.map($scope.nationalTargets, function(item) {return {title: item.title_t,identifier: item.identifier_s};});});
+									$scope.options.targets = $scope.nationalTargets||$scope.options.targets;
+									if (!$scope.options.targets)
+										$scope.options.targets = loadNationalTargets();
+									return $q.when($scope.options.targets).then(function() {return _.map($scope.nationalTargets, function(item) {return {title: item.title_t,identifier: item.identifier_s};});});
 								},
+								targets: undefined
 							};
 						}
 

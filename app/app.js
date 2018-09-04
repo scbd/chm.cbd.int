@@ -1,4 +1,5 @@
-define(['angular', 'ngSanitize', 'ngAnimate' ,'ngAria' ,'ngMaterial', 'ngSmoothScroll'], function(angular) { 'use strict';
+define(['angular', 'ngSanitize', 'ngAnimate' ,'ngAria' ,
+'ngMaterial', 'ngSmoothScroll', 'textAngular'], function(angular) { 'use strict';
 
 
     var deps = ['ngRoute', 'ngSanitize', 'ngCookies', 'leaflet-directive', 

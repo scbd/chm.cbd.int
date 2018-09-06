@@ -54,7 +54,7 @@ require.config({
       'pdf-object'                 : 'libs/pdfobject/pdfobject',
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
-      'textAngular'               : 'libs/textAngular/dist/textAngular'
+      'textAngular'               : 'libs/textAngular/dist/textAngular.min'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },

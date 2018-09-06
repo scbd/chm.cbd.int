@@ -55,7 +55,7 @@ require.config({
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
       'textAngular-sanitize'      : 'libs/textAngular/dist/textAngular-sanitize.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
-      'textAngular'               : 'libs/textAngular/dist/textAngular'
+      'textAngular'               : 'libs/textAngular/dist/textAngular.min'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },

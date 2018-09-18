@@ -211,7 +211,8 @@ legend{
 .viewForm .ngdialog-open{
     height: auto !important;
 }
-.viewForm .km-value {
+.viewForm .km-value,
+.edit-implementation-measure .km-value {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
 }
@@ -349,21 +350,6 @@ legend{
     text-decoration: none;
 }
 
-#sixth-national-report-edit .panel-header a.collapse-icon:after {
-    font-family: "FontAwesome";
-    content: "\f01b";
-    position: absolute;
-    right: 20px;
-    font-size: 20px;
-    font-weight: 400;
-    top: 50%;
-    line-height: 1;
-    margin-top: -10px;
-}
-
-#sixth-national-report-edit .panel-header a.collapse-icon.collapsed:after {
-    content: "\f01a";
-}
 
 #sixth-national-report-edit .panel-header a.trash,
 #sixth-national-report-edit .panel-header a.measure {
@@ -371,17 +357,14 @@ legend{
     padding-right: 0px;
     padding-left: 0px;
 }
-
-#sixth-national-report-edit .panel-header a.trash:after {
-    font-family: "FontAwesome";
-    content: "\f014";
-    position: absolute;
-    right: 40px;
-    font-size: 20px;
-    font-weight: 400;
-    top: 50%;
-    line-height: 1;
-    margin-top: -10px;
+/* #sixth-national-report-edit .panel-header a.collapsed i:after {
+    content: "\f01a";
+} */
+/* #sixth-national-report-edit .panel-header a{
+    color: #337ab7;border:none!important;
+} */
+#sixth-national-report-edit .panel-header a.collapsed i:before {
+    content: "\f01a";
 }
 
 #sixth-national-report-edit .greyout * {
@@ -532,4 +515,14 @@ legend{
 }
 .html-div-clear-fix{
     clear: both;
+}
+
+.km-pre{
+    word-break: normal;
+    word-wrap: normal; 
+     /* white-space: normal; */
+    text-align:justify!important
+}
+.ngdialog-open{
+    height: auto !important;
 }

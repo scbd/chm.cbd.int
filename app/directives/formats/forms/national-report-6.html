@@ -297,24 +297,24 @@
 								</div>
 							</div>
 							<div    id="implementationTab"  km-tab="implementation">
-								<div style="margin:0 50%"><i ng-show="loadingimplementationTab" class="fa fa-spinner fa-spin"></i>Loading</div>
+								<div style="margin:0 50%" ng-show="loadingimplementationTab"><i class="fa fa-spinner fa-spin"></i>Loading</div>
 							</div>
 							<div  id="progressTab"   km-tab="progress">
-								<div style="margin:0 50%"><i ng-show="loadingprogressTab" class="fa fa-spinner fa-spin"></i>Loading</div>
+								<div style="margin:0 50%" ng-show="loadingprogressTab"><i class="fa fa-spinner fa-spin"></i>Loading</div>
 							</div>
 							<div id="nationalContributionTab"  km-tab="nationalContribution">
-								<div style="margin:0 50%"><i ng-show="loadingnationalContributionTab" class="fa fa-spinner fa-spin"></i>Loading</div>
+								<div style="margin:0 50%" ng-show="loadingnationalContributionTab"><i class="fa fa-spinner fa-spin"></i>Loading</div>
 							</div>
 							<div  id="gspcContributionTab"  km-tab="gspcContribution">
-								<div style="margin:0 50%"><i ng-show="loadinggspcContributionTab" class="fa fa-spinner fa-spin"></i>Loading</div>
+								<div style="margin:0 50%" ng-show="loadinggspcContributionTab"><i class="fa fa-spinner fa-spin"></i>Loading</div>
 							</div>
 
 							<div id="iplcContributionTab" km-tab="iplcContribution">
-								<div  style="margin:0 50%"><i ng-show="loadingiplcContributionTab" class="fa fa-spinner fa-spin"></i>Loading</div>
+								<div  style="margin:0 50%" ng-show="loadingiplcContributionTab"><i class="fa fa-spinner fa-spin"></i>Loading</div>
 							</div>
 
 							<div  id="countryProfileTab"  km-tab="countryProfile">
-								<div style="margin:0 50%"><i ng-show="loadingcountryProfileTab" class="fa fa-spinner fa-spin"></i>Loading</div>
+								<div style="margin:0 50%" ng-show="loadingcountryProfileTab"><i class="fa fa-spinner fa-spin"></i>Loading</div>
 							</div>
 						</form>
 
@@ -331,10 +331,11 @@
 							<div class="btn-group btn-group-sm pull-right">
 								<button href="#" title="Print the Record" class="btn btn-default" ng-click="print()">
 									Print
-									<i class="fa fa-spin fa-spinner" ng-if="printing" />
+									<i class="fa fa-spin fa-spinner" ng-if="printing" ></i>
 									<i class="fa fa-print" aria-hidden="true" ng-if="!printing"></i>
 								</button>
 							</div>
+							<div style="margin:0 50%" ng-show="loadingReviewTab"><i  class="fa fa-spinner fa-spin"></i>Loading</div>
 							<div id="reviewSchemaView">
 								<view-national-report-6 ng-model="reviewDocument" locale="getLocale()" link-target="_blank" id="schemaPrintView"></view-national-report-6>
 							</div>

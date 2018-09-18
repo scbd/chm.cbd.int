@@ -1,4 +1,4 @@
-﻿define(['text!./implementation.html', 'app'], function(template, app) { 'use strict';
+﻿define(['text!./implementation.html', 'app','directives/forms/km-value-ml'], function(template, app) { 'use strict';
 
 app.directive("nr6ImplementationTab", [function () {
     return {
@@ -7,6 +7,7 @@ app.directive("nr6ImplementationTab", [function () {
         replace: true,
         transclude: false,
         link: function ($scope) {
+
         }
     };
 }]);

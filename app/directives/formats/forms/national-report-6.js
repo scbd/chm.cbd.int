@@ -326,11 +326,13 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 									nextTab = '';
 									prevTab = 'countryProfile';
 									if(!reviewFormLoaded){
+										$scope.loadingReviewTab = true;
 										require(['../views/national-report-6'], function(){
 											reviewFormLoaded = true;
 											var formHolder = $element.find('#reviewSchemaView')
 											var directiveHtml = formHolder.html();
 
+											$scope.loadingReviewTab = false;
 											$scope.$apply(function(){
 												formHolder.children().replaceWith($compile(directiveHtml)($scope));
 											});
@@ -341,7 +343,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								default:
 									break;
 							}
-							if(tab && tab!='general' && !tabDirectiveStatus[tab]){
+							if(tab && tab!='general' && tab!='review' && !tabDirectiveStatus[tab]){
 								$scope['loading' + tab + 'Tab'] = true;
 								$('html,body').animate({scrollTop: $('.portal-header').offset().top }, "slow");
 								require(['./nr6-directives/' + tab], function(){
@@ -522,7 +524,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							if (!$scope.document.implementationMeasures) {
 								$scope.document.implementationMeasures = [];
 							}
-							$scope.document.implementationMeasures.push({});
+							var newMeasure = {}
+							$scope.document.implementationMeasures.push(newMeasure);
+							$scope.editImplementationMeasure(newMeasure)
 						};
 
 						//============================================================
@@ -552,6 +556,28 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								}
 							}
 						};
+
+
+						$scope.editImplementationMeasure = function(measure){
+							console.log(measure)
+							var record = measure;
+							var locales = $scope.document.header.languages;
+							var identifier = $scope.document.header.identifier;
+							var options = $scope.options;
+							ngDialog.open({
+								template: 'editImplementationRecordModal', 
+								controller : ['$scope', function($scope){									
+									$scope.implementationMeasure = record;
+									$scope.locales 		= locales;
+									$scope.identifier	= identifier;
+									$scope.options = options;
+									$scope.closeDialog = function(){
+										record = $scope.implementationMeasure;
+										ngDialog.close();
+									}
+								}]
+							});
+						}
 
 						$scope.$watch('::document', function(newVal, old) {
 

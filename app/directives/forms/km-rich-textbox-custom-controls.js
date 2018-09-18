@@ -4,6 +4,8 @@ define(['app','rangy-core', 'rangy-selectionsave', 'textAngular'], function(app,
         
         $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions){
             
+            taOptions.forceTextAngularSanitize = false;
+
             taRegisterTool('uploadCustomImage', {
                 iconclass: "fa fa-photo",
                 tooltiptext: 'upload image',

@@ -53,9 +53,8 @@ require.config({
       'pdfjs-dist/build/pdf.worker' : 'views/psd-viewer/pdfjs/build/pdf.worker',        
       'pdf-object'                 : 'libs/pdfobject/pdfobject',
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
-      'textAngular-sanitize'      : 'libs/textAngular/dist/textAngular-sanitize.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
-      'textAngular'               : 'libs/textAngular/dist/textAngular'
+      'textAngular'               : 'libs/textAngular/dist/textAngular.min'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -91,9 +90,8 @@ require.config({
       'pdfjs-dist/build/pdf'     : { 'deps': ['angular']}, 
       'pdf-object'               : { 'deps': ['angular']},
       'rangy-selectionsave'      : { 'deps': ['rangy-core']},
-      'textAngular-sanitize'     : { 'deps': ['angular']},
-      'textAngularSetup'         : { 'deps': ['angular', 'textAngular-sanitize']},
-      'textAngular'              : { 'deps': ['angular', 'textAngular-sanitize', 'textAngularSetup']},
+      'textAngularSetup'         : { 'deps': ['angular']},
+      'textAngular'              : { 'deps': ['angular', 'textAngularSetup']},
       'ngInfiniteScroll'         : { 'deps': ['angular']}
 
     },

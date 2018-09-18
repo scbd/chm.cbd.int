@@ -1,12 +1,12 @@
-define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 'json!app-data/edit-form-messages.json', 'authentication', 
-'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities',
-'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', './reference-selector', "utilities/solr", 
-"./reference-selector", 'ngDialog', 'scbd-angularjs-services/locale', 
-'directives/forms/km-rich-textbox'
+define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
+'json!app-data/edit-form-messages.json', 'authentication', 'services/editFormUtility',  
+'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 
+'services/navigation', "utilities/solr", 'ngDialog', 'scbd-angularjs-services/locale',
+'directives/forms/form-controls',"./reference-selector", 'directives/forms/km-rich-textbox'
 	],
 	function(require, template, app, angular, _, messages) {
 		'use strict';
-
+		
 		app.directive("editNationalReport6", ["$http", "$rootScope", "$q", "$location", "$filter", 'IStorage', 
 		"editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", "solr", 
 		"realm", '$compile', "$timeout", 'ngDialog', 'locale', 
@@ -20,10 +20,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 					transclude: false,
 					scope: {},
 					link: function($scope, $element) {
+						
 
 						$scope.targetAssessments = {};
-						var aichiTargets = [];
-						var gspcTargets = [];
 						var reviewFormLoaded = false;
 						$scope.status = "";
 						$scope.error = null;
@@ -69,14 +68,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								return;
 
 							$scope.status = "loading";
-							// var watchTime;
-							// $scope.timeTick = 0;
-							// function time(){
-							// 	$scope.timeTick = $scope.timeTick +1;
-							// 	if($scope.status== 'loading')
-							// 		$timeout(time, 1000);
-							// }
-							// time();
 							var qs = $route.current.params;
 							var schema = "nationalReport6";
 							var reportType = qs.type;
@@ -179,9 +170,12 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 									})
 								}).then(function(doc) {
 									$timeout(function(){
-										return $q.when($scope.options.aichiTargets())
+										 $q.when($scope.options.aichiTargets())
 												.then(function(data) {
-													aichiTargets = data;
+													$scope.aichiTargets = {};
+													_.each(data, function(target){
+														$scope.aichiTargets[target.identifier] = target
+													})
 													if (!doc.nationalContribution) {
 														doc.nationalContribution = {};
 														for (var i = 1; i <= 20; i++) {
@@ -194,7 +188,10 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 											}).then(function(doc) {
 												return $q.when($scope.options.gspcTargets())
 													.then(function(data) {
-														gspcTargets = data;
+														$scope.gspcTargets={};
+														_.each(data, function(target){
+															$scope.gspcTargets[target.identifier] = target
+														})
 														if (!doc.gspcNationalContribution) {
 																doc.gspcNationalContribution = {}
 																for (var i = 1; i <= 16; i++) {
@@ -213,7 +210,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 												
 											});
 									}, 3000)
-
+									return doc;
 								}).catch(function(err) {
 
 									$scope.onError(err.data, err.status);
@@ -282,8 +279,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						//
 						//==================================
 						var nextTab; var prevTab;
+						var tabDirectiveStatus = {};
 						$scope.$watch('tab', function(tab) {
-							
+						
 							// $('html,body').animate({scrollTop: $('.portal-header').offset().top -120}, "slow");
 							if (tab == 'review')
 								$scope.validate();
@@ -342,6 +340,22 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								}
 								default:
 									break;
+							}
+							if(tab && tab!='general' && !tabDirectiveStatus[tab]){
+								$scope['loading' + tab + 'Tab'] = true;
+								$('html,body').animate({scrollTop: $('.portal-header').offset().top }, "slow");
+								require(['./nr6-directives/' + tab], function(){
+									var tabName = snake_case(tab);
+									var directiveHtml = '<DIRECTIVE ></DIRECTIVE>'.replace(/DIRECTIVE/g, 'nr6-' + tabName + '-tab');
+
+									$scope.$apply(function(){
+										var formHolder = $element.find('#' + tab + 'Tab')
+										formHolder.empty().append($compile(directiveHtml)($scope));
+										tabDirectiveStatus[tab] = true;
+										$scope['loading' + tab + 'Tab'] = false;
+
+									});
+								})
 							}
 							// if(tab == 'implementation')$scope.closeall('.implementationMeasure');
 							// if(tab == 'progress')$scope.closeall('.progressAssessment');
@@ -1083,24 +1097,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						$scope.getWorkflowId = function(item){
 							return (item._workflow_s||'').replace(/workflow-/,'')
 						}
-
-						$scope.getAichiTargetTitle = function(aichiTarget, locale){
-							if(aichiTarget){
-								var target = _.find(aichiTargets, {identifier : aichiTarget.identifier});
-								if(target)
-									return target.title[locale];
-							}
-
-						}
-
-						$scope.getGspcTargetTitle = function(gspcTarget, locale){
-							if(gspcTarget){
-								var target = _.find(gspcTargets, {identifier : gspcTarget.identifier});
-								if(target)
-									return target.title[locale];
-							}
-
-						}
 						
 						//======================================================
 						//
@@ -1272,7 +1268,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 						}
 
 						$scope.onEditorFileUpload = function(data){
-							// console.log(data, 'controller');
 							if(!$scope.document.additionalDocuments)
 								$scope.document.additionalDocuments = [];
 							var editorImage = {
@@ -1290,9 +1285,18 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash', 
 								$scope.document.targetPursued = undefined;
 							}
 						}
+						//==================================
+						//
+						//==================================
+						function snake_case(name, separator) {
+							separator = separator || '-';
+							return name.replace(/[A-Z]|\d+/g, function(letter, pos) {
+							return (pos ? separator : '') + letter.toLowerCase();
+							});
+						}
+						require([]);
 					}
 				};
 			}
 		]);
-
 	});

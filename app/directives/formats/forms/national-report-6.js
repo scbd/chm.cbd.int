@@ -2,7 +2,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 'json!app-data/edit-form-messages.json', 'authentication', 'services/editFormUtility',  
 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 
 'services/navigation', "utilities/solr", 'ngDialog', 'scbd-angularjs-services/locale',
-'directives/forms/form-controls',"./reference-selector", 'directives/forms/km-rich-textbox'
+'directives/forms/form-controls',"./reference-selector", 'directives/forms/km-rich-textbox', 'directives/forms/km-value-ml'
 	],
 	function(require, template, app, angular, _, messages) {
 		'use strict';
@@ -22,8 +22,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 					link: function($scope, $element) {
 						
 
-						$scope.targetAssessments = {};
 						var reviewFormLoaded = false;
+						$scope.targetAssessments = {};
 						$scope.status = "";
 						$scope.error = null;
 						$scope.tab = "general";
@@ -265,6 +265,10 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 
 							if (_.isEmpty(document.biodiversityCountryProfile))
 								document.biodiversityCountryProfile = undefined;
+
+							// clean any languages previously selected, this is required 
+							// because the tab may have not been loaded.
+							document = updateLocaleChanges(document);
 
 							return document;
 						};
@@ -526,7 +530,7 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							}
 							var newMeasure = {}
 							$scope.document.implementationMeasures.push(newMeasure);
-							$scope.editImplementationMeasure(newMeasure)
+							$scope.editInDialog(newMeasure, 'implementationMeasure', 'editImplementationRecordModal');
 						};
 
 						//============================================================
@@ -557,22 +561,18 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							}
 						};
 
-
-						$scope.editImplementationMeasure = function(measure){
-							console.log(measure)
-							var record = measure;
-							var locales = $scope.document.header.languages;
-							var identifier = $scope.document.header.identifier;
-							var options = $scope.options;
+						$scope.editInDialog = function(record, name, template){
+							// var record 		= target;
+							
 							ngDialog.open({
-								template: 'editImplementationRecordModal', 
+								className: 'ngdialog-theme-default ngdialog-custom white-background',
+								template: template, 
+								scope 	: $scope,
 								controller : ['$scope', function($scope){									
-									$scope.implementationMeasure = record;
-									$scope.locales 		= locales;
-									$scope.identifier	= identifier;
-									$scope.options = options;
-									$scope.closeDialog = function(){
-										record = $scope.implementationMeasure;
+									$scope[name] 		= record;
+									
+									$scope.closeDialog 	= function(){
+										record = $scope[name];
 										ngDialog.close();
 									}
 								}]
@@ -1256,13 +1256,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								identifier : info.data.identifier
 							};
 						}
-
-						function hexToInteger(hex) {
-							if (hex && hex.length >= 24)
-								return parseInt(hex.substr(15, 9), 16);
-		
-							return hex;
-						}
 						
 						if($rootScope.deviceSize == 'lg'){
 							$element.find('#nav').affix({
@@ -1302,7 +1295,6 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								tag : 'editorImage'
 							};
 							$scope.document.additionalDocuments.push(editorImage);
-							//public ELink[]      additionalDocuments   { get; set; }
 
 						}
 
@@ -1320,7 +1312,28 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							return (pos ? separator : '') + letter.toLowerCase();
 							});
 						}
-						require([]);
+
+						function updateLocaleChanges(document){
+							_.each(document, function(prop, key){
+
+								if(isLstring(prop)){
+									prop = _(prop).pick($scope.document.header.languages||[]).forEach(function(value, key, text){
+										if(!value || $("<i>").html(text[key]).text().trim() == "")
+											delete text[key];
+									}).value();
+									if(_.isEmpty(prop))
+										prop = undefined;
+									document[key] = prop;
+								}
+								else if(!angular.isString(prop))
+									updateLocaleChanges(prop);
+								
+							})
+							return document;
+						}
+						function isLstring(prop){
+							return prop && (prop.ar || prop.en || prop.zh || prop.ru || prop.fr || prop.es); 
+						}
 					}
 				};
 			}

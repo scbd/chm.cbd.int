@@ -1,4 +1,10 @@
 ﻿<div>
+
+        <style>
+                .webui-popover {
+                    z-index: 19999;
+                }
+            </style> 
     <div class="panel panel-default">
         <div class="panel-header">
             <h3>Section IV. Description of national contribution to the achievement of each global Aichi Biodiversity Target</h3>
@@ -40,14 +46,28 @@
     <div class="panel panel-default aichiTarget" ng-repeat="aichiTarget in document.nationalContribution track by $index" ng-if="aichiTarget.identifier">
         <div class="panel-header clearfix">
             <h3>
-                {{aichiTargets[aichiTarget.identifier].title[locale]}}
-                <div class="pull-right" style="padding-right:10px">
-                    <a translation-url ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#{{aichiTarget.identifier}}"></a>
+                <div class="pull-right btn-group" style="padding-right:10px">
+                    <a ng-href="#" class="btn btn-primary " ng-click="editInDialog(aichiTarget, 'target', 'aichiTargetContribution')">
+                        <i class="fa fa-2x1 fa-edit"></i> edit
+                    </a>
+                    <a ng-href="#" class="btn btn-primary " data-toggle="collapse" data-target="#{{aichiTarget.identifier}}">
+                        <i class="fa fa-2x1 fa-arrow-circle-o-up"></i>
+                    </a>
                 </div>
+                {{aichiTargets[aichiTarget.identifier].title[locale]}}
             </h3>
         </div>
         <div class="panel-body collapse in" id="{{aichiTarget.identifier}}">
-            <span ng-include src="'aichiTargetContribution'" onload="target=aichiTarget"></span>
+            <div ng-show="implementationMeasure.description">
+                <label>Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description</label>
+                <km-value-ml value="implementationMeasure.description" locales="document.header.languages" km-pre html></km-value-ml>
+            </div>
+            <div ng-show="implementationMeasure.description">
+                <label>Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):</label>
+                <km-value-ml value="implementationMeasure.achievementActivities" locales="document.header.languages" km-pre html></km-value-ml>
+            </div>
+            
+            <!-- <span ng-include src="'aichiTargetContribution'" onload="target=aichiTarget"></span> -->
         </div>
     </div>
 
@@ -64,8 +84,13 @@
             </div>
         </div>
     </div>
-    <script type="text/ng-template" id="aichiTargetContribution" trados-translation="true">
 
+    <script type="text/ng-template" id="aichiTargetContribution" trados-translation="true">
+        <div style="border-bottom:1px solid #eee">
+            <h3>
+                {{aichiTargets[target.identifier].title[locale]}}
+            </h3>
+        </div>
         <div ng-switch="target.identifier">
             <div ng-switch-when="AICHI-TARGET-01" class="row">
                 <div class="col-md-12">

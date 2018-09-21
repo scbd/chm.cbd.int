@@ -1,4 +1,4 @@
-﻿define(['text!./gspcContribution.html', 'app'], function(template, app) { 'use strict';
+﻿define(['text!./gspcContribution.html', 'app','directives/forms/km-value-ml'], function(template, app) { 'use strict';
 
 app.directive("nr6GspcContributionTab", [function () {
     return {

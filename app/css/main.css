@@ -212,7 +212,7 @@ legend{
     height: auto !important;
 }
 .viewForm .km-value,
-.edit-implementation-measure .km-value {
+#sixth-national-report-edit .km-value {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
 }
@@ -525,4 +525,7 @@ legend{
 }
 .ngdialog-open{
     height: auto !important;
+}
+.white-background .ngdialog-content{
+    background:#fff !important;
 }

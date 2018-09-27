@@ -15,9 +15,6 @@ input[type="text"].arabic, textarea.arabic{
         padding-left:2%;
     }
 }
-.implementation-measure-action-buttons a:first-child{ 
-    margin-left: 40px!important;
-}
 .implementation-measure-action-buttons a{
     padding-right:5px!important;
 }

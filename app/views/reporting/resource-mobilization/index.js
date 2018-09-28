@@ -605,16 +605,12 @@ define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directive
 
                 $scope.documents = _.map($scope.documents, function (doc) {
 
+                    var removeQ1Countries = ['co', 'ec', 'nu']; // colombia, ecuador, niue
                     
                     if(doc.Q1_s) { 
-                        _.assign(doc, { Q1 : JSON.parse(doc.Q1_s) }); 
-                        delete doc.Q1_s;
-
-                        var removeQ1Countries = ['co', 'ec', 'nu']; // colombia, ecuador, niue
-                        if(_.includes(removeQ1Countries, doc.government_s)){
-                            if(doc.Q1.baselineFlows)         delete doc.Q1.baselineFlows;
-                            if(doc.Q1.baselineFlows_average) delete doc.Q1.baselineFlows_average;
-                            if(doc.Q1.progressFlows)         delete doc.Q1.progressFlows;
+                        if(!_.includes(removeQ1Countries, doc.government_s)){
+                            _.assign(doc, { Q1 : JSON.parse(doc.Q1_s) }); 
+                            delete doc.Q1_s;
                         }
                     }
                     if(doc.Q2_s) { _.assign(doc, { Q2 : JSON.parse(doc.Q2_s) }); delete doc.Q2_s;}

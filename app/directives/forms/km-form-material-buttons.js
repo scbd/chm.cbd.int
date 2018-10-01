@@ -21,7 +21,8 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				onPostPublishFn   : "&onPostPublish",
 				onPostWorkflowFn  : "&onPostWorkflow",
 				onErrorFn: "&onError",
-				disabled		  : "=?ngDisabled"
+				disabled		  : "=?ngDisabled",
+				onPreSaveDraftVersionFn	: "&onPreSaveDraftVersion"
 			},
 			link: function ($scope, $element, $attr)
 			{
@@ -29,13 +30,16 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				$scope.status = "loading buttons";
 				$scope.getContainer = function(){return $attr.container;}
 			},
-			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location", "$route",
-			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location, $route)
+			controller: ["$scope", "$rootScope", "IStorage", "authentication", "editFormUtility", "$mdDialog", "$timeout", "$location", "$route", '$http',
+			 function ($scope, $rootScope, storage, authentication, editFormUtility, $mdDialog, $timeout, $location, $route, $http)
 			{
 				if ($route.current.params && $route.current.params.workflowId)
 					$scope.hideSave = true;
 
 				var next_url;
+				var destroyTimer;
+				var saveDraftVersionTimer;
+				var previousDraftVersion;
 
 				$scope.new_close = function(){
 
@@ -286,7 +290,9 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 						$scope.status = "ready";
 
 						$rootScope.originalDocument = $scope.getDocumentFn();
-						showShareDocument({identifier:$rootScope.originalDocument.header.identifier})
+						showShareDocument({identifier:$rootScope.originalDocument.header.identifier});
+
+						saveDraftVersion();
 					}
 				});
 
@@ -383,7 +389,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
                     }
                     var duration = moment.duration(moment() - $scope.lastSavedTime)
                     $scope.lastSaved = duration._data.hours + ':' + duration._data.minutes + ':' + duration._data.seconds
-                    $timeout(function(){timer();},1000);
+                    destroyTimer = $timeout(function(){timer();},1000);
 				}
 				
 				function showShareDocument(document){
@@ -413,11 +419,50 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 					}
 				}
 
+                function saveDraftVersion(){
+					
+					$q.when($scope.onPreSaveDraftVersionFn())
+					.then(function(doc){
+
+						doc = doc || $scope.getDocumentFn();
+
+						$q.when(doc).then(function(document){
+					
+							if(document && !angular.equals(document, previousDraftVersion)){
+								var userId = $rootScope.user.userID;
+								var identifier = document.header.identifier;
+								var schema     = document.header.schema;
+
+								var key = schema+'_'+identifier+'_'+userId;
+
+								$http.put('/api/v2018/temporary-documents/'+key, {data: document})
+								.then(function(result){
+									previousDraftVersion = document;
+									saveDraftVersionTimer = $timeout(function(){saveDraftVersion();},100000);
+								})
+								.catch(function(err){
+									console.log(err);
+									saveDraftVersionTimer = $timeout(function(){saveDraftVersion();},5000);
+								});
+							}
+							else{
+								saveDraftVersionTimer = $timeout(function(){saveDraftVersion();},100000);
+							}
+						});
+					});
+				}
+
 				$scope.$watch('disabled', function(newVal, oldVal){
 					if(oldVal!=newVal && newVal===false){
 						timer(true);
 					}
-				})
+				});
+
+				$scope.$on('$destroy', function(){
+					$timeout.cancel(destroyTimer);
+					$timeout.cancel(saveDraftVersionTimer);
+				});
+
 			}]
 		};
 	}]);

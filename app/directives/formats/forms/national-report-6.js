@@ -491,7 +491,10 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							$location.url("/submit/nationalReport6");
 						};
 
+						$scope.onPreSaveDraftVersion = function(){
 
+							return $scope.document;
+						}
 
 						//==================================
 						//

@@ -60,13 +60,16 @@
 
                 $scope.createLink = function(){
                                       
-                    var newDocument = angular.copy($scope.document || {});                   
-                     if(newDocument.sharedWith && newDocument.sharedWith.link)
-                        return;
-                    if(!newDocument.sharedWith)
-                        newDocument.sharedWith = {};
+                    var newDocument = {}
+                    newDocument.storageType = "km-document";
+                    newDocument.sharedData = {
+                        "identifier"            : $scope.identifier,
+                        "restrictionField"      : $scope.restrictionField
+                    };
+                    if($scope.restrictionFieldValue)
+                    newDocument.sharedData.restrictionFieldValue = $scope.restrictionFieldValue.toString();
 
-                    newDocument.sharedWith["link"] = true;
+                    newDocument.sharedWith = { "link" : true };
                     
                     return saveLink(newDocument);
                 }
@@ -91,6 +94,9 @@
                         return $q.when(get(id))
                                 .then(function(data){                            
                                     $scope.document = data;
+                                    if(!$scope.sharedLinks)
+                                        $scope.sharedLinks = [];
+                                    $scope.sharedLinks.push(data);
                                 })
                     })
                     .finally(function(){
@@ -110,15 +116,13 @@
                     return $q.when(genericService.query('v2018', 'document-sharing', q))
                     .then(function(response){
                         if(response && response.length > 0){
+                            $scope.sharedLinks = response;
                             $scope.document = _.head(response);
                         }
                         else{
                             $scope.document = {}
                             $scope.document = $scope.document || {};
-                            $scope.document.storageType = "km-document"
-                                // "sharedWith":   { 
-                                //         "email" :           "blaisefonseca@gmail.com"
-                                // },
+                            $scope.document.storageType = "km-document";
                             $scope.document.sharedData = {
                                 "identifier"            : $scope.identifier,
                                 "restrictionField"      : $scope.restrictionField
@@ -136,7 +140,7 @@
                     return location.origin + '/database/share/' + hash;
                 }
 
-                $scope.copyUrl = function(){
+                $scope.copyUrl = function(index){
                     var body = angular.element($window.document.body);
                     var textarea = angular.element('<textarea/>');
                     textarea.css({
@@ -144,7 +148,7 @@
                         opacity: '0'
                     });
 
-                    textarea.val($document.find('#shareUrl').val());
+                    textarea.val($document.find('#shareUrl_'+index).val());
                     body.append(textarea);
                     textarea[0].select();
 
@@ -155,6 +159,24 @@
                     } finally {
                         textarea.remove();
                     }
+                }
+
+                $scope.hasStatus = function(status, link){
+                    
+                    switch (status) {
+                        case 'active':
+                            return !link.revoked && (!link.expiry || new Date(link.expiry) > new Date())
+                            break;                    
+                        case 'expired':
+                            return new Date(link.expiry) < new Date()
+                            break;
+                        case 'revoked':
+                            return link.revoked;
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
 
                 function get(id, count){
@@ -168,6 +190,23 @@
                                     return $timeout(function(){return get(id, count++)}, 2000);
                             })
                 }
+
+                 $scope.revokeLink = function(link){
+
+                    var operation;
+                    operation = genericService.delete('v2018', 'document-sharing', link._id+'/revoke');
+
+                    link.status = "revokingLink";
+                    return $q.when(operation)
+                    .then(function(response){
+                        link.revoked= true;
+                    })
+                    .finally(function(){
+                        link.status = '';
+                    })
+
+                }
+
                 $scope.loadDocument();
             }
         };

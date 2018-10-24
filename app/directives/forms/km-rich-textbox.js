@@ -26,13 +26,13 @@ function(app,template,angular) {
 					},
 					link: function($scope, element, attrs, ngModelController) {
 						
-						$scope.maxFileSize = attrs.maxFileSize || 1000000;
+						$scope.maxFileSize = attrs.maxFileSize || 1500000;
 						$scope.editorHeightClass = attrs.editorHeightClass||'ta-editor-height-100';	
 
 						$scope.isUploadingImage = {};
 						var activeLocale;
 						if(!$scope.toolbar)
-							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage'], ['wordcount', 'charcount'], ['editorHelp']]";
+							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage', 'uploadCustomFile'], ['wordcount', 'charcount'], ['editorHelp']]";
 								// ['justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'], 'html',						
 						
 						//==============================
@@ -120,18 +120,15 @@ function(app,template,angular) {
 
 							var fileType = file.type.substring( 0, 5 );
 							var mimeType = storage.attachments.getMimeType(file);
-							// if( file.type.substring( 0, 5 ) !== "image" ) {
-							// 	alert( "only images can be added" );
-							// 	return true;
-							// }
 							if (storage.attachments.mimeTypeWhitelist.indexOf(mimeType) < 0) {
 								alert("File type not supported: " + mimeType);
 								return true;
 							}
-							if(fileType == "image" && file.size > $scope.maxFileSize ) {
-								alert( "file size cannot exceed " + bytesToSize($scope.maxFileSize));
+							if(file.size > 20000000 ) { //max 20mb attachments allowed by cbd
+								alert( "file size cannot exceed 20MB");
 								return true;
 							}
+							
 							var acLocale = angular.copy(activeLocale);
 							$scope.isUploadingImage[acLocale] = true;
 							storage.attachments.put($scope.identifier, file)
@@ -139,7 +136,7 @@ function(app,template,angular) {
 								var action = "insertImage"
 								var actionData = data.url;
 
-								if(fileType !== 'image'){
+								if(fileType !== 'image' || mimeType=='image/tiff' || file.size > $scope.maxFileSize ){
 									action = 'inserthtml'
 									actionData = '<a target="_blank" href="'+data.url+'">'+data.filename+ '</a>'
 								}
@@ -154,13 +151,6 @@ function(app,template,angular) {
 							});
 
 							return true;
-						};
-
-						function bytesToSize(bytes) {
-							var sizes = ['Bytes', 'KB', 'MB'];
-							if (bytes == 0) return '0 Byte';
-							var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-							return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 						};
 						
 						$scope.stripFormat = function($html){

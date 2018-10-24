@@ -24,6 +24,9 @@
 			text-align: justify!important;
 		}
 	</style>
+	<div ng-if="printMode && internalDocument.header.schema=='nationalReport6'">
+		<div ng-include="'/app/directives/formats/views/directives/toc-national-report-6.html'"></div>		
+	</div>
 	<div class="md-whiteframe-z1 bg-grey" style="padding:10px;">
 		<div ng-show="errorNotFound">
 			<h1 style="font-size:60px;font-weight:bold">Oops...</h1>

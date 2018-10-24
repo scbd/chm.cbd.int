@@ -84,7 +84,7 @@
                         <label>Relevant websites, links, and files</label>
                         <div class="km-value">
                             <div ng-repeat="item in implementationMeasure.relevantDocuments">
-                                <a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a> <span ng-if="item.tag">({{item.tag}})</span>
+                                <a translation-url target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a> <span ng-if="item.tag">({{item.tag}})</span>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                         <label>Other relevant website address or attached documents</label>
                         <div class="km-value">
                             <div ng-repeat="item in implementationMeasure.otherRelevantDocuments">
-                                <a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a> <span ng-if="item.tag">({{item.tag}})</span>
+                                <a translation-url target="_blank" ng-href="{{item.url}}">{{item.name||item.url}}</a> <span ng-if="item.tag">({{item.tag}})</span>
                             </div>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                         <label>Relevant websites, web links and files</label>
                         <div class="km-value">
                             <div ng-repeat="item in implementationMeasure.obstaclesRelevantDocuments">
-                                <a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}} 
+                                <a translation-url target="_blank" ng-href="{{item.url}}">{{item.name||item.url}} 
                                 </a>	<span ng-if="item.tag">({{item.tag}})</span>									
                             </div>
                         </div>

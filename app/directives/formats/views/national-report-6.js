@@ -24,7 +24,11 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 						 "solr", "realm",'ngDialog', 'locale', 'smoothScroll',
 			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication,
 			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale, smoothScroll) {
-
+				
+				var queryString = $location.search();
+				if(queryString && queryString.print){
+					$scope.pdfMode = true;
+				}
 				if(!$scope.locale)
 					$scope.locale = locale;
 

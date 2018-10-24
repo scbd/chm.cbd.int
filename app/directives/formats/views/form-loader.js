@@ -26,6 +26,9 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 				require(['css!/app/css/print-friendly'])
 				$scope.options.locale = '*';
 			}
+			if(queryString && queryString.forceLocale){				
+				$scope.options.locale = queryString.forceLocale;
+			}
 			if($route.current.params.code){
 				$scope.showDraftPdf = true;
 				$scope.draftPdfCode = $route.current.params.code;

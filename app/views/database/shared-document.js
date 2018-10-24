@@ -14,10 +14,14 @@ define(['app', 'directives/formats/views/form-loader', 'scbd-angularjs-services/
                         $scope.sharedData = result.data;
                         $scope.document = result.data.sharedData.document.body;
                         
+                        $scope.status = 'ready'
                     }
                 })
+                .catch(function(error){
+                    $scope.status = 'error'
+                    $scope.error  = error.data;
+                })
                 .finally(function(){
-                    $scope.status = 'ready'
                 })
         }
         else{

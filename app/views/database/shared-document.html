@@ -44,6 +44,13 @@
 			</div>
 		</div>
 		<div class="row" style="padding:0px;border: 1px solid #ddd;background:#fff" 
+		 ng-if="status=='error'">
+		 <div class="col-md-12" ng-if="!printMode">
+			 <div class="alert alert-danger" style="margin:20px;">
+				 <strong>{{error}}</strong>
+			 </div> </div>
+		</div>
+		<div class="row" style="padding:0px;border: 1px solid #ddd;background:#fff" 
 		 ng-if="status=='ready'" ng-class="{'no-border':printMode}">
             <div class="col-md-2" ng-if="!printMode">
                 <div class="" style="width:100%;">

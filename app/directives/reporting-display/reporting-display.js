@@ -13,6 +13,7 @@ define(['text!./reporting-display.html',
   "./filter-indicator",
   "./filter-target",
   "./filter-resource-mobilisation",
+  "./filter-resource-mobilisation2020",
 ], function(template, app, $, _) {
   'use strict';
 

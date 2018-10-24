@@ -289,7 +289,7 @@
                 <div class="panel-body">
 
                     <div class="col-xs-8">
-                        <table class="table table-condensed table-striped table-bordered" ng-if="getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet'])>0">
+                        <table class="table table-condensed table-striped table-bordered" ng-if="getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','no'])>0">
                             <thead>
                                 <tr>
                                     <td><strong>Response</strong></td>
@@ -306,7 +306,7 @@
                                             <a translation-url href="#Q1_2c" ng-if='comments_Q1_2_comprehensive.length > 0' rm-popover count="{{comments_Q1_2_comprehensive.length}}" role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q1', 'hasPrivateSectorMeasures' ,'comprehensive')}}</td>
-                                    <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'comprehensive')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet']))*100) | number:2}}%</td>
+                                    <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'comprehensive')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','no']))*100) | number:2}}%</td>
                                 </tr>
                                 <tr>
                                     <td>Some
@@ -317,21 +317,21 @@
                                         <a translation-url href="#Q1_2s" ng-if='comments_Q1_2_some.length > 0' rm-popover count='{{comments_Q1_2_some.length}}' role="button" class="btn btn-sm" data-toggle="modal"><img src='app/images/documents.png'></a>
                                     </td>
                                     <td class="text-center">{{getCount('Q1', 'hasPrivateSectorMeasures' ,'some')}}</td>
-                                    <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'some')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet']))*100) | number:2}}%</td>
+                                    <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'some')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','no']))*100) | number:2}}%</td>
                                 </tr>
                                 <tr>
                                     <td>Not yet started</td>
-                                    <td class="text-center">{{getCount('Q1', 'hasPrivateSectorMeasures' ,'notyet')}}</td>
-                                    <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'notyet')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet']))*100) | number:2}}%</td>
+                                    <td class="text-center">{{getCount('Q1', 'hasPrivateSectorMeasures' ,'no')}}</td>
+                                    <td class="text-center">{{((getCount('Q1', 'hasPrivateSectorMeasures', 'no')/getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','no']))*100) | number:2}}%</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Total</strong></td>
-                                    <td class="text-center"><strong>{{getCountM('Q1', 'hasPrivateSectorMeasures' ,['comprehensive', 'some','notyet'])}}</strong></td>
+                                    <td class="text-center"><strong>{{getCountM('Q1', 'hasPrivateSectorMeasures' ,['comprehensive', 'some','no'])}}</strong></td>
                                     <td class="text-center"><strong>100.00%</strong></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="table table-condensed table-striped table-bordered" ng-if="getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','notyet'])==0">
+                        <table class="table table-condensed table-striped table-bordered" ng-if="getCountM('Q1', 'hasPrivateSectorMeasures', ['comprehensive', 'some','no'])==0">
                             <thead>
                                 <tr>
                                     <td><strong>No response found.</strong></td>
@@ -630,8 +630,8 @@
                                     <td class="text-center">{{((getCount('Q4', 'domesticCollectiveAction' ,'notyet')/getCountM('Q4', 'domesticCollectiveAction', ['comprehensive','some','notyet','no']))*100)|number:2}}%</td>
                                 </tr>
                                 <tr>
-                                    <td>No</td>
-                                    <td class="text-center">{{getCount('Q4', 'domesticCollectiveAction' ,     'no')}}</td>
+                                    <td>No such assessment necessary</td>
+                                    <td class="text-center">{{getCount('Q4', 'domesticCollectiveAction' ,     'notnecessary')}}</td>
                                     <td class="text-center">{{((getCount('Q4', 'domesticCollectiveAction' ,'no')/getCountM('Q4', 'domesticCollectiveAction', ['comprehensive','some','notyet','no']))*100)|number:2}}%</td>
                                 </tr>
                                 <tr>

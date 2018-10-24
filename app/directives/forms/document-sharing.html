@@ -60,18 +60,42 @@
                     <div class="row">
                         <div class="content">
                             <label>Anyone with the link can view this draft document </label>
-                            <div style="margin:auto">
-                                <a ng-href="#" ng-click="self.createLink()" class="btn btn-primary" ng-if="status!='creatingLink' && !document.sharedWith.link">Create link</a>
-                                <i class="fa fa-spin fa-spinner" ng-if="status=='creatingLink'" />
+                            <div style="margin:auto" class="pull-right">
+                                <a ng-href="#" ng-click="self.createLink()" class="btn btn-primary" ng-if="status!='creatingLink'">Create link</a>
+                                <i class="fa fa-spin fa-spinner" ng-if="status=='creatingLink'"></i>
                             </div>
-                            <div ng-if="document.sharedWith.link && status!='creatingLink'">
-                                <div class="btn-group">
-                                    <div class="input-group" style="max-width:95%">
-                                        <input type="text" id="shareUrl" class="highlight form-control" value="{{::getUrl(document.urlHash)}}" disabled readonly/>
-                                        <span style="cursor:pointer" class="input-group-addon" id="basic-addon2" ng-click="copyUrl()">
-                                            <i class="fa fa-copy" /> Copy</span>
-                                    </div>
-                                </div>
+                            <div ng-if="sharedLinks.length">
+                                <table class="table table-stripped">
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Expiry/Status</td>
+                                        <td>Link</td>
+                                        <td>Created on</td>
+                                    </tr>
+                                    <tr ng-repeat="link in sharedLinks | orderBy:'meta.createdOn':'desc'">
+                                        <td>{{$index+1}}</td>
+                                        <td>
+                                            {{link.expiry|formatDateWithTime}}
+                                            <span ng-if="hasStatus('active', link)"class="label label-success">Active</span>
+                                            <span ng-if="hasStatus('expired', link)"class="label label-danger">Expired</span>
+                                            <span ng-if="hasStatus('revoked', link)"class="label label-danger">Revoked</span>
+                                        </td>
+                                        <td width="80%">
+                                            <div class="btn-group" style="width:100%">
+                                                <div class="input-group" >
+                                                    <input type="text" width="100%" id="shareUrl_{{$index+1}}" class="highlight form-control" value="{{::getUrl(link.urlHash)}}" disabled readonly/>
+                                                    <span style="cursor:pointer" class="input-group-addon" id="basic-addon2" ng-click="copyUrl($index+1)">
+                                                        <i class="fa fa-copy"> </i>Copy</span>
+                                                    <span ng-if="hasStatus('active', link)" ng-disabled="link.status=='revokingLink'" style="cursor:pointer" class="input-group-addon" id="basic-addon3" ng-click="revokeLink(link)">
+                                                        <i class="fa fa-spin fa-spinner" ng-if="link.status=='revokingLink'"></i>
+                                                        <i class="fa fa-thumbs-down"> </i>Revoke</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{link.meta.createdOn|formatDateWithTime}}</td>
+                                    </tr>
+                                </table>
+
                             </div>
                         </div>
                     </div>

@@ -381,7 +381,20 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				}
 
 				$scope.$on('$locationChangeStart', confirmLeaving);
-				
+
+				window.addEventListener('beforeunload', onBeforeUnload);
+
+				function onBeforeUnload(e) {
+					if($rootScope.isFormLeaving)
+						return;
+					var formChanged = !angular.equals($scope.getDocumentFn(), $rootScope.originalDocument);
+					if(!$rootScope.originalDocument || !formChanged){
+						return;
+					}
+					e.preventDefault();	// Cancel the event as stated by the standard.					
+					e.returnValue = '';// Chrome requires returnValue to be set.
+				}
+
                 function timer(startNew){
                     if(startNew){
                         $scope.lastSaved = '';
@@ -461,6 +474,7 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 				$scope.$on('$destroy', function(){
 					$timeout.cancel(destroyTimer);
 					$timeout.cancel(saveDraftVersionTimer);
+					window.removeEventListener('beforeunload', onBeforeUnload)
 				});
 
 			}]

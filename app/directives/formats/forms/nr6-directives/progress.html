@@ -32,12 +32,15 @@
     </div>
     <div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments track by $index">
         <div class="panel-header clearfix">
-            <h3>Progress assessment for
+            <h3>
+                <!-- Progress assessment for -->
                 <span ng-if="progressAssessment.nationalTarget">
-                    national target : {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier, locale)}}
+                    <!-- national target :  -->
+                    {{getNationalTargetTitle(progressAssessment.nationalTarget.identifier, locale)}}
                 </span>
                 <span ng-if="progressAssessment.aichiTarget">
-                    AICHI Biodiversity Target : {{::aichiTargets[progressAssessment.aichiTarget.identifier].title[locale]}}
+                    <!-- AICHI Biodiversity Target :  -->
+                    {{::aichiTargets[progressAssessment.aichiTarget.identifier].title[locale]}}
                 </span>
                 <div class="pull-right" style="padding-right:10px">
                     <a translation-url ng-href="#" data-toggle="collapse" class="collapse-icon" data-target="#progressAssessment{{$index}}"></a>
@@ -61,8 +64,8 @@
                                         <i class="fa fa-spin fa-spinner"></i > Processing...</span>
                                 </div>
                             </div>
-                            <img ng-if="targetAssessments[progressAssessment.assessment.identifier].progress_s!='69C77387-2D3C-474C-BEA8-30F55D47AFBD'"
-                                ng-src="/app/img/ratings/{{targetAssessments[progressAssessment.assessment.identifier].progress_s}}.png" class="pull-left"></img>
+                            <img ng-if="progressAssessment.assessment.identifier && targetAssessments[progressAssessment.assessment.identifier].progress_s!='69C77387-2D3C-474C-BEA8-30F55D47AFBD'"
+                                ng-src="/app/img/ratings/{{targetAssessments[progressAssessment.assessment.identifier].progress_s}}.png" class="pull-left" />
                             <div>
                                 <div>
                                     <h3>{{targetAssessments[progressAssessment.assessment.identifier].title|lstring:locale}}</h3>

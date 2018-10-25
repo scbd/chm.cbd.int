@@ -76,9 +76,23 @@
 								<label>Measures taken to contribute to the implementation of your country’s national biodiversity strategy and action plan</label>
 								<km-value-ml value="implementationMeasure.description" locales="locale" km-pre html></km-value-ml>
 							</div>
-							<div ng-show="implementationMeasure.aichiTarget">
-								<label>Aichi Biodiversity Target</label>
-								<div class="km-value km-pre" ng-style="{ direction : (aichiTargets[implementationMeasure.aichiTarget.identifier].title | direction:locale) }">{{aichiTargets[implementationMeasure.aichiTarget.identifier].title | lstring:locale}}</div>
+							<div ng-show="implementationMeasure.nationalTargets">
+								<label>National Target(s)</label>
+								<div class="km-value" >
+									<div ng-repeat="nationalTarget in implementationMeasure.nationalTargets"
+										ng-style="{ direction : (nationalTargets[nationalTarget.identifier].title | direction:locale) }"
+										ng-bind="nationalTargets[nationalTarget.identifier].title | lstring:locale">
+									</div>
+								</div>
+							</div>
+							<div ng-show="implementationMeasure.aichiTargets">
+								<label>Aichi Biodiversity Target(s)</label>
+								<div class="km-value" >
+									<div ng-repeat="aichiTarget in implementationMeasure.aichiTargets"
+										ng-style="{ direction : (aichiTargets[aichiTarget.identifier].title | direction:locale) }"
+										ng-bind="aichiTargets[aichiTarget.identifier].title | lstring:locale">
+									</div>
+								</div>
 							</div>
 							<div ng-show="implementationMeasure.assessment">
 								<label>Assessment of the effectiveness of the implementation measure taken in achieving desired outcomes</label>
@@ -139,12 +153,15 @@
 						
 						<div class="col-md-12 panel panel-default">
 							<div class="panel-header clearfix">
-								<h3>Progress Assessment for
+								<h3>
+									<!-- Progress Assessment for -->
 									<span ng-if="progressAssessment.aichiTarget"> 
-										AICHI target {{aichiTargets[progressAssessment.aichiTarget.identifier].title  | lstring:locale}}
+										<!-- AICHI target  -->
+										{{aichiTargets[progressAssessment.aichiTarget.identifier].title  | lstring:locale}}
 									</span>
 									<span ng-if="progressAssessment.nationalTarget">
-										national target {{nationalTargets[progressAssessment.nationalTarget.identifier].title|lstring:locale}}
+										<!-- national target  -->
+										{{nationalTargets[progressAssessment.nationalTarget.identifier].title|lstring:locale}}
 									</span>
 								</h3>
 							</div>

@@ -12,7 +12,8 @@
                 identifier : '=',
                 restrictionField : '@',
                 restrictionFieldValue : '=',
-				disabled		  : "=?ngDisabled"
+				disabled		    : "=?ngDisabled",
+                getLocales          : '&',
             },
             link : function($scope, $element)
             {
@@ -44,17 +45,18 @@
                         closeByNavigation: false,
                         scope: $scope                    
                     });
-                    $q.when($scope.loadDocument())
-                    .then(function(document){
-                        if(document && document.urlHash){
-                            $scope.pdfUrl = '/pdf/draft-documents/'+ $scope.document.sharedData.identifier + '/'+ $scope.document.urlHash;  
-                        }
-                        else{
-                            $q.when($scope.createLink())
-                            .then(function(){
-                                $scope.pdfUrl = '/pdf/draft-documents/'+ $scope.document.sharedData.identifier + '/'+ $scope.document.urlHash;
-                            })
-                        }   
+                    $q.when($scope.getLocales())
+                    .then(function(locales){
+                        $scope.documentLocales = locales
+                        // if(document && document.urlHash){
+                            $scope.pdfUrl = '/pdf/draft-documents/';//+ $scope.document.sharedData.identifier + '/'+ $scope.document.urlHash;  
+                        // }
+                        // else{
+                        //     $q.when($scope.createLink())
+                        //     .then(function(){
+                        //         $scope.pdfUrl = '/pdf/draft-documents/'+ $scope.document.sharedData.identifier + '/'+ $scope.document.urlHash;
+                        //     })
+                        // }   
                     })
                 }
 
@@ -111,7 +113,8 @@
                         "sharedData.identifier"            : $scope.identifier,
                         "sharedData.restrictionField"      : $scope.restrictionField,
                         "sharedData.restrictionFieldValue" : $scope.restrictionFieldValue.toString(),
-                        "sharedBy"                         : $rootScope.user.userID
+                        "sharedBy"                         : $rootScope.user.userID,
+                        "forPdf"                           : { $exists : false},
                     }        
                     return $q.when(genericService.query('v2018', 'document-sharing', q))
                     .then(function(response){

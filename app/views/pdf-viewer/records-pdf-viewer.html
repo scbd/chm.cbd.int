@@ -35,10 +35,26 @@
                     <a ng-href="{{pdf.src}}" download="{{pdf.fileName}}" class="btn btn-success" target="_blank">
                         <i class="fa fa-download"></i> Download
                     </a>
+                    <a href="#" ng-click="loadLangPdf(pdf, true)" class="btn btn-success">
+                        <i class="fa fa-refresh"></i> Force reload
+                    </a>
                     <br>
-                    <br> View in
-                    <span ng-repeat="lang in ['ar', 'fr', 'en', 'es', 'ru', 'zh']">
-                        <a ng-href="#" ng-click="loadLangPdf(lang)">{{lang}}</a> | </span>
+                    <br> 
+                    <div class="alert alert-info" role="alert">
+                            View in<br>
+                        <div class="btn-group">
+                            <a ng-repeat="lang in ['ar', 'fr', 'en', 'es', 'ru', 'zh']" ng-href="#" 
+                            class="btn btn-primary btn-xs" ng-bind="lang|uppercase" ng-click="loadLangPdf(lang)"></a>
+                        </div> <br>
+                        Generate individual language PDF
+                    </div> 
+                    <div class="alert alert-success" role="alert">
+                        <strong>
+                            <a ng-href="#" ng-click="loadLangPdf()" class="btn btn-primary btn-xs" >
+                            Generate all available language PDF
+                            </a>
+                        </strong>                        
+                    </div>                   
                 </div>
             </div>
             <div class="col-md-10" style="padding:0px;border-right: 1px solid #ddd">

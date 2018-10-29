@@ -1,9 +1,10 @@
 define(['app', 'socket.io', './authentication', './apiUrl', './utilities'], function (app, io) {
 
-    app.factory('socketioService', ['$rootScope', '$http', '$q', 'realm', "authentication", "apiUrl", "realmService",
-    function ($rootScope, $http, $q, realm, authentication, apiUrl, realmService) {
+    app.factory('socketioService', ['$rootScope', '$location', '$q', 'realm', "authentication", "apiUrl", "realmService",
+    function ($rootScope, $location, $q, realm, authentication, apiUrl, realmService) {
         return new function () {
             var apiServer = 'https://api-direct.cbd.int/';
+            var qs        = $location.search();
 
             if(apiUrl.isAppDevelopment()){
 
@@ -16,6 +17,10 @@ define(['app', 'socket.io', './authentication', './apiUrl', './utilities'], func
             var socket;
 
             this.connect = function(authToken){
+
+                if(qs.print)    
+                    return;
+
                 var query = 'arguments=' + JSON.stringify({realm: realm.value||realm});
 
                 if(authToken){

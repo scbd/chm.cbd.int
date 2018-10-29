@@ -24,10 +24,9 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			if(queryString && queryString.print){
 				$scope.printMode = true;
 				require(['css!/app/css/print-friendly'])
-				$scope.options.locale = '*';
 			}
-			if(queryString && queryString.forceLocale){				
-				$scope.options.locale = queryString.forceLocale;
+			if(queryString && queryString.mixLocale=='true'){		
+				$scope.options.locale = '*';
 			}
 			if($route.current.params.code){
 				$scope.showDraftPdf = true;
@@ -91,7 +90,7 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			//
 			//==================================
 			$scope.getLocale = function () {
-				if($scope.locale=='*' || $scope.options.locale=='*')
+				if($scope.internalDocument && ($scope.locale=='*' || $scope.options.locale=='*'))
 					return $scope.internalDocument.header.languages;
 
 				return $scope.locale || $scope.options.locale || locale;

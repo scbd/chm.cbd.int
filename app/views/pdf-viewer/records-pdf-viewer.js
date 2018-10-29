@@ -1,7 +1,6 @@
 ﻿define(['app', 'pdf-object', 'scbd-angularjs-services/locale'], function (app, pdfObject) {
     return ["$scope", "$http", "$q", "$location", '$sce', 'locale', '$route', 'realm', '$timeout',
     function ($scope, $http, $q, $location, $sce, locale, $route, realm, $timeout) {
-
         $scope.pdfLocale = locale;
         $scope.pdf = {};
         $scope.loading = true;
@@ -9,6 +8,7 @@
         var uniqueId = $route.current.params.documentId;
         if(!$route.current.params.code && $route.current.params.revision)
             uniqueId += '-' + ($route.current.params.revision||'')
+
         $scope.pdf.uniqueId = uniqueId;
         $scope.pdf.src = getPdfSrc($scope.pdfLocale);
 
@@ -21,10 +21,12 @@
             $scope.loading=false;
         }
 
-        $scope.loadLangPdf = function(lang){
+        $scope.loadLangPdf = function(lang, force){
             $scope.loading = true;
             $scope.unloadPdf = true;
-            $scope.pdf.src = getPdfSrc(lang);
+            $scope.pdf.src = getPdfSrc(lang, force);
+            $scope.pdfLocale = lang;
+
             var options = {
                 pdfOpenParams: {
                     navpanes: 1,
@@ -48,14 +50,26 @@
             return $sce.trustAsResourceUrl(src);
         }
         
-        function getPdfSrc(pdfLocale){
-            $scope.pdf.fileName = uniqueId + '-' + pdfLocale + '.pdf';
+        function getPdfSrc(pdfLocale, force){
+           
+            var isMixLocale = false;    
+            if($location.search().mixLocale=='true')
+            isMixLocale = true;
+
+            $scope.pdf.fileName = uniqueId + '-' + (!isMixLocale && pdfLocale ? pdfLocale : 'all') + '.pdf';
             var src = '/api/v2017/generate-pdf/{{realm}}/{{type}}/{{locale}}?documentID={{documentId}}&revision={{revision}}&schema={{schema}}';
             if($route.current.params.code){
                 src = '/api/v2017/generate-pdf/{{realm}}/{{type}}/{{locale}}?code={{code}}';
             }
+            if(isMixLocale || !pdfLocale){
+                src += '&mixLocale=true'
+            }
+            if(force){
+                src += '&force=true&t=' + new Date().getTime();
+            }
+
             return src .replace("{{realm}}", realm)
-                                 .replace("{{locale}}", pdfLocale)
+                                 .replace("{{locale}}", pdfLocale||locale)
                                  .replace("{{type}}", $route.current.params.type)
                                  .replace("{{documentId}}", $route.current.params.documentId)
                                  .replace("{{revision}}", $route.current.params.revision)

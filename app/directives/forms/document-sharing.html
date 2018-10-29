@@ -52,7 +52,7 @@
                                     <i class="fa fa-spin fa-spinner" /> updating... </span>
                                 <button type="button" class="btn btn-primary pull-right" ng-click="shareEmail()" ng-disabled="status=='creatingLink'">Send</button>
                             </div>
-                            </br>
+                            <br/>
                         </div>
                     </div>
                 </div>
@@ -116,17 +116,16 @@
                 <div role="tabpanel" class="tab-pane active" id="email">
                     <div class="row">
                         <div class="content">
-                            <div>
-                                
-                                <a ng-href="{{pdfUrl}}" target="_blank" class="btn btn-primary" ng-if="status!='generatingPDF' && pdfUrl">Open PDF</a>
-                            </div>                            
-                            <span ng-if="status=='generatingPDF'">
-                                <div>
-                                    Please wait while the pdf link is generated
-                                </div>
-                                <i class="fa fa-spin fa-spinner" /> processing... 
-                            </span>  
-                            </br>
+                            <div class="alert alert-success" role="alert">
+                                <strong><a target="_blank" ng-href="/pdf-links/draft-documents/{{identifier}}" class="btn btn-primary" >Open PDF</a></strong> Generate all available language PDF
+                            </div>
+                            <div class="alert alert-info" role="alert">
+                                <div class="btn-group">
+                                    <a target="_blank" ng-repeat="lang in ['ar', 'fr', 'en', 'es', 'ru', 'zh']" ng-href="/pdf-links/draft-documents/{{identifier}}/{{lang}}" class="btn btn-primary" 
+                                    ng-bind="lang|uppercase"></a>
+                                </div> 
+                                Generate individual language PDF
+                            </div> 
                         </div>
                     </div>
                 </div>

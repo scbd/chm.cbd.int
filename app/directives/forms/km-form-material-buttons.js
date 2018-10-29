@@ -477,6 +477,12 @@ define(['app', 'angular', 'text!./km-form-material-buttons.html','json!app-data/
 					window.removeEventListener('beforeunload', onBeforeUnload)
 				});
 
+				$scope.getLocales = function(){
+					return $q.when($scope.getDocumentFn()).then(function(document){
+						return document.header.languages;
+					})
+				}
+
 			}]
 		};
 	}]);

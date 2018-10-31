@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li role="presentation">
-                    <a translation-url href="#url" aria-controls="url" role="tab" data-toggle="tab">
+                    <a translation-url href="#url" aria-controls="url" role="tab" data-toggle="tab" ng-click="loadDocument()">
                         <span class="sub-header">Send by URL</span>
                     </a>
                 </li>
@@ -58,7 +58,10 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="url">
                     <div class="row">
-                        <div class="content">
+                        <div ng-if="isLoading">
+                                <i style="margin-left:40%" class="fa fa-spin fa-spinner"></i> loading...
+                        </div>
+                        <div class="content" ng-hide="isLoading">
                             <label>Anyone with the link can view this draft document </label>
                             <div style="margin:auto" class="pull-right">
                                 <a ng-href="#" ng-click="self.createLink()" class="btn btn-primary" ng-if="status!='creatingLink'">Create link</a>
@@ -85,10 +88,10 @@
                                                 <div class="input-group" >
                                                     <input type="text" width="100%" id="shareUrl_{{$index+1}}" class="highlight form-control" value="{{::getUrl(link.urlHash)}}" disabled readonly/>
                                                     <span style="cursor:pointer" class="input-group-addon" id="basic-addon2" ng-click="copyUrl($index+1)">
-                                                        <i class="fa fa-copy"> </i>Copy</span>
+                                                        <i class="fa fa-copy"> </i> Copy</span>
                                                     <span ng-if="hasStatus('active', link)" ng-disabled="link.status=='revokingLink'" style="cursor:pointer" class="input-group-addon" id="basic-addon3" ng-click="revokeLink(link)">
                                                         <i class="fa fa-spin fa-spinner" ng-if="link.status=='revokingLink'"></i>
-                                                        <i class="fa fa-thumbs-down"> </i>Revoke</span>
+                                                        <i class="fa fa-thumbs-down"> </i> Revoke</span>
                                                 </div>
                                             </div>
                                         </td>

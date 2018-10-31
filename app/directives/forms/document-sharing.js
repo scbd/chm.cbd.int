@@ -108,13 +108,16 @@
                 }
 
                 $scope.loadDocument = function(){
+                    if($scope.sharedLinks && $scope.sharedLinks.length)
+                        return;
 
+                    $scope.isLoading = true;
                     var q = {
                         "sharedData.identifier"            : $scope.identifier,
                         "sharedData.restrictionField"      : $scope.restrictionField,
                         "sharedData.restrictionFieldValue" : $scope.restrictionFieldValue.toString(),
                         "sharedBy"                         : $rootScope.user.userID,
-                        "forPdf"                           : { $exists : false},
+                        $or: [ { "forPdf": false }, { "forPdf": { $exists : false} }  ]
                     }        
                     return $q.when(genericService.query('v2018', 'document-sharing', q))
                     .then(function(response){
@@ -134,6 +137,9 @@
                                 $scope.document.sharedData.restrictionFieldValue = $scope.restrictionFieldValue.toString();
                         }
                         return $scope.document;
+                    })
+                    .finally(function(){
+                        $scope.isLoading = false;
                     })
                    
                 }
@@ -210,7 +216,6 @@
 
                 }
 
-                $scope.loadDocument();
             }
         };
     }]);

@@ -25,7 +25,7 @@
                 var id= response.data.id;
                 return $q.when($http.get('/api/v2018/document-sharing/'+id))
                         .then(function(result){                            
-                            $location.path('/pdf/draft-documents/'+uniqueId + '/'+ result.data.urlHash + (language ? '': '?mixLocale=true'))
+                            $location.url('/pdf/draft-documents/'+uniqueId + '/'+ result.data.urlHash + (language ? '': '?mixLocale=true'))
                         })
             });
         }

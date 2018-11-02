@@ -32,9 +32,9 @@
                     <br> File Name : {{pdf.fileName|uppercase}}
                     <br>
                     <br>
-                    <a ng-href="{{pdf.src}}" download="{{pdf.fileName}}" class="btn btn-success" target="_blank">
+                    <!-- <a ng-href="#" download="{{pdf.fileName}}" class="btn btn-success" ng-click="downloadFile()">
                         <i class="fa fa-download"></i> Download
-                    </a>
+                    </a> -->
                     <a href="#" ng-click="loadLangPdf(pdf, true)" class="btn btn-success">
                         <i class="fa fa-refresh"></i> Force reload
                     </a>
@@ -50,7 +50,7 @@
                     </div> 
                     <div class="alert alert-success" role="alert">
                         <strong>
-                            <a ng-href="#" ng-click="loadLangPdf()" class="btn btn-primary btn-xs" >
+                            <a ng-href="#" ng-click="loadLangPdf()" class="btn btn-primary btn-xs" style="white-space:unset" >
                             Generate all available language PDF
                             </a>
                         </strong>                        

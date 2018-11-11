@@ -35,7 +35,7 @@
                     <!-- <a ng-href="#" download="{{pdf.fileName}}" class="btn btn-success" ng-click="downloadFile()">
                         <i class="fa fa-download"></i> Download
                     </a> -->
-                    <a href="#" ng-click="loadLangPdf(pdf, true)" class="btn btn-success">
+                    <a href="#" ng-click="loadLangPdf(pdfLocale, true)" class="btn btn-success">
                         <i class="fa fa-refresh"></i> Force reload
                     </a>
                     <br>
@@ -62,6 +62,15 @@
                     <div style="margin-left:50%;margin-top:5%;" ng-if="loading">
                         <i class="fa fa-spin fa-3x fa-circle-o-notch" ></i> 
                         <br/> loading pdf
+                    </div>
+                    <div style="margin-left:20%;margin-top:5%;" ng-if="error">
+                        There was an error, please try refreshing the page.
+                    </div>
+                    <div style="margin-left:20%;margin-top:5%;" ng-if="linkExpired">
+                        The link you are using has expired, 
+                        you will be redirected to the link generation page in  {{alertSeconds}} seconds.
+                        <br/>
+                        <button class="btn btn-primary"ng-click="redirectNow()">Redirect now</button>
                     </div>
                     <link rel="stylesheet" href="./viewer.css">
                     <div id="viewPdf">

@@ -1321,8 +1321,13 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 
 								if(isLstring(prop)){
 									prop = _(prop).pick($scope.document.header.languages||[]).forEach(function(value, key, text){
-										if(!value || $("<i>").html(text[key]).text().trim() == "")
+										if(!value || $("<i>").html(text[key]).text().trim() == ""){
 											delete text[key];
+										}
+										else{
+											text[key] = value.replace(/\<pre/ig, '<div')
+												 .replace(/<\/pre\>/ig, '</div>')
+										}
 									}).value();
 									if(_.isEmpty(prop))
 										prop = undefined;

@@ -89,7 +89,7 @@
                 baseApiUrl = 'https://api-direct.cbd.int'
 
             $scope.pdf.fileName = uniqueId + '-' + (!isMixLocale && pdfLocale ? pdfLocale : 'all') + '.pdf';
-            var src = baseApiUrl + '/api/v2017/generate-pdf/{{realm}}/{{type}}/{{locale}}?documentID={{documentId}}&revision={{revision}}&schema={{schema}}';
+            var src = '/api/v2017/generate-pdf/{{realm}}/{{type}}/{{locale}}?documentID={{documentId}}&revision={{revision}}&schema={{schema}}';
             
             if($route.current.params.code){
                 src = '/api/v2017/generate-pdf/{{realm}}/{{type}}/{{locale}}?code={{code}}';
@@ -101,7 +101,7 @@
                 src += '&force=true&t=' + new Date().getTime();
             }
 
-            return src .replace("{{realm}}", realm)
+            return baseApiUrl + src .replace("{{realm}}", realm)
                                  .replace("{{locale}}", pdfLocale||locale)
                                  .replace("{{type}}", $route.current.params.type)
                                  .replace("{{documentId}}", $route.current.params.documentId)

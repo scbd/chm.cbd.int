@@ -21,7 +21,7 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
             hideSelf : "=hideSelf",
 		},
 		link : function($scope) {
-
+            var dialogId;
             $scope.rawDocuments = [];
             $scope.selectedDocuments=[];
 			$scope.areVisible = false;
@@ -61,7 +61,7 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
                 $scope.syncDocuments();
 
-                ngDialog.close();
+                ngDialog.close(dialogId);
 				$scope.areVisible = true;
 			};
 
@@ -85,13 +85,13 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
 				var docs = []
                 if ($scope.model){
-                    var realmConfig = {params:{realm:realm}};                    
-                    if(realm == "CHM-DEV")
-                       realmConfig.params.realm = 'abs-dev';
-                    else if(realm == "CHM-TRG")
-                        realmConfig.params.realm = 'abs-trg';
-                    else
-                       realmConfig.params.realm = 'abs';
+                    var realmConfig = {params:{realm:undefined}};                    
+                    // if(realm == "CHM-DEV")
+                    //    realmConfig.params.realm = 'abs-dev';
+                    // else if(realm == "CHM-TRG")
+                    //     realmConfig.params.realm = 'abs-trg';
+                    // else
+                    //    realmConfig.params.realm = 'abs';
 
 					if($scope.type == 'radio'){
 						docs.push(IStorage.documents.get($scope.model.identifier, null, realmConfig));
@@ -283,12 +283,12 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
             //==================================
 			$scope.openAddDialog = function(){
 
-                ngDialog.open({
+                var dialog = ngDialog.open({
                     template: 'documentSelectionModal',
                     closeByDocument: false,showClose:false,
                     scope: $scope
                 });
-
+                dialogId = dialog.id;
                  $q.when(load())
                     .then(function (){                        
                         //$scope.syncDocuments();
@@ -304,7 +304,7 @@ function ($http, $rootScope, $filter, $q, ngDialog, IStorage, realm) {
 
             $scope.closeDialog = function () {
                 $scope.syncDocuments();
-                ngDialog.close();
+                ngDialog.close(dialogId);
             };
 			function removeRevisonNumber(identifier){
                 

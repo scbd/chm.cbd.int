@@ -34,10 +34,10 @@
                 </div>
                 <div class="col-md-12">
                     <a translation-url href="#" class="btn openall pull-right" style="display:none" ng-click="openall('.aichiTarget')">open all
-                        <i class="fa  fa-arrow-circle-o-up" />
+                        <i class="fa  fa-arrow-circle-o-up"></i>
                     </a>
                     <a translation-url href="#" class="btn closeall pull-right" ng-click="closeall('.aichiTarget')">close all
-                        <i class="fa  fa-arrow-circle-o-down" />
+                        <i class="fa  fa-arrow-circle-o-down"></i>
                     </a>
                 </div>
             </div>
@@ -58,13 +58,69 @@
             </h3>
         </div>
         <div class="panel-body collapse in" id="{{aichiTarget.identifier}}">
-            <div ng-show="aichiTarget.description">
-                <label>Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description</label>
-                <km-value-ml value="aichiTarget.description" locales="document.header.languages" km-pre html></km-value-ml>
+            <div ng-if="aichiTarget.identifier!='AICHI-TARGET-16'">
+                <div ng-if="aichiTarget.identifier=='AICHI-TARGET-20'">
+                    <div ng-if="resourceMobilisation">
+                        <label for="">Your country has submitted the Financial Reporting Framework</label>
+                        <br/>
+                        <div style="background-color:#eee; padding:5px;">
+                            <a translation-url target="_new" ng-href="{{resourceMobilisation.url}}">
+                                {{resourceMobilisation.url}}
+                                <span class="color-black" style="font-weight:normal;">{{resourceMobilisation.title|lstring:locale}}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="aichiTarget.description">
+                    <label>Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description</label>
+                    <km-value-ml value="aichiTarget.description" locales="document.header.languages" km-pre html></km-value-ml>
+                </div>
+                <div ng-show="aichiTarget.achievementActivities">
+                    <label>Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):</label>
+                    <km-value-ml value="aichiTarget.achievementActivities" locales="document.header.languages" km-pre html></km-value-ml>
+                </div>
             </div>
-            <div ng-show="aichiTarget.description">
-                <label>Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):</label>
-                <km-value-ml value="aichiTarget.achievementActivities" locales="document.header.languages" km-pre html></km-value-ml>
+            <div ng-if="aichiTarget.identifier=='AICHI-TARGET-16'">
+                <div ng-if="aichiTarget.nationalReport">
+                    <div>
+                        <label>Your country has submitted the interim national report on the implementation of the Nagoya Protocol.</label>
+                        <div style="background-color:#eee; padding:5px;">
+                            <a translation-url target="_blank" class="bold" ng-href="{{absNationalReport.url}}">
+                                {{absNationalReport.uniqueIdentifier_s|uppercase}}
+                                <span class="color-black" style="font-weight:normal;">{{absNationalReport.title|lstring:locale}}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-if="aichiTarget.nationalReportDescription">
+                        <label>
+                            Please provide any additional relevant information that has not been included in the interim national report on how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target
+                        </label>
+                        <km-value-ml value="aichiTarget.nationalReportDescription" locales="document.header.languages" km-pre html></km-value-ml>
+                    </div>
+                </div>
+
+                <div  ng-if="aichiTarget.includeLinkedRecords || !aichiTarget.nationalReport || aichiTarget.linkedRecords">
+                    <div ng-class="{'greyout':!aichiTarget.includeLinkedRecords && aichiTarget.nationalReport}">
+                        <div ng-if="aichiTarget.linkedRecordsDescription">
+                            <label>
+                                    Please describe how and to what extent your country has contributed to the achievement of this Aichi Biodiversity Target and summarize the evidence used to support this description:
+                            </label>
+                            <km-value-ml value="aichiTarget.linkedRecordsDescription" locales="document.header.languages" km-pre html></km-value-ml>
+                        </div>
+                        <div ng-if="aichiTarget.linkedRecords">
+                            <label>If desired, please to link to any of the relevant national records published in the ABS Clearing-House:</label>
+                            <span ng-model="aichiTarget.linkedRecords" reference-selector government="document.government" type="checkbox" ng-disabled="true"></span>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="aichiTarget.achievementActivities">
+                    <label>
+                        Please describe other activities contributing to the achievement of the Aichi Biodiversity Target at the global level (optional):
+                    </label>
+                    <km-value-ml value="aichiTarget.achievementActivities" locales="document.header.languages" km-pre html>
+                    </km-value-ml>
+                </div>
             </div>
             
             <!-- <span ng-include src="'aichiTargetContribution'" onload="target=aichiTarget"></span> -->
@@ -374,7 +430,6 @@
                                     <label>Your country has submitted the interim national report on the implementation of the Nagoya Protocol.</label>
                                     <br>
                                     <div style="background-color:#eee; padding:5px;">
-                                        {{self.absNationalReport}}
                                         <a translation-url target="_blank" class="bold" ng-href="{{absNationalReport.url}}">
                                             {{absNationalReport.uniqueIdentifier_s|uppercase}}
                                             <span class="color-black" style="font-weight:normal;">{{absNationalReport.title|lstring:locale}}</span>

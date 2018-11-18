@@ -47,6 +47,8 @@
                 else{
                     $scope.pdf.src = getPdfSrc(lang, force);
                     $scope.pdfLocale = lang;
+                    if($route.current.params.type=='draft-documents')
+                        window.location = $scope.pdf.src;
 
                     var options = {
                         pdfOpenParams: {

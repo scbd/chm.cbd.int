@@ -122,6 +122,23 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 				//==============================
 				//
 				//==============================
+				$scope.edit = function(link)
+				{
+					if(link){
+						if(/\/api\/v2013\/documents\//.test(link.url)){
+							$scope.editor.editFile(link, true)
+						}
+						else{
+							if(!this.isAllowLink())
+								return;
+
+							$scope.editor.editLink(link);
+						}
+					}
+				};
+				//==============================
+				//
+				//==============================
 				$scope.addFile = function()
 				{
 					if(!$scope.isAllowFile())
@@ -160,9 +177,9 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 				//==============================
 				//
 				//==============================
-				$scope.editor.editFile = function(link)
+				$scope.editor.editFile = function(link, isEdit)
 				{
-					if(link!=null)// jshint ignore:line
+					if(link!=null && !isEdit)// jshint ignore:line
 						throw "Only new file is allowed";
 
 					link = link || {url:"", name:"", tag:""};
@@ -173,11 +190,15 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 					$scope.editor.url  = link.url;
 					$scope.editor.name = link.name;
 					$scope.editor.type = "file";
-					$scope.editor.name = link.tag;
-
-					$scope.editor.startUploadProcess(function() {
+					$scope.editor.tag = link.tag;
+					if(!isEdit){
+						$scope.editor.startUploadProcess(function() {
+							$scope.editor.visible = true;
+						});
+					}
+					else{
 						$scope.editor.visible = true;
-					});
+					}
 				};
 
 				//==============================

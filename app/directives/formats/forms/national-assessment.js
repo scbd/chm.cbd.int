@@ -311,7 +311,7 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 					if (!document.nationalIndicatorsUsed == 1)
 						document.nationalIndicators = undefined;
 
-					if ($scope.isMonitoringNotRequired())
+					if (!$scope.isMonitoringNotRequired())
 						document.adequacyDescription = undefined;
 
 					if (/^\s*$/g.test(document.notes))

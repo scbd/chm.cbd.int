@@ -154,7 +154,6 @@ function(app,template,angular) {
 						};
 						
 						$scope.stripFormat = function($html){
-							console.log($html)
 							$html = $html.replace(/\<pre/ig, '<div')
 										 .replace(/<\/pre\>/ig, '</div>')
 							return $html;

@@ -30,7 +30,7 @@ console.info(`info: chm.cbd.int`);
 console.info(`info: API address: ${apiUrl}`);
 
 app.set('view engine', 'ejs');
-// app.use(require('morgan')('dev'));
+
 app.use(cookieParser())
 
 // Configure routes

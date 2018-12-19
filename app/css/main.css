@@ -215,6 +215,7 @@ legend{
 #sixth-national-report-edit .km-value {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
+    text-align:justify!important
 }
 .viewForm .national-targets h2, .viewForm .national-targets h3{
     border-bottom: 1px solid #ddd;
@@ -518,9 +519,9 @@ legend{
 }
 
 .km-pre{
-    word-break: normal;
-    word-wrap: normal; 
-     /* white-space: normal; */
+    word-break: break-word;
+    /* word-wrap: unset;  */
+     white-space: unset;
     text-align:justify!important
 }
 .ngdialog-open{

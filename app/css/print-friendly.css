@@ -67,7 +67,7 @@ b, strong {
   display: block !important;
 }
 @page {
-    @bottom-right { 
+    @bottom-center { 
         content: counter(page);
     }
 }
@@ -75,5 +75,5 @@ b, strong {
     float: none!important;
 }
 .km-value{
-    text-align: justify;
+    text-align: justify!important;
 }

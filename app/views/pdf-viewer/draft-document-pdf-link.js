@@ -13,7 +13,7 @@
             //15 minute expiry
             var document = {
                 storageType : "km-document",
-                expiry      : new Date(new Date().getTime()+(15*60*1000)),
+                expiry      : new Date(new Date().getTime()+(60*60*1000)),
                 sharedData  : { "identifier": uniqueId },
                 sharedWith  : { "link" : true },
                 forPdf      : true
@@ -25,7 +25,7 @@
                 var id= response.data.id;
                 return $q.when($http.get('/api/v2018/document-sharing/'+id))
                         .then(function(result){                            
-                            $location.path('/pdf/draft-documents/'+uniqueId + '/'+ result.data.urlHash + (language ? '': '?mixLocale=true'))
+                            $location.url('/pdf/draft-documents/'+uniqueId + '/'+ result.data.urlHash + (language ? '': '?mixLocale=true&shareId='+id))
                         })
             });
         }

@@ -501,24 +501,8 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//============================================================
 			$scope.loadRecords = function(identifier, schema) {
 
-				if (identifier) { //lookup single record
-					var deferred = $q.defer();
-
-					storage.documents.get(identifier, { info: "" })
-						.then(function(r) {
-							return r.data;
-						}, function(e) {
-							if (e.status == 404) {
-								storage.drafts.get(identifier, { info: "" })
-									.then(function(r) { deferred.resolve(r.data);},
-										  function(e) { deferred.reject (e);});
-							}
-							else {
-								deferred.reject (e);
-							}
-						});
-					return deferred.promise;
-				}
+        if (identifier) 
+					return getSingleRecord(identifier)
 
 				//Load all record of specified schema;
 
@@ -533,6 +517,88 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 					});
 			};
 
+      //============================================================
+			//
+			//============================================================          
+      function getSingleRecord(identifier){
+        var deferred = $q.defer();
+
+        storage.documents.get(identifier, { info: "" })
+          .then(function(r) {
+            return r.data;
+          }, function(e) {
+            if (e.status == 404) {
+              storage.drafts.get(identifier, { info: "" })
+                .then(function(r) { deferred.resolve(r.data);},
+                    function(e) { deferred.reject (e);});
+            }
+            else {
+              deferred.reject (e);
+            }
+          });
+        return deferred.promise;
+      }
+      
+      //============================================================
+			//
+			//============================================================      
+      $scope.loadOrgs = function(identifier) {
+
+				if (identifier) 
+					return getSingleRecord(identifier)
+				
+        return getAllOrgs()
+			};
+
+      //============================================================
+			//
+			//============================================================       
+      function getAllOrgs(){
+        var sQuery = "type eq 'organization'";
+        var params = {
+          q: "schema_s:organization",
+          fl: "identifier_s,title_*",
+          sort: "title_s ASC",
+          rows:99999999
+        };
+        return $q.all([$http.get("/api/v2013/index", { params:params, cache: true }),
+                 storage.drafts   .query(sQuery, null, { cache: true })])
+          .then(function(results) {
+
+            var qResult = Enumerable.From (normalizeSolrResult(results[0].data.response.docs))
+                        .Union(results[1].data.Items, "$.identifier");
+            return qResult.ToArray();
+          });
+      }
+
+      //============================================================
+			//
+			//============================================================       
+      function normalizeSolrResult(data){
+        var normalData=[]
+        for (var i = 0; i < data.length; i++) {
+          normalData[i] ={}
+          normalData[i].identifier = data[i].identifier_s
+          normalData[i].title = solrPropTolString('title',data[i])
+        }
+        return normalData
+      }
+
+      //============================================================
+			//
+			//============================================================       
+      function solrPropTolString(propertyName,solrDoc){
+        if(!solrDoc[propertyName+'_t']) return {}
+        
+        var langs = ['EN','AR','ES','FR','RU','ZH']
+        var lString = {}
+        
+        for (var i = 0; i < langs.length; i++) {
+          lString[langs[i].toLowerCase()]=solrDoc[propertyName+'_'+langs[i]+'_t']
+        }
+        return lString
+      }
+      
 			$scope.init();
 		}
 	};

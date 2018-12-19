@@ -64,10 +64,9 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 					if(!$scope.options)	{
 
 						var decisionQuery = {
-							q    : "schema_s:decision AND body_s:XXVII8-COP",
-							sort : "event_s desc, symbol_s asc",
+							q    : "schema_s:decision AND treaty_s:XXVII8 AND body_s:COP",
 							rows : 999999,
-							fl   : "title_t,symbol_s"
+							fl   : "title_t,symbol_s,event_s"
 						};
 
 						$scope.options  = {
@@ -76,13 +75,15 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 							libraries     : $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",         { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
 							copDecisions  : $http.get("/api/v2013/index/select", { params: decisionQuery, cache: true })
 												 .then(function(res) {
-												 	return _.map(res.data.response.docs, function(o) {
+												 	return _(res.data.response.docs).map(function(o) {
 												 		return {
 												 			identifier: o.symbol_s,
-												 			title: (o.symbol_s + " - " + o.title_t)
+															title: (o.symbol_s + " - " + o.title_t),
+															sortKey1:  (o.event_s ||'').replace(/\d+/g, pad0000),
+															sortKey2:  (o.symbol_s||'').replace(/\d+/g, pad0000)
 												 		};
-												 	});
-												 })
+													}).sortByOrder(['sortKey1', 'sortKey2'], ['desc', 'asc']).value();
+												})
 						};
 					}
 
@@ -100,6 +101,18 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 
 				});
 			};
+
+			//==================================
+			//
+			//==================================
+			function pad0000(v) {
+				v = (v||'').toString();
+
+				while(v.length<4)
+					v = '0'+v;
+
+				return v
+			}
 
 			//==================================
 			//

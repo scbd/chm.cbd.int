@@ -364,6 +364,9 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           } else if (schemaName == 'nr5' || schemaName == 'nr4' || schemaName == 'nr3' || schemaName == 'nr2' || schemaName == 'nr1') {
             $scope.legendTitle = schema[0].reportType_EN_t;
 
+          } else if (schemaName == 'nr6') {
+            $scope.legendTitle = `${schema[0].schema_EN_t} (2014-2018)`;
+
           } else if (schemaName == 'nbsaps') {
             $scope.legendTitle = 'National Biodiversity Strategies and Action Plans';
 
@@ -462,6 +465,10 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             _.each(country.docs, function(schema, schemaName) {
 
               switch (schemaName) {
+                case 'nationalReport6':
+                  if ($scope.schema !== 'all')
+                    balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.nationalReport6[0].schema_EN_t + " (2014-2018)</div>";
+                  break;                
                 case 'nationalReport':
                   if ($scope.schema !== 'all')
                     balloonBody = " <div class='panel-body' style='text-align:left;'>" + country.docs.nationalReport[0].reportType_EN_t + "</div>";

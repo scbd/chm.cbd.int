@@ -14,6 +14,7 @@ define(['text!./filter-all.html', 'app', 'lodash'], function(template, app, _) {
             'all': {
               'schema_s': [
                 'nationalReport',
+                'nationalReport6',
                 'nationalAssessment',
                 'resourceMobilisation',
                 'resourceMobilisation2020',

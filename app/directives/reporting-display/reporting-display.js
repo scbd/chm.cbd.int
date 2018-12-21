@@ -49,6 +49,7 @@ define(['text!./reporting-display.html',
           'all': {
             'schema_s': [
               'nationalReport',
+              'nationalReport6',
               'nationalAssessment',
               'resourceMobilisation',
               'resourceMobilisation2020',
@@ -58,6 +59,11 @@ define(['text!./reporting-display.html',
             '_latest_s': ['true'],
             '_state_s': ['public']
           },
+          'nr6': {
+            'schema_s': ['nationalReport6'],
+            '_latest_s': ['true'],
+            '_state_s': ['public']
+          },           
           'nr5': {
             'schema_s': ['nationalReport'],
             'reportType_s': ['B3079A36-32A3-41E2-BDE0-65E4E3A51601'],

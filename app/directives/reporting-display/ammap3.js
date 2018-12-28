@@ -365,7 +365,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             $scope.legendTitle = schema[0].reportType_EN_t;
 
           } else if (schemaName == 'nr6') {
-            $scope.legendTitle = `${schema[0].schema_EN_t} (2014-2018)`;
+            $scope.legendTitle = schema[0].schema_EN_t + ' (2014-2018)';
 
           } else if (schemaName == 'nbsaps') {
             $scope.legendTitle = 'National Biodiversity Strategies and Action Plans';

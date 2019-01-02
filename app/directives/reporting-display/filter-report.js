@@ -17,6 +17,10 @@ define(['text!./filter-report.html', 'app', 'lodash'], function(template, app, _
           $scope.classCollapse = "collapse";
 
           $scope.terms = [{
+            id: 'nr6',
+            title: '6th National Report',
+            selected: 0
+          }, {
             id: 'nr5',
             title: '5th National Report',
             selected: 0
@@ -39,6 +43,11 @@ define(['text!./filter-report.html', 'app', 'lodash'], function(template, app, _
           }];
 
           $scope.queries = {
+            'nr6': {
+              'schema_s': ['nationalReport6'],
+              '_latest_s': ['true'],
+              '_state_s': ['public']
+            }, 
             'nr5': {
               'schema_s': ['nationalReport'],
               'reportType_s': ['B3079A36-32A3-41E2-BDE0-65E4E3A51601'],
@@ -72,7 +81,7 @@ define(['text!./filter-report.html', 'app', 'lodash'], function(template, app, _
           };
 
           var filter = _([$location.search().filter]).flatten().compact().value()[0];
-          if (filter === 'nr5' || filter === 'nr4' || filter === 'nr3' || filter === 'nr2' || filter === 'nr1') {
+          if (filter === 'nr6' || filter === 'nr5' || filter === 'nr4' || filter === 'nr3' || filter === 'nr2' || filter === 'nr1') {
             var term = _.find($scope.terms, function(term) {
               return term.id === filter;
             });

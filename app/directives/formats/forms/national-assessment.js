@@ -632,6 +632,19 @@ define(['text!./national-assessment.html', 'app', 'angular', 'lodash', 'json!app
 						$scope.error = error;
 				};
 
+				
+				$scope.onEditorFileUpload = function(data){
+					if(!$scope.document.additionalDocuments)
+						$scope.document.additionalDocuments = [];
+					var editorImage = {
+						url: data.url,
+						name: data.filename,
+						tag : 'editorImage'
+					};
+					$scope.document.additionalDocuments.push(editorImage);
+
+				}
+
 				$scope.init();
 
 			}

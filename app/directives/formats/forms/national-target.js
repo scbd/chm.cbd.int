@@ -431,6 +431,18 @@ app.directive("editNationalTarget", ['$filter','$rootScope', "$http", "$q", 'ISt
 				return $scope.document && $scope.document.isAichiTarget
 			}
 
+			$scope.onEditorFileUpload = function(data){
+				if(!$scope.document.additionalDocuments)
+					$scope.document.additionalDocuments = [];
+				var editorImage = {
+					url: data.url,
+					name: data.filename,
+					tag : 'editorImage'
+				};
+				$scope.document.additionalDocuments.push(editorImage);
+
+			}
+
             $scope.init();
 
         }

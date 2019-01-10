@@ -127,7 +127,7 @@
 											or the drivers of its loss, changes to socioeconomic conditions, such as awareness of biodiversity, changes in resource availability, changes to government policies, or changes in the behaviour of major sectors in the country. For national
 											targets which are quantitative in nature, Parties may also wish to consider reporting on the extent of achievement in relation to the target value. For example, for some types of targets, this could be done with the use of percentages. Parties
 											may also wish to describe the process they have used to assess progress towards the target, as well as report on any obstacles related to the assessment process for the target.">
-												<div km-rich-textbox identifier="document.header.identifier" required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
+												<div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" required name="assessmentText" ng-model="document.assessmentText" rows="10" locales="document.header.languages"></div>
 											</div>
 										</div>
 									</div>
@@ -152,7 +152,7 @@
 											<div class="row" ng-show="document.nationalIndicatorsUsed">
 												<div class="col-md-12">
 													<div class="km-control-group" name="nationalIndicators" caption="Please provide a list of indicators used for the assessment of this target">
-														<div km-rich-textbox identifier="document.header.identifier" name="nationalIndicators" ng-model="document.nationalIndicators" locales="document.header.languages" rows="3"></div>
+														<div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" name="nationalIndicators" ng-model="document.nationalIndicators" locales="document.header.languages" rows="3"></div>
 													</div>
 												</div>
 											</div>
@@ -163,7 +163,7 @@
 									<div class="row  bottom-spacing">
 										<div class="col-md-12">
 											<div class="km-control-group" name="documentText" caption="Please describe any other tools or means used for assessing progress." data-container=".assessmentform" data-content="Please describe any tools or approaches your country has used to assess its progress towards this national target. This could include case studies, desk studies, expert opinions, and stakeholder consultations, among other things.">
-												<div km-rich-textbox identifier="document.header.identifier" name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
+												<div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" name="documentText" ng-model="document.documentText" rows="5" locales="document.header.languages" placeholder=""></div>
 											</div>
 										</div>
 									</div>
@@ -194,7 +194,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="km-control-group" required name="confidenceInfo" caption="Please provide an explanation for the level of confidence indicated." data-container=".assessmentform" data-content="Please describe why the assessment has been given the level of confidence selected above. Parties may wish to comment on the types of information or indicators used, their representativeness, coverage, and any limitations these may have.">
-												<div km-rich-textbox identifier="document.header.identifier" required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
+												<div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" required name="confidenceInfo" rows="6" ng-model="document.confidenceInfo" locales="document.header.languages"></div>
 											</div>
 										</div>
 									</div>
@@ -208,7 +208,7 @@
 									<div class="row">
 										<div class="col-md-12" ng-if="isMonitoringNotRequired()">
 											<div class="km-control-group" name="adequacyDescription" caption="Please describe how the target is monitored and indicate whether there is a monitoring system in place." data-container=".assessmentform" data-content="If one of the two first answers has been selected in the question above (i.e. monitoring related to this target is adequate or monitoring related to this target is partial), please describe how the target is monitored, including information on any relevant monitoring systems. Issues that your country may wish to include in its response are the characteristics of the monitoring system, the organizations responsible for it, how the information or data is collected, the type of data collected and how frequently data is updated.">
-												<div km-rich-textbox identifier="document.header.identifier" name="adequacyDescription" ng-model="document.adequacyDescription" locales="document.header.languages" rows="3"></div>
+												<div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" name="adequacyDescription" ng-model="document.adequacyDescription" locales="document.header.languages" rows="3"></div>
 											</div>
 										</div>
 									</div>

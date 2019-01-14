@@ -672,6 +672,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								if (!options.skipLatest && options.latest === undefined)
 									options.latest = true;
 								
+								government = (government||'UNKNONW');
+								
 								options = _.assign({
 									schema: options.schema,
 									target: options.nationalTargetId,

@@ -101,7 +101,8 @@
                         <div class="help-block">
                             Additional Information
                         </div>
-                        <div km-rich-textbox ng-model="document.relevantInformation" locales="document.header.languages" rows="3"></div>
+                        <div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" name="relevantInformation"
+                         ng-model="document.relevantInformation" locales="document.header.languages" rows="3"></div>
                     </div>
                 </div>
                 <div class="col-md-12">

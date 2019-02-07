@@ -16,6 +16,8 @@ app.directive('viewNationalTarget', ["$q", "IStorage", function ($q, storage) {
 		link : function ($scope)
 		{
 
+			if(!$scope.target)
+				$scope.target = '_blank';
 		}
 	};
 }]);

@@ -179,7 +179,7 @@
 					<input type="button" class="btn" ng-class="{'btn-default' : options.documentLocale!=locale, 'btn-info' : options.documentLocale==locale}"
 						ng-repeat="locale in document.header.languages" ng-click="options.documentLocale = locale" value="{{locale | uppercase}}" />
 				</div>
-				<view-form-loader document="document" hide-buttons="true" link-target="_new" locale="options.documentLocale"></view-form-loader>
+				<view-form-loader document="document" hide-buttons="true" link-target="_blank" locale="options.documentLocale"></view-form-loader>
 			</div>
 
   		</div>

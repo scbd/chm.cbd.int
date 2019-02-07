@@ -16,6 +16,8 @@ app.directive('viewNationalAssessment', ["$q", "$http", "IStorage", "$location",
 		},
 		link : function ($scope)
 		{
+			if(!$scope.target)
+				$scope.target = '_blank';
 			//===============
 			//
 			//===============

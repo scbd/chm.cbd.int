@@ -191,7 +191,7 @@
 							<div ng-if="absNationalReport">
 								<div>
 									<label for="">Interim national report on the implementation of the Nagoya Protocol</label><br/>
-									<a translation-url target="_new" ng-href="{{absNationalReport.url_ss[0]}}">
+									<a translation-url target="_blank" ng-href="{{absNationalReport.url_ss[0]}}">
 														{{absNationalReport.uniqueIdentifier_s|uppercase}}</a> 
 									{{absNationalReport.title_t}}
 								</div>
@@ -213,7 +213,7 @@
 									<tbody>
 										<tr ng-repeat="item in absLinkedRecords">
 											<td class="ng-binding">
-												<a translation-url target="_new" ng-href="{{item.url_ss[0]}}">
+												<a translation-url target="_blank" ng-href="{{item.url_ss[0]}}">
 													{{item.uniqueIdentifier_s|uppercase}}
 												</a> 
 												{{item.title_t|lstring:locale}}</td>											
@@ -226,7 +226,7 @@
 						</div>
 						<div ng-if="aichiTarget.identifier=='AICHI-TARGET-20' && resourceMobilisationReport">
 							<label for="">Financial Reporting Framework</label><br/>
-							<a translation-url target="_new" ng-href="{{resourceMobilisationReport.url_ss[0]}}">
+							<a translation-url target="_blank" ng-href="{{resourceMobilisationReport.url_ss[0]}}">
 								{{resourceMobilisationReport.url_ss[0]}}</a> 
 							{{resourceMobilisationReport.title_t}}
 						</div>

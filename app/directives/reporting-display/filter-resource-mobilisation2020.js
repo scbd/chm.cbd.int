@@ -11,7 +11,7 @@ define(['app', 'text!./filter-resource-mobilisation2020.html','lodash'], functio
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
           $scope.queries = {
-            'resourceMobilisation': {
+            'resourceMobilisation2020': {
               'schema_s': ['resourceMobilisation2020'],
               '_latest_s': ['true'],
               '_state_s': ['public']

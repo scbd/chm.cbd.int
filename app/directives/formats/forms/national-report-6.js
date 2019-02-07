@@ -270,6 +270,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							// because the tab may have not been loaded.
 							document = updateLocaleChanges(document);
 
+							if (_.isEmpty(document.relevantInformation)) delete document.relevantInformation;
+							if (_.isEmpty(document.relevantDocuments))   delete document.relevantDocuments;
+
 							return document;
 						};
 
@@ -668,6 +671,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 
 								if (!options.skipLatest && options.latest === undefined)
 									options.latest = true;
+								
+								government = (government||'UNKNONW');
 								
 								options = _.assign({
 									schema: options.schema,

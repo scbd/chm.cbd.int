@@ -89,4 +89,32 @@
             </div>
         </div>
     </div>
+
+    <div class="panel panel-default">
+        <div class="panel-header">
+            <h3>Additional information</h3>
+        </div>
+        <div class="panel-body" >
+            <div class="row  bottom-spacing">
+                <div class="col-md-12">
+                    <div class="km-control-group">
+                        <div class="help-block">
+                            Additional Information
+                        </div>
+                        <div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" name="relevantInformation"
+                         ng-model="document.relevantInformation" locales="document.header.languages" rows="3"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="km-control-group">
+                        <div class="help-block">
+                            Relevant websites, web links and files
+                        </div>
+                        <div km-link name="relevantDocuments" ng-model="document.relevantDocuments" identifier="document.header.identifier"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

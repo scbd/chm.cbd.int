@@ -37,7 +37,12 @@
 							</div>
 						</div>
 						<header >
-
+							<div class="alert alert-danger" ng-if="subRecordErrors.length">
+								<div class="alert  alert-danger">
+									There is mandatory information missing in section I and III records, please update this records before proceeding.
+								</div>
+								<div ng-include="'subRecordsValidationErrors.html'" onload="recordsToValidate=subRecordErrors"></div>
+							</div>
 							<div id="wrap">
 								<div style="display:none;visibility:hidden;height:123px"></div>								
 								<div class="navbar navbar-custom navbar-inverse navbar-static-top" id="nav">
@@ -205,13 +210,13 @@
 														</div>
 														<div class="row">
 															<div class="col-xs-12">
-															<div drag-to-reorder="document.nationalTargets">
+															<div>
 																<br/><br/> </br>
 																<div  ng-repeat="item in document.nationalTargets">
 																	
-																	<div class="col-xs-12 col-sm-12 col-md-12" dtr-draggable>
+																	<div class="col-xs-12 col-sm-12 col-md-12">
 
-																		<div class="panel panel-default">
+																		<div class="panel panel-default" id="pnl_{{item.identifier}}">
 																			<div class="panel-header clearfix">
 																				<!-- <div class="row"> -->
 																					<!-- <div class="col-xs-11">							 -->
@@ -227,24 +232,7 @@
 																							</a>
 																						</div>
 																					</h3>
-																					<!-- </div> -->
-																					<!-- <div class="col-xs-1">	
-																						<table class="pull-right">
-																							<tr>																				
-																								<td>
-																									<i class="fa fa-arrows"  style="font-size:20px;padding-top:5px;"/>																						
-																								</td>
-																							</tr>
-																							<tr>
-																								<td style="padding-left:5px">
-																									<a info-bar data-content="Targets can be reorderd by click + dragging to new position" data-title="CHM Help: Sixth national report">
-																										<i class="fa fa-info-circle fa-2x"></i>
-																									</a>
-																								</td>
-																							</tr>
-																						</table>
-																					</div>			 -->
-																				<!-- </div> -->
+																					
 																			</div>
 																			<div class="panel-body">
 																				<br/>
@@ -416,10 +404,89 @@
 							</div>
 						</script>
 
-					</div>
-					</div>
+						<script type="text/ng-template" id="subRecordsValidation.html" trados-translation="true">
+							<h1>Sixth national report - Section I, III validations</h1>
+							<hr>
+							<div class="modal-body  bg-white" >
+								<div ng-if="loadingRecords" style="margin-left:45%">
+									<i class="fa fa-spin fa-spinner"></i> Loading...
+								</div>
+								<table class="table table-bordered">
+									<tbody>
+										<tr ng-if="!loadingRecords && !validatingRecords && ((recordsToValidate||[]).length<=0 || !hasErrors)">
+											<td >
+												<div class="alert alert-info">
+													There are no records in section I and III which have validation errors, please click the continue button to proceed.
+												</div>
+											</td>
+										</tr>
+										<tr ng-if="!loadingRecords && !validatingRecords && hasErrors">
+											<td>
+												<div class="alert alert-danger">
+													There is mandatory information missing in section I and III records, please update this records before proceeding.
+												</div>
+											</td>
+										</tr>
+										<tr >
+											<td ng-include="'subRecordsValidationErrors.html'"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="ngdialog-buttons">
+								<button type="button" class="ngdialog-button ngdialog-button-primary" ng-if="!validatingRecords && !loadingRecords && hasErrors" ng-click="close()">Close</button>
+								<button type="button" class="ngdialog-button ngdialog-button-primary" ng-if="!validatingRecords && !loadingRecords && !hasErrors" ng-click="continue()">Continue</button>
+							</div>
+						</script>
 
+						<script type="text/ng-template" id="subRecordsValidationErrors.html" trados-translation="true">
+							<table class="table table-bordered">
+								<tr ng-repeat-start="record in recordsToValidate | orderBy:'status'">
+									<td>
+										<span ng-if="record.type=='nationalTarget'">Section I : National Target</span>
+										<span ng-if="record.type=='nationalAssessment'">Section III : Progress Assessment</span>
+									</td>										
+									<td ng-bind="(record.workingDocumentTitle||record.title)|lstring:locale"></td>
+									<td>
+										<div ng-switch="record.status">
+											<span ng-switch-when="2" class="label label-success">Valid</span>
+											<div ng-switch-when="1" >
+												<span class="label label-warning">Invalid</span>
+												<button class="btn btn-xs btn-danger" ng-click="record.showErrors=!record.showErrors">
+													Show Errors <span class="badge" ng-bind="record.errors.length"></span>
+												</button>
+											</div>
+											<span ng-switch-default class="label label-info">
+												<i class="fa fa-spin fa-spinner"></i> Validating...
+											</span>
+										</div>
+									</td>
+								</tr>
+								<tr ng-repeat-end ng-if="record.showErrors">
+									<td colspan="3" style="border-top:none">
+										<table class="table table-bordered">
+											<tr ng-repeat="error in record.errors">
+												<td ng-switch="error.property">	
+													<span ng-switch-when="relevantNationalTarget" > <span>Field is mandatory</span> / <span>Please answer at least one question from relevance of National Targets to Aichi Targets section </span> </span>
+													<span ng-switch-when="title" > <span>Field is mandatory</span> / <span>National Target </span> </span>
+													<span ng-switch-when="jurisdiction" > <span>Field is mandatory</span> / <span>Level of application Please specify the level to which the target applies </span> </span>
+													<span ng-switch-when="jurisdictionInfo" > <span>Field is mandatory</span> / <span>please indicate area concerned for the selected level of application </span> </span>													
+													<span ng-switch-when="relevantNationalTarget" > <span>Field is mandatory</span> / <span>Aichi Biodiversity Target </span> </span>
+													<span ng-switch-when="progress" > <span>Field is mandatory</span> / <span>Rate of progresses toward the implementation of the selected target </span> </span>
+													<span ng-switch-when="confidence" > <span>Field is mandatory</span> / <span>Level of confidence of the above assessment </span> </span>
+													<span ng-switch-when="nationalTarget" > <span>Field is mandatory</span> / <span>Target </span> </span>
+													<span ng-switch-default ng-bind="error.code + ':' + error.property "></span>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</script>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
+</div>

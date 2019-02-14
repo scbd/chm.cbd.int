@@ -30,7 +30,8 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments track by $index">
+    <div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments track by $index"
+    id="pnl_{{progressAssessment.assessment.identifier}}">
         <div class="panel-header clearfix">
             <h3>
                 <!-- Progress assessment for -->

@@ -530,3 +530,7 @@ legend{
 .white-background .ngdialog-content{
     background:#fff !important;
 }
+
+.error-background {
+    background:#ebccd1;
+}

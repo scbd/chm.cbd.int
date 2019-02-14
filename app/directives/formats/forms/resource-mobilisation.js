@@ -1,6 +1,6 @@
-define(['text!./resource-mobilisation.html', 'app', 'angular', 'lodash', 'jquery', 'authentication', '../views/resource-mobilisation', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, $) { 'use strict';
+define(['text!./resource-mobilisation.html', 'app', 'angular', 'lodash', 'jquery', 'authentication', '../views/resource-mobilisation', 'authentication', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'utilities/solr','ngDialog', 'scbd-angularjs-services/locale'], function(template, app, angular, _, $) { 'use strict';
 
-app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "guid", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", '$route', function ($http, $rootScope, $filter, guid, $q, $location, storage, Enumerable,  editFormUtility, authentication, siteMapUrls, navigation, $route) {
+app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "guid", "$q", "$location", "IStorage", "Enumerable",  "editFormUtility", "authentication", "siteMapUrls", "navigation", '$route', "solr", "realm", "$compile", "$timeout", "ngDialog", "locale", function ($http, $rootScope, $filter, guid, $q, $location, storage, Enumerable,  editFormUtility, authentication, siteMapUrls, navigation, $route, solr, realm, $compile, $timeout, ngDialog, locale) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -168,23 +168,190 @@ app.directive('editResourceMobilisation', ["$http","$rootScope", "$filter", "gui
 					});
 				}
 
-				promise.then(function(doc) {
-					loadYears(doc);
-					return doc;
 
-				}).then(function(doc) {
+				$q.when(loadReferenceRecords({ 
+					"fl"    : 'identifier_s, title_s, _workflow_s, _state_s, versionID_s', 
+					schema: 'resourceMobilisation'
+				}))
+				.then(function(rm2015Docs) {
+					if (!qs.uid && rm2015Docs && rm2015Docs.length > 0) {
+						ngDialog.open({
+							template: 'recordExistsTemplate.html',													
+							closeByDocument: false,
+							closeByEscape: false,
+							showClose: false,
+							closeByNavigation: false,
+							controller: ['$scope', '$timeout', function($scope, $timeout) {
+								$scope.alertSeconds = 10;
+								time();
 
-					$scope.status = "ready";
-					$scope.document = doc;
+								function time(){
+									$timeout(function(){
+										if($scope.alertSeconds == 1){																	
+											$scope.openExisting();
+										}
+										else{
+											$scope.alertSeconds--;																
+											time()
+										}
+									}, 1000)
+								}
+								$scope.openExisting = function() {
+									ngDialog.close();
+									var rm2015 = _.head(rm2015Docs);
+									if(rm2015._workflow_s)
+										$location.path('/management/requests/' + rm2015['_workflow_s'].replace('workflow-','')+'/publishRequest');
+									else
+										$location.path('/submit/resourceMobilisation/' + rm2015['identifier_s']);
+								}
+							}]
+						});
+					}
+					else
+						pendingPromise();
+				})
 
-				}).catch(function(err) {
+				function pendingPromise() {
+								
+					promise.then(function(doc) {
+						loadYears(doc);
+						return doc;
 
-					$scope.onError(err.data, err.status);
-					throw err;
+					}).then(function(doc) {
 
-				});
+						$scope.status = "ready";
+						$scope.document = doc;
+
+					}).catch(function(err) {
+
+						$scope.onError(err.data, err.status);
+						throw err;
+
+					});
+				}
 			};
 
+			//============================================================
+			//
+			//============================================================
+			function loadReferenceRecords(options, appRealm) {
+
+				var government;
+				if($scope.document && $scope.document.government){
+					government = $scope.document.government.identifier
+				}
+				else
+					government = $scope.defaultGovernment();
+
+				if (!options.skipLatest && options.latest === undefined)
+					options.latest = true;
+				
+				government = (government||'UNKNONW');
+				
+				options = _.assign({
+					schema    : options.schema,
+					rows      : 500,
+					government: government
+				}, options || {});
+
+				var query = [];
+				var fq = [];
+				// Add Schema
+				fq.push("schema_s:" + solr.escape(options.schema));
+
+				if (options.government)
+					fq.push("government_s:" + solr.escape(options.government));
+
+				if (options.identifier)
+					query.push("identifier_s:" + solr.escape(options.identifier));
+
+				if (options.state)
+					fq.push("_state_s:" + solr.escape(options.state));
+
+				fq.push("realm_ss:" + (appRealm || realm).toLowerCase());
+
+				if (options.latest !== undefined) {
+					fq.push("_latest_s:" + (options.latest ? "true" : "false"));
+				}
+
+				// AND / OR everything
+
+				if(query.length==0)
+					query = '*:*'
+				else 
+					query = solr.andOr(query);
+					
+				return querySolr(fq, query, options.rows, options.fl, options)
+			}
+			
+			//==================================
+			//
+			//==================================	
+			function querySolr(fq, query, rows, fields, options){
+				var qsParams = {
+					"fl"	: 	"id, identifier_s, uniqueIdentifier_s, schema_t, schema_s, createdDate_dt, title_*, summary_*, description_*, url_ss, _revision_i, _state_s, version_s, _latest_s, _workflow_s, date_dt",
+					"sort"	: 	(options||{}).sort||"createdDate_dt asc",
+					"start"	: 	0,
+					"rows"	: 	rows,
+				};
+
+				if (options && options.group){
+					qsParams.group = options.group;
+					qsParams['group.field'] = options['group.field']
+					qsParams['group.limit'] = options['group.limit']
+				}
+
+				if(fields)
+					qsParams.fl = fields;
+
+				if(fq)
+					qsParams.fq = fq
+				if(query)
+					qsParams.q = query;
+				
+				if(locale != 'en')
+					qsParams.fl = qsParams.fl.replace(/_EN_/g, '_'+locale.toUpperCase()+'_')
+
+				return $http.get("/api/v2013/index", {params: qsParams}).then(function(res) {
+
+					if(options && options.group){
+						var fieldGroups = res.data.grouped[options['group.field']];
+						if(fieldGroups){
+							_.each(fieldGroups.groups, function(o){
+								_.each(o.doclist.docs, defaultLstring);
+							});
+						}
+						return res.data.grouped;
+					}
+					var t = _.map(res.data.response.docs, defaultLstring);
+					return _.map(res.data.response.docs, defaultLstring);
+
+				});
+			}
+
+			//==================================
+			//
+			//==================================
+			function defaultLstring(v){
+				return _.defaults(v, {
+					schemaName: solr.lstring(v, "schema_*_t", "schema_EN_t", "schema_s"),
+					title: solr.lstring(v, "title_*_t", "title_EN_t", "title_t"),
+					summary: solr.lstring(v, "summary_*_t", "description_*_t", "summary_EN_t", "description_EN_t", "summary_t", "description_t"),
+					url    : toLocalUrl(v.url_ss)
+				});
+			}
+
+			//==================================
+			//
+			//==================================			
+			function toLocalUrl(urls) {
+
+				var url = navigation.toLocalUrl(_.first(urls));
+	
+				if(_(url).startsWith('/') && (_(url).endsWith('=null') || _(url).endsWith('=undefined')))
+					return null;
+			}
+						
 			//==============================
 			//
 			//==============================

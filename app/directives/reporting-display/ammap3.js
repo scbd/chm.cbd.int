@@ -205,8 +205,11 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         function generateMap(schema) {
 
           if (!schema) return;
-          if (schema.indexOf('AICHI-TARGET-') > -1)
+          if (schema.indexOf('AICHI-TARGET-') > -1){
             progressColorMap(aichiMap);
+            if(!$scope.items || _.isEmpty($scope.items) ||  $scope.items.length <=0)
+              legendTitle(null, null, schema);
+          }
           else
             progressColorMap(defaultMap);
         } //$scope.legendHide
@@ -360,7 +363,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         function legendTitle(country, schema, schemaName) {
 
           if (schemaName.indexOf('AICHI-TARGET-') > -1) {
-            $scope.legendTitle = aichiTargetReadable(schema[0].nationalTarget_EN_t) + " Assessments";
+            $scope.legendTitle = aichiTargetReadable(schemaName) + " Assessments";
           } else if (schemaName == 'nr5' || schemaName == 'nr4' || schemaName == 'nr3' || schemaName == 'nr2' || schemaName == 'nr1') {
             $scope.legendTitle = schema[0].reportType_EN_t;
 

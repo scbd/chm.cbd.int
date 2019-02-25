@@ -1,6 +1,6 @@
-define(['app','text!./filter-indicator.html'], function(app,template) {
+define(['app', 'text!./filter-national-assessment.html', 'lodash'], function(app, template, _) {
   'use strict';
-  app.directive('filterIndicator', [function() {
+  app.directive('filterNationalAssessment', [function() {
     return {
       restrict: 'E',
       template: template,
@@ -10,12 +10,12 @@ define(['app','text!./filter-indicator.html'], function(app,template) {
         title: '@title',
       },
       link: function($scope, $element, $attr, reportingDisplayCtrl) {
-        $scope.queries = {
-            'nationalIndicator': {
+          $scope.queries = {
+            'nationalAssessment': {
               'schema_s': ['nationalAssessment'],
               '_latest_s': ['true'],
               '_state_s': ['public'],
-              'nationalIndicators_s' : ['*']
+              'type_s'    : ['national']
             }
           };
           //=======================================================================
@@ -23,10 +23,10 @@ define(['app','text!./filter-indicator.html'], function(app,template) {
           //=======================================================================
           $scope.loadRecords = function() {
 
-            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries),'nationalIndicator');
+            reportingDisplayCtrl.addSubQuery(_.cloneDeep($scope.queries), 'nationalAssessment');
             reportingDisplayCtrl.search();
           }; // loadRecords
-          
+
         } //link
     }; // return
   }]); //app.directive('searchFilterCountries

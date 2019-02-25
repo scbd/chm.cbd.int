@@ -14,6 +14,7 @@ define(['text!./reporting-display.html',
   "./filter-target",
   "./filter-resource-mobilisation",
   "./filter-resource-mobilisation2020",
+  "./filter-national-assessment"
 ], function(template, app, $, _) {
   'use strict';
 
@@ -101,9 +102,16 @@ define(['text!./reporting-display.html',
             '_state_s': ['public']
           },
           'nationalIndicator': {
-            'schema_s': ['nationalIndicator'],
+            'schema_s': ['nationalAssessment'],
             '_latest_s': ['true'],
-            '_state_s': ['public']
+            '_state_s': ['public'],
+            'nationalIndicators_s' : ['*']
+          },
+          'nationalAssessment': {
+            'schema_s': ['nationalAssessment'],
+            '_latest_s': ['true'],
+            '_state_s': ['public'],
+            'type_s'    : ['national']
           },
           'nationalTarget': {
             'schema_s': ['nationalTarget'],
@@ -259,6 +267,8 @@ define(['text!./reporting-display.html',
               getFormatedSubQuery(filterName, 'nationalTarget_EN_t'),
               getFormatedSubQuery(filterName, '_latest_s'),
               getFormatedSubQuery(filterName, '_state_s'),
+              getFormatedSubQuery(filterName, 'type_s'),
+              getFormatedSubQuery(filterName, 'nationalIndicators_s'),
             ]);
           });
 

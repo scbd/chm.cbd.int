@@ -21,121 +21,121 @@ define(['text!./filter-assessment.html', 'app', 'lodash'], function(template, ap
           $scope.queries = {
             'AICHI-TARGET-01': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-01"'],
               '_latest_s': ['true'],
-              '_state_s': ['public']
+              '_state_s': ['public'],
+              'nationalTarget_s': ['AICHI-TARGET-01 OR nationalTargetAichiTargets_ss:AICHI-TARGET-01']
             },
             'AICHI-TARGET-02': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-02"'],
+              'nationalTarget_s': ['AICHI-TARGET-02 OR nationalTargetAichiTargets_ss:AICHI-TARGET-02'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-03': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-03"'],
+              'nationalTarget_s': ['AICHI-TARGET-03 OR nationalTargetAichiTargets_ss:AICHI-TARGET-03'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-04': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-04"'],
+              'nationalTarget_s': ['AICHI-TARGET-04 OR nationalTargetAichiTargets_ss:AICHI-TARGET-04'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-05': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-05"'],
+              'nationalTarget_s': ['AICHI-TARGET-05 OR nationalTargetAichiTargets_ss:AICHI-TARGET-05'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-06': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-06"'],
+              'nationalTarget_s': ['AICHI-TARGET-06 OR nationalTargetAichiTargets_ss:AICHI-TARGET-06'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-07': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-07"'],
+              'nationalTarget_s': ['AICHI-TARGET-07 OR nationalTargetAichiTargets_ss:AICHI-TARGET-07'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-08': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-08"'],
+              'nationalTarget_s': ['AICHI-TARGET-08 OR nationalTargetAichiTargets_ss:AICHI-TARGET-08'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-09': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-09"'],
+              'nationalTarget_s': ['AICHI-TARGET-09 OR nationalTargetAichiTargets_ss:AICHI-TARGET-09'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-10': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-10"'],
+              'nationalTarget_s': ['AICHI-TARGET-10 OR nationalTargetAichiTargets_ss:AICHI-TARGET-10'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-11': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-11"'],
+              'nationalTarget_s': ['AICHI-TARGET-11 OR nationalTargetAichiTargets_ss:AICHI-TARGET-11'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-12': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-12"'],
+              'nationalTarget_s': ['AICHI-TARGET-12 OR nationalTargetAichiTargets_ss:AICHI-TARGET-12'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-13': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-13"'],
+              'nationalTarget_s': ['AICHI-TARGET-13 OR nationalTargetAichiTargets_ss:AICHI-TARGET-13'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-14': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-14"'],
+              'nationalTarget_s': ['AICHI-TARGET-14 OR nationalTargetAichiTargets_ss:AICHI-TARGET-14'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-15': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-15"'],
+              'nationalTarget_s': ['AICHI-TARGET-15 OR nationalTargetAichiTargets_ss:AICHI-TARGET-15'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-16': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-16"'],
+              'nationalTarget_s': ['AICHI-TARGET-16 OR nationalTargetAichiTargets_ss:AICHI-TARGET-16'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-17': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-17"'],
+              'nationalTarget_s': ['AICHI-TARGET-17 OR nationalTargetAichiTargets_ss:AICHI-TARGET-17'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-18': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-18"'],
+              'nationalTarget_s': ['AICHI-TARGET-18 OR nationalTargetAichiTargets_ss:AICHI-TARGET-18'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-19': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-19"'],
+              'nationalTarget_s': ['AICHI-TARGET-19 OR nationalTargetAichiTargets_ss:AICHI-TARGET-19'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },
             'AICHI-TARGET-20': {
               'schema_s': ['nationalAssessment'],
-              'nationalTarget_EN_t': ['"AICHI-TARGET-20"'],
+              'nationalTarget_s': ['AICHI-TARGET-20 OR nationalTargetAichiTargets_ss:AICHI-TARGET-20'],
               '_latest_s': ['true'],
               '_state_s': ['public']
             },

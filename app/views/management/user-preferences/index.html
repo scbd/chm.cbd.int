@@ -1,243 +1,33 @@
 ﻿<div id="userPreferencePage">
+	<div class="container" style="margin-bottom:50px;">
+		<top-menu></top-menu>
+		<div class="row" style="padding-top:15px">
 
-	<top-menu></top-menu>
-	<style>
-		#userPreferencePage{
-			padding:10px;
-		}
-		.block {
-			margin-bottom: 30px;
-			background-color: #fff;
-			-webkit-box-shadow: 0 2px rgba(0, 0, 0, 0.01);
-			box-shadow: 0 2px rgba(0, 0, 0, 0.01);
-		}
-		
-		.block>.nav-tabs {
-			background-color: #eee;
-			border-bottom: none;
-		}
-		
-		.nav-tabs.nav-justified {
-			width: 100%;
-			border-bottom: 0;
-		}
-		
-		.push-20 {
-			margin-bottom: 20px !important;
-		}
-		
-		.block>.nav-tabs>li {
-			margin-bottom: 0;
-		}
-		
-		.block>.nav-tabs>li.active>a,
-		.block>.nav-tabs>li.active>a:hover,
-		.block>.nav-tabs>li.active>a:focus {
-			color: #646464;
-			background-color: #fff;
-			border-color: transparent;
-		}
-		
-		.block>.nav-tabs.nav-justified>li>a {
-			margin-bottom: 0;
-		}
-		
-		.block>.nav-tabs>li {
-			margin-bottom: 0;
-		}
-		
-		.block .block-content.tab-content {
-			overflow: hidden;
-		}
-		
-		.block-content {
-			margin: 0 auto;
-			padding: 20px 20px 1px;
-			max-width: 100%;
-			overflow-x: visible;
-			-webkit-transition: opacity .2s ease-out;
-			transition: opacity .2s ease-out;
-		}
-		
-		.block-content.block-content-full {
-			padding-bottom: 20px;
-		}
-		
-		.bg-gray-lighter {
-			background-color: #eee;
-		}
-		
-		.text-center {
-			text-align: center;
-		}
-		
-		.block>.nav-tabs.nav-justified>li>a {
-			margin-bottom: 0;
-		}
-		
-		.block>.nav-tabs>li>a {
-			margin-right: 0;
-			padding-top: 12px;
-			padding-bottom: 12px;
-			color: #646464;
-			font-weight: 600;
-			border: 1px solid transparent;
-			border-radius: 0;
-		}
-		
-		.user-details {
-			position: relative;
-			padding: 0;
-		}
-		
-		.user-details .user-image {
-			position: relative;
-			z-index: 1;
-			width: 100%;
-			text-align: center;
-		}
-		
-		.user-image img {
-			clear: both;
-			margin: auto;
-			position: relative;
-		}
-		
-		.user-details .user-info-block {
-			width: 100%;
-			top: 55px;
-			background: rgb(255, 255, 255);
-			z-index: 0;
-			padding-top: 35px;
-		}
-		
-		.user-info-block {
-			position: static;
-		}
-		
-		.user-image {
-			position: absolute!important;
-		}
-		
-		.user-details {
-			position: relative;
-		}
-		
-		.user-info-block {
-			margin-top: 4%;
-			background-color: black;
-		}
-		
-		.user-info-block .user-heading {
-			width: 100%;
-			text-align: center;
-			margin: 10px 0 0;
-		}
-		
-		.user-info-block .navigation {
-			float: left;
-			width: 100%;
-			margin: 0;
-			padding: 0;
-			list-style: none;
-			border-bottom: 1px solid #428BCA;
-			border-top: 1px solid #428BCA;
-		}
-	</style>
-	<div class="register-content">
+			<div class="register-content card card-1-notrans">
 
-		<div class="register-content-header bg-darkgrey color-white">
-			<div style="padding:10px 10px;">
-				<h3>User Preferences</h3>
-			</div>
-		</div>
-		<div class="register-content-content " style="border:1px solid #eee">
-			<div class="row ">
-				<div class="col-sm-12 ">
-					<div class="col-sm-12 col-md-12 user-details">
-				
-							<div class="panel panel-white profile-widget" style="border:0;">
-								<div class="block ">
-									<ul class="nav nav-tabs nav-justified push-20">
-										<li class="active">
-											<a href="#preferences" ng-click="tab='setting'" data-toggle="tab"><span class="glyphicon glyphicon-cog"></span> Settings </a>
-										</li>
-										<li>
-											<a href="#tab-user-alerts" ng-click="tab='subscriptions'" data-toggle="tab"><span class="glyphicon glyphicon-envelope"></span> Email Alerts</a>
-										</li>
-										<li>
-											<a href="#tab-search-filter" ng-click="tab='searchFilters'" data-toggle="tab"><span class="glyphicon glyphicon-lock"></span> Saved Searches</a>
-										</li>
-									</ul>
+				<div class="register-content-header bg-darkgrey color-white">
+					<div style="padding:10px 10px;">
+						<h3>  User preferences
+						</h3>
 
-									<div class="tab-content">
-										<div class="tab-pane fade-in panel-body active " id="preferences">
-											<h3 class="color-red text-center  alert-warning" style="padding:20px;"> Coming soon. This section is  under development </h3>
-											<div>
-												<div class="panel-heading">
-													<h1>Settings</h1>
-													Use these setting to customize your interaction with the ABSCH.
-												</div>
-												<div class="panel-body">
-													<div class="form-group">
-														<label>Prefered language</label>
-														<select class="form-control" disabled>
-															<option>English</option>
-															<option>Arabic</option>
-															<option>Chinese</option>
-															<option>Espanol</option>
-															<option>French</option>
-															<option>Russion</option>
-														<select>
-													</div>
-													<div class="form-group">
-														<label>Email frequency</label>
-														<select class="form-control"disabled>
-															<option>Immediate</option>
-															<option>Once a Week</option>
-															<option>once a Month</option>
-														<select>
-													</div>
-													<div class="form-group">
-														<div class="checkbox"><label><input type="checkbox" disabled value=""><strong>Disable email notifications</strong></label></div>
-													</div>
-													<button class="btn btn-info pull-right" type="button" disabled>Update settings</button>
-												</div>
-											</div>
-										</div>
-										<div class="tab-pane fade panel-body" id="tab-user-alerts" ng-if="tab==='subscriptions'">
-											<div>
-												<div class="panel-heading">
-													<h1>Email Alerts</h1>
-													Setup email alerts and get notified when new records are published.
-												</div>
-												<div class="panel-body">													
-													<span manage-user-preference ng-if="tab==='subscriptions'" collection="subscriptions"
-														 run-query="runFilter(filter)"></span>
-												</div>
-											</div>
-										</div>
-										<div class="tab-pane fade panel-body" id="tab-search-filter">
-											<div>
-												<div class="panel-heading">
-												 	<h1>Saved Searches</h1>
-													Create customized searches for future use.</div>
-												<div class="panel-body">													
-													<span user-preference-filter ng-if="tab==='searchFilters'" collection="search-queries" run-query="runFilter(filter)"></span>
 
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
 					</div>
 				</div>
+				<div class="register-content-content">
+
+
+
+
+
+					<h4>
+						Email notifications and predefined searches <small>Keep up to date when new records are published.</small>
+					</h4>
+
+					<user-alerts collection="subscriptions" collection-filter='{"isSystemAlert":false}' run-query="runFilter(filter)"></user-alerts>
+
+				</div>
 			</div>
+
 		</div>
+
 	</div>
-
-
-</div>

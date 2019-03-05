@@ -52,6 +52,7 @@ define(['text!./filter-user-preference.html', 'app', 'lodash'], function(templat
                     $scope.loading = false;
                 })
             }
+
             $scope.saveFilter = function(filter){
                 filter.isSelected = !filter.isSelected;
                 if(filter.isSelected)

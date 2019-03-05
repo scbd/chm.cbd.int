@@ -17,11 +17,12 @@ define(['text!./search.html',
 		"./row-notification",
 		"./row-press-release",
 		"./row-national-assessment",
-		"./row-statement"
+		"./row-statement",
+		'components/scbd-angularjs-services/services/generic-service'
 
 	], function(template, app, $, _) { 'use strict';
 
-	app.directive('search', ['$http', 'realm', '$q', '$timeout', '$location', function ($http, realm, $q, $timeout, $location) {
+	app.directive('search', ['$http', 'realm', '$q', '$timeout', '$location','$route','IGenericService', function ($http, realm, $q, $timeout, $location, $route, IGenericService) {
 	    return {
 	        restrict: 'EAC',
 	        template: template,
@@ -194,6 +195,34 @@ define(['text!./search.html',
 										return subQ;
 								}//function getFormatedSubQuery (name)
 
+
+								//=======================================================================
+								//run query from email preferences
+								//=======================================================================
+								var subscriptionID  = $route.current.params.subscriptionID;
+								if(subscriptionID){
+									IGenericService.get('v2016', 'me/subscriptions', subscriptionID)
+									.then(function (data) {
+											$scope.data = data.filters;
+
+											if($scope.data){
+												var countries=[]; 
+												var schemas=[]; 
+
+												$scope.data.forEach(function(temp) {
+													if(temp.type == "country")
+															countries.push(temp.id);
+													if(temp.type == "national" || temp.type == "reference" || temp.type == "scbd")
+															schemas.push(temp.id);
+												});	
+												console.log(countries);
+												console.log(schemas);
+
+												if(countries.length) $scope.subQueries["hostGovernments_ss"] = countries;
+												if(schemas.length) $scope.subQueries["schema_s"] = schemas;
+										}
+									})
+								}
 	    }, //link
 
 			//=======================================================================
@@ -393,7 +422,7 @@ define(['text!./search.html',
 
 						search();
 						updateTerms(terms,items,facet,data);
-				}//buildQuery
+				}//buildChildQuery
 
 				//=======================================================================
 				//
@@ -405,7 +434,7 @@ define(['text!./search.html',
 								deleteSubQuery(facet,item);
 								buildChildQuery(terms,items,facet,data);
 						}
-				}//buildQuery
+				}//refresh
 
 				this.deleteAllSubQuery=deleteAllSubQuery;
 				this.refresh =refresh;

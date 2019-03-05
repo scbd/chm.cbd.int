@@ -15,6 +15,7 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/database/record/:documentid?',             { templateUrl: 'views/database/record.html',                   label :'Record',             resolveController: true, resolveUser: true  }).
             when('/database/record/:documentId/:documentRevision', { templateUrl: 'views/database/record.html',              label :'Record',             resolveController: true, resolveUser: true  }).
             when('/database/share/:code',                     { templateUrl: 'views/database/shared-document.html',          label :'Shared document',    resolveController: true, resolveUser: true  }).
+            when('/database/run-query/:subscriptionID',                                 { template:    searchTemplate,                                 label :'Database',           resolveController: 'views/database/index', resolveUser: true, reloadOnSearch : false }).
             
             when('/pdf-links/draft-documents/:documentId/:lang?',    { templateUrl: 'views/pdf-viewer/draft-document-pdf-link.html', label:'Record',  param:'true',  resolveController: true, resolveUser: true}).
             when('/pdf/:type/:documentId/:code',                     { templateUrl: 'views/pdf-viewer/records-pdf-viewer.html', label:'Record',  param:'true',  resolveController: true, resolveUser: true}).

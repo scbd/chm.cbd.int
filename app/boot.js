@@ -1,3 +1,5 @@
+var cdnHost = 'https://cdn.cbd.int/';
+
 require.config({
     waitSeconds: 120,
     baseUrl : 'app/',
@@ -54,7 +56,8 @@ require.config({
       'pdf-object'                 : 'libs/pdfobject/pdfobject',
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
-      'textAngular'               : 'libs/textAngular/dist/textAngular.min'
+      'textAngular'               : 'libs/textAngular/dist/textAngular.min',
+      'underscore'                : cdnHost + 'underscore@1.7.0/underscore-min'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -92,7 +95,8 @@ require.config({
       'rangy-selectionsave'      : { 'deps': ['rangy-core']},
       'textAngularSetup'         : { 'deps': ['angular']},
       'textAngular'              : { 'deps': ['angular', 'textAngularSetup']},
-      'ngInfiniteScroll'         : { 'deps': ['angular']}
+      'ngInfiniteScroll'         : { 'deps': ['angular']},
+      'underscore'               : { 'exports': '_' },
 
     },
     packages: [

@@ -33,11 +33,10 @@
 <div class="container" >
         <search-top-menu></search-top-menu>
         <h3><i class="fa fa-search"></i> {{title}} <i ng-show="loading" class="fa fa-spinner fa-spin"></i></h3>
-        <hr style=" position: absolute; width: 100%; left: 0;"/> <br><br>
+        <br>
 
     <!-- Search -->
-    <div class="row">
-        <div class="col-md-12">
+
             <div class="well well-lg bg-white">
                 <form class="form-horizontal">
                   <div class="form-group">
@@ -68,13 +67,13 @@
                     </div>
                   </div>
                 </form>
-                <span class="col-sm-offset-2"><strong>Note</strong>: All figures shown are in thousands US dollars.</span>
             </div>
-        </div>
-    </div>
-
+   
+    <hr style=" position: absolute; width: 100%; left: 0;"/> <br><br><br>
 
     <!-- 1.1.1 -->
+    <span class="pull-right"><strong>Note</strong>: All figures shown are in thousands and US dollars.</span>
+
     <div class="row" ng-if="isElementVisible('1.1') || isElementVisible('1')">
         <div class="col-md-12">
             <div class="panel panel-default">

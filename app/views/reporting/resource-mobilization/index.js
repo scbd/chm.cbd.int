@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', './rmHelpers', './modalComments', 'directives/forms/form-controls', './linechart', 'ngDialog'], function(app, angular, _) { 'use strict';
+define(['app', 'angular', 'lodash', 'directives/search/search-top-menu',  './rmHelpers', './modalComments', 'directives/forms/form-controls', './linechart', 'ngDialog'], function(app, angular, _) { 'use strict';
 
     return ['$scope', '$http', '$filter', '$q', 'realm', '$document', function($scope, $http, $filter, $q, realm, $document) {
 

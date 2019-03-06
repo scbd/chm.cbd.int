@@ -18,8 +18,8 @@ define(['text!./search.html',
 		"./row-press-release",
 		"./row-national-assessment",
 		"./row-statement",
-		'components/scbd-angularjs-services/services/generic-service'
-
+		'components/scbd-angularjs-services/services/generic-service',
+		'./search-top-menu'
 	], function(template, app, $, _) { 'use strict';
 
 	app.directive('search', ['$http', 'realm', '$q', '$timeout', '$location','$route','IGenericService', function ($http, realm, $q, $timeout, $location, $route, IGenericService) {

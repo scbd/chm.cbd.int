@@ -1,7 +1,7 @@
 ﻿<div style="padding-bottom:20px;">
 	  <div smooth-scroll duration="100" offset="250" ></div>
 
-    <h1>
+    <h3>
     	<span ng-switch="qs.type">
     		<span ng-switch-when="nr">National Reports</span>
     		<span ng-switch-when="nbsap">National Biodiversity Strategies and Action Plans (NBSAP)</span>
@@ -9,7 +9,7 @@
     		<span ng-switch-default="other">National Reports, NBSAPs or Other reports</span>
     	</span>
         <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i>
-    </h1>
+    </h3>
 
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>An error has occurred...</strong>

@@ -1,4 +1,4 @@
-define(["lodash", 'app', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment","filters/htmlToPlaintext",     'filters/trunc',"utilities/solr"], function(_) { 'use strict';
+define(["lodash", 'app',  'directives/management/top-menu', 'authentication', "utilities/km-utilities", "utilities/km-storage", "filters/moment","filters/htmlToPlaintext",     'filters/trunc',"utilities/solr"], function(_) { 'use strict';
 
     return ['$scope', '$route', '$http', '$location', '$q', 'solr', 'user', 'navigation', 'IStorage', '$mdDialog','realm',
      function($scope, $route, $http, $location, $q, solr, user, navigation, storage, $mdDialog, realm) {

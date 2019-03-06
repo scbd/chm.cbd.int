@@ -1,28 +1,32 @@
-﻿<div id="submit">
-<div smooth-scroll duration="100" offset="250"></div>
-    <top-menu ></top-menu>
-    <div class="container"  style="margin-top:20px;">
-        <div class="row">
-                <div class="col-sm-12">
-                     <div class="pull-right">
-                    <span class="badge bg-published" style="width:130px;padding:5px;">PUBLISHED</span>
-                    <span class="badge bg-draft"    style="width:130px;padding:5px;">DRAFTS</span>
-                    <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
-                </div>
-                <h1><i class="fa fa-edit"></i> Management Center</h1>
-                <h2 class="color-litegrey">The CHM handles the submission of various CBD related records and information.
-                    <h3 class="color-medgrey" style="margin-bottom:30px;">Please select the type of information you would like to submit:</h3>
-                </h2>
+﻿<div class="container" id="submit">
+    <div smooth-scroll duration="100" offset="250"></div>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <top-menu></top-menu>
+
+            <h3><i class="fa fa-edit"></i> Management Center Dashboard</h3>
+            <div>The CHM handles the submission of various CBD related records and information.
+                Please select the type of information you would like to submit:</h3>
             </div>
+
         </div>
     </div>
 
-    <h3  class="container-fluid color-blue" style="border-top:1px solid #DDD;padding-top:0;margin-top:3px;"><i class="fa fa-chevron-circle-down"></i> National Records
+    <hr style=" position: absolute; width: 100%; left: 0;" /> <br>
+    <h3 class="color-blue" ng-click="showNationalrecords = !showNationalrecords;"><i ng-class="{'fa fa-chevron-circle-down': showNationalrecords, 'fa fa-chevron-circle-up':!showNationalrecords}"></i>
+        National Records </h3>
+   
 
-    </h3>
+    <div class="well" ng-show="!showNationalrecords">
 
-    <div class="container" style="padding-top:20px;" >
+        <div class="pull-right" style="margin:0 0 10px 0;">
+            <span class="badge bg-published" style="width:130px;padding:5px;">PUBLISHED</span>
+            <span class="badge bg-draft" style="width:130px;padding:5px;">DRAFTS</span>
+            <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
+        </div>
+        <div class="clearfix"></div>
+
 
         <div class="row section-row bg-grey row-bottom-border">
             <div class="col-xs-12">
@@ -43,7 +47,11 @@
             </div>
             <div class="col-xs-6">
                 <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
-                <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal instruments for implementing the Convention at the national level (Article 6). The Convention requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to ensure that this strategy is mainstreamed into the planning and activities of all those sectors whose activities can have an impact (positive and negative) on biodiversity. </p>
+                <p style="font-size:12px;">National Biodiversity Strategies and Action Plans (NBSAPs) are the principal
+                    instruments for implementing the Convention at the national level (Article 6). The Convention
+                    requires countries to prepare a national biodiversity strategy (or equivalent instrument) and to
+                    ensure that this strategy is mainstreamed into the planning and activities of all those sectors
+                    whose activities can have an impact (positive and negative) on biodiversity. </p>
 
             </div>
             <div class="col-xs-2">
@@ -55,8 +63,10 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=nbsap" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=nbsap" data-toggle="tooltip" title="Add New Record" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=nbsap" data-toggle="tooltip"
+                        title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=nbsap" data-toggle="tooltip"
+                        title="Add New Record" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -66,19 +76,25 @@
             </div>
             <div class="col-xs-6">
                 <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
-                <p style="font-size:12px;">Parties are obliged under Article 26 of the Convention to submit their national reports to the Conference of the Parties on measures taken for the implementation of the Convention and their effectiveness in meeting the objectives of the Convention. National reports provide main sources of information for the Conference of the Parties and its subsidiary bodies to review the implementation of the Convention (Article 23). </p>
+                <p style="font-size:12px;">Parties are obliged under Article 26 of the Convention to submit their
+                    national reports to the Conference of the Parties on measures taken for the implementation of the
+                    Convention and their effectiveness in meeting the objectives of the Convention. National reports
+                    provide main sources of information for the Conference of the Parties and its subsidiary bodies to
+                    review the implementation of the Convention (Article 23). </p>
             </div>
             <div class="col-xs-2">
                 <div class="status-badge">
-                    <span class="badge bg-published" >{{getFacet('nationalReport').public}}</span>
-                    <span class="badge bg-draft" >{{getFacet('nationalReport').draft}}</span>
+                    <span class="badge bg-published">{{getFacet('nationalReport').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('nationalReport').draft}}</span>
                     <span class="badge bg-request">{{getFacet('nationalReport').workflow}}</span>
                 </div>
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=nr" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=nr" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=nr" data-toggle="tooltip"
+                        title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=nr" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -89,7 +105,8 @@
             </div>
             <div class="col-xs-6">
                 <!-- <p class="bg-red" style="padding:5px;">Under Development</p> -->
-                <p style="font-size:12px;">Parties are encouraged to submit other reports related to the implementation of the Convention and its Protocols.</p>
+                <p style="font-size:12px;">Parties are encouraged to submit other reports related to the implementation
+                    of the Convention and its Protocols.</p>
 
             </div>
             <div class="col-xs-2">
@@ -101,13 +118,15 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=other" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=other" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport?type=other" data-toggle="tooltip"
+                        title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/nationalReport/new?type=other" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
 
-         <div class="row row-bottom-border">
+        <div class="row row-bottom-border">
             <div class="col-xs-3">
                 <h5 style="padding-top:0;margin-top:0;">Sixth National Report</h5>
             </div>
@@ -117,28 +136,38 @@
             </div>
             <div class="col-xs-2">
                 <div class="status-badge">
-                    <span class="badge bg-published" >{{getFacet('nationalReport6').public}}</span>
-                    <span class="badge bg-draft" >{{getFacet('nationalReport6').draft}}</span>
+                    <span class="badge bg-published">{{getFacet('nationalReport6').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('nationalReport6').draft}}</span>
                     <span class="badge bg-request">{{getFacet('nationalReport6').workflow}}</span>
                 </div>
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                     <a translation-url class="btn btn-info" href="/submit/nationalReport6" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-info" ng-show="nationalReport6 && getFacet('nationalReport6').workflow == 0" href="/submit/nationalReport6/{{nationalReport6.identifier_s}}" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
-                     <a translation-url class="btn btn-info" ng-if="nationalReport6 && getFacet('nationalReport6').workflow > 0" href="/management/requests/{{nationalReport6._workflow_s.replace('workflow-','')}}/publishRequest" data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
-                    <a translation-url class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/nationalReport6" data-toggle="tooltip" title="Record List"
+                        data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-info" ng-show="nationalReport6 && getFacet('nationalReport6').workflow == 0"
+                        href="/submit/nationalReport6/{{nationalReport6.identifier_s}}" data-toggle="tooltip" title="Sixth National Report"><i
+                            class="fa fa fa-search"></i></a>
+                    <a translation-url class="btn btn-info" ng-if="nationalReport6 && getFacet('nationalReport6').workflow > 0"
+                        href="/management/requests/{{nationalReport6._workflow_s.replace('workflow-','')}}/publishRequest"
+                        data-toggle="tooltip" title="Sixth National Report"><i class="fa fa fa-search"></i></a>
+                    <a translation-url class="btn btn-primary" ng-hide="nationalReport6" href="/submit/nationalReport6/new"
+                        data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
-        </div>  
-      
+        </div>
+
         <div class="row" style="border-bottom:none;">
 
             <div class="col-xs-3">
                 <h5 style="padding-top:0;margin-top:0;">Financial Reporting Framework</h5>
             </div>
             <div class="col-xs-6">
-                <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended for use by Parties for providing baseline information and reporting on their contribution to reach the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of the Parties to the Convention at its twelfth meeting, in accordance with Article 20. Reporting on progress towards 2020 shall be undertaken in conjunction with the sixth national reports.</p>
+                <p style="font-size:12px;">The financial reporting framework, adopted by decision XII/3, is intended
+                    for use by Parties for providing baseline information and reporting on their contribution to reach
+                    the global financial targets, under Aichi Biodiversity Target 20, as adopted by the Conference of
+                    the Parties to the Convention at its twelfth meeting, in accordance with Article 20. Reporting on
+                    progress towards 2020 shall be undertaken in conjunction with the sixth national reports.</p>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;"></p>
@@ -160,10 +189,12 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/resourceMobilisation/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/resourceMobilisation/" data-toggle="tooltip"
+                        title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
-            </div>  
+            </div>
         </div>
         <div class="row">
             <div class="col-xs-3">
@@ -181,15 +212,17 @@
             </div>
             <div class="col-xs-1 ">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/resourceMobilisation2020/" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation2020/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/resourceMobilisation2020/" data-toggle="tooltip"
+                        title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/resourceMobilisation2020/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
-            </div>    
+            </div>
         </div>
-            
-                        
-            
-<!--            
+
+
+
+        <!--            
             <div class="col-xs-9">
                     <div class="row">
                         <div class="col-xs-8">
@@ -236,7 +269,7 @@
             </div>
         </div>-->
 
-         <!--<div class="row title-row row-bottom-border">
+        <!--<div class="row title-row row-bottom-border">
             <div class="col-xs-3">Record Type</div>
             <div class="col-xs-7">Description</div>
             <div class="col-xs-1">Status</div>
@@ -248,154 +281,25 @@
                 <a translation-url href="http://{{abschLink}}">Access and Benefit-Sharing (Nagoya Protocol)</a>
             </div>
         </div>
-<!--
-         <div class="row title-row row-bottom-border">
-            <div class="col-xs-3">Record Type</div>
-            <div class="col-xs-7">Description</div>
-            <div class="col-xs-1">Status</div>
-            <div class="col-xs-1">Action</div>
-        </div>-->
-
-        <div class="row row-bottom-border">
+        <div class="row ">
             <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Competent National Authorities</h5>
+                <h5 style="padding-top:0;margin-top:0;">ABS Clearing-House Records</h5>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;">
-
                 </p>
             </div>
             <div class="col-xs-2">
                 <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('authority').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('authority').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('authority').workflow}}</span>
+
                 </div>
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/CNA" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/CNA/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Legislative, administrative or policy measures on access and benefit-sharing</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('measure').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('measure').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('measure').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/MSR" data-toggle="tooltip" title="Record List" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/MSR/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-         <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">National Websites and Databases</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('database').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('database').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('database').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/NDB" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/NDB/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Internationally Recognized Certificate of Compliance</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('absPermit').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('absPermit').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('absPermit').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/IRCC" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/IRCC/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-bottom-border">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Checkpoints</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('absCheckpoint').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('absCheckpoint').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('absCheckpoint').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/CP" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/CP/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Checkpoint Communiqués</h5>
-            </div>
-            <div class="col-xs-6">
-                <p style="font-size:12px;">
-
-                </p>
-            </div>
-            <div class="col-xs-2">
-                <div class="status-badge">
-                    <span class="badge bg-published">{{getFacet('absCheckpointCommunique').public}}</span>
-                    <span class="badge bg-draft">{{getFacet('absCheckpointCommunique').draft}}</span>
-                    <span class="badge bg-request">{{getFacet('absCheckpointCommunique').workflow}}</span>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://{{abschLink}}/register/CPC" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://{{abschLink}}/register/CPC/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://absch.cbd.int/submit" data-toggle="tooltip"
+                        title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://absch.cbd.int/submit" data-toggle="tooltip"
+                        title="Add New Records"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
@@ -420,230 +324,261 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="https://bch.cbd.int/managementcentre/default.shtml" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="https://bch.cbd.int/managementcentre/default.shtml" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="https://bch.cbd.int/managementcentre/default.shtml"
+                        data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="https://bch.cbd.int/managementcentre/default.shtml"
+                        data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <hr style=" position: absolute; width: 100%; left: 0;" /> <br>
+    <h3 class="color-orange" ng-click="showRefrecords = !showRefrecords;"><i ng-class="{'fa fa-chevron-circle-down': showRefrecords, 'fa fa-chevron-circle-up':!showRefrecords}"></i>
+        Reference Records </h3>
+
+       
+
+    <div class="well" ng-show="!showRefrecords">
+
+        <div class="pull-right" style="margin:0 0 10px 0;">
+            <span class="badge bg-published" style="width:130px;padding:5px;">PUBLISHED</span>
+            <span class="badge bg-draft" style="width:130px;padding:5px;">DRAFTS</span>
+            <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
+        </div>
+        <div class="clearfix"></div>
+
+
+        <div class="row section-row bg-grey row-bottom-border">
+            <div class="col-xs-12">
+                Capacity-Building Records
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Capacity-Building Initiatives</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('capacityBuildingInitiative').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('capacityBuildingInitiative').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('capacityBuildingInitiative').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/capacityBuildingInitiative/" data-toggle="tooltip"
+                        title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/capacityBuildingInitiative/new"
+                        data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Capacity-Building Resources</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('capacityBuildingResource').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('capacityBuildingResource').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('capacityBuildingResource').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/capacityBuildingResource/" data-toggle="tooltip"
+                        title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/capacityBuildingResource/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
 
 
-   </div>
-
-    <h3 class="container-fluid color-orange" style="border-top:1px solid #DDD;margin-top:30px;"><i class="fa fa-chevron-circle-down"></i> Reference Records</h3>
-    <div class="container">
-
-    <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;" >
-         <div class="col-xs-12">
-            Capacity-Building Records
-         </div>
-     </div>
-
-     <div class="row">
-         <div class="col-xs-3">
-             <h5 style="padding-top:0;margin-top:0;">Capacity-Building Initiatives</h5>
-         </div>
-         <div class="col-xs-6">
-             <p style="font-size:12px;">
-
-             </p>
-         </div>
-         <div class="col-xs-2">
-             <div class="status-badge">
-                 <span class="badge bg-published">{{getFacet('capacityBuildingInitiative').public}}</span>
-                 <span class="badge bg-draft">{{getFacet('capacityBuildingInitiative').draft}}</span>
-                 <span class="badge bg-request">{{getFacet('capacityBuildingInitiative').workflow}}</span>
-             </div>
-         </div>
-         <div class="col-xs-1">
-             <div class="btn-group-xs pull-right">
-                 <a translation-url class="btn btn-info" href="/submit/capacityBuildingInitiative/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                 <a translation-url class="btn btn-primary" href="/submit/capacityBuildingInitiative/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-             </div>
-         </div>
-     </div>
-
-     <div class="row">
-        <div class="col-xs-3">
-            <h5 style="padding-top:0;margin-top:0;">Capacity-Building Resources</h5>
-        </div>
-        <div class="col-xs-6">
-            <p style="font-size:12px;">
-
-            </p>
-        </div>
-        <div class="col-xs-2">
-            <div class="status-badge">
-                <span class="badge bg-published">{{getFacet('capacityBuildingResource').public}}</span>
-                <span class="badge bg-draft">{{getFacet('capacityBuildingResource').draft}}</span>
-                <span class="badge bg-request">{{getFacet('capacityBuildingResource').workflow}}</span>
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                Bio-Bridge Initiative Records
             </div>
         </div>
-        <div class="col-xs-1">
-            <div class="btn-group-xs pull-right">
-                <a translation-url class="btn btn-info" href="/submit/capacityBuildingResource/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                <a translation-url class="btn btn-primary" href="/submit/capacityBuildingResource/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Contacts</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('bbiContact').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('bbiContact').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('bbiContact').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/bbiContact/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/bbiContact/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Opportunities</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-
-    <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-         <div class="col-xs-12">
-            Bio-Bridge Initiative Records
-         </div>
-     </div>
-     <div class="row row-bottom-border">
-         <div class="col-xs-3">
-             <h5 style="padding-top:0;margin-top:0;">Contacts</h5>
-         </div>
-         <div class="col-xs-6">
-             <p style="font-size:12px;">
-
-             </p>
-         </div>
-         <div class="col-xs-2">
-             <div class="status-badge">
-                 <span class="badge bg-published">{{getFacet('bbiContact').public}}</span>
-                 <span class="badge bg-draft">{{getFacet('bbiContact').draft}}</span>
-                 <span class="badge bg-request">{{getFacet('bbiContact').workflow}}</span>
-             </div>
-         </div>
-         <div class="col-xs-1">
-             <div class="btn-group-xs pull-right">
-                 <a translation-url class="btn btn-info" href="/submit/bbiContact/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                 <a translation-url class="btn btn-primary" href="/submit/bbiContact/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-             </div>
-         </div>
-     </div>
-     <div class="row row-bottom-border">
-         <div class="col-xs-3">
-             <h5 style="padding-top:0;margin-top:0;">Opportunities</h5>
-         </div>
-         <div class="col-xs-6">
-             <p style="font-size:12px;">
-
-             </p>
-         </div>
-         <div class="col-xs-2">
-             <div class="status-badge">
-                 <span class="badge bg-published">{{getFacet('bbiOpportunity').public}}</span>
-                 <span class="badge bg-draft">{{getFacet('bbiOpportunity').draft}}</span>
-                 <span class="badge bg-request">{{getFacet('bbiOpportunity').workflow}}</span>
-             </div>
-         </div>
-         <div class="col-xs-1">
-             <div class="btn-group-xs pull-right">
-                 <a translation-url class="btn btn-info" href="/submit/bbiOpportunity/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                 <a translation-url class="btn btn-primary" href="/submit/bbiOpportunity/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-             </div>
-         </div>
-     </div>
-     <div class="row row-bottom-border">
-         <div class="col-xs-3">
-             <h5 style="padding-top:0;margin-top:0;">Providers of Assistance</h5>
-         </div>
-         <div class="col-xs-6">
-             <p style="font-size:12px;">
-
-             </p>
-         </div>
-         <div class="col-xs-2">
-             <div class="status-badge">
-                 <span class="badge bg-published">{{getFacet('bbiProfile').public}}</span>
-                 <span class="badge bg-draft">{{getFacet('bbiProfile').draft}}</span>
-                 <span class="badge bg-request">{{getFacet('bbiProfile').workflow}}</span>
-             </div>
-         </div>
-         <div class="col-xs-1">
-             <div class="btn-group-xs pull-right">
-                 <a translation-url class="btn btn-info" href="/submit/bbiProfile/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                 <a translation-url class="btn btn-primary" href="/submit/bbiProfile/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-             </div>
-         </div>
-     </div>
-      <div class="row">
-          <div class="col-xs-3">
-              <h5 style="padding-top:0;margin-top:0;">Requests for Assistance</h5>
-          </div>
-          <div class="col-xs-6">
-              <p style="font-size:12px;">
-
-              </p>
-          </div>
-          <div class="col-xs-2">
-              <div class="status-badge">
-                  <span class="badge bg-published">{{getFacet('bbiRequest').public}}</span>
-                  <span class="badge bg-draft">{{getFacet('bbiRequest').draft}}</span>
-                  <span class="badge bg-request">{{getFacet('bbiRequest').workflow}}</span>
-              </div>
-          </div>
-          <div class="col-xs-1">
-              <div class="btn-group-xs pull-right">
-                  <a translation-url class="btn btn-info" href="/submit/bbiRequest/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                  <a translation-url class="btn btn-primary" href="/submit/bbiRequest/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-              </div>
-          </div>
-      </div>
-      
-     <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-        <div class="col-xs-12">
-           Events
-        </div>
-    </div>
-    <div class="row ">
-        <div class="col-xs-3">
-            <h5 style="padding-top:0;margin-top:0;">Events</h5>
-        </div>
-        <div class="col-xs-6">
-            <p style="font-size:12px;">
-                Are any function with a start and end date/time, wanting or expecting participation from stakeholders. Events must also be associated with host Organizations.
-            </p>
-        </div>
-        <div class="col-xs-2">
-            <div class="status-badge">
-                <span class="badge bg-published">{{getFacet('event').public}}</span>
-                <span class="badge bg-draft">{{getFacet('event').draft}}</span>
-                <span class="badge bg-request">{{getFacet('event').workflow}}</span>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('bbiOpportunity').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('bbiOpportunity').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('bbiOpportunity').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/bbiOpportunity/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/bbiOpportunity/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
             </div>
         </div>
-        <div class="col-xs-1">
-            <div class="btn-group-xs pull-right">
-                <a translation-url class="btn btn-info" href="/submit/event/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                <a translation-url class="btn btn-primary" href="/submit/event/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Providers of Assistance</h5>
             </div>
-        </div>
-    </div>
-     <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-        <div class="col-xs-12">
-           Organizations
-        </div>
-    </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-    <div class="row">
-        <div class="col-xs-3">
-            <h5 style="padding-top:0;margin-top:0;">Biodiversity Related Organizations</h5>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('bbiProfile').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('bbiProfile').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('bbiProfile').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/bbiProfile/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/bbiProfile/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-6">
-            <p style="font-size:12px;">
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Requests for Assistance</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-            </p>
-        </div>
-        <div class="col-xs-2">
-            <div class="status-badge">
-                <span class="badge bg-published">{{getFacet('organization').public}}</span>
-                <span class="badge bg-draft">{{getFacet('organization').draft}}</span>
-                <span class="badge bg-request">{{getFacet('organization').workflow}}</span>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('bbiRequest').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('bbiRequest').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('bbiRequest').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/bbiRequest/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/bbiRequest/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
             </div>
         </div>
-        <div class="col-xs-1">
-            <div class="btn-group-xs pull-right">
-                <a translation-url class="btn btn-info" href="/submit/organization/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                <a translation-url class="btn btn-primary" href="/submit/organization/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                Events
             </div>
         </div>
-    </div>
-<!-- to be released when new undb goes live -->
-      <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+        <div class="row ">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Events</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+                    Are any function with a start and end date/time, wanting or expecting participation from
+                    stakeholders. Events must also be associated with host Organizations.
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('event').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('event').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('event').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/event/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/event/new" data-toggle="tooltip" title="Add New Record"><i
+                            class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                Organizations
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Biodiversity Related Organizations</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('organization').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('organization').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('organization').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/organization/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/organization/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- to be released when new undb goes live -->
+        <!-- <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
          <div class="col-xs-12">
             Events
          </div>
@@ -676,63 +611,68 @@
 
 
 
-<!-- to be released when new undb goes live -->
-       <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-          <div class="col-xs-12">
-             UNDB Records
-          </div>
-      </div>
+        <!-- to be released when new undb goes live -->
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+            <div class="col-xs-12">
+                UNDB Records
+            </div>
+        </div>
 
-       <div class="row row-bottom-border">
-           <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">Actors</h5>
-           </div>
-           <div class="col-xs-6">
-               <p style="font-size:12px;">
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Actors</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-               </p>
-           </div>
-           <div class="col-xs-2">
-               <div class="status-badge">
-                   <span class="badge bg-published">{{getFacet('undbActor').public}}</span>
-                   <span class="badge bg-draft">{{getFacet('undbActor').draft}}</span>
-                   <span class="badge bg-request">{{getFacet('undbActor').workflow}}</span>
-               </div>
-           </div>
-           <div class="col-xs-1">
-               <div class="btn-group-xs pull-right">
-                   <a translation-url class="btn btn-info" href="/submit/undbActor/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a translation-url class="btn btn-primary" href="/submit/undbActor/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-               </div>
-           </div>
-       </div>
-       <div class="row row-bottom-border">
-           <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">Country Profile</h5>
-           </div>
-           <div class="col-xs-6">
-               <p style="font-size:12px;">
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('undbActor').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('undbActor').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('undbActor').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/undbActor/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/undbActor/new" data-toggle="tooltip" title="Add New Record"><i
+                            class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Country Profile</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-               </p>
-           </div>
-           <div class="col-xs-2">
-               <div class="status-badge">
-                   <span class="badge bg-published">{{getFacet('undbParty').public}}</span>
-                   <span class="badge bg-draft">{{getFacet('undbParty').draft}}</span>
-                   <span class="badge bg-request">{{getFacet('undbParty').workflow}}</span>
-               </div>
-           </div>
-           <div class="col-xs-1">
-               <div class="btn-group-xs pull-right">
-                   <a translation-url class="btn btn-info" href="/submit/undbParty/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a translation-url class="btn btn-primary" href="/submit/undbParty/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-               </div>
-           </div>
-       </div>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('undbParty').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('undbParty').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('undbParty').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/undbParty/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/undbParty/new" data-toggle="tooltip" title="Add New Record"><i
+                            class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
         <div class="row row-bottom-border">
 
             <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Actions <br><span class="small"><span class="text-danger">(depreciated please use Event)</span></span></h5>
+                <h5 style="padding-top:0;margin-top:0;">Actions <br><span class="small"><span class="text-danger">(depreciated
+                            please use Event)</span></span></h5>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;">
@@ -748,14 +688,17 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/undbAction/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/undbAction/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/undbAction/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/undbAction/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
         <div class="row ">
             <div class="col-xs-3">
-                <h5 style="padding-top:0;margin-top:0;">Partners <br><span class="small"><span class="text-danger">(depreciated please use UNDB Actor)</span></span></h5>
+                <h5 style="padding-top:0;margin-top:0;">Partners <br><span class="small"><span class="text-danger">(depreciated
+                            please use UNDB Actor)</span></span></h5>
             </div>
             <div class="col-xs-6">
                 <p style="font-size:12px;">
@@ -771,17 +714,19 @@
             </div>
             <div class="col-xs-1">
                 <div class="btn-group-xs pull-right">
-                    <a translation-url class="btn btn-info" href="/submit/undbPartner/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                    <a translation-url class="btn btn-primary" href="/submit/undbPartner/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <a translation-url class="btn btn-info" href="/submit/undbPartner/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/undbPartner/new" data-toggle="tooltip"
+                        title="Add New Record"><i class="fa fa-plus-square"></i></a>
                 </div>
             </div>
         </div>
         <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
-           <div class="col-xs-12">
-              Virtual Library Records
-           </div>
-       </div>
-   <!--
+            <div class="col-xs-12">
+                Virtual Library Records
+            </div>
+        </div>
+        <!--
         <div class="row title-row row-bottom-border">
            <div class="col-xs-3">Record Type</div>
            <div class="col-xs-7">Description</div>
@@ -789,53 +734,58 @@
            <div class="col-xs-1">Action</div>
        </div>-->
 
-       <div class="row row-bottom-border">
-           <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">General Library Records</h5>
-           </div>
-           <div class="col-xs-6">
-               <p style="font-size:12px;">
+        <div class="row row-bottom-border">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">General Library Records</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-               </p>
-           </div>
-           <div class="col-xs-2">
-               <div class="status-badge">
-                   <span class="badge bg-published">{{getFacet('resource').public}}</span>
-                   <span class="badge bg-draft">{{getFacet('resource').draft}}</span>
-                   <span class="badge bg-request">{{getFacet('resource').workflow}}</span>
-               </div>
-           </div>
-           <div class="col-xs-1">
-               <div class="btn-group-xs pull-right">
-                   <a translation-url class="btn btn-info" href="/submit/resource" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a translation-url class="btn btn-primary" href="/submit/resource/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-               </div>
-           </div>
-       </div>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('resource').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('resource').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('resource').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/resource" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/resource/new" data-toggle="tooltip" title="Add New Record"><i
+                            class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
 
-          <div class="row">
-           <div class="col-xs-3">
-               <h5 style="padding-top:0;margin-top:0;">Case Studies</h5>
-           </div>
-           <div class="col-xs-6">
-               <p style="font-size:12px;">
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Case Studies</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
 
-               </p>
-           </div>
-           <div class="col-xs-2">
-               <div class="status-badge">
-                   <span class="badge bg-published">{{getFacet('caseStudy').public}}</span>
-                   <span class="badge bg-draft">{{getFacet('caseStudy').draft}}</span>
-                   <span class="badge bg-request">{{getFacet('caseStudy').workflow}}</span>
-               </div>
-           </div>
-           <div class="col-xs-1">
-               <div class="btn-group-xs pull-right">
-                   <a translation-url class="btn btn-info" href="/submit/caseStudy/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                   <a translation-url class="btn btn-primary" href="/submit/caseStudy/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
-               </div>
-           </div>
-       </div>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('caseStudy').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('caseStudy').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('caseStudy').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/caseStudy/" data-toggle="tooltip" title="Record List"><i
+                            class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/caseStudy/new" data-toggle="tooltip" title="Add New Record"><i
+                            class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
 
 
         <!--<div class="row">
@@ -884,12 +834,27 @@
 
         </div>
     </div>-->
-</div>
+    </div>
 
-    <h3 ng-show="!government" class="container-fluid color-black" style="border-top:1px solid #DDD;margin-top:30px;"><i class="fa fa-chevron-circle-down"></i> SCBD Managed Records</h3>
-    <div class="container"  ng-show="!government">
+    <div class="" ng-show="!government">
 
-             <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
+        <hr style=" position: absolute; width: 100%; left: 0;" /> <br>
+        <h3 class="color-black" ng-click="showSCBDrecords = !showSCBDrecords;"><i ng-class="{'fa fa-chevron-circle-down': showSCBDrecords, 'fa fa-chevron-circle-up':!showSCBDrecords}"></i>
+            SCBD Managed Records</h3>
+
+           
+
+        <div class="well" ng-show="!showSCBDrecords">
+
+            <div class="pull-right" style="margin:0 0 10px 0;">
+                <span class="badge bg-published" style="width:130px;padding:5px;">PUBLISHED</span>
+                <span class="badge bg-draft" style="width:130px;padding:5px;">DRAFTS</span>
+                <span class="badge bg-request" style="width:130px;padding:5px;">REQUESTS</span>
+            </div>
+            <div class="clearfix"></div>
+    
+
+            <div class="row section-row bg-grey row-bottom-border">
                 <div class="col-xs-12">
                     SCBD records
                 </div>
@@ -912,18 +877,24 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a translation-url class="btn btn-info" href="/submit/dossier/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/dossier/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/dossier/" data-toggle="tooltip" title="Record List"><i
+                                class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/dossier/new" data-toggle="tooltip"
+                            title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
-             <div class="row row-bottom-border">
+            <div class="row row-bottom-border">
                 <div class="col-xs-3">
-                    <h5 style="padding-top:0;margin-top:0;">Ecologically or Biologically Significant Marine Areas (EBSA)</h5>
+                    <h5 style="padding-top:0;margin-top:0;">Ecologically or Biologically Significant Marine Areas
+                        (EBSA)</h5>
                 </div>
                 <div class="col-xs-6">
                     <p style="font-size:12px;">
-            Here you will find scientific information used to describe specific marine and coastal areas that meet the scientific criteria for Ecologically or Biologically Significant Marine Areas (EBSA). These are special areas in the ocean that serve important purposes, in one way or another, to support the healthy functioning of oceans and the many services that it provides.
+                        Here you will find scientific information used to describe specific marine and coastal areas
+                        that meet the scientific criteria for Ecologically or Biologically Significant Marine Areas
+                        (EBSA). These are special areas in the ocean that serve important purposes, in one way or
+                        another, to support the healthy functioning of oceans and the many services that it provides.
                     </p>
                 </div>
                 <div class="col-xs-2">
@@ -935,14 +906,16 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a translation-url class="btn btn-info" href="/submit/marineEbsa/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/marineEbsa/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/marineEbsa/" data-toggle="tooltip" title="Record List"><i
+                                class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/marineEbsa/new" data-toggle="tooltip"
+                            title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
-             <div class="row row-bottom-border">
+            <div class="row row-bottom-border">
                 <div class="col-xs-3">
-                    <h5 style="padding-top:0;margin-top:0;">  Strategic Plan Indicators</h5>
+                    <h5 style="padding-top:0;margin-top:0;"> Strategic Plan Indicators</h5>
                 </div>
                 <div class="col-xs-6">
                     <p style="font-size:12px;">
@@ -951,19 +924,21 @@
                 </div>
                 <div class="col-xs-2">
                     <div class="status-badge">
-                              <span class="badge bg-published">{{getFacet('strategicPlanIndicator').public}}</span>
+                        <span class="badge bg-published">{{getFacet('strategicPlanIndicator').public}}</span>
                         <span class="badge bg-draft">{{getFacet('strategicPlanIndicator').draft}}</span>
                         <span class="badge bg-request">{{getFacet('strategicPlanIndicator').workflow}}</span>
                     </div>
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a translation-url class="btn btn-info" href="/submit/strategicPlanIndicator/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/strategicPlanIndicator/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/strategicPlanIndicator/" data-toggle="tooltip"
+                            title="Record List"><i class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/strategicPlanIndicator/new"
+                            data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
-             <div class="row">
+            <div class="row">
                 <div class="col-xs-3">
                     <h5 style="padding-top:0;margin-top:0;"> Aichi Targets</h5>
                 </div>
@@ -981,8 +956,10 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a translation-url class="btn btn-info" href="/submit/aichiTarget/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/aichiTarget/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/aichiTarget/" data-toggle="tooltip" title="Record List"><i
+                                class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/aichiTarget/new" data-toggle="tooltip"
+                            title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -990,7 +967,7 @@
 
             <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
                 <div class="col-xs-12">
-                 <a translation-url href="http://lifeweb.cbd.int"> LifeWeb </a>
+                    <a translation-url href="http://lifeweb.cbd.int"> LifeWeb </a>
                 </div>
             </div>
 
@@ -1011,9 +988,11 @@
                     </div>
                 </div>
                 <div class="col-xs-1">
-                     <div class="btn-group-xs pull-right">
-                       <a translation-url class="btn btn-info" href="/submit/lwEvent/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/lwEvent/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                    <div class="btn-group-xs pull-right">
+                        <a translation-url class="btn btn-info" href="/submit/lwEvent/" data-toggle="tooltip" title="Record List"><i
+                                class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/lwEvent/new" data-toggle="tooltip"
+                            title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -1036,8 +1015,10 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a translation-url class="btn btn-info" href="/submit/lwProject/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/lwProject/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/lwProject/" data-toggle="tooltip" title="Record List"><i
+                                class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/lwProject/new" data-toggle="tooltip"
+                            title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -1060,11 +1041,13 @@
                 </div>
                 <div class="col-xs-1">
                     <div class="btn-group-xs pull-right">
-                        <a translation-url class="btn btn-info" href="/submit/lwDonor/" data-toggle="tooltip" title="Record List"><i class="fa fa-list"></i></a>
-                        <a translation-url class="btn btn-primary" href="/submit/lwDonor/new" data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                        <a translation-url class="btn btn-info" href="/submit/lwDonor/" data-toggle="tooltip" title="Record List"><i
+                                class="fa fa-list"></i></a>
+                        <a translation-url class="btn btn-primary" href="/submit/lwDonor/new" data-toggle="tooltip"
+                            title="Add New Record"><i class="fa fa-plus-square"></i></a>
                     </div>
                 </div>
             </div>
-
-      </div>
+        </div>
+    </div>
 </div>

@@ -1,39 +1,28 @@
-﻿<div id="submit">
-
-
+﻿<div id="submit" class="container">
+    <search-top-menu></search-top-menu>
     <link href="/app/libs/jqvmap/jqvmap/jqvmap.css" rel="stylesheet">
+    <div class="" style="margin:20px 0">
+        <h3 style="padding-bottom:30px;"><i class="fa fa-search"></i> Online Reporting Search <i ng-show="loading"
+                class="fa fa-spinner fa-spin"></i></h3>
+        <div id="vmap" style="width: 100%; min-height:400px;background-color:#DDD!important;"></div>
+            
+        <div class="pull-right"><h4>Country(s) found: <span class="color-grey">{{records.length}}</span></h4></div>
+        
+        <div class="pull-left">
+            <div km-select required name="government" multiple ng-model="government" placeholder="Select a country"
+                watch-items items="options.countries"></div>
+            <div km-select required name="schema" multiple ng-model="schema" placeholder="Select record type"
+                watch-items items="nationalRecords"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
 
-            <div class="container" style="padding:20px 0 20px 0;" >
-
-                <h3 style="padding-bottom:30px;"><i class="fa fa-search"></i> Online Reporting Search   <i ng-show="loading" class="fa fa-spinner fa-spin"></i></h3>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div id="vmap" style="width: 100%; min-height:400px;background-color:#EEE!important;"></div>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top:20px;">
-                    <div class="col-md-12">
-                        <div km-select required name="government" multiple ng-model="government" placeholder="Select a country" watch-items items="options.countries"></div>
-                        <div km-select required name="schema" multiple ng-model="schema" placeholder="Select record type" watch-items items="nationalRecords"></div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <strong>Country(s): <span class="color-grey">{{records.length}}</span></strong>
-                </div>
-            </div>
-{{government}}
-
-    <div ng-repeat="group in records">
+    <div ng-repeat="group in records | orderBy: 'groupValue'">
+            <hr style=" position: absolute; width: 100%; left: 0;"/> <br><br>
         <div>
-            <h3 class="container-fluid color-medgrey" style="border-top:1px solid #DDD;padding-top:0;margin-top:3px;"><i class="fa fa-chevron-circle-down"></i> {{group.doclist.docs[0].government_EN_t}} </h3>
-            <div class="container">
-                <div class="row" >
+            <h3 class=" color-medgrey" ng-click="showCountry=!showCountry"><i class="fa fa-chevron-circle-down"></i> {{group.doclist.docs[0].government_EN_t}} </h3>
+            <div class="">
+                <div class="row" ng-show="!showCountry" >
 
                     <div ng-repeat="doc in group.doclist.docs | filter:{'schema_s':'nationalReport'} | orderBy:'startDate_s':'asc'">
                         <h4 ng-show="$index===0" class="bg-litegrey" style="padding:3px;margin-top:10px;" >National Reports and NBSAPs</h4>

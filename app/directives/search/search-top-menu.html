@@ -1,0 +1,56 @@
+﻿<div id="searchTopMenu">
+    <style>
+        #searchTopMenu{
+            padding:5px 5px 5px 0;
+        }
+        #searchTopMenu .menu-tabs {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #searchTopMenu .menu-tabs > ul {
+            padding: 0;
+            margin: 0;
+        }
+        
+        #searchTopMenu .menu-tabs > ul li {
+            display: inline;
+            z-index: 20;
+            margin-right: 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+        
+        #searchTopMenu .menu-tabs > ul li > a {
+            background-color: #f5f5f5;
+            color: #666;
+            font-weight: bold;
+            font-weight: bold;
+            line-height: 35px;
+            padding: 8px 10px 8px 10px;
+            border-radius: 3px;
+        }
+        
+    </style>
+
+    <div class="menu-tabs hidden-xs hidden-sm" style="margin-top:10px;">
+        <ul>
+            <li> <a translation-url  href="/database" ng-class="{'tabactivated':path.indexOf('dashboard') > 0}"> Search the CHM </a> </li>
+
+            
+
+            <li> <a translation-url  href="/search/reporting-map?filter=all" ng-class="{'tabactivated':path.indexOf('notifications') > 0}"> Online Reporting Search </a></li>
+
+            <li> <a translation-url  href="/search/financial-analyzer" ng-class="{'tabactivated':path.indexOf('notifications') > 0}"> Financial Reporting  Analyzer</a></li>
+
+            <li> <a translation-url  href="http://absch.cbd.int/search" > ABSCH <i class="fa fa-external-link"></i></a></li>
+
+            <li> <a translation-url  href="http://bch.cbd.int/search" > BCH <i class="fa fa-external-link"></i></a></li>
+
+            <li> <a translation-url  href="https://www.cbd.int/ebsa/" > EBSAs <i class="fa fa-external-link"></i> </a></li>
+
+                <li> <a translation-url  href="https://www.cbd.int/kb/" > Search the CBD website <i class="fa fa-external-link"></i></a></li>
+
+        </ul>
+    </div>
+</div>

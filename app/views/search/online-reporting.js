@@ -1,5 +1,5 @@
 /* global $ */
-define(["lodash", 'app','directives/forms/form-controls', 'utilities/km-utilities', 'jqvmap', 'jqvmapworld'], function(_) { 'use strict';
+define(["lodash", 'app','directives/search/search-top-menu', 'directives/forms/form-controls', 'utilities/km-utilities', 'jqvmap', 'jqvmapworld'], function(_) { 'use strict';
 
     return ["$scope", "$http", "$q", "$location", '$timeout', "$filter", "Thesaurus", "realm", function ($scope, $http, $q, $location, $timeout, $filter, thesaurus, realm) {
 

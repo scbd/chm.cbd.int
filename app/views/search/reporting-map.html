@@ -1,16 +1,12 @@
-﻿<div class="container" style="margin-top:20px;">
-  <div class="row">
-    <div class="col-sm-12">
-      <h3><i class="fa fa-search"></i> Online Reporting Search <i ng-show="loading" class="fa fa-spinner fa-spin"></i></h3>
-    </div>
-  <div class="row">
-    <div class="col-xs-12">
-        <h5 class="text-right"><i class="fa fa-search"></i>    <a translation-url href="/search/financial-analyzer">Financial Reporting Framework Analyzer</a></h5>
-    </div>
+﻿<div>
+  <div class="container">
+      <search-top-menu></search-top-menu>
+    <h3><i class="fa fa-search"></i> Online Reporting Search <i ng-show="loading" class="fa fa-spinner fa-spin"></i></h3>
+    <hr style=" position: absolute; width: 100%; left: 0;" /> <br><br>
   </div>
 
-<reporting-display></<reporting-display>
-
-
+  <div class="container-fluid">
+    <reporting-display></reporting-display>
   </div>
+
 </div>

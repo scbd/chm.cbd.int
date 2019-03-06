@@ -1,33 +1,25 @@
-﻿<div id="userPreferencePage">
-	<div class="container" style="margin-bottom:50px;">
+﻿<div class="container">
+
+	<div class="register-content card card-1-notrans">
+
 		<top-menu></top-menu>
-		<div class="row" style="padding-top:15px">
 
-			<div class="register-content card card-1-notrans">
+		<h3>User preferences
+			<span class="helpinfoInline">
+		</h3>
 
-				<div class="register-content-header bg-darkgrey color-white">
-					<div style="padding:10px 10px;">
-						<h3>  User preferences
-						</h3>
-
-
-					</div>
-				</div>
-				<div class="register-content-content">
-
-
-
-
-
-					<h4>
-						Email notifications and predefined searches <small>Keep up to date when new records are published.</small>
-					</h4>
-
-					<user-alerts collection="subscriptions" collection-filter='{"isSystemAlert":false}' run-query="runFilter(filter)"></user-alerts>
-
-				</div>
-			</div>
-
+		<div>
+			Email notifications and predefined searches - Keep up to date when new records are published.
 		</div>
 
+		<hr style=" position: absolute; width: 100%; left: 0;" /> <br>
+
 	</div>
+
+	<div class="register-content-content">
+		<user-alerts collection="subscriptions" collection-filter='{"isSystemAlert":false}' run-query="runFilter(filter)"></user-alerts>
+	</div>
+
+
+
+</div>

@@ -131,10 +131,11 @@
     </div> -->
 
     <div ng-show="!loading && (!userFilters || userFilters.length==0) && !showSystemAlerts">
-        <div class="alert alert-info" role="alert">
+        
+        <h3 class="color-grey" >
             <span ng-if="user.isAuthenticated">You do not have any saved alerts.
             <span ng-if="!user.isAuthenticated">Please log in to view your saved alerts.</span>
-        </div>
+         </h3>
     </div>
     <script type="text/ng-template" trados-translation="true" id="newFilterDialog">
         <div class="modal-header">

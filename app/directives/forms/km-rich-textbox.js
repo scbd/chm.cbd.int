@@ -32,7 +32,7 @@ function(app,template,angular) {
 						$scope.isUploadingImage = {};
 						var activeLocale;
 						if(!$scope.toolbar)
-							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['insertImage', 'insertLink', 'uploadCustomImage', 'uploadCustomFile'], ['wordcount', 'charcount'], ['editorHelp']]";
+							$scope.toolbar = "[['bold','italics', 'underline'],['ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'], ['insertImage', 'insertLink', 'uploadCustomImage', 'uploadCustomFile'], ['wordcount', 'charcount'], ['editorHelp']]";
 								// ['justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'], 'html',						
 						
 						//==============================

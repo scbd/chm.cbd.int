@@ -2,7 +2,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 'json!app-data/edit-form-messages.json', 'authentication', 'services/editFormUtility',  
 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 
 'services/navigation', "utilities/solr", 'ngDialog', 'scbd-angularjs-services/locale',
-'directives/forms/form-controls',"./reference-selector", 'directives/forms/km-rich-textbox', 'directives/forms/km-value-ml'
+'directives/forms/form-controls',"./reference-selector", 'directives/forms/km-rich-textbox', 'directives/forms/km-value-ml',
+'directives/formats/views/national-target', 'directives/formats/views/national-assessment'
 	],
 	function(require, template, app, angular, _, messages) {
 		'use strict';
@@ -453,82 +454,94 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							.then(function(hasError) {
 								if (hasError)
 									$scope.tab = "review";
-								var document = $scope.document;
-								var nationalTargets = $scope.nationalTargets
-								var stopProcess = false;
-								var subRecordErrors = []
-								var subRecordsDialog = ngDialog.open({
-									template: 'subRecordsValidation.html',													
-									closeByDocument: false,
-									closeByEscape: false,
-									showClose: false,
-									closeByNavigation: false,
-									controller : ['$scope', function($scope){
-										var validationRequests = [];
-										if(document.targetPursued){
-											validationRequests = _.map(document.nationalTargets||[], "identifier");
-										}
-
-										if(document.progressAssessments && document.progressAssessments.length>0){
-											_.each(document.progressAssessments, function(a){
-												if(a.assessment){
-													validationRequests.push(a.assessment.identifier);
-												}
-											});
-										}
-										if(validationRequests.length > 0){
-											$scope.loadingRecords = true;
-											var filter = "(((identifier eq '"+ validationRequests.join("') or (identifier eq '") + "')))"
-											$http.get('/api/v2013/documents', {params : {$filter : filter, collection:'mydraft', body:true}})
-												 .then(function(results){
-													 $scope.loadingRecords = false;
-													 $scope.recordsToValidate = results.data.Items;
-													 $scope.hasErrors = false;
-													 $scope.validatingRecords = true;
-													 var validations = _.map($scope.recordsToValidate, function(record){
-														return $http.put('/api/v2013/documents/x/validate', record.workingDocumentBody||record.body, 
-																	{params:{schema: record.type}})
-																.then(function(result){
-																	if(result.data.errors && result.data.errors.length>0){
-																		$scope.hasErrors = true;
-																		record.status = 1;
-																		record.errors = result.data.errors
-																	}
-																	else
-																		record.status = 2
-																})
-													 })
-													 $q.all(validations)
-													 .finally(function(){
-														 $scope.validatingRecords = false;
-														 if($scope.hasErrors && $scope.hasErrors)
-														 	subRecordErrors = $scope.recordsToValidate;
-													 })
-												 })
-												 .finally(function(){
-													$scope.loadingRecords = false;
-												 });
-										}
-										$scope.close = function(){
-											stopProcess = true;
-											ngDialog.close();
-										}
-										$scope.continue = function(){
-											stopProcess = false;
-											ngDialog.close();
-										}
-									}]
-								});
-
-								return subRecordsDialog.closePromise .then(function(){ 
-									$scope.subRecordErrors = subRecordErrors;
-									$scope.colorSubRecordError();
-									return stopProcess;
-								});
-								
+								return $scope.validateSubRecords();								
 							});
 						};
+						$scope.validateSubRecords = function(){
+							var document = $scope.document;
+							var nationalTargets = $scope.nationalTargets
+							var stopProcess = false;
+							var subRecordErrors = []
+							var subRecordsDialog = ngDialog.open({
+								template: 'subRecordsValidation.html',	
+								className: 'ngdialog-theme-default ngdialog-custom',
+								closeByDocument: false,
+								closeByEscape: false,
+								showClose: false,
+								closeByNavigation: false,
+								controller : ['$scope', function($scope){
+									var validationRequests = [];
+									if(document.targetPursued){
+										validationRequests = _.map(document.nationalTargets||[], "identifier");
+									}
 
+									if(document.progressAssessments && document.progressAssessments.length>0){
+										_.each(document.progressAssessments, function(a){
+											if(a.assessment){
+												validationRequests.push(a.assessment.identifier);
+											}
+										});
+									}
+									if(validationRequests.length > 0){
+										$scope.loadingRecords = true;
+										var filter = "(type eq 'nationalTarget' or type eq 'nationalAssessment')"
+										$http.get('/api/v2013/documents', {params : {$filter:filter, collection:'mydraft', body:true}})
+												.then(function(results){
+													$scope.loadingRecords = false;
+													$scope.recordsToValidate = _.filter(results.data.Items, function(item){return ~validationRequests.indexOf(item.identifier)});
+													$scope.hasErrors = false;
+													$scope.validatingRecords = true;
+													var validations = _.map($scope.recordsToValidate, function(record){
+													return $http.put('/api/v2013/documents/x/validate', record.workingDocumentBody||record.body, 
+																{params:{schema: record.type}})
+															.then(function(result){
+																if(result.data.errors && result.data.errors.length>0){
+																	$scope.hasErrors = true;
+																	record.status = 1;
+																	record.errors = result.data.errors
+																}
+																else
+																	record.status = 2
+															})
+													})
+													$q.all(validations)
+													.catch(function(err){
+														console.log(err)
+														$scope.hasErrors = true;
+														$scope.fetchError = "Error processing this request";
+													})
+													.finally(function(){
+														$scope.validatingRecords = false;
+														if($scope.hasErrors && $scope.hasErrors)
+															subRecordErrors = $scope.recordsToValidate;
+													})
+												})
+												.catch(function(err){
+													console.log(err)
+													$scope.hasErrors = true;
+													$scope.fetchError = "Error processing this request";
+												})
+												.finally(function(){
+													$scope.loadingRecords = false;
+												});
+									}
+									$scope.close = function(){
+										stopProcess = true;
+										ngDialog.close();
+									}
+									$scope.continue = function(){
+										stopProcess = false;
+										ngDialog.close();
+									}
+								}]
+							});
+
+							return subRecordsDialog.closePromise .then(function(){ 
+								$scope.subRecordErrors = subRecordErrors;
+								$scope.colorSubRecordError();
+								return stopProcess;
+							});
+						}
 						//==================================
 						//
 						//==================================
@@ -1286,6 +1299,24 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								}]
 							});
 
+						}
+
+						$scope.showRecord = function(record, name){
+							record.showRecord = !record.showRecord;
+
+							if(!record.showRecord || (record.document && record.showRecord))
+								return;
+							record.showRecordLoading = true;
+							var request;
+							if(record._state_s == 'public')
+								request = storage.documents.get(record.identifier_s)
+							else
+								request = storage.drafts.get(record.identifier_s);
+
+							request.then(function(document){
+								record.document = document.data;
+							})
+							.finally(function(){record.showRecordLoading=false;});
 						}
 
 						$scope.getLocale = function(){

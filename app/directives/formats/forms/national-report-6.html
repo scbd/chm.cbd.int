@@ -83,6 +83,7 @@
 															<a translation-url href="" ng-click="switchTab('next')">&raquo;</a>
 														</li>
 													</ul>
+													<button class="btn btn-sm btn-danger pull-right" style="margin-top:20px;margin-left:50px" ng-click="validateSubRecords()">Validate sub records</button>
 													<div  km-document-validation ng-model="warningsReport" ng-if="(document.nationalContribution && document.nationalContribution.aichiTarget16.nationalReport
 															&& !document.nationalContribution.aichiTarget16.nationalReportDescription)
 															&& warningsReport && warningsReport.warnings"></div>
@@ -247,17 +248,30 @@
 																					<span class="label label-warning pull-right bg-request">
 																						<i class="fa fa-spin fa-spinner"></i > Processing...</span>
 																				</div>
-																				<ul>
+																				<ul ng-if="!nationalTargets[item.identifier].showRecord">
 																					<li ng-repeat="target in nationalTargets[item.identifier].aichiTargets track by $index" ng-if="!nationalTargets[item.identifier].isAichiTarget && nationalTargets[item.identifier].aichiTargets">{{target}}</li>
 																					<li ng-repeat="target in nationalTargets[item.identifier].otherAichiTargets track by $index" ng-if="nationalTargets[item.identifier].otherAichiTargets">{{target}}</li>
 																					
 																				</ul>
+																				<div ng-if="nationalTargets[item.identifier].showRecord" id="recordDetails_{{item.identifier}}">
+																					<div class="full-record-div">
+																						<div style="margin:0 50%" ng-if="nationalTargets[item.identifier].showRecordLoading"><i class="fa fa-spinner fa-spin"></i>Loading</div>
+																						<view-national-target ng-model="nationalTargets[item.identifier].document" locale="locale" header="false" link-target="_blank"></view-national-target>
+																					</div>
+																				</div>
 																			</div>
 																			<div class="panel-footer">
 																				<div class="btn-group btn-group-xs" ng-if="waitForWorkflow.nationalTarget.identifier != item.identifier || !waitForWorkflow.nationalTarget">
-																					<a translation-url title="View" ng-if="nationalTargets[item.identifier]._state_s == 'public'" target="_blank" class="btn btn-primary" ng-href="{{nationalTargets[item.identifier].url}}">
-																						<i class="fa fa-search"></i> view
-																					</a>
+																					<button title="Show full details" type="button" class="btn btn-primary" 
+																						ng-click="showRecord(nationalTargets[item.identifier], 'national-target')"
+																						ng-if="!nationalTargets[item.identifier].showRecord">
+																						<i class="fa fa-search"></i> Show full details
+																					</button>
+																					<button title="Show full details" type="button" class="btn btn-primary" 
+																						ng-click="showRecord(nationalTargets[item.identifier], 'national-target')"
+																						ng-if="nationalTargets[item.identifier].showRecord">
+																						<i class="fa fa-eye-slash"></i> Hide full details
+																					</button>
 																					<a translation-url ng-if="nationalTargets[item.identifier]._state_s=='workflow' " title="Locked for edit" target="_blank" class="btn btn-primary" ng-href="/management/requests/{{getWorkflowId(nationalTargets[item.identifier])}}/publishRecord">
 																						<i class="fa fa-lock"></i> view status
 																					</a>
@@ -411,7 +425,7 @@
 								<div ng-if="loadingRecords" style="margin-left:45%">
 									<i class="fa fa-spin fa-spinner"></i> Loading...
 								</div>
-								<table class="table table-bordered">
+								<table class="table table-bordered" ng-if="!fetchError">
 									<tbody>
 										<tr ng-if="!loadingRecords && !validatingRecords && ((recordsToValidate||[]).length<=0 || !hasErrors)">
 											<td >
@@ -432,6 +446,7 @@
 										</tr>
 									</tbody>
 								</table>
+								<div ng-if="fetchError" class="alert alert-danger" ng-bind="fetchError"></div>
 							</div>
 							<div class="ngdialog-buttons">
 								<button type="button" class="ngdialog-button ngdialog-button-primary" ng-if="!validatingRecords && !loadingRecords && hasErrors" ng-click="close()">Close</button>
@@ -464,18 +479,19 @@
 								</tr>
 								<tr ng-repeat-end ng-if="record.showErrors">
 									<td colspan="3" style="border-top:none">
-										<table class="table table-bordered">
+										<table class="table table-bordered" style="background-color: #eee;">
 											<tr ng-repeat="error in record.errors">
+												<td style="max-width:75px"> <span>Field is mandatory</span> </td>
 												<td ng-switch="error.property">	
-													<span ng-switch-when="relevantNationalTarget" > <span>Field is mandatory</span> / <span>Please answer at least one question from relevance of National Targets to Aichi Targets section </span> </span>
-													<span ng-switch-when="title" > <span>Field is mandatory</span> / <span>National Target </span> </span>
-													<span ng-switch-when="jurisdiction" > <span>Field is mandatory</span> / <span>Level of application Please specify the level to which the target applies </span> </span>
-													<span ng-switch-when="jurisdictionInfo" > <span>Field is mandatory</span> / <span>please indicate area concerned for the selected level of application </span> </span>													
-													<span ng-switch-when="relevantNationalTarget" > <span>Field is mandatory</span> / <span>Aichi Biodiversity Target </span> </span>
-													<span ng-switch-when="progress" > <span>Field is mandatory</span> / <span>Rate of progresses toward the implementation of the selected target </span> </span>
-													<span ng-switch-when="confidence" > <span>Field is mandatory</span> / <span>Level of confidence of the above assessment </span> </span>
-													<span ng-switch-when="nationalTarget" > <span>Field is mandatory</span> / <span>Target </span> </span>
-													<span ng-switch-default ng-bind="error.code + ':' + error.property "></span>
+													<div ng-switch-when="relevantNationalTarget" >Please answer at least one question from relevance of National Targets to Aichi Targets section  </div>
+													<div ng-switch-when="title" > National Target  </div>
+													<div ng-switch-when="jurisdiction" > Level of application Please specify the level to which the target applies  </div>
+													<div ng-switch-when="jurisdictionInfo" > please indicate area concerned for the selected level of application  </div>									
+													<div ng-switch-when="relevantNationalTarget" > Aichi Biodiversity Target  </div>
+													<div ng-switch-when="progress" > Rate of progresses toward the implementation of the selected target  </div>
+													<div ng-switch-when="confidence" > Level of confidence of the above assessment  </div>
+													<div ng-switch-when="nationalTarget" > Target  </div>
+													<div ng-switch-default ng-bind="error.code + ':' + error.property "></div>
 												</td>
 											</tr>
 										</table>

@@ -24,7 +24,7 @@ if(!process.env.API_URL) {
     console.error("WARNING: environment API_URL not set. USING default (https://api.cbddev.xyz) ");
 }
 
-var apiUrl =  'https://api.cbddev.xyz'; //var apiUrl = process.env.API_URL || 'https://api.cbddev.xyz';
+var apiUrl = process.env.API_URL || 'https://api.cbddev.xyz';
 console.info(`info: chm.cbd.int`);
 //console.info(`info: Git version: ${gitVersion}`);
 console.info(`info: API address: ${apiUrl}`);

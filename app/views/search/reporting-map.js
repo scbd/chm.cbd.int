@@ -1,4 +1,4 @@
-define(["lodash",'directives/search/search-top-menu', "directives/reporting-display/reporting-display"], function(_) { 'use strict';
+define(["lodash", "directives/reporting-display/reporting-display"], function(_) { 'use strict';
 
        return ['$scope', '$window', 'realm',
      function($scope, $window, realm) {

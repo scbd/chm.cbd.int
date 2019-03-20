@@ -1,6 +1,6 @@
 define(['app',
     "text!./user-alerts.html",
-    'underscore',
+    'lodash',
     'moment',
     'ngDialog',
      './filter-user-preference',
@@ -37,7 +37,7 @@ define(['app',
                     $scope.setFilter = function(filter){
                         if(!$scope.setFilters)
                             $scope.setFilters = [];
-                        if(!_.contains($scope.setFilters, {id:filter.id}))
+                        if(!_.includes($scope.setFilters, {id:filter.id}))
                             $scope.setFilters.push(filter);
                     }
 
@@ -225,7 +225,7 @@ define(['app',
                             function updateRecord(document, delay) {
                                 if (!$scope.userFilters)
                                     $scope.userFilters = [];
-                                var existing = _.findWhere($scope.userFilters, {
+                                var existing = _.find($scope.userFilters, {
                                     '_id': document._id
                                 });
                                 if (!existing) {

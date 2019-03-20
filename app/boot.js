@@ -56,8 +56,7 @@ require.config({
       'pdf-object'                 : 'libs/pdfobject/pdfobject',
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
-      'textAngular'               : 'libs/textAngular/dist/textAngular.min',
-      'underscore'                : cdnHost + 'underscore@1.7.0/underscore-min'
+      'textAngular'               : 'libs/textAngular/dist/textAngular.min'
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -96,7 +95,6 @@ require.config({
       'textAngularSetup'         : { 'deps': ['angular']},
       'textAngular'              : { 'deps': ['angular', 'textAngularSetup']},
       'ngInfiniteScroll'         : { 'deps': ['angular']},
-      'underscore'               : { 'exports': '_' },
 
     },
     packages: [

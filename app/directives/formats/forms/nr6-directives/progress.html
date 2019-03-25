@@ -30,7 +30,8 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments track by $index">
+    <div class="panel panel-default progressAssessment" ng-repeat="progressAssessment in document.progressAssessments track by $index"
+    id="pnl_{{progressAssessment.assessment.identifier}}">
         <div class="panel-header clearfix">
             <h3>
                 <!-- Progress assessment for -->
@@ -51,7 +52,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="km-control-group" name="progressAssessmentAdequacy" caption="Current assessment for the national target">
-                        <div ng-if="progressAssessment.assessment">
+                        <div ng-if="progressAssessment.assessment && !targetAssessments[progressAssessment.assessment.identifier].showRecord">
                             <div class="row btn-status" style="margin-right:0.1%">
                                 <div ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
                                     <span class="label label-primary pull-right  bg-published" style="margin-left:5px;"
@@ -82,15 +83,31 @@
 
                             </span>
                         </div>
+                        <div ng-if="targetAssessments[progressAssessment.assessment.identifier].showRecord" id="recordDetails_{{progressAssessment.assessment.identifier}}">
+                            <div class="full-record-div">
+                                <div style="margin:0 50%" ng-if="targetAssessments[progressAssessment.assessment.identifier].showRecordLoading"><i class="fa fa-spinner fa-spin"></i>Loading</div>
+                                <view-national-assessment ng-model="targetAssessments[progressAssessment.assessment.identifier].document" locale="locale" header="false" link-target="_blank"></view-national-assessment>
+                            </div>
+                        </div>
                     </div>
                     <div class="km-control-group pull-right">
                         <div class="btn-group btn-group-xs" ng-if="waitForWorkflow.nationalAssessment.identifier != progressAssessment.assessment.identifier || !waitForWorkflow.nationalAssessment">
                             <button ng-if="!progressAssessment.assessment" target="_blank" class="btn btn-primary" ng-click="openDialog(progressAssessment,'directives/formats/forms/national-assessment-dialog','edit-national-assessment-dialog')"
                                 ng-disabled="isDialogOpen"><i class="fa fa-plus"></i> add</button>
-                            <a translation-url title="View" ng-if="progressAssessment.assessment && targetAssessments[progressAssessment.assessment.identifier]._state_s == 'public'"
+                            <button title="Show full details" type="button" class="btn btn-primary"
+                                ng-click="showRecord(targetAssessments[progressAssessment.assessment.identifier], 'national-assessment')"
+                                ng-if="progressAssessment.assessment && !targetAssessments[progressAssessment.assessment.identifier].showRecord">
+                                <i class="fa fa-search"></i> Show full details
+                            </button>
+                            <button title="Show full details" type="button" class="btn btn-primary" 
+                                ng-click="showRecord(targetAssessments[progressAssessment.assessment.identifier], 'national-assessment')"
+                                ng-if="targetAssessments[progressAssessment.assessment.identifier].showRecord">
+                                <i class="fa fa-eye-slash"></i> Hide full details
+                            </button>
+                            <!-- <a translation-url title="View" ng-if="progressAssessment.assessment && targetAssessments[progressAssessment.assessment.identifier]._state_s == 'public'"
                                 target="_blank" class="btn btn-primary" ng-href="{{progressAssessment.assessment && targetAssessments[progressAssessment.assessment.identifier].url}}">
                                 <i class="fa fa-search"></i> view
-                            </a>
+                            </a> -->
                             <a translation-url ng-if="progressAssessment.assessment && targetAssessments[progressAssessment.assessment.identifier]._state_s=='workflow' "
                                 title="Locked for edit" target="_blank" class="btn btn-primary" ng-href="/management/requests/{{getWorkflowId(progressAssessment.assessment && targetAssessments[progressAssessment.assessment.identifier])}}/publishRecord">
                                 <i class="fa fa-lock"></i> view status

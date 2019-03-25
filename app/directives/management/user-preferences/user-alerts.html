@@ -7,42 +7,7 @@
             width: 70% !important;
         }
     </style>
-    <div class="container-fluid">
-        <div ng-if="showSystemAlerts">
-            <div class="row" style="padding:10px 0;background-color:#eee;">
-                <div class="col-xs-7 col-sm-8">
-                    <small class="color-red">system alert</small><br>
-                    <span class="bold">
-                        Certificates (IRCC) published indicating that prior informed
-                        consent (PIC) has been granted to a user within my jurisdiction
-                    </span>
-                </div>
-                <div class="col-xs-1 text-center color-darkgray">
-                    <small class="hidden-xs">Email me</small>
-                    <div ng-click="subscribe('absPermit')" class="color-white" ng-if="!hasUserSubscribed('absPermit')"
-                        style="cursor:pointer">
-                        <i class="fa fa-square fa-2x"></i></div>
-                    <div ng-click="unsubscribe('absPermit')" class="color-darkgray" ng-if="hasUserSubscribed('absPermit')"
-                        style="cursor:pointer">
-                        <i class="fa fa-check-square fa-2x"></i></div>
-                </div>
-                <div class="col-xs-1 text-center color-darkgray" ng-click="runSystemFilter()">
-                    <small class="hidden-xs">Search</small>
-                    <div style="cursor:pointer">
-                        <i class="fa fa-play fa-2x"></i> </div>
-                </div>
-                <div class="col-xs-1 text-center color-white">
-                    <small class="hidden-xs">Edit</small>
-                    <div style="cursor:pointer">
-                        <i class="fa fa-edit fa-2x"></i></div>
-                </div>
-                <div class="col-xs-1 text-center color-white">
-                    <small class="hidden-xs">Delete</small>
-                    <div style="cursor:pointer">
-                        <i class="fa fa-trash-o fa-2x"></i></div>
-                </div>
-            </div>
-        </div>
+   
 
         <div ng-repeat="record in userFilters | orderBy:'meta.createdOn'">
             <div class="row" ng-hide="record.pendingStatus || del" style="padding:10px 0;background-color:#eee;margin-top:10px;">
@@ -84,7 +49,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
     <br>
     <button class="btn btn-primary pull-right" ng-click="addEdit()"><i class="fa fa-plus-circle"></i> Add new</button>
     <div class="clearfix"></div>
@@ -130,7 +95,7 @@
         </div>
     </div> -->
 
-    <div ng-show="!loading && (!userFilters || userFilters.length==0) && !showSystemAlerts">
+    <div ng-show="!loading && (!userFilters || userFilters.length==0)">
         
         <h3 class="color-grey" >
             <span ng-if="user.isAuthenticated">You do not have any saved alerts.

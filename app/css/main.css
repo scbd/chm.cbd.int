@@ -483,6 +483,13 @@ legend{
 #sixth-national-report-edit .small-screen {
     display: block !important;
 }
+#sixth-national-report-edit .full-record-div {     
+    background: #eee;
+    margin:20px;
+}
+#sixth-national-report-edit .full-record-div .col-md-12{ 
+    float: none!important;
+}
 #section3 .section-body .panel.panel-default .panel-header h3{
     padding-right: 5px;
 }
@@ -529,4 +536,8 @@ legend{
 }
 .white-background .ngdialog-content{
     background:#fff !important;
+}
+
+.error-background {
+    background:#ebccd1;
 }

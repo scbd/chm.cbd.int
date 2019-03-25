@@ -7,9 +7,23 @@
                     <a translation-url href="/management/national-users" ng-cloak ng-if="canManageNationalUser"><i class="fa fa-users"></i> National users</a>
                 </div>
                 <div style="display:inline">
-                    <a translation-url href="/"><i class="fa fa-home" ></i> Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a translation-url href="/search" ><i class="fa fa-search"></i> Search</a>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a translation-url href="/submit" ><i class="fa fa-pencil-square-o"></i> Submit <span class="hide-sm hide-xs">Information</span></a>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a translation-url href="/"> Home </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span translation-url  class="dropdown"> 
+                        <a data-toggle="dropdown" > Search <span class="caret" style="top:-2px;position: relative;"></span> </a>
+                        <ul class="dropdown-menu" >
+                            <li> <a href="/search"> <h5>CHM Searches</h5> </a></li>
+                            <li> <a translation-url  href="/database" "> Search the CHM </a> </li>
+                            <li> <a translation-url  href="/search/reporting-map?filter=all" > Online Reporting Search </a></li>
+                            <li> <a translation-url  href="/search/financial-analyzer" > Financial Reporting  Analyzer</a></li>
+                            <hr>
+                            <li> <a translation-url target="_new"  href="http://absch.cbd.int/search" > ABS Clearing-House </a></li>
+                            <li> <a translation-url target="_new"  href="http://bch.cbd.int/search" > Biosafety Clearing-House </a></li>
+                            <li> <a translation-url target="_new"  href="https://www.cbd.int/ebsa/" > EBSA Website </a></li>
+                            <li> <a translation-url target="_new" href="https://www.cbd.int/kb/" > Search the CBD website </a></li>
+                        </ul>
+                    </span>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a translation-url href="/submit" > Submit <span class="hide-sm hide-xs">Information</span></a>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
         </div>
     </nav>

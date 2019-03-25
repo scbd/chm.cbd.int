@@ -133,7 +133,7 @@ form label[required]:after
 }
 .container-links a{
     color:#EEE;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-weight: bold;
     font-size:13px;
 }

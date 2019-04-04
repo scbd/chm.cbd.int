@@ -16,7 +16,15 @@
 			<h4 class="color-darkgrey"> All errors must be corrected before this document can be published.</h4>
 			<ul>
 				<li ng-repeat="error in report.errors" title="{{error.parameters}}">
-					{{getTranslation(error.code, error.property, error.parameters)}} / <a translation-url href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>
+					{{getTranslation(error.code, error.property, error.parameters)}} /
+					<ul ng-if="error.properties">
+						<li ng-repeat="property in error.properties" title="{{error.parameters}}">					
+							<a translation-url href="#" ng-click="jumpTo(property)">{{getLabel(property)}}</a>
+						</li>
+					</ul>
+					<span ng-if="!error.properties">
+						<a translation-url href="#" ng-click="jumpTo(error.property)">{{getLabel(error.property)}}</a>
+					</span>
 				</li>
 			</ul>
 		</div>

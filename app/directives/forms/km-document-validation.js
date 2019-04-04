@@ -108,6 +108,7 @@ define(['app', 'text!./km-document-validation.html', 'json!app-data/validation-e
 				$scope.getTranslation = function(code) {
 					if (code==null || code==""            ) return messages.unknown; // jshint ignore:line
 					if (code == "Error.Mandatory"         ) return messages.mandatory;
+					if (code == "Error.MandatoryAnyOf"    ) return messages.MandatoryAnyOf;
 					if (code == "Error.InvalidValue"      ) return messages.invalidValue;
 					if (code == "Error.InvalidProperty"   ) return messages.invalidProperty;
 					if (code == "Error.UnspecifiedLocale" ) return messages.unspecifiedLocale;

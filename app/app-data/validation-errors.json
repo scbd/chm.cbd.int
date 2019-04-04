@@ -1,6 +1,7 @@
 ﻿{
 "unknown"           : "Unknown error",
 "mandatory"         : "Field is mandatory" ,
+"MandatoryAnyOf"    : "One of the field is mandatory",
 "invalidValue"      : "The value specified is invalid" ,
 "invalidProperty"   : "This value cannot be specified" ,
 "unspecifiedLocale" : "A language is used but not specified in your document" ,

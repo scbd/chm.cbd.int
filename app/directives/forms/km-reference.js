@@ -10,6 +10,7 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 			require : "?ngModel",
 			scope: {
 				binding   : '=ngModel',
+				disabled  : '=ngDisabled',
 				loaderFn  : "&loader",
 				orderByFn : "&orderBy"
 			},
@@ -47,7 +48,10 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 					references  : null,
 					visible     : false
 				});
-				$scope.$watch("binding", $scope.load);
+				$scope.$watch("binding", function(newVal, oldVal){
+					if(newVal && newVal!=oldVal)
+						$scope.load();
+				});
 
 
 
@@ -151,7 +155,7 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 						return;
 
 					$scope.isLoading = true;
-
+					
 					$scope.loaderFn({ identifier: null }).then(
 						function(data) {
 							$scope.isLoading = false;
@@ -182,7 +186,7 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 				{
 					$scope.loadAllReferences();
 					$scope.editor.clearChecks();
-					$scope.editor.search  = null;
+					$scope.editor.search  = ' ';
 					$scope.editor.visible = true;
 				};
 
@@ -233,6 +237,7 @@ define(['app', 'angular', 'lodash', 'jquery', 'text!./km-reference.html'], funct
 				{
 					$scope.editor.search  = null;
 					$scope.editor.visible = false;
+					$scope.editor.search = ' ';
 				};
 
 				//====================

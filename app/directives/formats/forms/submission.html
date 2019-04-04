@@ -1,0 +1,328 @@
+﻿<div>
+	<h1>Capacity-building Initiative <small>(Activity/Project/Programme)</small> <i ng-show="status=='loading'"
+			class="fa fa-spinner fa-spin"></i></h1>
+
+	<div class="alert alert-danger" ng-show="hasError()">
+		<strong>An error has occurred...</strong>
+		<div>{{error}}</div>
+	</div>
+
+	<div class="row" ng-show="!isLoading()&&status!='hidden'">
+		<style>
+			.panel-header,
+			.section .section-header {
+				border-bottom: 1px solid #ddd;
+				padding-left: 10px;
+			}
+
+			.help-block {
+				text-align: justify;
+			}
+
+			.panelMain .panel-body {
+				padding: 0px
+			}
+
+			.mainHeading,
+			.section .section-body,
+			.panel-body {
+				padding: 15px !important;
+			}
+		</style>
+		<div class="col-md-12" style="position: relative">
+
+			<div class="row">
+				<div class="col-xs-12 visible-xs">
+					<div class="">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()"
+							on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+							on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+							on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+
+				<div class="col-sm-8 col-xs-12">
+					<ul class="pagination">
+						<li ng-class="{ disabled: tab=='general' }"><a translation-url href=""
+								ng-click="prevTab()">&laquo;</a></li>
+						<li ng-class="{ active  : tab=='general' }"><a translation-url href=""
+								ng-click="tab='general'">General</a></li>
+						<li ng-class="{ active  : tab=='chm'     }"><a translation-url href=""
+								ng-click="tab='chm'">CBD</a></li>
+						<li ng-class="{ active  : tab=='absch'   }"><a translation-url href=""
+								ng-click="tab='absch'">ABS</a></li>
+						<li ng-class="{ active  : tab=='bch'     }"><a translation-url href=""
+								ng-click="tab='bch'">Biosafety</a></li>
+						<li ng-class="{ active  : tab=='review'  }"><a translation-url href=""
+								ng-click="tab='review'">Review</a></li>
+						<li ng-class="{ disabled: tab=='review'  }"><a translation-url href=""
+								ng-click="nextTab()">&raquo;</a></li>
+					</ul>
+				</div>
+
+				<div class="col-sm-4 hidden-xs" style="text-align:right">
+					<div class="pagination">
+						<span km-form-languages ng-model="document.header.languages"></span>
+						<span km-form-std-buttons document="document" on-post-close="onPostClose()"
+							on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+							on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+							on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+					</div>
+				</div>
+			</div>
+			<div>
+
+				<form name="editForm" style="margin-top:10px">
+
+					<div km-tab="general">
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>General Information</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" required name="government" caption="Country">
+											<div km-select ng-disabled="document.organization" required
+												name="government" ng-model="document.government"
+												placeholder="Please select country" watch-items
+												items="options.countries"></div>
+										</div>
+										<div>
+											<strong style="padding-left:50px;">OR</strong>
+										</div>
+										<div class="km-control-group"  required name="organization" caption="Organization(s)">											
+											<div km-reference ng-disabled="document.government" 
+												name="organization" ng-model="document.organization" add-caption="Add an organization..." 
+												loader="loadSchemaRecords(identifier, 'organization')">
+												<div>
+													<div><strong>{{reference.title | lstring}}</strong></div>
+													<div>{{reference.summary | lstring}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>Submission Information</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" required name="title" caption="Title">
+											<div km-textbox-ml ng-model="document.title" placeholder="" locales="document.header.languages"></div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="km-control-group" required name="date" caption="Date of submission">
+											<div km-date name="date" ng-model="document.date"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" required name="notifications" caption="Notifications">
+											<div km-reference multiple ng-disabled="document.records" 
+												name="organization" ng-model="document.notifications" add-caption="select notifications..." 
+												loader="loadNotifications(identifier)">
+												<div>
+													<div><strong>{{reference.title | lstring}}</strong></div>
+													<div>{{reference.summary | lstring}}</div>
+												</div>
+											</div>
+										</div>
+										<!-- <div>
+											<strong style="padding-left:50px;">OR</strong>
+										</div>
+										<div class="km-control-group"  required="true" name="records" caption="Related records(s)">
+											<div km-reference multiple ng-disabled="document.notifications" 
+												name="organization" ng-model="document.records" add-caption="Select records..." loader="loadSchemaRecords('*')">
+												<div>
+													<div><strong>{{reference.title | lstring}}</strong></div>
+													<div>{{reference.summary | lstring}}</div>
+												</div>
+											</div>
+										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>Documents</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" required name="relevantDocuments"
+											caption="Documents">
+											<div km-link name="relevantDocuments" ng-model="document.relevantDocuments"
+												allow-link="false" allow-file="true"
+												identifier="document.header.identifier"></div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="km-control-group" name="address"
+											caption="Any other relevant information">
+											<div class="help-block">Please use this field to provide any other
+												relevant information that may not have been addressed elsewhere in
+												the record.</div>
+											<div km-textbox-ml ng-model="document.relevantInformation" rows="4"
+												placeholder="" locales="document.header.languages"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>Notes</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" name="notes">
+											<span class="help-block">
+												The field “Notes” is for personal reference and can be seen only when
+												the record is being edited.
+											</span>
+											<div km-notes name="notes" ng-model="document.notes"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div km-tab="chm">
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>CBD Thematic areas(s)</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+
+										<div class="row">
+											<div class="col-md-10">
+												<div class="km-control-group" name="cbdThematicAreas">
+													<div km-term-check name="cbdThematicAreas"
+														ng-model="document.cbdThematicAreas" terms="options.cbdThematicAreas()"
+														binding-type="term[]"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div km-tab="absch">
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>ABS Thematic areas(s)</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" name="absThematicAreas">
+											<div km-term-check name="absThematicAreas" ng-model="document.absThematicAreas"
+												terms="options.absThematicAreas()" binding-type="term[]"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div km-tab="bch">
+						<div class="panel panel-default panelMain">
+							<div class="panel-header">
+								<h3>BCH Thematic areas(s)</h3>
+							</div>
+							<div class="panel-body">
+
+								<div class="row bottom-spacing">
+									<div class="col-md-12">
+										<div class="km-control-group" name="cpbThematicAreas" caption="">
+											<div km-term-check name="cpbThematicAreas"
+												ng-model="document.cpbThematicAreas" terms="options.bchThematicAreas()"
+												binding-type="term[]"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div km-tab="review">
+					<div km-document-validation ng-model="validationReport"></div>
+
+					<div class="btn-group" ng-show="document.header.languages.length>1">
+						<input type="button" class="btn"
+							ng-class="{'active' : review.locale==locale, 'btn-info' : review.locale==locale}"
+							ng-repeat="locale in document.header.languages" ng-click="$parent.review.locale = locale"
+							value="{{locale | uppercase}}" />
+					</div>
+					<view-submission ng-model="document" locale="review.locale" link-target="_blank"></view-submission>
+				</div>
+
+				<div class="row">
+
+					<div class="col-sm-9 col-xs-12">
+						<ul class="pagination">
+							<li ng-class="{ disabled: tab=='general' }"><a translation-url href=""
+									ng-click="prevTab()">&laquo;</a></li>
+							<li ng-class="{ active  : tab=='general' }"><a translation-url href=""
+									ng-click="tab='general'">General</a></li>
+							<li ng-class="{ active  : tab=='chm'     }"><a translation-url href=""
+									ng-click="tab='chm'">CBD</a></li>
+							<li ng-class="{ active  : tab=='absch'   }"><a translation-url href=""
+									ng-click="tab='absch'">ABS</a></li>
+							<li ng-class="{ active  : tab=='bch'     }"><a translation-url href=""
+									ng-click="tab='bch'">Biosafety</a></li>
+							<li ng-class="{ active  : tab=='review'  }"><a translation-url href=""
+									ng-click="tab='review'">Review</a></li>
+							<li ng-class="{ disabled: tab=='review'  }"><a translation-url href=""
+									ng-click="nextTab()">&raquo;</a></li>
+						</ul>
+					</div>
+
+					<div class="col-sm-3 hidden-xs" style="text-align:right">
+						<div class="pagination">
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()"
+								on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+								on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+								on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						</div>
+					</div>
+
+					<div class="col-xs-12 visible-xs">
+						<div class="">
+							<span km-form-std-buttons document="document" on-post-close="onPostClose()"
+								on-error="onError(error, errorCode)" on-post-workflow="onPostWorkflow(data)"
+								on-post-publish="onPostPublish(data)" on-post-save-draft="onPostSaveDraft(data)"
+								on-pre-save-draft="onPreSaveDraft()" on-pre-publish="onPrePublish()"></span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

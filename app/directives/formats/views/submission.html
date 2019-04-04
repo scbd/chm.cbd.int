@@ -1,0 +1,119 @@
+﻿<div class="viewForm">
+
+		<div class="panel panel-default panelMain">
+			<div class="panel-header">
+				<h3>General Information</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row bottom-spacing">
+					<div class="col-md-12">						
+						<div ng-if="document.government">
+							<label>Government</label>
+							<div class="km-value km-pre">{{document.government | term:lstring:locale}}</div>
+						</div>
+						<div ng-if="document.organization">
+							<label>Organization</label>
+							<div class="km-value">
+								
+								<strong>{{organization.title_s | lstring:locale}} 
+									<i ng-show="organization.acronym">({{organization.acronym_s | lstring:locale}})</i>
+								</strong>
+								<div ng-if="organization.organizationType_s" ng-bind="organization.organizationType_s | term:locale"></div>
+								<div ng-if="organization.address_s" ng-bind="organization.address_s"></div>
+								<div ng-if="organization.city_s" ng-bind="organization.city_s"></div>
+								<div ng-if="organization.emails_ss" ng-repeat="email in organization.emails_ss" ng-bind="email"></div>
+								<div ng-if="organization.websites_ss" ng-repeat="website in organization.websites_ss" ng-bind="website"></div>
+								<div ng-if="organization.phones_ss" ng-repeat="phone in organization.phones_ss" ng-bind="phone"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default panelMain">
+			<div class="panel-header">
+				<h3>Submission Information</h3>
+			</div>
+			<div class="panel-body">
+
+				<div class="row bottom-spacing" ng-if="document.title || document.date">
+					<div class="col-md-12">
+						<div ng-if="document.title">
+							<label>Title</label>
+							<div class="km-value km-pre" ng-bind="document.title | lstring:locale"></div>
+						</div>
+						<div ng-if="document.date">
+						<label>Date of Submission</label>
+							<div class="km-value km-pre" ng-bind="document.date | formatDate"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row bottom-spacing" ng-if="document.notifications">
+					<div class="col-md-12">
+						<label>Notifications</label>
+						<div class="km-value" ng-repeat="notification in notifications" style="margin-bottom:5px;">
+							<strong>{{notification.reference_s}} <i ng-show="notification.symbol_s" ng-bind="'('+ notification.symbol_s +')'"></i></strong>
+							<div ng-bind="notification.title_s"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default panelMain">
+			<div class="panel-header">
+				<h3>Documents</h3>
+			</div>
+			<div class="panel-body">
+
+				<div class="row bottom-spacing">
+					<div class="col-md-12">		
+						<div ng-show="document.relevantDocuments">
+							<label>Documents</label>
+							<div class="km-value" ng-repeat="item in document.relevantDocuments" style="margin-bottom:5px;">
+								<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+								<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+							</div>
+						</div>				
+						<div ng-show="document.relevantInformation">
+							<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default panelMain" ng-if="document.cbdThematicAreas || document.absThematicAreas || document.cpbThematicAreas">
+			<div class="panel-header">
+				<h3>Thematic areas(s)</h3>
+			</div>
+			<div class="panel-body">
+
+				<div class="row bottom-spacing">
+					<div class="col-md-12">
+						<div ng-show="document.cbdThematicAreas">
+							<label>CBD Related </label>
+							<ul class="km-value">
+								<li ng-repeat="term in document.cbdThematicAreas">{{term | term:locale}}</li>
+							</ul>
+						</div>
+						<div ng-show="document.absThematicAreas">
+							<label>ABS Related </label>
+							<ul class="km-value">
+								<li ng-repeat="term in document.absThematicAreas">{{term | term:locale}}</li>
+							</ul>
+						</div>
+						<div ng-show="document.cpbThematicAreas">
+							<label>BCH Related </label>
+							<ul class="km-value">
+								<li ng-repeat="term in document.cpbThematicAreas">{{term | term:locale}}</li>
+							</ul>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>

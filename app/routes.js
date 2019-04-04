@@ -90,6 +90,9 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             
             when('/submit/capacityBuildingResource/new',               { templateUrl: 'views/management/edit/capacity-building-resource.html', label: 'Form',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/capacityBuildingResource/:uid',              { templateUrl: 'views/management/edit/capacity-building-resource.html', label: 'Form',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            
+            when('/submit/submission/new',                             { templateUrl: 'views/management/edit/submission.html', label: 'Form',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/submission/:uid',                            { templateUrl: 'views/management/edit/submission.html', label: 'Form',                resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 
             when('/management/requests',                      { templateUrl: 'views/management/tasks/index.html',            label : 'User Notifications and Requests',          resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/management/requests/:id',                  { templateUrl: 'views/management/tasks/tasks-id.html',         label : 'User Notifications and Requests',           resolveController: true, resolveUser: true, resolve : { securized : securize() } }).

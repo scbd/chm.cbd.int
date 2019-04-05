@@ -1,7 +1,7 @@
 ﻿<div>
 	<div class="reference-select">
 		<table class="table table-hover">
-			<tr ng-repeat="reference in references">
+			<tr ng-repeat="reference in references track by $index">
 				<td>
 					<div ng-show="!reference.__loading && !reference.__errorCode">
 						<div><strong>{{reference.title | lstring}}</strong>

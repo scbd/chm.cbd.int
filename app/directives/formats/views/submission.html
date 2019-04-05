@@ -1,5 +1,25 @@
 ﻿<div class="viewForm">
+		<style>
+			.panel-header,
+			.section .section-header {
+				border-bottom: 1px solid #ddd;
+				padding-left: 10px;
+			}
 
+			.help-block {
+				text-align: justify;
+			}
+
+			.panelMain .panel-body {
+				padding: 0px
+			}
+
+			.mainHeading,
+			.section .section-body,
+			.panel-body {
+				padding: 15px !important;
+			}
+		</style>
 		<div class="panel panel-default panelMain">
 			<div class="panel-header">
 				<h3>General Information</h3>
@@ -72,6 +92,7 @@
 						<div ng-show="document.relevantDocuments">
 							<label>Documents</label>
 							<div class="km-value" ng-repeat="item in document.relevantDocuments" style="margin-bottom:5px;">
+								<span ng-if="item.language">{{langIdentifier(item.language)|term:locale}} | </span>
 								<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 								<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
 							</div>

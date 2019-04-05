@@ -303,7 +303,7 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 							};
 							if(identifier)
 								params.q = 'identifier_s:' + identifier;
-							return $q.all([$http.get("https://api.cbd.int/api/v2013/index", { params: params,cache: true})])
+							return $q.all([$http.get("/api/v2013/index", { params: params,cache: true})])
 								.then(function (results) {
 									var qResult = Enumerable.From(normalizeSolrResult(results[0].data.response.docs))
 									if(identifier)

@@ -10,8 +10,10 @@ define(['app', 'text!./km-form-languages.html','jquery'], function(app, template
 			scope: {
 				binding : '=ngModel',
 			},
-			link : function ($scope) {
+			link : function ($scope, $element, $attr) {
 
+				if($attr.single=='true')
+					$element.find('#ddlLanguage').removeAttr('multiple')
 				$scope.locales = [
 					{identifier:"ar", name:"Arabic"  },
 					{identifier:"en", name:"English" },
@@ -24,6 +26,7 @@ define(['app', 'text!./km-form-languages.html','jquery'], function(app, template
 				$scope.isVisible = function() {
 					return $scope.binding!==undefined && $scope.binding!==null;
 				};
+				
 			}
 		};
 	}]);

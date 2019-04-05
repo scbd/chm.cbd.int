@@ -8,6 +8,7 @@
 				<table style="width:100%">
 					<tr>
 						<td>
+							<span ng-show="link.language">{{locales[link.language]}} | </span>
 							<a translation-url target="_blank" ng-href="{{link.url}}">{{link.name||link.url}}</a>
 							<span ng-show="link.tag">({{link.tag}})</span>
 						</td>
@@ -33,6 +34,7 @@
 					<div class="alert alert-info">Please provide the URL of the website (e.g. <a translation-url target="_blank" href="http://www.cbd.int">http://www.cbd.int</a>) and the name of the website (e.g. "The Convention on Biological Diversity").</div>
 					<form name="linkForm">
 						<fieldset>
+							{{editor}}
 							<div class="alert alert-warning" ng-show="linkForm.$error.url">
 								<strong>Warning!</strong>
 								Specified value is not a valid URL.
@@ -46,6 +48,13 @@
 							<div class="control-group" ng-class="{error: linkForm.name.$invalid}">
 								<label>Name</label>
 								<input class="form-control" type="text" style="width:98%" ng-model="editor.name"  placeholder="example: SCBD website">
+							</div>
+
+							<div class="control-group">
+								<label>UN Language</label>
+								<select ng-model="editor.language" name="fileLanguage" class="form-control">
+									<option ng-repeat="(key, locale) in locales" value="{{key}}" ng-bind="locale"></option>
+								</select>
 							</div>
 						</fieldset>
 					</form>
@@ -80,7 +89,14 @@
 					<div class="control-group" >
 						<label>File name</label>
 						<input class="form-control" type="text" style="width:98%" ng-model="editor.name" ng-disabled="true">
-					</div><br/>
+					</div>
+					<div class="control-group">
+						<label>UN Language</label>
+						<select ng-model="editor.language" name="fileLanguage" class="form-control">
+							<option ng-repeat="(key, locale) in locales" value="{{key}}" ng-bind="locale"></option>
+						</select>
+					</div>
+					<br/>
 					<div class="control-group" >
 						<label>Tags</label>
 						<input class="form-control" type="text" style="width:98%" ng-model="editor.tag"  placeholder="example: Biodiversity, Aichi target">

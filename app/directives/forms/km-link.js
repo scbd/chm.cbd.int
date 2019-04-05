@@ -18,6 +18,14 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 			},
 			link: function ($scope, $element, $attr, ngModelController)
 			{
+				$scope.locales = {
+					"lang-ar" :"Arabic"  ,
+					"lang-en" :"English" ,
+					"lang-es" :"Spanish" ,
+					"lang-fr" :"French"  ,
+					"lang-ru" :"Russian" ,
+					"lang-zh" :"Chinese" 
+				};
 				// init
 				$scope.links = [];
 				$.extend($scope.editor, {
@@ -70,7 +78,8 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 						oNewLinks.push({
 							url  : link.url,
 							name : link.name,
-							tag  : link.tag
+							tag  : link.tag,
+							language  : link.language
 						});
 					});
 
@@ -93,6 +102,9 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 
 						if(link.tag && $.trim(link.tag||"")!=="")
 							oNewLink.tag = $.trim(link.tag);
+
+						if(link.language && $.trim(link.language||"")!=="")
+							oNewLink.language = $.trim(link.language);
 
 						oNewBinding.push(oNewLink);
 					});
@@ -182,7 +194,7 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 					if(link!=null && !isEdit)// jshint ignore:line
 						throw "Only new file is allowed";
 
-					link = link || {url:"", name:"", tag:""};
+					link = link || {url:"", name:"", tag:"", language:""};
 
 					$scope.editor.close();
 
@@ -191,6 +203,7 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 					$scope.editor.name = link.name;
 					$scope.editor.type = "file";
 					$scope.editor.tag = link.tag;
+					$scope.editor.language = link.language;
 					if(!isEdit){
 						$scope.editor.startUploadProcess(function() {
 							$scope.editor.visible = true;
@@ -213,6 +226,7 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 					$scope.editor.type    = null;
 					$scope.editor.visible = false;
 					$scope.editor.tag     = null;
+					$scope.editor.language     = null;
 				};
 
 				//==============================
@@ -227,6 +241,9 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 
 					if($.trim($scope.editor.tag||"")!=="")
 						oLink.tag = $scope.editor.tag;
+
+					if($.trim($scope.editor.language||"")!=="")
+						oLink.language = $scope.editor.language;
 
 					var iIndex = $scope.links.indexOf($scope.editor.link);
 
@@ -256,7 +273,8 @@ define(['app', 'angular', 'jquery', 'text!./km-link.html'], function(app, angula
 						var link = {
 							url: null,
 							name: file.name,
-							tag : ''
+							tag : '',
+							language: ''
 						};
 
 						$scope.safeApply(function() {

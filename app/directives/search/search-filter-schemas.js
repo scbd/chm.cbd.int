@@ -40,7 +40,8 @@ define(['text!./search-filter-schemas.html', 'app', 'lodash'], function(template
                 { identifier: 'undbActor'                  , title: 'UNDB Actors'                   , count: 0 },
                 { identifier: 'undbParty'                  , title: 'UNDB Country Profile'          , count: 0 },
                 { identifier: 'undbPartner'                , title: 'UNDB Partner (depreciated)'    , count: 0 },
-                { identifier: 'undbAction'                 , title: 'UNDB Actions (depreciated)'    , count: 0 },                 
+                { identifier: 'undbAction'                 , title: 'UNDB Actions (depreciated)'    , count: 0 },
+                { identifier: 'submission'                 , title: 'Submissions'    , count: 0 },                 
             ];
 
              $scope.copRecords = [

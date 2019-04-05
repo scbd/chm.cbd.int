@@ -24,9 +24,9 @@ function(app, angular, template, _){
 				$scope.$watch("document.organization", function(newVal, oldVal)
 				{
 					if(newVal){
-						if(newVal!=oldVal){
+						if(~($scope.organization||[]).length || newVal!=oldVal){
 							var query = {
-								q: "id:" + newVal.identifier,
+								q: "identifier_s:" + newVal.identifier,
 								fl: "identifier_s,title_s,acronym_s,organizationType_s,address_s,emails_ss,websites_ss,phones_ss,city_s"
 							};
 							loadRecords(query).then(function(data){
@@ -57,12 +57,16 @@ function(app, angular, template, _){
 						$scope.notifications  = [];
 				});
 
+				$scope.langIdentifier = function(language){
+					return {identifier : language};
+				}
+
 				//============================================================
 				//
 				//============================================================      
 				function loadRecords(query) {
 				
-					return $http.get("https://api.cbd.int/api/v2013/index", {params: query,cache: true})
+					return $http.get("/api/v2013/index", {params: query,cache: true})
 						.then(function (results) {
 							return results.data.response.docs;
 						});

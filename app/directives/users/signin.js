@@ -73,6 +73,12 @@ define(['text!./signin.html', 'app', 'angular', 'authentication'], function(temp
 
                     user = authentication.getUser().then(function (u){
                         user = u;
+                        if(user.isAuthenticated){
+                            if ($location.search().returnUrl)
+                                $location.url($location.search().returnUrl);
+                            else
+                                $location.url('/submit');
+                        }
                     });
                 }
 

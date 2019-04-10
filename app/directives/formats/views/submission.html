@@ -36,7 +36,7 @@
 							<div class="km-value">
 								
 								<strong>{{organization.title_s | lstring:locale}} 
-									<i ng-show="organization.acronym">({{organization.acronym_s | lstring:locale}})</i>
+									<i ng-show="organization.acronym_s">({{organization.acronym_s | lstring:locale}})</i>
 								</strong>
 								<div ng-if="organization.organizationType_s" ng-bind="organization.organizationType_s | term:locale"></div>
 								<div ng-if="organization.address_s" ng-bind="organization.address_s"></div>

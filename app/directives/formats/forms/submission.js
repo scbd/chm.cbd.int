@@ -297,18 +297,22 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 
 							var params = {
 								q: "schema_s:notification AND date_s:[ " + moment().subtract(3, "years").format() + " TO " + moment().format() + " ] ",
-								fl: "identifier_s,title_*, reference_*",
+								fl: "identifier_s,title_*, reference_s, symbol_s",
 								sort: "symbol_s DESC",
 								rows: 99999999
 							};
 							if(identifier)
 								params.q = 'identifier_s:' + identifier;
-							return $q.all([$http.get("/api/v2013/index", { params: params,cache: true})])
+							return $http.get("https://api.cbd.int/api/v2013/index", { params: params,cache: true})
 								.then(function (results) {
-									var qResult = Enumerable.From(normalizeSolrResult(results[0].data.response.docs))
+									var qResult = _.map(normalizeSolrResult(results.data.response.docs), function(row){
+										row.summary  = row.title;
+										row.title 	 = (row.reference_s||'') + ' (' + (row.symbol_s||'') + ')';
+										return row;
+									});
 									if(identifier)
-										return qResult.source[0];
-									return qResult.ToArray();
+										return qResult[0];
+									return qResult;
 								});
 						}
 						//============================================================
@@ -322,7 +326,7 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 
 							var params = {
 								q: "schema_s:" + schema,
-								fl: "identifier_s,title_*",
+								fl: "identifier_s,title_*,summary:acronym_t",
 								sort: "title_s ASC",
 								rows: 99999999
 							};
@@ -331,10 +335,10 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 								params.q = 'identifier_s:' + identifier;
 							return $http.get("/api/v2013/index", { params: params, cache: true })
 							.then(function (results) {
-								var qResult = Enumerable.From(normalizeSolrResult(results.data.response.docs));
+								var qResult = normalizeSolrResult(results.data.response.docs);
 								if(identifier)
-									return qResult.source[0];
-								return qResult.ToArray();
+									return qResult[0];
+								return qResult;
 							});
 						};
 
@@ -344,9 +348,9 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 						function normalizeSolrResult(data) {
 							var normalData = []
 							for (var i = 0; i < data.length; i++) {
-								normalData[i] = {}
+								normalData[i] = data[i]
 								normalData[i].identifier = data[i].identifier_s
-								normalData[i].title = solrPropTolString('title', data[i])
+								normalData[i].title = solrPropTolString('title', data[i]);								
 							}
 							return normalData
 						}

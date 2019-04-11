@@ -258,8 +258,13 @@
 	</div>
 
 	<div ng-show="document.domesticExpendituresData">
-		<legend>4.Reporting current domestic biodiversity expenditures</legend>
-		<div><label>4.1 Please indicate the annual financial support provided to domestic biodiversity-related activities in your country.</label></div>
+		<legend>4. Role of collective action and non-market approaches</legend>
+		<div><label>4.1 Has your country assessed the role of collective action, including by indigenous and local communities, and non-market approaches for mobilizing resources for achieving the objectives of the Convention?</label></div>
+		<ul class="km-value"  style="list-style-type: none;">
+			<li ng-repeat="term in options.assessments | filter:{identifier:document.domesticExpendituresData.domesticCollectiveAction}">{{term.title | lstring:locale}}</li>
+		</ul>
+
+		<div><label>4.2 Please provide additional information on your assessment of the role of collective action undertaken by your country. Please provide also an assessment of your confidence in the estimation (high, medium low; alternatively provide a range of estimates). If possible, provide data for several years.</label></div>
 
 		<div ng-show="document.domesticExpendituresData.currency" >
 			<label>Currency:</label>
@@ -269,261 +274,117 @@
 			<label>All values are:</label>
 			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.domesticExpendituresData.multiplier}">{{term.title | lstring:locale}} </span>
 		</div>
-		<table ng-show="document.domesticExpendituresData.expenditures" class="table table-hover table-condensed">
+
+		<div ng-show="document.domesticExpendituresData.measurementUnit" >
+			<label>Measurement Unit</label>
+			<div class="km-value km-pre">{{document.domesticExpendituresData.measurementUnit}}</div>
+		</div>
+		
+		<table ng-show="document.domesticExpendituresData.contributions" class="table table-hover table-condensed">
 			<thead>
 				<tr>
 					<th>Year</th>
-					<th>Domestic expenditures</th>
+					<th>Contribution</th>
 					<th>Overall confidence</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="expenditure in document.domesticExpendituresData.expenditures|orderBy:'year' track by $index">
-					<td>{{expenditure.year}}</td>
-					<td>{{expenditure.amount | number:0}}</td>
-					<td>{{expenditure.confidenceLevel | term:locale}}</td>
+				<tr ng-repeat="contribution in document.domesticExpendituresData.contributions|orderBy:'year' track by $index">
+					<td>{{contribution.year}}</td>
+					<td>{{contribution.amount | number:0}}</td>
+					<td>{{contribution.confidenceLevel | term:locale}}</td>
 				</tr>
 				<tr class="active">
 					<td><strong>Average</strong></td>
-					<td>{{typeAverageAmount(document.domesticExpendituresData.expenditures,'amount')  | number:0}}</td>
-					<td>{{confidenceAverage(document.domesticExpendituresData.expenditures)}}</td>
+					<td>{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount')  | number:0}}</td>
+					<td>{{confidenceAverage(document.domesticExpendituresData.contributions)}}</td>
 				</tr>
 			</tbody>
 		</table>
 
-		<div ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated) || hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated) ||
-					  hasValue(document.domesticExpendituresData.provincialDirectlyRelated) || hasValue(document.domesticExpendituresData.provincialIndirectlyRelated) ||
-					  hasValue(document.domesticExpendituresData.municipalDirectlyRelated)  || hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)  ||
-				    hasValue(document.domesticExpendituresData.extraDirectlyRelated)      || hasValue(document.domesticExpendituresData.extraIndirectlyRelated)      ||
-					  hasValue(document.domesticExpendituresData.privateDirectlyRelated)    || hasValue(document.domesticExpendituresData.privateIndirectlyRelated)    ||
-					  hasValue(document.domesticExpendituresData.otherDirectlyRelated)      || hasValue(document.domesticExpendituresData.otherIndirectlyRelated)      ||
-					  hasValue(document.domesticExpendituresData.ilcDirectlyRelated)        || hasValue(document.domesticExpendituresData.ilcIndirectlyRelated) ||
-						document.domesticExpendituresData.sourcesAdditionalComments  ">
-
-			<label>4.2 Information on sources and categories</label>
-
-			<table class="table table-hover table-condensed">
-				<thead>
-					<tr>
-						<th>Numbers above cover</th>
-						<th>Expenditures directly related to biodiversity</th>
-						<th>Expenditures indirectly related to biodiversity</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated) || hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated)">
-						<td>Government budgets – central</td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.govCentralDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.govCentralDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.govCentralIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.govCentralIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-					<tr ng-show="hasValue(document.domesticExpendituresData.provincialDirectlyRelated) || hasValue(document.domesticExpendituresData.provincialIndirectlyRelated)">
-						<td>Government budgets – state/provincial</td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.provincialDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.provincialDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.provincialIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.provincialIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-					<tr ng-show="hasValue(document.domesticExpendituresData.municipalDirectlyRelated) || hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)">
-						<td>Government budgets – local/municipal</td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.municipalDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.municipalDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.municipalIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.municipalIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-					<tr ng-show="hasValue(document.domesticExpendituresData.extraDirectlyRelated) || hasValue(document.domesticExpendituresData.extraIndirectlyRelated)">
-						<td>Extra-budgetary </td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.extraDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.extraDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.extraIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.extraIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-					<tr ng-show="hasValue(document.domesticExpendituresData.privateDirectlyRelated) || hasValue(document.domesticExpendituresData.privateIndirectlyRelated)">
-						<td>Private/market</td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.privateDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.privateDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.privateIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.privateIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-					<tr ng-show="hasValue(document.domesticExpendituresData.otherDirectlyRelated) || hasValue(document.domesticExpendituresData.otherIndirectlyRelated)">
-						<td>Other (NGO, foundations, academia)</td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.otherDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.otherDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.otherIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.otherIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-					<tr ng-show="hasValue(document.domesticExpendituresData.ilcDirectlyRelated) || hasValue(document.domesticExpendituresData.ilcIndirectlyRelated)">
-						<td>Collective action of indigenous and local communities</td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.ilcDirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.ilcDirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-						<td><div ng-show="hasValue(document.domesticExpendituresData.ilcIndirectlyRelated)"><span ng-repeat="term in options.yesNo | filter:{identifier:document.domesticExpendituresData.ilcIndirectlyRelated}">{{term.title | lstring:locale}}</span></div></td>
-					</tr>
-				</tbody>
-			</table>
-			<div ng-show="document.domesticExpendituresData.sourcesAdditionalComments">
-				<label>Additional methodological information, including sources of data</label>
-				<div>{{document.domesticExpendituresData.sourcesAdditionalComments| lstring:locale}}</div>
-			</div>
+		<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodology || document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
+			<label>Methodological information:</label>
 		</div>
 
-		<div ng-show="document.domesticExpendituresData.domesticCollectiveAction">
-			<label>4.3. Role of collective action and non-market approaches</label>
-			<div><label>4.3.1 Has your country assessed the role of collective action, including by indigenous and local communities, and non-market approaches for mobilizing resources for achieving the objectives of the Convention?</label></div>
-
-			<span class="km-value km-pre" ng-repeat="term in options.assessments | filter:{identifier:document.domesticExpendituresData.domesticCollectiveAction}">{{term.title | lstring:locale}}</span>
-
-			<div ng-hide="document.domesticExpendituresData.domesticCollectiveAction=='notnecessary' || document.domesticExpendituresData.domesticCollectiveAction=='notyet'">
-
-				<div ng-show="document.domesticExpendituresData.measurementUnit || document.domesticExpendituresData.contributions ||
-							  document.domesticExpendituresData.domesticCollectiveActionMethodology || document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
-					<label>4.3.2 Please provide additional information on your assessment of the role of collective action undertaken by your country. Please provide also an assessment of your confidence in the estimation (high, medium low; alternatively provide a range of estimates). If possible, provide data for several years.</label>
-				</div>
-
-				<div ng-show="document.domesticExpendituresData.measurementUnit" >
-					<label>Measurement Unit</label>
-					<div class="km-value km-pre">{{document.domesticExpendituresData.measurementUnit}}</div>
-				</div>
-
-				<table ng-show="document.domesticExpendituresData.contributions" class="table table-hover table-condensed">
-					<thead>
-						<tr>
-							<th>Year</th>
-							<th>Contribution</th>
-							<th>Overall confidence</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="contribution in document.domesticExpendituresData.contributions|orderBy:'year' track by $index">
-							<td>{{contribution.year}}</td>
-							<td>{{contribution.amount | number:0}}</td>
-							<td>{{contribution.confidenceLevel | term:locale}}</td>
-						</tr>
-						<tr class="active">
-							<td><strong>Average</strong></td>
-							<td>{{typeAverageAmount(document.domesticExpendituresData.contributions,'amount') | number:0}}</td>
-							<td>{{confidenceAverage(document.domesticExpendituresData.contributions)}}</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodology || document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
-					<div><strong>Methodological information:</strong></div>
-					<label>As applicable, methodology used to assess the role of collective action and non-market approaches</label>
-
-					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodology!='other'">
-						<ul class="km-value">
-							<li ng-repeat="term in options.domesticMethodology | filter:{identifier:document.domesticExpendituresData.domesticCollectiveActionMethodology}">{{term.title | lstring:locale}}</li>
-						</ul>
-					</div>
-					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyOther" class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyOther | lstring:locale}}</div>
-
-					<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyComments">
-						<label>Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data:</label>
-						<div class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyComments | lstring:locale}}</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div ng-show="document.fundingNeedsData">
-		<legend>5. Reporting funding needs, gaps, and priorities</legend>
-		<div>
-			<p>Please indicate your annual estimated funding need (for instance, based on your revised NBSAP) and calculate the estimated funding gap by subtracting estimated available resources. Indicate actions for priority funding.</p>
-			<p>Please start with the year which is most appropriate for your own planning purposes.</p>
+		<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodology" >
+			<label>Methodology used to assess the role of collective action and non-market approaches:</label>
+			<div ng-show="!document.domesticExpendituresData.domesticCollectiveActionMethodologyOther" class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodology}}</div>
+			<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyOther" class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyOther}}</div>
 		</div>
 
-		<div ng-show="document.domesticExpendituresData.currency" >
-			<label>Currency:</label>
-			<span class="km-value">{{document.domesticExpendituresData.currency | term:locale}} </span>
-		</div>
+		<div ng-show="document.domesticExpendituresData.domesticCollectiveActionMethodologyComments" >
+			<label>Other methodological observations/comments, including experiences and lessons learned in applying methodologies, and on sources of data</label>
+			<div class="km-value km-pre">{{document.domesticExpendituresData.domesticCollectiveActionMethodologyComments | lstring:locale}}</div>
+		</div>		
 
-		<div ng-show="document.fundingNeedsData.multiplier" >
-			<label>All values are :</label>
-			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.fundingNeedsData.multiplier}">{{term.title | lstring:locale}} </span>
-		</div>
-
-		<table ng-show="document.fundingNeedsData.annualEstimates" class="table table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>Year</th>
-					<th>Funding need</th>
-					<th>Estimated available resources</th>
-					<th>Estimated funding gap</th>
-					<th>Actions for priority funding</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="estimate in document.fundingNeedsData.annualEstimates|orderBy:'year' track by $index">
-					<td>{{estimate.year}}</td>
-					<td>{{estimate.fundingNeedAmount | number:0}}</td>
-					<td>{{estimate.availableResourcesAmount | number:0}}</td>
-					<td>{{estimate.fundingGapAmount | number:0}}</td>
-					<td>{{estimate.action | lstring:locale}}</td>
-				</tr>
-			</tbody>
-		</table>
-		<div ng-show="document.fundingNeedsData.additionalComments">
-			<label>Additional methodological observations/comments, including sources of data:</label>
-			<div class="km-value km-pre">{{document.fundingNeedsData.additionalComments | lstring:locale}}</div>
-		</div>
 	</div>
 
 	<div ng-show="document.nationalPlansData">
 		<legend>5. Reporting progress in mobilizing resources</legend>
 		<div>
-			Please indicate, in the table below, the achieved resource mobilization for your country, by source, and their respective actual contribution towards your identified funding gap.
+			5.1 Please indicate, in the table below, the achieved resource mobilization for your country, by source, and their respective actual contribution towards your identified funding gap.
 		</div>
-		<div ng-show="document.domesticExpendituresData.currency" >
+		<div ng-show="document.nationalPlansData.currency" >
 			<label>Currency:</label>
-			<span class="km-value">{{document.domesticExpendituresData.currency | term:locale}} </span>
+			<span class="km-value">{{document.nationalPlansData.currency | term:locale}} </span>
 		</div>
 
-		<div ng-show="baseline.fundingNeedsData.multiplier" >
+		<div ng-show="document.nationalPlansData.multiplier" >
 			<label>All values are in:</label>
-			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:baseline.fundingNeedsData.multiplier}">{{term.title | lstring:locale}} </span>
+			<span class="km-value" ng-repeat="term in options.multipliers | filter:{identifier:document.nationalPlansData.multiplier}">{{term.title | lstring:locale}} </span>
 		</div>
-		<table ng-show="baseline.fundingNeedsData.annualEstimates" class="table table-hover table-condensed">
+
+		<table ng-show="baselineDocument.fundingNeedsData.annualEstimates" class="table table-hover table-condensed">
 			<thead>
 				<tr>
 					<th></th>
-					<th ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center">{{estimate.year}}</th>
+					<th ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center">{{estimate.year}}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="active">
 					<td><strong>Expected funding gap</strong></td>
-					<!--<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getFundingGapYear(estimate.year) | number:0}}<strong></td>-->
-					<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getBaselineFundingGapYear(estimate.year) | number:0}}<strong></td>
-					
+					<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" Xng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getBaselineFundingGapYear(estimate.year) | number:0}}<strong></td>
 				</tr>
 				<tr class="active">
 					<td><strong>Domestic sources (total)<strong></td>
-					<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year)| number:0}}<strong></td>
+					<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('domesticSources', estimate.year)| number:0}}<strong></td>
 				</tr>
 
 				<tr ng-repeat="source in document.nationalPlansData.domesticSources|orderBy:'name' track by $index">
 					<td>{{source.name | lstring:locale}}</td>
-					<td XXng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
 				</tr>
 				<tr class="active">
 					<td><strong>International sources (total)<strong></td>
-					<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year) | number:0}}<strong></td>
+					<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansSourcesTotal('internationalSources', estimate.year) | number:0}}<strong></td>
 				</tr>
 				<tr ng-repeat="source in document.nationalPlansData.internationalSources|orderBy:'name' track by $index">
 					<td>{{source.name | lstring:locale}}</td>
-					<td XXng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
-					<td XXng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2014)" class="text-center">{{source.amount2014 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2015)" class="text-center">{{source.amount2015 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2016)" class="text-center">{{source.amount2016 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2017)" class="text-center">{{source.amount2017 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2018)" class="text-center">{{source.amount2018 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2019)" class="text-center">{{source.amount2019 | number:0}}</td>
+					<td ng-show="annualEstimatesHasYear(2020)" class="text-center">{{source.amount2020 | number:0}}</td>
 				<tr class="active">
 					<td><strong>Remaining gap<strong></td>
-					<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baseline.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)| number:0}}<strong></td>
+					<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" ng-hide="$last && baselineDocument.fundingNeedsData.annualEstimates.length < options.fundingNeedsYears.length" class="col-sm-1 text-center"><strong>{{getNationalPlansRemainingGapByYear(estimate.year)| number:0}}<strong></td>
 				</tr>
 				<tr class="active">
 					<td><strong>Has the gap been reduced?<strong></td>
-					<td ng-repeat="estimate in baseline.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center"><span class="km-value km-pre">{{document.nationalPlansData.gapReductions[$index].hasReduced}}</span></td>
+					<td ng-repeat="estimate in baselineDocument.fundingNeedsData.annualEstimates |orderBy:'year' track by $index" class="col-sm-1 text-center"><span class="km-value km-pre" ng-hide="!document.nationalPlansData.gapReductions[$index].hasReduced">{{document.nationalPlansData.gapReductions[$index].hasReduced}}</span></td>
 				</tr>
 				<tr class="active">
 					<td><strong>Has the gap been reduced overall?<strong></td>
-					<td  colspan="{{baselineDocument.fundingNeedsData.annualEstimates.length || 1}}"><span class="km-value km-pre">{{document.nationalPlansData.hasReduceGapOverall | term | lstring:locale}}</td>
+					<td  colspan="{{baselineDocument.fundingNeedsData.annualEstimates.length || 1}}" class="text-center"><span class="km-value km-pre">{{document.nationalPlansData.hasReduceGapOverall | term | lstring:locale}}</td>
 				</tr>								
 			</tbody>
 		</table>

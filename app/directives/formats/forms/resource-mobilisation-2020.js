@@ -747,7 +747,8 @@ app.directive('editResourceMobilisation2020', ["$http","$rootScope", "$filter", 
 				if(val == 'some' || val=='comprehensive')
 					return true;
 
-				$scope.document.domesticExpendituresData.contributions                            = undefined;
+				var contributions = _.filter($scope.document.domesticExpendituresData.contributions, _.isEmpty);                    
+				$scope.document.domesticExpendituresData.contributions 							  = contributions;
 				$scope.document.domesticExpendituresData.domesticCollectiveActionMethodology      = undefined;
 				$scope.document.domesticExpendituresData.domesticCollectiveActionMethodologyOther = undefined;
 				$scope.document.domesticExpendituresData.measurementUnit                          = undefined;

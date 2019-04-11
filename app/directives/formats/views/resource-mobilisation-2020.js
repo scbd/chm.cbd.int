@@ -1,6 +1,6 @@
 define(['app', 'text!./resource-mobilisation-2020.html', "lodash"], function(app, template, _){
 
-app.directive('viewResourceMobilisation2020', [function () {
+app.directive('viewResourceMobilisation2020',  ['IStorage', '$q', function (storage, $q) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -118,10 +118,9 @@ app.directive('viewResourceMobilisation2020', [function () {
 			//==================================
 			$scope.getBaselineFundingGapYear = function(year){
 				if(!year) return 0;
+				if($scope.document && $scope.baselineDocument.fundingNeedsData && $scope.baselineDocument.fundingNeedsData.annualEstimates){
 
-				if($scope.baseline && $scope.baseline.fundingNeedsData && $scope.baseline.fundingNeedsData.annualEstimates){
-
-					var estimates = $scope.baseline.fundingNeedsData.annualEstimates;
+					var estimates = $scope.baselineDocument.fundingNeedsData.annualEstimates;
 					var estimate = _.findWhere(estimates, {year:year});
 
 					if(estimate && estimate.fundingGapAmount)
@@ -130,7 +129,6 @@ app.directive('viewResourceMobilisation2020', [function () {
 				return 0;
 			};
 			
-
 			//==================================
 			//
 			//==================================
@@ -172,7 +170,6 @@ app.directive('viewResourceMobilisation2020', [function () {
 			$scope.getNationalPlansRemainingGapByYear = function(year){
 				if(!year) return 0;
 
-//console.log('gap', year,  $scope.getFundingGapYear(year) );
 				return $scope.getBaselineFundingGapYear(year) - ($scope.getNationalPlansSourcesTotal('domesticSources', year)  + $scope.getNationalPlansSourcesTotal('internationalSources', year)) ;
 			};
 
@@ -181,8 +178,8 @@ app.directive('viewResourceMobilisation2020', [function () {
 			//==================================
 			$scope.annualEstimatesHasYear = function (year) {
 				if(!year) return false;
-				if($scope.document && $scope.document.fundingNeedsData && $scope.document.fundingNeedsData.annualEstimates){
-					var estimates = $scope.document.fundingNeedsData.annualEstimates;
+				if($scope.baselineDocument && $scope.baselineDocument.fundingNeedsData && $scope.baselineDocument.fundingNeedsData.annualEstimates){
+					var estimates = $scope.baselineDocument.fundingNeedsData.annualEstimates;
 					var estimate = _.findWhere(estimates, {year:year});
 					if(estimate)
 						return true;
@@ -199,6 +196,70 @@ app.directive('viewResourceMobilisation2020', [function () {
 
 				return false;
 			};
+
+			//==================================
+			//
+			//==================================
+			$scope.loadBaselineDocuments = function(){
+
+				var sQuery = "type eq '" + encodeURI('resourceMobilisation') + "'";
+
+				var qDocs   = storage.documents.query(sQuery, null, { cache: true });
+				var qDrafts = storage.drafts   .query(sQuery, null, { cache: true });
+
+				return $q.all([qDocs, qDrafts]).then(function(results) {
+
+					var oDocs      = results[0].data.Items;
+					var oDrafts    = results[1].data.Items;
+
+					var oDraftUIDs = _.pluck(oDrafts, "identifier");
+
+					oDocs = _.filter(oDocs, function(o) { return !_.contains(oDraftUIDs, o.identifier);});
+
+					$scope.baselineDocuments = oDocs; //_.union(oDocs, oDrafts);
+
+					// test
+					if($scope.baselineDocuments){
+						$scope.baselineDocumentId      = $scope.baselineDocuments[0].documentID;
+						var baselineDocumentIdentifier = $scope.baselineDocuments[0].identifier;
+					}
+			
+					$q.when($scope.getBaselineDocument(baselineDocumentIdentifier)).then(function(o){
+
+						$scope.baselineDocument = o.body;
+					})
+				});
+			}			
+
+			//==============================
+			//
+			//==============================
+			$scope.getBaselineDocument = function(identifier) {
+				
+				if (identifier) { //lookup single record
+					var deferred = $q.defer();
+
+					storage.documents.get(identifier, { info: "" })
+						.then(function(r) {
+							$scope.hasBaselineDocument = true;
+							deferred.resolve(r.data);
+						}, function(e) {
+							if (e.status == 404) {
+								$scope.hasBaselineDocument = false;
+								throw e;
+							}
+							else {
+								deferred.reject (e);
+							}
+						});
+					return deferred.promise;
+				}
+			}
+			
+			//==============================
+			//
+			//==============================			
+			$scope.loadBaselineDocuments();
 		}
 	};
 }]);

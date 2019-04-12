@@ -303,7 +303,7 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 							};
 							if(identifier)
 								params.q = 'identifier_s:' + identifier;
-							return $http.get("https://api.cbd.int/api/v2013/index", { params: params,cache: true})
+							return $http.get("/api/v2013/index", { params: params,cache: true})
 								.then(function (results) {
 									var qResult = _.map(normalizeSolrResult(results.data.response.docs), function(row){
 										row.summary  = row.title;

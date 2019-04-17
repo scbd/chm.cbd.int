@@ -43,7 +43,7 @@ function(app, angular, template, _){
 				$scope.$watch("document.notifications", function(newVal, oldVal)
 				{
 					if(newVal){
-						if(newVal!=oldVal){
+						if(~($scope.notifications||[]).length || newVal!=oldVal){
 							var query = {
 								q: "identifier_s:(" + _.map(newVal, 'identifier').join(' ') + ')',
 								fl: "identifier_s,title_s,acronym_s,reference_s, symbol_s"

@@ -85,6 +85,7 @@ define(['app', 'lodash', 'providers/realm'], function(app, _) { 'use strict';
             if(schema.toLowerCase()=="notification"				  ) return "Notification";
             if(schema.toLowerCase()=="capacitybuildinginitiative" ) return "Capacity-building Initiative";
             if(schema.toLowerCase()=="capacitybuildingresource"   ) return "Capacity-building Resource";
+            if(schema.toLowerCase()=="submission"                 ) return "Submission";
 
 
             return (schema || "") + "*";

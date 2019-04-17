@@ -87,7 +87,7 @@
 					</div>
 
 					<div km-tab="general">
-						<section ng-show="!editExisting && !isNewOrg">
+						<!-- <section ng-show="!editExisting && !isNewOrg">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="panel panel-default" style="padding:10ppx 10px 10px 10px; background:#ddd;">
@@ -102,9 +102,9 @@
 									</div>
 								</div>
 							</div>
-						</section>
+						</section> -->
 
-						<div class="row" ng-if="!editExisting && !selectedPlace && placeSearch.length>1 && noPredictions">
+						<!-- <div class="row" ng-if="!editExisting && !selectedPlace && placeSearch.length>1 && noPredictions">
 							<div class="col-md-12">
 
 								<div class="bs-callout bs-callout-warning">
@@ -113,10 +113,10 @@
 									<button class="btn btn-default" ng-click="clearSlacesSearch();">No, search again</button>
 								</div>
 							</div>
-						</div>
+						</div> -->
 
-
-						<section ng-show="editExisting || selectedPlace || isNewOrg">
+<!-- ng-show="editExisting || selectedPlace || isNewOrg" -->
+						<section >
 
 							<div class="row">
 								<div class="col-xs-12">
@@ -138,7 +138,36 @@
 							<div class="col-xs-12"><hr/></div>
 
 							<div class="row">
-									<km-address ng-model="document" locales="document.header.languages" validate="validate" embed="organization"></km-address>
+									<!-- <km-address ng-model="document" locales="document.header.languages" validate="validate" embed="organization"></km-address> -->
+									<div class="col-md-12">
+										<div class="km-control-group" name="address" caption="Address">
+											<div km-textbox-ml ng-model="document.address" rows="2" placeholder="example: 413 St-Jacques Ouest, Suite 800" locales="document.header.languages"></div>
+										</div>
+									</div>
+							
+									<div class="col-md-6 col-xs-12">
+										<div class="km-control-group" name="city" required caption="City">
+											<div km-textbox-ml required name="city" ng-model="document.city" locales="document.header.languages" placeholder="example: Montreal"></div>
+										</div>
+									</div>
+							
+									<div class="col-md-6 col-xs-12">
+										<div class="km-control-group" name="state" caption="State or province">
+											<div km-textbox-ml name="state" ng-model="document.state" locales="document.header.languages" placeholder="example: Quebec"></div>
+										</div>
+									</div>
+							
+									<div class="col-md-6 col-xs-12">
+										<div class="km-control-group" name="country" required caption="Country">
+											<div km-select required name="country" ng-model="document.country" items="options.countries()"></div>
+											<span class="flag-icon flag-icon-{{document.country.identifier}}"></span>
+										</div>
+									</div>
+									<div class="col-md-6 col-xs-12">
+										<div class="km-control-group" name="postalCode" caption="Postal or zip code">
+											<div km-textbox-ml name="postalCode" ng-model="document.postalCode" locales="document.header.languages" placeholder="example: H2Y 1N9"></div>
+										</div>
+									</div>
 							</div>
 
 						<div class="col-xs-12"><hr/></div>
@@ -183,7 +212,7 @@
 
 							<div class="col-md-6">
 								<div class="km-control-group" name="operationalLanguages" caption="Operational languages">
-									<div km-select required name="operationalLanguages" multiple="mulitple" ng-model="document.operationalLanguages" items="options.allLanguages()"></div>
+									<div km-select  name="operationalLanguages" multiple="mulitple" ng-model="document.operationalLanguages" items="options.allLanguages()"></div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -291,7 +320,7 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="thematicAreas" caption="Related CBD Subject area(s)">
-									<div required km-term-check name="thematicAreas" ng-model="document.thematicAreas" terms="options.cbdSubjects()" binding-type="term[]"></div>
+									<div required km-term-check name="thematicAreas" ng-model="document.thematicAreas" terms="options.cbdSubjects()" document.type="term[]"></div>
 								</div>
 							</div>
 						</div>
@@ -299,7 +328,7 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" required name="aichiTargets" caption="Related Aichi Biodiversity Target(s)">
-									<div required  km-term-check name="aichiTargets" ng-model="document.aichiTargets" terms="options.aichiTargets()" binding-type="term[]"></div>
+									<div required  km-term-check name="aichiTargets" ng-model="document.aichiTargets" terms="options.aichiTargets()" document.type="term[]"></div>
 								</div>
 							</div>
 						</div>
@@ -313,7 +342,7 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="control-group"  name="absThematicAreas" caption="Thematic area(s)">
-									<div km-term-check  name="absThematicAreas" ng-model="document.absThematicAreas" terms="options.absSubjects()" binding-type="term[]"></div>
+									<div km-term-check  name="absThematicAreas" ng-model="document.absThematicAreas" terms="options.absSubjects()" document.type="term[]"></div>
 								</div>
 							</div>
 						</div>
@@ -321,7 +350,7 @@
 						<!-- <div class="row" ng-if="IsCapacityBuilding() || IsAbs()">
 							<div class="col-md-10">
 								<div class="control-group" name="absKeyAreas" caption="Key areas and strategic measures for capacity-building and development">
-									<div km-term-check name="absKeyAreas" ng-model="document.absKeyAreas" terms="options.absKeyAreas()" binding-type="term[]"></div>
+									<div km-term-check name="absKeyAreas" ng-model="document.absKeyAreas" terms="options.absKeyAreas()" document.type="term[]"></div>
 								</div>
 							</div>
 						</div> -->
@@ -335,7 +364,7 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="control-group" name="bchSubjects" caption="Thematic areas(s)">
-									<div km-term-check name="bchSubjects" ng-model="document.bchSubjects" terms="options.bchSubjects()" binding-type="term[]"></div>
+									<div km-term-check name="bchSubjects" ng-model="document.bchSubjects" terms="options.bchSubjects()" document.type="term[]"></div>
 								</div>
 							</div>
 						</div>
@@ -360,7 +389,7 @@
 									<div class="row">
 										<div class="col-md-10">
 											<div class="control-group" name="bchRaSubjects" caption="Please indicate to which section(s) of the 'Guidance this background material' is relevant:">
-												<div km-term-check name="bchRaSubjects" ng-model="document.bchRaSubjects" terms="options.bchRaSubjects()" binding-type="term[]"></div>
+												<div km-term-check name="bchRaSubjects" ng-model="document.bchRaSubjects" terms="options.bchRaSubjects()" document.type="term[]"></div>
 											</div>
 										</div>
 									</div>

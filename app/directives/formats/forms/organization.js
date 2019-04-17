@@ -287,27 +287,27 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			$scope.initMap = function() {
 
 
-				$timeout(function(){
-	         var input = document.getElementById('pac-input');
-	         var searchBox = new google.maps.places.Autocomplete(input);
+				// $timeout(function(){
+				// 	var input = document.getElementById('pac-input');
+				// 	var searchBox = new google.maps.places.Autocomplete(input);
 
-					 searchBox.setTypes([]);
+				// 			searchBox.setTypes([]);
 
-					 searchBox.addListener('place_changed', function() {
-						 $timeout(function(){
+				// 			searchBox.addListener('place_changed', function() {
+				// 				$timeout(function(){
 
-							 $scope.selectedPlace = searchBox.getPlace();
+				// 					$scope.selectedPlace = searchBox.getPlace();
 
-								loadGoogleData ();
-								$timeout(function(){
-									$scope.validate();
-								});
+				// 						loadGoogleData ();
+				// 						$timeout(function(){
+				// 							$scope.validate();
+				// 						});
 
 
-						 });
+				// 				});
 
-	         });
-				},100);
+				// 	});
+				// },100);
 
 			};
 
@@ -603,7 +603,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			//
 			//==================================
 			$scope.validate = function(clone) {
-        var frontEndValidationReport = generateValidationReport();
+        		var frontEndValidationReport = {errors:[]};//generateValidationReport();
 				$scope.validationReport = null;
 
 				var oDocument = $scope.document;
@@ -642,7 +642,7 @@ app.directive('editOrganization', ['$http',"$rootScope", "Enumerable", "$filter"
 			//=======================================================================
 			//
 			//=======================================================================
-		function generateValidationReport () {
+			function generateValidationReport () {
 					$scope.editForm.$submitted = true;
 					var report;
 					if($scope.editForm.$error && $scope.editForm.$error.required && $scope.editForm.$error.required.length){

@@ -45,7 +45,7 @@ function(app, angular, template, _){
 					if(newVal){
 						if(~($scope.notifications||[]).length || newVal!=oldVal){
 							var query = {
-								q: "identifier_s:(" + _.map(newVal, 'identifier').join(' ') + ')',
+								q: "symbol_s:(" + _.map(newVal, 'identifier').join(' ') + ')',
 								fl: "identifier_s,title_s,acronym_s,reference_s, symbol_s"
 							};
 							loadRecords(query).then(function(data){

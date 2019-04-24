@@ -297,12 +297,12 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 
 							var params = {
 								q: "schema_s:notification AND date_s:[ " + moment().subtract(3, "years").format() + " TO " + moment().format() + " ] ",
-								fl: "identifier_s,title_*, reference_s, symbol_s",
+								fl: "identifier_s:symbol_s,title_*, reference_s, symbol_s",
 								sort: "symbol_s DESC",
 								rows: 99999999
 							};
 							if(identifier)
-								params.q = 'identifier_s:' + identifier;
+								params.q = 'symbol_s:' + identifier;
 							return $http.get("/api/v2013/index", { params: params,cache: true})
 								.then(function (results) {
 									var qResult = _.map(normalizeSolrResult(results.data.response.docs), function(row){

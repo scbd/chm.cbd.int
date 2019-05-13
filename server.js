@@ -9,7 +9,7 @@ var httpProxy = require('http-proxy');
 var url     = require('url');
 var cookieParser = require('cookie-parser');
 
-var appDependencyCacheBuster = 1000001;
+var appDependencyCacheBuster = 1000002;
 var appVersion = process.env.TAG;
 if(!appVersion || appVersion.trim()==''){
     appVersion =   process.env.COMMIT

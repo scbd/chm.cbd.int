@@ -1373,14 +1373,14 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							};
 						}
 						
-						if($rootScope.deviceSize == 'lg'){
-							$element.find('#nav').affix({
-								offset: {
-									top: $('header').height()-$('#nav').height()+200
-								}
-							});	
-							$('body').scrollspy({ target: '#nav' })
-						}
+						// if($rootScope.deviceSize == 'lg'){
+						// 	$element.find('#nav').affix({
+						// 		offset: {
+						// 			top: $('header').height()-$('#nav').height()+200
+						// 		}
+						// 	});	
+						// 	$('body').scrollspy({ target: '#nav' })
+						// }
 
 						$scope.movePosition = function(collection, index, direction, collectionName){
 

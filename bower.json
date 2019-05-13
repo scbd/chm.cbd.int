@@ -40,7 +40,7 @@
     "webui-popover": "2.1.15",
     "printThis": "1.12.0",
     "pdfobject": "https://github.com/pipwerks/PDFObject.git#d37c492c026dc8abeac636d1d5d6eeebdb409e8b",
-    "textAngular": "https://github.com/scbd/textAngular.git#f64737d623a9c01fd3e6fa4b4a87332074bb80dc"
+    "textAngular": "https://github.com/scbd/textAngular.git#910843f373d77b131e320dd95097e1266622a5e3"
   },
   "resolutions": {
     "angular": "1.5.0"

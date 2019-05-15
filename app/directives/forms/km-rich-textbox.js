@@ -156,6 +156,7 @@ function(app,template,angular) {
 						$scope.stripFormat = function($html){
 							$html = $html.replace(/\<pre/ig, '<div')
 										 .replace(/<\/pre\>/ig, '</div>')
+										 .replace(/<v\:shape .*<\/v\:shape>/ig, '') //remove ms word v-shapes elements
 							return $html;
 						}
 					}

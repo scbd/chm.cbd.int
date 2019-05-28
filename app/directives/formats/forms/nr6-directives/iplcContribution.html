@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="km-control-group" name="iplcContribution" caption="Please provide any additional information on the contribution of indigenous peoples and local communities to the achievement of the Aichi Biodiversity Targets if not captured in the sections above">
-                        <div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" identifier="document.header.identifier" name="iplcContribution" ng-model="document.iplcContribution" locales="document.header.languages" rows="3"></div>
+                        <div km-rich-textbox  on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" identifier="document.header.identifier" name="iplcContribution" ng-model="document.iplcContribution" locales="document.header.languages" rows="3"></div>
                     </div>
                 </div>
             </div>

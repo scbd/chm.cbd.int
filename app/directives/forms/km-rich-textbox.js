@@ -22,7 +22,8 @@ function(app,template,angular) {
 							ngChange: "&",
 							toolbar : "@?",
 							identifier : '=?',
-							onFileUpload : '&?'
+							onFileUpload : '&?',
+							onPaste		 : '&?'
 					},
 					link: function($scope, element, attrs, ngModelController) {
 						
@@ -156,7 +157,11 @@ function(app,template,angular) {
 						$scope.stripFormat = function($html){
 							$html = $html.replace(/\<pre/ig, '<div')
 										 .replace(/<\/pre\>/ig, '</div>')
-										 .replace(/<v\:shape .*<\/v\:shape>/ig, '') //remove ms word v-shapes elements
+										 .replace(/<v\:([a-zA-Z]{1, 50}) .*<\/v\:([a-zA-Z]{1, 50})>/ig, '')//remove ms word v-shapes elements
+							if($scope.onFileUpload && typeof $scope.onFileUpload == 'function'){	 
+								return $scope.onPaste({html:$html});
+							}
+
 							return $html;
 						}
 					}

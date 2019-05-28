@@ -37,7 +37,7 @@
 							<div class="panel-body">
 								<div ng-if="document.notReportingOnNationalTargetsReason">
 									<label>Information on why {{document.government | term:locale}} is choosing to report progress using the Aichi Biodiversity Targets and not its national targets.</label>
-									<km-value-ml value="document.notReportingOnNationalTargetsReason" locales="locale"></km-value-ml>
+									<km-value-ml value="document.notReportingOnNationalTargetsReason" locales="locale" km-pre html></km-value-ml>
 								</div>
 							</div>
 						</div>

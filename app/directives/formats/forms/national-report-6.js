@@ -309,6 +309,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 								case 'progress':{
 									nextTab = 'nationalContribution';
 									prevTab = 'implementation';
+									if(_.isEmpty($scope.targetAssessments||{}))
+										loadProgressAssessment();
 									$scope.colorSubRecordError();
 									break;
 								}
@@ -1089,6 +1091,9 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 						}
 						
 						function loadAbsAndResourceMobilizationReport(){
+							if(!($scope.document||{}).government)
+								return;
+
 							var government = $scope.document.government.identifier;
 							var target16;
 							var target16Query = '';
@@ -1414,6 +1419,18 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 
 						}
 
+						$scope.onEditorPaste = function(html){
+
+							if(html){
+								var localeHtml = $('<div>'+html+'</div>')
+								$(localeHtml).find('table').addClass('table');
+
+								return localeHtml.html();
+
+							}
+							return html;
+						}
+
 						$scope.updateNotReportingOnNationalTargets = function(selection){
 							if(selection){
 								$scope.document.targetPursued = undefined;
@@ -1424,10 +1441,8 @@ define(['require', 'text!./national-report-6.html', 'app', 'angular', 'lodash',
 							$element.find('.error-background').removeClass('error-background')
 							$timeout(function(){
 								_.each($scope.subRecordErrors, function(error){
-
-									$element.find('#pnl_'+error.identifier).addClass('error-background')
-									console.log(error.identifier)
-
+									if(error.status == 1)//has errors
+										$element.find('#pnl_'+error.identifier).addClass('error-background');
 								});
 							}, 500)
 						};

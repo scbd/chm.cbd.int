@@ -3,12 +3,12 @@
 			ng-if="self.localesToDisplay.length ==1 || (self.localesToDisplay.length>1 && self.value[locale])">
 
 		<div ng-if="!html" class="km-value km-value-ml-div" ng-style="{ direction : (self.value|direction:locale)}" 
-			ng-class="{'markdown':self.markdown, 'km-pre':self.kmPre }" ng-bind="self.value|lstring:locale">
+			ng-class="{'markdown':self.markdown, 'km-pre1':self.kmPre }" ng-bind="self.value|lstring:locale">
 		</div>
 		<div ng-if="html"  >
 			<div ng-bind-html="self.value|lstring:locale|addclear|toTrusted" class="km-value km-value-ml-div km-value-ml-html" 
 			ng-style="{ direction : (self.value|direction:locale)}" 
-			ng-class="{'markdown':self.markdown, 'km-pre':self.kmPre }"></div>
+			ng-class="{'markdown':self.markdown, 'km-pre1':self.kmPre }"></div>
 			<!-- <div style="clear: both;"></div>	 -->
 		</div>
 		<span class="input-group-addon" style="cursor:default">{{self.value|lstringLocale:locale | uppercase }}</span>

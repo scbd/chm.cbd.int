@@ -70,10 +70,17 @@ b, strong {
     @bottom-center { 
         content: counter(page);
     }
+    margin: 0.75cm 0.5cm;
+    size: A4 landscape;
+    prince-shrink-to-fit: auto;
 }
+
 .col-xs-12, .col-md-12 {
     float: none!important;
 }
-.km-value{
+.km-value, .km-value-ml-html{
     text-align: justify!important;
+    word-break: normal;
+    word-wrap: normal; 
+    /* white-space: normal; */
 }

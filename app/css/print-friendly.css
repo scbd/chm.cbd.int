@@ -84,3 +84,7 @@ b, strong {
     word-wrap: normal; 
     /* white-space: normal; */
 }
+
+.container.database-record{
+    width: 99%!important;
+}

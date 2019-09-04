@@ -1,9 +1,10 @@
-﻿<div class="panel panel-default" style="padding-left:0; padding-right:0; overflow-y:scroll; overflow-x:hidden; width:100%; max-height:475px;">
+﻿<div class="panel panel-default" style="padding-left:0; padding-right:0; overflow-y:scroll; overflow-x:hidden; width:100%; max-height:455px;">
 	<style>
 		.resultsListHeader {
 			font-size: 14px;
 			color: #337ab7;
 			padding-left: 5px;
+			text-align: left;
 		}
 
 		.resultsListSubHeader {
@@ -13,6 +14,7 @@
 			line-height: 90%;
 			width: 100%;
 			margin-left: 0;
+			text-align: left;
 		}
 
 		.headerTitles {
@@ -24,6 +26,7 @@
 			padding-right: 3px;
 			color: white;
 			font-size: 11px;
+			text-align: left;
 		}
 
 		.headerTitle {
@@ -41,6 +44,7 @@
 			;
 			padding-left: 0px;
 			padding-right: 0px;
+			text-align: left;
 		}
 
 		.tree {
@@ -54,7 +58,8 @@
 			border-radius: 4px;
 			-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 			-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05)
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+			text-align: left;
 		}
 
 		.tree li {
@@ -63,6 +68,7 @@
 			margin: 0;
 			padding: 2px 5px 0 5px;
 			position: relative;
+	
 		}
 
 		.tree li::before,
@@ -115,7 +121,7 @@
 			padding-top: 2px;
 			padding-bottom: 1px;
 			background-color: #f0ad4e;
-			z-index: 5:
+			z-index: 5;
 		}
 
 		.country:hover {
@@ -172,7 +178,7 @@
 				<span class="country" ng-click="country.expanded=toggleHide(country.expanded);zoomToCountry(country.identifier);closeAllCountries(country.identifier);"><i class="flag-icon flag-icon-{{country.identifier}}" ng-if="country.identifier!=='eu'"></i>
 					<img src="app/images/flags/Flag_of_Europe.svg" style="width:20px;hight:16px;" ng-if="country.identifier==='eu'"> &nbsp;{{country.name}}
 					<i class="flag-icon flag-icon-eu" ng-if="country.identifier==='eur'"></i>
-					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:3px;">{{country.numDocs}}</span>
+					<span class="badge color-white" style="float: right;  margin-top:3px;margin-right:15px;">{{country.numDocs}}</span>
 				</span>
 				<ul>
 					<li ng-repeat="(schemaName,schema) in country.docs" ng-if="country.expanded && schema.length">

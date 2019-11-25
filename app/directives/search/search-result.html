@@ -78,7 +78,8 @@
 			aichiTarget_ss -->
 
 			<span ng-repeat="hostG in document.hostGovernments_EN_txt" > <span class="label label-default" > {{hostG}}</span>&nbsp; </span>
-			<span ng-repeat="hostG in document.thematicArea_EN_txt"><span class="label label-info small" >{{hostG}}</span>&nbsp; </span>
+			<span ng-repeat="hostG in document.thematicArea_EN_txt | limitTo:5"><span class="label label-info small" >{{hostG}}</span>&nbsp; </span>
+			<span ng-if="document.thematicArea_EN_txt.length > 5"> ...</span>
 			<div class="pull-right">
 				<span ng-repeat="term in document.aichiTarget_ss" ng-if="document.aichiTarget_ss">
 					<img  style="height: 20px;  width: 20px; margin-bottom:5px; " ng-src="https://www.cbd.int/images/aichi/48/abt-{{term.slice(-2)}}-48.png" >

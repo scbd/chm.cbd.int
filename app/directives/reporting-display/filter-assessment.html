@@ -8,10 +8,11 @@
 		</div>
 	</a>
 	<div id="aichi" ng-class="[classPanelCollapse, classCollapse]">
-		<div class="panel-body">
+		<div class="panel-body" style="padding-top: 0px;">
 			<div class="row" style="padding-left:18px;padding-right:10px;">
 
-				<div class="col-xs-3" ng-repeat="target in aichiTargets track by $index" style="padding-left:0; " ng-click="loadAssements(target.identifier_s);toggleTarget(aichiTargets,target);">
+				<div class="checkbox" style="margin-top:0px"><label><input type="checkbox" ng-model="includeSubAichiTargets" ng-change="loadAssements(target.identifier_s, includeSubAichiTargets);">Include Sub-Aichi targets / components</label></div>
+				<div class="col-xs-3" ng-repeat="target in aichiTargets track by $index" style="padding-left:0; " ng-click="loadAssements(target.identifier_s,includeSubAichiTargets );toggleTarget(aichiTargets,target);">
 					<script>
 						$(document).ready(function() {
 							$('[data-toggle="{{target.identifier_s}}"]').popover({

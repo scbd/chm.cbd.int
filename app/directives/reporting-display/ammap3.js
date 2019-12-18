@@ -21,10 +21,16 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         $scope.legendTitle = "All Reporting to the CBD";
         $scope.leggends = {
           aichiTarget: [{
-            id: 0,
-            title: 'No Data',
+            id: -1,
+            title: 'Not Reported',
             visible: true,
             color: '#dddddd'
+          },
+          {
+            id: 0,
+            title: 'Unknown',
+            visible: true,
+            color: '#eee'
           }, {
             id: 1,
             title: 'Moving Away',

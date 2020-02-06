@@ -36,6 +36,10 @@ app.use(cookieParser())
 // Configure routes
 
 app.use('/favicon.ico', express.static(__dirname + '/favicon.ico', { setHeaders: setCustomCacheControl }));
+
+app.get('/robots.txt' , require('./middlewares/robots'));
+app.get('/sitemap.xml', require('./middlewares/sitemap'));
+
 app.use('/?:lang(ar|en|es|fr|ru|zh)?/app',     translation, express.static(__dirname + '/app', { setHeaders: setCustomCacheControl }));
 
 app.all('/app/*', (req, res)=>res.status(404).send() );

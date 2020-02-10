@@ -541,3 +541,11 @@ legend{
 .error-background {
     background:#ebccd1;
 }
+
+@media (max-width: 480px) {
+    #schemaView #km-value-ml .input-group, #schemaView .km-value{
+         display: block;
+         word-wrap: break-word;
+         word-spacing: normal;
+     }    
+ }

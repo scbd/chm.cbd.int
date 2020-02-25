@@ -7,8 +7,8 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
 ], function(app, $, _, moment) {
     'use strict';
 
-    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', 'cfgUserNotification', 'locale',
-     function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig, cfgUserNotification, locale) {
+    app.controller('TemplateController', ['$scope', '$rootScope', '$window', '$location', 'authentication', 'breadcrumbs', '$mdToast', 'realm', 'realmConfig', 'cfgUserNotification', 'locale', 'ngMeta',
+     function($scope, $rootScope, $window, $location, authentication, breadcrumbs, $mdToast, realm, realmConfig, cfgUserNotification, locale, ngMeta) {
 
         if ($location.protocol() == "http" && $location.host() == "chm.cbd.int")
             $window.location = "https://chm.cbd.int/";
@@ -51,8 +51,9 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
 
         $scope.$on("$routeChangeSuccess", function(evt, current){
             $scope.routeLoaded = true;
-            if(current.$$route)
-                $("head > title").text(current.$$route.label || "Clearing-House Mechanism");
+            ngMeta.resetMeta();
+            if(current.$$route && current.$$route.label)
+                ngMeta.setTitle(current.$$route.label, ' | Clearing-House Mechanism')
         });
         //============================================================
         //

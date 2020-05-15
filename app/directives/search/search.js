@@ -18,10 +18,11 @@ define(['text!./search.html',
 		"./row-press-release",
 		"./row-national-assessment",
 		"./row-statement",
-		'components/scbd-angularjs-services/services/generic-service'
+		'components/scbd-angularjs-services/services/generic-service',
+		'directives/common/export-directive'
 	], function(template, app, $, _) { 'use strict';
 
-	app.directive('search', ['$http', 'realm', '$q', '$timeout', '$location','$route','IGenericService', function ($http, realm, $q, $timeout, $location, $route, IGenericService) {
+	app.directive('search', ['$http', 'realm', '$q', '$timeout', '$location','$route','IGenericService', '$filter', function ($http, realm, $q, $timeout, $location, $route, IGenericService, $filter) {
 	    return {
 	        restrict: 'EAC',
 	        template: template,
@@ -435,13 +436,116 @@ define(['text!./search.html',
 						}
 				}//refresh
 
-				this.deleteAllSubQuery=deleteAllSubQuery;
-				this.refresh =refresh;
-				this.buildChildQuery =buildChildQuery;
-				this.updateTerms =updateTerms;
-				this.deleteSubQuery =deleteSubQuery;
-				this.search = search;
-				this.addSubQuery= addSubQuery;
+				$scope.getExportData = function(options){
+
+					var options     = options||{}
+					var queryFields = '';
+
+					var headers = {
+						government_EN_t   : { title : "Government" },
+						schema_EN_t       : { title : "Record Type" },
+						title_EN_t        : { title : "Title" },
+						summary_EN_t      : { title : "Summary" },
+						thematicArea_EN_ss: { title : "Thematic Areas" },
+						updatedDate_dt    : { title : "Updated on", type:'date' },
+						url_ss            : { title : "CHM Url", type:'url' },
+					}
+
+					var additionalHeaders = {
+						id                               : { title : "Id" },
+						nationalTarget_EN_t              : { title : "National Target" },
+						progress_EN_t                    : { title : "Assessment Progress" },
+						nationalTargetMainAichiTargets_ss: { title : "Related Aichi Targets" },
+						googleMapsUrl_s                  : { title : "Google Maps Url" },
+						country_EN_s                     : { title : "Country" },
+						relevantInformation_EN_s         : { title : "Relevant Information" },
+						logo_s                           : { title : "Logo" },
+						treaty_EN_t                      : { title : "Treaty" },
+						hostGovernments_EN_SS            : { title : "Host Governments" },
+						schema_s                         : { title : "Schema" },
+						aichiTarget_ss                   : { title : "Aichi Target" },
+						reference_s                      : { title : "Reference" },
+						sender_s                         : { title : "Sender" },
+						meeting_ss                       : { title : "Meeting" },
+						recipient_ss                     : { title : "Recipient" },
+						symbol_s                         : { title : "Symbol" },
+						city_EN_t                        : { title : "City" },
+						eventCity_EN_t                   : { title : "Event City" },
+						eventCountry_EN_t                : { title : "Event Country" },
+						country_EN_t                     : { title : "Country" },
+						startDate_s                      : { title : "Start Date" },
+						endDate_s                        : { title : "End Date" },
+						code_s                           : { title : "Code" },
+						meeting_s                        : { title : "Meeting" },
+						group_s                          : { title : "Group" },
+						function_t                       : { title : "Function" },
+						department_t                     : { title : "Department" },
+						organization_t                   : { title : "Organization" },
+						description_t     				 : { title : "Description" },
+						reportType_EN_t                  : { title : "Report Type" },
+						completion_EN_t                  : { title : "Completion" },
+						jurisdiction_EN_t                : { title : "Jurisdiction" },
+						development_EN                   : { title : "Development" },
+						body_s                           : { title : "Body" },
+					}
+
+					if(options.fields){
+						queryFields = _.map(options.fields, 'key').join(',')
+					}
+					else
+						queryFields = _.keys(headers).join(',')
+
+					readQueryString ();
+					var queryParameters = {
+							'q'   : $scope.buildQuery(),
+							'sort': 'createdDate_dt desc',
+							'fl'  : queryFields,
+							'wt'  : 'json',
+							'rows': options.initial ? 100: 5000
+					};
+
+
+					return $http.get('/api/v2013/index/select', { params: queryParameters })
+					.then(function (result) {
+
+						var data =  result.data.response;
+						var exportData = _(data.docs)
+						.map(function(document){
+						  var row = {};
+						  _.each(options.fields||headers, function(header, key){
+							if(header.type == 'url')
+							  row[header.title] = document[key] ? (document[key][0]||document[key]) : '';
+							else if(header.type == 'date')
+							  row[header.title] = $filter('moment')(document[key], 'format', 'DD MMMM YYYY');
+							// else if(key == 'nationalTargetMainAichiTargets_ss')
+							//   row[header.title] = document['nationalTargetMainAichiTargets_ss'] ? 'National Target' : 'Global Target';
+							else if(_.isArray(document[key]))
+							  row[header.title] = document[key].join(', ');
+							else
+							  row[header.title] = document[key];
+			
+						  })
+						  return row;
+						}).value()
+			
+						return {
+						  headers          : options.fields||_.values(headers),
+						  additionalHeaders: _.extend({}, headers, additionalHeaders),
+						  count            : data.numFound,
+						  data             : options.initial ? _.take(exportData, 100): exportData
+						}
+
+					});
+
+				}
+
+				this.deleteAllSubQuery = deleteAllSubQuery;
+				this.refresh           = refresh;
+				this.buildChildQuery   = buildChildQuery;
+				this.updateTerms       = updateTerms;
+				this.deleteSubQuery    = deleteSubQuery;
+				this.search            = search;
+				this.addSubQuery       = addSubQuery;
 			}]//controlerr
 		};//return
 	}]); //directive

@@ -303,7 +303,60 @@ define(['text!./reporting-display.html',
       controller: ["$scope", function($scope) {
           var queryScheduled = null;
           var canceler = null;
+          var rawData;
 
+
+          $scope.getExportData = function (options){
+
+            var headers = {
+              "government_EN_t"    : { title : 'Government' },
+              "title_t"            : { title : 'Title' }
+            }
+
+            console.log($scope.selectedSchema);
+            if($scope.selectedSchema == 'nationalAssessment' || $scope.selectedSchema.indexOf('AICHI-TARGET-')==0){
+              headers["nationalTarget_EN_t"] = { title : 'National Target' };
+              headers["aichiTarget"        ] = { title : 'Aichi Target' };
+              headers["assessmentFor"      ] = { title : 'Assessment For' };
+              headers["progress_EN_t"      ] = { title : 'Progress' };
+
+            }
+
+            headers["createdDate_dt"] =  { title : 'Submission Date', type:'date' };
+            headers["url_ss"        ] =  { title : 'Url', type:'url' };
+            headers["schema_EN_t"   ] =  { title : 'Schema' };
+            // "nationalTargetAichiTargets_ss" : { title : 'Other Aichi targets related to national target' },
+
+            var data = _(rawData)
+            .sortBy('government_EN_t')
+            .map(function(document){
+              var row = {};
+              _.each(headers, function(header, key){
+                if(header.type == 'url')
+                  row[header.title] = document[key][0];
+                else if(header.type == 'date')
+                  row[header.title] = $filter('moment')(document[key], 'format', 'DD MMMM YYYY');
+                else if(key == 'aichiTarget')
+                  row[header.title] = $scope.selectedSchema;
+                else if(key == 'assessmentFor')
+                  row[header.title] = document['nationalTargetMainAichiTargets_ss'] ? 'National Target' : 'Global Target';
+                else if(_.isArray(document[key]))
+                  row[header.title] = document[key].join(', ');
+                else
+                  row[header.title] = document[key];
+
+              })
+              return row;
+            }).value()
+
+            return {
+              headers: _.values(headers),
+						  additionalHeaders: _.extend({}, headers),
+              count  : data.length,
+              data   : options.initial ? _.take(data, 100) : data
+            }
+
+          }
           //=======================================================================
           //
           //=======================================================================
@@ -314,7 +367,7 @@ define(['text!./reporting-display.html',
             var queryParameters = {
               'q': $scope.buildQuery(),
               'sort': 'createdDate_dt desc, title_t asc',
-              'fl': 'reportType_s,documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,government_s',
+              'fl': 'reportType_s,documentID,identifier_s,id,title_t,description_t,url_ss,schema_EN_t,date_dt,createdDate_dt,government_EN_t,schema_s,number_d,aichiTarget_ss,reference_s,sender_s,meeting_ss,recipient_ss,symbol_s,eventCity_EN_t,eventCountry_EN_t,startDate_s,endDate_s,body_s,code_s,meeting_s,group_s,function_t,department_t,organization_t,summary_EN_t,reportType_EN_t,completion_EN_t,jurisdiction_EN_t,development_EN_t,_latest_s,nationalTarget_s,nationalTarget_EN_t,progress_EN_t,year_i,text_EN_txt,government_s,nationalTargetMainAichiTargets_ss',
               'wt': 'json',
               'start': 0,
               'rows': 1000000,
@@ -336,6 +389,7 @@ define(['text!./reporting-display.html',
               $scope.count = data.response.numFound;
               $scope.count = data.response.docs.length;
               $scope.documents = groupByCountry(data.response.docs);
+              rawData = data.response.docs;
             });
           } // query
 
@@ -351,7 +405,7 @@ define(['text!./reporting-display.html',
               {
                 docsByCountry[doc.government_s] = [];
                 docsByCountry[doc.government_s] = getCountryById(doc.government_s); //insert country data
-                docsByCountry[doc.government_s].docs = {}; // initializes the countries docs
+                docsByCountry[doc.government_s].docs = {}; // options.initializes the countries docs
               }
 
               if (!docsByCountry[doc.government_s].docs[doc.schema_s]) //order docs by schema

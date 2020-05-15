@@ -49,11 +49,11 @@
 
       <!-- Aichi Target Legend       -->
       <div class="">
-        <div class="col-xs-4 col-md-2 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="(schema.indexOf('AICHI-TARGET-') > -1)">
+        <div class="col-md-1 leggendItem" ng-repeat="item in leggends.aichiTarget" ng-click="legendHide(item);" ng-if="(schema.indexOf('AICHI-TARGET-') > -1)" style="margin-top:5px;margin-left:2%;margin-right:2%;">
             <i class="fa fa-times fa-2x" ng-if="!item.visible" style="margin: 0 auto; display: block;"></i>
             <div class="square" ng-style="{'background-color':item.color}" ng-if="item.visible"></div> {{item.title}}
         </div>
-        <div class="col-xs-12" style="padding:20px">
+        <div class="col-xs-12" style="padding:20px" ng-if="(schema.indexOf('AICHI-TARGET-') ==0)">
           <div class=" alert alert-info">
               <h4 class="alert-heading"><i class="fa fa-info"></i> Info!</h4>
               <hr>

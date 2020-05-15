@@ -1,4 +1,4 @@
-define(['text!./results-list.html', 'app', 'lodash'], function(template, app, _) {
+define(['text!./results-list.html', 'app', 'lodash', 'directives/common/export-directive'], function(template, app, _) {
   'use strict';
 
   app.directive('resultsList', [function() {

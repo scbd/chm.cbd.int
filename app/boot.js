@@ -62,7 +62,7 @@ require.config({
       'blobjs'          : cdnHost + 'blobjs@1.1.1/Blob.min',
       'file-saverjs'    : cdnHost + 'file-saverjs@1.3.6/FileSaver.min',
       'xlsx'            : cdnHost + 'xlsx@0.13.4/dist/xlsx',
-      'jszip'           : cdnHost + 'xlsx@0.13.4/dist/jszip',  
+      'jszip'           : cdnHost + 'xlsx@0.13.4/dist/jszip',
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },

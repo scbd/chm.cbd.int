@@ -4,9 +4,9 @@
 <head>
 	<base href="<%=baseUrl%>">
 	<meta charset="utf-8">
-	<title>Clearing-House Mechanism</title>
+	<title ng-bind="ngMeta.title"></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Clearing-House Mechanism of the Convention on Biological Diversity">
+	<meta name="description" content="{{ngMeta.description}}" />
 	<link rel="shortcut icon" href="/favicon.ico">
 
 	<link rel="stylesheet" type="text/css" href="/app/css/main.css?v=<%=appVersion%>">

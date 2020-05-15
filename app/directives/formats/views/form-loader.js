@@ -3,8 +3,8 @@ define(['require', 'app', 'text!./form-loader.html','lodash', 'authentication',
 './directives/document-date'], function(require, app, template,_){
 
 app.directive('viewFormLoader', ["$rootScope", 'IStorage', "authentication", "locale", "$q", "$location", "$compile", "$route", 
-"navigation","$http", '$timeout', 'realmConfig', 'realm',
-function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout, realmConfig, realm) {
+"navigation","$http", '$timeout', 'realmConfig', 'realm', 'ngMeta',
+function ($rootScope,    storage,   authentication,   locale,   $q,   $location,   $compile, $route, navigation,$http, $timeout, realmConfig, realm, ngMeta) {
 	return {
 		restrict: 'E',
 		template: template,
@@ -54,6 +54,7 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 
 						$scope.$apply(function(){
 							formHolder.append($compile(directiveHtml)($scope));
+							setMetaTags();
 						});
 					});
 				}
@@ -369,6 +370,29 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 				})
 			}
 			loadDocumentHistory();
+
+			function setMetaTags(){
+				$timeout(function(){ 
+					var countryTag = getElementsByText('country', '#schemaView label');							
+					var country = $element.find(countryTag).next().text().replace(/\n/mg, '').replace(/^\s+|\s+$/g, '');
+					var schema	= document.querySelector('#schemaViewHeader').textContent;
+					if(country==''){
+						setMetaTags();
+					}
+					else{
+						ngMeta.resetMeta();
+						ngMeta.setTitle(country + ' | ' + schema)
+						ngMeta.setTag('description', schema)
+					}
+				}, 1000)
+			}
+			function getElementsByText(str, tag = 'a') {
+				var tags = Array.prototype.slice.call($element.find(tag))
+				var tag = _.first(tags, function(el){
+						el.textContent.trim() === str.trim()
+					});
+				return tag
+			}
 		}
 	};
 }]);

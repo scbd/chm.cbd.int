@@ -21,11 +21,11 @@ define(['app','text!./export-directive.html', 'lodash', 'ngDialog','moment','fil
                         className : 'ngdialog-theme-default wide',
                         template : 'exportDialog',
                         controller : ['$scope', '$element', function($scope, $element){
-                    
+                                var selectedFields;
                                 $scope.downloadFormat = 'xlsx';
                                 $scope.downloadFormat = downloadFormat = 'xlsx';
                                 $scope.downloadData =  function(skipDownload, fieldList){
-
+                                    fieldList = fieldList||selectedFields;
                                     var dowloadButton = $element.find('.' + $scope.downloadFormat)
                                     if(dowloadButton && dowloadButton.length==0){
                                         $scope.loading = true;
@@ -52,7 +52,7 @@ define(['app','text!./export-directive.html', 'lodash', 'ngDialog','moment','fil
 
                                 $scope.customFields = function(){
                                     var customFields = $scope.downloadDocuments.additionalHeaders;
-                                    var selectedFields = $scope.downloadDocuments.headers;
+                                    selectedFields = $scope.downloadDocuments.headers;
                                     var fieldsDialog = ngDialog.open({
                                         name     : 'customFields',
                                         template : 'customFieldsDialog',

@@ -53,7 +53,7 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
             $scope.routeLoaded = true;
             ngMeta.resetMeta();
             if(current.$$route && current.$$route.label)
-                ngMeta.setTitle(current.$$route.label, ' | Clearing-House Mechanism')
+                ngMeta.setTitle(current.$$route.label, ' | Clearing-House Mechanism | CHM | CBD')
         });
         //============================================================
         //

@@ -19,7 +19,7 @@ define(['angular', 'ngSanitize', 'ngAnimate' ,'ngAria' ,
         ngMetaProvider.useTitleSuffix(true);
         ngMetaProvider.setDefaultTitle('Clearing-House Mechanism');
         ngMetaProvider.setDefaultTitleSuffix(' | Clearing-House Mechanism');
-        ngMetaProvider.setDefaultTag('description', ' | Clearing-House Mechanism of the Convention on Biological Diversity');
+        ngMetaProvider.setDefaultTag('description', ' | Clearing-House Mechanism of the Convention on Biological Diversity | CHM | CBD');
     }])
     .run(['ngMeta', function(ngMeta) {
         ngMeta.init();

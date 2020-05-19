@@ -371,27 +371,63 @@ function ($rootScope,    storage,   authentication,   locale,   $q,   $location,
 			}
 			loadDocumentHistory();
 
-			function setMetaTags(){
+			function setMetaTags(counter){
 				$timeout(function(){ 
-					var countryTag = getElementsByText('country', '#schemaView label');							
+					counter=counter||1;
+					var countryTag = getElementsByText('country', '#schemaView label');
+													
 					var country = $element.find(countryTag).next().text().replace(/\n/mg, '').replace(/^\s+|\s+$/g, '');
 					var schema	= document.querySelector('#schemaViewHeader').textContent;
-					if(country==''){
-						setMetaTags();
+					
+					var title = '';
+					var description = getMetaDescription();
+
+					if(country=='' && counter<=5){ 
+						//if country not yet loaded try agina few more times, but update the title incase reference records.
+						setMetaTags(counter+1);
 					}
-					else{
-						ngMeta.resetMeta();
-						ngMeta.setTitle(country + ' | ' + schema)
-						ngMeta.setTag('description', schema)
-					}
+					if(country!='')
+						title = country + ' | '					
+
+					title += schema;
+					if(description== '')
+						description = schema 
+					
+					ngMeta.resetMeta();
+					ngMeta.setTitle(title)
+					ngMeta.setTag('description', description + ' | Clearing-House Mechanism of the Convention on Biological Diversity | CHM | CBD')
+				
 				}, 1000)
 			}
-			function getElementsByText(str, tag = 'a') {
+			function getElementsByText(str, tag) {
 				var tags = Array.prototype.slice.call($element.find(tag))
 				var tag = _.first(tags, function(el){
 						el.textContent.trim() === str.trim()
 					});
 				return tag
+			}
+			function getMetaDescription(){
+
+				var titleTag = getElementsByText('title', '#schemaView label');
+				var title = $element.find(titleTag).next().text().replace(/\n/mg, '').replace(/^\s+|\s+$/g, '');
+				if(title && title!=  '')
+					return title;
+
+				var nameTag = getElementsByText('name', '#schemaView label');
+				var name = $element.find(nameTag).next().text().replace(/\n/mg, '').replace(/^\s+|\s+$/g, '');
+				if(name && name!=  '')
+					return name;
+
+				var h2 = $element.find('#schemaView h2').text()
+				if(h2 && h2!='')
+					return h2;
+
+				var h4 = $element.find('#schemaView h4').text()
+				if(h4 && h4!='')
+					return h4;
+
+				return '';
+					
 			}
 		}
 	};

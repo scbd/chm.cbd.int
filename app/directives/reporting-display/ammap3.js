@@ -228,7 +228,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             progressCount[num]++;
           });
           var count = _.reduce(progressCount, function(count, n, k){
-                        return count += (n * parseInt(k));
+                        return count += (n * (parseInt(k)+1));
                       }, 0);
 
           return Math.round(count/docs.length);

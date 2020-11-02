@@ -29,7 +29,7 @@ WORKDIR /usr/src/app
 
 #copy touched files from EN version
 RUN rm -rf /usr/tmp/i18n/en/.git \
- && cp -r  /usr/tmp/i18n/en/* ./ \
+ && cp -rp /usr/tmp/i18n/en/* ./ \
  && rm -rf /usr/tmp/i18n/en
  
 

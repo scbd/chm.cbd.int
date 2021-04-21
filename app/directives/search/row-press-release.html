@@ -4,7 +4,7 @@
 		{{document.title_t}}
 	</div>
 	<div style="font-size:13px;margin-top:2px">{{document.description_t}}</div>
-	<a translation-url ng-show="document.url_ss[0]" ng-href="http://www.cbd.int/doc/press/{{document.date_dt| date:'yyyy'}}/{{fixUrl(document.url_ss[0])}}">http://www.cbd.int/doc/press/{{document.date_dt| date:'yyyy'}}/{{fixUrl(document.url_ss[0])}}</a>
+	<a translation-url ng-show="document.url_ss[0]" ng-href="{{fixUrl(document.url_ss[0])}}">{{fixUrl(document.url_ss[0])}}</a>
 	<div>
 		<i style="color:#ccc" class="fa fa-rss"></i> <span style="font-size:12px;color:#444">Released on {{formatDate(document.date_dt)}}</span>
 	</div>

@@ -48,7 +48,7 @@
 						<div class="row">
 
 							<div class="col-md-10">
-								<div class="km-control-group" required name="title" caption="Title">
+								<div class="km-control-group" required name="title" caption="Title of the initiative">
 									<div km-textbox-ml required ng-model="document.title" locales="document.header.languages"></div>
 								</div>
 							</div>
@@ -57,100 +57,134 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="projectNumber" caption="Project number or identifier">
+									<div class="help-block">Please provide any project number, identifier or reference number, if applicable.</div>
 									<div km-textbox-ml name="projectNumber" ng-model="document.projectNumber" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-12">
-								<div class="km-control-group" required name="geographicScope" caption="Geographic Scope">
-									<div km-select name="geographicScope" required ng-model="document.geographicScope.scope"
-									 placeholder="Please select one option" items="options.geographicScope()" ng-change="clearGeographicSelection()"></div>
+							<div class="col-md-10">
+								<div class="km-control-group" required name="projectDocument" caption="Website address(es)">
+									<div class="help-block">Please provide the URL of the website (e.g. http://www.cbd.int) and the name of the website (e.g. 'Convention on Biological Diversity').</div>
+									<div km-link name="projectDocument" required ng-model="document.projectDocument" allow-link="true" identifier="document.header.identifier"></div>
 								</div>
 							</div>
 						</div>
-						<div class="row" ng-show="document.geographicScope.scope && (isGlobalOrRegional() || isNational())">
-							
-								<div class="col-md-12">
-								<div class="km-control-group well well-sm" name="regionsOrCountries"
-								required caption="Geographical or political/economic group(s) or Country(ies)" style="padding:10px;">
+
+						<div class="row">
+							<div class="col-md-10">
+								<div class="km-control-group" required name="contacts" caption="Contact person">
+									<!-- contact is not loading , for testing resource is taken -->
+									<div km-reference name="contacts" ng-model="document.contacts" add-caption="Add an contacts..." loader="loadRecords(identifier, 'contact')">
+										<div>
+											<div><strong>{{reference.title | lstring}}</strong></div>
+											<div>{{reference.summary | lstring}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="km-control-group" required name="geographicScope" caption="Geographic scope">
+									<div km-select name="geographicScope" required ng-model="document.geographicScope"
+											placeholder="Please select one option" items="options.geographicScope()"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row" ng-if="document.geographicScope && (isGlobalOrRegional() || isNational())">
+							<div class="col-md-12">
+								<div class="km-control-group"  required style="padding:10px;">
 									<div class="row">
-										<div class="col-md-5" ng-show="!isNational()">
-											<!-- document.geographicScope.regionsOrCountries -->
-											<div class="km-control-group"  name="regions" 
-											caption="Geographical or political/economic group(s)">
-												<div km-select multiple required name="geographicalRegions" 
-												ng-model="document.geographicScope.regions" placeholder="Please select one option" 
-												items="options.regions()"></div>
+										<div class="col-md-3" ng-show="!isNational()">
+						
+											<div class="km-control-group" required name="geographicScope" caption="">
+													<label name="countryRegions" class="control-label" for="geographicScope">Geographical or political/economic group(s)</label>
+												<div km-select multiple required name="regions"
+														ng-model="countryRegions.regions" placeholder="Please select option(s)"
+														items="options.regions()"></div>
 											</div>
 										</div>
-										<div class="col-md-2" ng-hide="!isGlobalOrRegional()">
-											 And / Or
+										<div class="col-md-1" ng-hide="!isGlobalOrRegional()">
+											and/or
 										</div>
-										<div class="col-md-5">
-											<div class="km-control-group"  name="countries" caption="Country(ies)">
-												<div km-select multiple required name="geographicalCountries" ng-model="document.geographicScope.countries" placeholder="Please select one option" items="options.countries()"></div>
+										<div class="col-md-3">
+											<div class="km-control-group" style="text-align: left;"  caption="">
+												<label name="countryRegions" ng-required="isNational()" class="control-label" for="countryRegions">
+													Country(ies)
+												</label>
+												<div km-select multiple required filter-type="startsWith" ng-model="countryRegions.countries" placeholder="Please select option(s)" items="options.countries()"></div>
 											</div>
 										</div>
 									</div>
-								</div></div>
+								</div>
+							</div>
 						</div>
-
-						<div class="row" ng-show="isSubnational()">
+						<!-- <div class="row" ng-show="isSubnational()">
 							<div class="col-md-10">
 								<div class="km-control-group" required="isSubnational()" name="jurisdiction" caption="Jusrisdiction">
 									<div km-textbox-ml required="isSubnational()" name="jurisdiction" ng-model="document.geographicScope.jurisdiction" placeholder="" locales="document.header.languages" ng-change="clearCommunity()"></div>
 								</div>
 							</div>
+						</div> -->
+
+						<div class="row" ng-if="document.geographicScope && isSubnational()">
+							<div class="col-md-12">
+								<div class="km-control-group"  name="countryRegions" caption="">
+									<label name="countryRegions" required class="control-label" for="countryRegions">
+										Country(ies)
+									</label>
+									<div km-select multiple required  ng-model="countryRegions.countries" placeholder="Please select option(s)" items="options.countries()"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group"  name="geographicScope.customValue" caption="">
+									<label name="geographicScope.customValue" required="isSubnational()" class="control-label" for="geographicScope.customValue">
+										Name of the sub-national jurisdiction
+									</label>
+									<div km-textbox-ml required="isSubnational()"  ng-model="document.geographicScope.customValue" placeholder="Please select option(s)" locales="document.header.languages"></div>
+								</div>
+							</div>
 						</div>
-						<div class="row" ng-show="isCommunity()">
+
+
+						<!-- <div class="row" ng-show="isCommunity()">
 							<div class="col-md-10">
 								<div class="km-control-group" required="isCommunity()" name="community" caption="Community">
 									<div km-textbox-ml required="isCommunity()" name="community" ng-model="document.geographicScope.community" placeholder="" locales="document.header.languages" ng-change="clearJurisdiction()"></div>
 								</div>
 							</div>
-						</div>
-
-						<div class="row">
+						</div> -->
+						<div class="row" ng-if="document.geographicScope && isCommunity()">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="capacityBuildingType" caption="Type of capacity-building initiative">
-									<label for="capacityBuildingTypeYes" style="width:0px;height:0px;display:inline">
-										<span style="display:none">Atleast one question should be answered yes</span>
+								<div class="km-control-group"  name="countries" caption="">
+									<label name="countryRegions" required class="control-label" for="countryRegions">
+										Country(ies)
 									</label>
-									<div style="padding-left:20px" class="well">
-										<div class="km-control-group"  bold="true" required name="isProjectProgramme" caption="a. Is this a dedicated capacity-building project/programme? ">
-											<div class="km-yes-no" required name="isProjectProgramme" ng-model="document.capacityBuildingType.isProjectProgramme"></div>
-										</div>
-										<div class="km-control-group"  bold="true" required name="isBroaderProjectPart" caption="b. Is this an activity or component which is part of a broader capacity-building project or programme?">
-											<div class="km-yes-no" required name="isBroaderProjectPart" ng-model="document.capacityBuildingType.isBroaderProjectPart"></div>
-										</div>
-										<div class="km-control-group" name="broaderProjects" caption="Please identify the broader project" ng-show="document.capacityBuildingType.isBroaderProjectPart">
-											<div km-reference multiple name="capacityBuildingInitiative" ng-model="document.capacityBuildingType.broaderProjects"
-											 add-caption="Add Broader Projects..." loader="loadRecords(identifier, 'capacityBuildingInitiative')">
-												<div>
-													<div><strong>{{reference.title | lstring}}</strong></div>
-													<div>{{reference.summary | lstring}}</div>
-												</div>
-											</div>
-										</div>
-										<div class="km-control-group"  bold="true" required name="isStandaloneProject" caption="c. Is this a stand-alone activity that is not part of a broader capacity-building project or programme? ">
-											<div class="km-yes-no" required name="isStandaloneProject" ng-model="document.capacityBuildingType.isStandaloneProject"></div>
-										</div>
-									</div>
+									<div km-select multiple required ng-model="countryRegions.countries" placeholder="Please select option(s)" items="options.countries()"></div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="km-control-group" name="geographicScope.customValue" caption="">
+									<label name="geographicScope.customValue" required="isCommunity()" class="control-label" for="geographicScope.customValue">
+										Community name
+									</label>
+									<div km-textbox-ml required="isCommunity()" ng-model="document.geographicScope.customValue" placeholder="" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
-						
+
+
 						<div class="row">
 							<div class="col-md-12">
-								<div class="km-control-group" required name="status" caption="5. Status of the document">
+								<div class="km-control-group" required name="status" caption="Status">
 									<div km-select name="status" required ng-model="document.status" id="documentStatus"
 									placeholder="Please select one option" items="options.status()"  show-description="true"></div>
 								</div>
 							</div>
 						</div>
-
 						<div class="row">
 							<div class="col-md-12">
 								<div class="km-control-group" name="timeframe" required caption="6. Timeframe">
@@ -197,6 +231,42 @@
 
 						<div class="row">
 							<div class="col-md-10">
+								<div class="km-control-group" name="activityScope" caption="Type of capacity development initiative">
+									<div km-term-check name="activityScope" required ng-model="document.activityScope" terms="options.activityScope()" binding-type="term"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+									<div class="km-control-group"  bold="true" required name="isProjectProgramme" caption="Is this part of a larger project or programme?">
+										<div class="km-yes-no" required name="isProjectProgramme" ng-model="document.isProjectProgramme"></div>
+										
+
+										<div class="row" ng-show="document.isProjectProgramme">
+											<div class="col-md-10">
+												<div class="km-control-group" name="projectProgrammeName" caption="Please specify the name of project or programme.">
+													<div km-textbox-ml  name="projectProgrammeName" ng-model="document.projectProgrammeName" placeholder="" locales="document.header.languages"></div>
+												</div>
+											</div>
+										</div>
+
+										<div class="km-control-group" name="broaderProjects" caption="Please link to a clearing-house record about this project or programme." ng-show="document.capacityBuildingType.isProjectProgramme">
+											<div km-reference multiple name="broaderProjects" ng-model="document.broaderProjects"
+											 add-caption="Add Broader Projects..." loader="loadRecords(identifier, 'capacityBuildingInitiative')">
+												<div>
+													<div><strong>{{reference.title | lstring}}</strong></div>
+													<div>{{reference.summary | lstring}}</div>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-10">
 								<div class="km-control-group" required name="organizations" caption="Agency(ies) or organisation(s) implementing and/or executing the initiative"></div>
 
 								<div class="checkbox"><label><input type="checkbox" ng-model="document.isImplementedByAgencies">Implementing agency(ies) or organization(s)</label></div>
@@ -232,39 +302,27 @@
 							</div>
 						</div>
 
-						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="projectDocument" caption="Project document or document describing the initiative">
-									<div class="help-block">Please always attach the relevant document(s) that will be stored in the database for users to download. When documents are available on the Internet, please also provide a link to them.</div>
-									<div km-link name="projectDocument" required ng-model="document.projectDocument" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
-								</div>
-							</div>
-						</div>
-
-
-
 						<legend>Detailed information</legend>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="description" caption="Short description of  the initiative, including its goals and objectives">
+								<div class="km-control-group" required name="description" caption="Short description of the initiative, including its goals and objectives (max 150 words)">
 									<div km-textbox-ml required ng-model="document.description" rows="3" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
-
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" name="audience" caption="Target group(s)/beneficiary(ies)">
-									<div km-term-check name="audience" required ng-model="document.targetGroups" terms="options.targetGroups()" binding-type="term[]"></div>
+								<div class="km-control-group" required name="categories" caption="Category(ies) of capacity development activities">
+									<div km-term-check name="categories" required ng-model="document.categories" terms="options.categories()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="categories" caption="Category(ies) of capacity-building activities">
-									<div km-term-check name="categories" required ng-model="document.categories" terms="options.categories()" binding-type="term[]"></div>
+								<div class="km-control-group" name="audience" caption="Main target group(s)/beneficiary(ies)">
+									<div km-term-check name="audience" required ng-model="document.targetGroups" terms="options.targetGroups()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
@@ -332,7 +390,7 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="resultsAchievements" caption="Results">
-									<span class="help-block">Please provide a short summary of the main achievements of the initiative, including those related to advancing gender equality in achieving the objectives of the Convention and its Protocols, if applicable</span>
+									<span class="help-block">This information can be provided once there are some results (outputs, outcomes or impacts) or best practices and lessons learned from the ongoing or completed initiative.</span>
 									<div km-textbox-ml name="resultsAchievements" ng-model="document.resultsAchievements" rows="4" locales="document.header.languages"></div>
 								</div>
 							</div>
@@ -341,16 +399,16 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="resultsOutputs" caption="Main outputs">
-									<span class="help-block">Please attach/upload a copy of, or provide web link to, the relevant products (e.g. tools and materials) developed by the initiative and/or reports</span>
+									<span class="help-block">Please provide a web link to, or attach a copy of, the relevant products (e.g. tools and materials) developed by the initiative and/or reports.</span>
 									<div km-link name="resultsOutputs" ng-model="document.resultsOutputs" allow-link="true" allow-file="true" identifier="document.header.identifier" ></div>
 								</div>
 							</div>
 						</div>
-
-						<!-- <div class="row">
+						<!-- ToDo need to verify -->
+						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="resultsReference" caption="Clearing-house record containing relevant information">
-									<div km-reference multiple name="resultsReference" ng-model="document.resultsReference" loader="loadOrgs(identifier)">
+								<div class="km-control-group" required name="resultsReference" caption="Please select the virtual library record number containing relevant information.">
+									<div km-reference multiple name="resultsReference" ng-model="document.resultsReference" loader="loadRecords(identifier, 'resource')">
 										<div>
 											<div><strong>{{reference.title | lstring}}</strong></div>
 											<div>{{reference.summary | lstring}}</div>
@@ -358,17 +416,23 @@
 									</div>
 								</div>
 							</div>
-						</div> -->
+						</div>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" name="bestPractices" caption="Best practices and lessons learned">
-									<span class="help-block">Please provide a short summary of the best practices and lessons learned </span>
+								<div class="km-control-group" name="bestPractices" caption="Good practices and lessons learned">
+									<span class="help-block">Please provide a short summary of the best practices and lessons learned (max 500 words). </span>
 									<div km-textbox-ml name="bestPractices" ng-model="document.bestPractices" rows="4" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
-
+						<div class="row  bottom-spacing">
+							<div class="col-md-10">
+								<div class="km-control-group well well-sm" name="aichiTargets" caption="Aichi targets">
+									<div km-term-check name="aichiTargets" ng-model="document.aichiTargets" placeholder="Please select related target..." terms="options.aichiTargets()" binding-type="term[]"></div>
+								</div>
+							</div>
+						</div>
 						<a translation-url name="#AdditionalInformation"></a>
 						<legend>Additional information</legend>
 
@@ -403,8 +467,8 @@
 					</div>
 
 					<div km-tab="chm">
-
-						<legend>Subject/Topic/Issue</legend>
+						<legend>Information on thematic coverage of the initiative</legend>	
+						<!-- <legend>Subject/Topic/Issue</legend> -->
 
 						<div class="row">
 							<div class="col-md-10">
@@ -414,23 +478,18 @@
 							</div>
 						</div>
 
-						<div class="row  bottom-spacing">
-							<div class="col-md-10">
-								<div class="km-control-group well well-sm" name="aichiTargets" caption="Relevant Aichi Biodiversity Targets">
-									<div km-term-check name="aichiTargets" ng-model="document.aichiTargets" placeholder="Please select related target..." terms="options.aichiTargets()" binding-type="term[]"></div>
-								</div>
-							</div>
-						</div>
-
 					</div>
 
 					<div km-tab="absch">
 
-						<legend>Subjects</legend>
+						<legend>Information on thematic coverage of the initiative</legend>
 
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="absKeyAreas" caption="Key areas and strategic measures for capacity-building and development">
+									<div class="help-block">The key areas have been identified by the Strategic Framework for
+										capacity-building and development to support the effective implementation of the Nagoya Protocol
+										(decision NP-1/8).</div>
 									<div km-term-check name="absKeyAreas" ng-model="document.absKeyAreas" terms="options.absKeyAreas()" binding-type="term[]"></div>
 								</div>
 							</div>
@@ -439,11 +498,11 @@
 
 					<div km-tab="bch">
 
-						<legend>Subjects</legend>
+						<legend>Information on thematic coverage of the initiative</legend>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" name="cpbThematicAreas" caption="Thematic areas(s)">
+								<div class="km-control-group" name="cpbThematicAreas" caption="Thematic areas">
 									<div km-term-check name="cpbThematicAreas" ng-model="document.cpbThematicAreas" terms="options.bchSubjects()" binding-type="term[]"></div>
 								</div>
 							</div>

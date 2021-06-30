@@ -14,7 +14,9 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			$scope.document = null;
 			$scope.tab      = 'general';
 			$scope.review   = { locale: "en" };
+			$scope.countryRegions		= {};
 			$scope.options  = {
+				activityScope : function() { return $http.get("/api/v2013/thesaurus/domains/5CA7AACE-CB79-4146-BF12-B3B1955AFF17/terms", { cache: true }).then(function(o){ return o.data; }); },
 				libraries     : function() { return $http.get("/api/v2013/thesaurus/domains/cbdLibraries/terms",                         { cache: true }).then(function(o){ return Enumerable.From(o.data).Where("$.identifier!='cbdLibrary:bch'").ToArray();});},
 				languages     : function() { return $http.get("/api/v2013/thesaurus/domains/52AFC0EE-7A02-4EFA-9277-8B6C327CE21F/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
 				cbiTypes : function() { return $http.get("/api/v2013/thesaurus/domains/D935D0C8-F5A5-43B8-9E06-45A57BF3C731/terms", 	 { cache: true }).then(function(o){ return Thesaurus.buildTree(o.data); }); },
@@ -96,15 +98,15 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 
 
 			$scope.isGlobalOrRegional = function () {
-				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.scope){
-					return _.contains(['56B8CEB7-56B5-436B-99D9-AA7C4622F326', 'C7D6719B-8AD9-4EB1-A472-B0B858DE0F56'], $scope.document.geographicScope.scope.identifier);
+				if($scope.document && $scope.document.geographicScope){
+					return _.contains(['56B8CEB7-56B5-436B-99D9-AA7C4622F326', 'C7D6719B-8AD9-4EB1-A472-B0B858DE0F56'], $scope.document.geographicScope.identifier);
 				}
 				return false;
 			};
 		
 			$scope.isNational = function () {
-				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.scope){
-					return $scope.document.geographicScope.scope.identifier == "20B2CC6D-646D-4FD5-BD53-D652BA3FA088";
+				if($scope.document && $scope.document.geographicScope){
+					return $scope.document.geographicScope.identifier == "20B2CC6D-646D-4FD5-BD53-D652BA3FA088";
 				}
 				return false;
 			};
@@ -113,8 +115,8 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//
 			//============================================================
 			$scope.isSubnational = function () {
-				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.scope){
-					return $scope.document.geographicScope.scope.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
+				if($scope.document && $scope.document.geographicScope){
+					return $scope.document.geographicScope.identifier == "DEBB019D-8647-40EC-8AE5-10CA88572F6E";
 				}
 				return false;
 			};
@@ -132,8 +134,8 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			//
 			//============================================================
 			$scope.isCommunity = function () {
-				if($scope.document && $scope.document.geographicScope && $scope.document.geographicScope.scope){
-					return $scope.document.geographicScope.scope.identifier == "9627DF2B-FFAC-4F85-B075-AF783FF2A0B5";
+				if($scope.document && $scope.document.geographicScope){
+					return $scope.document.geographicScope.identifier == "9627DF2B-FFAC-4F85-B075-AF783FF2A0B5";
 				}
 				return false;
 			};
@@ -300,6 +302,18 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 					function(doc) {
 						$scope.status = "ready";
 						$scope.document = doc;
+						//Set countryRegions
+						console.log(doc);
+						if(doc.countryRegions){
+							$q.when($http.get("/api/v2013/thesaurus/domains/countries/terms", {cache: true})).then(function(countries){
+								$scope.countryRegions.countries = _.filter(doc.countryRegions, function(country){
+								return _.find(countries, {identifier:country.identifier});
+							});
+								$scope.countryRegions.regions = _.filter(doc.countryRegions, function(region){
+								return !_.find(countries, {identifier:region.identifier});
+							});
+							});
+						}
 					}).then(null,
 					function(err) {
 						$scope.onError(err.data, err.status);
@@ -372,15 +386,43 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 				if (!document)
 					return $q.when(true);
 				
-				if(!document.geographicScope)
-					document.geographicScope = {};
-				if(!$scope.isGlobalOrRegional())
-					delete document.geographicScope.regions;
-				if(!$scope.isGlobalOrRegional() && !$scope.isNational())
-					delete document.geographicScope.countries;
+			// if(!document.geographicScope)
+				// 	document.geographicScope = {};
+				// if(!$scope.isGlobalOrRegional())
+				// 	delete document.geographicScope.regions;
+				// if(!$scope.isGlobalOrRegional() && !$scope.isNational())
+				// 	delete document.geographicScope.countries;
 		
+				// if(_.isEmpty(document.geographicScope))
+				// 	document.geographicScope = undefined;
+
+				// 	if(document.geographicScope && document.geographicScope.regionsOrCountries)
+				// 	delete document.geographicScope.regionsOrCountries;
+
+				if(!document.geographicScope)
+				document.geographicScope = {};
+
+
 				if(_.isEmpty(document.geographicScope))
 					document.geographicScope = undefined;
+				if(!$scope.isGlobalOrRegional()) {
+					delete $scope.countryRegions.regions;
+				} else{
+					document.geographicScope.customValue = undefined;
+				}
+
+				var countryRegions = []
+				if($scope.countryRegions){
+
+					if(($scope.countryRegions.countries||[]).length){
+					countryRegions = $scope.countryRegions.countries;
+					}
+					if(($scope.countryRegions.regions||[]).length){
+					countryRegions = _.union(countryRegions, $scope.countryRegions.regions)
+					}
+					document.countryRegions = countryRegions;
+					
+				}
 		
 				if(document.capacityBuildingsType && !document.capacityBuildingsType.isBroaderProjectPart)
 					document.capacityBuildingsType.broaderProjectPart = undefined;
@@ -398,8 +440,8 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 					delete document.type;
 				if(document.duration)
 					delete document.duration;
-				if(document.geographicScope && document.geographicScope.regionsOrCountries)
-					delete document.geographicScope.regionsOrCountries;
+				// if(document.geographicScope && document.geographicScope.regionsOrCountries)
+				// 	delete document.geographicScope.regionsOrCountries;
 				if(document.typeInfo)
 					delete document.typeInfo;
 					

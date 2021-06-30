@@ -2,28 +2,51 @@
 
 	<h2>{{document.title | lstring:locale}}</h2>
 
-	<div ng-show="document.summary">
-		<label>Summary</label>
-		<div class="km-value km-pre">{{document.summary | lstring:locale}}</div>
-	</div>
+	<div ng-show="document.resourceTypes">
+		<label>Type of resource</label>
 
+		<ul class="km-value">
+			<li ng-repeat="resourceType in document.resourceTypes">{{resourceType | term:locale}}</li>
+		</ul>
+	</div>
 	<div ng-show="document.authors">
-		<label>Author(s)</label>
+		<label>Author name(s)</label>
 		<div class="km-value km-pre">{{document.authors | lstring:locale}}</div>
 	</div>
-
 	<div ng-show="organizations && organizations.length > 0">
-		<label>Organization(s) involved in the publication of this resource</label>
+		<label>Reference to the authoring organisation(s)</label>
 		<div class="km-value km-pre" ng-repeat="item in organizations">
 			<b>{{item.document.name|lstring:locale}} ({{item.document.acronym|lstring:locale}})</b>
 		</div>
 	</div>
-
-	<div ng-show="document.publicationYear">
-		<label>Publication year</label>
-		<div class="km-value">{{document.publicationYear}}</div>
+	<div ng-show="document.publisher">
+		<label>Publisher</label>
+		<div class="km-value km-pre">{{document.publisher | lstring:locale}}</div>
+	</div>
+	<div ng-show="document.publicationDate">
+		<label>Publication date</label>
+		<div class="km-value">{{document.publicationDate}}</div>
+	</div>
+	
+	<div ng-show="document.source">
+		<label>Source</label>
+		<div class="km-value km-pre">{{document.source | lstring:locale}}</div>
 	</div>
 
+	<div ng-show="document.rights">
+		<label>Rights</label>
+		<div class="km-value km-pre">{{document.rights | lstring:locale}}</div>
+	</div>
+
+	<legend>Access to the resource(s)</legend>
+
+	<div ng-show="document.resourceLinks">
+		<label>Link to the resource(s)</label>
+		<div class="km-value" ng-repeat="item in document.resourceLinks">
+			<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
+			<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
+		</div>
+	</div>
 	<div ng-show="document.covers">
 		<label >Cover image(s)</label>
 		<div class="km-value">
@@ -33,92 +56,22 @@
 		</div>
 	</div>
 
-	<div ng-show="document.resourceTypes || document.fileFormat	    ||
-				  document.formatDetails || document.purpose 	    ||
-				  document.targetGroups	 || document.expertiseLevel ||
-				  document.rights    	 || document.source  	    ||
-				  document.regions    	 || document.resourceLinks  ||
-				  document.aichiTargets">
-
-	    <legend>Resource information</legend>
-
-		<div ng-show="document.resourceTypes">
-			<label>Type of resource</label>
-
-			<ul class="km-value">
-				<li ng-repeat="resourceType in document.resourceTypes">{{resourceType | term:locale}}</li>
-			</ul>
-		</div>
-
-		<div ng-show="document.fileFormat">
-			<label>Format/File type</label>
-
-			<div class="km-value km-pre">{{document.fileFormat | term:locale}}</div>
-		</div>
-
-		<div ng-show="document.formatDetails">
-			<label>Format details</label>
-
-			<div class="km-value km-pre">{{document.formatDetails | lstring:locale}}</div>
-		</div>
-
-		<div ng-show="document.purpose">
-			<label>Main purpose of the resource</label>
-
-			<ul class="km-value">
-				<li ng-repeat="purpose in document.purpose">{{purpose | term:locale}}</li>
-			</ul>
-		</div>
-
-		<div ng-show="document.targetGroups">
-			<label>Target group(s)/beneficiary(ies)</label>
-
-			<ul class="km-value">
-				<li ng-repeat="group in document.targetGroups">{{group | term:locale}}</li>
-			</ul>
-		</div>
-
-		<div ng-show="document.expertiseLevel">
-			<label>Level of the content or   level of knowledge/expertise of the audience for which the resource is intended</label>
-
-			<div class="km-value km-pre">{{document.expertiseLevel | term:locale}}</div>
-		</div>
-
-		<div ng-show="document.rights">
-			<label>Rights</label>
-			<div class="km-value km-pre">{{document.rights | lstring:locale}}</div>
-		</div>
-
-		<div ng-show="document.source">
-			<label>Source</label>
-			<div class="km-value km-pre">{{document.source | lstring:locale}}</div>
-		</div>
-
-		<div ng-show="document.regions">
-			<legend>Resource references</legend>
-
-			<label>Country(ies), Regional or Economic group(s) related to the resource</label>
-			<ul class="km-value">
-				<li ng-repeat="term in document.regions | orderBy:name">{{term | term:locale}}</li>
-			</ul>
-		</div>
-
-		<div ng-show="document.resourceLinks">
-			<label>Link to the resource(s)</label>
-			<div class="km-value" ng-repeat="item in document.resourceLinks">
-				<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
-				<i ng-show="item.name && item.url.indexOf('/api/v2013/documents/')<0">({{item.url}})</i>
-			</div>
-		</div>
-
-		<div ng-show="document.aichiTargets">
-			<label>Related Aichi target(s)</label>
-			<ul class="km-value">
-				<li ng-repeat="term in document.aichiTargets">{{term | term:locale}}</li>
-			</ul>
-		</div>
+	<legend>Information on the content of resource</legend>
+	<div ng-show="document.summary">
+		<label>Summary</label>
+		<div class="km-value km-pre">{{document.summary | lstring:locale}}</div>
 	</div>
 
+	<div ng-show="document.regions">
+		<legend>Resource references</legend>
+
+		<label>Country(ies), Regional or Economic group(s) related to the resource</label>
+		<ul class="km-value">
+			<li ng-repeat="term in document.regions | orderBy:name">{{term | term:locale}}</li>
+		</ul>
+	</div>
+	
+	<legend>Keywords for facilitating searching for information in the clearing-houses</legend>
 	<div ng-show="document.cbdSubjects">
 
 		<legend>Clearing-House Mechanism (CHM)</legend>
@@ -130,73 +83,56 @@
 			</ul>
 		</div>
 	</div>
+	<div ng-show="document.targetGroups">
+		<label>Target group(s)/beneficiary(ies)</label>
 
-	<div ng-show="document.absSubjects || document.absKeyAreas">
+		<ul class="km-value">
+			<li ng-repeat="group in document.targetGroups">{{group | term:locale}}</li>
+		</ul>
+	</div>
+	<div ng-show="document.expertiseLevel">
+		<label>Level of the content or   level of knowledge/expertise of the audience for which the resource is intended</label>
+
+		<div class="km-value km-pre">{{document.expertiseLevel | term:locale}}</div>
+	</div>
+
+	<div ng-show="document.nagoya.subjects || document.nagoya.keyAreas || document.aichiTargets">
 		<legend>Access and Benefit Sharing Clearing-House (ABS-CH)</legend>
 
-		<div ng-show="document.absSubjects">
+		<div ng-show="document.nagoya.subjects">
 
-			<label>Thematic areas(s)</label>
+			<label>ABS thematic areas(s)</label>
 			<ul class="km-value">
-				<li ng-repeat="term in document.absSubjects">{{term | term:locale}}</li>
+				<li ng-repeat="term in document.nagoya.subjects">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
-		<div ng-show="document.absKeyAreas">
+		<div ng-show="document.nagoya.keyAreas">
 
 			<label>Key areas and strategic measures for capacity-building and development</label>
 			<ul class="km-value">
-				<li ng-repeat="term in document.absKeyAreas">{{term | term:locale}}</li>
+				<li ng-repeat="term in document.nagoya.keyAreas">{{term | term:locale}}</li>
+			</ul>
+		</div>
+		<div ng-show="document.aichiTargets">
+			<label>Related Aichi target(s)</label>
+			<ul class="km-value">
+				<li ng-repeat="term in document.aichiTargets">{{term | term:locale}}</li>
 			</ul>
 		</div>
 	</div>
 
-	<div ng-show="document.bchSubjects ||
-		document.bchRaSubjects || document.bchRaOrganisms ||
-		document.bchRaGenes || document.bchRaLmo">
+	<div ng-show="document.biosafety.subjects">
 
-		<legend>Biosafety Clearing-House (BCH)</legend>
+		<legend>Keywords related to Biosafety</legend>
 
-		<div ng-show="document.bchSubjects">
-			<label>Thematic areas(s)</label>
+		<div ng-show="document.biosafety.subjects">
+			<label>Biosafety thematic areas(s)</label>
 			<ul class="km-value">
-				<li ng-repeat="term in document.bchSubjects">{{term | term:locale}}</li>
+				<li ng-repeat="term in document.biosafety.subjects">{{term | term:locale}}</li>
 			</ul>
 		</div>
 
-
-		<div ng-show="document.bchRaSubjects || document.bchRaOrganisms ||
-			document.bchRaGenes || document.bchRaLmos">
-
-			<legend>Background material to the “Guidance on risk assessment of living modified organisms” </legend>
-
-			<label>Relevant section(s) of the “Guidance” background material</label>
-			<ul class="km-value">
-				<li ng-repeat="term in document.bchRaSubjects">{{term | term:locale}}</li>
-			</ul>
-
-			<div ng-show="document.bchRaOrganisms">
-				<label>Organism(s) identification</label>
-				<div class="km-value" ng-model="document.bchRaOrganisms" loader="">
-					TODO: {{document.bchRaOrganisms}}
-				</div>
-			</div>
-
-			<div ng-show="document.bchRaGenes">
-				<label>Gene(s) identification</label>
-				<div class="km-value" ng-model="document.bchRaGenes" loader="">
-					TODO: {{document.bchRaGenes}}
-				</div>
-			</div>
-
-			<div ng-show="document.bchRaLmos">
-				<label>LMO(s) identification</label>
-				<div class="km-value" ng-model="document.bchRaLmos" loader="">
-					TODO: {{document.bchRaLmos}}
-				</div>
-			</div>
-
-		</div>
 	</div>
 
 	<div ng-show="document.relevantInformation||document.relevantDocuments">

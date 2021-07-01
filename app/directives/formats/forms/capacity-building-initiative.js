@@ -420,8 +420,9 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 					if(($scope.countryRegions.regions||[]).length){
 					countryRegions = _.union(countryRegions, $scope.countryRegions.regions)
 					}
-					document.countryRegions = countryRegions;
-					
+					if(countryRegions.length!=0)	{
+						document.countryRegions = countryRegions;
+					}
 				}
 		
 				if(document.capacityBuildingsType && !document.capacityBuildingsType.isBroaderProjectPart)

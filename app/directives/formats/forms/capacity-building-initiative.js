@@ -303,14 +303,14 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 						$scope.status = "ready";
 						$scope.document = doc;
 						//Set countryRegions
-						console.log(doc);
+						console.log("bbb",doc);
 						if(doc.countryRegions){
 							$q.when($http.get("/api/v2013/thesaurus/domains/countries/terms", {cache: true})).then(function(countries){
 								$scope.countryRegions.countries = _.filter(doc.countryRegions, function(country){
-								return _.find(countries, {identifier:country.identifier});
+								return _.find(countries.data, {identifier:country.identifier});
 							});
 								$scope.countryRegions.regions = _.filter(doc.countryRegions, function(region){
-								return !_.find(countries, {identifier:region.identifier});
+								return !_.find(countries.data, {identifier:region.identifier});
 							});
 							});
 						}
@@ -385,22 +385,22 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 
 				if (!document)
 					return $q.when(true);
-				
-			// if(!document.geographicScope)
-				// 	document.geographicScope = {};
-				// if(!$scope.isGlobalOrRegional())
-				// 	delete document.geographicScope.regions;
-				// if(!$scope.isGlobalOrRegional() && !$scope.isNational())
-				// 	delete document.geographicScope.countries;
-		
-				// if(_.isEmpty(document.geographicScope))
-				// 	document.geographicScope = undefined;
-
-				// 	if(document.geographicScope && document.geographicScope.regionsOrCountries)
-				// 	delete document.geographicScope.regionsOrCountries;
 
 				if(!document.geographicScope)
-				document.geographicScope = {};
+					document.geographicScope = {};
+				if(!$scope.isGlobalOrRegional())
+					delete document.geographicScope.regions;
+				if(!$scope.isGlobalOrRegional() && !$scope.isNational())
+					delete document.geographicScope.countries;
+
+				if(_.isEmpty(document.geographicScope))
+					document.geographicScope = undefined;
+
+					if(document.geographicScope && document.geographicScope.regionsOrCountries)
+					delete document.geographicScope.regionsOrCountries;
+
+				if(!document.geographicScope)
+					document.geographicScope = {};
 
 
 				if(_.isEmpty(document.geographicScope))
@@ -411,20 +411,20 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 					document.geographicScope.customValue = undefined;
 				}
 
-				var countryRegions = []
-				if($scope.countryRegions){
+				// var countryRegions = []
+				// if($scope.countryRegions){
+				//
+				// 	if(($scope.countryRegions.countries||[]).length){
+				// 		countryRegions = $scope.countryRegions.countries;
+				// 	}
+				// 	if(($scope.countryRegions.regions||[]).length){
+				// 		countryRegions = _.union(countryRegions, $scope.countryRegions.regions)
+				// 	}
+				// 	if(countryRegions.length!=0)	{
+				// 		document.countryRegions = countryRegions;
+				// 	}
+				// }
 
-					if(($scope.countryRegions.countries||[]).length){
-					countryRegions = $scope.countryRegions.countries;
-					}
-					if(($scope.countryRegions.regions||[]).length){
-					countryRegions = _.union(countryRegions, $scope.countryRegions.regions)
-					}
-					if(countryRegions.length!=0)	{
-						document.countryRegions = countryRegions;
-					}
-				}
-		
 				if(document.capacityBuildingsType && !document.capacityBuildingsType.isBroaderProjectPart)
 					document.capacityBuildingsType.broaderProjectPart = undefined;
 		
@@ -488,7 +488,21 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 				var oDocument = $scope.document;
 
 				if (clone !== false)
-					oDocument = angular.fromJson(angular.toJson(oDocument));
+				var cr = [];
+				console.log("f",$scope.countryRegions)
+				if($scope.countryRegions){
+
+					if(($scope.countryRegions.countries||[]).length){
+						cr = $scope.countryRegions.countries;
+					}
+					if(($scope.countryRegions.regions||[]).length){
+						cr = _.union(cr, $scope.countryRegions.regions)
+					}
+					if(cr.length>0)	{
+						oDocument.countryRegions = cr;
+					}
+				}
+				oDocument = angular.fromJson(angular.toJson(oDocument));
 
 				return $scope.cleanUp(oDocument).then(function(cleanUpError) {
 					return storage.documents.validate(oDocument).then(

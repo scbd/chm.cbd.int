@@ -36,22 +36,23 @@
 			</ul>
 		</div>
 	</div> -->
-	<div ng-show="countryRegions">
+	<!--showing combine both-->
+	<div ng-show="document.countryRegions">
 		<label>Geographical or political/economic group(s) and/or country(ies)</label>
 		<div class="km-value">
 			<ul  class="list">
-				<li ng-repeat="val in countryRegions" ng-bind="val | term:locale"></li>
+				<li ng-repeat="val in document.countryRegions" ng-bind="val | term:locale"></li>
 			</ul>
 		</div>
 	</div>
-	<div ng-show="document.countryRegions.countries">
-		<label>Countries</label>
-		<div class="km-value" compare-val="Countries">
-			<ul  class="list">
-				<li ng-repeat="val in document.countryRegions.countries" ng-bind="val | term:locale"></li>
-			</ul>
-		</div>
-	</div>
+<!--	<div ng-show="document.countryRegions.countries">-->
+<!--		<label>Countries</label>-->
+<!--		<div class="km-value" compare-val="Countries">-->
+<!--			<ul  class="list">-->
+<!--				<li ng-repeat="val in document.countryRegions.countries" ng-bind="val | term:locale"></li>-->
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</div>-->
 
 	<!-- <div ng-show="document.geographicScope && document.geographicScope.jurisdiction">
 		<label>Jurisdiction</label>
@@ -211,7 +212,7 @@
 		</div>
 	</div>
 
-	
+
 
 	<legend>Information on funding</legend>
 

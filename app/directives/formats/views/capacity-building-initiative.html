@@ -22,9 +22,9 @@
 			<div view-contact-reference ng-model="contact" locale="locale"></div>
 		</div>
 	</div>
-	<div ng-show="document.geographicScope">
+	<div ng-show="geographicScope">
 		<label>Geographic Scope</label>
-		<span class="km-value">{{document.geographicScope | term:locale}} </span>
+		<span class="km-value" ng-bind="geographicScope | term:locale"></span><span ng-show="customValue">(<span ng-bind="customValue | lstring:locale"></span>)</span>
 	</div>
 
 	<!-- <div ng-show="document.geographicScope && (document.geographicScope.regions || document.geographicScope.countries)">

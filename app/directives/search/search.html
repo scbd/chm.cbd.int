@@ -107,6 +107,11 @@
 		<h4 ng-pluralize class="pull-left" style="margin-top:20px;" count="count" when="{'0': 'No record found', '1': '1 record found', 'other': '{{start+1}} to {{stop+1}} of {} records found'}"></h4>
 
 		<ul class="pagination pull-right">
+			<li ng-if="count>0">
+				<a translation-url href>
+					<export class="pull-left" export-data="getExportData(options)"></export>
+				</a>
+			</li>
 			<li ng-class="{disabled: currentPage == 0}">
 				<a translation-url href ng-click="actionSetPage(currentPage-1)">« Prev</a>
 			</li>

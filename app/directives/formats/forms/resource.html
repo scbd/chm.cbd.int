@@ -1,5 +1,5 @@
 ﻿<div>
-	<h1>Virtual Library - Resources   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
+	<h1>Virtual Library Resources (VLR)<i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
 
 	<div class="alert alert-danger" ng-show="hasError()">
 		<strong>An error has occurred...</strong>
@@ -47,6 +47,14 @@
 
 						<div class="row">
 							<div class="col-md-10">
+								<div class="km-control-group" required name="title" caption="Title">
+									<div km-textbox-ml required ng-model="document.title" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-10">
 								<div class="km-control-group" required name="resourceTypes" caption="Type of resource">
 									<div km-select multiple name="resourceTypes" required ng-model="document.resourceTypes" items="options.resourceTypes()"></div>
 								</div>
@@ -55,56 +63,7 @@
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="title" caption="Title">
-									<div km-textbox-ml required ng-model="document.title" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="fileFormat" caption="Format/File type">
-									<div km-select  name="fileFormat" required ng-model="document.fileFormat" items="options.fileFormats()"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" name="formatDetails" caption="Format details">
-									<div km-textbox-ml rows="2" name="formatDetails" ng-model="document.formatDetails" locales="document.header.languages"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="purpose" caption="Please identify the main purpose of the resource">
-									<div km-select multiple  required name="purpose" ng-model="document.purpose" items="options.purposes()"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row" ng-show="IsCapacityBuilding()">
-							<div class="col-md-10">
-								<div class="km-control-group" required="IsCapacityBuilding()" name="targetGroups" caption="Target group(s)/beneficiary(ies)">
-									<div km-term-check name="targetGroups" required="IsCapacityBuilding()" ng-model="document.targetGroups" terms="options.targetGroups()" binding-type="term[]"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row" ng-show="IsCapacityBuilding()">
-							<div class="col-md-10">
-								<div class="km-control-group" name="expertiseLevel" caption="Level of the content or   level of knowledge/expertise of the audience for which the resource is intended">
-									<div km-select name="expertiseLevel" ng-model="document.expertiseLevel" items="options.expertiseLevels()"></div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-10">
-								<div class="km-control-group" required name="authors" caption="Author(s)">
+								<div class="km-control-group" required name="authors" caption="Author name(s)">
 									<div class="help-block">Name of the person who has authored the publication or information resource.</div>
 									<div km-textbox-ml required ng-model="document.authors" rows="2" locales="document.header.languages"></div>
 								</div>
@@ -126,17 +85,16 @@
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="publicationYear" caption="Publication year">
-									<input type="number" class="form-control" style="width:200px" required name="publicationYear" ng-model="document.publicationYear" />
+								<div class="km-control-group" name="publisher" caption="Publisher">
+									<div km-textbox-ml name="publisher" ng-model="document.publisher" locales="document.header.languages"></div>
 								</div>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" name="rights" caption="Rights">
-									<div class="help-block">Information about rights held in and over the resource, such as copyright holder, and availability for reproduction for educational or non-profit purposes.</div>
-									<div km-textbox-ml name="rights" ng-model="document.rights" locales="document.header.languages"></div>
+								<div class="km-control-group" required name="publicationDate" caption="Publication date">
+									<input class="form-control" style="width:200px" required placeholder="06-2021" name="publicationDate" ng-model="document.publicationDate" />
 								</div>
 							</div>
 						</div>
@@ -150,12 +108,25 @@
 							</div>
 						</div>
 
+						<div class="row">
+							<div class="col-md-10">
+								<div class="km-control-group" name="rights" caption="Rights">
+									<div class="help-block">Information about rights held in and over the resource, such as copyright holder, and availability for reproduction for educational or non-profit purposes.</div>
+									<div km-textbox-ml name="rights" ng-model="document.rights" locales="document.header.languages"></div>
+								</div>
+							</div>
+						</div>
+
 						<legend>Access to the resource(s)</legend>
 
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" required name="resourceLinks" caption="Link to the resource(s)">
-									<div class="help-block">Please always attach the relevant document(s) that will be stored in the database for users to download. When resources are available on the Internet, please also provide a link to them.</div>
+									<div class="help-block">
+										Please always attach the relevant document(s) that will be stored in the database for users to download. 
+										When resources are available on the Internet, please also provide a link to them. Please note that attachments are 
+										preferable to links because attachments are permanently accessible whereas links can become broken.
+									</div>
 									<div km-link name="resourceLinks" required ng-model="document.resourceLinks" allow-link="true" allow-file="true" identifier="document.header.identifier"></div>
 								</div>
 							</div>
@@ -182,22 +153,44 @@
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" name="regions" caption="Country(ies), Regional or Economic group(s) related to the resource">
-									<div km-select style="display: inline-block" name="regions" ng-model="document.regions" items="options.regions()" multiple placeholder="Select a country(ies) and/or region(s)..."></div>
+								<div class="km-control-group" name="regions" caption="Country(ies), regional or economic group(s) covered by the resource">
+									<div km-select style="display: inline-block" name="regions" ng-model="document.countryRegions" items="options.regions()" multiple placeholder="Select a country(ies) and/or region(s)..."></div>
+								</div>
+							</div>
+						</div>
+						
+						<legend>Keywords for facilitating searching for information in the clearing-houses</legend>
+
+						<!-- <div class="row">
+							<div class="col-md-10">
+								<div class="km-control-group" name="cbdSubjects" caption="CBD subject areas"> 
+									<div km-select multiple name="cbdSubjects" required ng-model="document.cbdSubjects" items="options.cbdSubjects()"></div>
+								</div>
+							</div>
+						</div> -->
+						
+						<div class="row" ng-show="IsCapacityBuilding()">
+							<div class="col-md-10">
+								<div class="km-control-group" required="IsCapacityBuilding()" name="targetGroups" caption="Target group(s)/beneficiary(ies)">
+									<div km-term-check name="targetGroups" required="IsCapacityBuilding()" ng-model="document.targetGroups" terms="options.targetGroups()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
 
+						<div class="row" ng-show="IsCapacityBuilding()">
+							<div class="col-md-10">
+								<div class="km-control-group" name="expertiseLevel" caption="Level of the content or   level of knowledge/expertise of the audience for which the resource is intended">
+									<div km-select name="expertiseLevel" ng-model="document.expertiseLevel" items="options.expertiseLevels()"></div>
+								</div>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="aichiTargets" caption="Related Aichi target(s)">
-									<div km-term-check name="aichiTargets" required ng-model="document.aichiTargets" terms="options.aichiTargets()" binding-type="term[]"></div>
+								<div class="km-control-group" required name="aichiTargets" caption="Aichi Targets">
+									<div km-select multiple name="aichiTargets" required ng-model="document.aichiTargets" items="options.aichiTargets()"></div>
 								</div>
 							</div>
 						</div>
-
-
-
 						<a translation-url name="#AdditionalInformation"></a>
 						<legend>Additional information</legend>
 
@@ -213,6 +206,9 @@
 						<div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="relevantDocuments" caption="Any other relevant documents">
+									<div class="help-block">Please use this field to provide any other relevant website addresses and/or one or
+									 	more relevant documents that will be stored in the database for users to download.
+									 </div>
 									<div km-link name="relevantDocuments" ng-model="document.relevantDocuments" allow-link="true" allow-file="true" identifier="document.header.identifier" ></div>
 								</div>
 							</div>
@@ -247,117 +243,34 @@
 
 					<div km-tab="absch">
 
-						<legend>Subjects</legend>
+						<legend>Keywords related to Access and Benefit-Sharing</legend>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required="{{IsCapacityBuilding() || IsAbs()}}" name="absSubjects" caption="Thematic area(s)">
-									<div km-term-check required="{{IsCapacityBuilding() || IsAbs()}}" name="absSubjects" ng-model="document.absSubjects" terms="options.absSubjects()" binding-type="term[]"></div>
+								<div class="km-control-group" required="{{IsCapacityBuilding() || IsAbs()}}" name="nagoya.subjects" caption="ABS Thematic Areas">
+									<div km-term-check required="{{IsCapacityBuilding() || IsAbs()}}" name="document.nagoya.subjects" ng-model="document.nagoya.subjects" terms="options.absSubjects()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>
-
-						<div class="row" ng-if="IsCapacityBuilding() || IsAbs()">
+						<!-- BCH has  -->
+						<!-- <div class="row">
 							<div class="col-md-10">
 								<div class="km-control-group" name="absKeyAreas" caption="Key areas and strategic measures for capacity-building and development">
-									<div km-term-check name="absKeyAreas" ng-model="document.absKeyAreas" terms="options.absKeyAreas()" binding-type="term[]"></div>
+									<div km-term-check multiple name="absKeyAreas" ng-model="document.nagoya.keyAreas" terms="options.absKeyAreas()" binding-type="term[]"></div>
 								</div>
 							</div>
-						</div>
+						</div>						 -->
 
 					</div>
 
 					<div km-tab="bch">
 
-						<legend>Subjects</legend>
+						<legend>Keywords related to Biosafety</legend>
 
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group"  name="bchSubjects" caption="Thematic areas(s)">
-									<div km-term-check name="bchSubjects" ng-model="document.bchSubjects" terms="options.bchSubjects()" binding-type="term[]"></div>
-								</div>
-							</div>
-						</div>
-
-
-						<div ng-show="IsBchRa() && disabled">
-							<legend>Background material to the “Guidance on risk assessment of living modified organisms” </legend>
-
-							<div class="row">
-								<div class="col-md-10">
-									<div class="km-control-group" name="bchRaRecommend" caption="Would you like to recommend this document as background material for  the “Guidance on Risk Assessment of Living Modified Organisms”">
-										<div class="help-block">see <a translation-url target="_blank" href="http://bch.cbd.int/onlineconferences/guidance_ra">http://bch.cbd.int/onlineconferences/guidance_ra</a></div>
-										<div class="btn-group">
-											<input type="button" class="btn" ng-class="{ active : document.bchRaRecommend===true , 'btn-info' : document.bchRaRecommend===true  }" ng-click="document.bchRaRecommend=true" value="Yes" />
-											<input type="button" class="btn" ng-class="{ active : document.bchRaRecommend===false, 'btn-info' : document.bchRaRecommend===false }" ng-click="document.bchRaRecommend=false" value="No" />
-										</div>
-									</div>
-								</div>
-
-								<div ng-show="document.bchRaRecommend">
-
-									<div class="row">
-										<div class="col-md-10">
-											<div class="km-control-group" required name="bchRaSubjects" caption="Please indicate to which section(s) of the 'Guidance this background material' is relevant:">
-												<div km-term-check name="bchRaSubjects" required ng-model="document.bchRaSubjects" terms="options.bchRaSubjects()" binding-type="term[]"></div>
-											</div>
-										</div>
-									</div>
-
-									<legend>Information on Organisms or LMOs</legend>
-
-									<div class="row">
-										<div class="col-md-10">
-											<div class="km-control-group" name="bchRaForLmo" caption="Does this resource address one or more specific categories of organisms or genes or LMOs?">
-												<div class="btn-group">
-													<input type="button" class="btn" ng-class="{ active : document.bchRaForLmo===true , 'btn-info' : document.bchRaForLmo===true  }" ng-click="document.bchRaForLmo=true" value="Yes" />
-													<input type="button" class="btn" ng-class="{ active : document.bchRaForLmo===false, 'btn-info' : document.bchRaForLmo===false }" ng-click="document.bchRaForLmo=false" value="No" />
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-md-10">
-											<div class="km-control-group" name="organisms" caption="Organism(s) identification">
-												<div km-reference multiple name="organisms" ng-model="document.organisms" loader="loadRecords(identifier, 'organism')" order-by="sortContacts(reference)">
-													<div>
-														<div>
-															<strong>{{reference.type}}</strong>
-															<div>{{reference.identifier}}</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-md-10">
-												<div class="km-control-group" name="genes" caption="Gene(s) identification">
-													<div km-reference multiple name="genes" ng-model="document.bchRaGenes" loader="loadRecords(identifier, 'dnaSequence')" order-by="sortContacts(reference)">
-														<div>
-															<div><strong>{{reference.type}}</strong></div>
-															<div>{{reference.identifier}}</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											<div class="col-md-10">
-												<div class="km-control-group" name="modifiedOrganisms" caption="LMO(s) identification">
-													<div km-reference multiple name="modifiedOrganisms" ng-model="document.bchRaLmos" loader="loadRecords(identifier, 'modifiedOrganism')" order-by="sortContacts(reference)">
-														<div>
-															<div><strong>{{reference.type}}</strong></div>
-															<div>{{reference.identifier}}</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-
-									</div>
+								<div class="km-control-group"  name="bchSubjects" caption="Biosafety Thematic Areas">
+									<div km-term-check name="bchSubjects" ng-model="document.biosafety.subjects" terms="options.bchSubjects()" binding-type="term[]"></div>
 								</div>
 							</div>
 						</div>

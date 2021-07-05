@@ -19,12 +19,15 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 		{
 
 		},
-		controller	:  ["$scope", "$http","$rootScope", "$q", "$location", "$filter", 'IStorage',
-						 "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , 
-						 "solr", "realm",'ngDialog', 'locale', 'smoothScroll',
-			function ($scope, $http, $rootScope, $q, $location, $filter, storage, navigation, authentication,
-			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale, smoothScroll) {
+		controller	:  ["$scope", "$http","$element", "$q", "$location", "$filter", 'IStorage',
+						 "$timeout", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route" , 
+						 "solr", "realm",'ngDialog', 'locale', 'smoothScroll', '$window',
+			function ($scope, $http, $element, $q, $location, $filter, storage, $timeout, authentication,
+			siteMapUrls, thesaurus, guid, $route, solr, realm, ngDialog, locale, smoothScroll, $window) {
 				
+				var userAgent = $window.navigator.userAgent;
+				var isBot	  = /(Googlebot|HeadlessChrome)/ig.test(userAgent);
+
 				var queryString = $location.search();
 				if(queryString && queryString.print){
 					$scope.pdfMode = true;
@@ -322,6 +325,29 @@ app.directive('viewNationalReport6', ["$q", "IStorage", function ($q, storage) {
 					}
 				};
 				
+				//special case for bots to address mobile view issuses from google index
+				if(isBot){
+					var botTimeCountrer = 0
+					function updateTables(){
+						$timeout(function(){
+							var tables = $element.find('.viewForm table');
+							_.each(tables, function(table){
+								if(/px|pt/.test(table.style.width)){
+									table.style.width = '100%'
+								}
+								if(table.style['margin-left']){
+									table.style['margin-left'] = '0px'
+								}
+							})
+							//run couple more time so that angular can finsh rendering..
+							if(!$scope.isLoadingTargets && !$scope.isLoadingAssessments)
+								botTimeCountrer++;
+							if($scope.isLoadingTargets||$scope.isLoadingAssessments|| botTimeCountrer<5)
+								updateTables()
+						}, 1000)
+					}
+					updateTables()
+				}
 		}]
 	};
 }]);

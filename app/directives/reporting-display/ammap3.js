@@ -21,10 +21,16 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         $scope.legendTitle = "All Reporting to the CBD";
         $scope.leggends = {
           aichiTarget: [{
-            id: 0,
-            title: 'No Data',
+            id: -1,
+            title: 'Not Reported',
             visible: true,
             color: '#dddddd'
+          },
+          {
+            id: 0,
+            title: 'Unknown',
+            visible: true,
+            color: '#eee'
           }, {
             id: 1,
             title: 'Moving Away',
@@ -141,18 +147,6 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           });
         });
 
-        if ($scope.debug) {
-          $scope.map.addListener("click", function(event) {
-            var info = event.chart.getDevInfo();
-            $timeout(function() {
-              console.log({
-                "latitude": info.latitude,
-                "longitude": info.longitude
-              });
-            });
-          });
-        }
-
         //=======================================================================
         //
         //=======================================================================
@@ -224,11 +218,27 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
           });
         } //$scope.legendHide
 
+        function averageAssessmentProgress(docs){
+          if(docs.length == 1)
+            return progressToNumber(docs[0].progress_EN_t);
+
+          var progressCount = { 0:0,1:0,2:0,3:0,4:0,5:0 }
+          _.each(docs, function(d){
+            var num = progressToNumber(d.progress_EN_t);
+            progressCount[num]++;
+          });
+          var count = _.reduce(progressCount, function(count, n, k){
+                        return count += (n * (parseInt(k)+1));
+                      }, 0);
+
+          return Math.round(count/docs.length);
+
+        }
         //=======================================================================
         //
         //=======================================================================
         function progressToNumber(progress) {
-
+                      
           switch (progress.trim()) {
             case "On track to exceed target":
               return 5;
@@ -240,6 +250,8 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
               return 2;
             case "Moving away from target":
               return 1;
+            case "Unknown":
+                return 0;
           }
         } //progressToNumber(progress)
 
@@ -339,9 +351,10 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         //
         //=======================================================================
         function aichiMap(country, schema, schemaName) {
-          var doc = schema[0];
-          changeAreaColor(country.identifier, progressToColor(progressToNumber(doc.progress_EN_t)));
-          buildProgressBaloon(country, progressToNumber(doc.progress_EN_t), doc.nationalTarget_EN_t);
+         
+          averageAssessmentProgress(schema);
+          changeAreaColor(country.identifier, progressToColor(averageAssessmentProgress(schema)));
+          buildProgressBaloon(country, averageAssessmentProgress(schema));
           legendTitle(country, schema, schemaName);
           restLegend($scope.leggends.aichiTarget);
         } // aichiMap
@@ -434,12 +447,13 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         // //=======================================================================
         // // c
         // //=======================================================================
-        function buildProgressBaloon(country, progress, target) {
+        function buildProgressBaloon(country, progress) {
 
           var area = getMapObject(country.identifier);
           area.balloonText = "<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:medium; white-space: nowrap;'><i class='flag-icon flag-icon-" + country.identifier + " ng-if='country.isEUR'></i>&nbsp;";
           var euImg = "<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>&nbsp;";
-          var balloonText2 = area.title + "</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='" + getProgressIcon(progress) + "' >" + getProgressText(progress, target) + "</div> </div>";
+          var balloonText2 = area.title + "</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='" + getProgressIcon(progress) + "' >" + getProgressText(progress) + "</div> </div>"
+
           if (country.isEUR)
             area.balloonText += euImg;
           area.balloonText += balloonText2;
@@ -528,15 +542,15 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
 
           switch (progress) {
             case 1:
-              return 'Moving away from ' + aichiTargetReadable(target) + ' (things are getting worse rather than better).';
+              return 'Moving away from target' + ' (things are getting worse rather than better).';
             case 2:
-              return 'No significant overall progress towards ' + aichiTargetReadable(target) + ' (overall, we are neither moving towards the ' + aichiTargetReadable(target) + ' nor moving away from it).';
+              return 'No significant overall progress towards target' + ' (overall, we are neither moving towards the target nor moving away from it).';
             case 3:
-              return 'Progress towards ' + aichiTargetReadable(target) + ' but at an insufficient rate (unless we increase our efforts the ' + aichiTargetReadable(target) + ' will not be met by its deadline).';
+              return 'Progress towards target' + ' but at an insufficient rate (unless we increase our efforts the target will not be met by its deadline).';
             case 4:
-              return 'On track to achieve ' + aichiTargetReadable(target) + ' (if we continue on our current trajectory we expect to achieve the ' + aichiTargetReadable(target) + ' by 2020).';
+              return 'On track to achieve target' + ' (if we continue on our current trajectory we expect to achieve the target by 2020).';
             case 5:
-              return 'On track to exceed ' + aichiTargetReadable(target) + ' (we expect to achieve the ' + aichiTargetReadable(target) + ' before its deadline).';
+              return 'On track to exceed target (we expect to achieve the target before its deadline).';
           }
         } //getProgressText(progress, target)
 

@@ -56,7 +56,13 @@ require.config({
       'pdf-object'                 : 'libs/pdfobject/pdfobject',
       'rangy-selectionsave'       : 'libs/rangy/rangy-selectionsaverestore.min',
       'textAngularSetup'          : 'libs/textAngular/dist/textAngularSetup',
-      'textAngular'               : 'libs/textAngular/dist/textAngular.min'
+      'textAngular'               : 'libs/textAngular/dist/textAngular.min',
+      'ngMeta'          : cdnHost + 'ng-meta@1.0.3/dist/ngMeta.min',
+      'tableexport'     : cdnHost + 'tableexport@4.0.10/dist/js/tableexport',
+      'blobjs'          : cdnHost + 'blobjs@1.1.1/Blob.min',
+      'file-saverjs'    : cdnHost + 'file-saverjs@1.3.6/FileSaver.min',
+      'xlsx'            : cdnHost + 'xlsx@0.13.4/dist/xlsx',
+      'jszip'           : cdnHost + 'xlsx@0.13.4/dist/jszip',  
     },
     shim: {
       'libs/angular/angular.min'     : { deps: ['jquery'] },
@@ -95,6 +101,8 @@ require.config({
       'textAngularSetup'         : { 'deps': ['angular']},
       'textAngular'              : { 'deps': ['angular', 'textAngularSetup']},
       'ngInfiniteScroll'         : { 'deps': ['angular']},
+      'ngMeta'                   : { 'deps': ['angular']},
+      'xlsx'                     : { 'deps': ['jszip'],'exports': 'XLSX'},
 
     },
     packages: [

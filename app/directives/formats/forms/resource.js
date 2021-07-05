@@ -29,7 +29,7 @@ app.directive('editResource', ['$http',"$rootScope", "Enumerable", "$filter", "$
 																	   Enumerable.From($filter('orderBy')(o[1].data, 'name'))).ToArray();
 														   }); },
 
-			   resourceTypes   : function() { return $http.get("/api/v2013/thesaurus/domains/7E688641-F642-4C46-A024-70ED76D3DF40/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data); }); },
+			   resourceTypes   : function() { return $http.get("/api/v2013/thesaurus/domains/A762DF7E-B8D1-40D6-9DAC-D25E48C65528/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data); }); },
 			   fileFormats 	   : function() { return $http.get("/api/v2013/thesaurus/domains/D2D97AB3-4D20-41D4-8CBE-B21C33924823/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data); }); },
 			   purposes 	   : function() { return $http.get("/api/v2013/thesaurus/domains/E712C9CD-437E-454F-BA72-E7D20E4C28ED/terms", { cache: true }).then(function(o){ return thesaurus.buildTree(o.data); }); },
 			   targetGroups    : function() { return $http.get("/api/v2013/thesaurus/domains/AFB155C4-93A6-402C-B812-CFC7488ED651/terms", { cache: true }).then(function(o){ return o.data; }); },

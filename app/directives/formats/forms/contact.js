@@ -2,7 +2,7 @@ define(['text!./contact.html', 'app', 'angular', 'authentication', '../views/con
 
 
 angular.module('kmApp') // lazy
-.directive('editContact', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
+.directive('editContact', ["$http", "$q", "Enumerable", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, Enumerable, $location, $filter, storage, editFormUtility, navigation, siteMapUrls, Thesaurus, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -63,7 +63,7 @@ angular.module('kmApp') // lazy
 					if(!$scope.options) {
 						$scope.options  = {
 							countries         : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
-							organizationTypes : $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return o.data; })
+							organizationTypes : $http.get("/api/v2013/thesaurus/domains/Organization Types/terms", { cache: true }).then(function(o){ return o.data; })
 						};
 					}
 
@@ -203,6 +203,78 @@ angular.module('kmApp') // lazy
 					$scope.error = error;
 			};
 
+		
+			  //============================================================
+					//
+					//============================================================          
+			  function getSingleRecord(identifier){
+				var deferred = $q.defer();
+		
+				storage.documents.get(identifier, { info: "" })
+				  .then(function(r) {
+					return r.data;
+				  }, function(e) {
+					if (e.status == 404) {
+					  storage.drafts.get(identifier, { info: "" })
+						.then(function(r) { deferred.resolve(r.data);},
+							function(e) { deferred.reject (e);});
+					}
+					else {
+					  deferred.reject (e);
+					}
+				  });
+				return deferred.promise;
+			  };
+
+		
+			  //============================================================
+					//
+					//============================================================       
+			  function getAllOrgs(){
+				var params = {
+				  q: "schema_s:contact AND type_s:organization",
+				  rows:10
+				};
+				//console.log('queryyyyyyyyy:'+params);
+				return $q.all([$http.get("/api/v2013/index", { params:params, cache: true })])
+				  .then(function(results) {
+		
+					var qResult = Enumerable.From (normalizeSolrResult(results[0].data.response.docs))
+								.Union(results[1].data.Items, "$.identifier");
+					return qResult.ToArray();
+				  });
+			  };
+			  function solrPropTolString(propertyName, solrDoc) {
+				if (!solrDoc[propertyName + '_t']) return {}
+
+				var langs = ['EN', 'AR', 'ES', 'FR', 'RU', 'ZH']
+				var lString = {}
+
+				for (var i = 0; i < langs.length; i++) {
+					lString[langs[i].toLowerCase()] = solrDoc[propertyName + '_' + langs[i] + '_t']
+				}
+				return lString
+				};
+			  function normalizeSolrResult(data){
+				var normalData=[]
+				for (var i = 0; i < data.length; i++) {
+				  normalData[i] ={}
+				  normalData[i].identifier = data[i].identifier_s
+				  normalData[i].title = solrPropTolString('title',data[i])
+				}
+				return normalData
+			  };
+
+			  
+
+
+			  $scope.loadOrgs = function(identifier) {
+		
+				if (identifier) 
+					return getSingleRecord(identifier)
+				
+					return getAllOrgs()
+				};
 			$scope.init();
 		}
 	};

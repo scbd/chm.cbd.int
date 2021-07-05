@@ -79,6 +79,10 @@ define(['app', 'lodash', 'text!views/index.html', 'text!views/database/index.htm
             when('/submit/marineEbsa/:uid',                              { templateUrl: 'views/management/edit/marine-ebsa.html',                label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/organization/new',                             { templateUrl: 'views/management/edit/organization.html',               label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/organization/:uid',                            { templateUrl: 'views/management/edit/organization.html',               label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            
+            when('/submit/contact/new',                                  { templateUrl: 'views/management/edit/contact.html',               label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            when('/submit/contact/:uid',                                 { templateUrl: 'views/management/edit/contact.html',               label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
+            
             when('/submit/resource/new',                                 { templateUrl: 'views/management/edit/resource.html',                   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
             when('/submit/resource/:uid',                                { templateUrl: 'views/management/edit/resource.html',                   label: 'Form',                  resolveController: true, resolveUser: true, resolve : { securized : securize() } }).
 

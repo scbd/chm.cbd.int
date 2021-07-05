@@ -27,15 +27,6 @@
 		<span class="km-value" ng-bind="geographicScope | term:locale"></span><span ng-show="customValue">(<span ng-bind="customValue | lstring:locale"></span>)</span>
 	</div>
 
-	<!-- <div ng-show="document.geographicScope && (document.geographicScope.regions || document.geographicScope.countries)">
-		<label>Geographical or political/economic group(s) and/or country(ies)</label>
-		<div class="km-value">
-			<ul  class="list" ng-show="document.geographicScope.regions || document.geographicScope.countries">
-				<li ng-repeat="term in document.geographicScope.regions">{{term | term:locale}} </li>
-				<li ng-repeat="term in document.geographicScope.countries">{{term | term:locale}} </li>
-			</ul>
-		</div>
-	</div> -->
 	<!--showing combine both-->
 	<div ng-show="document.countryRegions">
 		<label>Geographical or political/economic group(s) and/or country(ies)</label>
@@ -45,24 +36,6 @@
 			</ul>
 		</div>
 	</div>
-<!--	<div ng-show="document.countryRegions.countries">-->
-<!--		<label>Countries</label>-->
-<!--		<div class="km-value" compare-val="Countries">-->
-<!--			<ul  class="list">-->
-<!--				<li ng-repeat="val in document.countryRegions.countries" ng-bind="val | term:locale"></li>-->
-<!--			</ul>-->
-<!--		</div>-->
-<!--	</div>-->
-
-	<!-- <div ng-show="document.geographicScope && document.geographicScope.jurisdiction">
-		<label>Jurisdiction</label>
-		<span class="km-value km-pre">{{document.geographicScope.jurisdiction | lstring:locale}} </span>
-	</div>
-
-	<div ng-show="document.geographicScope && document.geographicScope.community">
-		<label>Community</label>
-		<span class="km-value km-pre">{{document.geographicScope.community | lstring:locale}} </span>
-	</div> -->
 
 	<div ng-show="document.status">
 		<label>Status of the document</label>

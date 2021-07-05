@@ -76,7 +76,7 @@
 							<div class="col-md-10">
 								<div class="km-control-group" required name="contacts" caption="Contact person">
 									<!-- contact is not loading , for testing resource is taken -->
-									<div km-reference name="contacts" ng-model="document.contacts" add-caption="Add an contacts..." loader="loadRecords(identifier, 'contact')">
+									<div km-reference multiple name="contacts" ng-model="document.contacts" add-caption="Add an contacts..." loader="loadRecords(identifier, 'contact')">
 										<div>
 											<div><strong>{{reference.title | lstring}}</strong></div>
 											<div>{{reference.summary | lstring}}</div>

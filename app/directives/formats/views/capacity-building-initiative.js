@@ -1,4 +1,4 @@
-define(['app', 'angular', 'text!./capacity-building-initiative.html', './organization-reference', 'utilities/km-storage', 'lodash'], function(app, angular, template, _){
+define(['app', 'angular', 'text!./capacity-building-initiative.html', './organization-reference', 'utilities/km-storage', 'lodash','directives/forms/km-value-ml'], function(app, angular, template, _){
 
 	app.directive('viewCapacityBuildingInitiative', ["IStorage", "$http", "Enumerable", "$filter", "$q", function (storage, $http, Enumerable, $filter, $q) {
 		return {
@@ -108,6 +108,21 @@ define(['app', 'angular', 'text!./capacity-building-initiative.html', './organiz
 					});
 				});
 
+				$scope.$watch("document.geographicScope", function(newVal)
+				{
+					if(newVal == undefined || newVal == null){ $scope.geographicScope = undefined;}
+					else {
+						$scope.geographicScope = Object.keys( newVal ).map( v => ({ [v] : newVal[v] }) )[0];
+					}
+				});
+
+				$scope.$watch("document.geographicScope.customValue", function(newVal)
+				{
+					if(newVal == undefined || newVal == null){ $scope.customValue = undefined;}
+					else {
+						$scope.customValue = Object.keys( newVal ).map( v => ({ [v] : newVal[v] }) )[0];
+					}
+				});
 				//============================================================
 				//
 				//============================================================

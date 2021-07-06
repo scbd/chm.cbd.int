@@ -82,12 +82,15 @@
 
 					</div>
 				
-					<div class="km-control-group" required name="contactOrganization" caption="Organization">
-						<!-- ToDo: contact is not loading -->
-						<div km-reference multiple name="contactOrganization" ng-model="document.contactOrganization" add-caption="Add contact organization..." loader="loadOrgs(identifier)">
-							<div>
-								<div><strong>{{reference.title | lstring}}</strong></div>
-								<div>{{reference.summary | lstring}}</div>
+					<div class="row">
+						<div class="col-md-10">
+							<div class="km-control-group" name="contactOrganization" caption="Organization">
+								<div km-reference multiple name="contactOrganization" ng-model="document.contactOrganization" loader="loadContactOrgs(identifier, 'organization')" order-by="sortContacts(reference)">
+										<div>
+											<div><strong>{{reference.title | lstring}}</strong></div>
+											<div>{{reference.summary | lstring}}</div>
+										</div>
+								</div>
 							</div>
 						</div>
 					</div>

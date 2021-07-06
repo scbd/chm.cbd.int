@@ -2,7 +2,7 @@ define(['text!./contact.html', 'app', 'angular', 'authentication', '../views/con
 
 
 angular.module('kmApp') // lazy
-.directive('editContact', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
+.directive('editContact', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "siteMapUrls", "guid", "$route", function ($http, $q,  $location, $filter, storage, editFormUtility, navigation, siteMapUrls, guid, $route) {
 	return {
 		restrict   : 'E',
 		template   : template,
@@ -63,7 +63,7 @@ angular.module('kmApp') // lazy
 					if(!$scope.options) {
 						$scope.options  = {
 							countries         : $http.get("/api/v2013/thesaurus/domains/countries/terms",            { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }),
-							organizationTypes : $http.get("/api/v2013/thesaurus/domains/Organization%20Types/terms", { cache: true }).then(function(o){ return o.data; })
+							organizationTypes : $http.get("/api/v2013/thesaurus/domains/Organization Types/terms", { cache: true }).then(function(o){ return o.data; })
 						};
 					}
 
@@ -202,6 +202,22 @@ angular.module('kmApp') // lazy
 				else
 					$scope.error = error;
 			};
+
+		
+			  //============================================================
+					//
+					//============================================================ 
+					
+					$scope.loadContactOrgs = function(identifier, type) {
+
+						if (identifier) //lookup single record
+							return storage.documents.get(identifier, { info: "" })
+													.then(function(res) { return res.data; });
+		
+						//Load all record of specified schema;
+						return storage.documents.query("schema_s:contact AND type_s:"+type+"", null, { cache: true })
+												.then(function(res) { return res.data.Items; });
+					};
 
 			$scope.init();
 		}

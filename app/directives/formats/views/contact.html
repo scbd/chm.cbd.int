@@ -1,5 +1,5 @@
 ﻿<div class="viewForm">
-	<div>
+	<div ng-show="document.type">
 		<label>Type</label>
 		<div class="km-value">				
 			<span ng-bind="document.type | lstring:locale"></span>
@@ -16,7 +16,7 @@
 						</div>
 				</div>
 			</div> -->
-		<div>
+		<div ng-show="document.organization">
 			<label>Name</label>
 			<div class="km-value">
 				{{document.organization | lstring:locale}} <i ng-show="document.organizationAcronym">({{document.organizationAcronym | lstring:locale}})</i>
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 
-	   <div>
+	   <div ng-show="document.prefix">
 		   <label>Name</label>
 		   <div class="km-value">
 			   {{document.prefix | lstring:locale}} {{document.firstName}} {{document.middleName}} {{document.lastName}}

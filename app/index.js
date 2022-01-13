@@ -64,22 +64,23 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
             if (!user)
                 return;
             
-            require(["https://www.cbd.int/app/js/slaask.js"], function(_slaask) {
+            require(["https://cdn.slaask.com/chat.js"], function(_slaask) {
+                window._slaask = window._slaask || _slaask;
 
                 if (user.isAuthenticated) {
-                    _slaask.identify(user.name, {
+                    window._slaask.identify(user.name, {
                         'user-id' : user.userID,
                         'name' : user.name,
                         'email' : user.email,
                     });
 
-                    if(_slaask.initialized) {
-                        _slaask.slaaskSendUserInfos();
+                    if(window._slaask.initialized) {
+                        window._slaask.slaaskSendUserInfos();
                     }
                 }
 
-                if(!_slaask.initialized) {
-                    _slaask.init('ae83e21f01860758210a799872e12ac4');
+                if(!window._slaask.initialized) {
+                    window._slaask.init('ae83e21f01860758210a799872e12ac4');
                 }
             });
         }, 1000));

@@ -30,7 +30,7 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             id: 0,
             title: 'Unknown',
             visible: true,
-            color: '#eee'
+            color: '#908d8d'
           }, {
             id: 1,
             title: 'Moving Away',
@@ -228,10 +228,12 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
             progressCount[num]++;
           });
           var count = _.reduce(progressCount, function(count, n, k){
-                        return count += (n * (parseInt(k)+1));
+                        return count += (n * (parseInt(k)));
                       }, 0);
-
-          return Math.round(count/docs.length);
+          var validDocs = _.filter(docs, function(doc){
+            return !_.includes(["Unknown"], doc.progress_EN_t)
+          });
+          return Math.round(count/validDocs.length);
 
         }
         //=======================================================================
@@ -450,9 +452,12 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         function buildProgressBaloon(country, progress) {
 
           var area = getMapObject(country.identifier);
+          var progressIcon = getProgressIcon(progress);
           area.balloonText = "<div class='panel panel-default' ><div class='panel-heading' style='font-weight:bold; font-size:medium; white-space: nowrap;'><i class='flag-icon flag-icon-" + country.identifier + " ng-if='country.isEUR'></i>&nbsp;";
           var euImg = "<img src='app/images/flags/Flag_of_Europe.svg' style='width:25px;hight:21px;' ng-if='country.isEUR'></img>&nbsp;";
-          var balloonText2 = area.title + "</div> <div class='panel-body' style='text-align:left;'><img style='float:right;width:60px;hight:60px;' src='" + getProgressIcon(progress) + "' >" + getProgressText(progress) + "</div> </div>"
+          var progressImage = progressIcon ? ("<img style='float:right;width:60px;hight:60px;' src='" + progressIcon + "' />")  : ''
+          var balloonText2 = area.title + "</div> <div class='panel-body' style='text-align:left;'>" + 
+            progressImage + getProgressText(progress) + "</div> </div>"
 
           if (country.isEUR)
             area.balloonText += euImg;
@@ -541,6 +546,10 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
         function getProgressText(progress, target) {
 
           switch (progress) {
+            case progress < 0 :
+                return "Not reported";
+            case 0:
+                return "Unknown";
             case 1:
               return 'Moving away from target' + ' (things are getting worse rather than better).';
             case 2:
@@ -596,6 +605,10 @@ define(['text!./ammap3.html', 'app', 'lodash', 'ammap3', 'ammap3WorldHigh', 'amm
               return '#ee1d23';
             case 1:
               return '#6c1c67';
+            case 0:
+              return '#908d8d'
+            case -1:
+              return '#dddddd'
           }
         } //readQueryString
 

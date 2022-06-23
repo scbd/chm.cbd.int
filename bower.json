@@ -8,7 +8,7 @@
     "angular-aria": "1.5.0",
     "angular-chart.js": "1.0.3",
     "angular-cookies": "1.5.0",
-    "angular-flex": "git://github.com/scbd/angular-flex.git#2.1.0",
+    "angular-flex": "https://github.com/scbd/angular-flex.git#2.2.0",
     "angular-material": "1.0.1",
     "angular-route": "1.5.0",
     "angular-sanitize": "1.5.0",

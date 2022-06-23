@@ -31,10 +31,9 @@
 							<label>Government</label>
 							<div class="km-value km-pre">{{document.government | term:lstring:locale}}</div>
 						</div>
-						<div ng-if="document.organization">
-							<label>Organization</label>
-							<div class="km-value">
-								
+						<div ng-if="document.organizations">
+							<label>Organization(s)</label>							 
+							<div class="km-value" ng-repeat="organization in organizations" style="margin-bottom: 5px">
 								<strong>{{organization.title_s | lstring:locale}} 
 									<i ng-show="organization.acronym_s">({{organization.acronym_s | lstring:locale}})</i>
 								</strong>
@@ -44,6 +43,7 @@
 								<div ng-if="organization.emails_ss" ng-repeat="email in organization.emails_ss" ng-bind="email"></div>
 								<div ng-if="organization.websites_ss" ng-repeat="website in organization.websites_ss" ng-bind="website"></div>
 								<div ng-if="organization.phones_ss" ng-repeat="phone in organization.phones_ss" ng-bind="phone"></div>
+								
 							</div>
 						</div>
 					</div>

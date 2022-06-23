@@ -16,26 +16,26 @@ function(app, angular, template, _){
 			link : function ($scope)
 			{
 				
-				$scope.organization  = [];
+				$scope.organizations  = [];
 				$scope.notifications  = [];
 				//====================
 				//
 				//====================
-				$scope.$watch("document.organization", function(newVal, oldVal)
+				$scope.$watch("document.organizations", function(newVal, oldVal)
 				{
 					if(newVal){
-						if(~($scope.organization||[]).length || newVal!=oldVal){
+						if(~($scope.organizations||[]).length || newVal!=oldVal){
 							var query = {
-								q: "identifier_s:" + newVal.identifier,
+								q: "identifier_s:(" + _.map(newVal, 'identifier').join(' ') + ')',
 								fl: "identifier_s,title_s,acronym_s,organizationType_s,address_s,emails_ss,websites_ss,phones_ss,city_s"
 							};
 							loadRecords(query).then(function(data){
-							$scope.organization  = _.head(data);
+								$scope.organizations  = data;
 							});
 						}
 					}
 					else
-						$scope.organization  = [];
+						$scope.organizations  = [];
 				});
 				//====================
 				//

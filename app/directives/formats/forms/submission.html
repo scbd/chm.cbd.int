@@ -84,7 +84,7 @@
 								<div class="row bottom-spacing">
 									<div class="col-md-12">
 										<div class="km-control-group" required name="government" caption="Country">
-											<div km-select ng-disabled="document.organization" required
+											<div km-select ng-disabled="document.organizations" required
 												name="government" ng-model="document.government"
 												placeholder="Please select country" watch-items
 												items="options.countries"></div>
@@ -92,9 +92,9 @@
 										<div>
 											<strong style="padding-left:50px;">OR</strong>
 										</div>
-										<div class="km-control-group"  required name="organization" caption="Organization(s)">											
-											<div km-reference ng-disabled="document.government" 
-												name="organization" ng-model="document.organization" add-caption="Add an organization..." 
+										<div class="km-control-group"  required name="organizations" caption="Organization(s)">											
+											<div km-reference ng-disabled="document.government" multiple
+												name="organizations" ng-model="document.organizations" add-caption="Add organization(s)..." 
 												loader="loadSchemaRecords(identifier, 'organization')">
 												<div>
 													<div><strong>{{reference.title | lstring}}</strong></div>
@@ -129,7 +129,7 @@
 									<div class="col-md-12">
 										<div class="km-control-group" required name="notifications" caption="Notifications">
 											<div km-reference multiple ng-disabled="document.records" 
-												name="organization" ng-model="document.notifications" add-caption="select notifications..." 
+												name="notifications" ng-model="document.notifications" add-caption="select notifications..." 
 												loader="loadNotifications(identifier)">
 												<div>
 													<div><strong>{{reference.title | lstring}}</strong></div>

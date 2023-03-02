@@ -1,20 +1,41 @@
-﻿var leafletDirective = angular.module("leaflet-directive", []);
+﻿
+const { parseInt } = require("lodash");
+
+var leafletDirective = angular.module("leaflet-directive", []);
+
+var template = 
+'<div>'+
+' <div ref="map" style="height:400px;margin-bottom:10px" class="angular-leaflet-map"></div>'+
+' <div class="small">'+
+'     <p>'+
+'       <strong>DISCLAIMER:</strong> '+
+'       The designations employed and the presentation of material in this map do not imply the expression of any opinion '+
+'       whatsoever on the part of the Secretariat concerning the legal status of any country, '+
+'       territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.'+
+'     </p>'+
+'     <p> Final boundary between the Republic of Sudan and the Republic of South Sudan has not yet been determined.</p>'+
+'     <p> * Non-Self Governing Territories</p>'+
+'     <p> ** Dotted line represents approximately the Line of Control in Jammu and Kashmir agreed upon by India and Pakistan. The final status of Jammu and Kashmir has not yet been agreed upon by the parties.​</p>'+
+'     <p> *** A dispute exists between the Governments of Argentina and the United Kingdom of Great Britain and Northern Ireland concerning sovereignty over the Falkland Islands (Malvinas).</p>'+
+' </div>'+
+'</div>';
 
 leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", function ($http, $log, $q, $timeout) {
     return {
-        restrict: "EC",
+        restrict: "E",
         replace: true,
         transclude: true,
         scope: {
             center: "=center",
-            tilelayer: "=tilelayer",
+            tileLayer: "=tileLayer",
+            tileLayerOptions: "=tileLayerOptions",
             markers: "=markers",
             path: "=path",
-            maxZoom: "@maxzoom",
+            maxZoom: "@maxZoom",
             bounds: "=bounds",
             layers: "=layers"
         },
-        template: '<div style="height:400px;margin-bottom:10px" class="angular-leaflet-map"></div>',
+        template: template,
         link: function (scope, element, attrs) {
 
             var opt = {};
@@ -22,23 +43,22 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
             if(attrs.scrollWheelZoom!==undefined)
                 opt.scrollWheelZoom = attrs.scrollWheelZoom=="true" || attrs.scrollWheelZoom=="1";
 
-            var $el = element[0],
+            var $el = element.find('[ref="map"]')[0],
                 map = new L.Map($el, opt);
 
             scope.$watch(function() { return element.is(':visible') }, invalidate)
 
-            function invalidate() {
+            function invalidate(visible) {
 
-                if (!element.is(':visible'))
+                if (!visible)
                     return
 
-                console.log("invalidate");
                 L.Util.requestAnimFrame(map.invalidateSize, map, !1, map._container);
             };
 
-            var maxZoom = 12;
+            var maxZoom = 6;//12;
             if (scope.maxZoom) {
-                maxZoom = scope.maxZoom;
+                maxZoom = parseInt(scope.maxZoom);
             }
 
             var point = new L.LatLng(0, 0);
@@ -46,8 +66,16 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
             map.locate({ maxZoom: maxZoom });
 
             // Set tile layer
-            var tilelayer = scope.tilelayer || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-            L.tileLayer(tilelayer, { maxZoom: maxZoom }).addTo(map);
+            var tileLayer        = scope.tileLayer || 'https://geoservices.un.org/arcgis/rest/services/ClearMap_WebTopo/MapServer/tile/{z}/{y}/{x}';
+            var tileLayerOptions = scope.tileLayerOptions || { attribution: '<a target="_blank" href="https://www.un.org/geospatial">Geospatial Information Section of the United Nations</a>'};
+
+            // Google
+            // maxZoom = 12
+            // tileLayer = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+            // tileLayerOptions= { subdomains:['mt0','mt1','mt2','mt3'], attribution: 'Copyright Google Maps' }
+
+            console.log(tileLayer, tileLayerOptions)
+            L.tileLayer(tileLayer, angular.extend({ maxZoom: maxZoom }, tileLayerOptions||{})).addTo(map);
 
             // Manage map bounds
             if (attrs.bounds) {
@@ -88,13 +116,15 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
                 scope.$watch("center.lng", function (newValue, oldValue) {
                     if (dragging_map || ((newValue || null) === null))
                         return;
-                    map.setView(new L.LatLng(map.getCenter().lat, newValue), map.getZoom());
+
+                    map.setView(new L.LatLng(map.getCenter().lat, newValue), map.getZoom(), {animate:false});
                 });
 
                 scope.$watch("center.lat", function (newValue, oldValue) {
                     if (dragging_map || ((newValue || null) === null))
                         return;
-                    map.setView(new L.LatLng(newValue, map.getCenter().lng), map.getZoom());
+
+                    map.setView(new L.LatLng(newValue, map.getCenter().lng), map.getZoom(), {animate:false});
                 });
 
                 // Manage zoom events

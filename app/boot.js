@@ -17,7 +17,7 @@ require.config({
       'lodash'              : 'libs/lodash/lodash.min',
       'URIjs'               : 'libs/uri.js/src',
       'linqjs'              : 'libs/linqjs/linq.min',
-      'leaflet'             : 'libs/leaflet/dist/leaflet',
+      'leaflet'             : 'https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet',
       'jquery'              : 'libs/jquery/dist/jquery.min',
       'moment'              : 'libs/moment/moment',
       'leaflet-directive'   : 'js/libs/leaflet/angular-leaflet-directive',

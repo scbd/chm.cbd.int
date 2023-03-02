@@ -525,7 +525,7 @@ legend{
     clear: both;
 }
 
-.km-pre{
+#sixth-national-report-edit .km-pre{
     word-break: break-word;
     /* word-wrap: unset;  */
      white-space: unset;

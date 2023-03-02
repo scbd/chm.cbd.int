@@ -39,9 +39,25 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
+        $scope.loadChart2020 = function (event, Q, keys, country, isTotal=false) {
+            if(isTotal){
+                $scope.getChartTotal2020(Q, keys, country);
+            }
+            else {
+                $scope.getChartData2020(Q, keys, country)
+            }
+
+            $scope.chartOptions.title = $scope.getCountryName(country);
+            angular.element('#hiddenChart').contents().appendTo(event.currentTarget);
+        };
+
+        //============================================================
+        //
+        //============================================================
         $scope.unloadChart = function () {
+
             if(angular.element($document[0].querySelector("a span#chartContainer")).length > 0){
-            	angular.element($document[0].querySelector("span#chartContainer")).detach().appendTo('#hiddenChart');
+                angular.element($document[0].querySelector("span#chartContainer")).detach().appendTo('#hiddenChart');
             }
         };
 
@@ -69,6 +85,37 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
                     $scope.chartData.push({'year': year, 'value':total});
                 });
             }
+        };
+
+        //============================================================
+        //
+        //============================================================
+        $scope.getChartTotal2020 = function (Q, keys) {
+            $scope.chartData = [];
+            var years;
+
+            if(_.includes(keys, 'progressFlows'))      years = $scope.options.progressYears;
+            if(_.includes(keys, 'progressIndicators')) years = $scope.options.progressYears;
+            if(_.includes(keys, 'financialFlows'))     years = $scope.options.progressYearsUpTo2020;
+            if(_.includes(keys, 'contributions'))      years = $scope.options.collectiveActionYears2020;
+
+            _.forEach(years, function (year) {
+
+                var total = 0;
+
+                if(_.includes(keys, 'contributions')){
+                    total = $scope.getTotal(Q, 'contributions', year, 2020);
+                }
+                else{
+                    if(year <  2016){
+                        total = $scope.getTotal(Q, 'progressFlows', year);
+                    }
+                    else {
+                        total = $scope.getTotal(Q, 'financialFlows', year, 2020);
+                    }
+                }
+                $scope.chartData.push({'year': year, 'value':total});
+            });
         };
 
         //============================================================
@@ -134,14 +181,61 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
             }
         };
 
+        //============================================================
+        //
+        //============================================================
+        $scope.getChartData2020 = function (Q, keys, country) {
+            $scope.chartData = [];
+            
+            if(!$scope.records || !$scope.records2020 || !Q || !keys || !country)
+                return;
+                
+            var rec2015 = _.find($scope.records, {government_s: country});
+            var rec2020 = _.find($scope.records2020, {government_s: country});
+
+            if(!rec2015 && !rec2020) return;
+
+            var years;
+
+            if(_.includes(keys, "progressFlows"))      years = $scope.options.progressYears;
+            if(_.includes(keys, "financialFlows"))     years = $scope.options.progressYearsUpTo2020
+            if(_.includes(keys, "progressIndicators")) years = $scope.options.progressYearsUpTo2020
+            if(_.includes(keys, "contributions"))      years = $scope.options.collectiveActionYears2020
+
+            var data = [];
+
+            if(_.includes(keys, "contributions")) {
+                data = rec2020[Q][keys[0]]
+            }
+            else {
+                if(rec2015 && rec2015[Q] && rec2015[Q][keys[0]]){
+                    var rec2015Data = rec2015[Q][keys[0]];
+                }
+                if(rec2020 && rec2020[Q] && rec2020[Q][keys[1]]){
+                    var rec2020Data = rec2020[Q][keys[1]];
+                }
+    
+                data = _.merge(rec2015Data, rec2020Data );
+            }
+
+            _.forEach(years, function(year){
+                var value = 0;
+
+                if(data[year])
+                    value = data[year];
+
+                $scope.chartData.push({'year': year, 'value':value});
+            });
+        }
+
         $scope.title = 'Financial Reporting Framework Analyzer';
         $scope.criteria = {};
         $scope.options = {
             elements: [ { identifier: '1',       name: '1. International financial resource flows'},
                         { identifier: '1.1',     name: '1.1. Amount provided by countries in support of biodiversity in developing countries'},
                         { identifier: '1.1.1',   name: '1.1.1. Baseline information'},
-                        { identifier: '1.1.2',   name: '1.1.2. Monitoring progress in mobilizing international financial flows.'},
-                        { identifier: '1.2',     name: '1.2 Measures taken by countries to encourage the private sector and CSO to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020'},
+                        { identifier: '1.1.2',   name: '1.1.2. Monitoring progress in mobilizing international financial flows'},
+                        { identifier: '1.2',     name: '1.2. Measures taken by countries to encourage the private sector and CSO to provide international support for the implementation of the Strategic Plan for Biodiversity 2011-2020'},
                         { identifier: '2',       name: '2. Inclusion of biodiversity in priorities or plans'},
                         { identifier: '3',       name: '3.  Assessment and/or evaluation of values'},
                         { identifier: '4',       name: '4. Reporting current domestic biodiversity expenditures'},
@@ -154,17 +248,37 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
                         { identifier: '6',       name: '6. National finance plans'},
                         { identifier: '7',       name: '7. Measures taken by countries to encourage the private sector and CSO to provide domestic support for the implementation of the Strategic Plan for Biodiversity 2011-2020'},
                         { identifier: '8',       name: '8. Availability of financial resources for achieving targets'},],
-
-            baselineYears 	  : _.range(2006, 2011),
-            progressYears 	  : _.range(2011, 2016),
-            domesticYears 	  : _.range(2006, 2016),
-            fundingNeedsYears : _.range(2014, 2021),
+                        
+            baselineYears            : _.range(2006, 2011),
+            progressYears            : _.range(2011, 2016),
+            progressYears2020        : _.range(2016, 2021),
+            progressYearsUpTo2020    : _.range(2011, 2021),
+            domesticYears            : _.range(2006, 2016),
+            fundingNeedsYears        : _.range(2014, 2021),
+            collectiveActionYears2020: _.range(2015, 2021),
 
             financialPlans : [{ identifier: 'expectedGap', title: 'Expected funding gap'},
                               { identifier: 'domesticTotal', title: 'Domestic sources'},
                               { identifier: 'internationalTotal', title: 'International sources'},
-                              { identifier: 'remainingGap', title: 'Remaining gap'}]
+                              { identifier: 'remainingGap', title: 'Remaining gap'}],
+
+            docTypes : [ {identifier: 'frf2015', title: 'Reporting on baseline and progress towards 2015'},
+                         {identifier: 'frf2020', title: 'Reporting on progress towards 2020'}]
         };
+
+        $scope.indent = function(elem) {
+            
+            var indentation = "";
+
+            var s = elem.split(".");
+
+            var last = (s[s.length-1]).trim();
+
+            for(var i = 0; i < s.length-1; i++){
+                indentation = indentation + '&nbsp;&nbsp;';
+            }
+            return indentation + last;
+        }
 
         //============================================================
         //
@@ -306,12 +420,26 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getTotal = function (Q, key, year) {
+        $scope.getTotal = function (Q, key, year, docYear = 2015) {
 
-            if(!$scope.records || !Q || !year || !key)
-                return 0;
+            if(!Q || !year || !key) return 0;
 
-            var yearTotals = _.map($scope.records, function (rec) {
+            var docs = [];
+
+            if(docYear == 2015){
+                if(!$scope.records) return 0;
+
+                 docs = $scope.records;
+            }
+
+            if(docYear == 2020){
+
+                if(!$scope.records2020) return 0;
+
+                docs = $scope.records2020;
+            }
+
+            var yearTotals = _.map(docs, function (rec) {
                     if(rec[Q] && rec[Q][key] && rec[Q][key][year])
                         return (rec[Q][key][year]);
                     else
@@ -324,12 +452,26 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getTotal2 = function (Q, key, year, subkey) {
+        $scope.getTotal2 = function (Q, key, year, subkey, docYear = 2015) {
 
-            if(!$scope.records || !Q || !year || !key || !subkey)
+            if(!Q || !year || !key || !subkey)
                 return 0;
 
-            var yearTotals =     _.map($scope.records, function (rec) {
+            var docs = [];
+
+            if(docYear == 2015){
+                if(!$scope.records) return 0;
+
+                docs = $scope.records;
+            }
+
+            if(docYear == 2020){
+                if(!$scope.records2020) return 0;
+
+                docs = $scope.records2020;
+            }
+                         
+            var yearTotals =     _.map(docs, function (rec) {
                     if(rec[Q] && rec[Q][key] && rec[Q][key][year] && rec[Q][key][year][subkey])
                         return (rec[Q][key][year][subkey]);
                     else
@@ -342,12 +484,26 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getAverageTotal = function (Q, key) {
+        $scope.getAverageTotal = function (Q, key, docYear = 2015) {
 
-            if(!$scope.records || !Q || !key)
+            if(!Q || !key)
                 return 0;
 
-            var total =     _.map($scope.records, function (rec) {
+            var docs = [];
+
+            if(docYear == 2015){
+                if(!$scope.records) return 0;
+
+                docs = $scope.records;
+            }
+
+            if(docYear = 2020){
+                if(!$scope.records2020) return 0;
+
+                docs = $scope.records2020;
+            } 
+
+            var total =     _.map(docs, function (rec) {
 
                     if(rec[Q] && rec[Q][key])
 
@@ -362,61 +518,100 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getAggregateTotalCoefficient = function (year) {
+        $scope.getAggregateTotalCoefficient = function (Q, key, year, docYear = 2015) {
 
-                if(!$scope.records || !year) return 0;
+            if(!Q || !key || !year) return 0;
 
-                var Q   = 'Q1';
-                var key = 'progressFlows';
+            var docs = [];
+            var progressYearTotal = 0;
 
-                var progressYearTotal = $scope.getTotal('Q1', 'progressFlows', year) ;
+            if(docYear == 2015)
+            {
+                if(!$scope.records) return 0;
+                docs = $scope.records;
 
-                var pCountries = _.map($scope.records, function (rec) {
+                progressYearTotal = $scope.getTotal(Q, key, year) ;
+            }
 
-                                        if(rec[Q] && rec[Q][key] && rec[Q][key] && rec[Q][key][year])
-                                            if(rec[Q][key][year] > 0)
-                                                return rec.government_s;
-                                    });
+            if(docYear == 2020)
+            {
+                if(!$scope.records) return 0;
+                docs = $scope.records2020;
 
-                var baselineAverageTotal = _.sum(_.map($scope.records, function (rec) {
-                                                if(_.includes(pCountries, rec.government_s) && rec[Q].baselineFlows_average)
-                                                    return rec[Q].baselineFlows_average;
+                progressYearTotal = $scope.getTotal(Q, key, year, 2020) ;
+            }   
 
-                                                })
-                                            );
-                if(baselineAverageTotal>0)
-                    return progressYearTotal/baselineAverageTotal;
+            var pCountries = _.map(docs, function (rec) {
 
-                return 0;
+                                    if(rec[Q] && rec[Q][key] && rec[Q][key] && rec[Q][key][year])
+                                        if(rec[Q][key][year] > 0)
+                                            return rec.government_s;
+                                });
+
+            //  TO_REVIEW for 2020
+            var baselineAverageTotal = _.sum(_.map(docs, function (rec) {
+                                            if(_.includes(pCountries, rec.government_s) && rec[Q].baselineFlows_average)
+                                                return rec[Q].baselineFlows_average;
+
+                                            })
+                                        );
+
+            if(baselineAverageTotal>0)
+                return progressYearTotal/baselineAverageTotal;
+
+            
+            return 0;
+                
         };
 
 
         //============================================================
         //
         //============================================================
-        $scope.getCount = function (Q, key, answer) {
+        $scope.getCount = function (Q, key, answer, year = 2015) {
 
-            if(!$scope.records || !Q || !key || (answer === undefined))
-                return 0;
+            if(!Q || !key || (answer === undefined)) return 0;
 
-            var recs = _.filter($scope.records, function (rec) {
+            var docs = [];
+
+            if(year == 2015) {
+                if(!$scope.records) return 0;
+                docs = $scope.records;
+            }
+            if(year == 2020){
+                if(!$scope.records2020) return 0;
+                docs = $scope.records2020;
+            }
+
+            var recs = _.filter(docs, function (rec) {
 
                             if(rec[Q] && (rec[Q][key] || _.isBoolean(rec[Q][key])))
                                 return rec[Q][key] === answer;
                         });
             return recs.length;
         };
+    
 
         //============================================================
         //
         //============================================================
-        $scope.getCountM = function (Q, key, answers) {
+        $scope.getCountM = function (Q, key, answers, year = 2015) {
 
-            if(!$scope.records || !Q || !key || _.isEmpty(answers))
+            if(!Q || !key || _.isEmpty(answers))
                 return 0;
 
+            var docs = [];
 
-            var recs = _.filter($scope.records, function (rec) {
+            if(year == 2015) {
+                if(!$scope.records) return 0;
+                docs = $scope.records;
+            }
+            if(year == 2020){
+                if(!$scope.records2020) return 0;
+                docs = $scope.records2020;
+            }                
+
+            var recs = _.filter(docs, function (rec) {
                             if(rec[Q] && (rec[Q][key] || _.isBoolean(rec[Q][key])))
                                 return _.includes(answers, rec[Q][key]);
                         });
@@ -426,12 +621,23 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getCountKey = function (Q, key) {
+        $scope.getCountKey = function (Q, key, year = 2015) {
 
-            if(!$scope.records || !Q || !key)
+            if(!Q || !key)
                 return 0;
 
-            var recs = _.filter($scope.records, function (rec) {
+            var docs = [];
+
+            if(year == 2015) {
+                if(!$scope.records) return 0;
+                docs = $scope.records;
+            }
+            if(year == 2020){
+                if(!$scope.records2020) return 0;
+                docs = $scope.records2020;
+            }                 
+
+            var recs = _.filter(docs, function (rec) {
                             if(rec[Q] && rec[Q][key])
                                 return (rec[Q][key]);
                         });
@@ -439,19 +645,61 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
             return recs.length;
         };
 
+        
+
         //============================================================
         //
         //============================================================
-        $scope.getPercentage = function (Q, key, answer) {
+        $scope.getPercentage = function (Q, key, answer, year = 2015) {
 
-            if(!$scope.records || !Q || !key || (answer === undefined))
+            if(!Q || !key || (answer === undefined))
                 return 0;
+            
+                var docs = [];
 
-            var recs = _.filter($scope.records, function (rec) {
+            if(year == 2015) {
+                if(!$scope.records) return 0;
+                docs = $scope.records;
+            }
+            if(year == 2020){
+                if(!$scope.records2020) return 0;
+                docs = $scope.records2020;
+            } 
+            
+            var recs = _.filter(docs, function (rec) {
                             if(rec[Q] && rec[Q][key])
                                 return rec[Q][key] === answer;
                         });
-            return (recs.length/$scope.getCountryCount(Q, key).length)*100;
+            return (recs.length/$scope.getCountryCount(Q, key, year).length)*100;
+        };
+
+        //============================================================
+        //
+        //============================================================
+        $scope.getRecordsWithKey = function (Q, key, year = 2015) {
+
+            if(!Q || !key)
+                return 0;
+
+            var docs = [];
+
+            if(year == 2015) {
+                if(!$scope.records) return 0;
+                docs = $scope.records;
+            }
+            if(year == 2020){
+                if(!$scope.records2020) return 0;
+                docs = $scope.records2020;
+            }                 
+
+            var recs = _.filter(docs, function (rec) {
+                            if(rec[Q] && !_.isEmpty(rec[Q][key]))
+                            {
+                                return rec;
+                            }
+                        });
+
+            return recs;
         };
 
         //============================================================
@@ -482,7 +730,7 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //
         //============================================================
         $scope.isTotalVisible = function () {
-            console.log();
+
             if($scope.records && $scope.records.length < 2)
                 return false;
             else
@@ -497,6 +745,8 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         $scope.estimateRows_show         = true;
         $scope.planRows_show             = true;
 
+        $scope.contributions2020Rows_show    = true;
+
         //============================================================
         //
         //============================================================
@@ -507,11 +757,16 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getComments = function (Q, key, answer) {
+        $scope.getComments = function (year, Q, key, answer) {
 
-            if(!Q && !key) return;
+            if(!year || !Q || !key) return;
 
-            var records = _.filter($scope.records, function (rec) {
+            var docs = [];
+
+            if(year===2015) docs = $scope.records;
+            if(year===2020) docs = $scope.records2020;
+            
+            var records = _.filter(docs, function (rec) {
 
                                 if(rec[Q] && rec[Q][key])
                                     return rec[Q][key] === answer;
@@ -529,11 +784,16 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         //
         //============================================================
-        $scope.getComments2 = function (Q, key) {
+        $scope.getComments2 = function (year, Q, key) {
 
-            if(!Q && !key) return;
+            if(!year || !Q || !key) return;
 
-            var records = _.filter($scope.records, function (rec) {
+            var docs = [];
+
+            if(year===2015) docs = $scope.records;
+            if(year===2020) docs = $scope.records2020;
+            
+            var records = _.filter(docs, function (rec) {
 
                                 if(rec[Q] && rec[Q][key])
                                     return rec[Q][key];
@@ -553,47 +813,131 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
         //============================================================
         var loadComments = function () {
 
-            $scope.comments_Q1_2_some          = $scope.getComments('Q1', 'hasPrivateSectorMeasures', 'some');
-            $scope.comments_Q1_2_comprehensive = $scope.getComments('Q1', 'hasPrivateSectorMeasures', 'comprehensive');
-            $scope.comments_Q2_some            = $scope.getComments('Q2', 'hasNationalBiodiversityInclusion', 'some');
-            $scope.comments_Q2_comprehensive   = $scope.getComments('Q2', 'hasNationalBiodiversityInclusion', 'comprehensive');
-            $scope.comments_Q3_some            = $scope.getComments('Q3', 'hasBiodiversityAssessment', 'some');
-            $scope.comments_Q3_comprehensive   = $scope.getComments('Q3', 'hasBiodiversityAssessment', 'comprehensive');
-            $scope.comments_Q7_some            = $scope.getComments('Q7', 'hasDomesticPrivateSectorMeasures', 'some');
-            $scope.comments_Q7_comprehensive   = $scope.getComments('Q7', 'hasDomesticPrivateSectorMeasures', 'comprehensive');
+            // 2015
+            $scope.comments_Q1_2_some          = $scope.getComments(2015, 'Q1', 'hasPrivateSectorMeasures', 'some');
+            $scope.comments_Q1_2_comprehensive = $scope.getComments(2015, 'Q1', 'hasPrivateSectorMeasures', 'comprehensive');
+            $scope.comments_Q2_some            = $scope.getComments(2015, 'Q2', 'hasNationalBiodiversityInclusion', 'some');
+            $scope.comments_Q2_comprehensive   = $scope.getComments(2015, 'Q2', 'hasNationalBiodiversityInclusion', 'comprehensive');
+            $scope.comments_Q3_some            = $scope.getComments(2015, 'Q3', 'hasBiodiversityAssessment', 'some');
+            $scope.comments_Q3_comprehensive   = $scope.getComments(2015, 'Q3', 'hasBiodiversityAssessment', 'comprehensive');
+
+            $scope.comments_Q4_some            = $scope.getComments(2015, 'Q4', 'domesticCollectiveAction', 'some');
+            $scope.comments_Q4_notnecessary    = $scope.getComments(2015, 'Q4', 'domesticCollectiveAction', 'notnecessary');
+            $scope.comments_Q4_comprehensive   = $scope.getComments(2015, 'Q4', 'domesticCollectiveAction', 'comprehensive');
+
+            $scope.comments_Q7_some            = $scope.getComments(2015, 'Q7', 'hasDomesticPrivateSectorMeasures', 'some');
+            $scope.comments_Q7_comprehensive   = $scope.getComments(2015, 'Q7', 'hasDomesticPrivateSectorMeasures', 'comprehensive');
 
             // getComments2
-            $scope.comments_Q1_methodologicalComments                       = $scope.getComments2('Q1', 'methodologicalComments');
-            $scope.comments_Q4_sourcesAdditionalComments                    = $scope.getComments2('Q4', 'sourcesAdditionalComments');
-            $scope.comments_Q4_domesticCollectiveActionMethodologyComments  = $scope.getComments2('Q4', 'domesticCollectiveActionMethodologyComments');
-            $scope.comments_Q5_fundingNeedsDataAdditionalComments           = $scope.getComments2('Q5', 'fundingNeedsDataAdditionalComments');
+            // 2015
+            $scope.comments_Q1_methodologicalComments                       = $scope.getComments2(2015, 'Q1', 'methodologicalComments');
+            $scope.comments_Q4_sourcesAdditionalComments                    = $scope.getComments2(2015, 'Q4', 'sourcesAdditionalComments');
+            $scope.comments_Q4_domesticCollectiveActionMethodologyComments  = $scope.getComments2(2015, 'Q4', 'domesticCollectiveActionMethodologyComments');
+            $scope.comments_Q5_fundingNeedsDataAdditionalComments           = $scope.getComments2(2015, 'Q5', 'fundingNeedsDataAdditionalComments');
+
+            // 2020 
+            $scope.comments2020_Q1_2_some          = $scope.getComments(2020, 'Q1', 'hasPrivateSectorMeasures', 'some');
+            $scope.comments2020_Q1_2_comprehensive = $scope.getComments(2020, 'Q1', 'hasPrivateSectorMeasures', 'comprehensive');
+            $scope.comments2020_Q2_some            = $scope.getComments(2020, 'Q2', 'hasNationalBiodiversityInclusion', 'some');
+            $scope.comments2020_Q2_comprehensive   = $scope.getComments(2020, 'Q2', 'hasNationalBiodiversityInclusion', 'comprehensive');
+            $scope.comments2020_Q3_notnecessary    = $scope.getComments(2020, 'Q3', 'hasBiodiversityAssessment', 'notnecessary');
+            $scope.comments2020_Q3_some            = $scope.getComments(2020, 'Q3', 'hasBiodiversityAssessment', 'some');
+            $scope.comments2020_Q3_comprehensive   = $scope.getComments(2020, 'Q3', 'hasBiodiversityAssessment', 'comprehensive');
+            $scope.comments2020_Q4_some            = $scope.getComments(2020, 'Q4', 'domesticCollectiveAction', 'some');
+            $scope.comments2020_Q4_notnecessary    = $scope.getComments(2020, 'Q4', 'domesticCollectiveAction', 'notnecessary');
+            $scope.comments2020_Q4_comprehensive   = $scope.getComments(2020, 'Q4', 'domesticCollectiveAction', 'comprehensive');
+
+            $scope.comments2020_Q5_some            = $scope.getComments(2020, 'Q5', 'hasDomesticPrivateSectorMeasures', 'some');
+            $scope.comments2020_Q5_comprehensive   = $scope.getComments(2020, 'Q5', 'hasDomesticPrivateSectorMeasures', 'comprehensive');
+            
+            // 2020
+            $scope.comments2020_Q1_methodologicalComments                      = $scope.getComments2(2020, 'Q1', 'methodologicalComments');
+            $scope.comments2020_Q1_hasPrivateSectorMeasuresComments            = $scope.getComments2(2020, 'Q1', 'hasPrivateSectorMeasuresComments');
+            $scope.comments2020_Q2_nationalBiodiversityInclusionComments       = $scope.getComments2(2020, 'Q2', 'hasNationalBiodiversityInclusionComments');
+            $scope.comments2020_Q3_hasBiodiversityAssessmentComments           = $scope.getComments2(2020, 'Q3', 'hasBiodiversityAssessmentComments');
+            $scope.comments2020_Q4_domesticCollectiveActionMethodologyComments = $scope.getComments2(2020, 'Q4', 'domesticCollectiveActionMethodologyComments');
+            $scope.comments2020_Q5_nationalPlansAdditionalComments             = $scope.getComments2(2020, 'Q5', 'nationalPlansAdditionalComments');
+            $scope.comments2020_Q5_domesticPrivateSectorMeasuresComments       = $scope.getComments2(2020, 'Q5', 'domesticPrivateSectorMeasuresComments');
         };
 
         //============================================================
         //
         //============================================================
-        $scope.getCountryCount = function (Q, key) {
+        $scope.getCountryCount = function (Q, key, year = 2015) {
 
-            if(!$scope.records) return 0;
+            var docs = [];
 
-            var recs = _.filter($scope.records, function (rec) {
+            if(year == 2015){
+                if(!$scope.records)     return 0;
+                docs = $scope.records;    
+            }
+                
+            if(year == 2020) {
+                if(!$scope.records2020) return 0;
+                docs = $scope.records2020;
+            }
+
+            var recs = _.filter(docs, function (rec) {
                     return (rec[Q] && rec[Q][key] && !_.isEmpty(rec[Q][key]));
             });
+
             return recs.length;
         };
 
         //============================================================
         //
         //============================================================
-        var initData = function () {
+        $scope.getPlans2020KeyAmount = function (sources, year)
+        {
+            if(_.isEmpty(sources) || !year) return ;
+            var src =  _.find(sources, {'year': year });
 
+            if(src && src.amount)
+                return  src.amount;
+
+            return ;
+        }
+
+        //============================================================
+        //
+        //============================================================
+        $scope.getPlans2020KeyTrend = function (sources, year)
+        {
+            if(_.isEmpty(sources) || !year) return ;
+            var src =  _.find(sources, {'year': year });
+     
+            if(src && _.has(src, 'hasReduced')){
+                return  src.hasReduced;
+            }
+            return;
+        }
+
+        //============================================================
+        //
+        //============================================================
+        $scope.get2020FinancialFlows = function (Q, key, government, year) {
+
+            if(!Q || !key || !government || !year) return 0;
+
+            var doc = _.first(_.filter($scope.records2020, { 'government_s': government}));
+
+            if(doc && doc[Q] && doc[Q][key] && doc[Q][key][year]) 
+                return doc[Q][key][year];
+            
+            // return null;
+        }
+
+        //============================================================
+        //
+        //============================================================
+        var initData = function () {
             // NOT version_s:* remove non-public records from resultset
-            var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND schema_s:resourceMobilisation'; // +
+            var q = 'NOT version_s:* AND realm_ss:' + realm.toLowerCase() + ' AND (schema_s:resourceMobilisation OR schema_s:resourceMobilisation2020)'; 
 
             var queryParameters = {
                 'q'    : q,
                 'sort' : 'createdDate_dt desc',
-                'fl'   : 'id, url_ss, government_s, government_EN_s, Q1_s, Q2_s, Q3_s, Q4_s, Q5_s, Q6_s, Q7_s, Q8_s',
+                'fl'   : 'schema_s, id, url_ss, government_s, government_EN_s, Q1_s, Q2_s, Q3_s, Q4_s, Q5_s, Q6_s, Q7_s, Q8_s',
                 'wt'   : 'json',
                 'start': 0,
                 'rows' : 1000,
@@ -601,18 +945,12 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
             };
 
             $http.get('/api/v2013/index/select', { params: queryParameters}).success(function (data) {
+            
                 $scope.documents    = data.response.docs;
 
                 $scope.documents = _.map($scope.documents, function (doc) {
 
-                    var removeQ1Countries = ['co', 'ec', 'nu']; // colombia, ecuador, niue
-                    
-                    if(doc.Q1_s) { 
-                        if(!_.includes(removeQ1Countries, doc.government_s)){
-                            _.assign(doc, { Q1 : JSON.parse(doc.Q1_s) }); 
-                            delete doc.Q1_s;
-                        }
-                    }
+                    if(doc.Q1_s) { _.assign(doc, { Q1 : JSON.parse(doc.Q1_s) }); delete doc.Q1_s;}
                     if(doc.Q2_s) { _.assign(doc, { Q2 : JSON.parse(doc.Q2_s) }); delete doc.Q2_s;}
                     if(doc.Q3_s) { _.assign(doc, { Q3 : JSON.parse(doc.Q3_s) }); delete doc.Q3_s;}
                     if(doc.Q4_s) { _.assign(doc, { Q4 : JSON.parse(doc.Q4_s) }); delete doc.Q4_s;}
@@ -624,7 +962,8 @@ define(['app', 'angular', 'lodash',  './rmHelpers', './modalComments', 'directiv
                     return doc;
                 });
 
-                $scope.records      = $scope.documents;
+                $scope.records      = _.filter($scope.documents, { 'schema_s': 'resourceMobilisation'});
+                $scope.records2020  = _.filter($scope.documents, { 'schema_s': 'resourceMobilisation2020'});
                 $scope.docCountries = _.map(data.response.docs, 'government_s');
 
                 $scope.setRegionCountries();

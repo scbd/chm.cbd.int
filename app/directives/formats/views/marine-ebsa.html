@@ -32,14 +32,13 @@
 					<a translation-url target="{{target}}" ng-href="{{item.url}}">{{item.name||item.url}}</a>
 				</li>
 			</ul>
-			<div class="leaflet" center="gisMapCenter" layers="gisMapLayers" scroll-wheel-zoom="false" tilelayer="'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'"></div>
+			<leaflet center="gisMapCenter" layers="gisMapLayers" scroll-wheel-zoom="false"></leaflet>
 		</div>
 	</div>
 
 	<div ng-show="document.areaDescription || document.areaConditions ||
 		document.areaFeatures || document.countries ||
 		document.beyondNationalJurisdiction">
-		<div><strong>DISCLAIMER:</strong> The designations employed and the presentation of material in this map do not imply the expression of any opinion whatsoever on the part of the Secretariat concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.</div>
 		<legend>Area Details</legend>
 		<div ng-show="document.areaDescription">
 			<label>Feature description of the area</label>

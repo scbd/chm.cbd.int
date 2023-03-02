@@ -31,8 +31,6 @@ app.directive('marineEbsaAssessment', [ function () {
 			//==================================
 			function load(binding) {
 
-				console.log("load", binding);
-
 				binding = binding || [];
 
 				_.each($scope.assessments, function(assessment){
@@ -86,8 +84,6 @@ app.directive('marineEbsaAssessment', [ function () {
 
 					if(_.isEmpty(binding))
 						binding = undefined;
-
-					console.log("save", binding);
 
 					try { ngModelCtrl.$setViewValue(binding); } catch(e) {}
 				});

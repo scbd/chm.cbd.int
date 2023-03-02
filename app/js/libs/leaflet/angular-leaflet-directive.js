@@ -71,7 +71,6 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
             // tileLayer = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
             // tileLayerOptions= { subdomains:['mt0','mt1','mt2','mt3'], attribution: 'Copyright Google Maps' }
 
-            console.log(tileLayer, tileLayerOptions)
             L.tileLayer(tileLayer, angular.extend({ maxZoom: maxZoom }, tileLayerOptions||{})).addTo(map);
 
             // Manage map bounds

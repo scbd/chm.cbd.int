@@ -1,7 +1,4 @@
-﻿
-const { parseInt } = require("lodash");
-
-var leafletDirective = angular.module("leaflet-directive", []);
+﻿var leafletDirective = angular.module("leaflet-directive", []);
 
 var template = 
 '<div>'+

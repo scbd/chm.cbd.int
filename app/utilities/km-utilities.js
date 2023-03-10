@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery", 'ngCookies', 'scbd-angularjs-filters'], function(app, _, Enumerable, URI, $) { 'use strict';
+define(['app', 'lodash', 'linqjs', 'URIjs/URI', "jquery", 'dompurify', 'ngCookies', 'scbd-angularjs-filters'], function(app, _, Enumerable, URI, $, DOMPurify) { 'use strict';
 
 app.filter('integer', function () {
     return function (number, base, length) {
@@ -23,10 +23,17 @@ app.filter("orderPromiseBy", ["$q", "$filter", function($q, $filter) {
 app.filter("markdown", ["$window", "htmlUtility", function($window, html) {
 	return function(srcText) {
 		if (!$window.marked)//if markdown is not install then return escaped html! to be safe!
-			return '<div style="word-break: break-all; word-wrap: break-word; white-space: pre-wrap;">'+html.encode(srcText)+'</div>';
+			return '<div style="word-wrap: break-word; white-space: pre-wrap;">'+html.encode(srcText)+'</div>';
 		return $window.marked(srcText, { sanitize: true });
 	};
 }]);
+
+app.filter("sanitizeHtml", [function() {
+	return function(html) {
+		return DOMPurify.sanitize(html);
+	};
+}]);
+
 
 app.factory("htmlUtility", function() {
 	return {

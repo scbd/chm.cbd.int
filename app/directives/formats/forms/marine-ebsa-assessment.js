@@ -9,7 +9,9 @@ app.directive('marineEbsaAssessment', [ function () {
 		require : "?ngModel",
 		scope: {
 			binding : "=ngModel",
-			locales : "="
+			locales : "=",
+			onEditorFileUpload: "&?",
+			onEditorPaste: "&?"
 		},
 		link : function($scope, e, a, ngModelCtrl)
 		{

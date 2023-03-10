@@ -59,10 +59,9 @@ float:none;
     border-radius: 3px;
   }
 
-.km-pre
-  {
-  	word-break: break-all; word-wrap: break-word; white-space: pre-wrap;
-  }
+.km-pre {
+  	word-wrap: break-word; white-space: pre-wrap;
+}
 label{
     margin-top:10px;
 }

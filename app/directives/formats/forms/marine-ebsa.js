@@ -1,4 +1,4 @@
-define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L) { 'use strict';
+define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L) { 'use strict';
 
 app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {

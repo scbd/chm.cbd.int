@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', 'text!./marine-ebsa.html', 'leaflet-directive', 'utilities/km-storage'], function(app, angular, _, template, L){
+define(['app', 'angular', 'lodash', 'text!./marine-ebsa.html', 'leaflet', 'leaflet-directive', 'utilities/km-storage'], function(app, angular, _, template, L){
 
 app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q, storage) {
 	return {

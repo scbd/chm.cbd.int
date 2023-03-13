@@ -18,6 +18,7 @@ require.config({
       'URIjs'               : 'libs/uri.js/src',
       'linqjs'              : 'libs/linqjs/linq.min',
       'leaflet'             : 'https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet',
+      'dompurify'           : 'https://cdn.jsdelivr.net/npm/dompurify@3.0.1/dist/purify.min',
       'jquery'              : 'libs/jquery/dist/jquery.min',
       'moment'              : 'libs/moment/moment',
       'leaflet-directive'   : 'js/libs/leaflet/angular-leaflet-directive',

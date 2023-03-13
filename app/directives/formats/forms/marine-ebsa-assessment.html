@@ -13,7 +13,9 @@
 		<br/>
 		<br/>
 
-		<div class="km-textbox-ml" ng-disabled="!assessment.selected" ng-model="assessment.justification" rows="8" locales="locales"></div>
+		<div km-rich-textbox ng-disabled="!assessment.selected" ng-model="assessment.justification" rows="8" locales="locales"
+			identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
+
 	</li>
 
 </ol>

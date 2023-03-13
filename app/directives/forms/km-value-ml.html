@@ -6,7 +6,7 @@
 			ng-class="{'markdown':self.markdown, 'km-pre1':self.kmPre }" ng-bind="self.value|lstring:locale">
 		</div>
 		<div ng-if="html"  >
-			<div ng-bind-html="self.value|lstring:locale|addclear|toTrusted" class="km-value km-value-ml-div km-value-ml-html" 
+			<div ng-bind-html="self.value|lstring:locale|addclear|sanitizeHtml|toTrusted" class="km-value km-value-ml-div km-value-ml-html" 
 			ng-style="{ direction : (self.value|direction:locale)}" 
 			ng-class="{'markdown':self.markdown, 'km-pre1':self.kmPre }"></div>
 			<!-- <div style="clear: both;"></div>	 -->

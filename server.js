@@ -10,14 +10,18 @@ var url     = require('url');
 var cookieParser = require('cookie-parser');
 
 var appDependencyCacheBuster = 1000002;
+var googleAnalyticsCode =  process.env.GOOGLE_ANALYTICS_CODE || '';
 var appVersion = process.env.TAG;
 if(!appVersion || appVersion.trim()==''){
     appVersion =   process.env.COMMIT
 }  
+
 // Create server & proxy
 
 var app   = express();
 var proxy = httpProxy.createProxyServer({});
+
+
 
 // Configure options
 if(!process.env.API_URL) {
@@ -73,7 +77,7 @@ app.get('/?:lang(ar|en|es|fr|ru|zh)?/*', function (req, res) {
         var preferredLang = getPreferredLanguage(req);
         var langFilepath = yield getLanguageFile(req, preferredLang);
         var options = { baseUrl: urlPreferredLang || (req.headers.base_url ||  (preferredLang ? ('/'+preferredLang+'/') : '/')),
-                        'appVersion' : appVersion, appDependencyCacheBuster : appDependencyCacheBuster };
+                        'appVersion' : appVersion, appDependencyCacheBuster : appDependencyCacheBuster, 'googleAnalyticsCode': googleAnalyticsCode };
 
         if(langFilepath){
              return res.render(langFilepath, options);

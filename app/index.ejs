@@ -194,8 +194,11 @@
 	<script>var require = { waitSeconds: 120 }</script>
 	<script src="/app/libs/requirejs/require.js" data-main="/app/boot.js?v=<%=appVersion%>"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyD6f0w00dLyl1iU39Pd9MpVVMOtfEuNI&libraries=places"></script>
-	<script async src='https://www.google-analytics.com/analytics.js'></script>
-   
+	<% if(googleAnalyticsCode) { %>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<%=googleAnalyticsCode%>"></script>
+    <% } else { %>
+        <script>console.warn('Google Analytics key not set.');</script>
+    <% } %>
     <script>
        
 		/**************************
@@ -210,13 +213,14 @@
              document.getElementsByTagName("body")[0].setAttribute("dir", "rtl");
             }
         });
-        if(domain == 'cbd.int'){
-            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-            
-            ga('create', 'UA-1996573-14', 'auto');
-            ga('set',    'hostname', window.location.hostname);
-            ga('set',    'location', undefined);
-        }
+        
+        window.dataLayer = window.dataLayer || [];
+        
+        function gtag(){dataLayer.push(arguments);}
+        
+        gtag('js', new Date());
+        gtag('config', '<%=googleAnalyticsCode%>');
+
         window.appVersion = document.documentElement.attributes['app-version'].value;
         window.appDependencyCacheBuster = "<%=appDependencyCacheBuster%>";
         

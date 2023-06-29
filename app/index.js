@@ -19,8 +19,9 @@ define(['app', 'jquery', 'lodash', 'moment', 'authentication', 'ng-breadcrumbs',
         }
         var basePath = (angular.element('base').attr('href')||'').replace(/\/+$/g, '');
         $rootScope.$on('$routeChangeSuccess', function(){
-            $window.ga('set',  'page', basePath+$location.path());
-            $window.ga('send', 'pageview');
+            $window.gtag('event', 'page_view', {
+                'page_location' : basePath+$location.path()
+            });
         });
         $rootScope.placeholderRecords=[];
 

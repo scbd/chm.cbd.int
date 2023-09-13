@@ -48,7 +48,7 @@ require.config({
       'amchart3-theme-light': 'libs/amcharts3/amcharts/themes/light',
       'scbd-angularjs-services'   : 'libs/scbd-angularjs-services/scbd-services',
       'scbd-angularjs-filters'    : 'libs/scbd-angularjs-services/filters/scbd-filters',
-      'socket.io'                 : 'libs/socket.io-1.4.5/index',
+      'socket.io'                 : 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min',
       'ngInfiniteScroll'          : 'libs/ngInfiniteScroll/build/ng-infinite-scroll',
       'webui-popover'             : 'libs/webui-popover/dist/jquery.webui-popover.min',
       'printThis'                 : 'libs/printThis/printThis',

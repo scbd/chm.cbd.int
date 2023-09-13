@@ -23,10 +23,14 @@ define(['app', 'socket.io', './authentication', './apiUrl', './utilities'], func
 
                 var query = 'arguments=' + JSON.stringify({realm: realm.value||realm});
 
-                if(authToken){
-                    query += '&authorization=' + authToken;
-                }
-                socket = io(apiServer, { query: query });
+                socket = io(apiServer, { 
+                    transports: ["websocket"], 
+                    query: query,
+                    auth: {
+                        authorization: `${authToken}`
+                    } 
+                });
+
                 socket.connect(apiServer, query);
 
                 socket.on('connect', onConnect);

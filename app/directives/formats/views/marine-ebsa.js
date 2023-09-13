@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', 'text!./marine-ebsa.html', 'leaflet', 'leaflet-directive', 'utilities/km-storage'], function(app, angular, _, template, L){
+define(['app', 'angular', 'lodash', 'text!./marine-ebsa.html', 'leaflet', 'leaflet-directive', 'utilities/km-storage', 'directives/forms/km-value-ml'], function(app, angular, _, template, L){
 
 app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q, storage) {
 	return {
@@ -22,6 +22,23 @@ app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q,
 
 			$scope.gisMapLayers = null;
 			$scope.gisMapCenter = null;
+
+			$scope.$watch("document", function(doc) {
+
+				if(!doc) return;
+
+				fixHtml(doc.location);
+				fixHtml(doc.areaIntroducion);
+				fixHtml(doc.areaDescription);
+				fixHtml(doc.areaConditions);
+				fixHtml(doc.areaFeatures);
+				fixHtml(doc.referenceText);
+				fixHtml(doc.relevantInformation);
+
+				if(doc.assessments)
+					doc.assessments.forEach(function(a) { fixHtml(a.justification) })
+			
+			})
 
 			$scope.$watch("document.gisMapCenter", function(gisMapCenter) {
 				$scope.gisMapCenter = angular.fromJson(angular.toJson(gisMapCenter));
@@ -107,4 +124,30 @@ app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q,
 		}
 	};
 }]);
+
+function fixHtml(ltext) {
+
+	if(!ltext) return ltext;
+
+	if(typeof(ltext) == 'string') 
+		return asHtml(ltext);
+
+	for(var locale in ltext)
+		ltext[locale] = asHtml(ltext[locale]);
+
+	return ltext;
+}
+
+function asHtml(text) {
+
+	if(text && text[0]!='<') {
+		text =  '<p>' + text.replace(/\n/g, '<br>\n')
+							.replace(/\s{2}/g, '&nbsp; ')
+							.replace(/\t/g, '&nbsp; &nbsp; &nbsp; &nbsp; ') +
+				'</p>';
+	}
+
+	return text;
+}
+
 });

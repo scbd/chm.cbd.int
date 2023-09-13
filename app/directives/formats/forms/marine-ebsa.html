@@ -1,4 +1,4 @@
-﻿<div class="edit-form">
+<div class="edit-form">
 
 	<h1>Ecologically or Biologically Significant Marine Areas (EBSA)   <i ng-show="status=='loading'" class="fa fa-spinner fa-spin"></i></h1>
 
@@ -66,7 +66,8 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" for="areaIntroducion">Introduction of the area</label>
-							<div km-textbox-ml name="areaIntroducion" ng-model="document.areaIntroducion" rows="12" locales="document.header.languages" placeholder="example: this area..."></div>
+							<div km-rich-textbox name="areaIntroducion" ng-model="document.areaIntroducion" rows="12" locales="document.header.languages" placeholder="example: this area..."
+												 identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>
@@ -86,7 +87,8 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" required for="location">Location</label>
-							<div km-textbox-ml name="location" ng-model="document.location" rows="4" locales="document.header.languages" placeholder="example: this area is located..."></div>
+							<div km-rich-textbox name="location" ng-model="document.location" rows="4" locales="document.header.languages" placeholder="example: this area is located..."
+												 identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>
@@ -103,7 +105,6 @@
 
 				<div class="row">
 					<div class="col-md-12">
-
 						<leaflet center="document.gisMapCenter" layers="gisLayer" scroll-wheel-zoom="false" ></leaflet>
 					</div>
 				</div>
@@ -114,7 +115,8 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" for="areaDescription">Feature description of the area</label>
-							<div km-textbox-ml name="areaDescription" ng-model="document.areaDescription" rows="4" locales="document.header.languages"></div>
+							<div km-rich-textbox name="areaDescription" ng-model="document.areaDescription" rows="4" locales="document.header.languages"
+  								 identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>
@@ -123,7 +125,8 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" for="areaConditions">Feature conditions and future outlook of the area</label>
-							<div km-textbox-ml name="areaConditions" ng-model="document.areaConditions" rows="4" locales="document.header.languages"></div>
+							<div km-rich-textbox name="areaConditions" ng-model="document.areaConditions" rows="4" locales="document.header.languages"
+								identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>
@@ -133,7 +136,8 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" for="areaFeatures">Feature description of the area</label>
-							<div km-textbox-ml name="areaFeatures" ng-model="document.areaFeatures" rows="4" locales="document.header.languages"></div>
+							<div km-rich-textbox name="areaFeatures" ng-model="document.areaFeatures" rows="4" locales="document.header.languages"
+								identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>
@@ -163,7 +167,8 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label" name="referenceText">References</label>
-							<div km-textbox-ml name="referenceText" rows="4" ng-model="document.referenceText" locales="document.header.languages"></div>
+							<div km-rich-textbox name="referenceText" rows="4" ng-model="document.referenceText" locales="document.header.languages"
+								identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>
@@ -171,7 +176,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="control-label" name="resources">CBD Recources</label>
+							<label class="control-label" name="resources">CBD Resources</label>
 							<div km-reference multiple name="resources" ng-model="document.resources" loader="loadRecords(identifier, 'resource')">
 								<div>
 									<div><strong>{{reference.title | lstring:'en'}}</strong></div>
@@ -425,7 +430,8 @@
 						<div class="form-group">
 							<label class="control-label" name="additionalInformation">Additional Information</label>
 							<div class="help-block">Please use this field to provide any other relevant information that may not have been addressed elsewhere in the record.</div>
-							<div km-textbox-ml name="additionalInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"></div>
+							<div km-rich-textbox name="additionalInformation" rows="6" ng-model="document.relevantInformation" locales="document.header.languages"
+								identifier="document.header.identifier" on-file-upload="onEditorFileUpload(data)" on-paste="onEditorPaste(html)" ></div>
 						</div>
 					</div>
 				</div>

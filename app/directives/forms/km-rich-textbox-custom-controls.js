@@ -16,7 +16,7 @@ define(['app','rangy-core', 'rangy-selectionsave', 'textAngular'], function(app,
             taOptions.toolbar[1].push('uploadCustomImage');
 
             taRegisterTool('uploadCustomFile', {
-                iconclass: "fa fa-files-o",
+                iconclass: "fa fa-cloud-upload",
                 tooltiptext: 'upload file',
                 action: function(){
                     uploadFile(this.$editor());

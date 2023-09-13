@@ -1,4 +1,4 @@
-define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation'], function(template, app, angular, _, L) { 'use strict';
+define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'directives/forms/km-rich-textbox'], function(template, app, angular, _, L) { 'use strict';
 
 app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
@@ -91,7 +91,19 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 
 				}).then(function(doc) {
 
+					fixHtml(doc.location);
+					fixHtml(doc.areaIntroducion);
+					fixHtml(doc.areaDescription);
+					fixHtml(doc.areaConditions);
+					fixHtml(doc.areaFeatures);
+					fixHtml(doc.referenceText);
+					fixHtml(doc.relevantInformation);
+
+					if(doc.assessments)
+						doc.assessments.forEach(function(a) { fixHtml(a.justification) })
+
 					$scope.status = "ready";
+	
 					$scope.document = doc;
 
 				}).catch(function(err) {
@@ -101,6 +113,30 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 
 				});
 			};
+
+			$scope.onEditorFileUpload = function(data){
+				if(!$scope.document.relevantDocuments)
+					$scope.document.relevantDocuments = [];
+				var editorImage = {
+					url: data.url,
+					name: data.filename,
+					tag : 'editorImage'
+				};
+				$scope.document.relevantDocuments.push(editorImage);
+
+			}
+
+			$scope.onEditorPaste = function(html){
+
+				if(html){
+					var localeHtml = $('<div>'+html+'</div>')
+					$(localeHtml).find('table').addClass('table');
+
+					return localeHtml.html();
+
+				}
+				return html;
+			}
 
 			//==================================
 			//
@@ -293,4 +329,30 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 		}
 	};
 }]);
+
+function fixHtml(ltext) {
+
+	if(!ltext) return ltext;
+
+	if(typeof(ltext) == 'string') 
+		return asHtml(ltext);
+
+	for(var locale in ltext)
+		ltext[locale] = asHtml(ltext[locale]);
+
+	return ltext;
+}
+
+function asHtml(text) {
+
+	if(text && text[0]!='<') {
+		text =  '<p>' + text.replace(/\n/g, '<br>\n')
+							.replace(/\s{2}/g, '&nbsp; ')
+							.replace(/\t/g, '&nbsp; &nbsp; &nbsp; &nbsp; ') +
+				'</p>';
+	}
+
+	return text;
+}
+
 });

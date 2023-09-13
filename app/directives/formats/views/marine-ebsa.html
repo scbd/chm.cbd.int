@@ -6,11 +6,11 @@
 		<legend>General Information</legend>
 		<div ng-show="document.summary">
 			<label>Summary</label>
-			<div class="km-value km-pre">{{document.summary | lstring:local}}</div>
+			<div class="km-value km-pre">{{document.summary | lstring:locale}}</div>
 		</div>
 		<div ng-show="document.areaIntroducion">
 			<label>Introduction of the area</label>
-			<div class="km-value km-pre">{{document.areaIntroducion | lstring:local}}</div>
+			<km-value-ml value="document.areaIntroducion" locales="locale" km-pre html></km-value-ml>
 		</div>
 	</div>
 
@@ -22,7 +22,7 @@
 		</div>
 		<div ng-show="document.location">
 			<label>Description of location</label>
-			<div class="km-value km-pre">{{document.location|lstring:locale}}</div>
+			<km-value-ml value="document.location" locales="locale" km-pre html></km-value-ml>
 		</div>
 
 		<div ng-show="document.gisFiles">
@@ -42,15 +42,15 @@
 		<legend>Area Details</legend>
 		<div ng-show="document.areaDescription">
 			<label>Feature description of the area</label>
-			<div class="km-value km-pre">{{document.areaDescription | lstring:local}}</div>
+			<km-value-ml value="document.areaDescription" locales="locale" km-pre html></km-value-ml>
 		</div>
 		<div ng-show="document.areaConditions">
-		<label>Feature conditions and future outlook of the area</label>
-		<div class="km-value km-pre">{{document.areaConditions | lstring:local}}</div>
+			<label>Feature conditions and future outlook of the area</label>
+			<km-value-ml value="document.areaConditions" locales="locale" km-pre html></km-value-ml>
 		</div>
 		<div ng-show="document.areaFeatures">
 			<label>Feature description of the area</label>
-			<div class="km-value km-pre">{{document.areaFeatures | lstring:local}}</div>
+			<km-value-ml value="document.areaFeatures" locales="locale" km-pre html></km-value-ml>
 		</div>
 		<div ng-show="document.countries">
 			<label>Related countries</label>
@@ -68,7 +68,7 @@
 	<div ng-show="document.referenceText">
 		<legend>References</legend>
 		<label>References</label>
-		<div class="km-value km-pre">{{document.referenceText | lstring:local}}</div>
+		<km-value-ml value="document.referenceText" locales="locale" km-pre html></km-value-ml>
 	</div>
 
 	<div ng-show="document.resources">
@@ -202,7 +202,7 @@
 					</div>
 					<div ng-show="document.recommendedToWorkshopByOthers">
 						<label>Details</label>
-						<div class="km-value">{{document.recommendedToWorkshopByOthers | lstring:local}}</div>
+						<div class="km-value">{{document.recommendedToWorkshopByOthers | lstring:locale}}</div>
 					</div>
 
 				</div>
@@ -243,7 +243,7 @@
 
 					<div ng-show="document.recommendedToAnyByOthers">
 						<label>Details</label>
-						<div class="km-value">{{document.recommendedToAnyByOthers | lstring:local}}</div>
+						<div class="km-value">{{document.recommendedToAnyByOthers | lstring:locale}}</div>
 					</div>
 
 				</div>
@@ -275,7 +275,7 @@
 			</div>
 			<div class="panel-body" ng-show="assessment.justification">
 				<label>Justification</label>
-				<div class="km-value km-pre">{{assessment.justification|lstring:locale}}</div>
+				<km-value-ml value="assessment.justification" locales="locale" km-pre html></km-value-ml>
 			</div>
 		</div>
 
@@ -286,7 +286,7 @@
 
 		<div ng-show="document.relevantInformation">
 			<label>Additional Information</label>
-			<div class="km-value" ng-bind-html="document.relevantInformation | lstring:locale | markdown"></div>
+			<km-value-ml value="document.relevantInformation" locales="locale" km-pre html></km-value-ml>
 		</div>
 
 

@@ -1,4 +1,4 @@
-define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'directives/forms/km-rich-textbox'], function(template, app, angular, _, L) { 'use strict';
+define(['text!./marine-ebsa.html', 'app', 'angular', 'lodash', 'leaflet', 'app-data/maps/nasa-geo/config', 'leaflet-directive', 'authentication', '../views/marine-ebsa', './marine-ebsa-assessment', 'services/editFormUtility', 'directives/forms/form-controls', 'utilities/km-utilities', 'utilities/km-workflows', 'utilities/km-storage', 'services/navigation', 'directives/forms/km-rich-textbox'], function(template, app, angular, _, L, mapConfig) { 'use strict';
 
 app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorage', "editFormUtility", "navigation", "authentication", "siteMapUrls", "Thesaurus", "guid", "$route", function ($http, $q, $location, $filter, storage, editFormUtility, navigation, authentication, siteMapUrls, Thesaurus, guid, $route) {
 	return {
@@ -14,6 +14,7 @@ app.directive('editMarineEbsa', ["$http", "$q", "$location", "$filter", 'IStorag
 			$scope.document = null;
 			$scope.tab      = "general";
 			$scope.review   = { locale : "en" };
+			$scope.mapConfig= mapConfig;
 
 			// Ensure user as signed in
 			navigation.securize();

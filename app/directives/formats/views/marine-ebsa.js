@@ -1,4 +1,4 @@
-define(['app', 'angular', 'lodash', 'text!./marine-ebsa.html', 'leaflet', 'leaflet-directive', 'utilities/km-storage', 'directives/forms/km-value-ml'], function(app, angular, _, template, L){
+define(['app', 'angular', 'lodash', 'text!./marine-ebsa.html', 'leaflet', 'app-data/maps/nasa-geo/config', 'leaflet-directive', 'utilities/km-storage', 'directives/forms/km-value-ml'], function(app, angular, _, template, L, mapConfig){
 
 app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q, storage) {
 	return {
@@ -20,6 +20,7 @@ app.directive('viewMarineEbsa', ['$http', '$q', "IStorage", function ($http, $q,
    				return date;
    			};
 
+			$scope.mapConfig = mapConfig;
 			$scope.gisMapLayers = null;
 			$scope.gisMapCenter = null;
 

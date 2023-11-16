@@ -3,18 +3,7 @@
 var template = 
 '<div>'+
 ' <div ref="map" style="height:400px;margin-bottom:10px" class="angular-leaflet-map"></div>'+
-' <div class="small">'+
-'     <p>'+
-'       <strong>DISCLAIMER:</strong> '+
-'       The designations employed and the presentation of material in this map do not imply the expression of any opinion '+
-'       whatsoever on the part of the Secretariat concerning the legal status of any country, '+
-'       territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.'+
-'     </p>'+
-'     <p> Final boundary between the Republic of Sudan and the Republic of South Sudan has not yet been determined.</p>'+
-'     <p> * Non-Self Governing Territories</p>'+
-'     <p> ** Dotted line represents approximately the Line of Control in Jammu and Kashmir agreed upon by India and Pakistan. The final status of Jammu and Kashmir has not yet been agreed upon by the parties.​</p>'+
-'     <p> *** A dispute exists between the Governments of Argentina and the United Kingdom of Great Britain and Northern Ireland concerning sovereignty over the Falkland Islands (Malvinas).</p>'+
-' </div>'+
+' <div ref="disclaimer" class="small"></div>'+
 '</div>';
 
 leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", function ($http, $log, $q, $timeout) {
@@ -24,6 +13,7 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
         transclude: true,
         scope: {
             center: "=center",
+            mapConfig: "=mapConfig",
             tileLayer: "=tileLayer",
             tileLayerOptions: "=tileLayerOptions",
             markers: "=markers",
@@ -35,13 +25,23 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
         template: template,
         link: function (scope, element, attrs) {
 
-            var opt = {};
+            var opt = { worldCopyJump: true};
+            var mapConfig = scope.mapConfig || {}
+
+
 
             if(attrs.scrollWheelZoom!==undefined)
                 opt.scrollWheelZoom = attrs.scrollWheelZoom=="true" || attrs.scrollWheelZoom=="1";
 
-            var $el = element.find('[ref="map"]')[0],
-                map = new L.Map($el, opt);
+            var $el = element.find('[ref="map"]')[0];
+
+            if(mapConfig.crs)
+                opt.crs = mapConfig.crs;
+
+            var map = new L.Map($el, opt);
+
+            if(mapConfig.disclaimer)
+                element.find('[ref="disclaimer"]').html(mapConfig.disclaimer),
 
             scope.$watch(function() { return element.is(':visible') }, invalidate)
 
@@ -53,7 +53,8 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
                 L.Util.requestAnimFrame(map.invalidateSize, map, !1, map._container);
             };
 
-            var maxZoom = 6;//12;
+            var maxZoom = mapConfig.maxZoom || 6;
+
             if (scope.maxZoom) {
                 maxZoom = parseInt(scope.maxZoom);
             }
@@ -63,15 +64,11 @@ leafletDirective.directive("leaflet", ["$http", "$log", "$q", "$timeout", functi
             map.locate({ maxZoom: maxZoom });
 
             // Set tile layer
-            var tileLayer        = scope.tileLayer || 'https://geoservices.un.org/arcgis/rest/services/ClearMap_WebTopo/MapServer/tile/{z}/{y}/{x}';
-            var tileLayerOptions = scope.tileLayerOptions || { attribution: '<a target="_blank" href="https://www.un.org/geospatial">Geospatial Information Section of the United Nations</a>'};
+            
+            var tileLayer        = scope.tileLayer || mapConfig.tileLayer;
+            var tileLayerOptions = angular.extend({}, mapConfig||{}, scope.tileLayerOptions||{}, { maxZoom: maxZoom })
 
-            // Google
-            // maxZoom = 12
-            // tileLayer = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
-            // tileLayerOptions= { subdomains:['mt0','mt1','mt2','mt3'], attribution: 'Copyright Google Maps' }
-
-            L.tileLayer(tileLayer, angular.extend({ maxZoom: maxZoom }, tileLayerOptions||{})).addTo(map);
+            L.tileLayer(tileLayer, tileLayerOptions).addTo(map);
 
             // Manage map bounds
             if (attrs.bounds) {

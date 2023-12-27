@@ -291,17 +291,24 @@
                 </div>
             </div>
     </div>
-    <legend class="view" ng-if="document.thematicAreas || document.aichiTargets || document.absThematicAreas ||document.bchSubjects">Linkages to CBD & Protocols</legend>
-    <div class="row" ng-if="document.thematicAreas || document.aichiTargets">
+    <legend class="view" ng-if="document.thematicAreas || document.gbfTargets || document.aichiTargets || document.absThematicAreas ||document.bchSubjects">Linkages to CBD & Protocols</legend>
+    <div class="row" ng-if="document.thematicAreas || document.gbfTargets || document.aichiTargets">
 
-        <div class="col-xs-12 col-md-6" ng-if="document.thematicAreas">
+        <div class="col-xs-12" ng-if="document.thematicAreas">
             <label class="view">Related CBD subject area(s)</label>
             <div class="km-value">
                 <div ng-repeat="term in document.thematicAreas">{{term | term:locale}}</div>
             </div>
         </div>
 
-        <div class="col-xs-12 col-md-6" ng-if="document.aichiTargets">
+        <div class="col-xs-12" ng-if="document.gbfTargets">
+			<label>Related Kunming-Montreal Global Biodiversity Framework Target(s)</label>
+			<ul class="km-value">
+				<li ng-repeat="term in document.gbfTargets">{{term | term:locale}}</li>
+			</ul>
+		</div>
+
+        <div class="col-xs-12" ng-if="document.aichiTargets">
             <label class="view">Related Aichi Biodiversity Target(s)</label>
             <div class="km-value">
                 <div ng-repeat="term in document.aichiTargets">

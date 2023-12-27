@@ -163,7 +163,7 @@
 			</div>
 		</div>
 
-	<div ng-show="document.absKeyAreas || document.aichiTargets">
+	<div ng-show="document.absKeyAreas || document.gbfTargets || document.aichiTargets">
 
 		<div ng-show="document.absKeyAreas">
 			<legend>Access and Benefit Sharing Clearing-House (ABS-CH)</legend>
@@ -173,6 +173,15 @@
 				<li ng-repeat="term in document.absKeyAreas">{{term | term:locale}}</li>
 			</ul>
 
+		</div>
+
+		<div ng-show="document.gbfTargets">
+			<div ng-show="document.gbfTargets">
+				<label>Related Kunming-Montreal Global Biodiversity Framework Target(s)</label>
+				<ul class="km-value">
+					<li ng-repeat="term in document.gbfTargets">{{term | term:locale}}</li>
+				</ul>
+			</div>
 		</div>
 		
 		<div ng-show="document.aichiTargets">

@@ -101,7 +101,7 @@
 		<div class="km-value km-pre">{{document.expertiseLevel | term:locale}}</div>
 	</div>
 
-	<div ng-show="document.nagoya.subjects || document.nagoya.keyAreas || document.aichiTargets">
+	<div ng-show="document.nagoya.subjects || document.nagoya.keyAreas">
 		<legend>Access and Benefit Sharing Clearing-House (ABS-CH)</legend>
 
 		<div ng-show="document.nagoya.subjects">
@@ -119,12 +119,6 @@
 				<li ng-repeat="term in document.nagoya.keyAreas">{{term | term:locale}}</li>
 			</ul>
 		</div>
-		<div ng-show="document.aichiTargets">
-			<label>Related Aichi target(s)</label>
-			<ul class="km-value">
-				<li ng-repeat="term in document.aichiTargets">{{term | term:locale}}</li>
-			</ul>
-		</div>
 	</div>
 
 	<div ng-show="document.biosafety.subjects">
@@ -139,6 +133,27 @@
 		</div>
 
 	</div>
+
+	<div ng-show="document.gbfTargets || document.aichiTargets">
+
+		<legend>Keywords</legend>
+
+		<div ng-show="document.gbfTargets">
+			<label>Related Kunming-Montreal Global Biodiversity Framework Target(s)</label>
+			<ul class="km-value">
+				<li ng-repeat="term in document.gbfTargets">{{term | term:locale}}</li>
+			</ul>
+		</div>
+
+		<div ng-show="document.aichiTargets">
+			<label>Related Aichi target(s)</label>
+			<ul class="km-value">
+				<li ng-repeat="term in document.aichiTargets">{{term | term:locale}}</li>
+			</ul>
+		</div>
+
+	</div>
+
 
 	<div ng-show="document.relevantInformation||document.relevantDocuments">
 		<legend>Additional Information</legend>

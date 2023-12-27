@@ -16,7 +16,7 @@ app.directive('editResource', ['$http',"$rootScope", "Enumerable", "$filter", "$
 			$scope.review   = { locale: "en" };
 			$scope.options  = {
 				languages     : function() { return $http.get("/api/v2013/thesaurus/domains/52AFC0EE-7A02-4EFA-9277-8B6C327CE21F/terms", { cache: true }).then(function(o){ return $filter('orderBy')(o.data, 'name'); }); },
-
+				gbfTargets    : function() { return $http.get("/api/v2013/thesaurus/domains/GBF-TARGETS/terms",                          { cache: true }).then(function(o){ return o.data; }); },
 				aichiTargets  : function() { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",                        { cache: true }).then(function(o){ return o.data; }); },
 				absSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/CA9BBEA9-AAA7-4F2F-B3A3-7ED180DE1924/terms", { cache: true }).then(function(o){ return o.data; }); },
 				bchSubjects   : function() { return $http.get("/api/v2013/thesaurus/domains/043C7F0D-2226-4E54-A56F-EE0B74CCC984/terms", { cache: true }).then(function(o){ return o.data; }); },

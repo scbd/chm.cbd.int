@@ -5,8 +5,8 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 	function (template, app, angular, _, moment) {
 		'use strict';
 
-		app.directive('editSubmission', ["$http", "$rootScope", "Enumerable", "$filter", "$q", "guid", "$location", "authentication", "editFormUtility", "IStorage", "$route",
-			function ($http, $rootScope, Enumerable, $filter, $q, guid, $location, authentication, editFormUtility, storage, $route) {
+		app.directive('editSubmission', ["$http", "$rootScope", "Enumerable", "$filter", "$q", "guid", "$location", "authentication", "editFormUtility", "IStorage", "$route", "$timeout",
+			function ($http, $rootScope, Enumerable, $filter, $q, guid, $location, authentication, editFormUtility, storage, $route, $timeout) {
 				return {
 					restrict: 'E',
 					template: template,
@@ -154,8 +154,15 @@ define(['text!./submission.html', 'app', 'angular', 'lodash', 'moment', 'authent
 
 							promise.then(
 								function (doc) {
-									$scope.status = "ready";
 									$scope.document = doc;
+
+									if(!identifier){
+										$timeout(function(){
+											$scope.document.government    = $scope.userGovernment() 		? { identifier : $scope.userGovernment()} : undefined,
+											$scope.document.notifications = $location.search().notification ? [{ identifier : $location.search().notification}] : undefined									
+										}, 200)
+									}
+									$scope.status = "ready";
 								}).then(null,
 								function (err) {
 									$scope.onError(err.data, err.status);

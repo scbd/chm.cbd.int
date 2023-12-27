@@ -47,6 +47,8 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             { identifier: 'bbiProfile'                 ,public:0, draft:0, workflow:0 , type:'reference'},
             { identifier: 'bbiOpportunity'             ,public:0, draft:0, workflow:0 , type:'reference'},
             { identifier: 'bbiRequest'                 ,public:0, draft:0, workflow:0 , type:'reference'},
+
+            { identifier: 'submission'                 ,public:0, draft:0, workflow:0 , type:'reference'},
         ];
 
         $scope.government = userGovernment();
@@ -113,7 +115,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
             var filter = ['nationalAssessment','nationalTarget','nationalIndicator','resourceMobilisation','resourceMobilisation2020',
             'resource','undbActor','undbParty','event', 'bbiContact','bbiProfile','bbiOpportunity', 'bbiRequest',
             'capacityBuildingInitiative', 'capacityBuildingResource', 'organization','caseStudy','marineEbsa','aichiTarget','strategicPlanIndicator',
-            'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction','undbParty','undbActor', 'nationalReport6'];
+            'lwEvent','lwProject','lwDonor', 'undbPartners', 'undbAction','undbParty','undbActor', 'nationalReport6', 'submission'];
             var qSchema = " AND (schema_s:" +  filter.join(" OR schema_s:") + ")";
 
 

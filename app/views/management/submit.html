@@ -349,8 +349,39 @@
         </div>
         <div class="clearfix"></div>
 
-
         <div class="row section-row bg-grey row-bottom-border">
+            <div class="col-xs-12">
+                Submissions
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <h5 style="padding-top:0;margin-top:0;">Submission</h5>
+            </div>
+            <div class="col-xs-6">
+                <p style="font-size:12px;">
+
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <div class="status-badge">
+                    <span class="badge bg-published">{{getFacet('submission').public}}</span>
+                    <span class="badge bg-draft">{{getFacet('submission').draft}}</span>
+                    <span class="badge bg-request">{{getFacet('submission').workflow}}</span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <div class="btn-group-xs pull-right">
+                    <a translation-url class="btn btn-info" href="/submit/submission/" data-toggle="tooltip"
+                        title="Record List"><i class="fa fa-list"></i></a>
+                    <a translation-url class="btn btn-primary" href="/submit/submission/new"
+                        data-toggle="tooltip" title="Add New Record"><i class="fa fa-plus-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row section-row bg-grey row-bottom-border" style="margin-top:20px;">
             <div class="col-xs-12">
                 Capacity-Building Records
             </div>

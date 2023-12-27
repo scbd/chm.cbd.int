@@ -234,11 +234,18 @@
 							</div>
 						</div>
 
-
 						<div class="row">
 							<div class="col-md-10">
-								<div class="km-control-group" required name="aichiTargets" caption="Related Aichi target(s)">
-									<div km-term-check name="aichiTargets" required ng-model="document.aichiTargets" terms="options.aichiTargets()" binding-type="term[]"></div>
+								<div class="km-control-group" name="gbfTargets" caption="Related Kunming-Montreal Global Biodiversity Framework Target(s)">
+									<div km-select multiple name="gbfTargets" ng-model="document.gbfTargets" items="options.gbfTargets()"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-10" ng-if="document.aichiTargets && document.aichiTargets.length">
+								<div class="km-control-group" name="aichiTargets" caption="Related Aichi target(s)">
+									<div km-select multiple name="aichiTargets" ng-model="document.aichiTargets" items="options.aichiTargets()"></div>
 								</div>
 							</div>
 						</div>

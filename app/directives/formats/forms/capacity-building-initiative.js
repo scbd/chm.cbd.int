@@ -75,12 +75,8 @@ app.directive('editCapacityBuildingInitiative', ["$http","$rootScope", "Enumerab
 			            });
 			    },
 
-		         aichiTargets : function () {
-		             return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms", { cache: true })
-		             .then(function(o){
-		                 return Thesaurus.buildTree(o.data);
-		             });
-		         },
+				gbfTargets    : function() { return $http.get("/api/v2013/thesaurus/domains/GBF-TARGETS/terms",                          { cache: true }).then(function(o){ return o.data; }); },
+				aichiTargets  : function() { return $http.get("/api/v2013/thesaurus/domains/AICHI-TARGETS/terms",                        { cache: true }).then(function(o){ return o.data; }); },
 
 				 geographicScope : function () {
 					 return $http.get("/api/v2013/thesaurus/domains/4D4413D8-36F9-4CD2-8CC1-4F3C866DDE5A/terms", { cache: true })

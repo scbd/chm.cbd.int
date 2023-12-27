@@ -426,10 +426,19 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="row  bottom-spacing">
 							<div class="col-md-10">
-								<div class="km-control-group well well-sm" name="aichiTargets" caption="Aichi targets">
-									<div km-term-check name="aichiTargets" ng-model="document.aichiTargets" placeholder="Please select related target..." terms="options.aichiTargets()" binding-type="term[]"></div>
+								<div class="km-control-group" required name="gbfTargets" caption="Related Kunming-Montreal Global Biodiversity Framework Target(s)">
+									<div km-select multiple required name="gbfTargets" ng-model="document.gbfTargets" items="options.gbfTargets()"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="row bottom-spacing" ng-if="document.aichiTargets && document.aichiTargets.length">
+							<div class="col-md-10">
+								<div class="km-control-group well well-sm" name="aichiTargets" caption="Related Aichi target(s)">
+									<div km-select multiple name="aichiTargets" ng-model="document.aichiTargets" placeholder="Please select related target..." items="options.aichiTargets()"></div>
 								</div>
 							</div>
 						</div>

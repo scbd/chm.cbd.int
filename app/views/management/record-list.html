@@ -40,8 +40,8 @@
             <div style="display:inline;" class="pull-right">
                 <a translation-url class="btn btn-default hide-sm hide-xs" ng-click="onReloadList()"> Refresh List</a>
                 <a translation-url class="btn btn-default btn-xs hide-md hide-lg hide-xl" ng-click="onReloadList()"> Refresh List</a>
-                <a translation-url class="btn btn-primary hide-sm hide-xs" ng-click="onAdd()" ng-hide="nationalReport6"> Add New </a>
-                <a translation-url class="btn btn-primary btn-xs hide-md hide-lg hide-xl" ng-click="onAdd()" ng-hide="nationalReport6"> Add New </a>
+                <a translation-url class="btn btn-primary hide-sm hide-xs" ng-click="onAdd()" ng-hide="nationalReport6 || isObsolete"> Add New </a>
+                <a translation-url class="btn btn-primary btn-xs hide-md hide-lg hide-xl" ng-click="onAdd()" ng-hide="nationalReport6 || isObsolete"> Add New </a>
             </div>
 
         </div>

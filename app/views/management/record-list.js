@@ -19,7 +19,8 @@ define(["lodash", 'app',  'directives/management/top-menu', 'authentication', "u
         $scope.onReloadList = reloadList;
         $scope.onWorkflow  = viewWorkflow;
         $scope.qs = $location.search();
-
+        $scope.isObsolete = ["nr", "nbsap", "other"].includes($route.current.params.type);
+        
         $scope.onAdd       = function() {
             edit({ schema_s : $scope.schema });
         };

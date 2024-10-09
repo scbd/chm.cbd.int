@@ -52,7 +52,7 @@ define(['lodash','app',  'authentication', 'utilities/km-storage', 'utilities/km
         ];
 
         $scope.government = userGovernment();
-
+        $scope.ortUrl     = window.location.origin.replace('chm', 'ort');
         $scope.loadScheduled = null;
 
         $scope.abschLink = "absch.cbd.int";

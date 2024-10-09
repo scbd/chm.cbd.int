@@ -9,6 +9,7 @@ define(['app', 'angular', 'authentication', 'utilities/km-utilities', 'directive
         $rootScope.navigationTree = [];
 
         $scope.email = $rootScope.lastLoginEmail || "";
+        $scope.ortUrl     = window.location.origin.replace('chm', 'ort')
 
 
 
